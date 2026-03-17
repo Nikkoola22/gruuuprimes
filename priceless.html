@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Priceless — AI-Powered RWA Marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink:      #FF1C74;
+      --magenta:   #CC0055;
+      --purple:    #7700AA;
+      --pink-lt:   #FF77AA;
+      --bg:        #020104;
+      --surface:   rgba(5, 1, 10, 0.72);
+      --border:    rgba(255, 28, 116, 0.22);
+      --text:      #F2EAF6;
+      --muted:     rgba(242, 234, 246, 0.48);
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── CANVAS ── */
+    #scene {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+    }
+
+    /* ── AMBIENT GLOW ── */
+    .glow-orb {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center,
+        rgba(200, 0, 100, 0.20) 0%,
+        rgba(110, 0, 160, 0.09) 42%,
+        transparent 68%
+      );
+      filter: blur(18px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── SUBTLE GRID ── */
+    .grid-bg {
+      position: fixed; inset: 0; z-index: 2; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,28,116,0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,28,116,0.028) 1px, transparent 1px);
+      background-size: 70px 70px;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 44px;
+      background: rgba(2, 1, 4, 0.62);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 17px; letter-spacing: 0.03em;
+      flex-shrink: 0;
+    }
+
+    .logo svg {
+      width: 26px; height: 26px;
+      filter: drop-shadow(0 0 10px rgba(255,28,116,0.85));
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 26px; list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 12.5px; font-weight: 400;
+      color: var(--muted); text-decoration: none;
+      letter-spacing: 0.012em; white-space: nowrap;
+      transition: color 0.18s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .launch-btn {
+      flex-shrink: 0;
+      padding: 8px 20px; border-radius: 100px; border: none;
+      background: linear-gradient(135deg, var(--pink), var(--magenta));
+      color: #fff; font-family: 'Outfit', sans-serif;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.025em;
+      cursor: pointer;
+      box-shadow: 0 0 22px rgba(255,28,116,0.38);
+      transition: box-shadow 0.2s, transform 0.15s;
+    }
+    .launch-btn:hover {
+      box-shadow: 0 0 34px rgba(255,28,116,0.58);
+      transform: translateY(-1px);
+    }
+
+    /* ── STAT CARDS ── */
+    .stat-card {
+      position: fixed; z-index: 30;
+      background: var(--surface);
+      backdrop-filter: blur(20px) saturate(200%);
+      -webkit-backdrop-filter: blur(20px) saturate(200%);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px 24px; min-width: 228px;
+      opacity: 0;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute; inset: 0; border-radius: 18px;
+      background: linear-gradient(140deg, rgba(255,28,116,0.08), transparent 55%);
+      pointer-events: none;
+    }
+
+    .stat-card.card-tl { top: 94px;  left: 44px; }
+    .stat-card.card-br { bottom: 138px; right: 44px; }
+
+    .stat-card.show {
+      animation:
+        cardIn  0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+        floatY  7.0s ease-in-out 0.85s infinite;
+    }
+    .stat-card.card-br.show {
+      animation:
+        cardIn  0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+        floatY  9.5s ease-in-out 0.85s infinite;
+    }
+
+    .stat-val {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 28px; line-height: 1;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #FF88BB, var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-rule {
+      width: 30px; height: 1px;
+      background: rgba(255,28,116,0.4);
+      margin: 12px 0;
+    }
+
+    .stat-desc {
+      font-size: 11px; font-weight: 400; color: var(--muted);
+      line-height: 1.5; max-width: 175px;
+      text-transform: uppercase; letter-spacing: 0.07em;
+    }
+
+    /* ── HERO LEFT ── */
+    .hero-left {
+      position: fixed; bottom: 50px; left: 44px; z-index: 40;
+      opacity: 0;
+      animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+    }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 5px 14px 5px 10px; border-radius: 100px;
+      background: rgba(255,28,116,0.10);
+      border: 1px solid rgba(255,28,116,0.30);
+      font-size: 10.5px; font-weight: 500;
+      color: var(--pink-lt); letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--pink);
+      box-shadow: 0 0 0 0 rgba(255,28,116,0.4);
+      animation: ripple 2.2s ease-out infinite;
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(58px, 8vw, 98px);
+      line-height: 0.9; letter-spacing: -0.04em;
+      background: linear-gradient(165deg, #FFFFFF 22%, rgba(255,110,160,0.72) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── HERO RIGHT ── */
+    .hero-right {
+      position: fixed; bottom: 50px; right: 44px; z-index: 40;
+      text-align: right;
+      opacity: 0;
+      animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+    }
+
+    .hero-sub {
+      font-size: 14px; font-weight: 300; color: var(--muted);
+      line-height: 1.65; letter-spacing: 0.01em;
+      margin-bottom: 20px;
+    }
+
+    .buy-btn {
+      display: inline-flex; align-items: center; gap: 9px;
+      padding: 13px 26px; border-radius: 12px; border: none;
+      background: linear-gradient(135deg, var(--pink), var(--magenta));
+      color: #fff; font-family: 'Outfit', sans-serif;
+      font-size: 15px; font-weight: 600; letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow:
+        0 0 0 1px rgba(255,28,116,0.25),
+        0 6px 28px rgba(204,0,85,0.42),
+        inset 0 1px 0 rgba(255,255,255,0.12);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .buy-btn:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 0 0 1px rgba(255,28,116,0.42),
+        0 12px 40px rgba(204,0,85,0.58),
+        inset 0 1px 0 rgba(255,255,255,0.18);
+    }
+
+    /* ── EDGE LINE ── */
+    .edge-line {
+      position: fixed; bottom: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent);
+      z-index: 100; pointer-events: none;
+    }
+
+    /* ── KEYFRAMES ── */
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-7px); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes ripple {
+      0%  { box-shadow: 0 0 0 0   rgba(255,28,116,0.55); }
+      70% { box-shadow: 0 0 0 7px rgba(255,28,116,0); }
+      100%{ box-shadow: 0 0 0 0   rgba(255,28,116,0); }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="scene"></canvas>
+  <div class="glow-orb"></div>
+  <div class="grid-bg"></div>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="#" class="logo">
+      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2L2 10L14 26L26 10L14 2Z" fill="rgba(255,28,116,0.14)" stroke="#FF1C74" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M14 2L9 10L14 26L19 10L14 2Z" fill="rgba(255,28,116,0.1)" stroke="#FF1C74" stroke-width="0.75" stroke-linejoin="round"/>
+        <line x1="2" y1="10" x2="26" y2="10" stroke="#FF1C74" stroke-width="0.75" stroke-opacity="0.45"/>
+      </svg>
+      Atlas
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Tokenomics &amp; Revenue model</a></li>
+    </ul>
+    <button class="launch-btn">QUIZZ</button>
+  </nav>
+
+  <!-- STAT CARD — TOP LEFT -->
+  <div class="stat-card card-tl" id="card-tl">
+    <div class="stat-val">Mise a jours</div>
+    <div class="stat-rule"></div>
+    <div class="stat-desc">Alternative Investments Intelligence</div>
+  </div>
+
+  <!-- STAT CARD — BOTTOM RIGHT -->
+  <div class="stat-card card-br" id="card-br">
+    <div class="stat-val">Docs Internes</div>
+    <div class="stat-rule"></div>
+    <div class="stat-desc">Assets backed by the vault at launch</div>
+  </div>
+
+  <!-- BOTTOM LEFT HERO -->
+  <div class="hero-left">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      AI-Syndicale
+    </div>
+    <div class="hero-title">Atlas </div>
+  </div>
+
+  <!-- BOTTOM RIGHT HERO -->
+  <div class="hero-right">
+    <p class="hero-sub">Votre syndicat CFDT,<br>De GENNEVILLIERS</p>
+    <button class="buy-btn">
+      Entree 
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+        <path d="M2.5 7.5H12.5M12.5 7.5L8.5 3.5M12.5 7.5L8.5 11.5"
+              stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="edge-line"></div>
+
+  <!-- THREE.JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script>
+  (function () {
+    'use strict';
+
+    const canvas = document.getElementById('scene');
+    const scene  = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(52, innerWidth / innerHeight, 0.1, 100);
+    camera.position.set(0, 0.15, 6.8);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.toneMapping        = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.65;
+
+    /* ── CLUSTER GROUP ── */
+    const cluster = new THREE.Group();
+    scene.add(cluster);
+
+    /* ── MATERIAL FACTORY ── */
+    function mkMat(emissiveHex, opacity) {
+      return new THREE.MeshPhysicalMaterial({
+        color:            0x040009,
+        emissive:         emissiveHex,
+        emissiveIntensity: 0.9,
+        metalness:        0.88,
+        roughness:        0.06,
+        transparent:      true,
+        opacity:          opacity,
+        side:             THREE.DoubleSide,
+      });
+    }
+
+    const mats = [
+      mkMat(0xFF1C74, 0.80),
+      mkMat(0xCC0055, 0.85),
+      mkMat(0xFF00BB, 0.76),
+      mkMat(0xAA00DD, 0.78),
+      mkMat(0xFF4499, 0.82),
+      mkMat(0xDD0088, 0.80),
+    ];
+
+    /* ── EDGE MATERIAL (shared clone per box) ── */
+    const edgeBaseMat = new THREE.LineBasicMaterial({
+      color: 0xFF5599, transparent: true, opacity: 0.48,
+    });
+
+    /* ── BOX DEFINITIONS: [size, position, rotation] ── */
+    const defs = [
+      [[1.44, 2.04, 0.88], [ 0.00,  0.00,  0.00], [0.00,  0.00,  0.00]],
+      [[1.02, 1.52, 0.82], [-0.92,  0.44, -0.50], [0.05,  0.28,  0.08]],
+      [[1.18, 0.88, 1.02], [ 0.88, -0.52,  0.30], [0.10, -0.22,  0.05]],
+      [[0.68, 0.68, 0.68], [ 0.26,  1.28,  0.55], [-0.18, 0.42,  0.28]],
+      [[0.82, 0.62, 0.74], [-0.58, -1.12,  0.24], [0.12,  0.18, -0.22]],
+      [[0.52, 1.08, 0.62], [ 1.06,  0.82, -0.56], [0.22, -0.32,  0.10]],
+      [[0.56, 0.46, 0.40], [-0.19, -0.46,  0.88], [-0.10, 0.52,  0.18]],
+      [[0.50, 0.40, 0.50], [ 0.54, -1.38, -0.32], [0.32,  0.22, -0.10]],
+      [[0.40, 0.84, 0.50], [-1.24, -0.30,  0.14], [0.10,  0.30,  0.18]],
+      [[0.30, 0.30, 0.30], [ 0.84,  1.58,  0.32], [0.38,  0.12,  0.30]],
+      [[0.60, 0.30, 0.80], [-0.44,  1.58, -0.22], [0.22, -0.38,  0.12]],
+      [[0.34, 0.60, 0.34], [ 1.34, -0.08,  0.54], [-0.12, 0.58,  0.22]],
+    ];
+
+    defs.forEach(([size, pos, rot], i) => {
+      const geo  = new THREE.BoxGeometry(...size);
+      const mesh = new THREE.Mesh(geo, mats[i % mats.length]);
+      mesh.position.set(...pos);
+      mesh.rotation.set(...rot);
+      cluster.add(mesh);
+
+      /* Glowing edge outline */
+      const em  = edgeBaseMat.clone();
+      em.opacity = 0.28 + (i % 4) * 0.08;
+      const eg  = new THREE.EdgesGeometry(geo);
+      const seg = new THREE.LineSegments(eg, em);
+      seg.position.copy(mesh.position);
+      seg.rotation.copy(mesh.rotation);
+      cluster.add(seg);
+    });
+
+    /* ── LIGHTS ── */
+    const lightDefs = [
+      [0xFF1C74, 12, 20, [ 0.0,  0.0,  4.0]],
+      [0xFF00CC,  8, 16, [ 3.5,  2.0,  0.0]],
+      [0x8800BB,  6, 14, [-3.5, -1.0,  0.0]],
+      [0xFF6699,  7, 14, [ 0.0,  4.0,  2.0]],
+      [0xCC0044,  5, 12, [ 0.0, -3.5,  2.0]],
+      [0xFFAACC,  3, 10, [-2.0,  2.5,  2.5]],
+    ];
+
+    lightDefs.forEach(([color, intensity, dist, p]) => {
+      const light = new THREE.PointLight(color, intensity, dist);
+      light.position.set(...p);
+      scene.add(light);
+    });
+    scene.add(new THREE.AmbientLight(0x0D000A, 1.5));
+
+    /* ── ANIMATION LOOP ── */
+    let t = 0;
+    (function animate() {
+      requestAnimationFrame(animate);
+      t += 0.030;
+      cluster.rotation.y = t * 0.32;
+      cluster.rotation.x = Math.sin(t * 0.21) * 0.11;
+      cluster.rotation.z = Math.sin(t * 0.14) * 0.04;
+      renderer.render(scene, camera);
+    })();
+
+    /* ── RESIZE ── */
+    addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+
+    /* ── TRIGGER CARD ENTRANCE ── */
+    setTimeout(() => document.getElementById('card-tl').classList.add('show'), 700);
+    setTimeout(() => document.getElementById('card-br').classList.add('show'), 980);
+  })();
+  </script>
+</body>
+</html>

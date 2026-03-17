@@ -1,0 +1,2053 @@
+[
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'exploitation des équipements sportifs",
+    "Direction": "DMS",
+    "Service": "SGES"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'entretien",
+    "Direction": "DMS",
+    "Service": "CN"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent polyvalent maintenance travaux",
+    "Direction": "DMS",
+    "Service": "CN"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Adjoint responsable (pôle technique)",
+    "Direction": "DMS",
+    "Service": "CN"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable de secteur",
+    "Direction": "DMS",
+    "Service": "SGES"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Adjoint au responsable (pôle administratif)",
+    "Direction": "DMS",
+    "Service": "CN"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Technicien Bâtiment",
+    "Direction": "DPO",
+    "Service": "DIRECTION"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Gardien d'immeuble",
+    "Direction": "DH",
+    "Service": "Compta & Gest° patrimoine"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "ASVP",
+    "Direction": "DRU",
+    "Service": "ASVP"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DRU",
+    "Service": "ASVP"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Magasinier chauffeur livreur",
+    "Direction": "DAJ",
+    "Service": "Commande publique"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent technique polyvalent",
+    "Direction": "DAJ",
+    "Service": "Cimetières"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Mécanicien",
+    "Direction": "DE",
+    "Service": "Garage"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Gardien logé / non logé",
+    "Direction": "DE",
+    "Service": "Garage"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent polyvalent administratif",
+    "Direction": "DE",
+    "Service": "Garage"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent polyvalent peinture, serrurier, élect. Etc.",
+    "Direction": "DPB",
+    "Service": "Ateliers Municipaux"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DPB",
+    "Service": "Ateliers Municipaux"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Adjoint au responsable de service",
+    "Direction": "DPB",
+    "Service": "Ateliers Municipaux"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DPB",
+    "Service": "Ateliers Municipaux"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent polyvalent serrurier",
+    "Direction": "DPB",
+    "Service": "Gestion du CACC"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DPB",
+    "Service": "Gestion du CACC"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Jardinier",
+    "Direction": "DE",
+    "Service": "EV"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Adjoint au chef d'équipe",
+    "Direction": "DE",
+    "Service": "EV"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DE",
+    "Service": "EV"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable des équipes",
+    "Direction": "DE",
+    "Service": "EV"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Technicien agents techniques spécialisés",
+    "Direction": "DE",
+    "Service": "EV"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Chauffeur",
+    "Direction": "DE",
+    "Service": "GP"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DE",
+    "Service": "GP"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable signalisation graffitis",
+    "Direction": "DE",
+    "Service": "GP"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable section nettoiement",
+    "Direction": "DE",
+    "Service": "GP"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Technicien de surface",
+    "Direction": "DE",
+    "Service": "GP"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Animateur socio culturel",
+    "Direction": "DCCS",
+    "Service": "Antenne des Agnettes"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DCCS",
+    "Service": "Aimé Césaire"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable technique",
+    "Direction": "DCCS",
+    "Service": "Aimé Césaire"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent technique polyvalent",
+    "Direction": "DCCS",
+    "Service": "Aimé Césaire"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DCCS",
+    "Service": "Espace Grésillons"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Animateur socio culturel",
+    "Direction": "DCCS",
+    "Service": "Espace Grésillons"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Placier régisseur",
+    "Direction": "DDU",
+    "Service": "Economique"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Chef d'équipe placier régisseur",
+    "Direction": "DDU",
+    "Service": "Economique"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Gestionnaire courrier (2 sur 4)",
+    "Direction": "DMRU",
+    "Service": "Services extérieurs"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent auprès d'enfants",
+    "Direction": "DPE",
+    "Service": "Toutes crèches"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Cuisinier - Lingère - Lingère aide cuisinier",
+    "Direction": "DPE",
+    "Service": "Toutes crèches"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'entretien",
+    "Direction": "DMSP",
+    "Service": "Comptabilité marchés publics"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent comptable",
+    "Direction": "DMSP",
+    "Service": "Comptabilité marchés publics"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Magasinier",
+    "Direction": "DMSP",
+    "Service": "Comptabilité marchés publics"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Assistante de direction",
+    "Direction": "DMSP",
+    "Service": "Direction Administrative"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Secrétaire médicale",
+    "Direction": "DMSP",
+    "Service": "Accueil CMS medecine generale - radiologie"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Secrétaire médicale",
+    "Direction": "DMSP",
+    "Service": "Promotion santé"
+  },
+  {
+    "Motif": "Indemnités responsabilités - Primes activités nautiques",
+    "Montant": "168,71 €",
+    "Metiers_concernes": "Responsable de secteur",
+    "Direction": "DMS",
+    "Service": "SGES"
+  },
+  {
+    "Motif": "Indemnités responsabilités - Primes activités nautiques",
+    "Montant": "315,90 €",
+    "Metiers_concernes": "Maître nageur sauveteur",
+    "Direction": "DMS",
+    "Service": "CN"
+  },
+  {
+    "Motif": "Indemnités responsabilités - Primes activités nautiques",
+    "Montant": "315,90 €",
+    "Metiers_concernes": "Chef de bassin / Adjoint au responsable",
+    "Direction": "DMS",
+    "Service": "CN"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Secrétaire médicale",
+    "Direction": "DMSP",
+    "Service": "Accueil CMS medecine generale - radiologie"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable de service CMS",
+    "Direction": "DMSP",
+    "Service": "Accueil CMS pôle RH"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante dentaire",
+    "Direction": "DMSP",
+    "Service": "Dentaire"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante administrative (V. Level)",
+    "Direction": "DMSP",
+    "Service": "Dentaire"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Gestionnaire adjointe",
+    "Direction": "DSA",
+    "Service": "SMAPE"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Cuisinier",
+    "Direction": "DSA",
+    "Service": "SMAPE"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent technique polyvalent",
+    "Direction": "DSA",
+    "Service": "SMAPE"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Animateur ALM",
+    "Direction": "DME",
+    "Service": "Enfance"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Coordinateur du fil continu",
+    "Direction": "DME",
+    "Service": "PRE"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Médiateur du fil continu",
+    "Direction": "DME",
+    "Service": "PRE"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DME",
+    "Service": "Séjours éducatifs"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Animateur",
+    "Direction": "DME",
+    "Service": "Club ados"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable de structure référent collège",
+    "Direction": "DME",
+    "Service": "Club ados"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante administrative (V. Level)",
+    "Direction": "DME",
+    "Service": "Enfance"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Projectionniste",
+    "Direction": "DCJ",
+    "Service": "Cinéma Jean Vigo"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DCJ",
+    "Service": "Conservatoire"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante (direction et administrative)",
+    "Direction": "DCJ",
+    "Service": "Conservatoire"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Régisseur",
+    "Direction": "DCJ",
+    "Service": "Conservatoire"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Coordinateur des études musique",
+    "Direction": "DCJ",
+    "Service": "Conservatoire"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Gardien",
+    "Direction": "DCJ",
+    "Service": "Maison développement culturel"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Animateur jeunesse / Multimédia",
+    "Direction": "DCJ",
+    "Service": "Jeunesse"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DCJ",
+    "Service": "Jeunesse"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DESS",
+    "Service": "SERA"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'entretien - Agent polyvalent",
+    "Direction": "DESS",
+    "Service": "SERA"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent de cuisine relais - Commis cuisine",
+    "Direction": "DESS",
+    "Service": "SERA"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable d'office",
+    "Direction": "DESS",
+    "Service": "SERA"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent administratif accueil",
+    "Direction": "DESS",
+    "Service": "SERA"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DESS",
+    "Service": "SERA"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Educateur sportif",
+    "Direction": "DMS",
+    "Service": "SAMS"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable de secteur",
+    "Direction": "DMS",
+    "Service": "SGES"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable des équipes",
+    "Direction": "DMS",
+    "Service": "CN"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Maître nageur sauveteur",
+    "Direction": "DMS",
+    "Service": "CN"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Chef de bassin / Adjoint au responsable",
+    "Direction": "DMS",
+    "Service": "CN"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DRH",
+    "Service": "DRH"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante DCRH",
+    "Direction": "DRH",
+    "Service": "DCRH"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DRH",
+    "Service": "CN"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent administratif accueil",
+    "Direction": "DH",
+    "Service": "Logement"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Adjoint au responsable",
+    "Direction": "DH",
+    "Service": "Logement"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Gestionnaire",
+    "Direction": "DDS",
+    "Service": "Urbanisme régl / Domaine public"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Gestionnaire administratif",
+    "Direction": "DRU",
+    "Service": "Hygiène et sécurité"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "ASVP",
+    "Direction": "DRU",
+    "Service": "ASVP"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DRU",
+    "Service": "ASVP"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DE",
+    "Service": "GP"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Secrétaire",
+    "Direction": "DCCS",
+    "Service": "Antenne des Agnettes"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DCCS",
+    "Service": "Aimé Césaire"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable pôle accueil",
+    "Direction": "DCCS",
+    "Service": "Aimé Césaire"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DCCS",
+    "Service": "Espace Grésillons"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Secrétaire accueil",
+    "Direction": "DCCS",
+    "Service": "Espace Grésillons"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Standardiste",
+    "Direction": "DMRU",
+    "Service": "Service du suivi des demandes des usagers"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil administratif",
+    "Direction": "DMRU",
+    "Service": "Accueil démarches prestations"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Adjoint au responsable de service",
+    "Direction": "DMRU",
+    "Service": "Affaires civiles"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Gestionnaire",
+    "Direction": "DMRU",
+    "Service": "Affaires civiles"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DMRU",
+    "Service": "Affaires civiles"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DMRU",
+    "Service": "Accueil démarches prestations"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante polyvalente",
+    "Direction": "DMRU",
+    "Service": "Accueil démarches prestations"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Adjoint au responsable de service",
+    "Direction": "DMRU",
+    "Service": "Accueil démarches prestations"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante de direction",
+    "Direction": "DMRU",
+    "Service": "Direction Administrative"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Standardiste",
+    "Direction": "DMRU",
+    "Service": "Service du suivi des demandes des usagers"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Secrétaire médicale",
+    "Direction": "DMSP",
+    "Service": "Accueil CMS medecine generale - radiologie"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable de service CMS",
+    "Direction": "DMSP",
+    "Service": "Accueil CMS pôle RH"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Animateur santé",
+    "Direction": "DMSP",
+    "Service": "Espace santé jeunes"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Auxiliaire de puériculture",
+    "Direction": "DMSP",
+    "Service": "PMI Timbaud & PMI Timsit"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DMSP",
+    "Service": "PMI Timbaud & PMI Timsit"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Secrétaire médicale",
+    "Direction": "DMSP",
+    "Service": "Promotion santé"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DMSP",
+    "Service": "Dentaire"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante dentaire",
+    "Direction": "DMSP",
+    "Service": "Dentaire"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent chargé des repas et télétransmission",
+    "Direction": "DSA",
+    "Service": "ASA"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante administrative",
+    "Direction": "DSA",
+    "Service": "ASA"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DSA",
+    "Service": "Coordination gérontologique"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Secrétaire",
+    "Direction": "DSA",
+    "Service": "Coordination gérontologique"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Conseiller en insertion",
+    "Direction": "DSA",
+    "Service": "Espace insertion"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante",
+    "Direction": "DSA",
+    "Service": "Espace insertion"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DSA",
+    "Service": "Espace insertion"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil - Agent administratif",
+    "Direction": "DSA",
+    "Service": "Prestations de solidarité"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Secrétaire accueil",
+    "Direction": "DCJ",
+    "Service": "Cinéma Jean Vigo"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DCJ",
+    "Service": "Conservatoire"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante (direction et administrative)",
+    "Direction": "DCJ",
+    "Service": "Conservatoire"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DCJ",
+    "Service": "Conservatoire"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Secrétaire accueil",
+    "Direction": "DCJ",
+    "Service": "Ecole musique"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Gestionnaire administratif et financier",
+    "Direction": "DCJ",
+    "Service": "Direction"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable des bibliothèques",
+    "Direction": "DCJ",
+    "Service": "Bibliothèques"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DCJ",
+    "Service": "Jeunesse"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Chargé d'information",
+    "Direction": "DCJ",
+    "Service": "Spectacles"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DCJ",
+    "Service": "Spectacles"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent chargé des mandatements",
+    "Direction": "DESS",
+    "Service": "SSE"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante",
+    "Direction": "DME",
+    "Service": "PRE"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DME",
+    "Service": "Séjours éducatifs"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DME",
+    "Service": "Séjours éducatifs"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Secrétaire",
+    "Direction": "DME",
+    "Service": "Enfance"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante administrative (V. Level)",
+    "Direction": "DME",
+    "Service": "Enfance"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil administratif",
+    "Direction": "DH",
+    "Service": "Logement"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Adjoint au responsable de service",
+    "Direction": "DH",
+    "Service": "Logement"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "ASVP",
+    "Direction": "DRU",
+    "Service": "ASVP"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DRU",
+    "Service": "ASVP"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DE",
+    "Service": "GP"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DCCS",
+    "Service": "Aimé Césaire"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable pôle accueil",
+    "Direction": "DCCS",
+    "Service": "Aimé Césaire"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DCCS",
+    "Service": "Espace Grésillons"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Secrétaire accueil",
+    "Direction": "DCCS",
+    "Service": "Espace Grésillons"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Standardiste",
+    "Direction": "DMRU",
+    "Service": "Service du suivi des demandes des usagers"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil administratif",
+    "Direction": "DMRU",
+    "Service": "Accueil démarches prestations"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Adjoint au responsable de service",
+    "Direction": "DMRU",
+    "Service": "Affaires civiles"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Gestionnaire",
+    "Direction": "DMRU",
+    "Service": "Affaires civiles"
+  },
+  {
+    "Motif": "Prime technicité RH",
+    "Montant": "280 €",
+    "Metiers_concernes": "Chargé de formation / Chargé de recrutement",
+    "Direction": "DRH",
+    "Service": "DCRH"
+  },
+  {
+    "Motif": "Prime technicité RH",
+    "Montant": "280 €",
+    "Metiers_concernes": "Responsable de service DCRH",
+    "Direction": "DRH",
+    "Service": "DCRH"
+  },
+  {
+    "Motif": "Prime technicité RH",
+    "Montant": "280 €",
+    "Metiers_concernes": "Adjoint au responsable du service DCRH",
+    "Direction": "DRH",
+    "Service": "DCRH"
+  },
+  {
+    "Motif": "Prime technicité RH",
+    "Montant": "280 €",
+    "Metiers_concernes": "Chargé de projets RH stratégiques",
+    "Direction": "DRH",
+    "Service": "DIRECTION"
+  },
+  {
+    "Motif": "Prime technicité GCR",
+    "Montant": "281,71 €",
+    "Metiers_concernes": "Responsable du service GCR",
+    "Direction": "DRH",
+    "Service": "GCR"
+  },
+  {
+    "Motif": "Prime technicité GCR",
+    "Montant": "281,71 €",
+    "Metiers_concernes": "Adjoint au responsable de service GCR",
+    "Direction": "DRH",
+    "Service": "GCR"
+  },
+  {
+    "Motif": "Prime technicité GCR",
+    "Montant": "281,71 €",
+    "Metiers_concernes": "Gestionnaire paie carrière et rémunération",
+    "Direction": "DRH",
+    "Service": "GCR"
+  },
+  {
+    "Motif": "Prime technicité GCR",
+    "Montant": "281,71 €",
+    "Metiers_concernes": "Technicien paie",
+    "Direction": "DRH",
+    "Service": "GCR"
+  },
+  {
+    "Motif": "Prime technicité GCR",
+    "Montant": "281,71 €",
+    "Metiers_concernes": "Chargé de gestion carrière",
+    "Direction": "DRH",
+    "Service": "GCR"
+  },
+  {
+    "Motif": "Prime technicité GCR",
+    "Montant": "281,71 €",
+    "Metiers_concernes": "Responsable de gestion budgétaire",
+    "Direction": "DRH",
+    "Service": "GCR"
+  },
+  {
+    "Motif": "Prime technicité DGA",
+    "Montant": "150 €",
+    "Metiers_concernes": "Assistant DGA",
+    "Direction": "DG",
+    "Service": "DIRECTION"
+  },
+  {
+    "Motif": "Prime chef d'équipe",
+    "Montant": "85 €",
+    "Metiers_concernes": "Chef d'équipe ASVP",
+    "Direction": "DRU",
+    "Service": "ASVP"
+  },
+  {
+    "Motif": "Prime chef d'équipe",
+    "Montant": "85 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DDU",
+    "Service": "Economique"
+  },
+  {
+    "Motif": "Prime chef d'équipe",
+    "Montant": "85 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DAJ",
+    "Service": "Commande publique"
+  },
+  {
+    "Motif": "Prime chef d'équipe",
+    "Montant": "85 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DPB",
+    "Service": "Ateliers Municipaux"
+  },
+  {
+    "Motif": "Prime chef d'équipe",
+    "Montant": "85 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DPB",
+    "Service": "Ateliers Municipaux"
+  },
+  {
+    "Motif": "Prime chef d'équipe",
+    "Montant": "85 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DPB",
+    "Service": "Gestion du CACC"
+  },
+  {
+    "Motif": "Prime chef d'équipe",
+    "Montant": "85 €",
+    "Metiers_concernes": "Adjoint au chef d'équipe",
+    "Direction": "DE",
+    "Service": "EV"
+  },
+  {
+    "Motif": "Prime chef d'équipe",
+    "Montant": "85 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DE",
+    "Service": "EV"
+  },
+  {
+    "Motif": "Prime chef d'équipe",
+    "Montant": "85 €",
+    "Metiers_concernes": "Responsable des équipes",
+    "Direction": "DE",
+    "Service": "EV"
+  },
+  {
+    "Motif": "Prime chef d'équipe",
+    "Montant": "85 €",
+    "Metiers_concernes": "Responsable signalisation graffitis",
+    "Direction": "DE",
+    "Service": "GP"
+  },
+  {
+    "Motif": "Prime chef d'équipe",
+    "Montant": "85 €",
+    "Metiers_concernes": "Responsable section nettoiement",
+    "Direction": "DE",
+    "Service": "GP"
+  },
+  {
+    "Motif": "Prime chef d'équipe",
+    "Montant": "85 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DE",
+    "Service": "GP"
+  },
+  {
+    "Motif": "Prime chef d'équipe",
+    "Montant": "85 €",
+    "Metiers_concernes": "Responsable technique",
+    "Direction": "DESS",
+    "Service": "SERA"
+  },
+  {
+    "Motif": "Forfait HS",
+    "Montant": "121,96 €",
+    "Metiers_concernes": "Ensemble des chefs d'équipe",
+    "Direction": "DE",
+    "Service": "GP"
+  },
+  {
+    "Motif": "Forfait HS",
+    "Montant": "100,85 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DESS",
+    "Service": "SERA"
+  },
+  {
+    "Motif": "Primes sujétions soir",
+    "Montant": "16,67 €",
+    "Metiers_concernes": "Chargé de la vie associative et de la part° citoy.",
+    "Direction": "DCCS",
+    "Service": "Citoyenneté politique ville"
+  },
+  {
+    "Motif": "Prime technicité marchés publics",
+    "Montant": "350 €",
+    "Metiers_concernes": "Chargé des marchés publics",
+    "Direction": "DAJ",
+    "Service": "Commande publique"
+  },
+  {
+    "Motif": "Prime technicité juriste",
+    "Montant": "350 €",
+    "Metiers_concernes": "Juriste",
+    "Direction": "DAJ",
+    "Service": "Affaires juridiques"
+  },
+  {
+    "Motif": "Indemnité de sujétion spéciale",
+    "Montant": "Entre 16 et 18 €",
+    "Metiers_concernes": "Adjoint au directeur de crèche / Directeur crèche",
+    "Direction": "DPE",
+    "Service": "Toutes crèches"
+  },
+  {
+    "Motif": "Indemnité de sujétion spéciale",
+    "Montant": "Entre 16 et 18 €",
+    "Metiers_concernes": "Coordinatrice (Uniquement pour certains grades)",
+    "Direction": "DPE",
+    "Service": "Toutes crèches"
+  },
+  {
+    "Motif": "Prime rende-ment informa-tique (A)",
+    "Montant": "308,70 €",
+    "Metiers_concernes": "Administrateur système & BDD - Adm. Réseau",
+    "Direction": "DSI",
+    "Service": "Exploitation"
+  },
+  {
+    "Motif": "Prime rende-ment informa-tique (B)",
+    "Montant": "210,44 €",
+    "Metiers_concernes": "Administrateur système & BDD - Adm. Réseau",
+    "Direction": "DSI",
+    "Service": "Exploitation"
+  },
+  {
+    "Motif": "Prime informa-tique A & B",
+    "Montant": "308,70 €",
+    "Metiers_concernes": "Chef de projet informatique",
+    "Direction": "DSI",
+    "Service": "Etudes et projets"
+  },
+  {
+    "Motif": "Prime rende-ment informa-tique",
+    "Montant": "131,95 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DSI",
+    "Service": "Assistance"
+  },
+  {
+    "Motif": "Prime informa-tique ingénierie",
+    "Montant": "465,63 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DSI",
+    "Service": "Exploitation"
+  },
+  {
+    "Motif": "Prime informa-tique ingénierie (B)",
+    "Montant": "109,12 € ou 131,95 €",
+    "Metiers_concernes": "Technicien informatique",
+    "Direction": "DSI",
+    "Service": "Assistance"
+  },
+  {
+    "Motif": "PSR Radiologie",
+    "Montant": "140,77 €",
+    "Metiers_concernes": "Manipulateur radio",
+    "Direction": "DMSP",
+    "Service": "Radiologie"
+  },
+  {
+    "Motif": "Prime forfaitaire soins",
+    "Montant": "2,73 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DMSP",
+    "Service": "SIADPA"
+  },
+  {
+    "Motif": "Sujétions spéci-fiques aux soins",
+    "Montant": "182,75 € ou 197,11 €",
+    "Metiers_concernes": "Aide-soignante",
+    "Direction": "DMSP",
+    "Service": "SIADPA"
+  },
+  {
+    "Motif": "Prime grand âge",
+    "Montant": "118 €",
+    "Metiers_concernes": "Aide-soignante",
+    "Direction": "DMSP",
+    "Service": "SIADPA"
+  },
+  {
+    "Motif": "Indemnité chaussures",
+    "Montant": "2,73 €",
+    "Metiers_concernes": "Aide-soignante",
+    "Direction": "DMSP",
+    "Service": "Infirmerie"
+  },
+  {
+    "Motif": "PSR Radiologie",
+    "Montant": "140,77 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DMSP",
+    "Service": "Radiologie"
+  },
+  {
+    "Motif": "Prime 'dir' centre de loisirs",
+    "Montant": "340 €",
+    "Metiers_concernes": "Directeur de centre de loisirs",
+    "Direction": "DME",
+    "Service": "Enfance"
+  },
+  {
+    "Motif": "Prime pause mé-ridienne",
+    "Montant": "254,16 €",
+    "Metiers_concernes": "Animateur encadrement pause méridienne",
+    "Direction": "DME",
+    "Service": "Enfance"
+  },
+  {
+    "Motif": "Prime technicité ATSEM",
+    "Montant": "50 €",
+    "Metiers_concernes": "ATSEM",
+    "Direction": "DESS",
+    "Service": "SERA"
+  },
+  {
+    "Motif": "Prime panier re-pas",
+    "Montant": "60,27 €",
+    "Metiers_concernes": "Responsable d'office",
+    "Direction": "DESS",
+    "Service": "SERA"
+  },
+  {
+    "Motif": "Indemnités sujétions soir et we",
+    "Montant": "45,49 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DCJ",
+    "Service": "Jeunesse"
+  },
+  {
+    "Motif": "Indemnités sujétions soir et we",
+    "Montant": "50 €",
+    "Metiers_concernes": "Adjoint au responsable de service",
+    "Direction": "DCJ",
+    "Service": "Jeunesse"
+  },
+  {
+    "Motif": "Indemnités sujétions soir et we",
+    "Montant": "41,69 €",
+    "Metiers_concernes": "Responsable technique",
+    "Direction": "DESS",
+    "Service": "Spectacles"
+  },
+  {
+    "Motif": "Prime ODEC",
+    "Montant": "150 €",
+    "Metiers_concernes": "DG - DGST - DGAS - DGAUE",
+    "Direction": "DG",
+    "Service": "DG"
+  },
+  {
+    "Motif": "Prime ODEC To-tal",
+    "Montant": "75 €",
+    "Metiers_concernes": "Responsable de service et Adjoints au resp serv",
+    "Direction": "DMRU",
+    "Service": "Affaires civiles"
+  },
+  {
+    "Motif": "Prime ODEC Par-tiel",
+    "Montant": "40 €",
+    "Metiers_concernes": "",
+    "Direction": "DMRU",
+    "Service": "Affaires civiles"
+  },
+  {
+    "Motif": "Prime technicité",
+    "Montant": "75 €",
+    "Metiers_concernes": "",
+    "Direction": "Toutes dir°",
+    "Service": "Tous services"
+  },
+  {
+    "Motif": "Prime Référent financier sup-pléant",
+    "Montant": "40 €",
+    "Metiers_concernes": "",
+    "Direction": "Toutes dir°",
+    "Service": "Tous services"
+  },
+  {
+    "Motif": "Prime Maître ap-prentissage",
+    "Montant": "98,46 €",
+    "Metiers_concernes": "",
+    "Direction": "Toutes dir°",
+    "Service": "Tous services"
+  },
+  {
+    "Motif": "Prime intérim",
+    "Montant": "150 €",
+    "Metiers_concernes": "",
+    "Direction": "Toutes dir°",
+    "Service": "Tous services"
+  },
+  {
+    "Motif": "Prime Expertise comptable",
+    "Montant": "180 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DAF",
+    "Service": "Tous services"
+  },
+  {
+    "Motif": "Prime Expertise comptable",
+    "Montant": "180 €",
+    "Metiers_concernes": "Agent comptable",
+    "Direction": "DAF",
+    "Service": "Exécution et qualité comptable"
+  },
+  {
+    "Motif": "Prime Expertise comptable",
+    "Montant": "180 €",
+    "Metiers_concernes": "Coordinateur",
+    "Direction": "DAF",
+    "Service": "Exécution et qualité comptable"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Adjoint au responsable de service",
+    "Direction": "DCJ",
+    "Service": "Jeunesse"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Adjoint au responsable de service",
+    "Direction": "DH",
+    "Service": "Logement"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Adjoint au responsable de service",
+    "Direction": "DMRU",
+    "Service": "Accueil démarches prestations"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Adjoint au responsable de service",
+    "Direction": "DMRU",
+    "Service": "Affaires civiles"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Adjoint au responsable de service",
+    "Direction": "DRH",
+    "Service": "GCR"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent comptable",
+    "Direction": "DAF",
+    "Service": "Exécution et qualité comptable"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DCJ",
+    "Service": "Conservatoire"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DCJ",
+    "Service": "Jeunesse"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DCJ",
+    "Service": "Spectacles"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DESS",
+    "Service": "SERA"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DH",
+    "Service": "Logement"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DME",
+    "Service": "Séjours éducatifs"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DMRU",
+    "Service": "Accueil démarches prestations"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DMSP",
+    "Service": "Dentaire"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DMSP",
+    "Service": "SIADPA"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DRH",
+    "Service": "CN"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DSA",
+    "Service": "Coordination gérontologique"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DSA",
+    "Service": "Espace insertion"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DSA",
+    "Service": "Prestations de solidarité"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent d'entretien",
+    "Direction": "DESS",
+    "Service": "SERA"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Agent technique polyvalent",
+    "Direction": "DSA",
+    "Service": "SMAPE"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Assistante de direction",
+    "Direction": "DMRU",
+    "Service": "Direction Administrative"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DAJ",
+    "Service": "Commande publique"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DCCS",
+    "Service": "Espace Grésillons"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DCJ",
+    "Service": "Conservatoire"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DDU",
+    "Service": "Economique"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DESS",
+    "Service": "SERA"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable de secteur",
+    "Direction": "DMS",
+    "Service": "CN"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DAF",
+    "Service": "Tous services"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DCJ",
+    "Service": "Jeunesse"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DME",
+    "Service": "Séjours éducatifs"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DMRU",
+    "Service": "Affaires civiles"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DMSP",
+    "Service": "Accueil CMS pôle RH"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DMSP",
+    "Service": "PMI Timbaud & PMI Timsit"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DMSP",
+    "Service": "Radiologie"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DRH",
+    "Service": "DIRECTION"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DRH",
+    "Service": "DRH"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DSI",
+    "Service": "Assistance"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DSI",
+    "Service": "Exploitation"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable technique",
+    "Direction": "DESS",
+    "Service": "SERA"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable technique",
+    "Direction": "DESS",
+    "Service": "Spectacles"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Responsable des équipes",
+    "Direction": "DMS",
+    "Service": "CN"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Secrétaire",
+    "Direction": "DCCS",
+    "Service": "Antenne des Agnettes"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Secrétaire",
+    "Direction": "DCCS",
+    "Service": "Espace Grésillons"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Secrétaire",
+    "Direction": "DCJ",
+    "Service": "Cinéma Jean Vigo"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Secrétaire",
+    "Direction": "DCJ",
+    "Service": "Ecole musique"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Secrétaire",
+    "Direction": "DME",
+    "Service": "Enfance"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Secrétaire",
+    "Direction": "DSA",
+    "Service": "Coordination gérontologique"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Secrétaire médicale",
+    "Direction": "DMSP",
+    "Service": "Promotion santé"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DMRU",
+    "Service": "Affaires civiles"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DMRU",
+    "Service": "Accueil démarches prestations"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante polyvalente",
+    "Direction": "DMRU",
+    "Service": "Accueil démarches prestations"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Adjoint au responsable de service",
+    "Direction": "DMRU",
+    "Service": "Accueil démarches prestations"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante de direction",
+    "Direction": "DMRU",
+    "Service": "Direction Administrative"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Animateur santé",
+    "Direction": "DMSP",
+    "Service": "Espace santé jeunes"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Auxiliaire de puériculture",
+    "Direction": "DMSP",
+    "Service": "PMI Timbaud & PMI Timsit"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DMSP",
+    "Service": "PMI Timbaud & PMI Timsit"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DMSP",
+    "Service": "Dentaire"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent chargé des repas et télétransmission",
+    "Direction": "DSA",
+    "Service": "ASA"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante administrative",
+    "Direction": "DSA",
+    "Service": "ASA"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DSA",
+    "Service": "Coordination gérontologique"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Secrétaire",
+    "Direction": "DSA",
+    "Service": "Coordination gérontologique"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Conseiller en insertion",
+    "Direction": "DSA",
+    "Service": "Espace insertion"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante",
+    "Direction": "DSA",
+    "Service": "Espace insertion"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DSA",
+    "Service": "Espace insertion"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil - Agent administratif",
+    "Direction": "DSA",
+    "Service": "Prestations de solidarité"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Secrétaire accueil",
+    "Direction": "DCJ",
+    "Service": "Cinéma Jean Vigo"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Chef d'équipe",
+    "Direction": "DCJ",
+    "Service": "Conservatoire"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Secrétaire accueil",
+    "Direction": "DCJ",
+    "Service": "Ecole musique"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Gestionnaire administratif et financier",
+    "Direction": "DCJ",
+    "Service": "Direction"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable des bibliothèques",
+    "Direction": "DCJ",
+    "Service": "Bibliothèques"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Chargé d'information",
+    "Direction": "DCJ",
+    "Service": "Spectacles"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DCJ",
+    "Service": "Spectacles"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent chargé des mandatements",
+    "Direction": "DESS",
+    "Service": "SSE"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante",
+    "Direction": "DME",
+    "Service": "PRE"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil",
+    "Direction": "DME",
+    "Service": "Séjours éducatifs"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Secrétaire",
+    "Direction": "DME",
+    "Service": "Enfance"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Agent d'accueil administratif",
+    "Direction": "DH",
+    "Service": "Logement"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Adjoint au responsable de service",
+    "Direction": "DH",
+    "Service": "Logement"
+  }
+]
