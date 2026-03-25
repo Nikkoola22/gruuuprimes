@@ -1094,13 +1094,6 @@
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
-    "Metiers_concernes": "Projectionniste",
-    "Direction": "DCJ",
-    "Service": "Cinéma Jean Vigo"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
     "Metiers_concernes": "Régisseur",
     "Direction": "DCJ",
     "Service": "Conservatoire"
@@ -1118,13 +1111,6 @@
     "Metiers_concernes": "Gardien",
     "Direction": "DCJ",
     "Service": "Maison développement culturel"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Animateur jeunesse / Multimédia",
-    "Direction": "DCJ",
-    "Service": "Jeunesse"
   },
   {
     "Motif": "Prime accueil 1",
@@ -1230,13 +1216,6 @@
     "Metiers_concernes": "Chef d'équipe",
     "Direction": "DRU",
     "Service": "ASVP"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Chef d'équipe",
-    "Direction": "DE",
-    "Service": "GP"
   },
   {
     "Motif": "Prime accueil 1",
@@ -1370,13 +1349,6 @@
     "Metiers_concernes": "Secrétaire accueil",
     "Direction": "DCJ",
     "Service": "Ecole musique"
-  },
-  {
-    "Motif": "Prime accueil 2",
-    "Montant": "50 €",
-    "Metiers_concernes": "Responsable des bibliothèques",
-    "Direction": "DCJ",
-    "Service": "Bibliothèques"
   },
   {
     "Motif": "Prime accueil 2",
@@ -1830,13 +1802,6 @@
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Adjoint au responsable de service",
-    "Direction": "DCJ",
-    "Service": "Jeunesse"
-  },
-  {
-    "Motif": "Indemnités horaires décalées cat 1",
-    "Montant": "20 €",
-    "Metiers_concernes": "Adjoint au responsable de service",
     "Direction": "DH",
     "Service": "Logement"
   },
@@ -1981,13 +1946,6 @@
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Responsable de service",
-    "Direction": "DCJ",
-    "Service": "Jeunesse"
-  },
-  {
-    "Motif": "Indemnités horaires décalées cat 1",
-    "Montant": "20 €",
-    "Metiers_concernes": "Responsable de service",
     "Direction": "DMRU",
     "Service": "Affaires civiles"
   },
@@ -2038,13 +1996,6 @@
     "Montant": "20 €",
     "Metiers_concernes": "Secrétaire",
     "Direction": "DCJ",
-    "Service": "Cinéma Jean Vigo"
-  },
-  {
-    "Motif": "Indemnités horaires décalées cat 1",
-    "Montant": "20 €",
-    "Metiers_concernes": "Secrétaire",
-    "Direction": "DCJ",
     "Service": "Ecole musique"
   },
   {
@@ -2088,12 +2039,6 @@
     "Metiers_concernes": "Assistante administrative",
     "Direction": "DSA",
     "Service": "ASA"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Responsable des bibliothèques",
-    "Direction": "DCJ",
-    "Service": "Bibliothèques"
   }
+
 ]
