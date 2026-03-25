@@ -1701,14 +1701,14 @@
     "Service": "DG"
   },
   {
-    "Motif": "Prime ODEC To-tal",
+    "Motif": "Prime ODEC Total",
     "Montant": "75 €",
     "Metiers_concernes": "Responsable de service",
     "Direction": "DMRU",
     "Service": "Affaires civiles"
   },
   {
-    "Motif": "Prime ODEC To-tal",
+    "Motif": "Prime ODEC Total",
     "Montant": "75 €",
     "Metiers_concernes": "Adjoint au responsable de service",
     "Direction": "DMRU",
@@ -2054,7 +2054,7 @@
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Responsable technique",
-    "Direction": "DESS",
+    "Direction": "DCJ",
     "Service": "Spectacles"
   },
   {
