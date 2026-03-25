@@ -11,7 +11,7 @@
         "Montant": "20 €",
         "Metiers_concernes": "Secrétaire",
         "Direction": "DE",
-        "Service": "EV"
+        "Service": "Espaces Verts"
       },
       {
         "Motif": "Indemnités horaires décalées cat 1",
@@ -32,14 +32,14 @@
       "Montant": "20 €",
       "Metiers_concernes": "Secrétaire médicale",
       "Direction": "DMSP",
-      "Service": "Accueil CMS pole RH - radiologie"
+      "Service": "Accueil CMS medecine generale - radiologie"
     },
     {
       "Motif": "Indemnités horaires décalées cat 1",
       "Montant": "20 €",
       "Metiers_concernes": "Responsable de service CMS",
       "Direction": "DMSP",
-      "Service": "Accueil CMS pole RH"
+      "Service": "Accueil CMS medecine generale - radiologie"
     },
     {
       "Motif": "Indemnités horaires décalées cat 1",
@@ -114,7 +114,7 @@
     {
       "Motif": "Indemnités horaires décalées cat 1",
       "Montant": "20 €",
-      "Metiers_concernes": "Assistante administrative (V. Leveil)",
+      "Metiers_concernes": "Assistante administrative",
       "Direction": "DME",
       "Service": "Enfance"
     },
@@ -641,7 +641,7 @@
     "Montant": "50 €",
     "Metiers_concernes": "Responsable de service CMS",
     "Direction": "DMSP",
-    "Service": "Accueil CMS pôle RH"
+    "Service": "Accueil CMS medecine generale - radiologie"
   },
   {
     "Motif": "Prime accueil 1",
@@ -1047,7 +1047,7 @@
     "Montant": "50 €",
     "Metiers_concernes": "Responsable de service CMS",
     "Direction": "DMSP",
-    "Service": "Accueil CMS pôle RH"
+    "Service": "Accueil CMS medecine generale - radiologie"
   },
   {
     "Motif": "Prime accueil 2",
@@ -1690,7 +1690,7 @@
     "Motif": "Indemnités sujétions soir et we",
     "Montant": "41,69 €",
     "Metiers_concernes": "Responsable technique",
-    "Direction": "DESS",
+    "Direction": "DCJ",
     "Service": "Spectacles"
   },
   {
@@ -1715,7 +1715,7 @@
     "Service": "Affaires civiles"
   },
   {
-    "Motif": "Prime ODEC Par-tiel",
+    "Motif": "Prime ODEC Partiel",
     "Montant": "40 €",
     "Metiers_concernes": "",
     "Direction": "DMRU",
@@ -1729,14 +1729,14 @@
     "Service": "Tous services"
   },
   {
-    "Motif": "Prime Référent financier sup-pléant",
+    "Motif": "Prime Référent financier suppléant",
     "Montant": "40 €",
     "Metiers_concernes": "",
     "Direction": "Toutes dir°",
     "Service": "Tous services"
   },
   {
-    "Motif": "Prime Maître ap-prentissage",
+    "Motif": "Prime Maître apprentissage",
     "Montant": "98,46 €",
     "Metiers_concernes": "",
     "Direction": "Toutes dir°",
@@ -2000,13 +2000,6 @@
     "Metiers_concernes": "Responsable de service",
     "Direction": "DMRU",
     "Service": "Affaires civiles"
-  },
-  {
-    "Motif": "Indemnités horaires décalées cat 1",
-    "Montant": "20 €",
-    "Metiers_concernes": "Responsable de service",
-    "Direction": "DMSP",
-    "Service": "Accueil CMS pôle RH"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
