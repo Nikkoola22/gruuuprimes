@@ -69,13 +69,6 @@
     "Direction": "DME",
     "Service": "Club ados"
   },
-   {
-    "Motif": "Indemnités horaires décalées cat 1",
-    "Montant": "20 €",
-    "Metiers_concernes": "Responsable de structure référent collège",
-    "Direction": "DME",
-    "Service": "Club ados"
-  },
   {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
@@ -123,7 +116,7 @@
     "Montant": "50 €",
     "Metiers_concernes": "Standardiste",
     "Direction": "DMRU",
-    "Service": "Service du suivi des demandes des usagers"
+    "Service": "Services Intérieurs"
   },
   {
     "Motif": "Prime accueil 1",
@@ -340,7 +333,7 @@
     "Montant": "50 €",
     "Metiers_concernes": "Standardiste",
     "Direction": "DMRU",
-    "Service": "Service du suivi des demandes des usagers"
+    "Service": "Services Intérieurs"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
@@ -942,7 +935,7 @@
     "Montant": "20 €",
     "Metiers_concernes": "Gestionnaire courrier (2 sur 4)",
     "Direction": "DMRU",
-    "Service": "Service du suivi des demandes des usagers"
+    "Service": "Services extérieurs"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
@@ -1066,6 +1059,13 @@
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
+    "Metiers_concernes": "Animateur ALM",
+    "Direction": "DME",
+    "Service": "Enfance"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
     "Metiers_concernes": "Coordinateur du fil continu",
     "Direction": "DME",
     "Service": "PRE"
@@ -1083,6 +1083,20 @@
     "Metiers_concernes": "Responsable de service",
     "Direction": "DME",
     "Service": "Séjours éducatifs"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Animateur",
+    "Direction": "DME",
+    "Service": "Club ados"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Responsable de structure référent collège",
+    "Direction": "DME",
+    "Service": "Club ados"
   },
   {
     "Motif": "Prime accueil 1",
@@ -1384,6 +1398,13 @@
     "Metiers_concernes": "Responsable de service",
     "Direction": "DME",
     "Service": "Séjours éducatifs"
+  },
+  {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Secrétaire",
+    "Direction": "DME",
+    "Service": "Enfance"
   },
   {
     "Motif": "Prime accueil 1",
@@ -2046,6 +2067,13 @@
     "Metiers_concernes": "Secrétaire",
     "Direction": "DCJ",
     "Service": "Ecole musique"
+  },
+  {
+    "Motif": "Indemnités horaires décalées cat 1",
+    "Montant": "20 €",
+    "Metiers_concernes": "Secrétaire",
+    "Direction": "DME",
+    "Service": "Enfance"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
