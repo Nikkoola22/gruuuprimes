@@ -194,7 +194,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
       (!selectedService || p.service === selectedService || p.service === 'Tous services')
     )
     
-    const newSelectedIFSE2 = new Set(selectedIFSE2)
+    const newSelectedIFSE2 = new Set<number>()
     jobPrimes.forEach(jobPrime => {
       const primeIdx = directionPrimes.findIndex(p => p === jobPrime)
       if (primeIdx >= 0) {
@@ -334,7 +334,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
       {/* Récapitulatif flottant */}
       {totalMonthly > 0 && currentStep < 6 && (
-        <div className="fixed bottom-4 right-4 z-50 animate-in slide-in-from-right duration-500">
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 sm:bottom-4 sm:left-auto sm:right-4 z-50 animate-in slide-in-from-right duration-500">
           <div className="bg-gradient-to-br from-green-900/95 to-emerald-900/95 backdrop-blur-md rounded-xl p-4 shadow-2xl border border-green-500/30 glass-card">
             <div className="flex items-center gap-3">
               <Sparkles className="w-5 h-5 text-green-400" />

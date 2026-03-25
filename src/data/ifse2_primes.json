@@ -1,5 +1,278 @@
 [
   {
+        "Motif": "Indemnités horaires décalées cat 1",
+        "Montant": "20 €",
+        "Metiers_concernes": "Technicien Cat C",
+        "Direction": "DPO",
+        "Service": "DIRECTION"
+  },
+      {
+        "Motif": "Indemnités horaires décalées cat 1",
+        "Montant": "20 €",
+        "Metiers_concernes": "Secrétaire",
+        "Direction": "DE",
+        "Service": "EV"
+      },
+      {
+        "Motif": "Indemnités horaires décalées cat 1",
+        "Montant": "20 €",
+        "Metiers_concernes": "Tous les agents techniques spécialisés",
+        "Direction": "DE",
+        "Service": "GP"
+      },
+      {
+        "Motif": "Indemnités horaires décalées cat 1",
+        "Montant": "20 €",
+        "Metiers_concernes": "Magasinier",
+        "Direction": "DE",
+        "Service": "GP"
+      },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Secrétaire médicale",
+      "Direction": "DMSP",
+      "Service": "Accueil CMS pole RH - radiologie"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Responsable de service CMS",
+      "Direction": "DMSP",
+      "Service": "Accueil CMS pole RH"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Assistante dentaire",
+      "Direction": "DMSP",
+      "Service": "Dentaire"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Gestionnaire adjointe",
+      "Direction": "DSA",
+      "Service": "SMAPE"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Cuisinier",
+      "Direction": "DSA",
+      "Service": "SMAPE"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Agent technique polyvalent",
+      "Direction": "DSA",
+      "Service": "SMAPE"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Animateur ALM & ALE",
+      "Direction": "DME",
+      "Service": "Enfance"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Coordinateur du fil continu",
+      "Direction": "DME",
+      "Service": "PRE"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Médiateur du fil continu",
+      "Direction": "DME",
+      "Service": "PRE"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Responsable de service",
+      "Direction": "DME",
+      "Service": "Séjours éducatifs"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Animateur",
+      "Direction": "DME",
+      "Service": "Club ados"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Responsable de structure référent collège",
+      "Direction": "DME",
+      "Service": "Club ados"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Assistante administrative (V. Leveil)",
+      "Direction": "DME",
+      "Service": "Enfance"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Projectionniste",
+      "Direction": "DCJ",
+      "Service": "Cinéma Jean Vigo"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Agent d'accueil",
+      "Direction": "DCJ",
+      "Service": "Conservatoire"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Assistante (direction et administrative)",
+      "Direction": "DCJ",
+      "Service": "Conservatoire"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Régisseur",
+      "Direction": "DCJ",
+      "Service": "Conservatoire"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Coordinateur des études musique",
+      "Direction": "DCJ",
+      "Service": "Conservatoire"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Gardien",
+      "Direction": "DCJ",
+      "Service": "Maison développement culturel"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Animateur jeunesse / Multimédia",
+      "Direction": "DCJ",
+      "Service": "Jeunesse"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Agent d'accueil",
+      "Direction": "DCJ",
+      "Service": "Jeunesse"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Chef d'équipe",
+      "Direction": "DESS",
+      "Service": "SERA"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Agent d'entretien - Agent polyvalent",
+      "Direction": "DESS",
+      "Service": "SERA"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Agent de cuisine relais - Commis cuisine",
+      "Direction": "DESS",
+      "Service": "SERA"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "ATSEM",
+      "Direction": "DESS",
+      "Service": "SERA"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Responsable d'office",
+      "Direction": "DESS",
+      "Service": "SERA"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Agent administratif accueil",
+      "Direction": "DESS",
+      "Service": "SERA"
+    },
+    {
+      "Motif": "Indemnités horaires décalées cat 1",
+      "Montant": "20 €",
+      "Metiers_concernes": "Gardien",
+      "Direction": "DESS",
+      "Service": "SERA"
+    },
+  {
+    "Motif": "Indemnités responsabilités sports",
+    "Montant": "168,71 €",
+    "Metiers_concernes": "Educateur sportif",
+    "Direction": "DMS",
+    "Service": "SAMS"
+  },
+  {
+    "Motif": "Prime Gestionnaire déconcentré",
+    "Montant": "90 €",
+    "Metiers_concernes": "Agent administratif comptable",
+    "Direction": "DESS",
+    "Service": "SSE"
+  },
+  {
+    "Motif": "Prime Gestionnaire déconcentré",
+    "Montant": "90 €",
+    "Metiers_concernes": "Gestionnaire",
+    "Direction": "DESS",
+    "Service": "SSE"
+  },
+  {
+    "Motif": "Prime Gestionnaire déconcentré",
+    "Montant": "90 €",
+    "Metiers_concernes": "Adjoint au responsable de service",
+    "Direction": "DESS",
+    "Service": "SSE"
+  },
+  {
+    "Motif": "Prime Gestionnaire déconcentré",
+    "Montant": "90 €",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DMSP",
+    "Service": "Comptabilité marchés publics"
+  },
+  {
+    "Motif": "Prime Gestionnaire déconcentré",
+    "Montant": "90 €",
+    "Metiers_concernes": "Agent comptable",
+    "Direction": "DMSP",
+    "Service": "Comptabilité marchés publics"
+  },
+  {
+    "Motif": "Prime Gestionnaire déconcentré",
+    "Montant": "90 €",
+    "Metiers_concernes": "Responsable gestion financière",
+    "Direction": "DRH",
+    "Service": "Gestion financière"
+  },
+  {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Agent d'exploitation des équipements sportifs",
@@ -11,21 +284,21 @@
     "Montant": "20 €",
     "Metiers_concernes": "Agent d'entretien",
     "Direction": "DMS",
-    "Service": "CN"
+    "Service": "Centre Nautique"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Agent polyvalent maintenance travaux",
     "Direction": "DMS",
-    "Service": "CN"
+    "Service": "Centre Nautique"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Adjoint responsable (pôle technique)",
     "Direction": "DMS",
-    "Service": "CN"
+    "Service": "Centre Nautique"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
@@ -39,7 +312,7 @@
     "Montant": "20 €",
     "Metiers_concernes": "Adjoint au responsable (pôle administratif)",
     "Direction": "DMS",
-    "Service": "CN"
+    "Service": "Centre Nautique"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
@@ -151,35 +424,35 @@
     "Montant": "20 €",
     "Metiers_concernes": "Jardinier",
     "Direction": "DE",
-    "Service": "EV"
+    "Service": "Espaces Verts"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Adjoint au chef d'équipe",
     "Direction": "DE",
-    "Service": "EV"
+    "Service": "Espaces Verts"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Chef d'équipe",
     "Direction": "DE",
-    "Service": "EV"
+    "Service": "Espaces Verts"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Responsable des équipes",
     "Direction": "DE",
-    "Service": "EV"
+    "Service": "Espaces Verts"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Technicien agents techniques spécialisés",
     "Direction": "DE",
-    "Service": "EV"
+    "Service": "Espaces Verts"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
@@ -347,14 +620,14 @@
     "Montant": "315,90 €",
     "Metiers_concernes": "Maître nageur sauveteur",
     "Direction": "DMS",
-    "Service": "CN"
+    "Service": "Centre Nautique"
   },
   {
     "Motif": "Indemnités responsabilités - Primes activités nautiques",
     "Montant": "315,90 €",
     "Metiers_concernes": "Chef de bassin / Adjoint au responsable",
     "Direction": "DMS",
-    "Service": "CN"
+    "Service": "Centre Nautique"
   },
   {
     "Motif": "Prime accueil 1",
@@ -380,7 +653,7 @@
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
-    "Metiers_concernes": "Assistante administrative (V. Level)",
+    "Metiers_concernes": "Assistante administrative",
     "Direction": "DMSP",
     "Service": "Dentaire"
   },
@@ -450,7 +723,7 @@
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
-    "Metiers_concernes": "Assistante administrative (V. Level)",
+    "Metiers_concernes": "Assistante administrative",
     "Direction": "DME",
     "Service": "Enfance"
   },
@@ -571,21 +844,21 @@
     "Montant": "50 €",
     "Metiers_concernes": "Responsable des équipes",
     "Direction": "DMS",
-    "Service": "CN"
+    "Service": "Centre Nautique"
   },
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
     "Metiers_concernes": "Maître nageur sauveteur",
     "Direction": "DMS",
-    "Service": "CN"
+    "Service": "Centre Nautique"
   },
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
     "Metiers_concernes": "Chef de bassin / Adjoint au responsable",
     "Direction": "DMS",
-    "Service": "CN"
+    "Service": "Centre Nautique"
   },
   {
     "Motif": "Prime accueil 1",
@@ -606,7 +879,7 @@
     "Montant": "50 €",
     "Metiers_concernes": "Agent d'accueil",
     "Direction": "DRH",
-    "Service": "CN"
+    "Service": "Centre Nautique"
   },
   {
     "Motif": "Prime accueil 1",
@@ -982,13 +1255,6 @@
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
-    "Metiers_concernes": "Assistante administrative (V. Level)",
-    "Direction": "DME",
-    "Service": "Enfance"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
     "Metiers_concernes": "Agent d'accueil administratif",
     "Direction": "DH",
     "Service": "Logement"
@@ -1201,21 +1467,21 @@
     "Montant": "85 €",
     "Metiers_concernes": "Adjoint au chef d'équipe",
     "Direction": "DE",
-    "Service": "EV"
+    "Service": "Espaces Verts"
   },
   {
     "Motif": "Prime chef d'équipe",
     "Montant": "85 €",
     "Metiers_concernes": "Chef d'équipe",
     "Direction": "DE",
-    "Service": "EV"
+    "Service": "Espaces Verts"
   },
   {
     "Motif": "Prime chef d'équipe",
     "Montant": "85 €",
     "Metiers_concernes": "Responsable des équipes",
     "Direction": "DE",
-    "Service": "EV"
+    "Service": "Espaces Verts"
   },
   {
     "Motif": "Prime chef d'équipe",
@@ -1248,7 +1514,7 @@
   {
     "Motif": "Forfait HS",
     "Montant": "121,96 €",
-    "Metiers_concernes": "Ensemble des chefs d'équipe",
+    "Metiers_concernes": "Chef d'équipe",
     "Direction": "DE",
     "Service": "GP"
   },
@@ -1437,7 +1703,14 @@
   {
     "Motif": "Prime ODEC To-tal",
     "Montant": "75 €",
-    "Metiers_concernes": "Responsable de service et Adjoints au resp serv",
+    "Metiers_concernes": "Responsable de service",
+    "Direction": "DMRU",
+    "Service": "Affaires civiles"
+  },
+  {
+    "Motif": "Prime ODEC To-tal",
+    "Montant": "75 €",
+    "Metiers_concernes": "Adjoint au responsable de service",
     "Direction": "DMRU",
     "Service": "Affaires civiles"
   },
@@ -1494,6 +1767,13 @@
     "Motif": "Prime Expertise comptable",
     "Montant": "180 €",
     "Metiers_concernes": "Coordinateur",
+    "Direction": "DAF",
+    "Service": "Exécution et qualité comptable"
+  },
+  {
+    "Motif": "Prime Expertise comptable",
+    "Montant": "180 €",
+    "Metiers_concernes": "Chargé de missions",
     "Direction": "DAF",
     "Service": "Exécution et qualité comptable"
   },
@@ -1607,7 +1887,7 @@
     "Montant": "20 €",
     "Metiers_concernes": "Agent d'accueil",
     "Direction": "DRH",
-    "Service": "CN"
+    "Service": "Centre Nautique"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
@@ -1691,7 +1971,7 @@
     "Montant": "20 €",
     "Metiers_concernes": "Responsable de secteur",
     "Direction": "DMS",
-    "Service": "CN"
+    "Service": "Centre Nautique"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
@@ -1789,7 +2069,7 @@
     "Montant": "20 €",
     "Metiers_concernes": "Responsable des équipes",
     "Direction": "DMS",
-    "Service": "CN"
+    "Service": "Centre Nautique"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
