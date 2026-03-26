@@ -1091,20 +1091,7 @@
     "Direction": "DME",
     "Service": "Enfance"
   },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Régisseur",
-    "Direction": "DCJ",
-    "Service": "Conservatoire"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Coordinateur des études musique",
-    "Direction": "DCJ",
-    "Service": "Conservatoire"
-  },
+
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
@@ -1112,48 +1099,7 @@
     "Direction": "DCJ",
     "Service": "Maison développement culturel"
   },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Chef d'équipe",
-    "Direction": "DESS",
-    "Service": "SERA"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Agent d'entretien - Agent polyvalent",
-    "Direction": "DESS",
-    "Service": "SERA"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Agent de cuisine relais - Commis cuisine",
-    "Direction": "DESS",
-    "Service": "SERA"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Responsable d'office",
-    "Direction": "DESS",
-    "Service": "SERA"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Agent administratif accueil",
-    "Direction": "DESS",
-    "Service": "SERA"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Agent d'accueil",
-    "Direction": "DESS",
-    "Service": "SERA"
-  },
+
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
@@ -1504,10 +1450,17 @@
     "Direction": "DE",
     "Service": "GP"
   },
-  {
+   {
     "Motif": "Prime chef d'équipe",
     "Montant": "85 €",
     "Metiers_concernes": "Responsable technique",
+    "Direction": "DCCS",
+    "Service": "Aimé Césaire"
+  },
+  {
+    "Motif": "Prime chef d'équipe",
+    "Montant": "85 €",
+    "Metiers_concernes": "Chef d'équipe",
     "Direction": "DESS",
     "Service": "SERA"
   },
@@ -1597,7 +1550,7 @@
   },
   {
     "Motif": "Prime informatique ingénierie (B)",
-    "Montant": "109,12 € ou 131,95 €",
+    "Montant": "131,95 €",
     "Metiers_concernes": "Technicien informatique",
     "Direction": "DSI",
     "Service": "Assistance"
@@ -1652,7 +1605,7 @@
     "Service": "Enfance"
   },
   {
-    "Motif": "Prime pause mé-ridienne",
+    "Motif": "Prime pause méridienne",
     "Montant": "254,16 €",
     "Metiers_concernes": "Animateur encadrement pause méridienne",
     "Direction": "DME",
@@ -1666,7 +1619,7 @@
     "Service": "SERA"
   },
   {
-    "Motif": "Prime panier re-pas",
+    "Motif": "Prime panier repas",
     "Montant": "60,27 €",
     "Metiers_concernes": "Responsable d'office",
     "Direction": "DESS",
@@ -1891,10 +1844,6 @@
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
-    "Montant": ""
-  },
-  {
-    "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Responsable de service",
     "Direction": "DAF",
@@ -1921,13 +1870,7 @@
     "Direction": "DMSP",
     "Service": "Radiologie"
   },
-  {
-    "Motif": "Indemnités horaires décalées cat 1",
-    "Montant": "20 €",
-    "Metiers_concernes": "Responsable technique",
-    "Direction": "DESS",
-    "Service": "SERA"
-  },
+
   {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
@@ -1949,13 +1892,7 @@
     "Direction": "DSA",
     "Service": "Coordination gérontologique"
   },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Assistante de direction",
-    "Direction": "DMRU",
-    "Service": "Direction Administrative"
-  },
+
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
@@ -1976,13 +1913,7 @@
     "Metiers_concernes": "Agent d'accueil",
     "Direction": "DMSP",
     "Service": "Dentaire"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Assistante administrative",
-    "Direction": "DSA",
-    "Service": "ASA"
   }
+ 
 
 ]
