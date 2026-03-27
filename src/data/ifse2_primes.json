@@ -1273,13 +1273,7 @@
     "Direction": "DME",
     "Service": "Séjours éducatifs"
   },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Chef d'équipe",
-    "Direction": "DCCS",
-    "Service": "Espace Grésillons"
-  },
+
   {
     "Motif": "Prime accueil 2",
     "Montant": "50 €",
@@ -1714,13 +1708,7 @@
     "Direction": "DMRU",
     "Service": "Affaires civiles"
   },
-  {
-    "Motif": "Indemnités horaires décalées cat 1",
-    "Montant": "20 €",
-    "Metiers_concernes": "Agent comptable",
-    "Direction": "DAF",
-    "Service": "Exécution et qualité comptable"
-  },
+
   {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
@@ -1798,13 +1786,7 @@
     "Direction": "DAJ",
     "Service": "Commande publique"
   },
-  {
-    "Motif": "Indemnités horaires décalées cat 1",
-    "Montant": "20 €",
-    "Metiers_concernes": "Chef d'équipe",
-    "Direction": "DCCS",
-    "Service": "Espace Grésillons"
-  },
+
   {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
@@ -1812,13 +1794,7 @@
     "Direction": "DDU",
     "Service": "Economique"
   },
-  {
-    "Motif": "Indemnités horaires décalées cat 1",
-    "Montant": "20 €",
-    "Metiers_concernes": "Responsable de service",
-    "Direction": "DAF",
-    "Service": "Tous services"
-  },
+
   {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
