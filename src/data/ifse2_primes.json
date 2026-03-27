@@ -69,7 +69,7 @@
     "Direction": "DME",
     "Service": "Club ados"
   },
-   {
+  {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Responsable de structure référent collège",
@@ -1091,7 +1091,6 @@
     "Direction": "DME",
     "Service": "Enfance"
   },
-
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
@@ -1099,7 +1098,6 @@
     "Direction": "DCJ",
     "Service": "Maison développement culturel"
   },
-
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
@@ -1128,7 +1126,7 @@
     "Direction": "DDS",
     "Service": "Urbanisme régl / Domaine public"
   },
-   {
+  {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
     "Metiers_concernes": "Assistante",
@@ -1162,13 +1160,6 @@
     "Metiers_concernes": "Secrétaire accueil",
     "Direction": "DCCS",
     "Service": "Espace Grésillons"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Standardiste",
-    "Direction": "DMRU",
-    "Service": "Service du suivi des demandes des usagers"
   },
   {
     "Motif": "Prime accueil 1",
@@ -1211,13 +1202,6 @@
     "Metiers_concernes": "Assistante de direction",
     "Direction": "DMRU",
     "Service": "Direction Administrative"
-  },
-  {
-    "Motif": "Prime accueil 2",
-    "Montant": "50 €",
-    "Metiers_concernes": "Standardiste",
-    "Direction": "DMRU",
-    "Service": "Service du suivi des demandes des usagers"
   },
   {
     "Motif": "Prime accueil 2",
@@ -1268,7 +1252,6 @@
     "Direction": "DMSP",
     "Service": "Dentaire"
   },
-
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
@@ -1398,13 +1381,6 @@
   {
     "Motif": "Prime chef d'équipe",
     "Montant": "85 €",
-    "Metiers_concernes": "Chef d'équipe ASVP",
-    "Direction": "DRU",
-    "Service": "ASVP"
-  },
-  {
-    "Motif": "Prime chef d'équipe",
-    "Montant": "85 €",
     "Metiers_concernes": "Adjoint au chef d'équipe",
     "Direction": "DE",
     "Service": "Espaces Verts"
@@ -1444,7 +1420,7 @@
     "Direction": "DE",
     "Service": "GP"
   },
-   {
+  {
     "Motif": "Prime chef d'équipe",
     "Montant": "85 €",
     "Metiers_concernes": "Responsable technique",
@@ -1864,7 +1840,6 @@
     "Direction": "DMSP",
     "Service": "Radiologie"
   },
-
   {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
@@ -1879,7 +1854,6 @@
     "Direction": "DCJ",
     "Service": "Ecole musique"
   },
-
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
@@ -1901,6 +1875,4 @@
     "Direction": "DMSP",
     "Service": "Dentaire"
   }
- 
-
 ]

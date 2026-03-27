@@ -1,4 +1,4 @@
-// Script Node.js pour supprimer les doublons dans ifse2_primes.json (CommonJS)
+// Script Node.js pour supprimer les doublons dans ifse2_primes.json
 const fs = require('fs');
 const path = require('path');
 
