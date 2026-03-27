@@ -1268,13 +1268,7 @@
     "Direction": "DMSP",
     "Service": "Dentaire"
   },
-  {
-    "Motif": "Prime accueil 2",
-    "Montant": "50 €",
-    "Metiers_concernes": "Assistante administrative",
-    "Direction": "DSA",
-    "Service": "ASA"
-  },
+
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
@@ -1884,13 +1878,6 @@
     "Metiers_concernes": "Secrétaire",
     "Direction": "DCJ",
     "Service": "Ecole musique"
-  },
-  {
-    "Motif": "Indemnités horaires décalées cat 1",
-    "Montant": "20 €",
-    "Metiers_concernes": "Secrétaire",
-    "Direction": "DSA",
-    "Service": "Coordination gérontologique"
   },
 
   {
