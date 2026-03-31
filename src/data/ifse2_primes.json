@@ -459,7 +459,7 @@
     "Montant": "50 €",
     "Metiers_concernes": "Secrétaire médicale",
     "Direction": "DMSP",
-    "Service": "Accueil CMS pole RH - radiologie"
+    "Service": "Accueil CMS pole RH"
   },
   {
     "Motif": "Prime accueil 1",
@@ -998,14 +998,14 @@
     "Montant": "20 €",
     "Metiers_concernes": "Secrétaire médicale",
     "Direction": "DMSP",
-    "Service": "Accueil CMS medecine generale - radiologie"
+    "Service": "Accueil CMS pole RH"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Secrétaire médicale",
     "Direction": "DMSP",
-    "Service": "Promotion santé"
+    "Service": "Prévention santé"
   },
   {
     "Motif": "Indemnités responsabilités - Primes activités sports",
@@ -1040,14 +1040,14 @@
     "Montant": "50 €",
     "Metiers_concernes": "Secrétaire médicale",
     "Direction": "DMSP",
-    "Service": "Accueil CMS medecine generale - radiologie"
+    "Service": "Accueil CMS pole RH"
   },
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
     "Metiers_concernes": "Responsable de service CMS",
     "Direction": "DMSP",
-    "Service": "Accueil CMS medecine generale - radiologie"
+    "Service": "Accueil CMS pole RH"
   },
   {
     "Motif": "Prime accueil 1",
@@ -1208,14 +1208,14 @@
     "Montant": "50 €",
     "Metiers_concernes": "Secrétaire médicale",
     "Direction": "DMSP",
-    "Service": "Accueil CMS medecine generale - radiologie"
+    "Service": "Accueil CMS pole RH"
   },
   {
     "Motif": "Prime accueil 2",
     "Montant": "50 €",
     "Metiers_concernes": "Responsable de service CMS",
     "Direction": "DMSP",
-    "Service": "Accueil CMS medecine generale - radiologie"
+    "Service": "Accueil CMS pole RH"
   },
   {
     "Motif": "Prime accueil 2",
@@ -1223,6 +1223,13 @@
     "Metiers_concernes": "Animateur santé",
     "Direction": "DMSP",
     "Service": "Espace santé jeunes"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante de direction",
+    "Direction": "DMSP",
+    "Service": "Direction Administrative"
   },
   {
     "Motif": "Prime accueil 2",
@@ -1243,7 +1250,7 @@
     "Montant": "50 €",
     "Metiers_concernes": "Secrétaire médicale",
     "Direction": "DMSP",
-    "Service": "Promotion santé"
+    "Service": "Prévention santé"
   },
   {
     "Motif": "Prime accueil 2",
