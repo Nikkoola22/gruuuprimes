@@ -1,0 +1,138 @@
+# Régime indemnitaire : généralités
+
+**URL:** https://bip.cig929394.fr/fiches/remuneration-autres-avantages-financiers-cotisations/regime-indemnitaire/regind
+**Section:** liste-des-principales-primes-et-indemnites
+**Date:** 2026-03-04T22:55:39.078484
+
+---
+
+## Contenu
+
+Régime indemnitaire : conditions de modulation (REGMOD)
+Accueil Fiches Rémunération, autres avantages financiers, cotisations Régime indemnitaire Régime indemnitaire : généralités (REGIND)
+Régime indemnitaire : généralités
+REGIND
+I. Les conditions de versement
+II. Le principe de parité
+III. Les prélèvements obligatoires
+Pour connaître les principes de base relatifs à la rémunération, -voir ELREGE.
+Cette fiche présente les dispositions générales en matière de régime indemnitaire ; elle est complétée :
+- par la fiche REGMOD, qui expose les modalités de variation du montant individuel
+- par les fiches consacrées à chacun des avantages
+- par la fiche COMREM, qui traite spécifiquement des avantages collectivement acquis ayant le caractère de complément de rémunération.
+I. LES CONDITIONS DE VERSEMENT
+A) Principes
+Le régime indemnitaire est composé d'avantages en espèces qui sont liés au grade, à l'emploi, aux fonctions, à l'engagement professionnel ou aux sujétions. Il peut également tenir compte des résultats collectifs du service. Son caractère facultatif le différencie d'autres éléments de la rémunération (traitement indiciaire, indemnité de résidence, supplément familial de traitement, nouvelle bonification indiciaire), qui sont obligatoires et pour lesquels l'organe délibérant ne dispose d'aucun pouvoir de décision et d'aucune marge de manœuvre.
+Le versement est gouverné par le principe de libre administration des collectivités territoriales, qui doit cependant être concilié avec le "principe de parité" posé par l'art. L. 714-4 code général de la fonction publique, aux termes duquel les régimes indemnitaires sont fixés "dans la limite de ceux dont bénéficient les différents services de l'Etat".
+L'art. L. 712-1 code général de la fonction publique prévoit que les indemnités instituées par un texte législatif ou réglementaire font partie de la rémunération versée aux fonctionnaires (y compris les fonctionnaires stagiaires), que l'emploi qu'ils occupent soit à temps complet ou à temps non complet, qu'ils exercent leurs fonctions à temps plein ou à temps partiel.
+Primes et indemnités peuvent également être versées aux agents contractuels, en vertu de l'art. L. 713-1 code général de la fonction publique, y compris aux agents recrutés en qualité de collaborateur de cabinet (-voir COLCAB).
+Enfin, les agents qui occupent un emploi spécifique peuvent bénéficier d'un régime indemnitaire (quest. écr. AN n°64279 du 25 fév. 1985).
+Le texte réglementant l'attribution d'un avantage indemnitaire peut toutefois en réserver le bénéfice à certaines catégories de personnels.
+Toute prime ou indemnité doit être attribuée après délibération et fondée :
+- soit sur un texte applicable à la fonction publique de l'Etat, pour les avantages liés à l'appartenance à un grade et pour certains des avantages liés à des fonctions, à l'engagement professionnel ou à des sujétions particulières
+- soit, lorsqu'il existe, sur un texte propre à la fonction publique territoriale, pour certains des avantages liés à des fonctions, à l'engagement professionnel ou à des sujétions particulières.
+B) Modalités de mise en œuvre
+1- Compétences respectives de l'assemblée délibérante et de l'autorité territoriale
+Elles sont définies à l'art. L. 714-4 code général de la fonction publique et à l'article 2 du décret n°91-875 du 6 septembre 1991 (décr. n°91-875 du 6 sept. 1991).
+Dans les limites imposées par le principe d'équivalence et par les dispositions réglementaires spécifiques à chaque prime ou indemnité, une délibération doit fixer :
+- la nature des éléments indemnitaires
+- leurs conditions d'attribution (bénéficiaires, périodicité, critères éventuels de modulation du montant individuel...)
+- leur taux moyen
+- les crédits ouverts ; seuls sont pris en compte les emplois inscrits au budget et effectivement pourvus (art. 2 décr. n°91-875 du 6 sept. 1991).
+Sur la base de la délibération, l'autorité territoriale détermine par arrêté le montant individuel attribué à chaque agent.
+La communication de ces arrêtés individuels d'attribution peut être obtenue par toute personne physique ou morale.
+Si les primes concernées comportent une part modulable selon la manière de servir, et contiennent donc une appréciation sur le comportement des agents, toute mention permettant d'identifier la personne concernée doit être occultée avant la communication (CE 10 mars 2010 n°303814).
+Les conditions de modulation du régime indemnitaire sont développées dans la fiche REGMOD.
+2- Paiement par le comptable
+Le comptable procède au paiement, après avoir exigé, outre les pièces justificatives générales en matière de rémunération, les pièces suivantes (art. D. 1617-19 CGCT, annexe I, rubrique 2. Dépenses de personnel) :
+- délibération fixant la nature, les conditions d'attribution et le taux moyen des indemnités
+- décision de l'autorité investie du pouvoir de nomination fixant le taux applicable à chaque agent (pour les agents contractuels, ces montants peuvent figurer dans leur acte d'engagement).
+Pour certaines primes et indemnités, des pièces spécifiques peuvent en outre être demandées.
+C) Le maintien à titre individuel
+Remarque : le maintien des avantages collectivement acquis ayant le caractère de complément de rémunération mis en place avant le 28 janvier 1984, fondé sur l'art. L. 714-11 code général de la fonction publique, est abordé dans la fiche COMREM.
+1- Modification de dispositions réglementaires et de bornes indiciaires
+Lorsqu'un fonctionnaire subit une baisse du montant indemnitaire qui lui est attribué, soit par l'application ou la modification des dispositions réglementaires applicables au corps de l'Etat équivalent, soit par l'effet de la modification de bornes indiciaires de son grade, il peut être décidé par délibération de lui maintenir le montant dont il bénéficiait en application des dispositions antérieures (art. L. 714-8 code général de la fonction publique).
+Par exemple, la revalorisation au 1er septembre 2022 de l'échelonnement indiciaire applicable aux cadres d'emplois "B-type", a eu pour conséquence de réduire la liste des bénéficiaires théoriques de l'IAT, puisque cet échelonnement indiciaire (premier grade des cadres d'emplois B-type) débute désormais à l'IB 389 ; un maintien du régime indemnitaire antérieur, à titre individuel, a donc pu être décidé par délibération.
+2- Transfert de personnels dans le cadre d’une coopération locale
+De manière générale, dans tous les cas où des agents changent d’employeur en application d’une réorganisation liée à la coopération locale, ils conservent, s'ils y ont intérêt, le bénéfice du régime indemnitaire qui leur était applicable (art. L. 5111-7 code général des collectivités territoriales).
+Une indemnité de mobilité peut également leur être versée par la collectivité et l’établissement d’accueil selon des modalités exposées dans la fiche INDMOB (art. L. 5111-7 code général des collectivités territoriales).
+En outre, la conservation du bénéfice du régime indemnitaire pour les agents transférés dans le cadre de certaines coopérations intercommunales est prévue spécifiquement dans les hypothèses suivantes :
+- conservation pour les fonctionnaires et agents contractuels qui sont transférés d'une commune à un EPCI ou d'une communauté à une commune par suite d'une modification des statuts d'une communauté (art. L. 5211-4-1 code général des collectivités territoriales) ;
+- conservation pour les agents des services ou parties de service des communes, départements ou régions transférés à une métropole (art. L. 5217-19 code général des collectivités territoriales) ;
+- fusion d'EPCI (art. L. 5211-41-3 code général des collectivités territoriales) ou de syndicats mixtes (par renvoi formulé à l'article L. 5711-2 du CGCT).
+Le maintien du régime indemnitaire ne permet pas à une autorité territoriale d'appliquer à un agent transféré une indemnité dégressive en compensant l'augmentation de son traitement due à ses avancements d'échelon et de grade par une diminution équivalente de son régime indemnitaire (CAA Douai 2 avr. 2024 n°23DA00236).
+3- Transfert dans un SDIS
+Les sapeurs-pompiers professionnels qui relevaient, à la date de promulgation de la loi n°96-369 du 3 mai 1996 instituant les SDIS, d'un corps communal ou intercommunal et qui sont transférés au corps départemental conservent, si cela leur est plus favorable (art. L. 1424-41 code général des collectivités territoriales) :
+- les avantages individuellement acquis, au 1er janvier 1996, dans leur collectivité ou établissement d'origine
+- les avantages ayant le caractère de complément de rémunération collectivement acquis dans la collectivité ou l'établissement d'origine, au 1er janvier 1996, par l'intermédiaire d'organismes à vocation sociale ; ces avantages sont pris en charge par la structure d'origine.
+Pour déterminer si le régime de rémunération dont bénéficiait un agent au 1er janvier 1996 était plus favorable que celui qui lui est attribué dans le SDIS à compter de la date de son transfert, il convient de procéder à une comparaison globale des avantages et compléments de rémunération tant individuels que collectifs. Il ne faut pas tenir compte, pour cette comparaison, des incidences des modifications dans la situation de l'intéressé, notamment en termes d'ancienneté et de conditions d'emploi, qui sont intervenues entre le 1er janvier 1996 et la date du transfert (CE 21 janv. 2008 n°275906).
+4- Emplois fonctionnels
+Les fonctionnaires titulaires d'un emploi administratif de direction peuvent bénéficier du régime indemnitaire fixé pour leur grade d'origine (-voir FONDET et art. 13-1 décr. n°87-1101 du 30 déc. 1987).
+5- Transfert de personnels de l'Etat
+Les collectivités territoriales et leurs établissements publics peuvent maintenir au profit des fonctionnaires de l'Etat transférés dans le cadre de la loi n°2004-809 du 13 août 2004 (-voir TRAPER) et de la loi n°2014-58 du 27 janvier 2014 les avantages individuellement acquis en matière indemnitaire, tant qu'ils exercent leurs fonctions dans le cadre d'emplois d'intégration ou de détachement, si cela leur est favorable (art. 111 loi n°2004-809 du 13 août 2004 et art. 85 loi n°2014-58 du 27 janv. 2014).
+6- Indemnité d’accompagnement à la mobilité de fonctionnaires de l’Etat
+Lorsqu’un fonctionnaire de l’Etat est conduit, dans le cadre d’une restructuration et à l’initiative de l’administration, à exercer ses fonctions dans la FPT (ou dans un autre emploi de la FPE, ou dans la FPH), et que le plafond applicable au régime indemnitaire de l’emploi d’accueil est inférieur au plafond correspondant à l’emploi d’origine, il bénéficie à titre personnel du plafond le plus élevé (art. L. 714-2 code général de la fonction publique).
+D) Régime indemnitaire et décisions créatrices de droits
+La décision administrative explicite accordant un avantage financier crée des droits au profit de son bénéficiaire, alors même que l'administration était tenue de refuser cet avantage ; elle ne peut par conséquent être retirée qu'à la double condition qu'elle soit illégale et qu'elle n'ait pas été édictée depuis plus de quatre mois, sauf dispositions législatives ou réglementaires contraires ou sauf s'il est satisfait à une demande du bénéficiaire. Pour l'application de ces règles, est assimilée à une décision explicite accordant un avantage financier celle qui, sans avoir été formalisée, est révélée par des agissements ultérieurs ayant pour objet d'en assurer l'exécution, comme le versement des sommes correspondantes telles qu'elles apparaissent sur le bulletin de paye (avis CE n°262074 du 3 mai 2004 et pour un exemple de décision accordant le bénéfice d'un avantage indemnitaire : CE 31 mai 2007 n°274582).
+Sur les conditions de récupération des sommes indûment versées, il convient de se reporter à la fiche ELREGE.
+Ainsi, la décision initiale d'attribution du bénéfice d'une prime crée des droits, ce qui n'est pas le cas des mesures périodiques par lesquelles il est procédé au paiement de cette prime, qui constituent de simples opérations de liquidation, même si le bénéfice avait initialement été accordé pour une durée déterminée (CE 11 déc. 2006 n°277206).
+Par ailleurs, rien n'empêche l'autorité territoriale de supprimer pour l'avenir un avantage dont le maintien est subordonné à une condition, dès lors que celle-ci n'est pas ou n'est plus remplie. La décision d'attribution d'un avantage indemnitaire peut donc être abrogée si l'agent ne remplit plus les conditions exigées, ou si l'autorité territoriale modifie l'appréciation qui avait justifié son attribution (CE 27 juil. 2005 n°270487).
+II. LE PRINCIPE DE PARITÉ
+A) La référence aux corps équivalents de l'Etat
+Dans la fonction publique territoriale, le régime indemnitaire est fixé localement par l'assemblée délibérante de la collectivité territoriale ou le conseil d'administration de l'établissement public, dans la limite des régimes dont bénéficient les différents services de l'Etat (art. L. 714-4 code général de la fonction publique).
+Il lui appartient ainsi de fixer la nature, les conditions d'attribution et le taux moyen des indemnités bénéficiant aux fonctionnaires de la collectivité, sans que le régime institué puisse être plus favorable que celui dont bénéficient les fonctionnaires de l'Etat d'un grade et d'un corps équivalents et sans qu'elle soit tenue de faire bénéficier ses fonctionnaires de régimes indemnitaires identiques à ceux des fonctionnaires de l'Etat (CE 4 juil. 2024 n°462452).
+Le régime indemnitaire de référence fait office de limite maximale : pour chacun des éléments qui le composent, l'organe délibérant peut décider de l'appliquer à l'identique, de l'appliquer de façon restreinte ou de ne pas l'appliquer.
+L'organe délibérant peut ainsi retenir des montants de référence inférieurs et des conditions de versement plus restrictives que ceux applicables aux fonctionnaires de l'Etat (CE 4 juil. 2024 n°462452).
+Le nécessaire respect du principe d'équivalence et la marge de manœuvre laissée aux collectivités ont des répercussions sur les conditions d'attribution individuelle du régime indemnitaire (-voir REGMOD).
+Précisément, le régime indemnitaire alloué à un fonctionnaire territorial ne doit pas être plus favorable que celui dont bénéficie un fonctionnaire de l'Etat exerçant des fonctions équivalentes (art. 1er décr. n°91-875 du 6 sept. 1991). Le décret n°91-875 du 6 septembre 1991 établit donc des équivalences entre grades des cadres d'emplois territoriaux et grades des corps de l'Etat, dans les filières administrative, technique, médico- sociale, culturelle, sportive et animation ; les corps équivalents constituent une référence et une limite.
+Lorsqu'une délibération définit le régime indemnitaire par référence à celui dont bénéficient les fonctionnaires de l'Etat, la modification apportée au régime indemnitaire de ces fonctionnaires de l'Etat n'a pas pour effet, par elle-même, de modifier ou de rendre inapplicables les règles instituées par cette délibération. L'assemblée délibérante devra, le cas échéant, tirer les conséquences d'une telle modification en abrogeant ou en modifiant expressément les règles régissant les indemnités versées à ses fonctionnaires territoriaux qui ne seraient plus conformes aux principes applicables en matière de régime indemnitaire (CE 26 sept. 2025 n°488350).
+Une réponse ministérielle a également précisé que toute modification des textes applicables aux fonctionnaires de l'Etat cités par le décret n°91-875 du 6 septembre 1991 est applicable par délibération de la collectivité territoriale, sans qu'une modification de ce décret soit nécessaire (quest. écr. S n°5102 du 7 mars 2013).
+B) Les cadres d'emplois non soumis au principe d'équivalence
+Les agents relevant de certains cadres d'emplois bénéficient d'un régime dérogatoire, qui n'est pas soumis au principe d'équivalence.
+Peuvent ainsi bénéficier d'éléments indemnitaires fondés sur des textes spécifiques, hors de toute équivalence avec des corps de fonctionnaires de l'Etat (art. L. 714-10 code général de la fonction publique et art. L. 714-13 code général de la fonction publique) :
+- les fonctionnaires relevant des cadres d'emplois de police municipale et du cadre d'emplois des gardes champêtres
+- les fonctionnaires relevant de l'un des cadres d'emplois de la filière médico-sociale listés par décret (en attente de publication).
+Ce principe dérogatoire est mis en œuvre par les dispositions réglementaires suivantes, instaurant une indemnité spéciale de fonction et d'engagement au profit des fonctionnaires de la police municipale (décr. n°2024-614 du 26 juin 2024 et -voir INDSFE) :
+- cadres d'emplois des agents de police municipale et des gardes champêtres : -voir INGACH
+- cadre d'emplois des chefs de service de police municipale : -voir INDCHE
+- cadre d'emplois des directeurs de police municipale : -voir DIRPOL.
+A noter : l'indemnité spéciale de fonction et d'engagement remplace l'indemnité spéciale de fonctions qui était versée en application du décret n°97-702 du 31 mai 1997, du décret n°2000-45 du 20 janvier 2000 et du décret n°2006-1397 du 17 novembre 2006 ; ces décrets sont abrogés à compter du 1er janvier 2025.
+Quant aux sapeurs-pompiers professionnels, l'art. L. 415-5 code général de la fonction publique dispose que des règles statutaires spécifiques peuvent leur être appliquées ; sur cette base, ils peuvent bénéficier des indemnités prévues par le décr. n°90-850 du 25 sept. 1990 (art. 6-1 à 6-9) :
+- une indemnité de feu (-voir INDFEU)
+- une indemnité de responsabilité (-voir RESSAP)
+- une indemnité de spécialité (-voir SPESAP)
+- une indemnité de logement (-voir LOGSAP)
+- les indemnités horaires ou forfaitaires pour travaux supplémentaires (-voir HORSUP et FORSUP)
+- l'indemnité d'administration et de technicité (-voir INDADT)
+- l'indemnité de mobilisation opérationnelle (-voir MOBSAP).
+Les agents peuvent également bénéficier des indemnités instituées au profit des agents de la fonction publique territoriale, sous réserve qu’elles n’aient pas le même objet (art. 6-2 décr. n°90-850 du 25 sept. 1990).
+C) Les avantages indemnitaires versés hors équivalence
+1- Avantages anciens qui étaient versés aux agents communaux
+Sous réserve de l'appréciation du juge et par dérogation au principe selon lequel le régime indemnitaire des agents territoriaux est déterminé par référence à celui des fonctionnaires du corps de l'Etat équivalent, est admis l'octroi d'avantages liés à l'existence de sujétions particulières, en dehors de toute équivalence.
+L'instruction ministérielle n°92-71-MO du 23 juin 1992 présente les conditions de versement d'un régime indemnitaire aux fonctionnaires territoriaux après l'entrée en vigueur du décret n°91-875 du 6 septembre 1991 qui établit des équivalences entre cadres d'emplois et corps de la fonction publique de l'Etat.
+Cette instruction, qui se réfère notamment à un télex du ministre de l'intérieur aux préfets en date du 20 décembre 1991 (qui y figure en annexe), indique que les fonctionnaires territoriaux peuvent bénéficier, à côté des avantages indemnitaires dont le versement est fondé sur l'équivalence à un corps de l'Etat lui-même bénéficiaire, de primes et indemnités liées à des responsabilités ou à des sujétions particulières, en vertu :
+- soit de textes propres à la FPT
+- soit de textes relatifs à la FPE, dont la plupart étaient rendus applicables au personnel communal par arrêté du 9 juin 1980 (J.O. du 20 juillet 1980).
+Elle établit, dans ses annexes 11 (textes FPT) et 12 (textes FPE) la liste des avantages dont l'organe délibérant peut, dans ce cadre, prévoir le bénéfice.
+2- Dispositif spécifique d'intéressement tenant compte de la performance collective des services
+A côté du régime indemnitaire fixé en référence à celui de l'Etat, les collectivités territoriales et les établissements publics locaux peuvent mettre en place une prime d'intéressement tenant compte de la performance collective des services (art. L. 714-7 code général de la fonction publique).
+Pour plus de détails, -voir PRIREC.
+III. LES PRÉLÈVEMENTS OBLIGATOIRES
+Pour connaître les sources juridiques et les taux de prélèvement appliqués, -voir COT.
+A noter : à compter du 1er janvier 2019, une réduction des cotisations (part agent) versées au régime de retraite est appliquée aux cotisations dues au titre des heures supplémentaires (article L. 241-17 code de la sécurité sociale, L241-17CSS et décr. n°2019-133 du 25 fév. 2019).
+Pour plus de détails, -voir REHSUP.
+1- Agents relevant du régime spécial de sécurité sociale des fonctionnaires territoriaux
+Sont concernés les fonctionnaires occupant un ou plusieurs emplois pour une durée hebdomadaire d'au moins 28 heures (-voir REGSPE).
+Les éléments du régime indemnitaire sont assujettis aux prélèvements suivants : cotisations au régime public de retraite additionnel, CSG, CRDS.
+2- Agents relevant du régime général de sécurité sociale
+Sont concernés les fonctionnaires occupant un ou plusieurs emplois pour une durée inférieure à 28 heures hebdomadaires et les agents contractuels.
+Les éléments du régime indemnitaire sont assujettis à l'ensemble des prélèvements obligatoires : cotisations au titre des assurances maladie, maternité, invalidité et décès (part employeur ; la part salariale est supprimée à compter du 1er janvier 2018) ; cotisations au titre des accidents du travail et des maladies professionnelles ; cotisation à la CNAF ; cotisations au titre de l'assurance vieillesse ; cotisations à l'IRCANTEC ; CSG ; CRDS ; contribution de solidarité autonomie ; cotisations au FNAL ; versement destiné au financement des services de mobilité.
+Fiches en référence
+
+
+
+
+
+
+
+Textes en référence

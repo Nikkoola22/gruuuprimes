@@ -32,4 +32,3 @@ out.txt
 *.bak
 scripts/tmp_*.mjs
 bfg.jar
-public/bip/output/

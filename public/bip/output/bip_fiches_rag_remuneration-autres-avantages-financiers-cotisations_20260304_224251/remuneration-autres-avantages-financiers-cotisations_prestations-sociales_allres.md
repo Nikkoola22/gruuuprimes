@@ -1,0 +1,52 @@
+# Prestations d'action sociale : restauration du personnel
+
+**URL:** https://bip.cig929394.fr/fiches/remuneration-autres-avantages-financiers-cotisations/prestations-sociales/allres
+**Section:** remuneration-autres-avantages-financiers-cotisations
+**Date:** 2026-03-04T22:40:47.428813
+
+---
+
+## Contenu
+
+Prestations d'action sociale : généralités (PRESOC)
+Prestations d'action sociale : aide à la famille (AIDFAM)
+Accueil Fiches Rémunération, autres avantages financiers, cotisations Prestations sociales Prestations d'action sociale : restauration du personnel (ALLRES)
+Prestations d'action sociale : restauration du personnel
+ALLRES
+I. LA PRESTATION REPAS
+II. LES TITRES RESTAURANT
+Pour connaître les principes généraux en matière de prestations d'action sociale, -voir PRESOC.
+Les données contenues dans cette fiche ne sont présentées qu'à titre indicatif. Elles sont en effet fondées sur des dispositions applicables aux agents de l'Etat, telles qu'elles sont précisées par la circulaire FP/4 n°1931 du 15 juin 1998 (circ. min. FP/4 n°1931 du 15 juin 1998), laquelle, en outre, ne concerne qu'une partie des prestations existantes.
+Dans la FPT, les collectivités territoriales et leurs établissements publics déterminent, par délibération, le type des actions et le montant des dépenses envisagés pour la réalisation des prestations d'action sociale (-voir PRESOC), ainsi que les modalités de leur mise en œuvre (art. L. 731-4 code général de la fonction publique).
+I. LA PRESTATION REPAS
+1- Principe
+L'administration peut participer au prix des repas pris par les agents dans les restaurants administratifs.
+Lorsqu'il n'existe pas de restaurant de ce type à proximité du service, elle peut signer une convention :
+- avec les gestionnaires de restaurants du secteur privé, et notamment de restaurants d'entreprise
+- avec d'autres administrations disposant d'un restaurant, afin d'en permettre l'accès à ses agents.
+La circulaire FP/4 n°1931 du 15 juin 1998 (circ. min. FP/4 n°1931 du 15 juin 1998) recommande de fixer, en cas de besoin, des règles d'admission (horaires de passage, inscription préalable, fréquence de fréquentation...).
+2- Conditions de versement et montant
+La prestation se fait concrètement sous la forme d'un abattement sur le prix du repas ; elle est réservée, à l'Etat, aux agents dont l'indice brut de traitement ne dépasse pas 638 à compter du 1er septembre 2022 (circ. min. du 18 juil. 2022).
+La prestation doit être versée à l'organisme gestionnaire du restaurant et non directement à l'agent.
+A compter du 1er janvier 2024, le montant de la prestation est, à l'Etat, de 1,47 euro par repas (circ. min. du 4 janv. 2024).
+II. LES TITRES RESTAURANT
+A) Conditions d'attribution
+Lorsque son employeur public ne peut le faire bénéficier d’un dispositif de restauration collective compatible avec le lieu d’exercice de ses fonctions, des titres-restaurants peuvent être attribués à l’agent public dans les conditions prévues par le code du travail (art. L. 731-2 code général de la fonction publique).
+Les collectivités publiques et leurs établissements publics peuvent attribuer des titres-restaurant à leurs agents (ord. n°67-830 du 27 sept. 1967) :
+- dans le cas où ils n'ont pas mis en place de dispositif propre de restauration collective, aux agents qu'ils ne peuvent pas faire bénéficier par contrat passé avec un ou plusieurs gestionnaires de restaurants publics ou privés, d'un dispositif de restauration compatible avec la localisation de leur poste de travail ;
+- dans le cas où ils ont mis en place un dispositif propre de restauration collective, aux agents qu'ils ne peuvent faire bénéficier, compte tenu de la localisation de leur poste de travail, ni de ce dispositif ni d'un dispositif de restauration mis en place par contrat passé avec un ou plusieurs gestionnaires de restaurants publics ou privés.
+Le juge administratif a confirmé cette possibilité d'attribution de titres-restaurant, sans exigence de parité entre fonctions publiques, dès lors que les titres correspondent effectivement à une prestation d'action sociale, et sont donc attribués indépendamment du grade, de l'emploi ou de la manière de servir (CAA Lyon 18 déc. 2007 n°05LY00358).
+En cas d'horaire journalier fixé sur une demi-journée, la Cour de cassation considère que la seule condition à l'attribution d'un titre-restaurant est que le repas soit compris dans cet horaire journalier. Par suite, un titre-restaurant pouvait être attribué au salarié concerné dès lors que ses horaires de travail recoupaient nécessairement la plage horaire de la pause déjeuner, faisant ainsi ressortir qu'un repas était bien compris dans son horaire de travail journalier et peu importe qu’il ait ou non effectivement pris une pause déjeuner (C. cass 13 avr. 2023 n°21-11.322).
+B) Participation de l'employeur
+La participation de l'employeur à l'acquisition des titres-restaurant est exonérée de cotisations et contributions sociales à condition (lettre circulaire de l'ACOSS n°2009-013 du 4 fév. 2009 ; instruction du 8 fév. 2011) :
+- qu'elle soit comprise entre 50% et 60% de la valeur nominale du titre
+- qu'elle n'excède pas 7,26 euros par titre à compter du 1er janvier 2025 (source : Bulletin officiel de la sécurité sociale)
+Dans la limite de 7,26 euros par titre, elle est également affranchie de l'impôt sur le revenu (19° art. 81 code général des impôts).
+Les conditions d'utilisation des titres-restaurant sont prévues par les articles R. 3262-4 à R. 3262-10 du code du travail (art. R. 3262-4 code du travail, art. R. 3262-5 code du travail, art. R. 3262-6 code du travail, art. R. 3262-7 code du travail, art. R. 3262-8 code du travail, art. R. 3262-9 code du travail, art. R. 3262-10 code du travail).
+C) Agent en télétravail
+Les agents exerçant leurs fonctions en télétravail bénéficient des mêmes droits et obligations que les agents exerçant sur leur lieu d'affectation (art. 6 décr. n°2016-151 du 11 fév. 2016).
+Néanmoins, aucune disposition ne réglemente l'attribution des titres restaurant pour les agents publics en télétravail.
+Le Conseil d'Etat a eu l'occasion de se prononcer sur cette question. Il a considéré que, lorsqu’une administration décide d'attribuer des titres-restaurant à ses agents, dans les conditions prévues par l’ord. n°67-830 du 27 sept. 1967 précitée, les agents exerçant leurs fonctions en télétravail bénéficient du même droit à l'attribution de ces titres que s'ils exerçaient leurs fonctions sur leur lieu d'affectation. Par suite, un agent, qui pouvait bénéficier sur son lieu d'affectation de l'accès à un dispositif de restauration collective excluant l'attribution de titres-restaurant, n'avait pas davantage droit aux titres-restaurant pour les jours de travail effectués à son domicile, au cours de la même période (CE 7 juil. 2022 n°457140).
+Fiches en référence
+
+Textes en référence

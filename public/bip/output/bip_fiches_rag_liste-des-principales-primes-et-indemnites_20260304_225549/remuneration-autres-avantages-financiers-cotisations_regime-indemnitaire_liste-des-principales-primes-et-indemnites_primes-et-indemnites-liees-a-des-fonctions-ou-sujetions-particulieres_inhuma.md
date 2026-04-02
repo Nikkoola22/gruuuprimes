@@ -1,0 +1,48 @@
+# Indemnités pour opérations d'inhumation
+
+**URL:** https://bip.cig929394.fr/fiches/remuneration-autres-avantages-financiers-cotisations/regime-indemnitaire/liste-des-principales-primes-et-indemnites/primes-et-indemnites-liees-a-des-fonctions-ou-sujetions-particulieres/inhuma
+**Section:** liste-des-principales-primes-et-indemnites
+**Date:** 2026-03-04T22:54:17.260344
+
+---
+
+## Contenu
+
+Indemnité de risques des agents des parcs zoologiques (PARZOO)
+Prime de fonctions des personnels affectés au traitement de l'information (TRAINF)
+Accueil Fiches Rémunération, autres avantages financiers, cotisations Régime indemnitaire liste des principales primes et indemnités Primes et indemnités liées à des fonctions ou sujétions particulières Indemnités pour opérations d'inhumation (INHUMA)
+Indemnités pour opérations d'inhumation
+INHUMA
+I. CONDITIONS D'OCTROI
+II. MONTANT
+III. PRELEVEMENTS OBLIGATOIRES
+Avertissement : le régime indemnitaire tenant compte des fonctions, des sujétions, de l’expertise et de l’engagement professionnel (RIFSEEP) est exclusif de toute autre prime ou indemnité liée aux fonctions et à la manière de servir (art. 5 décr. n°2014-513 du 20 mai 2014 et circ. min. du 5 déc. 2014).
+* * *
+Pour connaître les principes généraux applicables en matière de régime indemnitaire, -voir REGIND.
+I. CONDITIONS D'OCTROI
+Un arrêté ministériel du 17 février 1977 (arr. min. du 17 fév. 1977) prévoit la possibilité de verser des indemnités spécifiques aux agents des services municipaux d'inhumation.
+Ces indemnités font partie des éléments de rémunération liés à une sujétion particulière et dont l'octroi aux fonctionnaires territoriaux est admis, sous réserve de l'appréciation du juge, en dehors de tout principe d'équivalence avec les corps de la FPE (-voir REGIND).
+Le versement de cet avantage indemnitaire est fondé sur l'existence des sujétions particulières correspondantes.
+Il nécessite une décision de l'organe délibérant, qui désigne les bénéficiaires, parmi lesquels peuvent figurer les fonctionnaires titulaires et stagiaires, ainsi que les agents non titulaires ; les conditions d'attribution sont également déterminées par délibération.
+II. MONTANT
+Pour chaque opération, peuvent être attribuées les indemnités suivantes, qui sont cumulables (art. 1er arr. min. du 17 fév. 1977) :
+- pour une exhumation : 1,78 euro (le nombre de bénéficiaires ne peut excéder cinq personnes par opération)
+- pour une mise en bière : 0,67 euro
+- pour un portage de bière présentant des difficultés particulières : 1,31 euro
+A titre d'exemple, les difficultés particulières évoquées peuvent résulter de l'exiguïté d'escaliers ou de couloirs, de la nécessité d'effectuer un portage depuis un étage élevé ou depuis un niveau inférieur en cas de pente (circ. min. du 22 avr. 1977).
+Dans chaque collectivité, les taux applicables sont fixés par l'organe délibérant, qui peut retenir des taux inférieurs à ceux qui figurent dans les dispositions réglementaires.
+Les montants individuels attribués sont décidés par l'autorité territoriale, dans le cadre fixé par la délibération.
+Pour connaître les conditions de modulation individuelle du régime indemnitaire, -voir REGMOD.
+III. PRELEVEMENTS OBLIGATOIRES
+Pour connaître les sources juridiques et le taux des prélèvements appliqués, -voir COT.
+1- Agents relevant du régime spécial de sécurité sociale des fonctionnaires territoriaux (-voir REGSPE), c'est-à- dire fonctionnaires occupant un ou plusieurs emplois pour une durée hebdomadaire d'au moins 28 heures
+Les éléments du régime indemnitaire sont assujettis aux prélèvements suivants : cotisations au régime public de retraite additionnel (-voir READDI), CSG, CRDS.
+2- Agents relevant du régime général de sécurité sociale, c'est-à-dire fonctionnaires occupant un ou plusieurs emplois pour une durée inférieure à 28 heures hebdomadaires et agents contractuels
+Les éléments du régime indemnitaire sont assujettis à l'ensemble des prélèvements obligatoires : cotisations au titre des assurances maladie, maternité, invalidité et décès (part employeur ; la part salariale est supprimée à compter du 1er janvier 2018) ; cotisations au titre des accidents du travail et des maladies professionnelles ; cotisation à la CNAF ; cotisations au titre de l'assurance vieillesse ; cotisations à l'IRCANTEC ; CSG ; CRDS ; contribution de solidarité autonomie ; cotisations au FNAL ; versement destiné aux transports en commun.
+Fiches en référence
+
+
+
+
+
+Textes en référence

@@ -1,0 +1,62 @@
+# Indemnité de résidence : départements de l'Ain au Finistère
+
+**URL:** https://bip.cig929394.fr/fiches/remuneration-autres-avantages-financiers-cotisations/indemnite-de-residence/zonrea
+**Section:** remuneration-autres-avantages-financiers-cotisations
+**Date:** 2026-03-04T22:39:44.203284
+
+---
+
+## Contenu
+
+Zones d'indemnité de résidence (ZONRES)
+Indemnité de résidence : départements du Gard à la Meurthe-et-Moselle (ZONREB)
+Accueil Fiches Rémunération, autres avantages financiers, cotisations Indemnité de résidence Indemnité de résidence : départements de l'Ain au Finistère (ZONREA)
+Indemnité de résidence : départements de l'Ain au Finistère
+ZONREA
+AIN (01) :
+➝ zone 2 (1 %) : Beynost, La Boisse, Dagneux, Massieux, Miribel, Misérieux, Montluel, Neyron, Parcieux, Reyrieux, Saint-Didier-de- Formans, Saint-Maurice-de-Beynost, Sainte-Euphémie, Toussieux, Trévoux
+➝ zone 3 (0 %) : Toutes les autres communes.
+A compter du mois de décembre 2023, les agents qui exercent leurs fonctions dans les communes du département l'Ain classées en zone géographique A dans les conditions prévues à l' art. D. 304-1 code de la construction et de l'habitation ou dans celles relevant de la même unité urbaine bénéficient d'une indemnité de résidence spécifique dont le taux est 3%.
+
+AISNE (02), ALLIER (03), ALPES-DE- HAUTE-PROVENCE (04), HAUTES-ALPES (05) :
+Toutes les communes sont classées en zone 3 (0%).
+
+ALPES-MARITIMES (06) :
+➝ zone 2 (1%) : Antibes, Aspremont, Auribeau-sur-Siagne, Le-Bar-sur-Loup, Beaulieu-sur-Mer, Beausoleil, Berre-les-Alpes, Biot, Breil sur Roya, La Brigue, Cagnes-sur-Mer, Cannes, Le Cannet, Cantaron, Cap-d'Ail, Cabris, Carros, Castagniers, Castellar, Châteauneuf-Grasse, Château-Neuf-de-Contes, Châteauneuf Villevieille, La Colle-sur-Loup, Colomars, Contes, Drap, Eze, Falicon, Fontan, Gattières, La Gaude, Gorbio, Grasse, Mandelieu-la-Napoule, Menton, Mouans-Sartoux, Mougins, Nice, Opio, Pégomas, Peymeinade, Roquebrune-Cap-Martin, Roquefort-les-Pins, La-Roquette-sur-Siagne, Le Rouret, Saint-André, Saint-Jeannet, Saint-Jean-Cap-Ferrat, Saint-Laurent-du-Var, Saint-Paul, Sainte-Agnès, Saorge, Sospel, Spéracèdes, Tende, Théoule sur Mer, Le Tignet, Tourrette-Levens, Tourrette-sur-Loup, La Trinité, La Turbie, Valbonne, Vallauris, Vence, Villefranche, Villeneuve-Loubet.
+➝ zone 3 (0%) : Toutes les autres communes.
+
+ARDECHE (07), ARDENNES (08), ARIEGE (09), AUBE (10), AUDE (11), AVEYRON (12) :
+Toutes les communes sont classées en zone 3 (0%).
+
+BOUCHES-DU-RHONE (13) :
+➝ zone 1 (3%) : Aix-en-Provence, Allauch, Aubagne, Auriol, Berre-l'Etang, Bouc-Bel-Air, La Bouilladisse, Cabriès, Cadolive, Ceyreste, Château-lès-Martigues, La Ciotat, La Destrousse, Eguilles, Fos-sur-Mer, Fuveau, Gardanne, Gémenos, Gignac-la-Nerthe, Gréasque, Istres, Marignanne, Marseille, Martigues, Meyreuil, Mimet, Miramas, La Penne-sur-Huveaune, Les Pennes-Mirabeau, Peypin, Plan-de-Cuques, Port-de-Bouc, Port-Saint-Louis-du-Rhône, Rognac, Roquevaire, Saint-Chamas, Saint-Marc-Jaumegarde, Saint-Savournin, Saint-Victoret, Septème-les-Vallons, Simiane-Collonge, le Tholonet, Venelles, Vitrolles.
+➝ zone 2 (1%) : Arles, La Barben, Carnoux-en-Provence, Cassis, Grans, Pélissanne, Roquefort-la-Bedoule, Saint-Martin-de-Crau, les Saintes-Maries-de-la-Mer, Salon-de-Provence, Tarascon.
+➝ zone 3 (0%) : Toutes les autres communes.
+
+CALVADOS (14) :
+➝ zone 2 (1%) : Baron-sur-Odon, Bénouville, Beuvillers, Blainville-sur-Orne, Bretteville-sur-Odon, Caen, Carpiquet, Colombelles, Cormelles-le-Royal, Cuverville, Demouville, Eprom, Fleury-sur-Orne, Fontaine-Etoupefour, Giberville, Glos, Hérouville-Saint-Clair, Ifs, Lisieux, Louvigny, Mondeville, Ouilly-le-Vicomte, Rots, Saint-Désir, Saint-Germain-la-Blanche-Herbe, Verson.
+➝ zone 3 (0 %) : Toutes les autres communes.
+
+CANTAL (15), CHARENTE (16), CHARENTE-MARITIME (17), CHER (18), CORREZE (19) :
+Toutes les communes sont classées en zone 3 (0%).
+
+CORSE DU SUD (2A) :
+Les agents qui exercent leurs fonctions en Corse du Sud bénéficient d'une indemnité de résidence spécifique dont le taux est de 3%.
+
+HAUTE CORSE (2B) :
+Les agents qui exercent leurs fonctions en Haute-Corse bénéficient d'une indemnité de résidence spécifique dont le taux est de 3 %.
+
+COTE-D'OR (21), COTES-D'ARMOR (22), CREUSE (23), DORDOGNE (24), DOUBS (25), DROME (26) :
+Toutes les communes sont classées en zone 3 (0%).
+
+EURE (27) :
+➝ zone 2 (1 %) : Saint-Just, Saint-Marcel, Saint-Pierre-d'Autils, Vernon.
+➝ zone 3 (0 %) : Toutes les autres communes.
+
+EURE-ET-LOIRE (28) :
+Toutes les communes sont classées en zone 3 (0%).
+
+FINISTERE (29) :
+➝ zone 2 (1 %) : Bohars, Brest, Gouesnou, Guilers, Guipavas, Loperhet, Plougastel-Daoulas, Plouzane, Le Relecq-Kerhuon.
+➝ zone 3 (0 %) : Toutes les autres communes.
+Textes en référence

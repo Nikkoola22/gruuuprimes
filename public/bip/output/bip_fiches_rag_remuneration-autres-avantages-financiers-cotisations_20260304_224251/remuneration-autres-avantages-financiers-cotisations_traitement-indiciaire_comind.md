@@ -1,0 +1,158 @@
+# Le complément de traitement indiciaire
+
+**URL:** https://bip.cig929394.fr/fiches/remuneration-autres-avantages-financiers-cotisations/traitement-indiciaire/comind
+**Section:** remuneration-autres-avantages-financiers-cotisations
+**Date:** 2026-03-04T22:42:30.240172
+
+---
+
+## Contenu
+
+Traitement brut moyen du grade ou de la classe (TRAMOY)
+Accueil Fiches Rémunération, autres avantages financiers, cotisations Traitement indiciaire Le complément de traitement indiciaire (COMIND)
+Le complément de traitement indiciaire
+COMIND
+I. PRINCIPE ET OBJECTIF
+II. AGENTS TERRITORIAUX BENEFICIAIRES ET MONTANTS
+III. MODALITES DE VERSEMENT ET CUMUL
+IV. REGIME DU COMPLEMENT DE TRAITEMENT
+En application du "Ségur de la santé", qui a donné lieu à un accord sur les rémunérations des personnels des hôpitaux et des EHPAD (juillet 2020), un complément de traitement indiciaire (CTI) a été créé au bénéfice des agents exerçant leurs fonctions dans les établissements de santé et les établissements médico-sociaux (art. 48 loi n°2020-1576 du 14 déc. 2020). Dans la fonction publique territoriale, ce complément bénéficiait initialement aux agents exerçant leurs fonctions en établissements d’hébergement pour personnes âgées dépendantes (EHPAD).
+Le bénéfice du CTI a été progressivement étendu à d'autres catégories de personnel :
+- à certains agents publics non médicaux exerçant dans des établissements et services sociaux et médico-sociaux rattachés à un établissement public de santé ou à un EHPAD, un groupement de coopération sociale et médico-sociale ou un groupement d'intérêt public « à vocation sanitaire » (loi du 23 décembre 2021) ;
+- ouverture à certaines catégories de personnels soignants et socio-éducatifs exerçant en établissements et services sociaux et médico-sociaux ; le CTI remplace la prime de revalorisation (prévue par décret n°2022-728 du 28 avril 2022), dont une partie de ces derniers a pu bénéficier, supprimée à compter du 1er décembre 2022 (loi du 16 août 2022).
+Les conditions et modalités de versement de ce CTI aux agents des trois versants de la fonction publique sont précisées par le décret n°2020-1152 du 19 septembre 2020.
+A noter : le CTI étant réservé aux personnels non médicaux, les agents relevant des cadres d’emplois des médecins territoriaux et des biologistes, vétérinaires et pharmaciens territoriaux sont exclus du champ des bénéficiaires, quels que soient les établissements dans lesquels ils exercent (art. 48 loi n°2020-1576 du 14 déc. 2020 et art. 14 décr. n°2020-1152 du 19 sept. 2020). Une prime de revalorisation peut néanmoins être versée à certains d'entre eux, -voir PRIREV.
+I. PRINCIPE ET OBJECTIF
+Cette mesure vise à favoriser l’attractivité des emplois dans l’ensemble des établissements y ouvrant droit, par une revalorisation des rémunérations des agents en poste dans les établissements de santé et médico-sociaux.
+Il s’agit d’un dispositif spécifiquement créé à cet effet qui consiste en l’attribution d’une indemnité sous la forme d’un certain nombre de points d’indice, qui n’a pas d’équivalent dans la fonction publique. Cette revalorisation du traitement a pour objectif de « mieux prendre en compte les sujétions particulières de ces métiers du soin au service de la population afin de les rendre attractifs » (sources : rapport sur le projet de loi de financement de la sécurité sociale pour 2021 et exposé des motifs de la loi).
+Mis en œuvre dès septembre 2020 dans la fonction publique hospitalière, la loi de financement de la sécurité sociale pour 2021 donne une valeur législative à ce dispositif et en étend le bénéfice aux personnels des trois fonctions publiques.
+Lors de la création du dispositif, le complément de traitement a été versé, de manière rétroactive, à compter du 1er septembre 2020. Avec l'élargissement du champ des bénéficiaires, la date d'applicabilité varie selon les types de personnels concernés (art. 48 loi n°2020-1576 du 14 déc. 2020) (voir partie II).
+Son versement constitue une obligation pour les employeurs territoriaux, il n'est donc pas conditionné à une délibération préalable de l'organe délibérant de la collectivité territoriale ou de l’établissement public (note d'information DGCL du 31 mars 2021).
+II. AGENTS TERRITORIAUX BENEFICIAIRES ET MONTANTS
+1- Fonctionnaires exerçant leurs fonctions dans des établissements accueillant des personnes âgées dépendantes
+Dans la FPT, le CTI est versé aux fonctionnaires exerçant leurs fonctions au sein des établissements suivants, créés ou gérés par des collectivités territoriales ou leurs groupements (art. 9 et 17 décr. n°2020-1152 du 19 sept. 2020) :
+◈ Etablissements d'hébergements pour personnes âgées dépendantes, y compris les professionnels exerçant au titre de l’accueil de jour sans hébergement
+➝ 24 points d'indice majorés au 1er septembre 2020, soit un montant de 112,46 euros bruts mensuels, sur la base de la valeur du point d'indice au 1er février 2017 ;
+➝ 49 points d'indice majorés à compter du 1er décembre 2020, soit un montant de: 241,21 euros bruts mensuels sur la base de la valeur du point d'indice au 1er juillet 2023.
+◈ Etablissements et services à caractère expérimental qui accueillent des personnes âgées dépendantes
+➝ 49 points d’indice majoré au 1er juin 2021, soit un montant de 241,21 euros bruts mensuels sur la base de la valeur du point d'indice au 1er juillet 2023.
+Le CTI bénéficie aux fonctionnaires titulaires et stagiaires, quel que soit leur cadre d'emplois d'appartenance et la nature de leurs missions, dès lors qu'ils exercent leurs fonctions au sein des établissements mentionnés ci-dessus (note d'information DGCL du 31 mars 2021).
+2- Fonctionnaires territoriaux exerçant des fonctions analogues à celles exercées dans la FPH
+Le complément de traitement indiciaire est également versé aux fonctionnaires de la FPT qui remplissent les conditions cumulatives suivantes (art. 2, 10 et 17 décr. n°2020-1152 du 19 sept. 2020) :
+➝ occuper des fonctions analogues aux fonctions suivantes, exercées par les fonctionnaires hospitaliers :
+- aide-soignant
+- infirmier de puériculture
+- cadre de santé de la filière infirmière et de la filière de rééducation
+- masseur kinésithérapeute
+- pédicure podologue
+- orthophoniste
+- orthoptiste
+- ergothérapeute
+- audioprothésiste
+- psychomotricien
+- sage-femme
+- auxiliaire de puériculture
+- diététicien
+- aide médico psychologique
+- auxiliaire de vie sociale
+- accompagnant éducatif et social
+➝ lorsque ces fonctions sont exercées dans les établissements ou services suivants :
+◈ 1ère catégorie :
+- services de soins infirmiers à domicile à destination des personnes âgées et des personnes en situation de handicap (art. L. 312-1 code de l'action sociale et des familles I, 6° et 7°) ;
+- établissements et services d'enseignement assurant une éducation adaptée et un accompagnement social ou médico-social aux mineurs ou jeunes adultes handicapés ou présentant des difficultés d'adaptation (art. L. 312-1 code de l'action sociale et des familles I, 2°) ;
+- centres d'action médico-sociale précoces (art. L. 312-1 code de l'action sociale et des familles I, 3°) ;
+- les établissements ou service d'accompagnement par le travail, de réadaptation, de préorientation et de rééducation professionnelle (art. L. 312-1 code de l'action sociale et des familles I, 5°) ;
+- les établissements et les services, y compris les foyers d'accueil médicalisé, qui accueillent des personnes handicapées ou des personnes atteintes de pathologies chroniques, qui leur apportent à domicile une assistance dans les actes quotidiens de la vie, des prestations de soins ou une aide à l'insertion sociale ou bien qui leur assurent un accompagnement médico-social en milieu ouvert (art. L. 312-1 code de l'action sociale et des familles I, 7°) ;
+- les établissements ou services à caractère expérimental accueillant des personnes en situation de handicap qui relèvent de l'objectif de dépenses mentionné au I de l'article L. 314-3 du CASF (art. L. 312-1 code de l'action sociale et des familles I, 12°) ;
+- les établissements ou services qui assurent l'accueil et l'accompagnement de personnes confrontées à des difficultés spécifiques en vue de favoriser l'adaptation à la vie active et l'aide à l'insertion sociale et professionnelle ou d'assurer des prestations de soins et de suivi médical (centres de soins, d'accompagnement et de prévention en addictologie, centres d'accueil et d'accompagnement à la réduction des risques pour usagers de drogue...) (art. L. 312-1 code de l'action sociale et des familles I, 9°) ;
+- les établissements organisant un accueil de jour sans hébergement (art. L. 312-1 code de l'action sociale et des familles I, dernier alinéa) ;
+- les résidences autonomie percevant un forfait de soins (art. L. 313-12 III code de l'action sociale et des familles)
+➝ 49 points d’indice majoré au 1er octobre 2021, soit un montant de : 241,21 euros bruts mensuels sur la base de la valeur du point d'indice au 1er juillet 2023.
+◈ 2ème catégorie :
+Structures suivantes qui ne relèvent pas de l’objectif de dépenses mentionné au I de l’article L. 314-3 du code de l'action sociale et des familles :
+- établissements et services à caractère expérimental accueillant des personnes âgées ou des personnes en situation de handicap (art. L. 312-1 code de l'action sociale et des familles I, 12°) ;
+- établissements et services accueillant des personnes en situation de handicap (art. L. 312-1 code de l'action sociale et des familles I, 7°) ;
+- établissements et services accueillant des personnes âgées (art. L. 313-12 III code de l'action sociale et des familles).
+➝ 49 points d’indice majoré au 1er novembre 2021, soit un montant de : 241,21 euros bruts mensuels sur la base de la valeur du point d'indice au 1er juillet 2023.
+◈ 3ème catégorie :
+- établissements et services sociaux et médico-sociaux mentionnés à l’art. L. 312-1 code de l'action sociale et des familles non visés à l’article 1er du décr. n°2020-1152 du 19 sept. 2020 ni dans les listes ci-dessus ;
+- services départementaux de protection maternelle et infantile (art. L. 123-1 code de l'action sociale et des familles 3°) ;
+- établissements d’information, de consultation ou de conseil familial et centres de santé sexuelle (art. L. 2311-6 code de la santé publique) ;
+- centres de lutte contre la tuberculose relevant d’un département (art. L. 3112-2 code de la santé publique) ;
+- centres de vaccination (art. L. 3111-11 code de la santé publique) ;
+- centres gratuits d’information, de dépistage et de diagnostic (art. L. 3121-2 code de la santé publique) ;
+- services de l’aide sociale à l’enfance (art. L. 123-1 code de l'action sociale et des familles 2°).
+➝ 49 points d’indice majoré au 1er avril 2022, soit un montant de : 241,21 euros bruts mensuels sur la base de la valeur du point d'indice au 1er juillet 2023.
+3- Fonctionnaires exerçant des fonctions d’accompagnement socio-éducatif
+Sont également bénéficiaires du CTI les fonctionnaires relevant de certains cadres d’emplois (voir ci-dessous) et exerçant, à titre principal, des fonctions d’accompagnement socio-éducatif (art. 11 décr. n°2020-1152 du 19 sept. 2020) :
+- au sein des établissements et services sociaux et médico-sociaux mentionnés à l'art. L. 312-1 code de l'action sociale et des familles, à l'exception des bénéficiaires mentionnés ci-dessus au II-1,
+- au sein des services de protection maternelle et infantile, ou des services départementaux d'action sociale, ou des services de l’aide sociale à l’enfance (art. L. 123-1 code de l'action sociale et des familles),
+- ou au sein d’un centre communal ou intercommunal d’action sociale (art. L. 123-4 code de l'action sociale et des familles et art. L. 123-4-1 code de l'action sociale et des familles).
+Les cadres d’emplois concernés sont les suivants (art. 11 et annexe III décr. n°2020-1152 du 19 sept. 2020) :
+- conseillers socio-éducatifs
+- assistants socio-éducatifs
+- éducateurs de jeunes enfants
+- moniteurs-éducateurs et intervenants familiaux
+- agents sociaux
+- psychologues
+- animateurs
+- adjoints d’animation.
+➝ 49 points d’indice majoré au 1er avril 2022, soit un montant de : 241,21 euros bruts mensuels sur la base de la valeur du point d'indice au 1er juillet 2023.
+4- Fonctionnaires exerçant des missions d’aide à domicile
+Le CTI est également versé aux fonctionnaires de la FPT exerçant des missions d’aide à domicile auprès des personnes âgées ou des personnes handicapées au sein des services d’aide et d’accompagnement à domicile (art. L. 312-1 code de l'action sociale et des familles I, 6° et 7°) (art. 12 décr. n°2020-1152 du 19 sept. 2020).
+➝ 49 points d’indice majoré au 1er avril 2022, soit un montant de : 241,21 euros bruts mensuels sur la base de la valeur du point d'indice au 1er juillet 2023.
+5- Agents contractuels de droit public
+Une indemnité équivalente au CTI est versée aux agents contractuels de droit public exerçant des fonctions dans des conditions analogues dans l'ensemble des établissements et services mentionnés ci-dessus (II - 1 à 4) (art. 13 décr. n°2020-1152 du 19 sept. 2020).
+Le montant de l'indemnité est équivalent à celui du CTI après déduction des cotisations salariales et des prélèvements sociaux. Son montant brut est défini par référence à la valeur du point d'indice et suit son évolution (art. 13 et 17 décr. n°2020-1152 du 19 sept. 2020).
+6- Dispositions particulières concernant les autres agents
+◈ Agents détachés ou mis à disposition :
+Les agents mis à disposition ou en position de détachement sont également éligibles à ce dispositif, uniquement au titre des missions exercées au sein de leur structure d'accueil (note d'information DGCL du 31 mars 2021).
+◈ Personnels médicaux :
+Le CTI concerne les personnels non médicaux. En conséquence, il n’est pas applicable aux personnes qui exercent la profession de médecin, de chirurgien-dentiste ou de pharmacien (art. 48 loi n°2020-1576 du 14 déc. 2020 et art. 14 décr. n°2020-1152 du 19 sept. 2020). Ces professions médicales sont écartées du champ du dispositif car elles bénéficient d’autres mesures de revalorisation salariale annoncées lors du Ségur de la santé.
+Dans la FPT, les cadres d’emplois des médecins territoriaux et des biologistes, vétérinaires et pharmaciens territoriaux sont donc exclus du champ des bénéficiaires.
+Les agents territoriaux exerçant au sein de certains établissements les missions de médecin coordonnateur ou de médecin peuvent bénéficier de la prime de revalorisation (art. 2 décr. n°2022-717 du 27 avr. 2022). Pour plus de précisions sur cette prime, -voir PRIREV.
+◈ Personnels des centres municipaux de santé :
+Au regard des dispositions présentées ci-dessus, les personnels exerçant leurs fonctions dans les centres municipaux de santé ne sont pas éligibles au CTI.
+Néanmoins, depuis 2022, une dotation exceptionnelle est prévue par la loi au profit des collectivités territoriales afin qu'elles puissent mettre en œuvre une prime ou une revalorisation de la rémunération de ces agents :
+➝ pour l'année 2022 : une dotation exceptionnelle de 8 millions d'euros a été prévue par la loi n°2022-1499 du 1er décembre 2022. Elle a été répartie au prorata des effectifs déclarés au ministère chargé de la santé pour 2022 dans les centres de santé relevant des communes, des EPCI à fiscalité propre, des CCAS et des CIAS (art. 1er décr. n°2023-860 du 6 sept. 2023).
+L'annexe du décret a fixé la liste des communes et EPCI bénéficiaires ainsi que les montants de la dotation versée. Ce montant est fixé à 2 538 euros par équivalent temps plein dans les structures précitées.
+➝ pour l'année 2023 : la dotation de 8 millions d'euros mentionnée ci-dessus a été renouvelée par la loi n°2023-1114 du 30 novembre 2023. Après régularisation éventuelle de son montant, cette dotation est répartie au prorata des effectifs déclarés au ministère chargé de la santé au titre de l'année 2023 dans les centres de santé relevant des communes, des EPCI à fiscalité propre, des CCAS et des CIAS (art. 1er décr. n°2024-1051 du 21 nov. 2024).
+La liste des communes et EPCI bénéficiaires ainsi que les montants versés sont fixés en annexe de l'arr. min. du 25 nov. 2024.
+Conformément au principe constitutionnel de libre administration, il appartient à chaque collectivité ou EPCI de définir les modalités de mise en œuvre de la revalorisation de la rémunération de leurs personnels (quest. écr. (AN) n°5098 du 31 janv. 2023).
+◈ Personnels de droit privé :
+Les agents contractuels de droit privé et les apprentis ne peuvent bénéficier de ce complément de traitement (note d'information DGCL du 31 mars 2021).
+III. MODALITES DE VERSEMENT ET CUMUL
+Le CTI est versé mensuellement à terme échu. Il est réduit, le cas échéant, dans les mêmes proportions que le traitement (art. 15 décr. n°2020-1152 du 19 sept. 2020).
+Lorsque l'agent est en congé, le versement suit les mêmes règles que celles relatives au traitement (note d'information DGCL du 31 mars 2021).
+Ainsi, par exemple, lorsque l'agent est en congé de maladie ordinaire, le CTI est versé à hauteur de 90 % pendant les trois premiers mois puis de 50 % durant les neuf mois suivants.
+Pour les agents exerçant leur activité dans plusieurs structures, le CTI est calculé au prorata du temps accompli dans les structures ouvrant droit à son versement (art. 15 décr. n°2020-1152 du 19 sept. 2020).
+Les agents mis à disposition ou en position de détachement bénéficient du versement, uniquement au titre des missions exercées au sein de leur structure d'accueil, selon les modalités suivantes (note d'information DGCL du 31 mars 2021) :
+- en cas de mise à disposition : le complément de traitement indiciaire est versé par l'établissement d'origine, que celui-ci relève ou non du champ d'application du dispositif, donc y compris s'il ne s'agit pas d'un EHPAD ;
+- en cas de détachement : le complément de traitement indiciaire est versé par l'établissement d'accueil.
+Le montant de ce complément est exclu de l'assiette de tout autre élément de rémunérations calculé en proportion ou en pourcentage du traitement indiciaire (art. 16 décr. n°2020-1152 du 19 sept. 2020).
+Il ne doit pas être pris en compte dans les modalités de calcul de l'indemnité différentielle du SMIC (note d'information DGCL du 31 mars 2021).
+Les agents ayant droit au CTI ne le perçoivent pas au titre des périodes durant lesquelles ils ont bénéficié de primes, versées aux mêmes fins, d’un montant équivalent à celui du complément (art. 48 III ter loi n°2020-1576 du 14 déc. 2020). Ainsi le CTI ne peut être cumulé avec la prime de revalorisation qui a pu être versée à certains des agents mentionnés ci-dessus en application du décret n°2022-728 du 28 avril 2022, abrogé à compter du 1er décembre 2022. La loi n°2020-1576 du 14 déc. 2020 prévoit que ces primes sont soumises aux contributions et cotisations de retraite applicables, afin que les montants déjà versés soient retenus pour le calcul des droits à pension (-voir IV, 2 ci-dessous).
+IV. REGIME DU COMPLEMENT DE TRAITEMENT
+1- Supplément de pension
+Le complément de traitement versé aux fonctionnaires territoriaux est pris en compte lors de la liquidation de leur pension, sous la forme d’un supplément de pension qui s'ajoute à la pension liquidée (art. 48, III loi n°2020-1576 du 14 déc. 2020 et art. 28 bis décr. n°2003-1306 du 26 déc. 2003).
+Ont droit à ce supplément de pension les fonctionnaires territoriaux (art. 28 bis décr. n°2003-1306 du 26 déc. 2003) :
+- admis à faire valoir leurs droits à retraite à compter du 1er septembre 2020
+- et qui ont perçu le complément ou l'indemnité au moins une fois au cours des six derniers mois précédant la cessation des services valables pour la retraite.
+Ce supplément de pension est calculé selon les mêmes modalités que la pension en retenant, au titre du traitement, le complément de traitement indiciaire. Le montant du complément retenu pour le calcul est celui correspondant au nombre de points d'indice majoré le plus élevé de ce complément, perçu en tout ou partie au moins une fois au cours des six derniers mois précédant la cessation des services valables pour la retraite (art. 28 bis décr. n°2003-1306 du 26 déc. 2003).
+Le supplément est calculé en appliquant la formule suivante (art. 16 et 17 décr. n°2003-1306 du 26 déc. 2003) :
+Complément de traitement x 75% x (nombre de trimestres de services et de bonifications admissibles en liquidation / nombre de trimestres nécessaires pour une pension à taux plein).
+Il est revalorisé dans les mêmes conditions que la pension. De même, les conditions de jouissance et de réversion de ce supplément de pension sont identiques à celles de la pension (art. 28 bis décr. n°2003-1306 du 26 déc. 2003).
+2- Prélèvements obligatoires
+Le complément de traitement indiciaire est soumis aux cotisations et contributions sociales ainsi qu'à une contribution d’assurance retraite et à une retenue pour pension, dans les mêmes conditions que celles fixées pour le traitement (art. 48, II loi n°2020-1576 du 14 déc. 2020 et art. 3 et 5 décr. n°2007-173 du 7 fév. 2007 ; -voir COT et COTISA).
+A noter : la loi n°2020-1576 du 14 déc. 2020 prévoit le régime social des primes de revalorisation versées aux personnels mentionnés ci-dessus avant que le CTI ne leur soit étendu, afin de permettre leur prise en compte dans leurs droits à pension. Ces primes sont :
+- soumises aux contributions et cotisations de retraite dans les mêmes conditions que celles fixées pour le traitement,
+- exonérées des cotisations au régime de retraite additionnel de la fonction publique (RAFP) (à noter : un rappel de cotisation est nécessaire puisque ces primes ont donné lieu au versement de cotisations RAFP).
+Elle sont prises en compte pour la liquidation de la pension de leurs bénéficiaires dans les mêmes conditions que le CTI.
+3- Financement par la sécurité sociale
+Les revalorisations de rémunérations sont prises en charge par la sécurité sociale et non par les départements en charge des EHPAD ou par les résidents eux-mêmes.
+Ce financement spécifique est permis par une modification en ce sens de l’article L. 314-2 du code de l'action sociale et des familles (art. 48 loi n°2020-1576 du 14 déc. 2020).
+Fiches en référence
+
+
+
+Textes en référence
