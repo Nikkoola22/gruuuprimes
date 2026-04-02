@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import { 
   ChevronRight, 
   ChevronLeft,
@@ -13,7 +13,23 @@ import {
   Award,
   Calculator,
   Info,
-  Sparkles
+  Sparkles,
+  HeartPulse,
+  Shield,
+  Trees,
+  Landmark,
+  Wrench,
+  Scale,
+  Home,
+  Map,
+  BookOpen,
+  Baby,
+  Cpu,
+  Wallet,
+  Crown,
+  HandHelping,
+  FolderKanban,
+  Building
 } from 'lucide-react'
 import { 
   ifse1Data, 
@@ -95,12 +111,20 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
   const [selectedDirection, setSelectedDirection] = useState('')
   const [selectedService, setSelectedService] = useState('')
   const [selectedJob, setSelectedJob] = useState('')
+  const [compactJobsView, setCompactJobsView] = useState(true)
   const [selectedIFSE2, setSelectedIFSE2] = useState<Set<number>>(new Set())
+  const [lastToggledPrimeIdx, setLastToggledPrimeIdx] = useState<number | null>(null)
+  const [lastToggleWasAdd, setLastToggleWasAdd] = useState(false)
   const [selectedSpecialPrimes, setSelectedSpecialPrimes] = useState<Set<number>>(new Set())
   const [weekendSaturdays, setWeekendSaturdays] = useState(0)
   const [weekendSundays, setWeekendSundays] = useState(0)
   const [weekendRateSat, setWeekendRateSat] = useState(40)
   const [weekendRateSun, setWeekendRateSun] = useState(40)
+
+  const serviceSectionRef = useRef<HTMLDivElement | null>(null)
+  const jobSectionRef = useRef<HTMLDivElement | null>(null)
+  const navigationSectionRef = useRef<HTMLDivElement | null>(null)
+  const mainScrollRef = useRef<HTMLDivElement | null>(null)
 
   // Calculs
   const ifse1Amount = useMemo(() => {
@@ -134,6 +158,70 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
     }, 0)
   }, [selectedSpecialPrimes, specialPrimesData])
 
+  const allDirections = useMemo(
+    () => getAllDirections().filter(dir => dir !== 'Toutes dir°' && dir !== 'Toutes directions'),
+    []
+  )
+
+  const directionPrimes = useMemo(() => {
+    if (!selectedDirection) return []
+    return getIFSE2ByDirection(selectedDirection)
+  }, [selectedDirection])
+
+  const availableServices = useMemo(() => {
+    if (!selectedDirection) return []
+    return getServicesByDirection(selectedDirection)
+  }, [selectedDirection])
+
+  const availableJobs = useMemo(() => {
+    if (!selectedDirection) return []
+
+    return directionPrimes
+      .filter(
+        p =>
+          (!selectedService ||
+            p.service === selectedService ||
+            p.service === 'Tous services' ||
+            p.direction === 'Toutes dir°') &&
+          p.jobs?.length
+      )
+      .flatMap(p => p.jobs || [])
+      .filter((job, idx, arr) => arr.indexOf(job) === idx && job !== '')
+      .sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' }))
+  }, [selectedDirection, selectedService, directionPrimes])
+
+  const availablePrimesForSelectedJob = useMemo(() => {
+    if (!selectedDirection || !selectedJob) return [] as Array<{ motif: string; amount: number; service: string; realIdx: number }>
+
+    return directionPrimes
+      .map((prime, realIdx) => ({
+        motif: prime.motif,
+        amount: prime.amount,
+        service: prime.service || 'Tous services',
+        jobs: prime.jobs,
+        realIdx,
+      }))
+      .filter(
+        prime =>
+          prime.jobs?.includes(selectedJob) &&
+          (!selectedService || prime.service === selectedService || prime.service === 'Tous services')
+      )
+      .map(({ motif, amount, service, realIdx }) => ({ motif, amount, service, realIdx }))
+  }, [selectedDirection, selectedJob, selectedService, directionPrimes])
+
+  const functionsForCategory = useMemo(() => {
+    if (!selectedCategory) return [] as Array<{ globalIdx: number; functionName: string; amount: number }>
+    return ifse1Data
+      .map((item, globalIdx) => ({
+        globalIdx,
+        functionName: item.function,
+        amount: item.monthlyAmount,
+        category: item.category,
+      }))
+      .filter(item => item.category === selectedCategory)
+      .map(({ globalIdx, functionName, amount }) => ({ globalIdx, functionName, amount }))
+  }, [selectedCategory])
+
   const totalMonthly = Math.round((ifse1Amount + ifse2Amount + ifse3Total + specialPrimesAmount) * 100) / 100
 
   // Progression
@@ -158,6 +246,55 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
   const canGoPrev = () => currentStep > 1
 
+  const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>, delay = 50) => {
+    window.setTimeout(() => {
+      const target = ref.current
+      if (!target) return
+
+      // Walk up the DOM to find the actual scrolling container.
+      // Skip mainScrollRef (flex-1 unconstrained — grows freely, never scrolls).
+      let container: HTMLElement | null = target.parentElement
+      while (container && container !== document.body) {
+        if (container !== mainScrollRef.current) {
+          const overflow = window.getComputedStyle(container).overflowY
+          if (overflow === 'auto' || overflow === 'scroll') break
+        }
+        container = container.parentElement
+      }
+
+      if (!container || container === document.body) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        return
+      }
+
+      // Offset for the sticky header "Retour aux calculateurs / Calculateurs CFDT"
+      const stickyHeader = container.querySelector('[class*="sticky"]') as HTMLElement | null
+      const headerHeight = stickyHeader ? stickyHeader.offsetHeight : 68
+
+      const containerRect = container.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+      const scrollTop = container.scrollTop + (targetRect.top - containerRect.top) - headerHeight - 8
+
+      container.scrollTo({ top: Math.max(0, scrollTop), behavior: 'smooth' })
+    }, delay)
+  }
+
+  const scrollToNavigation = () => {
+    window.setTimeout(() => {
+      navigationSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    }, 160)
+  }
+
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category)
+    setSelectedFunctionIndex(null)
+  }
+
+  const handleFunctionSelect = (index: number) => {
+    setSelectedFunctionIndex(index)
+    scrollToNavigation()
+  }
+
   const goNext = () => {
     if (canGoNext() && currentStep < 6) {
       setCurrentStep(prev => prev + 1)
@@ -176,16 +313,27 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
     setSelectedIFSE2(new Set())
     setSelectedJob('')
     setSelectedService('')
+    setLastToggledPrimeIdx(null)
   }
+
+  useEffect(() => {
+    if (selectedDirection) {
+      // 350ms: wait for slide-in-from-bottom duration-300 animation to finish
+      scrollToSection(serviceSectionRef, 350)
+    }
+  }, [selectedDirection])
 
   const handleServiceSelect = (service: string) => {
     setSelectedService(service)
     setSelectedIFSE2(new Set())
     setSelectedJob('')
+    setLastToggledPrimeIdx(null)
+    scrollToSection(jobSectionRef)
   }
 
   const handleJobSelect = (job: string) => {
     setSelectedJob(job)
+    setLastToggledPrimeIdx(null)
     if (!job) return
     
     const directionPrimes = getIFSE2ByDirection(selectedDirection)
@@ -206,12 +354,18 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
   const handleToggleIFSE2 = (idx: number) => {
     const newSet = new Set(selectedIFSE2)
+    const wasSelected = newSet.has(idx)
     if (newSet.has(idx)) {
       newSet.delete(idx)
     } else {
       newSet.add(idx)
     }
     setSelectedIFSE2(newSet)
+    setLastToggleWasAdd(!wasSelected)
+    setLastToggledPrimeIdx(idx)
+    window.setTimeout(() => {
+      setLastToggledPrimeIdx(prev => (prev === idx ? null : prev))
+    }, 700)
   }
 
   const handleToggleSpecialPrime = (idx: number) => {
@@ -254,6 +408,43 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
   }
 
   const stepColor = getStepColor(currentStepData.color)
+
+  const getDirectionVisual = (dir: string) => {
+    const map: Record<string, {
+      icon: typeof Building2
+      active: string
+      badge: string
+      hover: string
+    }> = {
+      DAF: { icon: Wallet, active: 'bg-lime-500/20 border-lime-400 shadow-lg shadow-lime-500/20', badge: 'bg-lime-500/20 text-lime-200 border-lime-400/40', hover: 'hover:border-lime-400/50' },
+      DAJ: { icon: Scale, active: 'bg-stone-500/20 border-stone-300 shadow-lg shadow-stone-500/20', badge: 'bg-stone-500/20 text-stone-200 border-stone-300/40', hover: 'hover:border-stone-300/50' },
+      DCCS: { icon: HandHelping, active: 'bg-fuchsia-500/20 border-fuchsia-400 shadow-lg shadow-fuchsia-500/20', badge: 'bg-fuchsia-500/20 text-fuchsia-200 border-fuchsia-400/40', hover: 'hover:border-fuchsia-400/50' },
+      DCJ: { icon: BookOpen, active: 'bg-pink-500/20 border-pink-400 shadow-lg shadow-pink-500/20', badge: 'bg-pink-500/20 text-pink-200 border-pink-400/40', hover: 'hover:border-pink-400/50' },
+      DE: { icon: Trees, active: 'bg-emerald-500/20 border-emerald-400 shadow-lg shadow-emerald-500/20', badge: 'bg-emerald-500/20 text-emerald-200 border-emerald-400/40', hover: 'hover:border-emerald-400/50' },
+      DG: { icon: Crown, active: 'bg-yellow-500/20 border-yellow-400 shadow-lg shadow-yellow-500/20', badge: 'bg-yellow-500/20 text-yellow-200 border-yellow-400/40', hover: 'hover:border-yellow-400/50' },
+      DH: { icon: Home, active: 'bg-orange-500/20 border-orange-400 shadow-lg shadow-orange-500/20', badge: 'bg-orange-500/20 text-orange-200 border-orange-400/40', hover: 'hover:border-orange-400/50' },
+      DDU: { icon: Map, active: 'bg-cyan-500/20 border-cyan-400 shadow-lg shadow-cyan-500/20', badge: 'bg-cyan-500/20 text-cyan-200 border-cyan-400/40', hover: 'hover:border-cyan-400/50' },
+      DESS: { icon: Shield, active: 'bg-violet-500/20 border-violet-400 shadow-lg shadow-violet-500/20', badge: 'bg-violet-500/20 text-violet-200 border-violet-400/40', hover: 'hover:border-violet-400/50' },
+      DME: { icon: Baby, active: 'bg-green-500/20 border-green-400 shadow-lg shadow-green-500/20', badge: 'bg-green-500/20 text-green-200 border-green-400/40', hover: 'hover:border-green-400/50' },
+      DRH: { icon: Users, active: 'bg-sky-500/20 border-sky-400 shadow-lg shadow-sky-500/20', badge: 'bg-sky-500/20 text-sky-200 border-sky-400/40', hover: 'hover:border-sky-400/50' },
+      DMS: { icon: HeartPulse, active: 'bg-rose-500/20 border-rose-400 shadow-lg shadow-rose-500/20', badge: 'bg-rose-500/20 text-rose-200 border-rose-400/40', hover: 'hover:border-rose-400/50' },
+      DMSP: { icon: HeartPulse, active: 'bg-red-500/20 border-red-400 shadow-lg shadow-red-500/20', badge: 'bg-red-500/20 text-red-200 border-red-400/40', hover: 'hover:border-red-400/50' },
+      DMRU: { icon: Landmark, active: 'bg-amber-500/20 border-amber-400 shadow-lg shadow-amber-500/20', badge: 'bg-amber-500/20 text-amber-200 border-amber-400/40', hover: 'hover:border-amber-400/50' },
+      DPE: { icon: Baby, active: 'bg-teal-500/20 border-teal-400 shadow-lg shadow-teal-500/20', badge: 'bg-teal-500/20 text-teal-200 border-teal-400/40', hover: 'hover:border-teal-400/50' },
+      DPO: { icon: FolderKanban, active: 'bg-indigo-500/20 border-indigo-400 shadow-lg shadow-indigo-500/20', badge: 'bg-indigo-500/20 text-indigo-200 border-indigo-400/40', hover: 'hover:border-indigo-400/50' },
+      DPB: { icon: Building, active: 'bg-blue-500/20 border-blue-400 shadow-lg shadow-blue-500/20', badge: 'bg-blue-500/20 text-blue-200 border-blue-400/40', hover: 'hover:border-blue-400/50' },
+      DRU: { icon: Map, active: 'bg-slate-500/20 border-slate-300 shadow-lg shadow-slate-500/20', badge: 'bg-slate-500/20 text-slate-200 border-slate-300/40', hover: 'hover:border-slate-300/50' },
+      DSA: { icon: HandHelping, active: 'bg-emerald-500/20 border-emerald-300 shadow-lg shadow-emerald-500/20', badge: 'bg-emerald-500/20 text-emerald-100 border-emerald-300/40', hover: 'hover:border-emerald-300/50' },
+      DSI: { icon: Cpu, active: 'bg-blue-500/20 border-blue-300 shadow-lg shadow-blue-500/20', badge: 'bg-blue-500/20 text-blue-100 border-blue-300/40', hover: 'hover:border-blue-300/50' },
+      'Toutes dir°': { icon: Briefcase, active: 'bg-neutral-500/20 border-neutral-300 shadow-lg shadow-neutral-500/20', badge: 'bg-neutral-500/20 text-neutral-200 border-neutral-300/40', hover: 'hover:border-neutral-300/50' },
+    }
+    return map[dir] || {
+      icon: Wrench,
+      active: 'bg-cyan-500/20 border-cyan-400 shadow-lg shadow-cyan-500/20',
+      badge: 'bg-cyan-500/20 text-cyan-200 border-cyan-400/40',
+      hover: 'hover:border-cyan-400/50'
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col">
@@ -302,8 +493,8 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                     }`}
                   >
                     <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                      status === 'completed' 
-                        ? 'bg-green-500 text-white shadow-lg shadow-green-500/30' 
+                      status === 'completed'
+                        ? 'bg-green-500 text-white shadow-lg shadow-green-500/30'
                         : status === 'active'
                           ? `bg-gradient-to-br ${getStepColor(step.color).bg} text-white shadow-lg animate-pulse`
                           : 'bg-slate-700 text-slate-400'
@@ -334,13 +525,15 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
       {/* Récapitulatif flottant */}
       {totalMonthly > 0 && currentStep < 6 && (
-        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 sm:bottom-4 sm:left-auto sm:right-4 z-50 animate-in slide-in-from-right duration-500">
-          <div className="bg-gradient-to-br from-green-900/95 to-emerald-900/95 backdrop-blur-md rounded-xl p-4 shadow-2xl border border-green-500/30 glass-card">
-            <div className="flex items-center gap-3">
-              <Sparkles className="w-5 h-5 text-green-400" />
-              <div>
-                <p className="text-xs text-green-300/70">Total estimé</p>
-                <p className="text-xl font-bold text-green-300">{totalMonthly.toLocaleString('fr-FR')}€<span className="text-sm font-normal">/mois</span></p>
+        <div className="sticky top-24 sm:top-28 z-30 px-4 sm:px-6 pt-3 pointer-events-none animate-in fade-in slide-in-from-top duration-500">
+          <div className="max-w-4xl mx-auto flex justify-center sm:justify-end">
+            <div className="bg-gradient-to-br from-green-900/95 to-emerald-900/95 backdrop-blur-md rounded-xl p-4 shadow-2xl border border-green-500/30 glass-card">
+              <div className="flex items-center gap-3">
+                <Sparkles className="w-5 h-5 text-green-400" />
+                <div>
+                  <p className="text-xs text-green-300/70">Total estimé</p>
+                  <p className="text-xl font-bold text-green-300">{totalMonthly.toLocaleString('fr-FR')}€<span className="text-sm font-normal">/mois</span></p>
+                </div>
               </div>
             </div>
           </div>
@@ -348,7 +541,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
       )}
 
       {/* Contenu principal */}
-      <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+      <div ref={mainScrollRef} className="flex-1 overflow-y-auto p-4 sm:p-6">
         <div className="max-w-2xl mx-auto">
           
           {/* En-tête de l'étape */}
@@ -389,31 +582,49 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
             {/* ÉTAPE 1: Catégorie */}
             {currentStep === 1 && (
               <div className="space-y-4 animate-in fade-in duration-500">
-                <label className="text-sm text-slate-400 block font-medium">Sélectionnez votre catégorie d'emploi :</label>
-                <div className="grid grid-cols-3 gap-3">
-                  {['A', 'B', 'C'].map(cat => (
+                <div className="flex items-center justify-between gap-3 mb-1">
+                  <label className="text-sm text-slate-400 block font-medium">Sélectionnez votre catégorie d'emploi :</label>
+                  <span className="text-xs px-2 py-1 rounded-full bg-slate-700/60 border border-slate-600/40 text-slate-300">
+                    3 profils
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {[
+                    { key: 'A', level: 'Cadres', diploma: 'Bac+3 minimum', accent: 'from-blue-500/35 to-cyan-500/35', activeBorder: 'border-blue-400', hoverBorder: 'hover:border-blue-400/50', glow: 'shadow-blue-500/20' },
+                    { key: 'B', level: 'Intermédiaires', diploma: 'Bac à Bac+2', accent: 'from-cyan-500/35 to-teal-500/35', activeBorder: 'border-cyan-400', hoverBorder: 'hover:border-cyan-400/50', glow: 'shadow-cyan-500/20' },
+                    { key: 'C', level: 'Exécution', diploma: 'Sans condition de diplôme', accent: 'from-teal-500/35 to-green-500/35', activeBorder: 'border-teal-400', hoverBorder: 'hover:border-teal-400/50', glow: 'shadow-teal-500/20' },
+                  ].map(cat => (
                     <button
-                      key={cat}
-                      onClick={() => setSelectedCategory(cat)}
+                      key={cat.key}
+                      onClick={() => handleCategorySelect(cat.key)}
                       className={`p-4 sm:p-6 rounded-xl border-2 transition-all duration-300 ${
-                        selectedCategory === cat
-                          ? 'bg-blue-500/20 border-blue-400 shadow-lg shadow-blue-500/20 scale-105'
-                          : 'bg-slate-700/30 border-slate-600/30 hover:border-blue-400/50 hover:bg-slate-700/50'
+                        selectedCategory === cat.key
+                          ? `bg-gradient-to-br ${cat.accent} ${cat.activeBorder} shadow-lg ${cat.glow} scale-[1.02]`
+                          : `bg-slate-700/30 border-slate-600/30 ${cat.hoverBorder} hover:bg-slate-700/50`
                       }`}
                     >
-                      <div className="text-2xl sm:text-3xl font-bold text-white mb-1">Cat. {cat}</div>
-                      <div className="text-xs text-slate-400">
-                        {cat === 'A' && 'Cadres / Bac+3'}
-                        {cat === 'B' && 'Intermédiaires / Bac'}
-                        {cat === 'C' && 'Exécution'}
+                      <div className="flex items-start justify-between gap-2 mb-3">
+                        <div className="text-left">
+                          <div className="text-xl sm:text-2xl font-bold text-white">Cat. {cat.key}</div>
+                          <div className="text-sm text-white/90 font-medium">{cat.level}</div>
+                        </div>
+                        {selectedCategory === cat.key && (
+                          <CheckCircle2 className="w-5 h-5 text-white" />
+                        )}
+                      </div>
+                      <div className="text-xs text-white/85 text-left">
+                        {cat.diploma}
                       </div>
                     </button>
                   ))}
                 </div>
                 {selectedCategory && (
-                  <div className="mt-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg flex items-center gap-2 glass-card">
-                    <CheckCircle2 className="w-4 h-4 text-green-400" />
-                    <span className="text-sm text-green-300">Catégorie {selectedCategory} sélectionnée</span>
+                  <div className="mt-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg flex items-center justify-between gap-3 glass-card animate-in fade-in duration-300">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-green-400" />
+                      <span className="text-sm text-green-300">Catégorie {selectedCategory} sélectionnée</span>
+                    </div>
+                    <span className="text-xs text-green-200/80">Passez à l'étape Fonction</span>
                   </div>
                 )}
               </div>
@@ -422,25 +633,55 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
             {/* ÉTAPE 2: Fonction */}
             {currentStep === 2 && (
               <div className="space-y-4 animate-in fade-in duration-500">
-                <label className="text-sm text-slate-400 block font-medium">Choisissez votre fonction :</label>
-                <select
-                  value={selectedFunctionIndex ?? ''}
-                  onChange={(e) => setSelectedFunctionIndex(e.target.value ? Number(e.target.value) : null)}
-                  className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/30 rounded-xl text-white focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 outline-none transition-all glass-pill"
-                >
-                  <option value="">-- Sélectionnez une fonction --</option>
-                  {ifse1Data
-                    .map((item, globalIdx) => ({ item, globalIdx }))
-                    .filter(({ item }) => item.category === selectedCategory)
-                    .map(({ item, globalIdx }) => (
-                      <option key={globalIdx} value={globalIdx}>
-                        {item.function} — {item.monthlyAmount}€/mois
-                      </option>
-                    ))}
-                </select>
+                <div className="flex items-center justify-between gap-3">
+                  <label className="text-sm text-slate-400 block font-medium">Choisissez votre fonction :</label>
+                  <span className="text-xs px-2 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-200">
+                    Cat. {selectedCategory}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-slate-400">{functionsForCategory.length} fonction(s)</span>
+                  {selectedFunctionIndex !== null && (
+                    <span className="text-cyan-300">Sélection active</span>
+                  )}
+                </div>
+
+                <div className="max-h-72 overflow-y-auto pr-1 space-y-2 teal-scrollbar">
+                  {functionsForCategory.map((item, idx) => (
+                    <button
+                      key={item.globalIdx}
+                      onClick={() => handleFunctionSelect(item.globalIdx)}
+                      style={{ animationDelay: `${Math.min(260, idx * 20)}ms` }}
+                      className={`w-full p-3 rounded-lg text-left transition-all border glass-card animate-in fade-in duration-300 ${
+                        selectedFunctionIndex === item.globalIdx
+                          ? 'bg-cyan-500/20 border-cyan-400/60 shadow-lg shadow-cyan-500/20'
+                          : 'bg-slate-700/30 border-slate-600/20 hover:bg-slate-700/50 hover:border-cyan-400/40'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                            selectedFunctionIndex === item.globalIdx ? 'bg-cyan-500 border-cyan-400' : 'border-slate-500'
+                          }`}>
+                            {selectedFunctionIndex === item.globalIdx && <span className="text-white text-xs">✓</span>}
+                          </div>
+                          <p className="text-sm font-medium text-white">{item.functionName}</p>
+                        </div>
+                        <span className="text-cyan-300 font-bold">{item.amount}€</span>
+                      </div>
+                    </button>
+                  ))}
+
+                  {functionsForCategory.length === 0 && (
+                    <div className="p-4 bg-slate-700/30 border border-slate-600/20 rounded-lg text-center">
+                      <p className="text-slate-300 text-sm">Aucune fonction disponible pour cette catégorie.</p>
+                    </div>
+                  )}
+                </div>
                 
                 {selectedFunctionIndex !== null && (
-                  <div className="mt-4 p-4 bg-gradient-to-br from-cyan-500/10 to-teal-500/10 border border-cyan-500/30 rounded-xl glass-card">
+                  <div className="mt-4 p-4 bg-gradient-to-br from-cyan-500/10 to-teal-500/10 border border-cyan-500/30 rounded-xl glass-card animate-in fade-in duration-300">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm text-slate-400">Votre IFSE 1</p>
@@ -461,103 +702,209 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
               <div className="space-y-6 animate-in fade-in duration-500">
                 {/* Direction */}
                 <div>
-                  <label className="text-sm text-slate-400 block font-medium mb-2">1. Votre direction :</label>
-                  <select
-                    value={selectedDirection}
-                    onChange={(e) => handleDirectionSelect(e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/30 rounded-xl text-white focus:border-teal-400 focus:ring-2 focus:ring-teal-400/30 outline-none transition-all glass-pill"
-                  >
-                    <option value="">-- Choisir une direction --</option>
-                    {getAllDirections().map(dir => (
-                      <option key={dir} value={dir}>
-                        {getDirectionFullName(dir)} ({dir})
-                      </option>
-                    ))}
-                  </select>
+                  <div className="flex items-center justify-center gap-3 mb-4">
+                    <span className="w-7 h-7 rounded-full bg-teal-500/30 border border-teal-400/50 flex items-center justify-center text-teal-200 font-bold text-sm">1</span>
+                    <h3 className="text-base sm:text-lg font-bold text-white">Votre direction</h3>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto">
+                    {allDirections.map(dir => {
+                      const isActive = selectedDirection === dir
+                      const visual = getDirectionVisual(dir)
+                      const DirectionIcon = visual.icon
+                      const directionJobsCount = getIFSE2ByDirection(dir)
+                        .flatMap(p => p.jobs || [])
+                        .filter((job, idx, arr) => arr.indexOf(job) === idx && job !== '').length
+
+                      return (
+                        <button
+                          key={dir}
+                          onClick={() => handleDirectionSelect(dir)}
+                          style={{ animationDelay: `${Math.min(420, allDirections.indexOf(dir) * 35)}ms` }}
+                          className={`text-left p-4 rounded-xl border-2 transition-all duration-300 glass-card ${
+                            isActive
+                              ? `${visual.active} scale-[1.02]`
+                              : `bg-slate-700/30 border-slate-600/30 ${visual.hover} hover:bg-slate-700/50`
+                          } animate-in fade-in slide-in-from-bottom duration-500`}
+                        >
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="flex items-start gap-3">
+                              <div className={`w-10 h-10 rounded-lg border flex items-center justify-center ${visual.badge}`}>
+                                <DirectionIcon className="w-5 h-5" />
+                              </div>
+                              <div>
+                                <p className="text-white font-semibold">{getDirectionFullName(dir)}</p>
+                                <p className="text-xs text-slate-400 mt-1">Code: {dir}</p>
+                              </div>
+                            </div>
+                            <span className="text-xs px-2 py-1 rounded-full bg-slate-800/70 text-slate-300 border border-slate-600/40">
+                              {directionJobsCount} métiers
+                            </span>
+                          </div>
+                        </button>
+                      )
+                    })}
+                  </div>
                 </div>
 
                 {/* Service */}
                 {selectedDirection && (
-                  <div className="animate-in slide-in-from-bottom duration-300">
-                    <label className="text-sm text-slate-400 block font-medium mb-2">2. Votre service (optionnel) :</label>
-                    <select
-                      value={selectedService}
-                      onChange={(e) => handleServiceSelect(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/30 rounded-xl text-white focus:border-teal-400 focus:ring-2 focus:ring-teal-400/30 outline-none transition-all glass-pill"
-                    >
-                      <option value="">-- Tous les services --</option>
-                      {getServicesByDirection(selectedDirection).map(service => (
-                        <option key={service} value={service}>{service}</option>
+                  <div ref={serviceSectionRef} className="animate-in slide-in-from-bottom duration-300">
+                    <div className="flex items-center justify-center gap-3 mb-4">
+                      <span className="w-7 h-7 rounded-full bg-cyan-500/30 border border-cyan-400/50 flex items-center justify-center text-cyan-200 font-bold text-sm">2</span>
+                      <h3 className="text-base sm:text-lg font-bold text-white">Votre service <span className="text-sm font-normal text-slate-400">(optionnel)</span></h3>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-w-2xl mx-auto">
+                      <button
+                        onClick={() => handleServiceSelect('')}
+                        className={`text-left p-3 rounded-lg border transition-all glass-card ${
+                          selectedService === ''
+                            ? 'bg-teal-500/20 border-teal-400/60 shadow-md'
+                            : 'bg-slate-700/30 border-slate-600/20 hover:bg-slate-700/50'
+                        }`}
+                      >
+                        <p className="text-sm text-white font-medium">Tous les services</p>
+                        <p className="text-xs text-slate-400">Affiche toutes les primes de la direction</p>
+                      </button>
+
+                      {availableServices.map(service => (
+                        <button
+                          key={service}
+                          onClick={() => handleServiceSelect(service)}
+                          style={{ animationDelay: `${Math.min(260, availableServices.indexOf(service) * 30)}ms` }}
+                          className={`text-left p-3 rounded-lg border transition-all glass-card ${
+                            selectedService === service
+                              ? 'bg-teal-500/20 border-teal-400/60 shadow-md'
+                              : 'bg-slate-700/30 border-slate-600/20 hover:bg-slate-700/50'
+                          } animate-in fade-in duration-300`}
+                        >
+                          <p className="text-sm text-white font-medium">{service}</p>
+                          <p className="text-xs text-slate-400">Service ciblé</p>
+                        </button>
                       ))}
-                    </select>
+                    </div>
                   </div>
                 )}
 
                 {/* Métier */}
                 {selectedDirection && (
-                  <div className="animate-in slide-in-from-bottom duration-300">
-                    <label className="text-sm text-slate-400 block font-medium mb-2">3. Votre métier :</label>
-                    <p className="text-xs text-amber-400 mb-2 font-semibold">SI VOUS N'APPARAISSEZ PAS, VOUS N'AVEZ PEUT-ÊTRE PAS DROIT À DE L'IFSE2</p>
-                    <select
-                      value={selectedJob}
-                      onChange={(e) => handleJobSelect(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/30 rounded-xl text-white focus:border-teal-400 focus:ring-2 focus:ring-teal-400/30 outline-none transition-all glass-pill"
-                    >
-                      <option value="">-- Sélectionnez un métier --</option>
-                      {getIFSE2ByDirection(selectedDirection)
-                        .filter(p => (!selectedService || p.service === selectedService || p.service === 'Tous services' || p.direction === 'Toutes dir°') && p.jobs?.length)
-                        .flatMap(p => p.jobs || [])
-                        .filter((job, idx, arr) => arr.indexOf(job) === idx && job !== '')
-                        .sort()
-                        .map((job, idx) => (
-                          <option key={idx} value={job}>{job}</option>
-                        ))}
-                    </select>
-                    <p className="text-xs text-slate-500 mt-1 italic">Si vous ne trouvez pas votre métier, contactez-nous</p>
+                  <div ref={jobSectionRef} className="animate-in slide-in-from-bottom duration-300">
+                    <div className="flex items-center justify-center gap-3 mb-3">
+                      <span className="w-7 h-7 rounded-full bg-emerald-500/30 border border-emerald-400/50 flex items-center justify-center text-emerald-200 font-bold text-sm">3</span>
+                      <h3 className="text-base sm:text-lg font-bold text-white">Votre métier</h3>
+                    </div>
+                    <p className="text-xs text-amber-300 mb-3 font-medium text-center">Si votre métier n'apparaît pas, aucune IFSE2 ne s'applique à votre profil.</p>
+
+                    <div className="flex items-center justify-between mb-2 max-w-2xl mx-auto">
+                      <p className="text-xs text-slate-400">{availableJobs.length} métier(s) disponible(s)</p>
+                      {selectedJob && (
+                        <p className="text-xs text-teal-300">Sélection: {selectedJob}</p>
+                      )}
+                    </div>
+
+                    {availableJobs.length > 6 && (
+                      <div className="flex justify-center mb-2">
+                        <button
+                          onClick={() => setCompactJobsView(v => !v)}
+                          className="px-3 py-1.5 rounded-lg text-xs border border-slate-600/40 text-slate-300 bg-slate-700/40 hover:border-teal-400/50 transition-all"
+                        >
+                          {compactJobsView ? 'Vue detaillee' : 'Vue compacte'}
+                        </button>
+                      </div>
+                    )}
+
+                    <div className={`overflow-y-auto pr-1 teal-scrollbar max-w-2xl mx-auto ${compactJobsView ? 'max-h-64 space-y-1.5' : 'max-h-60 space-y-2'}`}>
+                      {availableJobs.map((job, idx) => (
+                        <button
+                          key={job}
+                          onClick={() => handleJobSelect(job)}
+                          style={{ animationDelay: `${Math.min(320, idx * 22)}ms` }}
+                          className={`w-full rounded-xl border-2 transition-all glass-card ${compactJobsView ? 'p-3' : 'p-3.5'} ${
+                            selectedJob === job
+                              ? 'bg-gradient-to-r from-teal-500/25 to-cyan-500/20 border-teal-300/80 shadow-lg shadow-teal-500/20'
+                              : 'bg-slate-700/35 border-slate-500/30 hover:bg-slate-700/55 hover:border-teal-400/45'
+                          } animate-in fade-in duration-300`}
+                        >
+                          <div className="flex flex-col items-center justify-center gap-1">
+                            <p className={`${compactJobsView ? 'text-sm' : 'text-base'} text-white font-semibold text-center leading-snug`}>{job}</p>
+                            {selectedJob === job && (
+                              <span className="inline-flex items-center gap-1 text-[11px] text-teal-200 bg-teal-500/20 border border-teal-300/50 rounded-full px-2 py-0.5">
+                                <CheckCircle2 className="w-3 h-3" />
+                                Sélectionné
+                              </span>
+                            )}
+                          </div>
+                        </button>
+                      ))}
+
+                      {availableJobs.length === 0 && (
+                        <div className="p-3 rounded-lg bg-slate-700/30 border border-slate-600/20 text-center">
+                          <p className="text-sm text-slate-300">Aucun métier disponible pour cette direction/service.</p>
+                        </div>
+                      )}
+                    </div>
+
+                    <p className="text-xs text-slate-500 mt-2 italic">Si vous ne trouvez pas votre métier, contactez-nous.</p>
                   </div>
                 )}
 
                 {/* Primes associées */}
                 {selectedJob && (
                   <div className="animate-in slide-in-from-bottom duration-300">
-                    <label className="text-sm text-slate-400 block font-medium mb-2">Primes disponibles pour votre profil :</label>
-                    <div className="space-y-2 max-h-48 overflow-y-auto pr-2">
-                      {getIFSE2ByDirection(selectedDirection)
-                        .filter(prime => prime.jobs?.includes(selectedJob) && (!selectedService || prime.service === selectedService || prime.service === 'Tous services'))
-                        .map((prime, idx) => {
-                          const allPrimes = getIFSE2ByDirection(selectedDirection)
-                          const realIdx = allPrimes.findIndex(p => p === prime)
-                          return (
-                            <button
-                              key={idx}
-                              onClick={() => handleToggleIFSE2(realIdx)}
-                              className={`w-full p-3 rounded-lg text-left transition-all border glass-card ${
-                                selectedIFSE2.has(realIdx)
-                                  ? 'bg-teal-500/20 border-teal-400/60 shadow-md'
-                                  : 'bg-slate-700/30 border-slate-600/20 hover:bg-slate-700/50'
-                              }`}
-                            >
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                  <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
-                                    selectedIFSE2.has(realIdx) ? 'bg-teal-500 border-teal-400' : 'border-slate-500'
-                                  }`}>
-                                    {selectedIFSE2.has(realIdx) && <span className="text-white text-xs">✓</span>}
-                                  </div>
-                                  <div>
-                                    <p className="text-sm font-medium text-white">{prime.motif}</p>
-                                    <p className="text-xs text-slate-400">{prime.service || 'Tous services'}</p>
-                                  </div>
-                                </div>
-                                <span className="text-teal-300 font-bold">{prime.amount}€</span>
+                    <div className="mb-3 p-3 bg-teal-500/10 border border-teal-500/30 rounded-lg glass-card max-w-2xl mx-auto text-center">
+                      <p className="text-sm text-teal-300">
+                        {getDirectionFullName(selectedDirection)}
+                        {selectedService ? ` · ${selectedService}` : ' · Tous les services'}
+                      </p>
+                      <p className="text-xs text-slate-300 mt-1">
+                        {selectedJob} · {selectedIFSE2.size} prime(s) activée(s)
+                      </p>
+                    </div>
+                    <label className="text-sm text-slate-300 block font-semibold mb-2 text-center">Primes disponibles pour votre profil :</label>
+                    <div className="space-y-2 max-h-56 overflow-y-auto pr-2 teal-scrollbar max-w-2xl mx-auto">
+                      {availablePrimesForSelectedJob.map((prime, idx) => (
+                        <button
+                          key={`${prime.motif}-${prime.realIdx}`}
+                          onClick={() => handleToggleIFSE2(prime.realIdx)}
+                          style={{ animationDelay: `${Math.min(260, idx * 24)}ms` }}
+                          className={`w-full p-3.5 rounded-xl transition-all border-2 glass-card ${
+                            selectedIFSE2.has(prime.realIdx)
+                              ? 'bg-gradient-to-r from-teal-500/25 to-cyan-500/20 border-teal-300/80 shadow-lg shadow-teal-500/20'
+                              : 'bg-slate-700/35 border-slate-500/30 hover:bg-slate-700/55 hover:border-teal-400/45'
+                          } animate-in fade-in duration-300`}
+                        >
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="flex items-center gap-3 min-w-0">
+                              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                                selectedIFSE2.has(prime.realIdx) ? 'bg-teal-500 border-teal-400' : 'border-slate-500'
+                              }`}>
+                                {selectedIFSE2.has(prime.realIdx) && <span className="text-white text-xs">✓</span>}
                               </div>
-                            </button>
-                          )
-                        })}
+                              <div className="text-left min-w-0">
+                                <p className="text-sm sm:text-base font-semibold text-white leading-snug">{prime.motif}</p>
+                                <p className="text-xs text-slate-300 mt-0.5">{prime.service}</p>
+                              </div>
+                            </div>
+                            <div className="text-right shrink-0">
+                              <span className="text-teal-200 font-bold text-base sm:text-lg block">{prime.amount}€</span>
+                              {lastToggledPrimeIdx === prime.realIdx && (
+                                <span className={`text-[10px] ${lastToggleWasAdd ? 'text-emerald-300' : 'text-amber-300'} animate-pulse`}>
+                                  {lastToggleWasAdd ? 'Ajoutee' : 'Retiree'}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </button>
+                      ))}
                     </div>
                     {ifse2Amount > 0 && (
-                      <div className="mt-3 p-3 bg-teal-500/10 border border-teal-500/30 rounded-lg text-center glass-card">
+                      <div className="mt-3 p-3 bg-teal-500/10 border border-teal-500/30 rounded-lg text-center glass-card max-w-2xl mx-auto">
                         <span className="text-teal-300">Total IFSE 2 : <strong>{ifse2Amount}€/mois</strong></span>
+                      </div>
+                    )}
+
+                    {availablePrimesForSelectedJob.length === 0 && (
+                      <div className="mt-3 p-3 bg-slate-700/30 border border-slate-600/20 rounded-lg text-center glass-card max-w-2xl mx-auto">
+                        <p className="text-slate-300 text-sm">Aucune prime IFSE2 trouvée pour ce métier avec ce filtre de service.</p>
                       </div>
                     )}
                   </div>
@@ -781,7 +1128,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
           {/* Boutons de navigation */}
           {currentStep < 6 && (
-            <div className="flex justify-between mt-6 gap-4">
+            <div ref={navigationSectionRef} className="flex justify-between mt-6 gap-4">
               <button
                 onClick={goPrev}
                 disabled={!canGoPrev()}

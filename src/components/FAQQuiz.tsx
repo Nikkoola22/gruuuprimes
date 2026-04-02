@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface Question {
@@ -8,7 +8,9 @@ interface Question {
   explanation: string;
 }
 
-// ─── Pool de 40 questions sans doublons ──────────────────────────────────────
+const QUIZ_LENGTH = 10;
+
+// ─── Pool de questions ───────────────────────────────────────────────────────
 const ALL_QUESTIONS: Question[] = [
     // Questions issues des fiches BIP
     {
@@ -122,17 +124,6 @@ const ALL_QUESTIONS: Question[] = [
       explanation: "Le CET permet d'accumuler des jours de congés non pris (plafond 60 jours) pour les utiliser ultérieurement ou les monétiser.",
     },
     {
-      question: "Qu'est-ce que la disponibilité dans la fonction publique ?",
-      options: [
-        "Une période d'attente avant une nouvelle affectation",
-        "Une position hors cadres permettant à l'agent de cesser temporairement ses fonctions sans rémunération",
-        "Un congé exceptionnel accordé par l'administration",
-        "Une période de formation longue durée rémunérée",
-      ],
-      correctIndex: 1,
-      explanation: "La disponibilité place l'agent hors de son administration d'origine : il cesse ses fonctions et n'est plus rémunéré pendant cette période.",
-    },
-    {
       question: "Qu'est-ce que le temps partiel thérapeutique ?",
       options: [
         "Un temps partiel choisi par l'agent pour convenance personnelle",
@@ -221,17 +212,6 @@ const ALL_QUESTIONS: Question[] = [
     explanation: "Un agent travaillant 5 jours par semaine a droit à 25 jours ouvrés de congés annuels.",
   },
   {
-    question: "Qu'est-ce que le RIFSEEP ?",
-    options: [
-      "Un régime de retraite complémentaire",
-      "Un régime indemnitaire tenant compte des fonctions, sujétions, expertise et engagement professionnel",
-      "Une prime exceptionnelle annuelle",
-      "Un dispositif de formation professionnelle",
-    ],
-    correctIndex: 1,
-    explanation: "Le RIFSEEP est le régime indemnitaire principal dans la fonction publique territoriale depuis 2016.",
-  },
-  {
     question: "Comment sont rémunérées les heures supplémentaires dans la fonction publique territoriale ?",
     options: [
       "Elles sont automatiquement payées en fin de mois",
@@ -265,28 +245,6 @@ const ALL_QUESTIONS: Question[] = [
     explanation: "Le COS gère les activités sociales et culturelles proposées aux agents (loisirs, vacances, culture, etc.).",
   },
   {
-    question: "Quelle est la durée maximale d'un congé maladie ordinaire (CMO) ?",
-    options: [
-      "3 mois",
-      "6 mois",
-      "1 an",
-      "3 ans",
-    ],
-    correctIndex: 2,
-    explanation: "Le CMO peut durer jusqu'à 1 ans : 3 mois à 90% du traitement puis 9 mois à demi-traitement.",
-  },
-  {
-    question: "Qu'est-ce que le droit de retrait ?",
-    options: [
-      "Le droit de prendre sa retraite anticipée",
-      "Le droit de quitter son poste en cas de danger grave et imminent pour sa vie ou sa santé",
-      "Le droit de refuser une mutation",
-      "Le droit de demander un congé sans solde",
-    ],
-    correctIndex: 1,
-    explanation: "Le droit de retrait permet à un agent de quitter son poste s'il a un motif raisonnable de penser qu'il se trouve dans une situation de danger grave et imminent.",
-  },
-  {
     question: "Qu'est-ce que le temps partiel dans la fonction publique ?",
     options: [
       "Un temps partiel uniquement imposé par l'employeur",
@@ -296,17 +254,6 @@ const ALL_QUESTIONS: Question[] = [
     ],
     correctIndex: 1,
     explanation: "Le temps partiel peut être de droit (pour élever un enfant, en cas de handicap) ou sur autorisation selon les nécessités de service.",
-  },
-  {
-    question: "Qu'est-ce que le temps partiel thérapeutique ?",
-    options: [
-      "Un temps partiel choisi par l'agent pour convenance personnelle",
-      "Un temps partiel accordé après maladie pour favoriser la reprise progressive du travail",
-      "Un temps partiel imposé par l'employeur après une longue absence",
-      "Un temps partiel lié à une formation longue durée",
-    ],
-    correctIndex: 1,
-    explanation: "Le temps partiel thérapeutique est accordé après un congé maladie pour permettre une reprise progressive et sécurisée du travail.",
   },
   {
     question: "Quel est le délai pour contester une sanction disciplinaire devant le tribunal administratif ?",
@@ -364,17 +311,6 @@ const ALL_QUESTIONS: Question[] = [
     explanation: "L'agent a droit à 5 jours de congés spéciaux lors de son propre mariage ou PACS.",
   },
   {
-    question: "Qu'est-ce que la protection fonctionnelle ?",
-    options: [
-      "Une assurance professionnelle personnelle souscrite par l'agent",
-      "La protection accordée par l'employeur à l'agent victime d'attaques dans l'exercice de ses fonctions",
-      "Un dispositif de protection des données personnelles",
-      "Un système de protection contre le licenciement abusif",
-    ],
-    correctIndex: 1,
-    explanation: "La protection fonctionnelle est l'obligation pour l'employeur de protéger et défendre l'agent victime d'attaques, menaces ou poursuites dans l'exercice de ses fonctions.",
-  },
-  {
     question: "Quel est le nombre de jours de congés supplémentaires accordés pour fractionnement ?",
     options: [
       "1 ou 2 jours selon les conditions",
@@ -384,17 +320,6 @@ const ALL_QUESTIONS: Question[] = [
     ],
     correctIndex: 0,
     explanation: "Des jours supplémentaires (1 ou 2 jours) peuvent être accordés si l'agent prend une partie de ses congés en dehors de la période principale (1er mai – 31 octobre).",
-  },
-  {
-    question: "Qu'est-ce que la NBI (Nouvelle Bonification Indiciaire) ?",
-    options: [
-      "Une prime liée aux résultats individuels",
-      "Des points d'indice supplémentaires attribués pour certaines fonctions particulières",
-      "Une nouvelle grille de rémunération nationale",
-      "Un bonus annuel exceptionnel",
-    ],
-    correctIndex: 1,
-    explanation: "La NBI est un supplément de points d'indice attribué aux agents exerçant certaines fonctions comportant une responsabilité ou une technicité particulière.",
   },
   {
     question: "Quelle est la durée maximale de télétravail hebdomadaire pour un agent à temps plein ?",
@@ -439,17 +364,6 @@ const ALL_QUESTIONS: Question[] = [
     ],
     correctIndex: 2,
     explanation: "La durée du stage est généralement d'1 an pour un fonctionnaire stagiaire dans la fonction publique territoriale avant titularisation.",
-  },
-  {
-    question: "Qu'est-ce que le CIA dans le RIFSEEP ?",
-    options: [
-      "Complément Indemnitaire Annuel versé selon l'engagement professionnel et les résultats",
-      "Commission d'Inspection Administrative",
-      "Compte Individuel d'Activité",
-      "Comité d'Intervention Administrative",
-    ],
-    correctIndex: 0,
-    explanation: "Le CIA (Complément Indemnitaire Annuel) est la part variable du RIFSEEP, versée en fonction des résultats et de l'engagement professionnel de l'agent.",
   },
   {
     question: "Combien de jours de congés spéciaux lors du décès d'un parent proche ?",
@@ -540,28 +454,6 @@ const ALL_QUESTIONS: Question[] = [
     explanation: "L'administration dispose de 2 mois pour répondre à une demande de télétravail. Passé ce délai, le silence vaut acceptation.",
   },
   {
-    question: "Qu'est-ce que le compte épargne-temps (CET) ?",
-    options: [
-      "Un compte bancaire dédié aux primes",
-      "Un dispositif permettant d'épargner des jours de congés non pris pour les utiliser ultérieurement ou les monétiser",
-      "Un compte de formation professionnelle",
-      "Un système d'épargne retraite complémentaire",
-    ],
-    correctIndex: 1,
-    explanation: "Le CET permet d'accumuler des jours de congés non pris (plafond 60 jours) pour les utiliser ultérieurement ou les monétiser.",
-  },
-  {
-    question: "Qu'est-ce que la disponibilité dans la fonction publique ?",
-    options: [
-      "Une période d'attente avant une nouvelle affectation",
-      "Une position hors cadres permettant à l'agent de cesser temporairement ses fonctions sans rémunération",
-      "Un congé exceptionnel accordé par l'administration",
-      "Une période de formation longue durée rémunérée",
-    ],
-    correctIndex: 1,
-    explanation: "La disponibilité place l'agent hors de son administration d'origine : il cesse ses fonctions et n'est plus rémunéré pendant cette période.",
-  },
-  {
     question: "Combien de jours maximum peuvent être épargnés dans le CET par an ?",
     options: [
       "10 jours par an",
@@ -616,25 +508,217 @@ const ALL_QUESTIONS: Question[] = [
     correctIndex: 1,
     explanation: "La grève dans la FPT nécessite un préavis de 5 jours francs déposé par un syndicat représentatif. Chaque journée de grève entraîne une retenue de 1/30e du traitement mensuel.",
   },
+  {
+    question: "La suspension d'un agent constitue-t-elle une sanction disciplinaire ?",
+    options: [
+      "Oui, toujours",
+      "Oui, mais seulement pour les fonctionnaires titulaires",
+      "Non, c'est une mesure conservatoire prise dans l'intérêt du service",
+      "Non, sauf si elle dure plus de 4 mois",
+    ],
+    correctIndex: 2,
+    explanation: "La suspension n'est pas une sanction disciplinaire : c'est une mesure conservatoire destinée à écarter temporairement l'agent du service en cas de faute grave vraisemblable.",
+  },
+  {
+    question: "Avant une suspension conservatoire, le conseil de discipline doit-il être consulté ?",
+    options: [
+      "Oui, obligatoirement",
+      "Oui, sauf pour les agents contractuels",
+      "Non, la suspension n'est pas soumise à la procédure disciplinaire",
+      "Non, mais uniquement avec l'accord de l'agent",
+    ],
+    correctIndex: 2,
+    explanation: "La suspension n'étant pas une sanction disciplinaire, elle n'impose pas la consultation préalable du conseil de discipline ni la communication obligatoire du dossier avant décision.",
+  },
+  {
+    question: "Quel est le délai maximal pour régler définitivement la situation d'un agent suspendu lorsqu'une action disciplinaire est engagée ?",
+    options: [
+      "1 mois",
+      "2 mois",
+      "4 mois",
+      "6 mois",
+    ],
+    correctIndex: 2,
+    explanation: "Lorsque l'autorité prononce une suspension et engage l'action disciplinaire, la situation de l'agent doit être définitivement réglée dans un délai de 4 mois, faute de quoi il est rétabli dans ses fonctions.",
+  },
+  {
+    question: "Après combien de temps un blâme peut-il être effacé automatiquement du dossier de l'agent s'il n'y a pas eu d'autre sanction ?",
+    options: [
+      "1 an",
+      "2 ans",
+      "3 ans",
+      "5 ans",
+    ],
+    correctIndex: 2,
+    explanation: "Le blâme peut être effacé automatiquement du dossier après 3 ans si aucune autre sanction n'a été prononcée pendant cette période.",
+  },
+  {
+    question: "Dans quel cas un agent peut-il refuser un ordre hiérarchique sans s'exposer à une sanction disciplinaire ?",
+    options: [
+      "Quand l'ordre lui semble inutile",
+      "Quand l'ordre est manifestement illégal et compromet gravement un intérêt public",
+      "Quand l'ordre est donné oralement",
+      "Quand l'ordre modifie ses horaires de travail",
+    ],
+    correctIndex: 1,
+    explanation: "Un agent ne peut refuser d'obéir que si l'ordre est manifestement illégal et de nature à compromettre gravement un intérêt public. Les deux conditions sont cumulatives.",
+  },
+  {
+    question: "Des publications Facebook publiques d'un agent peuvent-elles être utilisées dans une procédure disciplinaire ?",
+    options: [
+      "Non, jamais",
+      "Oui, si elles sont publiquement accessibles et obtenues loyalement",
+      "Oui, mais seulement avec l'accord écrit de l'agent",
+      "Non, sauf en cas de faute pénale",
+    ],
+    correctIndex: 1,
+    explanation: "Des publications publiquement accessibles peuvent être retenues comme preuve disciplinaire si elles n'ont pas été obtenues par un procédé déloyal ou intrusif.",
+  },
+  {
+    question: "Une simple insuffisance professionnelle peut-elle justifier à elle seule une suspension conservatoire ?",
+    options: [
+      "Oui, si elle perturbe le service",
+      "Oui, après un entretien professionnel",
+      "Non, la suspension suppose des faits relevant d'une faute disciplinaire grave",
+      "Non, sauf pour les agents stagiaires",
+    ],
+    correctIndex: 2,
+    explanation: "Une suspension ne peut pas être fondée sur la seule insuffisance professionnelle. Elle suppose des faits présentant le caractère d'une faute disciplinaire grave et vraisemblable.",
+  },
+  {
+    question: "Quel délai l'agent doit-il respecter pour transmettre son certificat médical en cas de congé de maladie ordinaire ?",
+    options: [
+      "24 heures",
+      "48 heures",
+      "72 heures",
+      "8 jours",
+    ],
+    correctIndex: 1,
+    explanation: "Pour être placé en congé de maladie ordinaire, l'agent doit transmettre son certificat médical à l'autorité territoriale dans un délai de 48 heures.",
+  },
+  {
+    question: "En principe, quel délai de carence s'applique au congé de maladie ordinaire ?",
+    options: [
+      "Aucun délai de carence",
+      "Un demi-jour",
+      "1 jour",
+      "3 jours",
+    ],
+    correctIndex: 2,
+    explanation: "En principe, un délai de carence d'un jour s'applique au congé de maladie ordinaire, avec plusieurs exceptions prévues par les textes.",
+  },
+  {
+    question: "Après les 3 premiers mois d'un congé de maladie ordinaire, quel niveau de traitement l'agent perçoit-il en principe ?",
+    options: [
+      "100 % du traitement",
+      "90 % du traitement",
+      "75 % du traitement",
+      "50 % du traitement",
+    ],
+    correctIndex: 3,
+    explanation: "Après les 3 premiers mois de CMO, l'agent passe en principe à demi-traitement pendant les 9 mois suivants, tout en conservant intégralement le supplément familial et l'indemnité de résidence.",
+  },
+  {
+    question: "À partir de combien de mois consécutifs de congé de maladie ordinaire une visite de contrôle doit-elle avoir lieu au moins une fois ?",
+    options: [
+      "3 mois",
+      "6 mois",
+      "9 mois",
+      "12 mois",
+    ],
+    correctIndex: 1,
+    explanation: "Au-delà de 6 mois consécutifs de congé de maladie ordinaire, une visite de contrôle doit avoir lieu au moins une fois.",
+  },
+  {
+    question: "Quelles affections ouvrent droit au congé de longue durée (CLD) ?",
+    options: [
+      "Toute maladie reconnue en ALD",
+      "Tuberculose, maladie mentale, affection cancéreuse, poliomyélite et déficit immunitaire grave et acquis",
+      "Uniquement les cancers et les maladies professionnelles",
+      "Toute pathologie ayant entraîné un arrêt supérieur à 6 mois",
+    ],
+    correctIndex: 1,
+    explanation: "Le CLD n'est ouvert qu'à cinq catégories d'affections : tuberculose, maladie mentale, affection cancéreuse, poliomyélite et déficit immunitaire grave et acquis.",
+  },
+  {
+    question: "Les droits à congé de longue durée se reconstituent-ils après une reprise de fonctions pour la même affection ?",
+    options: [
+      "Oui, immédiatement",
+      "Oui, après 1 an de reprise",
+      "Non, les droits à CLD ne se reconstituent pas pour la même catégorie d'affection",
+      "Non, sauf en cas de changement de collectivité",
+    ],
+    correctIndex: 2,
+    explanation: "Les droits à CLD ne se reconstituent pas, même après une reprise de fonctions. Une fois épuisés pour une même catégorie d'affection, ils ne se rouvrent pas.",
+  },
+  {
+    question: "Comment se compose le conseil médical en formation restreinte ?",
+    options: [
+      "3 médecins, 2 représentants de la collectivité et 2 représentants du personnel",
+      "3 médecins titulaires uniquement, avec éventuellement des suppléants",
+      "1 médecin, 1 élu et 1 représentant syndical",
+      "2 médecins et 1 représentant du centre de gestion",
+    ],
+    correctIndex: 1,
+    explanation: "En formation restreinte, le conseil médical est composé uniquement de trois médecins titulaires, avec un ou plusieurs suppléants.",
+  },
+  {
+    question: "Quand un accident est-il présumé imputable au service ?",
+    options: [
+      "Dès qu'il survient pendant une pause déjeuner, quel que soit le lieu",
+      "Lorsqu'il survient dans le temps et le lieu du service, dans l'exercice ou à l'occasion des fonctions, sans faute personnelle ni circonstance détachant l'accident du service",
+      "Uniquement s'il entraîne une hospitalisation",
+      "Seulement s'il est reconnu par un supérieur hiérarchique témoin des faits",
+    ],
+    correctIndex: 1,
+    explanation: "L'accident est présumé imputable au service lorsqu'il survient dans le temps et le lieu du service, dans l'exercice ou à l'occasion des fonctions, sauf faute personnelle ou circonstance particulière détachant l'accident du service.",
+  },
+  {
+    question: "Une cure thermale préventive peut-elle ouvrir droit à un congé de maladie ordinaire ?",
+    options: [
+      "Non, jamais",
+      "Oui, uniquement si l'agent a plus de 10 ans d'ancienneté",
+      "Oui, si l'absence de traitement en temps utile mettrait l'agent dans l'impossibilité d'exercer ses fonctions",
+      "Oui, mais seulement pendant les congés annuels",
+    ],
+    correctIndex: 2,
+    explanation: "Une cure thermale préventive peut justifier un congé de maladie ordinaire si la pathologie constatée mettrait l'agent dans l'impossibilité d'exercer ses fonctions sans ce traitement effectué en temps utile.",
+  },
 ];
 
 // ─── Tirage aléatoire de N questions uniques ──────────────────────────────────
-function getRandomQuestions(pool: Question[], count = 10): Question[] {
-  const shuffled = [...pool].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count);
+function getRandomQuestions(pool: Question[], count = QUIZ_LENGTH): Question[] {
+  const uniqueQuestions: Question[] = [];
+  const seenQuestions = new Set<string>();
+
+  for (const item of pool) {
+    const key = item.question.trim().toLowerCase();
+    if (seenQuestions.has(key)) continue;
+    seenQuestions.add(key);
+    uniqueQuestions.push(item);
+  }
+
+  const shuffled = [...uniqueQuestions];
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled.slice(0, Math.min(count, shuffled.length));
 }
 
 // ─── Composant FAQQuiz ────────────────────────────────────────────────────────
 const FAQQuiz: React.FC = () => {
+  const quizTopRef = useRef<HTMLDivElement | null>(null);
   const [questions, setQuestions] = useState<Question[]>(() =>
-    getRandomQuestions(ALL_QUESTIONS)
+    getRandomQuestions(ALL_QUESTIONS, QUIZ_LENGTH)
   );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [answered, setAnswered] = useState(false);
-  const [answers, setAnswers] = useState<(number | null)[]>(Array(10).fill(null));
+  const [answers, setAnswers] = useState<(number | null)[]>(Array(QUIZ_LENGTH).fill(null));
 
   const current = questions[currentIndex];
 
@@ -664,13 +748,17 @@ const FAQQuiz: React.FC = () => {
   }, [currentIndex, questions.length]);
 
   const handleRestart = useCallback(() => {
-    setQuestions(getRandomQuestions(ALL_QUESTIONS));
+    setQuestions(getRandomQuestions(ALL_QUESTIONS, QUIZ_LENGTH));
     setCurrentIndex(0);
     setSelectedOption(null);
     setScore(0);
     setShowResult(false);
     setAnswered(false);
-    setAnswers(Array(10).fill(null));
+    setAnswers(Array(QUIZ_LENGTH).fill(null));
+
+    window.setTimeout(() => {
+      quizTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 0);
   }, []);
 
   // ── Écran résultats ──────────────────────────────────────────────────────────
@@ -679,7 +767,7 @@ const FAQQuiz: React.FC = () => {
     const medal = percentage >= 80 ? "🏆" : percentage >= 60 ? "👍" : "📚";
 
     return (
-      <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-lg">
+      <div ref={quizTopRef} className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-lg">
         <div className="text-center mb-6">
           <div className="text-6xl mb-3">{medal}</div>
           <h2 className="text-2xl font-bold text-gray-800 mb-1">Quiz terminé !</h2>
@@ -727,7 +815,7 @@ const FAQQuiz: React.FC = () => {
           onClick={handleRestart}
           className="w-full py-3 bg-red-600 text-white font-semibold rounded-xl hover:bg-red-700 transition-colors"
         >
-          🔄 Nouveau quiz (10 questions aléatoires)
+          {`🔄 Nouveau quiz (${QUIZ_LENGTH} questions aléatoires)`}
         </button>
       </div>
     );
@@ -735,7 +823,7 @@ const FAQQuiz: React.FC = () => {
 
   // ── Écran question ───────────────────────────────────────────────────────────
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-lg">
+    <div ref={quizTopRef} className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-lg">
       <div className="flex items-center justify-between mb-4">
         <span className="text-sm font-medium text-gray-500">
           Question {currentIndex + 1} / {questions.length}
