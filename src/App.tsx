@@ -1045,7 +1045,12 @@ ${indicesFactuels}
   }
 
   return (
-    <div className="min-h-screen relative overflow-x-hidden">
+    <div
+      className="min-h-screen relative overflow-x-hidden"
+      style={{
+        background: 'linear-gradient(135deg, #1a0022 0%, #2a0033 40%, #3a0055 80%, #FF1C74 100%)',
+      }}
+    >
       {/* Background image with transparency */}
       <div
         className="fixed inset-0 bg-cover bg-center bg-no-repeat z-0 pointer-events-none"

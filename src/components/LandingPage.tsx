@@ -1,5 +1,8 @@
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
+import { ShapeGeometry } from 'three'
 
 interface Props {
   onEnter: () => void
@@ -27,6 +30,25 @@ export default function LandingPage({ onEnter, onQuizz }: Props) {
 
     const cluster = new THREE.Group()
     scene.add(cluster)
+
+    // Mouse interaction state
+    let mouseX = 0
+    let mouseY = 0
+    let targetRotX = 0
+    let targetRotY = 0
+
+    // Mouse move handler
+    const handlePointerMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect()
+      const x = (e.clientX - rect.left) / rect.width
+      const y = (e.clientY - rect.top) / rect.height
+      mouseX = x * 2 - 1
+      mouseY = y * 2 - 1
+      // Target rotation: up/down = X, left/right = Y
+      targetRotX = mouseY * 0.25
+      targetRotY = mouseX * 0.45
+    }
+    canvas.addEventListener('pointermove', handlePointerMove)
 
     const mkMat = (emissive: number, opacity: number) =>
       new THREE.MeshPhysicalMaterial({
@@ -66,20 +88,63 @@ export default function LandingPage({ onEnter, onQuizz }: Props) {
       [[0.34, 0.60, 0.34], [ 1.34, -0.08,  0.54], [-0.12, 0.58,  0.22]],
     ]
 
-    defs.forEach(([size, pos, rot], i) => {
-      const geo  = new THREE.BoxGeometry(...size)
-      const mesh = new THREE.Mesh(geo, mats[i % mats.length])
-      mesh.position.set(...pos)
-      mesh.rotation.set(...rot)
-      cluster.add(mesh)
+    // Lettres à afficher sur les 4 premiers cubes
+    const letters = ['F', 'C', 'T', 'D']
+    const fontSize = 0.38
+    const fontHeight = 0.035
+    let font: any = null
+    // Charger la police de caractères de base Three.js (helvetiker)
+    new FontLoader().load('https://cdn.jsdelivr.net/npm/three@0.150.1/examples/fonts/helvetiker_regular.typeface.json', loadedFont => {
+      font = loadedFont
+      // On doit attendre la police pour ajouter les lettres, donc on retire et on remet les 4 premiers cubes
+      for (let i = 0; i < 4; i++) {
+        const [size, pos, rot] = defs[i]
+        const geo = new THREE.BoxGeometry(...size)
+        const mesh = new THREE.Mesh(geo, mats[i % mats.length])
+        mesh.position.set(...pos)
+        mesh.rotation.set(...rot)
+        // Ajout de la lettre
+        // Utilise ShapeGeometry pour un vrai rendu 2D plat
+        const shapes = font.generateShapes(letters[i], fontSize)
+        const textGeo = new ShapeGeometry(shapes)
+        textGeo.center()
+        const textMat = new THREE.MeshBasicMaterial({
+          color: 0xffffff,
+          transparent: true,
+          opacity: 0.92,
+          side: THREE.DoubleSide,
+        })
+        const textMesh = new THREE.Mesh(textGeo, textMat)
+        // Colle la lettre à la face avant du cube, parfaitement plat
+        textMesh.position.set(0, 0, size[2] / 2 + 0.001)
+        mesh.add(textMesh)
+        cluster.add(mesh)
 
-      const em  = edgeBaseMat.clone()
-      em.opacity = 0.28 + (i % 4) * 0.08
-      const eg  = new THREE.EdgesGeometry(geo)
-      const seg = new THREE.LineSegments(eg, em)
-      seg.position.copy(mesh.position)
-      seg.rotation.copy(mesh.rotation)
-      cluster.add(seg)
+        const em = edgeBaseMat.clone()
+        em.opacity = 0.28 + (i % 4) * 0.08
+        const eg = new THREE.EdgesGeometry(geo)
+        const seg = new THREE.LineSegments(eg, em)
+        seg.position.copy(mesh.position)
+        seg.rotation.copy(mesh.rotation)
+        cluster.add(seg)
+      }
+      // Les autres cubes (sans lettre)
+      for (let i = 4; i < defs.length; i++) {
+        const [size, pos, rot] = defs[i]
+        const geo = new THREE.BoxGeometry(...size)
+        const mesh = new THREE.Mesh(geo, mats[i % mats.length])
+        mesh.position.set(...pos)
+        mesh.rotation.set(...rot)
+        cluster.add(mesh)
+
+        const em = edgeBaseMat.clone()
+        em.opacity = 0.28 + (i % 4) * 0.08
+        const eg = new THREE.EdgesGeometry(geo)
+        const seg = new THREE.LineSegments(eg, em)
+        seg.position.copy(mesh.position)
+        seg.rotation.copy(mesh.rotation)
+        cluster.add(seg)
+      }
     })
 
     const lightDefs: Array<[number, number, number, [number, number, number]]> = [
@@ -98,14 +163,16 @@ export default function LandingPage({ onEnter, onQuizz }: Props) {
     })
     scene.add(new THREE.AmbientLight(0x0D000A, 1.5))
 
+
     let t = 0
     let rafId: number
     const animate = () => {
       rafId = requestAnimationFrame(animate)
       t += 0.060
-      cluster.rotation.y = t * 0.32
-      cluster.rotation.x = Math.sin(t * 0.21) * 0.11
-      cluster.rotation.z = Math.sin(t * 0.14) * 0.04
+      // Interpolation douce vers la cible souris
+      cluster.rotation.y += ((t * 0.32 + targetRotY) - cluster.rotation.y) * 0.08
+      cluster.rotation.x += ((Math.sin(t * 0.21) * 0.11 + targetRotX) - cluster.rotation.x) * 0.08
+      cluster.rotation.z += ((Math.sin(t * 0.14) * 0.04) - cluster.rotation.z) * 0.08
       renderer.render(scene, camera)
     }
     animate()
@@ -123,6 +190,7 @@ export default function LandingPage({ onEnter, onQuizz }: Props) {
     return () => {
       cancelAnimationFrame(rafId)
       window.removeEventListener('resize', handleResize)
+      canvas.removeEventListener('pointermove', handlePointerMove)
       clearTimeout(t1)
       clearTimeout(t2)
       renderer.dispose()
@@ -130,7 +198,13 @@ export default function LandingPage({ onEnter, onQuizz }: Props) {
   }, [])
 
   return (
-    <div style={{ position: 'fixed', inset: 0, background: '#020104', fontFamily: "'Outfit', sans-serif", overflow: 'hidden' }}>
+    <div style={{
+      position: 'fixed',
+      inset: 0,
+      background: 'linear-gradient(135deg, #1a0022 0%, #2a0033 40%, #3a0055 80%, #FF1C74 100%)',
+      fontFamily: "'Outfit', sans-serif",
+      overflow: 'hidden',
+    }}>
       {/* Fonts */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap');
