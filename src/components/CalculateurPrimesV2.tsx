@@ -753,17 +753,17 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                       <span className="w-7 h-7 rounded-full bg-cyan-500/30 border border-cyan-400/50 flex items-center justify-center text-cyan-200 font-bold text-sm">2</span>
                       <h3 className="text-base sm:text-lg font-bold text-white">Votre service <span className="text-sm font-normal text-slate-400">(optionnel)</span></h3>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-w-2xl mx-auto">
+                    <div className="flex flex-wrap justify-center gap-5 max-w-2xl mx-auto py-2">
                       <button
                         onClick={() => handleServiceSelect('')}
-                        className={`text-left p-3 rounded-lg border transition-all glass-card ${
+                        className={`bg-white/90 rounded-2xl shadow-2xl border border-blue-200 p-5 max-w-xs w-full transition-transform hover:scale-105 hover:shadow-blue-400/50 flex flex-col items-center text-center glass-card ${
                           selectedService === ''
-                            ? 'bg-teal-500/20 border-teal-400/60 shadow-md'
-                            : 'bg-slate-700/30 border-slate-600/20 hover:bg-slate-700/50'
+                            ? 'ring-2 ring-teal-400 border-teal-400 scale-105'
+                            : 'hover:ring-2 hover:ring-blue-300'
                         }`}
                       >
-                        <p className="text-sm text-white font-medium">Tous les services</p>
-                        <p className="text-xs text-slate-400">Affiche toutes les primes de la direction</p>
+                        <p className="text-base font-bold text-blue-700">Tous les services</p>
+                        <p className="text-xs text-gray-500">Affiche toutes les primes de la direction</p>
                       </button>
 
                       {availableServices.map(service => (
@@ -771,14 +771,14 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                           key={service}
                           onClick={() => handleServiceSelect(service)}
                           style={{ animationDelay: `${Math.min(260, availableServices.indexOf(service) * 30)}ms` }}
-                          className={`text-left p-3 rounded-lg border transition-all glass-card ${
+                          className={`bg-white/90 rounded-2xl shadow-2xl border border-blue-200 p-5 max-w-xs w-full transition-transform hover:scale-105 hover:shadow-blue-400/50 flex flex-col items-center text-center glass-card animate-in fade-in duration-300 ${
                             selectedService === service
-                              ? 'bg-teal-500/20 border-teal-400/60 shadow-md'
-                              : 'bg-slate-700/30 border-slate-600/20 hover:bg-slate-700/50'
-                          } animate-in fade-in duration-300`}
+                              ? 'ring-2 ring-teal-400 border-teal-400 scale-105'
+                              : 'hover:ring-2 hover:ring-blue-300'
+                          }`}
                         >
-                          <p className="text-sm text-white font-medium">{service}</p>
-                          <p className="text-xs text-slate-400">Service ciblé</p>
+                          <p className="text-base font-bold text-blue-700">{service}</p>
+                          <p className="text-xs text-gray-500">Service ciblé</p>
                         </button>
                       ))}
                     </div>
@@ -860,38 +860,30 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                       </p>
                     </div>
                     <label className="text-sm text-slate-300 block font-semibold mb-2 text-center">Primes disponibles pour votre profil :</label>
-                    <div className="space-y-2 max-h-56 overflow-y-auto pr-2 teal-scrollbar max-w-2xl mx-auto">
+                    <div className="flex flex-wrap justify-center gap-6 max-h-56 overflow-y-auto pr-2 teal-scrollbar max-w-2xl mx-auto">
                       {availablePrimesForSelectedJob.map((prime, idx) => (
                         <button
                           key={`${prime.motif}-${prime.realIdx}`}
                           onClick={() => handleToggleIFSE2(prime.realIdx)}
                           style={{ animationDelay: `${Math.min(260, idx * 24)}ms` }}
-                          className={`w-full p-3.5 rounded-xl transition-all border-2 glass-card ${
+                          className={`bg-white/90 rounded-2xl shadow-2xl border border-blue-200 p-5 w-full max-w-xs transition-transform hover:scale-105 hover:shadow-blue-400/50 flex flex-col items-center text-center glass-card animate-in fade-in duration-300 ${
                             selectedIFSE2.has(prime.realIdx)
-                              ? 'bg-gradient-to-r from-teal-500/25 to-cyan-500/20 border-teal-300/80 shadow-lg shadow-teal-500/20'
-                              : 'bg-slate-700/35 border-slate-500/30 hover:bg-slate-700/55 hover:border-teal-400/45'
-                          } animate-in fade-in duration-300`}
+                              ? 'ring-2 ring-teal-400 border-teal-400 scale-105'
+                              : 'hover:ring-2 hover:ring-blue-300'
+                          }`}
                         >
-                          <div className="flex items-center justify-between gap-3">
-                            <div className="flex items-center gap-3 min-w-0">
-                              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
-                                selectedIFSE2.has(prime.realIdx) ? 'bg-teal-500 border-teal-400' : 'border-slate-500'
-                              }`}>
-                                {selectedIFSE2.has(prime.realIdx) && <span className="text-white text-xs">✓</span>}
-                              </div>
-                              <div className="text-left min-w-0">
-                                <p className="text-sm sm:text-base font-semibold text-white leading-snug">{prime.motif}</p>
-                                <p className="text-xs text-slate-300 mt-0.5">{prime.service}</p>
-                              </div>
+                          <div className="flex flex-col items-center gap-2 w-full">
+                            <div className={`w-7 h-7 rounded-full flex items-center justify-center mb-1 ${selectedIFSE2.has(prime.realIdx) ? 'bg-teal-500 border-teal-400 border-2' : 'bg-blue-100 border border-blue-200'}`}> 
+                              {selectedIFSE2.has(prime.realIdx) && <span className="text-white text-base">✓</span>}
                             </div>
-                            <div className="text-right shrink-0">
-                              <span className="text-teal-200 font-bold text-base sm:text-lg block">{prime.amount}€</span>
-                              {lastToggledPrimeIdx === prime.realIdx && (
-                                <span className={`text-[10px] ${lastToggleWasAdd ? 'text-emerald-300' : 'text-amber-300'} animate-pulse`}>
-                                  {lastToggleWasAdd ? 'Ajoutee' : 'Retiree'}
-                                </span>
-                              )}
-                            </div>
+                            <p className="text-base font-bold text-blue-700 leading-snug w-full break-words">{prime.motif}</p>
+                            <p className="text-xs text-gray-500 w-full break-words">{prime.service}</p>
+                            <span className="text-xl font-semibold text-green-600 mt-2 block">{prime.amount}€</span>
+                            {lastToggledPrimeIdx === prime.realIdx && (
+                              <span className={`text-[11px] ${lastToggleWasAdd ? 'text-emerald-500' : 'text-amber-500'} animate-pulse`}>
+                                {lastToggleWasAdd ? 'Ajoutée' : 'Retirée'}
+                              </span>
+                            )}
                           </div>
                         </button>
                       ))}
