@@ -79,7 +79,7 @@
   {
     "Motif": "Indemnités horaires décalées cat C",
     "Montant": "20 €",
-    "Metiers_concernes": "Assistante administrative",
+    "Metiers_concernes": "Assistante de Direction",
     "Direction": "DME",
     "Service": "Enfance"
   },
@@ -1087,7 +1087,7 @@
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
-    "Metiers_concernes": "Assistante administrative",
+    "Metiers_concernes": "Assistante de Direction",
     "Direction": "DME",
     "Service": "Enfance"
   },
@@ -1578,7 +1578,7 @@
   {
     "Motif": "Prime pause méridienne",
     "Montant": "254,16 €",
-    "Metiers_concernes": "Animateur encadrement pause méridienne",
+    "Metiers_concernes": "Responsable encadrement pause méridienne",
     "Direction": "DME",
     "Service": "Enfance"
   },
