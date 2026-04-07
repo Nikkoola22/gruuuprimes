@@ -590,9 +590,9 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {[
-                    { key: 'A', level: 'Cadres', diploma: 'Bac+3 minimum', accent: 'from-blue-500/35 to-cyan-500/35', activeBorder: 'border-blue-400', hoverBorder: 'hover:border-blue-400/50', glow: 'shadow-blue-500/20' },
-                    { key: 'B', level: 'Intermédiaires', diploma: 'Bac à Bac+2', accent: 'from-cyan-500/35 to-teal-500/35', activeBorder: 'border-cyan-400', hoverBorder: 'hover:border-cyan-400/50', glow: 'shadow-cyan-500/20' },
-                    { key: 'C', level: 'Exécution', diploma: 'Sans condition de diplôme', accent: 'from-teal-500/35 to-green-500/35', activeBorder: 'border-teal-400', hoverBorder: 'hover:border-teal-400/50', glow: 'shadow-teal-500/20' },
+                    { key: 'A', level: 'Cadres', diploma: '', accent: 'from-blue-500/35 to-cyan-500/35', activeBorder: 'border-blue-400', hoverBorder: 'hover:border-blue-400/50', glow: 'shadow-blue-500/20' },
+                    { key: 'B', level: 'Intermédiaires', diploma: '', accent: 'from-cyan-500/35 to-teal-500/35', activeBorder: 'border-cyan-400', hoverBorder: 'hover:border-cyan-400/50', glow: 'shadow-cyan-500/20' },
+                    { key: 'C', level: 'Exécution', diploma: '', accent: 'from-teal-500/35 to-green-500/35', activeBorder: 'border-teal-400', hoverBorder: 'hover:border-teal-400/50', glow: 'shadow-teal-500/20' },
                   ].map(cat => (
                     <button
                       key={cat.key}
