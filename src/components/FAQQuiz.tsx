@@ -16,10 +16,10 @@ const ALL_QUESTIONS: Question[] = [
     {
       question: "Qu'est-ce qu'un agent contractuel de droit public ?",
       options: [
-        "Un agent recruté par une entreprise privée",
+        "Un agent recruté par une entreprise privée, ou semi-privée",
         "Un agent non titulaire recruté par une collectivité ou un établissement public",
-        "Un agent titulaire de la fonction publique",
-        "Un agent en intérim dans le secteur privé",
+        "Un agent titulaire de la fonction publique avec un contrat specifique",
+        "Un agent en intérim dans le secteur privé avec une mission de service public",
       ],
       correctIndex: 1,
       explanation: "Un agent contractuel de droit public est recruté par une collectivité ou un établissement public, sans être titulaire.",
@@ -38,10 +38,10 @@ const ALL_QUESTIONS: Question[] = [
     {
       question: "Qu'est-ce que la disponibilité dans la fonction publique ?",
       options: [
-        "Une période d'attente avant une nouvelle affectation",
+        "Une période d'attente avant une nouvelle affectation dans une autre collectivité",
         "Une position hors cadres permettant à l'agent de cesser temporairement ses fonctions sans rémunération",
-        "Un congé exceptionnel accordé par l'administration",
-        "Une période de formation longue durée rémunérée",
+        "Un congé exceptionnel accordé par l'administration avant le depart pour la retraite",
+        "Une période de formation longue durée rémunérée afin de se réorienter dans le privée",
       ],
       correctIndex: 1,
       explanation: "La disponibilité place l'agent hors de son administration d'origine : il cesse ses fonctions et n'est plus rémunéré pendant cette période.",
@@ -49,10 +49,10 @@ const ALL_QUESTIONS: Question[] = [
       {
         question: "Qu'est-ce qu'un détachement dans la fonction publique ?",
         options: [
-          "Un congé maladie de longue durée",
+          "Un congé maladie de longue durée pour un agent hors de son administration",
           "La possibilité pour un agent d'exercer temporairement dans une autre administration ou organisme",
-          "Un départ définitif de la fonction publique",
-          "Un congé pour formation professionnelle",
+          "Un départ définitif de la fonction publique pour tavailler dans une entreprise privée",
+          "Un congé pour formation professionnelle permetant d'etre détaché auprès de l organisme de formation",
         ],
         correctIndex: 1,
         explanation: "Le détachement permet à un agent d'exercer temporairement dans une autre administration ou organisme tout en conservant ses droits à l'avancement.",
@@ -60,10 +60,10 @@ const ALL_QUESTIONS: Question[] = [
     {
       question: "Qu'est-ce que la NBI (Nouvelle Bonification Indiciaire) ?",
       options: [
-        "Une prime liée aux résultats individuels",
+        "Une prime liée aux résultats individuels pour certaines fonctions particulières",
         "Des points d'indice supplémentaires attribués pour certaines fonctions particulières",
-        "Une nouvelle grille de rémunération nationale",
-        "Un bonus annuel exceptionnel",
+        "Une nouvelle grille de rémunération nationale pour certains métiers particulièrs",
+        "Un bonus annuel exceptionnel pour certaines fonctions particulières",
       ],
       correctIndex: 1,
       explanation: "La NBI est un supplément de points d'indice attribué aux agents exerçant certaines fonctions comportant une responsabilité ou une technicité particulière.",
@@ -71,10 +71,10 @@ const ALL_QUESTIONS: Question[] = [
     {
       question: "Qu'est-ce que le RIFSEEP ?",
       options: [
-        "Un régime de retraite complémentaire",
+        "Un régime de retraite complémentaire selon l'ancienneté et la valeur professionnelle",
         "Un régime indemnitaire tenant compte des fonctions, sujétions, expertise et engagement professionnel",
-        "Une prime exceptionnelle annuelle",
-        "Un dispositif de formation professionnelle",
+        "Une prime exceptionnelle annuelle pour certaines fonctions particulières",
+        "Un dispositif de formation professionnelle tenant compte des fonctions, sujétions, expertise et engagement professionnel",
       ],
       correctIndex: 1,
       explanation: "Le RIFSEEP est le régime indemnitaire principal dans la fonction publique territoriale depuis 2016.",
@@ -83,9 +83,9 @@ const ALL_QUESTIONS: Question[] = [
       question: "Qu'est-ce que le CIA dans le RIFSEEP ?",
       options: [
         "Complément Indemnitaire Annuel versé selon l'engagement professionnel et les résultats",
-        "Commission d'Inspection Administrative",
-        "Compte Individuel d'Activité",
-        "Comité d'Intervention Administrative",
+        "Commission d'Inspection Administrative pour l'agent victime d'attaques dans l'exercice de ses fonctions",
+        "Compte Individuel d'Activité de formation professionnelle tenant compte des fonctions, sujétions, expertise et engagement professionnel",
+        "Comité d'Intervention Administrative pour certaines fonctions particulières",
       ],
       correctIndex: 0,
       explanation: "Le CIA (Complément Indemnitaire Annuel) est la part variable du RIFSEEP, versée en fonction des résultats et de l'engagement professionnel de l'agent.",
@@ -93,10 +93,10 @@ const ALL_QUESTIONS: Question[] = [
     {
       question: "Qu'est-ce qu'une promotion de grade dans la FPT ?",
       options: [
-        "Un changement de corps ou de cadre d'emplois",
+        "Un changement de corps ou de cadre d'emplois selon l'ancienneté et la valeur professionnelle",
         "Une progression à l'intérieur du même cadre d'emplois selon l'ancienneté et la valeur professionnelle",
-        "Une augmentation de salaire sans changement de grade",
-        "Un simple changement de poste",
+        "Une augmentation de salaire sans changement de grade versé selon l'engagement professionnel et les résultats",
+        "Un simple changement de poste selon l'engagement professionnel et les résultats",
       ],
       correctIndex: 1,
       explanation: "La promotion de grade permet à un agent de progresser au sein de son cadre d'emplois, en fonction de son ancienneté et de sa valeur professionnelle reconnue.",
@@ -104,10 +104,10 @@ const ALL_QUESTIONS: Question[] = [
     {
       question: "Qu'est-ce que la protection fonctionnelle ?",
       options: [
-        "Une assurance professionnelle personnelle souscrite par l'agent",
+        "Une assurance professionnelle personnelle souscrite par l'agent victime d'attaques dans l'exercice de ses fonctions",
         "La protection accordée par l'employeur à l'agent victime d'attaques dans l'exercice de ses fonctions",
-        "Un dispositif de protection des données personnelles",
-        "Un système de protection contre le licenciement abusif",
+        "Un dispositif de protection des données personnelles de l'employeur victime d'attaques",
+        "Un système de protection contre le licenciement abusif de l'employeur",
       ],
       correctIndex: 1,
       explanation: "La protection fonctionnelle est l'obligation pour l'employeur de protéger et défendre l'agent victime d'attaques, menaces ou poursuites dans l'exercice de ses fonctions.",
@@ -115,10 +115,10 @@ const ALL_QUESTIONS: Question[] = [
     {
       question: "Qu'est-ce que le compte épargne-temps (CET) ?",
       options: [
-        "Un compte bancaire dédié aux primes",
+        "Un compte bancaire dédié aux primes versé selon l'engagement professionnel et les résultats",
         "Un dispositif permettant d'épargner des jours de congés non pris pour les utiliser ultérieurement ou les monétiser",
-        "Un compte de formation professionnelle",
-        "Un système d'épargne retraite complémentaire",
+        "Un compte de formation professionnelle tenant compte des fonctions, sujétions, expertise et engagement professionnel",
+        "Un système d'épargne retraite complémentaire permettant d'épargner des jours de congés non pris",
       ],
       correctIndex: 1,
       explanation: "Le CET permet d'accumuler des jours de congés non pris (plafond 60 jours) pour les utiliser ultérieurement ou les monétiser.",
@@ -137,10 +137,10 @@ const ALL_QUESTIONS: Question[] = [
     {
       question: "Qu'est-ce que le droit de retrait ?",
       options: [
-        "Le droit de prendre sa retraite anticipée",
+        "Le droit de prendre sa retraite anticipée pour un motif raisonnable",
         "Le droit de quitter son poste en cas de danger grave et imminent pour sa vie ou sa santé",
-        "Le droit de refuser une mutation",
-        "Le droit de demander un congé sans solde",
+        "Le droit de refuser une mutation  un motif raisonnable",
+        "Le droit de demander un congé sans solde  un motif raisonnable",
       ],
       correctIndex: 1,
       explanation: "Le droit de retrait permet à un agent de quitter son poste s'il a un motif raisonnable de penser qu'il se trouve dans une situation de danger grave et imminent.",
@@ -148,9 +148,9 @@ const ALL_QUESTIONS: Question[] = [
     {
       question: "Qu'est-ce que le conseil de discipline des agents contractuels ?",
       options: [
-        "Un organe chargé d'attribuer des primes",
+        "Un organe chargé d'attribuer des primes et donne un avis sur les augmentations",
         "Un organe qui examine les situations disciplinaires et donne un avis sur les sanctions",
-        "Un comité de recrutement",
+        "Un comité de recrutement pour le changement de poste au sein d'une même collectivité ou vers une autre collectivité",
         "Un service de gestion des congés",
       ],
       correctIndex: 1,
@@ -160,9 +160,9 @@ const ALL_QUESTIONS: Question[] = [
       question: "Qu'est-ce que la mobilité dans la fonction publique territoriale ?",
       options: [
         "Le changement de poste au sein d'une même collectivité ou vers une autre collectivité",
-        "Le passage du secteur public au secteur privé",
-        "Un congé pour formation professionnelle",
-        "Un détachement à l'étranger uniquement",
+        "Le passage du secteur public au secteur privé avec un contrat spécifique",
+        "Un congé pour formation professionnelle au sein d'une autre collectivité",
+        "Un détachement à l'étranger uniquement pour les fonctionaires de nationalité européenne ",
       ],
       correctIndex: 0,
       explanation: "La mobilité permet à un agent de changer de poste au sein de la même collectivité ou vers une autre, pour favoriser l'évolution professionnelle.",
@@ -214,10 +214,10 @@ const ALL_QUESTIONS: Question[] = [
   {
     question: "Comment sont rémunérées les heures supplémentaires dans la fonction publique territoriale ?",
     options: [
-      "Elles sont automatiquement payées en fin de mois",
+      "Elles sont automatiquement payées en fin de mois mais sur 10 mois seulement",
       "Elles sont toujours récupérées en temps de repos uniquement",
       "Elles peuvent être indemnisées (IHTS) ou récupérées en repos si demandées par la hiérarchie",
-      "Elles ne sont jamais rémunérées",
+      "Elles ne sont jamais rémunérées sauf si l'agent le demande a sa hierarchie ",
     ],
     correctIndex: 2,
     explanation: "Les heures supplémentaires peuvent être indemnisées via les IHTS ou compensées par du repos compensateur, à condition d'avoir été demandées par la hiérarchie.",
@@ -236,10 +236,10 @@ const ALL_QUESTIONS: Question[] = [
   {
     question: "Qu'est-ce que le COS (Comité des Œuvres Sociales) ?",
     options: [
-      "Un syndicat professionnel",
+      "Un syndicat professionnel proposant des services juridiques",
       "Un organisme qui gère les activités sociales et culturelles des agents",
-      "Un comité de sécurité au travail",
-      "Une caisse de retraite complémentaire",
+      "Un comité de sécurité au travail avec une aide de l assistante sociale",
+      "Une caisse de retraite complémentaire pour agents avec de petites pensions",
     ],
     correctIndex: 1,
     explanation: "Le COS gère les activités sociales et culturelles proposées aux agents (loisirs, vacances, culture, etc.).",
@@ -247,10 +247,10 @@ const ALL_QUESTIONS: Question[] = [
   {
     question: "Qu'est-ce que le temps partiel dans la fonction publique ?",
     options: [
-      "Un temps partiel uniquement imposé par l'employeur",
+      "Un temps partiel uniquement imposé par l'employeur pour certaines fonctions particulières",
       "Le temps partiel peut être accordé de droit (naissance, adoption, handicap) ou sur autorisation selon les besoins du service",
-      "Un temps partiel réservé aux agents de catégorie C",
-      "Un temps partiel uniquement thérapeutique",
+      "Un temps partiel réservé aux agents de catégorie C accordé de droit (naissance, adoption, handicap) ou sur autorisation selon les besoins du service",
+      "Un temps partiel uniquement thérapeutique sur autorisation selon les besoins du service",
     ],
     correctIndex: 1,
     explanation: "Le temps partiel peut être de droit (pour élever un enfant, en cas de handicap) ou sur autorisation selon les nécessités de service.",
@@ -269,10 +269,10 @@ const ALL_QUESTIONS: Question[] = [
   {
     question: "Qu'est-ce que le CST (Comité Social Territorial) ?",
     options: [
-      "Comité des Salaires et Traitements",
+      "Comité des Salaires et Traitements remplaçant le CHSCT et le CT depuis 2023",
       "Instance de dialogue social remplaçant le CHSCT et le CT depuis 2023",
-      "Conseil Supérieur du Travail",
-      "Commission de Suivi des Titulaires",
+      "Conseil Supérieur du Travail remplaçant le CHSCT et le CT depuis 2023",
+      "Commission de Suivi des Titulaires remplaçant le CHSCT et le CT depuis 2023",
     ],
     correctIndex: 1,
     explanation: "Le CST (Comité Social Territorial) est la nouvelle instance de dialogue social qui a fusionné le Comité Technique (CT) et le CHSCT depuis la réforme de 2023.",
@@ -292,9 +292,9 @@ const ALL_QUESTIONS: Question[] = [
     question: "Qu'est-ce que le CAP (Conseil d'Administration Paritaire) ?",
     options: [
       "Une instance composée de représentants de l'administration et des personnels qui examine les situations individuelles des agents",
-      "Un comité de pilotage administratif permanent",
-      "Une commission d'attribution des primes",
-      "Un conseil d'administration des projets",
+      "Un comité de pilotage administratif permanent composée de représentants de l'administration et des personnels qui examine les situations individuelles des agents",
+      "Une commission d'attribution des primes composée de représentants de l'administration et des personnels qui examine les situations individuelles des agents",
+      "Un conseil d'administration des projets composée de représentants de l'administration et des personnels qui examine les situations individuelles des agents",
     ],
     correctIndex: 0,
     explanation: "Le CAP est une instance paritaire qui examine les situations individuelles des agents (avancements, mutations, sanctions, etc.).",
@@ -315,7 +315,7 @@ const ALL_QUESTIONS: Question[] = [
     options: [
       "1 ou 2 jours selon les conditions",
       "3 jours automatiquement",
-      "5 jours maximum",
+      "5 jours maximum selon les conditions",
       "Aucun jour supplémentaire",
     ],
     correctIndex: 0,
@@ -335,7 +335,7 @@ const ALL_QUESTIONS: Question[] = [
   {
     question: "Quelles sont les catégories hiérarchiques de la fonction publique territoriale ?",
     options: [
-      "Catégorie A, B et C uniquement",
+      "Catégorie A, B et D uniquement",
       "Catégorie A (cadres), B (techniciens/agents de maîtrise) et C (agents d'exécution)",
       "Catégorie 1, 2 et 3",
       "Catégorie junior, senior et expert",
@@ -379,10 +379,10 @@ const ALL_QUESTIONS: Question[] = [
   {
     question: "Qu'est-ce que le droit à la déconnexion ?",
     options: [
-      "Le droit de ne pas avoir de téléphone professionnel",
+      "Le droit de ne pas avoir de téléphone professionnel pendant son télétravail",
       "Le droit de ne pas être contacté professionnellement en dehors des heures de travail",
-      "Le droit de refuser l'accès à internet au travail",
-      "Le droit de désactiver son badge professionnel",
+      "Le droit de refuser l'accès à internet pendant son télétravail",
+      "Le droit de désactiver son badge professionnel pendant son congés",
     ],
     correctIndex: 1,
     explanation: "Le droit à la déconnexion est le droit pour l'agent de ne pas répondre aux sollicitations professionnelles en dehors de ses horaires de travail.",
@@ -391,8 +391,8 @@ const ALL_QUESTIONS: Question[] = [
     question: "Qu'est-ce que le télétravail flottant ?",
     options: [
       "Des jours de télétravail non fixes, choisis librement dans un crédit mensuel défini",
-      "Du télétravail uniquement les jours fériés",
-      "Du télétravail depuis l'étranger",
+      "Du télétravail uniquement les jours fériés dans un crédit mensuel défini",
+      "Du télétravail depuis la province",
       "Du télétravail partagé entre deux agents sur un même poste",
     ],
     correctIndex: 0,
@@ -401,10 +401,10 @@ const ALL_QUESTIONS: Question[] = [
   {
     question: "Qu'est-ce que l'entretien professionnel annuel ?",
     options: [
-      "Un entretien médical obligatoire avec la médecine du travail",
+      "Un entretien médical obligatoire avec la médecine du travail évaluant la santé et fixant les objectifs",
       "Un entretien entre l'agent et son supérieur hiérarchique direct évaluant le travail et fixant les objectifs",
-      "Un entretien de recrutement interne",
-      "Un entretien syndical annuel obligatoire",
+      "Un entretien de recrutement interne évaluant le travail et fixant les objectifs",
+      "Un entretien syndical annuel obligatoire avec le DRH évaluant le travail et fixant les objectifs",
     ],
     correctIndex: 1,
     explanation: "L'entretien professionnel annuel est conduit par le N+1 ; il évalue la manière de servir, fait le bilan de l'année et fixe les objectifs de l'année suivante.",
@@ -412,10 +412,10 @@ const ALL_QUESTIONS: Question[] = [
   {
     question: "Qu'est-ce que le congé de longue maladie (CLM) ?",
     options: [
-      "Un congé de 6 mois maximum",
+      "Un congé de 6 mois maximum (3 mois plein traitement + 3 mois demi-traitement)",
       "Un congé de 3 ans pour une affection grave (1 an plein traitement + 2 ans demi-traitement)",
       "Un congé équivalent au CMO mais sans limite de durée",
-      "Un congé accordé uniquement pour accident du travail",
+      "Un congé accordé uniquement pour accident du travail (1 an plein traitement + 2 ans demi-traitement)",
     ],
     correctIndex: 1,
     explanation: "Le CLM est accordé pour des affections graves : 1 an à plein traitement puis 2 ans à demi-traitement, soit 3 ans au total.",
@@ -423,10 +423,10 @@ const ALL_QUESTIONS: Question[] = [
   {
     question: "Qu'est-ce que le régime de travail en cycle ?",
     options: [
-      "Un travail uniquement de nuit en rotation hebdomadaire",
+      "Un travail uniquement de nuit en rotation hebdomadaire sur une période de référence",
       "Une organisation du temps de travail sur une période de référence supérieure à la semaine",
-      "Un travail alterné entre télétravail et présentiel",
-      "Un système de rotation des postes entre collègues",
+      "Un travail alterné entre télétravail et présentiel sur une période de référence supérieure à la semaine",
+      "Un système de rotation des postes entre collègues à l'intérieur du même cadre d'emplois",
     ],
     correctIndex: 1,
     explanation: "Le cycle de travail est une organisation sur une période > à la semaine, permettant de moduler les horaires tout en respectant les 1607h annuelles.",
@@ -435,9 +435,9 @@ const ALL_QUESTIONS: Question[] = [
     question: "Qu'est-ce que le CNAS ?",
     options: [
       "Caisse Nationale d'Action Sociale — organisme proposant des prestations sociales et culturelles aux agents territoriaux",
-      "Comité National d'Administration Syndicale",
-      "Centre National d'Appui et de Soutien aux agents",
-      "Commission Nationale d'Avancement et de Salaire",
+      "Comité National d'Administration Syndicale — organisme proposant des prestations sociales et culturelles aux agents territoriaux",
+      "Centre National d'Appui et de Soutien aux agents — organisme proposant des prestations sociales et culturelles aux agents territoriaux",
+      "Commission Nationale d'Avancement et de Salaire — organisme proposant des prestations sociales et culturelles aux agents territoriaux",
     ],
     correctIndex: 0,
     explanation: "Le CNAS propose des prestations sociales, culturelles et de loisirs aux agents de la fonction publique territoriale.",
@@ -467,10 +467,10 @@ const ALL_QUESTIONS: Question[] = [
   {
     question: "Qu'est-ce que le congé parental ?",
     options: [
-      "Un congé de maternité prolongé rémunéré",
+      "Un congé de maternité prolongé rémunéré jusqu'à ses 3 ans",
       "Un congé non rémunéré permettant d'élever son enfant jusqu'à ses 3 ans",
-      "Un congé payé pour s'occuper d'un enfant malade",
-      "Un congé accordé uniquement au père après la naissance",
+      "Un congé payé pour s'occuper d'un enfant malade pendant 3 mois",
+      "Un congé accordé uniquement au père après la naissance du 2ème enfants",
     ],
     correctIndex: 1,
     explanation: "Le congé parental est non rémunéré ; il permet à l'agent de cesser temporairement de travailler pour élever son enfant jusqu'au 3e anniversaire de celui-ci.",
@@ -489,9 +489,9 @@ const ALL_QUESTIONS: Question[] = [
   {
     question: "Qu'est-ce que le PPCR (Parcours Professionnels, Carrières et Rémunérations) ?",
     options: [
-      "Un programme de prévention contre les risques professionnels",
+      "Un programme de prévention contre les risques professionnels dans la fonction publique depuis 2015",
       "Une réforme restructurant les grilles indiciaires et les carrières dans la fonction publique depuis 2016",
-      "Un plan de formation professionnelle continue",
+      "Un plan de formation professionnelle continue dans la fonction publique depuis 2008",
       "Un protocole de protection et de conseil des représentants syndicaux",
     ],
     correctIndex: 1,
@@ -500,10 +500,10 @@ const ALL_QUESTIONS: Question[] = [
   {
     question: "Qu'est-ce qu'une grève et quelles en sont les modalités dans la FPT ?",
     options: [
-      "Une absence injustifiée passible de sanction disciplinaire",
+      "Une absence injustifiée passible de sanction disciplinaire sauf pour les syndiqués",
       "Une cessation collective du travail nécessitant un préavis de 5 jours francs déposé par un syndicat représentatif",
-      "Un arrêt de travail individuel autorisé sans préavis",
-      "Une manifestation extérieure sans impact sur la rémunération",
+      "Un arrêt de travail individuel autorisé sans préavis seulement pendant 3 heures",
+      "Une manifestation extérieure sans impact sur la rémunération pour une cause nationale",
     ],
     correctIndex: 1,
     explanation: "La grève dans la FPT nécessite un préavis de 5 jours francs déposé par un syndicat représentatif. Chaque journée de grève entraîne une retenue de 1/30e du traitement mensuel.",
@@ -555,10 +555,10 @@ const ALL_QUESTIONS: Question[] = [
   {
     question: "Dans quel cas un agent peut-il refuser un ordre hiérarchique sans s'exposer à une sanction disciplinaire ?",
     options: [
-      "Quand l'ordre lui semble inutile",
+      "Quand l'ordre lui semble inutile et contredit l'ordre d'un elu",
       "Quand l'ordre est manifestement illégal et compromet gravement un intérêt public",
-      "Quand l'ordre est donné oralement",
-      "Quand l'ordre modifie ses horaires de travail",
+      "Quand l'ordre est donné oralement et compromet gravement un intérêt public",
+      "Quand l'ordre modifie ses horaires de travail sans le préavis obligatoire de 15 jours",
     ],
     correctIndex: 1,
     explanation: "Un agent ne peut refuser d'obéir que si l'ordre est manifestement illégal et de nature à compromettre gravement un intérêt public. Les deux conditions sont cumulatives.",
@@ -632,9 +632,9 @@ const ALL_QUESTIONS: Question[] = [
   {
     question: "Quelles affections ouvrent droit au congé de longue durée (CLD) ?",
     options: [
-      "Toute maladie reconnue en ALD",
+      "Toute maladie reconnue en ALD et qui sont inscrites aux tableaux de la sécu",
       "Tuberculose, maladie mentale, affection cancéreuse, poliomyélite et déficit immunitaire grave et acquis",
-      "Uniquement les cancers et les maladies professionnelles",
+      "Uniquement les cancers et les maladies professionnelles qui se sont declarées pendant les heures ou sur le lieu de travail",
       "Toute pathologie ayant entraîné un arrêt supérieur à 6 mois",
     ],
     correctIndex: 1,
@@ -665,10 +665,10 @@ const ALL_QUESTIONS: Question[] = [
   {
     question: "Quand un accident est-il présumé imputable au service ?",
     options: [
-      "Dès qu'il survient pendant une pause déjeuner, quel que soit le lieu",
+      "Dès qu'il survient pendant une pause déjeuner, quel que soit le lieu meme si le lieu est hors de la collectivité",
       "Lorsqu'il survient dans le temps et le lieu du service, dans l'exercice ou à l'occasion des fonctions, sans faute personnelle ni circonstance détachant l'accident du service",
       "Uniquement s'il entraîne une hospitalisation",
-      "Seulement s'il est reconnu par un supérieur hiérarchique témoin des faits",
+      "Seulement s'il est reconnu par un supérieur hiérarchique sans témoin des faits et sans faute personnelle ni circonstance détachant l'accident du service",
     ],
     correctIndex: 1,
     explanation: "L'accident est présumé imputable au service lorsqu'il survient dans le temps et le lieu du service, dans l'exercice ou à l'occasion des fonctions, sauf faute personnelle ou circonstance particulière détachant l'accident du service.",
