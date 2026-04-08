@@ -1,3 +1,9 @@
+import dotenv from 'dotenv';
+
+// Support local runs (e.g. vercel dev) by loading .env and .env.local.
+dotenv.config();
+dotenv.config({ path: '.env.local', override: true });
+
 export default async function handler(req, res) {
   // Ajouter les headers CORS
   res.setHeader('Access-Control-Allow-Credentials', true);

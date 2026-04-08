@@ -719,23 +719,24 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                           key={dir}
                           onClick={() => handleDirectionSelect(dir)}
                           style={{ animationDelay: `${Math.min(420, allDirections.indexOf(dir) * 35)}ms` }}
-                          className={`text-left p-4 rounded-xl border-2 transition-all duration-300 glass-card ${
+                          className={`group relative overflow-hidden text-left p-4 rounded-xl border-2 transition-all duration-300 glass-card ${
                             isActive
                               ? `${visual.active} scale-[1.02]`
-                              : `bg-slate-700/30 border-slate-600/30 ${visual.hover} hover:bg-slate-700/50`
+                              : `bg-slate-700/30 border-slate-600/30 ${visual.hover} hover:bg-slate-700/50 hover:-translate-y-1 hover:scale-[1.015] hover:shadow-2xl hover:shadow-purple-950/40`
                           } animate-in fade-in slide-in-from-bottom duration-500`}
                         >
+                          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.16),_transparent_32%),linear-gradient(135deg,_rgba(192,132,252,0.14),_transparent_58%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                           <div className="flex items-start justify-between gap-3">
                             <div className="flex items-start gap-3">
-                              <div className={`w-10 h-10 rounded-lg border flex items-center justify-center ${visual.badge}`}>
-                                <DirectionIcon className="w-5 h-5" />
+                              <div className={`w-10 h-10 rounded-lg border flex items-center justify-center transition-all duration-300 ${visual.badge} ${isActive ? '' : 'group-hover:-translate-y-1 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-purple-500/25'}`}>
+                                <DirectionIcon className={`w-5 h-5 transition-all duration-300 ${isActive ? '' : 'group-hover:scale-110 group-hover:rotate-3'}`} />
                               </div>
                               <div>
-                                <p className="text-white font-semibold">{getDirectionFullName(dir)}</p>
-                                <p className="text-xs text-slate-400 mt-1">Code: {dir}</p>
+                                <p className={`font-semibold transition-colors duration-300 ${isActive ? 'text-white' : 'text-white group-hover:text-purple-100'}`}>{getDirectionFullName(dir)}</p>
+                                <p className="text-xs text-slate-400 mt-1 transition-colors duration-300 group-hover:text-purple-200/80">Code: {dir}</p>
                               </div>
                             </div>
-                            <span className="text-xs px-2 py-1 rounded-full bg-slate-700/70 text-slate-200 border border-slate-500/40">
+                            <span className="text-xs px-2 py-1 rounded-full bg-slate-700/70 text-slate-200 border border-slate-500/40 transition-all duration-300 group-hover:border-purple-300/40 group-hover:bg-purple-500/10 group-hover:text-purple-100">
                               {directionJobsCount} métiers
                             </span>
                           </div>
@@ -817,14 +818,15 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                           key={job}
                           onClick={() => handleJobSelect(job)}
                           style={{ animationDelay: `${Math.min(320, idx * 22)}ms` }}
-                          className={`w-full rounded-xl border-2 transition-all glass-card ${compactJobsView ? 'p-3' : 'p-3.5'} ${
+                          className={`group relative overflow-hidden w-full rounded-xl border-2 transition-all glass-card ${compactJobsView ? 'p-3' : 'p-3.5'} ${
                             selectedJob === job
                               ? 'bg-gradient-to-r from-teal-500/25 to-cyan-500/20 border-teal-300/80 shadow-lg shadow-teal-500/20'
-                              : 'bg-slate-700/35 border-slate-500/30 hover:bg-slate-700/55 hover:border-teal-400/45'
+                              : 'bg-slate-700/35 border-slate-500/30 hover:bg-slate-700/55 hover:border-teal-400/45 hover:-translate-y-1 hover:scale-[1.01] hover:shadow-xl hover:shadow-cyan-950/40'
                           } animate-in fade-in duration-300`}
                         >
+                          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(94,234,212,0.14),_transparent_34%),linear-gradient(135deg,_rgba(45,212,191,0.12),_transparent_65%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                           <div className="flex flex-col items-center justify-center gap-1">
-                            <p className={`${compactJobsView ? 'text-sm' : 'text-base'} text-white font-semibold text-center leading-snug`}>{job}</p>
+                            <p className={`${compactJobsView ? 'text-sm' : 'text-base'} font-semibold text-center leading-snug transition-colors duration-300 ${selectedJob === job ? 'text-white' : 'text-white group-hover:text-teal-100'}`}>{job}</p>
                             {selectedJob === job && (
                               <span className="inline-flex items-center gap-1 text-[11px] text-teal-200 bg-teal-500/20 border border-teal-300/50 rounded-full px-2 py-0.5">
                                 <CheckCircle2 className="w-3 h-3" />

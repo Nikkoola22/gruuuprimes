@@ -19,9 +19,9 @@ const LandingPage = lazy(() => import("./components/LandingPage.tsx"))
 const BASE_URL = import.meta.env.BASE_URL
 
 // --- CONFIGURATION API PERPLEXITY ---
-const BACKEND_API_URL = import.meta.env.DEV 
+const BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL || (import.meta.env.DEV 
   ? "http://localhost:3001/api/completions" 
-  : "/api/completions"
+  : "/api/completions")
 
 // --- RSS ITEM TYPE ---
 interface RssItem {
