@@ -123,6 +123,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
   const serviceSectionRef = useRef<HTMLDivElement | null>(null)
   const jobSectionRef = useRef<HTMLDivElement | null>(null)
+  const primesSectionRef = useRef<HTMLDivElement | null>(null)
   const navigationSectionRef = useRef<HTMLDivElement | null>(null)
   const mainScrollRef = useRef<HTMLDivElement | null>(null)
 
@@ -145,7 +146,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
   const specialPrimesData = useMemo(() => [
     { name: 'Prime intérim', amount: 150, desc: 'Remplacement temporaire d\'un poste vacant' },
-    { name: 'Prime technicité', amount: 75, desc: 'Expertise technique reconnue' },
+    { name: 'Prime technicité (Formateur)', amount: 75, desc: 'Expertise technique reconnue' },
     { name: 'Prime Maître apprentissage', amount: 98.46, desc: 'Encadrement d\'un apprenti' },
     { name: 'Prime Référent financier suppléant', amount: 40, desc: 'Suppléance référent financier' },
     { name: 'Prime ODEC Partiel', amount: 40, desc: 'Officier d\'état civil partiel' },
@@ -350,6 +351,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
       }
     })
     setSelectedIFSE2(newSelectedIFSE2)
+    scrollToSection(primesSectionRef, 450)
   }
 
   const handleToggleIFSE2 = (idx: number) => {
@@ -447,9 +449,9 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-slate-700 via-slate-600 to-slate-700 flex flex-col">
       {/* Header */}
-      <div className="bg-gradient-to-r from-slate-800/95 to-slate-900/95 backdrop-blur-md py-4 border-b border-slate-700/50 shadow-xl glass-banner">
+      <div className="bg-gradient-to-r from-slate-700/95 to-slate-600/95 backdrop-blur-md py-4 border-b border-slate-500/50 shadow-xl glass-banner">
         <div className="px-4 sm:px-6 flex items-center justify-between max-w-4xl mx-auto">
           <div className="flex items-center gap-3">
             <div className={`p-3 bg-gradient-to-br ${stepColor.bg} rounded-xl shadow-lg`}>
@@ -473,7 +475,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
       </div>
 
       {/* Barre de progression */}
-      <div className="bg-slate-800/50 border-b border-slate-700/30 py-3 px-4 glass-banner">
+      <div className="bg-slate-700/50 border-b border-slate-500/30 py-3 px-4 glass-banner">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-between mb-2">
             {STEPS.map((step, idx) => {
@@ -577,7 +579,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
           </div>
 
           {/* Contenu de l'étape */}
-          <div className={`p-4 sm:p-6 rounded-2xl bg-slate-800/50 border border-slate-700/50 shadow-lg ring-2 ${stepColor.ring} transition-all duration-500 glass-card`}>
+          <div className={`p-4 sm:p-6 rounded-2xl bg-slate-700/50 border border-slate-500/50 shadow-lg ring-2 ${stepColor.ring} transition-all duration-500 glass-card`}>
             
             {/* ÉTAPE 1: Catégorie */}
             {currentStep === 1 && (
@@ -588,32 +590,29 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                     3 profils
                   </span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {[
-                    { key: 'A', level: 'Cadres', diploma: '', accent: 'from-blue-500/35 to-cyan-500/35', activeBorder: 'border-blue-400', hoverBorder: 'hover:border-blue-400/50', glow: 'shadow-blue-500/20' },
-                    { key: 'B', level: 'Intermédiaires', diploma: '', accent: 'from-cyan-500/35 to-teal-500/35', activeBorder: 'border-cyan-400', hoverBorder: 'hover:border-cyan-400/50', glow: 'shadow-cyan-500/20' },
-                    { key: 'C', level: 'Exécution', diploma: '', accent: 'from-teal-500/35 to-green-500/35', activeBorder: 'border-teal-400', hoverBorder: 'hover:border-teal-400/50', glow: 'shadow-teal-500/20' },
+                    { key: 'A', level: 'Cadres', accent: 'from-blue-600 to-cyan-600', activeBorder: 'border-blue-400', hoverBorder: 'hover:border-blue-400/70', glow: 'shadow-blue-600/40', lightBg: 'bg-blue-950/60' },
+                    { key: 'B', level: 'Intermédiaires', accent: 'from-cyan-600 to-teal-600', activeBorder: 'border-cyan-400', hoverBorder: 'hover:border-cyan-400/70', glow: 'shadow-cyan-600/40', lightBg: 'bg-cyan-950/60' },
+                    { key: 'C', level: 'Exécution', accent: 'from-teal-600 to-green-600', activeBorder: 'border-teal-400', hoverBorder: 'hover:border-teal-400/70', glow: 'shadow-teal-600/40', lightBg: 'bg-teal-950/60' },
                   ].map(cat => (
                     <button
                       key={cat.key}
                       onClick={() => handleCategorySelect(cat.key)}
-                      className={`p-4 sm:p-6 rounded-xl border-2 transition-all duration-300 ${
+                      className={`p-5 sm:p-6 rounded-xl border-2 transition-all duration-300 ${
                         selectedCategory === cat.key
-                          ? `bg-gradient-to-br ${cat.accent} ${cat.activeBorder} shadow-lg ${cat.glow} scale-[1.02]`
-                          : `bg-slate-700/30 border-slate-600/30 ${cat.hoverBorder} hover:bg-slate-700/50`
+                          ? `bg-gradient-to-br ${cat.accent} ${cat.activeBorder} shadow-xl ${cat.glow} scale-105`
+                          : `${cat.lightBg} border-slate-600 ${cat.hoverBorder} hover:shadow-lg`
                       }`}
                     >
                       <div className="flex items-start justify-between gap-2 mb-3">
-                        <div className="text-left">
-                          <div className="text-xl sm:text-2xl font-bold text-white">Cat. {cat.key}</div>
-                          <div className="text-sm text-white/90 font-medium">{cat.level}</div>
+                        <div className="text-left flex-1">
+                          <div className="text-2xl sm:text-3xl font-black text-white">Cat. {cat.key}</div>
+                          <div className="text-base text-white/95 font-bold">{cat.level}</div>
                         </div>
                         {selectedCategory === cat.key && (
-                          <CheckCircle2 className="w-5 h-5 text-white" />
+                          <CheckCircle2 className="w-6 h-6 text-white flex-shrink-0 mt-1" />
                         )}
-                      </div>
-                      <div className="text-xs text-white/85 text-left">
-                        {cat.diploma}
                       </div>
                     </button>
                   ))}
@@ -736,7 +735,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                                 <p className="text-xs text-slate-400 mt-1">Code: {dir}</p>
                               </div>
                             </div>
-                            <span className="text-xs px-2 py-1 rounded-full bg-slate-800/70 text-slate-300 border border-slate-600/40">
+                            <span className="text-xs px-2 py-1 rounded-full bg-slate-700/70 text-slate-200 border border-slate-500/40">
                               {directionJobsCount} métiers
                             </span>
                           </div>
@@ -792,12 +791,12 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                       <span className="w-7 h-7 rounded-full bg-emerald-500/30 border border-emerald-400/50 flex items-center justify-center text-emerald-200 font-bold text-sm">3</span>
                       <h3 className="text-base sm:text-lg font-bold text-white">Votre métier</h3>
                     </div>
-                    <p className="text-xs text-amber-300 mb-3 font-medium text-center">Si votre métier n'apparaît pas, aucune IFSE2 ne s'applique à votre profil.</p>
+                    <p className="text-sm sm:text-base text-amber-300 mb-3 font-semibold text-center">Si votre métier n'apparaît pas, aucune IFSE2 ne s'applique à votre profil.</p>
 
                     <div className="flex items-center justify-between mb-2 max-w-2xl mx-auto">
-                      <p className="text-xs text-slate-400">{availableJobs.length} métier(s) disponible(s)</p>
+                      <p className="text-sm font-semibold text-emerald-300">{availableJobs.length} métier(s) disponible(s)</p>
                       {selectedJob && (
-                        <p className="text-xs text-teal-300">Sélection: {selectedJob}</p>
+                        <p className="text-sm font-medium text-teal-300">Sélection: {selectedJob}</p>
                       )}
                     </div>
 
@@ -849,7 +848,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
                 {/* Primes associées */}
                 {selectedJob && (
-                  <div className="animate-in slide-in-from-bottom duration-300">
+                  <div ref={primesSectionRef} className="animate-in slide-in-from-bottom duration-300">
                     <div className="mb-3 p-3 bg-teal-500/10 border border-teal-500/30 rounded-lg glass-card max-w-2xl mx-auto text-center">
                       <p className="text-sm text-teal-300">
                         {getDirectionFullName(selectedDirection)}
@@ -859,14 +858,14 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                         {selectedJob} · {selectedIFSE2.size} prime(s) activée(s)
                       </p>
                     </div>
-                    <label className="text-sm text-slate-300 block font-semibold mb-2 text-center">Primes disponibles pour votre profil :</label>
-                    <div className="flex flex-wrap justify-center gap-6 max-h-56 overflow-y-auto pr-2 teal-scrollbar max-w-2xl mx-auto">
+                    <label className="text-sm text-slate-300 block font-semibold mb-3 text-center">Primes disponibles pour votre profil :</label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
                       {availablePrimesForSelectedJob.map((prime, idx) => (
                         <button
                           key={`${prime.motif}-${prime.realIdx}`}
                           onClick={() => handleToggleIFSE2(prime.realIdx)}
                           style={{ animationDelay: `${Math.min(260, idx * 24)}ms` }}
-                          className={`bg-white/90 rounded-2xl shadow-2xl border border-blue-200 p-5 w-full max-w-xs transition-transform hover:scale-105 hover:shadow-blue-400/50 flex flex-col items-center text-center glass-card animate-in fade-in duration-300 ${
+                          className={`bg-white/90 rounded-xl shadow-lg border border-blue-200 p-4 transition-transform hover:scale-105 hover:shadow-blue-400/50 flex flex-col items-center text-center glass-card animate-in fade-in duration-300 ${
                             selectedIFSE2.has(prime.realIdx)
                               ? 'ring-2 ring-teal-400 border-teal-400 scale-105'
                               : 'hover:ring-2 hover:ring-blue-300'
@@ -876,9 +875,9 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                             <div className={`w-7 h-7 rounded-full flex items-center justify-center mb-1 ${selectedIFSE2.has(prime.realIdx) ? 'bg-teal-500 border-teal-400 border-2' : 'bg-blue-100 border border-blue-200'}`}> 
                               {selectedIFSE2.has(prime.realIdx) && <span className="text-white text-base">✓</span>}
                             </div>
-                            <p className="text-base font-bold text-blue-700 leading-snug w-full break-words">{prime.motif}</p>
+                            <p className="text-sm font-bold text-blue-700 leading-snug w-full break-words">{prime.motif}</p>
                             <p className="text-xs text-gray-500 w-full break-words">{prime.service}</p>
-                            <span className="text-xl font-semibold text-green-600 mt-2 block">{prime.amount}€</span>
+                            <span className="text-lg font-semibold text-green-600 mt-1 block">{prime.amount}€</span>
                             {lastToggledPrimeIdx === prime.realIdx && (
                               <span className={`text-[11px] ${lastToggleWasAdd ? 'text-emerald-500' : 'text-amber-500'} animate-pulse`}>
                                 {lastToggleWasAdd ? 'Ajoutée' : 'Retirée'}
@@ -936,7 +935,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                     <select
                       value={weekendRateSat}
                       onChange={e => setWeekendRateSat(Number(e.target.value))}
-                      className="w-full px-2 py-2 rounded border border-purple-400 bg-slate-900 text-purple-200 text-sm glass-pill"
+                      className="w-full px-2 py-2 rounded border border-purple-400 bg-slate-700 text-purple-200 text-sm glass-pill"
                     >
                       {[40, 60, 80].map(rate => (
                         <option key={rate} value={rate}>{rate} €</option>
@@ -967,7 +966,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                     <select
                       value={weekendRateSun}
                       onChange={e => setWeekendRateSun(Number(e.target.value))}
-                      className="w-full px-2 py-2 rounded border border-purple-400 bg-slate-900 text-purple-200 text-sm glass-pill"
+                      className="w-full px-2 py-2 rounded border border-purple-400 bg-slate-700 text-purple-200 text-sm glass-pill"
                     >
                       {[40, 60, 80].map(rate => (
                         <option key={rate} value={rate}>{rate} €</option>
@@ -1127,7 +1126,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                 className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all ${
                   canGoPrev()
                     ? 'bg-slate-700 hover:bg-slate-600 text-white'
-                    : 'bg-slate-800 text-slate-600 cursor-not-allowed'
+                    : 'bg-slate-700 text-slate-500 cursor-not-allowed'
                 }`}
               >
                 <ChevronLeft className="w-5 h-5" />
@@ -1140,7 +1139,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                 className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all ${
                   canGoNext()
                     ? `bg-gradient-to-r ${stepColor.bg} hover:opacity-90 text-white shadow-lg`
-                    : 'bg-slate-800 text-slate-600 cursor-not-allowed'
+                    : 'bg-slate-700 text-slate-500 cursor-not-allowed'
                 }`}
               >
                 {currentStep === 5 ? 'Voir le résultat' : 'Suivant'}

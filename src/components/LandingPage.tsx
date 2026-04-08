@@ -378,12 +378,12 @@ export default function LandingPage({ onEnter, onQuizz }: Props) {
           onClick={onEnter}
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 9,
-            padding: 'clamp(10px, 2.5vw, 13px) clamp(20px, 4vw, 26px)', borderRadius: 12, border: 'none',
-            background: 'linear-gradient(135deg, #FF1C74, #CC0055)',
-            color: '#fff', fontFamily: "'Outfit', sans-serif",
-            fontSize: 'clamp(13px, 3vw, 15px)', fontWeight: 600, letterSpacing: '0.02em',
+            padding: 'clamp(10px, 2.5vw, 13px) clamp(20px, 4vw, 26px)', borderRadius: 12, border: '2px solid #00FFFF',
+            background: 'linear-gradient(135deg, #1a0033 0%, #003044 100%)',
+            color: '#00FFFF', fontFamily: "'Outfit', sans-serif",
+            fontSize: 'clamp(13px, 3vw, 15px)', fontWeight: 700, letterSpacing: '0.02em',
             cursor: 'pointer',
-            boxShadow: '0 0 0 1px rgba(255,28,116,0.25), 0 6px 28px rgba(204,0,85,0.42), inset 0 1px 0 rgba(255,255,255,0.12)',
+            boxShadow: '0 0 0 2px rgba(0,255,255,0.2), 0 0 20px rgba(0,255,255,0.55), inset 0 1px 0 rgba(255,255,255,0.08)',
             transition: 'transform 0.2s, box-shadow 0.2s',
           }}
         >
