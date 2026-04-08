@@ -447,7 +447,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-700 via-slate-600 to-slate-700 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-violet-900 via-purple-800 to-violet-900 flex flex-col">
       {/* Header */}
       <div className="bg-gradient-to-r from-slate-800/95 to-slate-900/95 backdrop-blur-md py-4 border-b border-slate-700/50 shadow-xl glass-banner">
         <div className="px-4 sm:px-6 flex items-center justify-between max-w-4xl mx-auto">
