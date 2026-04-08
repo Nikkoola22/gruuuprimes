@@ -449,9 +449,9 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-700 via-slate-600 to-slate-700 flex flex-col">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(216,180,254,0.22),_transparent_28%),linear-gradient(135deg,_rgb(58,28,113)_0%,_rgb(91,33,182)_48%,_rgb(76,29,149)_100%)] flex flex-col">
       {/* Header */}
-      <div className="bg-gradient-to-r from-slate-700/95 to-slate-600/95 backdrop-blur-md py-4 border-b border-slate-500/50 shadow-xl glass-banner">
+      <div className="bg-gradient-to-r from-violet-950/90 via-purple-900/90 to-fuchsia-950/90 backdrop-blur-md py-4 border-b border-purple-200/15 shadow-xl glass-banner">
         <div className="px-4 sm:px-6 flex items-center justify-between max-w-4xl mx-auto">
           <div className="flex items-center gap-3">
             <div className={`p-3 bg-gradient-to-br ${stepColor.bg} rounded-xl shadow-lg`}>
@@ -459,7 +459,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
             </div>
             <div>
               <h1 className="text-xl sm:text-2xl font-semibold text-white">Calculateur de Primes</h1>
-              <p className="text-slate-400 text-xs sm:text-sm">Estimez vos primes RIFSEEP en quelques clics</p>
+              <p className="text-purple-100/75 text-xs sm:text-sm">Estimez vos primes RIFSEEP en quelques clics</p>
             </div>
           </div>
           {onClose && (
@@ -475,7 +475,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
       </div>
 
       {/* Barre de progression */}
-      <div className="bg-slate-700/50 border-b border-slate-500/30 py-3 px-4 glass-banner">
+      <div className="bg-purple-950/30 border-b border-purple-200/10 py-3 px-4 glass-banner">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-between mb-2">
             {STEPS.map((step, idx) => {
@@ -499,7 +499,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                         ? 'bg-green-500 text-white shadow-lg shadow-green-500/30'
                         : status === 'active'
                           ? `bg-gradient-to-br ${getStepColor(step.color).bg} text-white shadow-lg animate-pulse`
-                          : 'bg-slate-700 text-slate-400'
+                            : 'bg-purple-950/50 text-purple-100/55'
                     }`}>
                       {status === 'completed' ? (
                         <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -508,14 +508,14 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                       )}
                     </div>
                     <span className={`text-[10px] sm:text-xs mt-1 font-medium ${
-                      status === 'active' ? getStepColor(step.color).text : 'text-slate-500'
+                      status === 'active' ? getStepColor(step.color).text : 'text-purple-100/45'
                     }`}>
                       {step.title}
                     </span>
                   </button>
                   {idx < STEPS.length - 1 && (
                     <div className={`w-4 sm:w-8 h-0.5 mx-1 sm:mx-2 transition-all duration-500 ${
-                      getStepStatus(STEPS[idx + 1].id) !== 'pending' ? 'bg-green-500' : 'bg-slate-700'
+                      getStepStatus(STEPS[idx + 1].id) !== 'pending' ? 'bg-green-500' : 'bg-purple-950/60'
                     }`} />
                   )}
                 </div>
@@ -547,46 +547,46 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
         <div className="max-w-2xl mx-auto">
           
           {/* En-tête de l'étape */}
-          <div className={`mb-6 p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border ${stepColor.border} shadow-xl glass-card`}>
+          <div className={`mb-6 p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-violet-950/80 via-purple-950/80 to-fuchsia-950/80 border ${stepColor.border} shadow-xl glass-card`}>
             <div className="flex items-start gap-4">
               <div className={`p-3 rounded-xl bg-gradient-to-br ${stepColor.bg} shadow-lg`}>
                 <StepIcon className="w-6 h-6 text-white" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-slate-500 text-sm">Étape {currentStep}/6</span>
-                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${stepColor.text} bg-slate-700/50`}>
+                  <span className="text-purple-100/55 text-sm">Étape {currentStep}/6</span>
+                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${stepColor.text} bg-purple-950/45 border border-purple-200/10`}>
                     {currentStepData.subtitle}
                   </span>
                 </div>
                 <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">{currentStepData.title}</h2>
-                <p className="text-slate-400 text-sm">{currentStepData.description}</p>
+                <p className="text-purple-100/75 text-sm">{currentStepData.description}</p>
               </div>
             </div>
             
             {/* Tip */}
             {showTip && (
-              <div className="mt-4 p-3 bg-slate-700/30 rounded-lg border border-slate-600/30 flex items-start gap-3 glass-card">
+              <div className="mt-4 p-3 bg-purple-950/35 rounded-lg border border-purple-200/15 flex items-start gap-3 glass-card">
                 <Info className="w-4 h-4 text-amber-400 mt-0.5 flex-shrink-0" />
                 {currentStepData.tip === "💡 Ces primes sont versées uniquement si vous êtes dans une situation particulière" ? (
                   <p className="text-base font-bold text-yellow-400">{currentStepData.tip}</p>
                 ) : (
-                  <p className="text-xs sm:text-sm text-slate-300">{currentStepData.tip}</p>
+                  <p className="text-xs sm:text-sm text-purple-100/85">{currentStepData.tip}</p>
                 )}
-                <button onClick={() => setShowTip(false)} className="text-slate-500 hover:text-slate-300 text-xs">✕</button>
+                <button onClick={() => setShowTip(false)} className="text-purple-100/45 hover:text-purple-100 text-xs">✕</button>
               </div>
             )}
           </div>
 
           {/* Contenu de l'étape */}
-          <div className={`p-4 sm:p-6 rounded-2xl bg-slate-700/50 border border-slate-500/50 shadow-lg ring-2 ${stepColor.ring} transition-all duration-500 glass-card`}>
+          <div className={`p-4 sm:p-6 rounded-2xl bg-purple-950/30 border border-purple-200/15 shadow-lg ring-2 ${stepColor.ring} transition-all duration-500 glass-card`}>
             
             {/* ÉTAPE 1: Catégorie */}
             {currentStep === 1 && (
               <div className="space-y-4 animate-in fade-in duration-500">
                 <div className="flex items-center justify-between gap-3 mb-1">
-                  <label className="text-sm text-slate-400 block font-medium">Sélectionnez votre catégorie d'emploi :</label>
-                  <span className="text-xs px-2 py-1 rounded-full bg-slate-700/60 border border-slate-600/40 text-slate-300">
+                  <label className="text-sm text-purple-100/75 block font-medium">Sélectionnez votre catégorie d'emploi :</label>
+                  <span className="text-xs px-2 py-1 rounded-full bg-purple-950/45 border border-purple-200/15 text-purple-100/80">
                     3 profils
                   </span>
                 </div>
@@ -633,14 +633,14 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
             {currentStep === 2 && (
               <div className="space-y-4 animate-in fade-in duration-500">
                 <div className="flex items-center justify-between gap-3">
-                  <label className="text-sm text-slate-400 block font-medium">Choisissez votre fonction :</label>
+                  <label className="text-sm text-purple-100/75 block font-medium">Choisissez votre fonction :</label>
                   <span className="text-xs px-2 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-200">
                     Cat. {selectedCategory}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400">{functionsForCategory.length} fonction(s)</span>
+                  <span className="text-purple-100/65">{functionsForCategory.length} fonction(s)</span>
                   {selectedFunctionIndex !== null && (
                     <span className="text-cyan-300">Sélection active</span>
                   )}

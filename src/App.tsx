@@ -1,22 +1,18 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect, useMemo, lazy, Suspense } from "react"
 import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, Scale, Landmark, GraduationCap, Coins } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
-import { chapitres } from "./data/temps.ts"
-import { formation } from "./data/formation.ts"
-import { teletravailData } from "./data/teletravail.ts"
-import { sommaireUnifie, rechercherAvecPriorite } from "./data/sommaireUnifie.ts"
-import { searchFichesByKeywordsAsync } from "./utils/ficheSearch.ts"
 import { infoItems } from "./data/info-data.ts"
 import { franceInfoRss } from "./data/rss-data.ts"
 import AdminPanel from "./components/AdminPanel.tsx"
 import AdminLogin from "./components/AdminLogin.tsx"
-import CalculateurCIAV2 from "./components/CalculateurCIAV2.tsx"
-import CalculateurPrimesV2 from "./components/CalculateurPrimesV2.tsx"
-import Calculateur13emeV2 from "./components/Calculateur13emeV2.tsx"
-import Metiers from "./components/Metiers.tsx"
-import FAQ from "./components/FAQ.tsx"
-import LandingPage from "./components/LandingPage.tsx"
+
+const CalculateurCIAV2 = lazy(() => import("./components/CalculateurCIAV2.tsx"))
+const CalculateurPrimesV2 = lazy(() => import("./components/CalculateurPrimesV2.tsx"))
+const Calculateur13emeV2 = lazy(() => import("./components/Calculateur13emeV2.tsx"))
+const Metiers = lazy(() => import("./components/Metiers.tsx"))
+const FAQ = lazy(() => import("./components/FAQ.tsx"))
+const LandingPage = lazy(() => import("./components/LandingPage.tsx"))
 
 
 // --- CONFIGURATION BASE URL POUR GITHUB PAGES ---
@@ -45,6 +41,53 @@ const updateMarqueeDuration = (el: HTMLDivElement | null) => {
   el.style.animation = "none"
   void el.offsetHeight
   el.style.animation = ""
+}
+
+const ViewLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-950 to-slate-900">
+    <div className="px-4 py-3 rounded-xl border border-purple-400/30 bg-slate-900/60 text-purple-100/90 backdrop-blur-md">
+      Chargement en cours...
+    </div>
+  </div>
+)
+
+type SearchDeps = {
+  chapitres: Record<number, string>
+  formation: string
+  teletravailData: unknown
+  sommaireUnifie: Array<{
+    id: string
+    titre: string
+    resume?: string
+    motsCles: string[]
+    source: string
+    chapitre?: number
+  }>
+  rechercherAvecPriorite: (query: string, maxResults?: number) => Array<{ id: string }>
+  searchFichesByKeywordsAsync: (keywords: string[]) => Promise<{ results?: unknown[] }>
+}
+
+let searchDepsPromise: Promise<SearchDeps> | null = null
+
+const loadSearchDeps = async (): Promise<SearchDeps> => {
+  if (!searchDepsPromise) {
+    searchDepsPromise = Promise.all([
+      import("./data/temps.ts"),
+      import("./data/formation.ts"),
+      import("./data/teletravail.ts"),
+      import("./data/sommaireUnifie.ts"),
+      import("./utils/ficheSearch.ts"),
+    ]).then(([tempsModule, formationModule, teletravailModule, sommaireModule, ficheSearchModule]) => ({
+      chapitres: tempsModule.chapitres as Record<number, string>,
+      formation: formationModule.formation as string,
+      teletravailData: teletravailModule.teletravailData,
+      sommaireUnifie: sommaireModule.sommaireUnifie,
+      rechercherAvecPriorite: sommaireModule.rechercherAvecPriorite,
+      searchFichesByKeywordsAsync: ficheSearchModule.searchFichesByKeywordsAsync,
+    }))
+  }
+
+  return searchDepsPromise
 }
 
 // --- COMPOSANT RSS BANDEAU (mémorisé pour éviter les re-renders) ---
@@ -237,7 +280,7 @@ function App() {
   }, [])
 
   // --- ACTUALITÉS STATIQUES CFDT INTERCO (fallback) ---
-  const intercoFallbackNews: IntercoNewsItem[] = [
+  const intercoFallbackNews = useMemo<IntercoNewsItem[]>(() => [
     { title: "8 mars, Journée internationale des droits des femmes : la France doit s'engager pour l'égalité !", link: "https://interco.cfdt.fr/8-mars-journee-internationale-des-droits-des-femmes-la-france-doit-sengager-pour-legalite/", pubDate: "Sat, 08 Mar 2026 00:00:00 +0000", category: "Actu générale", description: "Communiqué intersyndical pour la Journée internationale des droits des femmes." },
     { title: "La CFDT réagit à l'annonce de la création de 150 postes en milieu ouvert à la PJJ", link: "https://interco.cfdt.fr/quand-la-protection-judiciaire-de-la-jeunesse-entend-reinventer-le-placement/", pubDate: "Fri, 20 Feb 2026 00:00:00 +0000", category: "Protection judiciaire", description: "Quand la protection judiciaire de la jeunesse entend réinventer le placement." },
     { title: "Défendre l'autonomie et les moyens du CNFPT", link: "https://interco.cfdt.fr/defendre-lautonomie-et-les-moyens-du-cnfpt/", pubDate: "Thu, 12 Feb 2026 00:00:00 +0000", category: "Territoriale", description: "Déclaration CFDT pour défendre l'autonomie et les moyens du CNFPT." },
@@ -245,7 +288,7 @@ function App() {
     { title: "Se donner l'ambition et les moyens — CSA PJJ du 5 février 2026", link: "https://interco.cfdt.fr/se-donner-lambition-et-les-moyens/", pubDate: "Thu, 05 Feb 2026 00:00:00 +0000", category: "Actu générale", description: "Déclaration préliminaire de la CFDT au CSA PJJ du 5 février 2026." },
     { title: "Un changement de cap clair et concret est demandé !", link: "https://interco.cfdt.fr/un-changement-de-cap-clair-et-concret-est-demande/", pubDate: "Sun, 26 Jan 2026 00:00:00 +0000", category: "Affaires sociales", description: "Déclaration liminaire de la CFDT lors de la rencontre avec la ministre de la Santé." },
     { title: "Déclaration liminaire CFDT au CSA services judiciaires du 19 février", link: "https://interco.cfdt.fr/lacte-de-juger-ne-se-reduit-pas-au-rendu-dune-decision/", pubDate: "Wed, 19 Feb 2026 00:00:00 +0000", category: "Services judiciaires", description: "L'absence de réflexion transverse sur le sens des missions de chacun." },
-  ]
+  ], [])
 
   // --- CHARGER LES ACTUALITÉS INTERCO CFDT ---
   useEffect(() => {
@@ -277,7 +320,7 @@ function App() {
     fetchIntercoNews()
     const interval = setInterval(fetchIntercoNews, 30 * 60 * 1000)
     return () => clearInterval(interval)
-  }, [])
+  }, [intercoFallbackNews])
 
   // --- FONCTIONS DE GESTION ---
   const handleInfoClick = (info: InfoItem) => setSelectedInfo(info)
@@ -447,13 +490,15 @@ Question d'un agent territorial : ${question}
   // Étape 2 : Charger uniquement le contenu des sections identifiées
   // Économie : ~80% de tokens par requête
 
-  const genererSommaireTexte = () => {
+  const genererSommaireTexte = async () => {
+    const { sommaireUnifie } = await loadSearchDeps()
     return sommaireUnifie.map(s => 
       `[${s.id}] ${s.titre} - ${s.resume || s.motsCles.join(', ')}`
     ).join('\n')
   }
 
-  const chargerContenuSections = (sectionIds: string[]): string => {
+  const chargerContenuSections = async (sectionIds: string[]): Promise<string> => {
+    const { sommaireUnifie, chapitres, formation, teletravailData } = await loadSearchDeps()
     const chapitresACharger = new Set<number>()
     let chargerFormation = false
     let chargerTeletravail = false
@@ -627,7 +672,7 @@ Question d'un agent territorial : ${question}
     }
 
     const phrases = contenu
-      .split(/(?<=[\.;!?])\s+|\n+/)
+      .split(/(?<=[.;!?])\s+|\n+/)
       .map((p) => p.trim())
       .filter((p) => p.length >= 30 && p.length <= 320)
 
@@ -680,6 +725,7 @@ Question d'un agent territorial : ${question}
   const genererContexteBip = async (question: string): Promise<string> => {
     const motsCles = extraireMotsClesQuestion(question)
     if (motsCles.length === 0) return ""
+    const { searchFichesByKeywordsAsync } = await loadSearchDeps()
     const motsEntite = extraireMotsEntite(motsCles)
     const questionNormalized = normalizeForSearch(question)
     const preferTemporalFacts = /(combien|duree|durée|dure|renouvel|periode|période|delai|délai|temps)/i.test(questionNormalized)
@@ -798,8 +844,16 @@ Question d'un agent territorial : ${question}
   }
 
   const traiterQuestion = async (question: string) => {
+    const {
+      sommaireUnifie,
+      rechercherAvecPriorite,
+      chapitres,
+      formation,
+      teletravailData,
+    } = await loadSearchDeps()
+
     // ÉTAPE 1 : Identifier les sections pertinentes avec le sommaire léger
-    const sommaire = genererSommaireTexte()
+    const sommaire = await genererSommaireTexte()
     const identificationPrompt = `Tu es un assistant qui identifie les sections pertinentes pour répondre à une question.
 
 SOMMAIRE DES DOCUMENTS DISPONIBLES :
@@ -863,7 +917,7 @@ RÈGLEMENT FORMATION :\n${formation || ''}
 PROTOCOLE TÉLÉTRAVAIL :\n${typeof teletravailData === 'string' ? teletravailData : JSON.stringify(teletravailData)}`
     } else {
       // ÉTAPE 2 : Charger uniquement les sections identifiées
-      contenuCible = chargerContenuSections(idsFinals)
+      contenuCible = await chargerContenuSections(idsFinals)
     }
 
     const systemPromptSommaire = `
@@ -1034,13 +1088,15 @@ ${indicesFactuels}
   // --- RENDU DU COMPOSANT ---
   if (showLanding) {
     return (
-      <LandingPage
-        onEnter={() => setShowLanding(false)}
-        onQuizz={() => {
-          setShowLanding(false)
-          setChatState(s => ({ ...s, currentView: 'faq' }))
-        }}
-      />
+      <Suspense fallback={<ViewLoader />}>
+        <LandingPage
+          onEnter={() => setShowLanding(false)}
+          onQuizz={() => {
+            setShowLanding(false)
+            setChatState(s => ({ ...s, currentView: 'faq' }))
+          }}
+        />
+      </Suspense>
     )
   }
 
@@ -1382,12 +1438,16 @@ ${indicesFactuels}
 
       {/* --- SECTION GRILLES INDICIAIRES / MÉTIERS --- */}
       {chatState.currentView === 'metiers' && (
-        <Metiers onClose={() => setChatState({ ...chatState, currentView: 'menu' })} />
+        <Suspense fallback={<ViewLoader />}>
+          <Metiers onClose={() => setChatState({ ...chatState, currentView: 'menu' })} />
+        </Suspense>
       )}
 
       {/* --- SECTION FAQ --- */}
       {chatState.currentView === 'faq' && (
-        <FAQ onBack={() => setChatState({ ...chatState, currentView: 'menu' })} />
+        <Suspense fallback={<ViewLoader />}>
+          <FAQ onBack={() => setChatState({ ...chatState, currentView: 'menu' })} />
+        </Suspense>
       )}
 
       {/* --- SECTION CALCULATEURS FULL-WIDTH --- */}
@@ -1481,13 +1541,19 @@ ${indicesFactuels}
 
         {/* Contenu du calculateur sélectionné */}
         {activeCalculator === 'primes' && (
-          <div className="calc-tool-enter"><CalculateurPrimesV2 onClose={() => setActiveCalculator(null)} /></div>
+          <Suspense fallback={<ViewLoader />}>
+            <div className="calc-tool-enter"><CalculateurPrimesV2 onClose={() => setActiveCalculator(null)} /></div>
+          </Suspense>
         )}
         {activeCalculator === 'cia' && (
-          <div className="calc-tool-enter"><CalculateurCIAV2 onClose={() => setActiveCalculator(null)} /></div>
+          <Suspense fallback={<ViewLoader />}>
+            <div className="calc-tool-enter"><CalculateurCIAV2 onClose={() => setActiveCalculator(null)} /></div>
+          </Suspense>
         )}
         {activeCalculator === '13eme' && (
-          <div className="calc-tool-enter"><Calculateur13emeV2 onClose={() => setActiveCalculator(null)} /></div>
+          <Suspense fallback={<ViewLoader />}>
+            <div className="calc-tool-enter"><Calculateur13emeV2 onClose={() => setActiveCalculator(null)} /></div>
+          </Suspense>
         )}
       </section>
       )}

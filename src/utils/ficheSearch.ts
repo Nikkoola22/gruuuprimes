@@ -156,10 +156,6 @@ function getFicheCategory(fiche: FicheIndexEntry): string {
   return ((fiche as { categorie?: string }).categorie || (fiche as { section?: string }).section || '').toLowerCase()
 }
 
-function getFicheKeywords(fiche: FicheIndexEntry): string[] {
-  return Array.isArray(fiche.motsCles) ? fiche.motsCles : []
-}
-
 let bipDataCache: BipFiche[] = []
 let bipDataInitialized = false
 let bipDataLoadingPromise: Promise<void> | null = null

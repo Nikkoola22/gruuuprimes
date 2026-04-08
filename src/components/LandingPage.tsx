@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
-import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
+import { FontLoader, Font } from 'three/examples/jsm/loaders/FontLoader.js'
 import { ShapeGeometry } from 'three'
 
 interface Props {
@@ -91,8 +90,7 @@ export default function LandingPage({ onEnter, onQuizz }: Props) {
     // Lettres à afficher sur les 4 premiers cubes
     const letters = ['F', 'C', 'T', 'D']
     const fontSize = 0.38
-    const fontHeight = 0.035
-    let font: any = null
+    let font: Font | null = null
     // Charger la police de caractères de base Three.js (helvetiker)
     new FontLoader().load('https://cdn.jsdelivr.net/npm/three@0.150.1/examples/fonts/helvetiker_regular.typeface.json', loadedFont => {
       font = loadedFont
