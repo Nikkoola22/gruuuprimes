@@ -1656,7 +1656,7 @@ ${indicesFactuels}
                     </div>
                   </div>
 
-\n                  {/* Colonne 2 : Liens utiles & FAQ */}
+                  {/* Colonne 2 : Liens utiles & FAQ */}
                   <div className="bg-white dark:bg-slate-800/90 rounded-3xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 relative z-10 w-full aspect-[4/5] lg:aspect-[4/5] flex flex-col justify-start overflow-hidden">
                     {/* Custom Title "Liens Utiles" style */}
                     <div className="flex items-center mb-4 relative">
