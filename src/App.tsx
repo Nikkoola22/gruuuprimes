@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo, lazy, Suspense } from "react"
-import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye } from "lucide-react"
+import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye , ArrowDownRight , Users , MessageCircleQuestion , HeartHandshake , Briefcase , Shield , CircleUser , ExternalLink as ExternalLinkIcon , PlayCircle } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { searchFAQ } from "./data/FAQdata.ts"
@@ -420,11 +420,11 @@ function App() {
     setSelectedInfo(null)
   }
 
-  const usefulLinks: { label: string; href: string; Icon: React.ComponentType<{ className?: string }> }[] = [
-    { label: "Jurisprudences", href: "https://www.conseil-etat.fr/actualites", Icon: Scale },
-    { label: "Legifrance", href: "https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000006070633/", Icon: Landmark },
-    { label: "Formation", href: "https://www.cnfpt.fr/catalogue/catalogues/region84/#page/1", Icon: GraduationCap },
-    { label: "Primes", href: "https://www.cdg31.fr/sites/default/files/guide_des_primes_2025.pdf", Icon: Coins },
+  const usefulLinks = [
+    { label: "Jurisprudences", href: "https://www.conseil-etat.fr/actualites", imageSrc: "/images/jurisprudence.png" },
+    { label: "Legifrance", href: "https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000006070633/", imageSrc: "/images/legifrance.png" },
+    { label: "Formation", href: "https://www.cnfpt.fr/catalogue/catalogues/region84/#page/1", imageSrc: "/images/formation_lien.png" },
+    { label: "Primes", href: "https://www.cdg31.fr/sites/default/files/guide_des_primes_2025.pdf", imageSrc: "/images/primes_lien.png" },
   ]
 
   // --- LOGIQUE DU CALCULATEUR DE PRIMES ---
@@ -1295,126 +1295,59 @@ ${indicesFactuels}
       {/* --- BANDEAU RSS DÉFILANT / ACTU --- */}
       <RssBandeau rssItems={rssItems} rssLoading={rssLoading} marqueeRef={rssMarqueeRef} />
 
-      <main className="relative max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 z-10">
+      <main className="relative max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-1 z-10">
         {chatState.currentView === "menu" && (
           <>
-            <div className="grid grid-cols-1 gap-8">
+            <div className="grid grid-cols-1 gap-2">
               {/* Colonne principale - pleine largeur */}
               <div className="lg:col-span-1">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto mb-1 items-stretch justify-items-center">
-                  <button
-                    onClick={() => handleDomainSelection(0)}
-                    className="group relative overflow-hidden bg-white/70 dark:bg-slate-800/80 backdrop-blur-md border border-purple-200 dark:border-purple-500/20 rounded-2xl p-6 md:p-10 hover:border-purple-300 dark:hover:border-purple-400/50 hover:shadow-xl dark:hover:shadow-purple-500/10 hover:-translate-y-1 w-full max-w-sm h-96 transition-transform duration-150 glass-card animate-card-enter-1 btn-ripple"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-100/40 dark:from-purple-900/40 via-transparent to-pink-100/40 dark:to-pink-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
-                    <div className="relative z-10 flex flex-col items-center gap-6 h-full justify-between">
-                      <div className="relative">
-                        <span className="absolute -inset-3 bg-gradient-to-br from-purple-200 dark:from-purple-500/30 to-pink-200 dark:to-pink-500/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
-                        <div className="relative p-4 md:p-6 bg-gradient-to-br from-purple-100 dark:from-slate-900/80 to-pink-100 dark:to-slate-800/80 backdrop-blur rounded-2xl shadow-sm border border-purple-200 dark:border-purple-500/30 icon-box-spring">
-                          <Search className="w-12 h-12 md:w-16 md:h-16 text-purple-600 dark:text-purple-400" />
-                        </div>
-                      </div>
-                      <h4 className="text-2xl text-slate-800 dark:text-white">
-                        <span className="relative inline-block z-10">
-                          <span className="relative z-20 font-black tracking-tight">J&apos;ai une question</span>
-                          <span className="absolute bottom-1.5 left-[-4%] w-[108%] h-3.5 bg-gradient-to-r from-purple-300 dark:from-purple-600 via-pink-200 dark:via-pink-500 to-purple-200 dark:to-purple-500 opacity-60 dark:opacity-90 -skew-x-12 -rotate-2 -z-10 rounded-sm"></span>
-                        </span>
-                      </h4>
-                      <p className="text-center text-slate-600 dark:text-slate-300 font-medium dark:font-light text-sm">
-                        Temps de travail, formation, télétravail - Recherche dans tous les documents
-                      </p>
-                      <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400 font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                        <span className="font-medium text-sm">Accéder à l&apos;assistant</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </div>
+                
+                {/* Barre d'accès rapide */}
+                <div className="max-w-7xl mx-auto mb-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
+                  
+                  {/* Title Section */}
+                  <div className="flex items-center gap-2 pr-6 border-r border-slate-200 dark:border-slate-700">
+                    <div className="flex flex-col">
+                      <span className="font-bold text-slate-800 dark:text-slate-100 text-lg leading-tight">Accès</span>
+                      <span className="font-light text-slate-600 dark:text-slate-300 italic uppercase text-sm">RAPIDES</span>
                     </div>
-                  </button>
+                    <ArrowDownRight className="w-8 h-8 text-rose-600 dark:text-rose-400" />
+                  </div>
 
-                  {/* Carte Grilles Indiciaires */}
-                  <button
-                    onClick={openMetiersView}
-                    className="group relative overflow-hidden bg-white/70 dark:bg-slate-800/80 backdrop-blur-md border border-emerald-200 dark:border-emerald-500/20 rounded-2xl p-6 md:p-10 hover:border-emerald-300 dark:hover:border-emerald-400/50 hover:shadow-xl dark:hover:shadow-emerald-500/10 hover:-translate-y-1 w-full max-w-sm h-96 transition-transform duration-150 glass-card animate-card-enter-3 btn-ripple"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-100/40 dark:from-emerald-900/40 via-transparent to-green-100/40 dark:to-green-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
-                    <div className="relative z-10 flex flex-col items-center gap-6 h-full justify-between">
-                      <div className="relative">
-                        <span className="absolute -inset-3 bg-gradient-to-br from-emerald-200 dark:from-emerald-500/30 to-green-200 dark:to-green-500/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
-                        <div className="relative p-4 md:p-6 bg-gradient-to-br from-emerald-100 dark:from-slate-900/80 to-green-100 dark:to-slate-800/80 backdrop-blur rounded-2xl shadow-sm border border-emerald-200 dark:border-emerald-500/30 icon-box-spring">
-                          <LayoutGrid className="w-12 h-12 md:w-16 md:h-16 text-emerald-600 dark:text-emerald-400" />
-                        </div>
+                                    {/* Links */}
+                  <div className="flex flex-1 justify-around items-center gap-4 overflow-x-auto custom-scrollbar pb-2 lg:pb-0">
+                    <button onClick={() => handleDomainSelection(0)} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group min-w-[120px]">
+                      <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-purple-100 dark:group-hover:bg-purple-900/50 transition-colors">
+                        <Search className="w-8 h-8 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
                       </div>
-                      <h4 className="text-2xl text-slate-800 dark:text-white">
-                        <span className="relative inline-block z-10">
-                          <span className="relative z-20 font-black tracking-tight">Grilles Indiciaires</span>
-                          <span className="absolute bottom-1.5 left-[-4%] w-[108%] h-3.5 bg-gradient-to-r from-emerald-300 dark:from-emerald-600 via-green-200 dark:via-green-500 to-emerald-200 dark:to-emerald-500 opacity-60 dark:opacity-90 -skew-x-12 -rotate-2 -z-10 rounded-sm"></span>
-                        </span>
-                      </h4>
-                      <p className="text-center text-slate-600 dark:text-slate-300 font-medium dark:font-light text-sm">
-                        Filières, métiers et grilles de rémunération FPT
-                      </p>
-                      <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                        <span className="font-medium text-sm">Voir les grilles</span>
-                        <ArrowRight className="w-4 h-4" />
+                      <span className="text-sm font-bold text-center">J'ai une<br/>question</span>
+                    </button>
+                    
+                    <button onClick={openMetiersView} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors group min-w-[120px]">
+                      <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/50 transition-colors">
+                        <LayoutGrid className="w-8 h-8 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
                       </div>
-                    </div>
-                  </button>
+                      <span className="text-sm font-bold text-center">Grilles<br/>Indiciaires</span>
+                    </button>
 
-                  <button
-                    onClick={openCalculatorsLanding}
-                    className="group relative overflow-hidden bg-white/70 dark:bg-slate-800/80 backdrop-blur-md border border-blue-200 dark:border-blue-500/20 rounded-2xl p-6 md:p-10 hover:border-cyan-300 dark:hover:border-cyan-400/50 hover:shadow-xl dark:hover:shadow-blue-500/10 hover:-translate-y-1 w-full max-w-sm h-96 transition-transform duration-150 glass-card animate-card-enter-2 btn-ripple"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-100/40 dark:from-blue-900/40 via-transparent to-cyan-100/40 dark:to-cyan-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
-                    <div className="relative z-10 flex flex-col items-center gap-6 h-full justify-between">
-                      <div className="relative">
-                        <span className="absolute -inset-3 bg-gradient-to-br from-blue-200 dark:from-blue-500/30 to-cyan-200 dark:to-cyan-500/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
-                        <div className="relative p-4 md:p-6 bg-gradient-to-br from-blue-100 dark:from-slate-900/80 to-cyan-100 dark:to-slate-800/80 backdrop-blur rounded-2xl shadow-sm border border-blue-200 dark:border-blue-500/30 icon-box-spring">
-                          <Calculator className="w-12 h-12 md:w-16 md:h-16 text-blue-600 dark:text-blue-400" />
-                        </div>
+                    <button onClick={openCalculatorsLanding} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group min-w-[120px]">
+                      <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
+                        <Calculator className="w-8 h-8 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform" />
                       </div>
-                      <h4 className="text-2xl text-slate-800 dark:text-white">
-                        <span className="relative inline-block z-10">
-                          <span className="relative z-20 font-black tracking-tight">Calculateurs</span>
-                          <span className="absolute bottom-1.5 left-[-4%] w-[108%] h-3.5 bg-gradient-to-r from-blue-300 dark:from-blue-600 via-cyan-200 dark:via-cyan-500 to-blue-200 dark:to-blue-500 opacity-60 dark:opacity-90 -skew-x-12 -rotate-2 -z-10 rounded-sm"></span>
-                        </span>
-                      </h4>
-                      <p className="text-center text-slate-600 dark:text-slate-300 font-medium dark:font-light text-sm">
-                        Estimez vos primes (IFSE 1 & 2, CIA) et votre 13ème mois
-                      </p>
-                      <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                        <span className="font-medium text-sm">Lancer une simulation</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </div>
-                    </div>
-                  </button>
+                      <span className="text-sm font-bold text-center">Calculateurs</span>
+                    </button>
 
-                  <button
-                    onClick={() => setChatState({ ...chatState, currentView: 'jeux' })}
-                    className="group relative overflow-hidden bg-white/70 dark:bg-slate-800/80 backdrop-blur-md border border-pink-200 dark:border-pink-500/20 rounded-2xl p-6 md:p-10 hover:border-pink-300 dark:hover:border-pink-400/50 hover:shadow-xl dark:hover:shadow-pink-500/10 hover:-translate-y-1 w-full max-w-sm h-96 transition-transform duration-150 glass-card animate-card-enter-4 btn-ripple"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-pink-100/40 dark:from-pink-900/40 via-transparent to-rose-100/40 dark:to-rose-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
-                    <div className="relative z-10 flex flex-col items-center gap-6 h-full justify-between">
-                      <div className="relative">
-                        <span className="absolute -inset-3 bg-gradient-to-br from-pink-200 dark:from-pink-500/30 to-rose-200 dark:to-rose-500/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
-                        <div className="relative p-4 md:p-6 bg-gradient-to-br from-pink-100 dark:from-slate-900/80 to-rose-100 dark:to-slate-800/80 backdrop-blur rounded-2xl shadow-sm border border-pink-200 dark:border-pink-500/30 icon-box-spring">
-                          <Gamepad2 className="w-12 h-12 md:w-16 md:h-16 text-pink-600 dark:text-pink-400" />
-                        </div>
+                    <button onClick={() => setChatState({ ...chatState, currentView: 'jeux' })} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-pink-600 dark:hover:text-pink-400 transition-colors group min-w-[120px]">
+                      <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-pink-100 dark:group-hover:bg-pink-900/50 transition-colors">
+                        <Gamepad2 className="w-8 h-8 text-pink-600 dark:text-pink-400 group-hover:scale-110 transition-transform" />
                       </div>
-                      <h4 className="text-2xl text-slate-800 dark:text-white">
-                        <span className="relative inline-block z-10">
-                          <span className="relative z-20 font-black tracking-tight">Espace Jeux</span>
-                          <span className="absolute bottom-1.5 left-[-4%] w-[108%] h-3.5 bg-gradient-to-r from-pink-300 dark:from-pink-600 via-rose-200 dark:via-rose-500 to-pink-200 dark:to-pink-500 opacity-60 dark:opacity-90 -skew-x-12 -rotate-2 -z-10 rounded-sm shadow-[0_0_10px_rgba(244,63,94,0.5)]"></span>
-                        </span>
-                      </h4>
-                      <p className="text-center text-slate-600 dark:text-slate-300 font-medium dark:font-light text-sm">
-                        La Roulette QVT & Idée du jour — Boostez votre bien-être
-                      </p>
-                      <div className="flex items-center gap-2 text-pink-600 dark:text-pink-400 font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                        <span className="font-medium text-sm">Lancer le jeu</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </div>
-                    </div>
-                  </button>
+                      <span className="text-sm font-bold text-center">Espace Jeux</span>
+                    </button>
+                  </div>
                 </div>
+
+              </div>
+
 
                 {/* --- SECTION ACTUALITÉS & À LIRE --- */}
                 <div className="mt-12 mb-8">
@@ -1603,112 +1536,187 @@ ${indicesFactuels}
                   </div>
                 </div>
 
-                {/* --- NOUVELLE SECTION : DOCUMENTS DE RÉFÉRENCE --- */}
-                <div className="mt-8 mb-8 relative bg-gradient-to-br from-blue-100 via-teal-50 to-emerald-100 border border-teal-200 rounded-2xl p-5 md:p-6 shadow-xl shadow-teal-100/50 overflow-hidden group/section">
-                  {/* Effet de lueur en arrière-plan */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-3xl bg-white/40 pointer-events-none rounded-full blur-3xl"></div>
+                {/* --- NOUVELLE SECTION : DOCUMENTS DE RÉFÉRENCE & LIENS UTILES --- */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mt-4 mb-8">
                   
-                  <div className="relative z-10 flex items-center gap-3 mb-5">
-                    <FileText className="w-5 h-5 text-teal-600 drop-shadow-sm" />
-                    <h3 className="text-xl font-bold tracking-wide">
-                      <span className="relative inline-block z-10">
-                        <span className="relative z-20 text-slate-800 font-black tracking-tight drop-shadow-sm">Documents de Référence</span>
-                        <span className="absolute bottom-1 left-[-2%] w-[104%] h-2.5 bg-white/60 -skew-x-12 -rotate-1 z-0 rounded-sm border border-white/50"></span>
-                      </span>
-                    </h3>
-                  </div>
-
-                  <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {/* Document 1 */}
-                    <a 
-                      href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail_conges_absences/reglement_temps_de_travail/reglement_du_temps_du_travail.pdf" 
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center text-left p-4 bg-white hover:bg-sky-50/50 border border-slate-200 hover:border-sky-300 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 shadow-sm hover:shadow-md gap-4"
-                    >
-                      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-sky-300 to-blue-400 shadow-md shadow-sky-200/50 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                        <Clock className="w-5 h-5 text-white" />
+                  {/* Colonne 1 : À connaître (Docs de référence) */}
+                  <div className="bg-white dark:bg-slate-800/90 rounded-3xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 relative z-10 w-full">
+                    {/* Custom Title "À connaître" style */}
+                    <div className="flex items-center mb-4 relative">
+                      <div className="relative flex items-center">
+                        <div className="absolute -left-3 -top-2 w-8 h-12 border-l-4 border-t-4 border-b-4 border-rose-600 rounded-l-md"></div>
+                        <div className="absolute -bottom-2 left-1 w-3 h-3 bg-rose-600 transform rotate-45"></div>
+                        <h3 className="text-3xl font-black tracking-tighter text-teal-900 dark:text-teal-300 ml-4 relative z-10">
+                          À connaître
+                        </h3>
                       </div>
-                      <div>
-                        <h4 className="text-slate-900 font-semibold text-sm leading-tight mb-1 group-hover:text-sky-600 transition-colors">Temps de travail</h4>
-                        <p className="text-slate-500 text-xs font-medium">Règlement complet</p>
-                      </div>
-                    </a>
-                    
-                    {/* Document 2 */}
-                    <a 
-                      href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/formation/reglement_interieur_de_formation_juin_2025.pdf" 
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center text-left p-4 bg-white hover:bg-sky-50/50 border border-slate-200 hover:border-sky-300 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 shadow-sm hover:shadow-md gap-4"
-                    >
-                      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-sky-300 to-blue-400 shadow-md shadow-sky-200/50 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                        <GraduationCap className="w-5 h-5 text-white" />
-                      </div>
-                      <div>
-                        <h4 className="text-slate-900 font-semibold text-sm leading-tight mb-1 group-hover:text-sky-600 transition-colors">Formation</h4>
-                        <p className="text-slate-500 text-xs font-medium">Règlement intérieur</p>
-                      </div>
-                    </a>
-
-                    {/* Document 3 */}
-                    <a 
-                      href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/teletravail/circulaire_evolution_du_teletravail_juin_2023.pdf" 
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center text-left p-4 bg-white hover:bg-sky-50/50 border border-slate-200 hover:border-sky-300 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 shadow-sm hover:shadow-md gap-4"
-                    >
-                      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-sky-300 to-blue-400 shadow-md shadow-sky-200/50 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                        <Home className="w-5 h-5 text-white" />
-                      </div>
-                      <div>
-                        <h4 className="text-slate-900 font-semibold text-sm leading-tight mb-1 group-hover:text-sky-600 transition-colors">Télétravail</h4>
-                        <p className="text-slate-500 text-xs font-medium">Circulaire & charte</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-center mt-12 gap-4">
-                  <div className="flex flex-wrap justify-center items-center gap-4">
-                    <button
-                      onClick={() => setChatState({ ...chatState, currentView: 'faq' })}
-                      className="group flex items-center gap-3 bg-gradient-to-r from-amber-100 via-yellow-100 to-amber-200 hover:from-amber-200 hover:via-yellow-200 hover:to-amber-300 text-amber-900 border border-amber-300 font-medium px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:shadow-amber-200/50 transition-all duration-150 hover:scale-105 btn-cta animate-cta-enter"
-                    >
-                      <HelpCircle className="w-6 h-6" />
-                      <span className="text-lg">Questions Fréquentes</span>
-                      <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
-                    </button>
-
-                    <button
-                      onClick={() => setShowUsefulLinks((prev) => !prev)}
-                      className="group flex items-center gap-3 bg-gradient-to-r from-blue-100 via-indigo-50 to-blue-200 hover:from-blue-200 hover:via-indigo-100 hover:to-blue-300 text-blue-900 border border-blue-300 font-medium px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:shadow-blue-200/50 transition-all duration-150 hover:scale-105 btn-cta animate-cta-enter"
-                    >
-                      <Link2 className="w-6 h-6" />
-                      <span className="text-lg">Liens utiles</span>
-                      <ArrowRight className={`w-5 h-5 transition-all duration-150 ${showUsefulLinks ? 'opacity-100 rotate-90' : 'opacity-0 group-hover:opacity-100'}`} />
-                    </button>
-                  </div>
-
-                  {showUsefulLinks && (
-                    <div className="flex flex-wrap justify-center gap-4 animate-cta-enter">
-                      {usefulLinks.map(({ label, href, Icon }) => (
-                        <a
-                          key={label}
-                          href={href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group flex items-center gap-3 bg-slate-800/80 border border-blue-500/30 rounded-full px-6 py-3 text-slate-100 hover:border-blue-400/60 hover:bg-slate-700/80 transition-all duration-150"
-                        >
-                          <Icon className="w-5 h-5 text-blue-300" />
-                          <span className="font-light">{label}</span>
-                        </a>
-                      ))}
                     </div>
-                  )}
+
+                    <div className="flex flex-col gap-2">
+                      {/* Document 1 */}
+                      <a 
+                        href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail_conges_absences/reglement_temps_de_travail/reglement_du_temps_du_travail.pdf" 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-2xl transition-all"
+                      >
+                        <div className="w-[30%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
+                          <img src="/images/temps_travail.png" alt="Temps de travail" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="flex-1 flex flex-col justify-center py-1">
+                          <span className="font-bold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-orange-500 transition-colors mb-1">
+                            Temps de travail
+                          </span>
+                          <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
+                            Règlement complet sur le temps de travail, congés et absences.
+                          </span>
+                        </div>
+                      </a>
+
+                      {/* Document 2 */}
+                      <a 
+                        href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/formation/reglement_interieur_de_formation_juin_2025.pdf" 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-2xl transition-all"
+                      >
+                        <div className="w-[30%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
+                          <img src="/images/formation.png" alt="Formation" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="flex-1 flex flex-col justify-center py-1">
+                          <span className="font-bold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-teal-600 transition-colors mb-1">
+                            Formation
+                          </span>
+                          <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
+                            Règlement intérieur de formation (Mise à jour Juin 2025).
+                          </span>
+                        </div>
+                      </a>
+
+                      {/* Document 3 */}
+                      <a 
+                        href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/teletravail/circulaire_evolution_du_teletravail_juin_2023.pdf" 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-2xl transition-all"
+                      >
+                        <div className="w-[30%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
+                          <img src="/images/teletravail.png" alt="Télétravail" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="flex-1 flex flex-col justify-center py-1">
+                          <span className="font-bold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-blue-600 transition-colors mb-1">
+                            Télétravail
+                          </span>
+                          <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
+                            Circulaire et charte d'évolution du télétravail.
+                          </span>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Colonne 2 : Liens utiles & FAQ */}
+                  <div className="bg-white dark:bg-slate-800/90 rounded-3xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 relative z-10 w-full aspect-[4/5] lg:aspect-square flex flex-col justify-start overflow-hidden">
+                    {/* Custom Title "Liens Utiles" style */}
+                    <div className="flex items-center mb-4 relative">
+                      <div className="relative flex items-center">
+                        <div className="absolute -left-3 -top-2 w-8 h-12 border-l-4 border-t-4 border-b-4 border-indigo-600 rounded-l-md"></div>
+                        <div className="absolute -bottom-2 left-1 w-3 h-3 bg-indigo-600 transform rotate-45"></div>
+                        <h3 className="text-3xl font-black tracking-tighter text-indigo-900 dark:text-indigo-300 ml-4 relative z-10">
+                          Liens Utiles
+                        </h3>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-3 flex-1">
+                      {usefulLinks.map(({ label, href, imageSrc }, idx) => {
+                        // Couleurs alternées pour les liens utiles
+                        const colors = [
+                          { bg: "bg-indigo-100 dark:bg-indigo-900/30", border: "border-indigo-200 dark:border-indigo-800/50", text: "text-indigo-600", decoration: "decoration-indigo-500" },
+                          { bg: "bg-violet-100 dark:bg-violet-900/30", border: "border-violet-200 dark:border-violet-800/50", text: "text-violet-600", decoration: "decoration-violet-500" },
+                          { bg: "bg-fuchsia-100 dark:bg-fuchsia-900/30", border: "border-fuchsia-200 dark:border-fuchsia-800/50", text: "text-fuchsia-600", decoration: "decoration-fuchsia-500" },
+                          { bg: "bg-pink-100 dark:bg-pink-900/30", border: "border-pink-200 dark:border-pink-800/50", text: "text-pink-600", decoration: "decoration-pink-500" },
+                        ]
+                        const color = colors[idx % colors.length];
+
+                        return (
+                          <a 
+                            key={label}
+                            href={href} 
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-3 rounded-2xl transition-colors"
+                          >
+                            <div className={`w-10 h-10 flex-shrink-0 rounded-xl bg-white flex items-center justify-center shadow-sm border ${color.border} group-hover:scale-105 transition-transform overflow-hidden relative`}>
+                              <img src={imageSrc} alt={label} className="w-full h-full object-cover" />
+                            </div>
+                            <div className="flex flex-col">
+                              <span className={`font-bold text-slate-900 dark:text-slate-100 text-lg leading-tight group-hover:underline decoration-2 underline-offset-4 ${color.decoration}`}>
+                                {label}
+                              </span>
+                            </div>
+                          </a>
+                        )
+                      })}
+                    </div>
+
+                    {/* Bouton FAQ intégré en bas de la carte des liens */}
+                    <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700 flex justify-center">
+                      <button
+                        onClick={() => setChatState({ ...chatState, currentView: 'faq' })}
+                        className="group flex items-center gap-3 bg-gradient-to-r from-amber-100 via-yellow-100 to-amber-200 hover:from-amber-200 hover:via-yellow-200 hover:to-amber-300 text-amber-900 border border-amber-300 font-medium px-6 py-2 rounded-full shadow-lg hover:shadow-xl hover:shadow-amber-200/50 transition-all duration-150 hover:scale-105 w-full justify-center"
+                      >
+                        <HelpCircle className="w-6 h-6" />
+                        <span className="text-lg">Questions Fréquentes</span>
+                        <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
+                      </button>
+                    </div>
+                  </div>
+
+
+                  {/* Colonne 3 : À voir (Youtube) */}
+                  <div className="bg-white dark:bg-slate-800/90 rounded-3xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 relative z-10 w-full aspect-[4/5] lg:aspect-square flex flex-col justify-start overflow-hidden">
+                    {/* Custom Title "À voir" style */}
+                    <div className="flex items-center mb-4 relative">
+                      <div className="relative flex items-center">
+                        <div className="absolute -left-3 -top-2 w-8 h-12 border-l-4 border-t-4 border-b-4 border-emerald-500 rounded-l-md"></div>
+                        <div className="absolute -bottom-2 left-1 w-3 h-3 bg-emerald-500 transform rotate-45"></div>
+                        <h3 className="text-3xl font-black tracking-tighter text-emerald-900 dark:text-emerald-300 ml-4 relative z-10">
+                          À voir
+                        </h3>
+                      </div>
+                    </div>
+
+                    <div className="flex-1 flex flex-col justify-center">
+                      <a 
+                        href="https://www.youtube.com/results?search_query=fonction+publique+territoriale" 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group relative block w-full rounded-2xl overflow-hidden shadow-lg transition-transform hover:scale-[1.02] bg-slate-900"
+                      >
+                        {/* Background Image / Thumbnail Base (Generic geometric pattern for modern look) */}
+                        <div className="w-full aspect-video bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative">
+                           {/* Decoration */}
+                           <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_50%_50%,_rgba(255,255,255,0.2)_0%,_transparent_60%)]"></div>
+                           <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-pulse"></div>
+                           <div className="absolute bottom-0 left-0 w-32 h-32 bg-indigo-500 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-pulse" style={{ animationDelay: '1s' }}></div>
+                           
+                           {/* Main Overlay Text */}
+                           <div className="z-10 flex flex-col items-center justify-center text-center p-4">
+                             <div className="bg-red-600 rounded-full p-3 mb-2 shadow-lg shadow-red-600/50 group-hover:scale-110 transition-transform group-hover:bg-red-500">
+                               <PlayCircle className="w-8 h-8 text-white" strokeWidth={1.5} />
+                             </div>
+                             <span className="text-white font-black text-lg md:text-xl tracking-tight leading-tight">
+                               Vidéos sur la<br/><span className="text-blue-400">Fonction Publique</span>
+                             </span>
+                           </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+
                 </div>
               </div>
-            </div>
           </>
         )}
       </main>
