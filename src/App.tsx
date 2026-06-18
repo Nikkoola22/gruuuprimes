@@ -1540,7 +1540,7 @@ ${indicesFactuels}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mt-4 mb-8">
                   
                   {/* Colonne 1 : À connaître (Docs de référence) */}
-                  <div className="bg-white dark:bg-slate-800/90 rounded-3xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 relative z-10 w-full">
+                  <div className="bg-white dark:bg-slate-800/90 rounded-3xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 relative z-10 w-full aspect-[4/5] lg:aspect-[4/5] flex flex-col justify-start overflow-hidden">
                     {/* Custom Title "À connaître" style */}
                     <div className="flex items-center mb-4 relative">
                       <div className="relative flex items-center">
@@ -1615,67 +1615,8 @@ ${indicesFactuels}
                     </div>
                   </div>
 
-                  {/* Colonne 2 : Liens utiles & FAQ */}
-                  <div className="bg-white dark:bg-slate-800/90 rounded-3xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 relative z-10 w-full aspect-[4/5] lg:aspect-square flex flex-col justify-start overflow-hidden">
-                    {/* Custom Title "Liens Utiles" style */}
-                    <div className="flex items-center mb-4 relative">
-                      <div className="relative flex items-center">
-                        <div className="absolute -left-3 -top-2 w-8 h-12 border-l-4 border-t-4 border-b-4 border-indigo-600 rounded-l-md"></div>
-                        <div className="absolute -bottom-2 left-1 w-3 h-3 bg-indigo-600 transform rotate-45"></div>
-                        <h3 className="text-3xl font-black tracking-tighter text-indigo-900 dark:text-indigo-300 ml-4 relative z-10">
-                          Liens Utiles
-                        </h3>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-3 flex-1">
-                      {usefulLinks.map(({ label, href, imageSrc }, idx) => {
-                        // Couleurs alternées pour les liens utiles
-                        const colors = [
-                          { bg: "bg-indigo-100 dark:bg-indigo-900/30", border: "border-indigo-200 dark:border-indigo-800/50", text: "text-indigo-600", decoration: "decoration-indigo-500" },
-                          { bg: "bg-violet-100 dark:bg-violet-900/30", border: "border-violet-200 dark:border-violet-800/50", text: "text-violet-600", decoration: "decoration-violet-500" },
-                          { bg: "bg-fuchsia-100 dark:bg-fuchsia-900/30", border: "border-fuchsia-200 dark:border-fuchsia-800/50", text: "text-fuchsia-600", decoration: "decoration-fuchsia-500" },
-                          { bg: "bg-pink-100 dark:bg-pink-900/30", border: "border-pink-200 dark:border-pink-800/50", text: "text-pink-600", decoration: "decoration-pink-500" },
-                        ]
-                        const color = colors[idx % colors.length];
-
-                        return (
-                          <a 
-                            key={label}
-                            href={href} 
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group flex items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-3 rounded-2xl transition-colors"
-                          >
-                            <div className={`w-10 h-10 flex-shrink-0 rounded-xl bg-white flex items-center justify-center shadow-sm border ${color.border} group-hover:scale-105 transition-transform overflow-hidden relative`}>
-                              <img src={imageSrc} alt={label} className="w-full h-full object-cover" />
-                            </div>
-                            <div className="flex flex-col">
-                              <span className={`font-bold text-slate-900 dark:text-slate-100 text-lg leading-tight group-hover:underline decoration-2 underline-offset-4 ${color.decoration}`}>
-                                {label}
-                              </span>
-                            </div>
-                          </a>
-                        )
-                      })}
-                    </div>
-
-                    {/* Bouton FAQ intégré en bas de la carte des liens */}
-                    <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700 flex justify-center">
-                      <button
-                        onClick={() => setChatState({ ...chatState, currentView: 'faq' })}
-                        className="group flex items-center gap-3 bg-gradient-to-r from-amber-100 via-yellow-100 to-amber-200 hover:from-amber-200 hover:via-yellow-200 hover:to-amber-300 text-amber-900 border border-amber-300 font-medium px-6 py-2 rounded-full shadow-lg hover:shadow-xl hover:shadow-amber-200/50 transition-all duration-150 hover:scale-105 w-full justify-center"
-                      >
-                        <HelpCircle className="w-6 h-6" />
-                        <span className="text-lg">Questions Fréquentes</span>
-                        <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
-                      </button>
-                    </div>
-                  </div>
-
-
                   {/* Colonne 3 : À voir (Youtube) */}
-                  <div className="bg-white dark:bg-slate-800/90 rounded-3xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 relative z-10 w-full aspect-[4/5] lg:aspect-square flex flex-col justify-start overflow-hidden">
+                  <div className="bg-white dark:bg-slate-800/90 rounded-3xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 relative z-10 w-full aspect-[4/5] lg:aspect-[4/5] flex flex-col justify-start overflow-hidden">
                     {/* Custom Title "À voir" style */}
                     <div className="flex items-center mb-4 relative">
                       <div className="relative flex items-center">
@@ -1714,6 +1655,65 @@ ${indicesFactuels}
                       </a>
                     </div>
                   </div>
+
+\n                  {/* Colonne 2 : Liens utiles & FAQ */}
+                  <div className="bg-white dark:bg-slate-800/90 rounded-3xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 relative z-10 w-full aspect-[4/5] lg:aspect-[4/5] flex flex-col justify-start overflow-hidden">
+                    {/* Custom Title "Liens Utiles" style */}
+                    <div className="flex items-center mb-4 relative">
+                      <div className="relative flex items-center">
+                        <div className="absolute -left-3 -top-2 w-8 h-12 border-l-4 border-t-4 border-b-4 border-indigo-600 rounded-l-md"></div>
+                        <div className="absolute -bottom-2 left-1 w-3 h-3 bg-indigo-600 transform rotate-45"></div>
+                        <h3 className="text-3xl font-black tracking-tighter text-indigo-900 dark:text-indigo-300 ml-4 relative z-10">
+                          Liens Utiles
+                        </h3>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-2 flex-1">
+                      {usefulLinks.map(({ label, href, imageSrc }, idx) => {
+                        // Couleurs alternées pour les liens utiles
+                        const colors = [
+                          { bg: "bg-indigo-100 dark:bg-indigo-900/30", border: "border-indigo-200 dark:border-indigo-800/50", text: "text-indigo-600", decoration: "decoration-indigo-500" },
+                          { bg: "bg-violet-100 dark:bg-violet-900/30", border: "border-violet-200 dark:border-violet-800/50", text: "text-violet-600", decoration: "decoration-violet-500" },
+                          { bg: "bg-fuchsia-100 dark:bg-fuchsia-900/30", border: "border-fuchsia-200 dark:border-fuchsia-800/50", text: "text-fuchsia-600", decoration: "decoration-fuchsia-500" },
+                          { bg: "bg-pink-100 dark:bg-pink-900/30", border: "border-pink-200 dark:border-pink-800/50", text: "text-pink-600", decoration: "decoration-pink-500" },
+                        ]
+                        const color = colors[idx % colors.length];
+
+                        return (
+                          <a 
+                            key={label}
+                            href={href} 
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-2xl transition-all"
+                          >
+                            <div className={`w-[25%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border ${color.border} group-hover:scale-[1.02] transition-transform`}>
+                              <img src={imageSrc} alt={label} className="w-full h-full object-cover" />
+                            </div>
+                            <div className="flex-1 flex flex-col justify-center py-1">
+                              <span className={`font-bold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:underline decoration-2 underline-offset-4 ${color.decoration}`}>
+                                {label}
+                              </span>
+                            </div>
+                          </a>
+                        )
+                      })}
+                    </div>
+
+                    {/* Bouton FAQ intégré en bas de la carte des liens */}
+                    <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700 flex justify-center">
+                      <button
+                        onClick={() => setChatState({ ...chatState, currentView: 'faq' })}
+                        className="group flex items-center gap-3 bg-gradient-to-r from-amber-100 via-yellow-100 to-amber-200 hover:from-amber-200 hover:via-yellow-200 hover:to-amber-300 text-amber-900 border border-amber-300 font-medium px-6 py-2 rounded-full shadow-lg hover:shadow-xl hover:shadow-amber-200/50 transition-all duration-150 hover:scale-105 w-full justify-center"
+                      >
+                        <HelpCircle className="w-6 h-6" />
+                        <span className="text-lg">Questions Fréquentes</span>
+                        <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
+                      </button>
+                    </div>
+                  </div>
+
 
                 </div>
               </div>
