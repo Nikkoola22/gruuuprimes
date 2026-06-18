@@ -95,14 +95,14 @@ const IDEAS: Record<string, Idea[]> = {
 
 
 const SECTORS = [
-  { name: "QVT 🧘", color: "#3b82f6", category: "qvt" },         // Blue
-  { name: "MANAGEMENT 🤝", color: "#10b981", category: "management" }, // Green
-  { name: "CARRIÈRE 🚀", color: "#8b5cf6", category: "carriere" },   // Purple
-  { name: "DÉTENTE ☕", color: "#f97316", category: "detente" },     // Orange
-  { name: "QVT 🧘", color: "#1d4ed8", category: "qvt" },         // Darker Blue
-  { name: "MANAGEMENT 🤝", color: "#047857", category: "management" }, // Darker Green
-  { name: "CARRIÈRE 🚀", color: "#6d28d9", category: "carriere" },   // Darker Purple
-  { name: "DÉTENTE ☕", color: "#c2410c", category: "detente" }      // Darker Orange
+  { name: "QVT 🧘", color: "#60a5fa", category: "qvt" },         // Soft Blue
+  { name: "MANAGEMENT 🤝", color: "#f472b6", category: "management" }, // Soft Pink
+  { name: "CARRIÈRE 🚀", color: "#a78bfa", category: "carriere" },   // Soft Purple
+  { name: "DÉTENTE ☕", color: "#34d399", category: "detente" },     // Soft Green
+  { name: "QVT 🧘", color: "#93c5fd", category: "qvt" },         
+  { name: "MANAGEMENT 🤝", color: "#fbcfe8", category: "management" }, 
+  { name: "CARRIÈRE 🚀", color: "#c4b5fd", category: "carriere" },   
+  { name: "DÉTENTE ☕", color: "#6ee7b7", category: "detente" }      
 ];
 
 const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
@@ -157,7 +157,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
             transform={`rotate(${textRotation}, ${tx}, ${ty})`}
             textAnchor="middle"
             dominantBaseline="middle"
-            fontSize="18"
+            fontSize="36"
           >
             {icon}
           </text>
@@ -222,39 +222,22 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
 
   const getCategoryLabel = (cat: "qvt" | "management" | "carriere" | "detente") => {
     switch (cat) {
-      case "qvt": return { text: "Idée QVT", bg: "bg-blue-950/40 text-blue-300 border-blue-500/30" };
-      case "management": return { text: "Geste Managérial", bg: "bg-green-950/40 text-green-300 border-green-500/30" };
-      case "carriere": return { text: "Astuce Carrière", bg: "bg-purple-950/40 text-purple-300 border-purple-500/30" };
-      case "detente": return { text: "Minute Détente", bg: "bg-amber-950/40 text-amber-300 border-amber-500/30" };
+      case "qvt": return { text: "Idée QVT", bg: "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 border-blue-200 dark:border-blue-800" };
+      case "management": return { text: "Geste Managérial", bg: "bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-300 border-pink-200 dark:border-pink-800" };
+      case "carriere": return { text: "Astuce Carrière", bg: "bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300 border-purple-200 dark:border-purple-800" };
+      case "detente": return { text: "Minute Détente", bg: "bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800" };
     }
   };
 
   return (
-    <div className="relative z-30 isolate min-h-screen overflow-x-hidden bg-gradient-to-br from-[#1a0022] via-[#2a0033] to-[#3a0055] py-8 sm:py-12 px-4 sm:px-6 lg:px-8 font-sans text-white">
-      
-      {/* Background image with transparency */}
-      <div
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat z-0 pointer-events-none"
-        style={{ backgroundImage: `url('${BASE_URL}unnamed.jpg')`, opacity: 0.15 }}
-      ></div>
-
-      {/* Subtle overlay for better text readability */}
-      <div className="fixed inset-0 bg-black/40 z-0 pointer-events-none"></div>
-
-      {/* Glow orb */}
+    <div className="relative z-30 isolate min-h-screen overflow-x-hidden bg-slate-50 dark:bg-slate-900 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-500">
+      {/* Soft background glow */}
       <div style={{
         position: 'fixed', top: '50%', left: '50%',
         transform: 'translate(-50%,-50%)',
-        width: 600, height: 600, borderRadius: '50%',
-        background: 'radial-gradient(ellipse at center, rgba(200,0,100,0.12) 0%, rgba(110,0,160,0.06) 42%, transparent 68%)',
-        filter: 'blur(24px)', pointerEvents: 'none', zIndex: 0,
-      }} />
-
-      {/* Grid pattern */}
-      <div style={{
-        position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none',
-        backgroundImage: 'linear-gradient(rgba(255,28,116,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,28,116,0.015) 1px, transparent 1px)',
-        backgroundSize: '70px 70px',
+        width: 800, height: 800, borderRadius: '50%',
+        background: 'radial-gradient(ellipse at center, rgba(148,163,184,0.1) 0%, transparent 70%)',
+        filter: 'blur(40px)', pointerEvents: 'none', zIndex: 0,
       }} />
 
       <div className="max-w-4xl mx-auto relative z-10">
@@ -273,10 +256,10 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
 
         {/* Title */}
         <div className="text-center mb-8 animate-fade-in">
-          <h1 className="text-3xl sm:text-5xl font-light tracking-tight text-shimmer mb-2">
+          <h1 className="text-3xl sm:text-5xl font-light tracking-tight mb-2 text-slate-800 dark:text-slate-100">
             Roulette QVT &amp; Idée du Jour
           </h1>
-          <p className="text-sm sm:text-base text-slate-300 font-light max-w-lg mx-auto">
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-light max-w-lg mx-auto">
             Lancez la roulette pour découvrir une action concrète bien-être, management positif ou conseil carrière.
           </p>
         </div>
@@ -286,10 +269,10 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
           <button
             onClick={() => !isSpinning && setCurrentFilter("all")}
             disabled={isSpinning}
-            className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
+            className={`px-4 py-2 text-xs sm:text-sm font-medium rounded-full border transition-all duration-200 ${
               currentFilter === "all"
-                ? "bg-slate-800 text-white border-slate-700 shadow"
-                : "bg-slate-900/60 text-slate-300 border-slate-700/50 hover:bg-slate-800 disabled:opacity-50"
+                ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700 shadow-sm"
+                : "bg-transparent text-slate-500 dark:text-slate-400 border-transparent hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50"
             }`}
           >
             🎡 Aléatoire
@@ -349,11 +332,11 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
             <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] md:w-[410px] md:h-[410px] mx-auto select-none">
               
               {/* Multi-layered futuristic glow behind the wheel */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500 via-pink-500 to-purple-600 rounded-full opacity-60 blur-xl animate-pulse" style={{ animationDuration: "6s" }} />
+              <div className="absolute -inset-6 bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-500 rounded-full opacity-80 blur-2xl animate-pulse" style={{ animationDuration: "6s" }} />
               <div className="absolute -inset-2 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-full opacity-30 blur-md" />
               
               {/* Outer dark metal-neon framed border overlay */}
-              <div className="absolute inset-[-6px] rounded-full border-[6px] border-slate-950 shadow-2xl z-20 pointer-events-none ring-2 ring-purple-500/40" />
+              <div className="absolute inset-[-10px] rounded-full border-[10px] border-[#040009] shadow-[0_0_50px_rgba(14,165,233,0.5)] z-20 pointer-events-none ring-4 ring-cyan-500/50" />
               
               {/* Top pointer indicator - neon arrowhead */}
               <div className="absolute top-[-18px] left-1/2 transform -translate-x-1/2 z-30 filter drop-shadow-[0_0_8px_rgba(239,68,68,0.85)] animate-bounce-slow">
@@ -382,7 +365,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
                 className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-slate-950 flex flex-col items-center justify-center font-bold transition-all duration-300 ${
                   isSpinning 
                     ? "bg-gradient-to-br from-slate-800 to-slate-900 cursor-not-allowed scale-95 shadow-[inset_0_2px_6px_rgba(0,0,0,0.8)] border-slate-800 text-slate-500" 
-                    : "bg-gradient-to-br from-[#2a0033] via-slate-950 to-[#12001e] hover:scale-105 active:scale-95 cursor-pointer ring-4 ring-pink-500/40 hover:ring-cyan-500/60 shadow-[0_0_20px_rgba(219,39,119,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] text-white"
+                    : "bg-gradient-to-br from-[#040009] via-slate-900 to-[#040009] hover:scale-105 active:scale-95 cursor-pointer ring-4 ring-pink-500/40 hover:ring-cyan-500/60 shadow-[0_0_20px_rgba(219,39,119,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] text-white"
                 }`}
               >
                 <span className={`tracking-widest text-[10px] sm:text-[11px] font-bold ${isSpinning ? 'text-slate-500' : 'text-pink-400 group-hover:text-cyan-300 animate-pulse'}`}>

@@ -39,10 +39,20 @@ interface Particle {
   life: number;
 }
 
+
+interface Bullet {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  vy: number;
+  color: string;
+  active: boolean;
+}
 interface PowerUp {
   x: number;
   y: number;
-  type: "life" | "wide" | "slow" | "multiball";
+  type: "life" | "wide" | "slow" | "multiball" | "shoot";
   size: number;
   color: string;
   label: string;
@@ -60,36 +70,36 @@ interface Ball {
 
 const BRICK_WORDS = [
   // Ligne 1 - Rouge/Orange (Primes & Indemnités)
-  ["RIFSEEP", "13e MOIS", "PRIMES", "CIA", "NBI", "GIPA", "HEURES +"],
+  ["RIFSEEP", "13e MOIS", "PRIMES", "CIA", "NBI", "GIPA", "HEURES +", "IFSE", "AIF", "IFTS", "IHTS"],
   // Ligne 2 - Orange (Temps de travail & QVT)
-  ["TÉLÉTRAVAIL", "DÉCONNEXION", "CET", "RTT", "CONGÉS", "MUTUELLE", "COS"],
+  ["TÉLÉTRAVAIL", "DÉCONNEXION", "CET", "RTT", "CONGÉS", "MUTUELLE", "COS", "TICKETS", "CRÈCHE", "SPORT", "AMÉNAG."],
   // Ligne 3 - Orange clair (Carrière & Compétences)
-  ["FORMATION", "CPF", "CARRIÈRE", "CONCOURS", "MOBILITÉ", "STAGE", "PROMOTION"],
+  ["FORMATION", "CPF", "CARRIÈRE", "CONCOURS", "MOBILITÉ", "STAGE", "PROMOTION", "DIF", "BILAN", "VAE", "ÉVAL."],
   // Ligne 4 - Jaune/Blanc (Santé, Sécurité, CFDT)
-  ["SÉCURITÉ", "SANTÉ", "CST", "PRÉVOYANCE", "DROITS", "ACCORD", "CFDT"]
+  ["SÉCURITÉ", "SANTÉ", "CST", "PRÉVOYANCE", "DROITS", "ACCORD", "CFDT", "F3SCT", "CAP", "CCP", "ÉGALITÉ"]
 ];
 
-const BRICK_COLORS = ["#ff2a85", "#00f0ff", "#bd00ff", "#ff7900"];
+const BRICK_COLORS = ["#f472b6", "#38bdf8", "#a78bfa", "#fb923c"];
 
 const LEVEL_LAYOUTS = [
-  // Niveau 1 : Grille complète (4 lignes x 7 colonnes)
+  // Niveau 1 : Grille complète (4 lignes x 11 colonnes)
   [
-    [1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 1]
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
   ],
-  // Niveau 2 : Forme spatiale de bouclier invader (briques disposées différemment)
+  // Niveau 2 : Forme spatiale de bouclier invader (11 colonnes)
   [
-    [1, 1, 0, 0, 0, 1, 1],
-    [1, 1, 1, 0, 1, 1, 1],
-    [0, 1, 1, 1, 1, 1, 0],
-    [0, 0, 1, 1, 1, 0, 0]
+    [1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1],
+    [1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1],
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0]
   ]
 ];
 
-const CANVAS_WIDTH = 640;
-const CANVAS_HEIGHT = 400;
+const CANVAS_WIDTH = 800;
+const CANVAS_HEIGHT = 600;
 
 const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -109,13 +119,15 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
 
   // Refs de physique pour éviter les saccades dues au rafraîchissement d'état React
   const paddleRef = useRef({ x: 270, y: 382, width: 100, height: 12 });
-  const ballsRef = useRef<Ball[]>([{ x: 320, y: 360, vx: 3, vy: -4, radius: 7, active: true, trail: [] }]);
+  const ballsRef = useRef<Ball[]>([{ x: 320, y: 360, vx: 3, vy: -4, radius: 6, active: true, trail: [] }]);
   const bricksRef = useRef<Brick[]>([]);
   const particlesRef = useRef<Particle[]>([]);
   const powerupsRef = useRef<PowerUp[]>([]);
   const keysRef = useRef<{ left: boolean; right: boolean }>({ left: false, right: false });
   const shakeRef = useRef<number>(0);
   const starsRef = useRef<{ x: number; y: number; size: number; alpha: number; speed: number }[]>([]);
+  const bulletsRef = useRef<Bullet[]>([]);
+  const shootModeRef = useRef(false);
 
   // Timers des power-ups
   const powerupTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -124,9 +136,9 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
   const initBricks = useCallback((lvl: number) => {
     const bricks: Brick[] = [];
     const rows = 4;
-    const cols = 7;
-    const brickW = 74;
-    const brickH = 20;
+    const cols = 11;
+    const brickW = 60;
+    const brickH = 16;
     const gap = 8;
     const offsetTop = 40;
     const totalW = cols * brickW + (cols - 1) * gap;
@@ -161,8 +173,8 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
     setActivePowerUp(null);
     if (powerupTimerRef.current) clearTimeout(powerupTimerRef.current);
 
-    paddleRef.current = { x: 270, y: 382, width: 100, height: 12 };
-    ballsRef.current = [{ x: 320, y: 360, vx: 3, vy: -4, radius: 7, active: true, trail: [] }];
+    paddleRef.current = { x: 360, y: 560, width: 80, height: 10 };
+    ballsRef.current = [{ x: 400, y: 540, vx: 3, vy: -4, radius: 6, active: true, trail: [] }];
     particlesRef.current = [];
     powerupsRef.current = [];
     
@@ -216,6 +228,15 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
         });
         setActivePowerUp(null);
       }, 8000);
+    
+    } else if (type === "shoot") {
+      shootModeRef.current = true;
+      setActivePowerUp("Mode Tir 🔫");
+      if (powerupTimerRef.current) clearTimeout(powerupTimerRef.current);
+      powerupTimerRef.current = setTimeout(() => {
+        shootModeRef.current = false;
+        setActivePowerUp(null);
+      }, 8000);
     } else if (type === "multiball") {
       const mainBall = ballsRef.current[0];
       if (mainBall) {
@@ -238,6 +259,20 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") keysRef.current.left = true;
       if (e.key === "ArrowRight") keysRef.current.right = true;
+
+      if (e.code === "Space" && shootModeRef.current) {
+        e.preventDefault();
+        bulletsRef.current.push({
+          x: paddleRef.current.x + paddleRef.current.width / 2 - 2,
+          y: paddleRef.current.y,
+          width: 4,
+          height: 12,
+          vy: -8,
+          color: "#f43f5e",
+          active: true
+        });
+      }
+
     };
     const handleKeyUp = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") keysRef.current.left = false;
@@ -315,6 +350,31 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
       if (keysRef.current.right) {
         paddleRef.current.x = Math.min(CANVAS_WIDTH - paddleRef.current.width, paddleRef.current.x + paddleSpeed);
       }
+
+      
+      // 1.5 Update Bullets
+      bulletsRef.current.forEach(bullet => {
+        if (!bullet.active) return;
+        bullet.y += bullet.vy;
+        if (bullet.y < 0) bullet.active = false;
+        
+        bricksRef.current.forEach(brick => {
+          if (brick.isHit || !bullet.active) return;
+          if (
+            bullet.x < brick.x + brick.width &&
+            bullet.x + bullet.width > brick.x &&
+            bullet.y < brick.y + brick.height &&
+            bullet.y + bullet.height > brick.y
+          ) {
+            brick.isHit = true;
+            bullet.active = false;
+            setScore(s => s + brick.points);
+            createExplosion(brick.x + brick.width / 2, brick.y + brick.height / 2, brick.color);
+            shakeRef.current = Math.max(shakeRef.current, 5);
+          }
+        });
+      });
+      bulletsRef.current = bulletsRef.current.filter(b => b.active);
 
       // 2. Déplacer et vérifier les balles
       let activeBalls = ballsRef.current.filter((b) => b.active);
@@ -404,7 +464,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
 
             // Génération de Power-up (16% de chance)
             if (Math.random() < 0.16) {
-              const types: ("life" | "wide" | "slow" | "multiball")[] = ["life", "wide", "slow", "multiball"];
+              const types: ("life" | "wide" | "slow" | "multiball" | "shoot")[] = ["life", "wide", "slow", "multiball", "shoot"];
               const selectedType = types[Math.floor(Math.random() * types.length)];
               let pColor = "#ff7900";
               let pLabel = "🔋";
@@ -412,6 +472,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
               else if (selectedType === "wide") { pColor = "#3b82f6"; pLabel = "↔️"; }
               else if (selectedType === "slow") { pColor = "#10b981"; pLabel = "⏳"; }
               else if (selectedType === "multiball") { pColor = "#a855f7"; pLabel = "🔮"; }
+              else if (selectedType === "shoot") { pColor = "#f43f5e"; pLabel = "🔫"; }
 
               powerupsRef.current.push({
                 x: brick.x + brick.width / 2,
@@ -442,7 +503,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
               y: paddleRef.current.y - 10,
               vx: 3,
               vy: -4,
-              radius: 7,
+              radius: 6,
               active: true,
               trail: []
             }];
@@ -484,8 +545,8 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
         if (levelRef.current === 1) {
           setLevel(2);
           initBricks(2);
-          paddleRef.current = { x: 270, y: 382, width: 100, height: 12 };
-          ballsRef.current = [{ x: 320, y: 360, vx: 3, vy: -4, radius: 7, active: true, trail: [] }];
+          paddleRef.current = { x: 360, y: 560, width: 80, height: 10 };
+          ballsRef.current = [{ x: 400, y: 540, vx: 3, vy: -4, radius: 6, active: true, trail: [] }];
           powerupsRef.current = [];
           shakeRef.current = 15;
         } else {
@@ -506,76 +567,9 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
 
       ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // Arrière-plan spatial profond
+      // Minimalist background
       ctx.save();
-      ctx.fillStyle = "#090212"; // Espace lointain très sombre
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-      // Nébuleuse 1 (Violette)
-      const nebula1 = ctx.createRadialGradient(
-        CANVAS_WIDTH * 0.2, CANVAS_HEIGHT * 0.3, 10,
-        CANVAS_WIDTH * 0.2, CANVAS_HEIGHT * 0.3, 200
-      );
-      nebula1.addColorStop(0, "rgba(99, 102, 241, 0.15)"); // Indigo
-      nebula1.addColorStop(0.5, "rgba(168, 85, 247, 0.06)"); // Purple
-      nebula1.addColorStop(1, "transparent");
-      ctx.fillStyle = nebula1;
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-      // Nébuleuse 2 (Rose/Orange CFDT)
-      const nebula2 = ctx.createRadialGradient(
-        CANVAS_WIDTH * 0.8, CANVAS_HEIGHT * 0.7, 5,
-        CANVAS_WIDTH * 0.8, CANVAS_HEIGHT * 0.7, 180
-      );
-      nebula2.addColorStop(0, "rgba(249, 115, 22, 0.1)"); // Orange CFDT
-      nebula2.addColorStop(0.5, "rgba(236, 72, 153, 0.05)"); // Rose
-      nebula2.addColorStop(1, "transparent");
-      ctx.fillStyle = nebula2;
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-      // Dessiner les étoiles scintillantes
-      if (starsRef.current) {
-        starsRef.current.forEach((star) => {
-          star.alpha += star.speed;
-          if (star.alpha > 1 || star.alpha < 0) {
-            star.speed = -star.speed;
-            star.alpha = Math.max(0, Math.min(1, star.alpha));
-          }
-          ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0.15, Math.min(0.95, star.alpha))})`;
-          ctx.beginPath();
-          ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-          ctx.fill();
-        });
-      }
-
-      // Dessiner un arrière-plan technologique/cyber en superposition subtile
-      ctx.strokeStyle = "rgba(255, 121, 0, 0.03)";
-      ctx.lineWidth = 1;
-      // Cercles concentriques
-      ctx.beginPath();
-      ctx.arc(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, 90, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.arc(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, 180, 0, Math.PI * 2);
-      ctx.stroke();
-      
-      // Grille cyber subtile
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.01)";
-      ctx.lineWidth = 1;
-      for (let i = 0; i < CANVAS_WIDTH; i += 50) {
-        ctx.beginPath();
-        ctx.moveTo(i, 0);
-        ctx.lineTo(i, CANVAS_HEIGHT);
-        ctx.stroke();
-      }
-      for (let i = 0; i < CANVAS_HEIGHT; i += 50) {
-        ctx.beginPath();
-        ctx.moveTo(0, i);
-        ctx.lineTo(CANVAS_WIDTH, i);
-        ctx.stroke();
-      }
-
-      // Restauration de l'état après l'arrière-plan spatial
+      ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       ctx.restore();
 
       // Dessiner les briques
@@ -629,11 +623,11 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
       
       // Bande blanche centrale logo style
       ctx.fillStyle = "#ffffff";
-      ctx.fillRect(pad.x + pad.width / 2 - 8, pad.y + 2, 16, pad.height - 4);
+      ctx.fillRect(pad.x + pad.width / 2 - 12, pad.y + 1, 24, pad.height - 2);
       
       // Petit texte CFDT
-      ctx.font = "bold 7px sans-serif";
-      ctx.fillStyle = "#ff5f00";
+      ctx.font = "900 8px sans-serif";
+      ctx.fillStyle = "#c2410c";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText("CFDT", pad.x + pad.width / 2, pad.y + pad.height / 2 + 0.5);
@@ -694,6 +688,20 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
         ctx.restore();
       });
 
+      
+      // Dessiner les tirs (bullets)
+      bulletsRef.current.forEach(b => {
+        if (!b.active) return;
+        ctx.save();
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = b.color;
+        ctx.fillStyle = b.color;
+        ctx.beginPath();
+        ctx.roundRect(b.x, b.y, b.width, b.height, 2);
+        ctx.fill();
+        ctx.restore();
+      });
+
       // Dessiner les power-ups
       powerupsRef.current.forEach((pup) => {
         ctx.save();
@@ -741,31 +749,14 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
   }, [gameState]);
 
   return (
-    <div className="relative z-30 isolate min-h-screen overflow-x-hidden bg-gradient-to-br from-[#1a0022] via-[#2a0033] to-[#3a0055] py-8 sm:py-12 px-4 sm:px-6 lg:px-8 font-sans text-white">
-      
-      {/* Background image overlay */}
-      <div
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat z-0 pointer-events-none"
-        style={{ backgroundImage: `url('${BASE_URL}unnamed.jpg')`, opacity: 0.15 }}
-      ></div>
-
-      {/* Subtle overlay for text readability */}
-      <div className="fixed inset-0 bg-black/40 z-0 pointer-events-none"></div>
-
-      {/* Glowing ORANGE central hub orb for CFDT theme */}
+    <div className="relative z-30 isolate min-h-screen overflow-x-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-500 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 font-sans text-slate-800 dark:text-slate-100">
+      {/* Soft background glow */}
       <div style={{
         position: 'fixed', top: '50%', left: '50%',
         transform: 'translate(-50%,-50%)',
-        width: 600, height: 600, borderRadius: '50%',
-        background: 'radial-gradient(ellipse at center, rgba(255,100,0,0.12) 0%, rgba(160,80,0,0.06) 42%, transparent 68%)',
-        filter: 'blur(24px)', pointerEvents: 'none', zIndex: 0,
-      }} />
-
-      {/* Grid pattern */}
-      <div style={{
-        position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none',
-        backgroundImage: 'linear-gradient(rgba(255,120,0,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,120,0,0.015) 1px, transparent 1px)',
-        backgroundSize: '70px 70px',
+        width: 800, height: 800, borderRadius: '50%',
+        background: 'radial-gradient(ellipse at center, rgba(148,163,184,0.1) 0%, transparent 70%)',
+        filter: 'blur(40px)', pointerEvents: 'none', zIndex: 0,
       }} />
 
       <div className="max-w-4xl mx-auto relative z-10">
@@ -784,21 +775,21 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
 
         {/* Title & Stats */}
         <div className="text-center mb-6 animate-fade-in">
-          <h1 className="text-3xl sm:text-5xl font-light tracking-tight text-shimmer mb-2">
+          <h1 className="text-3xl sm:text-5xl font-light tracking-tight mb-2 text-slate-800 dark:text-slate-100">
             Casse-brique RH <span className="text-orange-500 font-semibold font-sans text-2xl sm:text-4xl">CFDT</span>
           </h1>
-          <p className="text-sm sm:text-base text-slate-300 font-light max-w-lg mx-auto mb-6">
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-light max-w-lg mx-auto mb-6">
             Libérez vos acquis sociaux et droits de la fonction publique en détruisant les briques !
           </p>
 
           <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 text-sm font-bold">
-            <span className="bg-slate-900/60 px-4 py-2 rounded-full shadow border border-orange-500/20 text-slate-100 flex items-center gap-2">
+            <span className="bg-white/50 dark:bg-slate-800/50 px-4 py-2 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
               Niveau : <span className="text-purple-400 text-base font-extrabold">{level}</span>
             </span>
-            <span className="bg-slate-900/60 px-4 py-2 rounded-full shadow border border-orange-500/20 text-slate-100 flex items-center gap-2">
+            <span className="bg-white/50 dark:bg-slate-800/50 px-4 py-2 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
               Score : <span className="text-orange-400 text-base font-extrabold">{score}</span>
             </span>
-            <span className="bg-slate-900/60 px-4 py-2 rounded-full shadow border border-orange-500/20 text-slate-100 flex items-center gap-2">
+            <span className="bg-white/50 dark:bg-slate-800/50 px-4 py-2 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
               Vies : 
               <span className="flex items-center gap-1">
                 {Array.from({ length: Math.max(0, lives) }).map((_, idx) => (
@@ -817,18 +808,18 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
         </div>
 
         {/* Game Area Container */}
-        <div className="max-w-3xl mx-auto bg-gradient-to-br from-slate-900/80 via-orange-950/20 to-slate-900/80 backdrop-blur rounded-3xl p-4 sm:p-6 shadow-2xl border border-orange-500/30 card-border-sweep card-border-sweep-orange relative overflow-hidden">
+        <div className="max-w-5xl mx-auto bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-3xl p-4 sm:p-6 shadow-xl border border-slate-200 dark:border-slate-700/50 relative overflow-hidden">
           
           {gameState === "ready" && (
             <div className="text-center py-20 relative z-10 animate-fade-in">
               <Activity className="w-16 h-16 text-orange-500 mx-auto mb-4 animate-pulse" />
-              <h2 className="text-2xl font-bold text-white mb-2">Prêt à briser les briques des acquis ?</h2>
-              <p className="text-slate-300 max-w-sm mx-auto mb-8 text-sm font-light leading-relaxed">
+              <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">Prêt à briser les briques des acquis ?</h2>
+              <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-8 text-sm font-light leading-relaxed">
                 Utilisez votre souris ou glissez votre doigt sur l'écran pour diriger la raquette aux couleurs de la <span className="text-orange-400 font-bold">CFDT</span>. Collectez les bonus qui tombent pour vous aider !
               </p>
               <button
                 onClick={startNewGame}
-                className="mx-auto px-8 py-4 bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold rounded-2xl shadow-lg hover:opacity-95 hover:scale-105 active:scale-95 transition-all duration-150 flex items-center justify-center gap-2 btn-shine"
+                className="mx-auto px-8 py-4 bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-medium rounded-2xl shadow-md hover:shadow-lg border border-slate-200 dark:border-slate-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-2"
               >
                 <Play className="w-5 h-5 fill-white" />
                 <span>Commencer la partie</span>
@@ -841,13 +832,13 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
               <div className="w-16 h-16 bg-red-600/20 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 border border-red-500/30">
                 <Heart className="w-8 h-8 opacity-70" />
               </div>
-              <h2 className="text-2xl font-bold text-white mb-2 font-light">Partie terminée ! 😢</h2>
-              <p className="text-slate-300 max-w-sm mx-auto mb-8 text-sm font-light">
+              <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2 font-light">Partie terminée ! 😢</h2>
+              <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-8 text-sm font-light">
                 Vous avez bien défendu les droits, mais vous n'avez plus de vies ! Votre score final est de <span className="font-bold text-orange-400">{score} points</span>.
               </p>
               <button
                 onClick={startNewGame}
-                className="mx-auto px-8 py-4 bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold rounded-2xl shadow-lg hover:opacity-95 hover:scale-105 active:scale-95 transition-all duration-150 flex items-center justify-center gap-2 btn-shine"
+                className="mx-auto px-8 py-4 bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-medium rounded-2xl shadow-md hover:shadow-lg border border-slate-200 dark:border-slate-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-2"
               >
                 <RotateCcw className="w-5 h-5" />
                 <span>Réessayer</span>
@@ -858,13 +849,13 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
           {gameState === "victory" && (
             <div className="text-center py-20 relative z-10 animate-scale-up">
               <Trophy className="w-16 h-16 text-yellow-500 mx-auto mb-4 animate-bounce" />
-              <h2 className="text-2xl font-bold text-white mb-2 font-light">Victoire complète ! 🎉</h2>
-              <p className="text-slate-300 max-w-sm mx-auto mb-8 text-sm font-light">
+              <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2 font-light">Victoire complète ! 🎉</h2>
+              <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-8 text-sm font-light">
                 Bravo ! Vous avez libéré tous les acquis sociaux de la fonction publique territoriale avec un score de <span className="font-bold text-green-400">{score} points</span> !
               </p>
               <button
                 onClick={startNewGame}
-                className="mx-auto px-8 py-4 bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold rounded-2xl shadow-lg hover:opacity-95 hover:scale-105 active:scale-95 transition-all duration-150 flex items-center justify-center gap-2 btn-shine"
+                className="mx-auto px-8 py-4 bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-medium rounded-2xl shadow-md hover:shadow-lg border border-slate-200 dark:border-slate-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-2"
               >
                 <RotateCcw className="w-5 h-5" />
                 <span>Rejouer</span>
@@ -880,7 +871,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
                 height={CANVAS_HEIGHT}
                 onMouseMove={handleMouseMove}
                 onTouchMove={handleTouchMove}
-                className="bg-black/60 rounded-2xl border-2 border-orange-500/50 shadow-[0_0_20px_rgba(249,115,22,0.15)] cursor-none max-w-full block"
+                className="bg-transparent rounded-2xl border border-slate-200 dark:border-slate-700 shadow-inner cursor-none max-w-full block"
               />
             </div>
           )}
@@ -888,11 +879,11 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
         </div>
 
         {/* Game Instructions */}
-        <div className="mt-6 p-4 bg-orange-950/15 border border-orange-500/20 rounded-2xl text-xs sm:text-sm font-light text-slate-300 flex items-start gap-3 max-w-2xl mx-auto">
+        <div className="mt-6 p-4 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-xs sm:text-sm font-light text-slate-600 dark:text-slate-300 flex items-start gap-3 max-w-2xl mx-auto">
           <Sparkles className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
           <div>
-            <strong className="text-slate-100 font-semibold block mb-1">Comment jouer :</strong>
-            Déplacez la raquette <span className="text-orange-400 font-semibold">CFDT</span> horizontalement avec votre souris, votre doigt ou les flèches directionnelles <kbd className="bg-slate-800 px-1 py-0.5 rounded border border-slate-700 text-xs">←</kbd> <kbd className="bg-slate-800 px-1 py-0.5 rounded border border-slate-700 text-xs">→</kbd> pour faire rebondir la balle. Récupérez les capsules bonus pour obtenir des avantages (❤️ = vie, ↔️ = raquette large, ⏳ = balle lente, 🔮 = multi-balles).
+            <strong className="text-slate-800 dark:text-slate-100 font-semibold block mb-1">Comment jouer :</strong>
+            Déplacez la raquette <span className="text-orange-400 font-semibold">CFDT</span> horizontalement avec votre souris, votre doigt ou les flèches directionnelles <kbd className="bg-white dark:bg-slate-800 px-1 py-0.5 rounded border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs shadow-sm">←</kbd> <kbd className="bg-white dark:bg-slate-800 px-1 py-0.5 rounded border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs shadow-sm">→</kbd> pour faire rebondir la balle. Récupérez les capsules bonus pour obtenir des avantages (❤️ = vie, ↔️ = raquette large, ⏳ = balle lente, 🔮 = multi-balles, 🔫 = mode tir avec Espace).
           </div>
         </div>
 

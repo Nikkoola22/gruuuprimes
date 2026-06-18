@@ -261,31 +261,14 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="relative z-30 isolate min-h-screen overflow-x-hidden bg-gradient-to-br from-[#1a0022] via-[#2a0033] to-[#3a0055] py-8 sm:py-12 px-4 sm:px-6 lg:px-8 font-sans text-white">
-      
-      {/* Background image overlay */}
-      <div
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat z-0 pointer-events-none"
-        style={{ backgroundImage: `url('${BASE_URL}unnamed.jpg')`, opacity: 0.15 }}
-      ></div>
-
-      {/* Subtle overlay for text readability */}
-      <div className="fixed inset-0 bg-black/40 z-0 pointer-events-none"></div>
-
-      {/* Glow orb */}
+    <div className="relative z-30 isolate min-h-screen overflow-x-hidden bg-slate-50 dark:bg-slate-900 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-500">
+      {/* Soft background glow */}
       <div style={{
         position: 'fixed', top: '50%', left: '50%',
         transform: 'translate(-50%,-50%)',
-        width: 600, height: 600, borderRadius: '50%',
-        background: 'radial-gradient(ellipse at center, rgba(200,0,100,0.12) 0%, rgba(110,0,160,0.06) 42%, transparent 68%)',
-        filter: 'blur(24px)', pointerEvents: 'none', zIndex: 0,
-      }} />
-
-      {/* Grid pattern */}
-      <div style={{
-        position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none',
-        backgroundImage: 'linear-gradient(rgba(255,28,116,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,28,116,0.015) 1px, transparent 1px)',
-        backgroundSize: '70px 70px',
+        width: 800, height: 800, borderRadius: '50%',
+        background: 'radial-gradient(ellipse at center, rgba(148,163,184,0.1) 0%, transparent 70%)',
+        filter: 'blur(40px)', pointerEvents: 'none', zIndex: 0,
       }} />
 
       <div className="max-w-4xl mx-auto relative z-10">
@@ -304,34 +287,34 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
 
         {/* Title & Stats */}
         <div className="text-center mb-8 animate-fade-in">
-          <h1 className="text-3xl sm:text-5xl font-light tracking-tight text-shimmer mb-2">
+          <h1 className="text-3xl sm:text-5xl font-light tracking-tight mb-2 text-slate-800 dark:text-slate-100">
             Memory RH
           </h1>
-          <p className="text-sm sm:text-base text-slate-300 font-light max-w-lg mx-auto mb-6">
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-light max-w-lg mx-auto mb-6">
             Associez chaque terme de la fonction publique (carte foncée) avec sa définition correspondante (carte claire) !
           </p>
 
           <div className="flex justify-center items-center gap-6 text-sm font-bold">
-            <span className="bg-slate-900/60 px-4 py-2 rounded-full shadow border border-purple-500/20 text-slate-100">
-              Coups joués : <span className="text-pink-400 text-base font-extrabold">{moves}</span>
+            <span className="bg-white/50 dark:bg-slate-800/50 px-4 py-2 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm">
+              Coups joués : <span className="text-blue-500 text-base font-bold">{moves}</span>
             </span>
-            <span className="bg-slate-900/60 px-4 py-2 rounded-full shadow border border-purple-500/20 text-slate-100">
-              Paires trouvées : <span className="text-cyan-400 text-base font-extrabold">{matches} / 6</span>
+            <span className="bg-white/50 dark:bg-slate-800/50 px-4 py-2 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm">
+              Paires trouvées : <span className="text-emerald-500 text-base font-bold">{matches} / 6</span>
             </span>
           </div>
         </div>
 
         {/* Card Grid */}
-        <div className="max-w-2xl mx-auto bg-gradient-to-br from-slate-800/80 via-purple-900/40 to-slate-800/80 backdrop-blur rounded-3xl p-6 sm:p-8 shadow-2xl border border-purple-500/30 relative">
+        <div className="max-w-4xl mx-auto bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-3xl p-6 sm:p-8 shadow-xl border border-white/40 dark:border-slate-700/50 relative">
           {victory && <VictoryConfetti />}
 
           {victory ? (
             // Victory Screen
             <div className="text-center py-12 relative z-10 animate-scale-up">
               <Trophy className="w-20 h-20 text-yellow-500 mx-auto mb-4 animate-bounce" />
-              <h2 className="text-3xl font-extrabold text-white mb-2 font-light">Félicitations ! 🎉</h2>
-              <p className="text-slate-300 max-w-sm mx-auto mb-8 text-sm">
-                Vous avez associé toutes les paires RH avec brio en seulement <span className="font-bold text-cyan-400">{moves} coups</span> !
+              <h2 className="text-3xl font-bold text-slate-800 dark:text-white mb-2">Félicitations ! 🎉</h2>
+              <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-8 text-sm">
+                Vous avez associé toutes les paires RH avec brio en seulement <span className="font-bold text-blue-500">{moves} coups</span> !
               </p>
 
               <button
@@ -354,7 +337,7 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
                     <div 
                       key={card.id}
                       onClick={() => handleCardClick(idx)}
-                      className="h-28 perspective cursor-pointer select-none"
+                      className="h-32 sm:h-36 perspective cursor-pointer select-none"
                     >
                       <div 
                         className={`w-full h-full relative duration-500 transform-style-3d ${
@@ -362,24 +345,24 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
                         }`}
                       >
                         {/* Card Back (Face cachée) */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 to-purple-950 border-2 border-purple-500/20 rounded-2xl flex flex-col items-center justify-center text-white backface-hidden shadow-md hover:shadow-lg transition-all duration-150">
-                          <HelpCircle className="w-8 h-8 text-purple-400/80 animate-pulse" />
+                        <div className="absolute inset-0 bg-[#040009] border-[3px] border-cyan-500/80 shadow-[0_0_15px_rgba(6,182,212,0.5)] hover:shadow-[0_0_25px_rgba(6,182,212,0.8)] rounded-2xl flex flex-col items-center justify-center text-blue-500 backface-hidden transition-all duration-300">
+                          <HelpCircle className="w-8 h-8 text-blue-500 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] animate-pulse" />
                         </div>
 
                         {/* Card Front (Face visible) */}
-                        <div className={`absolute inset-0 border-2 rounded-2xl p-3 flex flex-col items-center justify-center text-center text-xs font-semibold backface-hidden rotate-y-180 shadow-md ${
+                        <div className={`absolute inset-0 border rounded-2xl p-3 flex flex-col items-center justify-center text-center text-sm sm:text-base font-medium backface-hidden rotate-y-180 transition-all duration-300 ${
                           card.isMatched
-                            ? "bg-green-950/50 border-green-500 text-green-200"
+                            ? "bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 shadow-sm"
                             : isTerm
-                              ? "bg-gradient-to-br from-purple-950/70 to-slate-900 border-purple-500/60 text-white"
-                              : "bg-gradient-to-br from-slate-800/95 to-slate-900/95 border-cyan-500/60 text-cyan-100"
+                              ? "bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 shadow-sm"
+                              : "bg-purple-50 dark:bg-purple-900/30 border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-300 shadow-sm"
                         }`}>
                           {card.isMatched && (
                             <span className="absolute top-1.5 right-1.5 bg-green-500 text-white p-0.5 rounded-full shadow">
                               <Check className="w-2.5 h-2.5" />
                             </span>
                           )}
-                          <p className="leading-tight break-words max-w-full font-light">{card.content}</p>
+                          <p className="leading-tight break-words max-w-full font-normal">{card.content}</p>
                         </div>
                       </div>
                     </div>
@@ -390,7 +373,7 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
               <div className="mt-8 flex justify-center">
                 <button
                   onClick={handleRestart}
-                  className="px-6 py-3 bg-slate-900/60 hover:bg-slate-800 text-white font-semibold rounded-2xl shadow transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 text-sm border border-purple-500/20 glass-pill"
+                  className="px-6 py-3 bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium rounded-xl shadow-sm transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 text-sm border border-slate-200 dark:border-slate-700 backdrop-blur-sm"
                 >
                   <RotateCcw className="w-4 h-4" />
                   <span>Réinitialiser</span>

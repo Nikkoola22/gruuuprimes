@@ -1301,7 +1301,7 @@ ${indicesFactuels}
             <div className="grid grid-cols-1 gap-8">
               {/* Colonne principale - pleine largeur */}
               <div className="lg:col-span-1">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto mb-1 items-stretch justify-items-center">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto mb-1 items-stretch justify-items-center">
                   <button
                     onClick={() => handleDomainSelection(0)}
                     className="group relative overflow-hidden bg-white/70 dark:bg-slate-800/80 backdrop-blur-md border border-purple-200 dark:border-purple-500/20 rounded-2xl p-6 md:p-10 hover:border-purple-300 dark:hover:border-purple-400/50 hover:shadow-xl dark:hover:shadow-purple-500/10 hover:-translate-y-1 w-full max-w-sm h-96 transition-transform duration-150 glass-card animate-card-enter-1 btn-ripple"
@@ -1382,6 +1382,34 @@ ${indicesFactuels}
                       </p>
                       <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-150">
                         <span className="font-medium text-sm">Lancer une simulation</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => setChatState({ ...chatState, currentView: 'jeux' })}
+                    className="group relative overflow-hidden bg-white/70 dark:bg-slate-800/80 backdrop-blur-md border border-pink-200 dark:border-pink-500/20 rounded-2xl p-6 md:p-10 hover:border-pink-300 dark:hover:border-pink-400/50 hover:shadow-xl dark:hover:shadow-pink-500/10 hover:-translate-y-1 w-full max-w-sm h-96 transition-transform duration-150 glass-card animate-card-enter-4 btn-ripple"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-pink-100/40 dark:from-pink-900/40 via-transparent to-rose-100/40 dark:to-rose-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
+                    <div className="relative z-10 flex flex-col items-center gap-6 h-full justify-between">
+                      <div className="relative">
+                        <span className="absolute -inset-3 bg-gradient-to-br from-pink-200 dark:from-pink-500/30 to-rose-200 dark:to-rose-500/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
+                        <div className="relative p-4 md:p-6 bg-gradient-to-br from-pink-100 dark:from-slate-900/80 to-rose-100 dark:to-slate-800/80 backdrop-blur rounded-2xl shadow-sm border border-pink-200 dark:border-pink-500/30 icon-box-spring">
+                          <Gamepad2 className="w-12 h-12 md:w-16 md:h-16 text-pink-600 dark:text-pink-400" />
+                        </div>
+                      </div>
+                      <h4 className="text-2xl text-slate-800 dark:text-white">
+                        <span className="relative inline-block z-10">
+                          <span className="relative z-20 font-black tracking-tight">Espace Jeux</span>
+                          <span className="absolute bottom-1.5 left-[-4%] w-[108%] h-3.5 bg-gradient-to-r from-pink-300 dark:from-pink-600 via-rose-200 dark:via-rose-500 to-pink-200 dark:to-pink-500 opacity-60 dark:opacity-90 -skew-x-12 -rotate-2 -z-10 rounded-sm shadow-[0_0_10px_rgba(244,63,94,0.5)]"></span>
+                        </span>
+                      </h4>
+                      <p className="text-center text-slate-600 dark:text-slate-300 font-medium dark:font-light text-sm">
+                        La Roulette QVT & Idée du jour — Boostez votre bien-être
+                      </p>
+                      <div className="flex items-center gap-2 text-pink-600 dark:text-pink-400 font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                        <span className="font-medium text-sm">Lancer le jeu</span>
                         <ArrowRight className="w-4 h-4" />
                       </div>
                     </div>
@@ -1702,7 +1730,7 @@ ${indicesFactuels}
       {/* --- SECTION JEUX / PORTAIL ESPACE JEUX --- */}
       {chatState.currentView === 'jeux' && (
         <Suspense fallback={<ViewLoader />}>
-          <EspaceJeux onClose={() => setChatState({ ...chatState, currentView: 'menu' })} />
+          <EspaceJeux onClose={() => setChatState({ ...chatState, currentView: 'menu' })} theme={theme} />
         </Suspense>
       )}
 
