@@ -9,7 +9,9 @@ import {
   Zap,
   Activity,
   AlertTriangle,
-  Inbox
+  Inbox,
+  Shield,
+  Building2
 } from "lucide-react";
 
 // Lazy-load les quatre jeux
@@ -20,6 +22,9 @@ const CasseBrique = lazy(() => import("./CasseBrique.tsx"));
 const FroggerContractuel = lazy(() => import("./FroggerContractuel.tsx"));
 const TapeTaupeRisques = lazy(() => import("./TapeTaupeRisques.tsx"));
 const SortEmAll = lazy(() => import("./SortEmAll.tsx"));
+const PacManPaie = lazy(() => import("./PacManPaie.tsx"));
+const TowerDefenseRH = lazy(() => import("./TowerDefenseRH.tsx"));
+const TycoonCollectivite = lazy(() => import("./TycoonCollectivite.tsx"));
 
 interface EspaceJeuxProps {
   onClose: () => void;
@@ -38,7 +43,7 @@ const ViewLoader = () => (
 
 const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
   const isLight = theme === 'light';
-  const [activeGame, setActiveGame] = useState<"none" | "roulette" | "memory" | "quiz" | "cassebrique" | "frogger" | "tapetaupe" | "sortemall">("none");
+  const [activeGame, setActiveGame] = useState<"none" | "roulette" | "memory" | "quiz" | "cassebrique" | "frogger" | "tapetaupe" | "sortemall" | "pacman" | "towerdefense" | "tycoon">("none");
 
   if (activeGame === "roulette") {
     return (
@@ -92,6 +97,30 @@ const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
     return (
       <Suspense fallback={<ViewLoader />}>
         <SortEmAll onClose={() => setActiveGame("none")} />
+      </Suspense>
+    );
+  }
+
+  if (activeGame === "pacman") {
+    return (
+      <Suspense fallback={<ViewLoader />}>
+        <PacManPaie onClose={() => setActiveGame("none")} />
+      </Suspense>
+    );
+  }
+
+  if (activeGame === "towerdefense") {
+    return (
+      <Suspense fallback={<ViewLoader />}>
+        <TowerDefenseRH onClose={() => setActiveGame("none")} />
+      </Suspense>
+    );
+  }
+
+  if (activeGame === "tycoon") {
+    return (
+      <Suspense fallback={<ViewLoader />}>
+        <TycoonCollectivite onClose={() => setActiveGame("none")} />
       </Suspense>
     );
   }
@@ -369,6 +398,102 @@ const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
               </p>
               <div className="flex items-center gap-2 text-sky-400 font-semibold text-sm mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
                 <span>Commencer le tri</span>
+                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </button>
+
+          {/* Card H: PacMan */}
+          <button
+            onClick={() => setActiveGame("pacman")}
+            className={`group relative text-left rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col justify-end h-[400px] w-full max-w-lg shadow-lg hover:shadow-2xl border ${isLight ? "border-slate-200" : "border-white/10"} backdrop-blur-sm bg-slate-800`}
+            style={{ 
+              backgroundImage: `url('${BASE_URL}tapetaupe.png')`, // Reuse an image temporarily or use none
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            <div className={`absolute inset-0 transition-opacity duration-500 opacity-80 group-hover:opacity-90 ${isLight ? "bg-gradient-to-t from-white via-white/80 to-white/10" : "bg-gradient-to-t from-[#040009] via-[#040009]/80 to-transparent"}`} />
+            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            <div className="relative z-10 p-8 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 bg-blue-500/20 backdrop-blur-md rounded-xl border border-blue-400/30 text-blue-300">
+                  <Activity className="w-6 h-6 group-hover:animate-bounce" />
+                </div>
+                <h3 className={`text-3xl font-bold tracking-tight drop-shadow-md ${isLight ? "text-slate-900" : "text-white"}`}>
+                  Labyrinthe de la Paie
+                </h3>
+              </div>
+              <p className={`font-light text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 ${isLight ? "text-slate-700" : "text-slate-300"}`}>
+                Un "Pac-Man" RH : Incarnez un gestionnaire, fuyez les anomalies de paie (fantômes) et collectez les délibérations pour sécuriser les dossiers.
+              </p>
+              <div className="flex items-center gap-2 text-blue-400 font-semibold text-sm mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+                <span>Lancer le jeu</span>
+                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </button>
+
+          {/* Card I: Tower Defense */}
+          <button
+            onClick={() => setActiveGame("towerdefense")}
+            className={`group relative text-left rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col justify-end h-[400px] w-full max-w-lg shadow-lg hover:shadow-2xl border ${isLight ? "border-slate-200" : "border-white/10"} backdrop-blur-sm bg-slate-800`}
+            style={{ 
+              backgroundImage: `url('${BASE_URL}cassebrique.png')`, // Reuse an image temporarily
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            <div className={`absolute inset-0 transition-opacity duration-500 opacity-80 group-hover:opacity-90 ${isLight ? "bg-gradient-to-t from-white via-white/80 to-white/10" : "bg-gradient-to-t from-[#040009] via-[#040009]/80 to-transparent"}`} />
+            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            <div className="relative z-10 p-8 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 bg-emerald-500/20 backdrop-blur-md rounded-xl border border-emerald-400/30 text-emerald-300">
+                  <Shield className="w-6 h-6 group-hover:animate-pulse" />
+                </div>
+                <h3 className={`text-3xl font-bold tracking-tight drop-shadow-md ${isLight ? "text-slate-900" : "text-white"}`}>
+                  Tower Defense RH
+                </h3>
+              </div>
+              <p className={`font-light text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 ${isLight ? "text-slate-700" : "text-slate-300"}`}>
+                Gérez les effectifs ! Placez vos chargés de recrutement stratégiquement pour traiter les dossiers de demande avant la rupture du service public.
+              </p>
+              <div className="flex items-center gap-2 text-emerald-400 font-semibold text-sm mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+                <span>Lancer le jeu</span>
+                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </button>
+
+          {/* Card J: Tycoon */}
+          <button
+            onClick={() => setActiveGame("tycoon")}
+            className={`group relative text-left rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col justify-end h-[400px] w-full max-w-lg shadow-lg hover:shadow-2xl border ${isLight ? "border-slate-200" : "border-white/10"} backdrop-blur-sm bg-slate-800`}
+            style={{ 
+              backgroundImage: `url('${BASE_URL}memory.png')`, // Reuse an image temporarily
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            <div className={`absolute inset-0 transition-opacity duration-500 opacity-80 group-hover:opacity-90 ${isLight ? "bg-gradient-to-t from-white via-white/80 to-white/10" : "bg-gradient-to-t from-[#040009] via-[#040009]/80 to-transparent"}`} />
+            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            <div className="relative z-10 p-8 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 bg-amber-500/20 backdrop-blur-md rounded-xl border border-amber-400/30 text-amber-300">
+                  <Building2 className="w-6 h-6 group-hover:animate-pulse" />
+                </div>
+                <h3 className={`text-3xl font-bold tracking-tight drop-shadow-md ${isLight ? "text-slate-900" : "text-white"}`}>
+                  Tycoon RH
+                </h3>
+              </div>
+              <p className={`font-light text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 ${isLight ? "text-slate-700" : "text-slate-300"}`}>
+                "Ma Collectivité" : Un jeu de gestion au tour par tour. Gérez le budget, calmez les syndicats, et survivez aux crises de la fonction publique !
+              </p>
+              <div className="flex items-center gap-2 text-amber-400 font-semibold text-sm mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+                <span>Prendre ses fonctions</span>
                 <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
