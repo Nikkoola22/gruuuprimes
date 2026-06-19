@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowLeft, Newspaper, ArrowRight } from "lucide-react";
+import { ArrowLeft, Newspaper, ArrowRight, Rss, BookOpen } from "lucide-react";
 
 interface IntercoNewsItem {
   title: string;
@@ -51,14 +51,18 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl }) => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
           
           {/* Colonne de gauche: Actualités */}
-          <div className="lg:col-span-3 bg-white dark:bg-slate-800 backdrop-blur-xl rounded-3xl p-8 border border-slate-200 shadow-sm">
-            <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-10 pb-4 border-b border-slate-200">
-              Actualités
-              <span className="relative inline-block ml-3 z-10">
-                <span className="relative z-20 text-slate-800 dark:text-white font-black tracking-tight">Syndicales & Statutaires</span>
-                <span className="absolute bottom-1.5 left-[-2%] w-[104%] h-4 bg-gradient-to-r from-blue-200 via-cyan-100 to-blue-200 opacity-90 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-              </span>
-            </h3>
+          <div className="lg:col-span-3 bg-gradient-to-br from-white/90 via-blue-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-blue-200 shadow-xl shadow-blue-100/50">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="p-2.5 bg-blue-100/50 rounded-xl border border-blue-200 shadow-sm flex items-center justify-center">
+                <Newspaper className="w-6 h-6 text-blue-500" />
+              </div>
+              <h3 className="text-3xl font-bold text-slate-800 dark:text-white tracking-wide">
+                <span className="relative inline-block z-10">
+                  <span className="relative z-20 text-slate-800 dark:text-white font-black tracking-tight">Actualités Syndicales & Statutaires</span>
+                  <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-blue-300 via-cyan-200 to-blue-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                </span>
+              </h3>
+            </div>
             
             {/* --- ACTUALITÉ STATUTAIRE CIG --- */}
             <div className="flex flex-col md:flex-row gap-6 mb-12 border-b border-slate-200 pb-10 group/card">
@@ -89,10 +93,14 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl }) => {
             </div>
 
             {/* --- ACTUALITÉS CFDT INTERCO --- */}
-            <h4 className="text-lg font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
-              En direct de la CFDT Interco
-            </h4>
+            <div className="flex items-center gap-3 mt-12 mb-8">
+              <div className="p-2.5 bg-blue-100/50 rounded-xl border border-blue-200 shadow-sm flex items-center justify-center">
+                <Rss className="w-6 h-6 text-blue-500" />
+              </div>
+              <h4 className="text-2xl font-bold text-slate-800 dark:text-white tracking-wide">
+                En direct de la CFDT Interco
+              </h4>
+            </div>
 
             {news.length === 0 ? (
               <div className="text-center text-slate-500 dark:text-slate-400 font-medium text-lg py-12">
@@ -163,14 +171,19 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl }) => {
           </div>
 
           {/* Colonne de droite: À lire */}
-          <div className="lg:col-span-1">
-            <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-10 pb-4 border-b border-slate-200">
-              <span className="relative inline-block z-10">
-                <span className="relative z-20 text-slate-800 dark:text-white font-black tracking-tight">À lire</span>
-                <span className="absolute bottom-1.5 left-[-4%] w-[108%] h-4 bg-gradient-to-r from-blue-200 via-cyan-100 to-blue-200 opacity-90 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-              </span>
-            </h3>
-            <div className="group bg-white dark:bg-slate-800 border border-slate-200 rounded-2xl p-6 shadow-sm hover:border-blue-300 transition-all duration-300 hover:shadow-md">
+          <div className="lg:col-span-1 bg-gradient-to-br from-white/90 via-indigo-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-indigo-200 shadow-xl shadow-indigo-100/50 flex flex-col h-full">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="p-2.5 bg-indigo-100/50 rounded-xl border border-indigo-200 shadow-sm flex items-center justify-center">
+                <BookOpen className="w-6 h-6 text-indigo-500" />
+              </div>
+              <h3 className="text-3xl font-bold text-slate-800 dark:text-white tracking-wide">
+                <span className="relative inline-block z-10">
+                  <span className="relative z-20 text-slate-800 dark:text-white font-black tracking-tight">À lire</span>
+                  <span className="absolute bottom-1 left-[-4%] w-[108%] h-3.5 bg-gradient-to-r from-indigo-300 via-purple-200 to-indigo-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                </span>
+              </h3>
+            </div>
+            <div className="group bg-white/60 dark:bg-slate-800 border border-indigo-100 rounded-2xl p-6 shadow-sm hover:border-indigo-300 transition-all duration-300 hover:shadow-md flex-grow">
               <a 
                 href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/journal-gennevilliers-printemps-2026.pdf"
                 target="_blank"

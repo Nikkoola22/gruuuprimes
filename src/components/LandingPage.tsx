@@ -212,7 +212,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
       position: 'fixed',
       inset: 0,
       background: isLight 
-        ? 'linear-gradient(135deg, #fdfbf7 0%, #f4f0ea 40%, #fef3c7 80%, #ffedd5 100%)' 
+        ? 'linear-gradient(135deg, #fdfbf7 0%, #fff7ed 40%, #ffedd5 80%, #fed7aa 100%)' 
         : 'linear-gradient(135deg, #1a0022 0%, #2a0033 40%, #3a0055 80%, #FF1C74 100%)',
       fontFamily: "'Outfit', sans-serif",
       overflow: 'hidden',

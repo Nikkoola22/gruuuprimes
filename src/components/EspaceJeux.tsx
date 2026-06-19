@@ -41,117 +41,79 @@ const ViewLoader = () => (
   </div>
 );
 
+interface GameDef {
+  id: "roulette" | "memory" | "quiz" | "cassebrique" | "frogger" | "tapetaupe" | "sortemall" | "pacman" | "towerdefense" | "tycoon";
+  title: string;
+  description: string;
+  actionText: string;
+  icon: React.ElementType;
+  iconTheme: string;
+  bgImage: string;
+  spanClass: string;
+  iconSizeClass?: string;
+  titleSizeClass?: string;
+}
+
+const themeStyles: Record<string, { bg: string, text: string, border: string, shadow: string, btnBg: string }> = {
+  amber: { bg: "bg-amber-500/20", text: "text-amber-500 dark:text-amber-300", border: "border-amber-400/30", shadow: "shadow-amber-500/20", btnBg: "bg-amber-500 hover:bg-amber-600" },
+  blue: { bg: "bg-blue-500/20", text: "text-blue-500 dark:text-blue-300", border: "border-blue-400/30", shadow: "shadow-blue-500/20", btnBg: "bg-blue-500 hover:bg-blue-600" },
+  emerald: { bg: "bg-emerald-500/20", text: "text-emerald-500 dark:text-emerald-300", border: "border-emerald-400/30", shadow: "shadow-emerald-500/20", btnBg: "bg-emerald-500 hover:bg-emerald-600" },
+  red: { bg: "bg-red-500/20", text: "text-red-500 dark:text-red-300", border: "border-red-400/30", shadow: "shadow-red-500/20", btnBg: "bg-red-500 hover:bg-red-600" },
+  sky: { bg: "bg-sky-500/20", text: "text-sky-500 dark:text-sky-300", border: "border-sky-400/30", shadow: "shadow-sky-500/20", btnBg: "bg-sky-500 hover:bg-sky-600" },
+  green: { bg: "bg-green-500/20", text: "text-green-500 dark:text-green-300", border: "border-green-400/30", shadow: "shadow-green-500/20", btnBg: "bg-green-500 hover:bg-green-600" },
+  yellow: { bg: "bg-yellow-500/20", text: "text-yellow-500 dark:text-yellow-300", border: "border-yellow-400/30", shadow: "shadow-yellow-500/20", btnBg: "bg-yellow-500 hover:bg-yellow-600" },
+  purple: { bg: "bg-purple-500/20", text: "text-purple-500 dark:text-purple-300", border: "border-purple-400/30", shadow: "shadow-purple-500/20", btnBg: "bg-purple-500 hover:bg-purple-600" },
+  orange: { bg: "bg-orange-500/20", text: "text-orange-500 dark:text-orange-300", border: "border-orange-400/30", shadow: "shadow-orange-500/20", btnBg: "bg-orange-500 hover:bg-orange-600" }
+};
+
+const games: GameDef[] = [
+  { id: "tycoon", title: "Tycoon RH", description: "\"Ma Collectivité\" : Un jeu de gestion au tour par tour. Gérez le budget, calmez les syndicats, et survivez aux crises !", actionText: "Prendre ses fonctions", icon: Building2, iconTheme: "amber", bgImage: "memory.png", spanClass: "md:col-span-2 lg:col-span-2 lg:row-span-2", iconSizeClass: "w-8 h-8 sm:w-12 sm:h-12", titleSizeClass: "text-3xl sm:text-5xl" },
+  { id: "pacman", title: "Labyrinthe Paie", description: "Incarnez un gestionnaire, fuyez les fantômes et sécurisez les dossiers de paie.", actionText: "Lancer le jeu", icon: Activity, iconTheme: "blue", bgImage: "tapetaupe.png", spanClass: "md:col-span-2 lg:col-span-2" },
+  { id: "towerdefense", title: "Tower Defense", description: "Gérez les effectifs face aux demandes RH.", actionText: "Défendre", icon: Shield, iconTheme: "emerald", bgImage: "cassebrique.png", spanClass: "col-span-1" },
+  { id: "cassebrique", title: "Casse-brique", description: "Un casse-brique rétro ! Libérez les acquis sociaux.", actionText: "Jouer", icon: Zap, iconTheme: "red", bgImage: "cassebrique.png", spanClass: "col-span-1" },
+  { id: "sortemall", title: "Sort'em All", description: "Triez les dossiers RH dans les bonnes instances sous pression.", actionText: "Trier", icon: Inbox, iconTheme: "sky", bgImage: "sortemall.png", spanClass: "md:col-span-2 lg:col-span-2" },
+  { id: "frogger", title: "Frogger RH", description: "Évitez les pièges et visez la titularisation.", actionText: "Jouer", icon: Activity, iconTheme: "green", bgImage: "frogger.png", spanClass: "col-span-1" },
+  { id: "tapetaupe", title: "Tape-Taupe", description: "Tapez sur les risques professionnels avant l'accident.", actionText: "Prévention", icon: AlertTriangle, iconTheme: "yellow", bgImage: "tapetaupe.png", spanClass: "col-span-1" },
+  { id: "roulette", title: "Roulette QVT", description: "Obtenez des idées concrètes pour votre bien-être au bureau.", actionText: "Lancer", icon: Sparkles, iconTheme: "blue", bgImage: "roulette.png", spanClass: "md:col-span-2 lg:col-span-2" },
+  { id: "memory", title: "Memory RH", description: "Testez votre mémoire en associant chaque terme RH.", actionText: "Jouer", icon: Brain, iconTheme: "purple", bgImage: "memory.png", spanClass: "col-span-1" },
+  { id: "quiz", title: "Quiz FAQ", description: "10 questions sur les droits de la fonction publique.", actionText: "Lancer", icon: HelpCircle, iconTheme: "orange", bgImage: "quiz.png", spanClass: "col-span-1" }
+];
+
 const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
   const isLight = theme === 'light';
-  const [activeGame, setActiveGame] = useState<"none" | "roulette" | "memory" | "quiz" | "cassebrique" | "frogger" | "tapetaupe" | "sortemall" | "pacman" | "towerdefense" | "tycoon">("none");
+  const [activeGame, setActiveGame] = useState<GameDef["id"] | "none">("none");
 
-  if (activeGame === "roulette") {
-    return (
-      <Suspense fallback={<ViewLoader />}>
-        <RouletteQVT onClose={() => setActiveGame("none")} />
-      </Suspense>
-    );
-  }
-
-  if (activeGame === "memory") {
-    return (
-      <Suspense fallback={<ViewLoader />}>
-        <MemoryRH onClose={() => setActiveGame("none")} />
-      </Suspense>
-    );
-  }
-
-  if (activeGame === "quiz") {
-    return (
-      <Suspense fallback={<ViewLoader />}>
-        <FAQQuiz onClose={() => setActiveGame("none")} />
-      </Suspense>
-    );
-  }
-
-  if (activeGame === "cassebrique") {
-    return (
-      <Suspense fallback={<ViewLoader />}>
-        <CasseBrique onClose={() => setActiveGame("none")} />
-      </Suspense>
-    );
-  }
-
-  if (activeGame === "frogger") {
-    return (
-      <Suspense fallback={<ViewLoader />}>
-        <FroggerContractuel onClose={() => setActiveGame("none")} />
-      </Suspense>
-    );
-  }
-
-  if (activeGame === "tapetaupe") {
-    return (
-      <Suspense fallback={<ViewLoader />}>
-        <TapeTaupeRisques onClose={() => setActiveGame("none")} />
-      </Suspense>
-    );
-  }
-
-  if (activeGame === "sortemall") {
-    return (
-      <Suspense fallback={<ViewLoader />}>
-        <SortEmAll onClose={() => setActiveGame("none")} />
-      </Suspense>
-    );
-  }
-
-  if (activeGame === "pacman") {
-    return (
-      <Suspense fallback={<ViewLoader />}>
-        <PacManPaie onClose={() => setActiveGame("none")} />
-      </Suspense>
-    );
-  }
-
-  if (activeGame === "towerdefense") {
-    return (
-      <Suspense fallback={<ViewLoader />}>
-        <TowerDefenseRH onClose={() => setActiveGame("none")} />
-      </Suspense>
-    );
-  }
-
-  if (activeGame === "tycoon") {
-    return (
-      <Suspense fallback={<ViewLoader />}>
-        <TycoonCollectivite onClose={() => setActiveGame("none")} />
-      </Suspense>
-    );
-  }
+  if (activeGame === "roulette") return <Suspense fallback={<ViewLoader />}><RouletteQVT onClose={() => setActiveGame("none")} /></Suspense>;
+  if (activeGame === "memory") return <Suspense fallback={<ViewLoader />}><MemoryRH onClose={() => setActiveGame("none")} /></Suspense>;
+  if (activeGame === "quiz") return <Suspense fallback={<ViewLoader />}><FAQQuiz onClose={() => setActiveGame("none")} /></Suspense>;
+  if (activeGame === "cassebrique") return <Suspense fallback={<ViewLoader />}><CasseBrique onClose={() => setActiveGame("none")} /></Suspense>;
+  if (activeGame === "frogger") return <Suspense fallback={<ViewLoader />}><FroggerContractuel onClose={() => setActiveGame("none")} /></Suspense>;
+  if (activeGame === "tapetaupe") return <Suspense fallback={<ViewLoader />}><TapeTaupeRisques onClose={() => setActiveGame("none")} /></Suspense>;
+  if (activeGame === "sortemall") return <Suspense fallback={<ViewLoader />}><SortEmAll onClose={() => setActiveGame("none")} /></Suspense>;
+  if (activeGame === "pacman") return <Suspense fallback={<ViewLoader />}><PacManPaie onClose={() => setActiveGame("none")} /></Suspense>;
+  if (activeGame === "towerdefense") return <Suspense fallback={<ViewLoader />}><TowerDefenseRH onClose={() => setActiveGame("none")} /></Suspense>;
+  if (activeGame === "tycoon") return <Suspense fallback={<ViewLoader />}><TycoonCollectivite onClose={() => setActiveGame("none")} /></Suspense>;
 
   return (
     <div className={`relative z-30 isolate min-h-screen overflow-x-hidden py-8 sm:py-12 px-4 sm:px-6 lg:px-8 font-sans transition-colors duration-500 ${isLight ? "bg-slate-50 text-slate-900" : "bg-[#040009] text-white"}`}>
       
-      {/* Dynamic Background Effects matching LandingPage */}
+      {/* Dynamic Background Effects */}
       <div
         className={`fixed inset-0 bg-cover bg-center bg-no-repeat z-0 pointer-events-none transition-opacity duration-500 ${isLight ? "opacity-5 mix-blend-multiply" : "opacity-20 mix-blend-screen"}`}
         style={{ backgroundImage: `url('${BASE_URL}unnamed.jpg')` }}
       ></div>
-
-      {/* Subtle overlay for better text readability */}
       <div className="fixed inset-0 bg-black/40 z-0 pointer-events-none"></div>
-
-      {/* Soft glow orb */}
       <div style={{
-        position: 'fixed', top: '50%', left: '50%',
-        transform: 'translate(-50%,-50%)',
+        position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
         width: 800, height: 800, borderRadius: '50%',
-        background: isLight 
-          ? 'radial-gradient(ellipse at center, rgba(148,163,184,0.15) 0%, transparent 70%)' 
-          : 'radial-gradient(ellipse at center, rgba(148,163,184,0.05) 0%, transparent 70%)',
+        background: isLight ? 'radial-gradient(ellipse at center, rgba(148,163,184,0.15) 0%, transparent 70%)' : 'radial-gradient(ellipse at center, rgba(148,163,184,0.05) 0%, transparent 70%)',
         filter: 'blur(40px)', pointerEvents: 'none', zIndex: 0,
       }} />
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10">
         
         {/* Retour au menu principal */}
-        <div className="relative z-40 mb-6">
+        <div className="relative z-40 mb-8 flex justify-between items-center">
           <button
             type="button"
             onClick={onClose}
@@ -163,342 +125,63 @@ const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
         </div>
 
         {/* Header Title */}
-        <div className="text-center mb-12 animate-fade-in">
+        <div className="text-center mb-16 animate-fade-in">
           <div className={`inline-flex p-4 rounded-2xl mb-4 shadow-xl backdrop-blur-md transition-colors duration-500 ${isLight ? "bg-white/50 border border-slate-200 text-slate-700" : "bg-white/5 border border-white/10 text-slate-300"}`}>
             <Gamepad2 className="w-10 h-10 animate-pulse" />
           </div>
-          <h1 className={`text-4xl sm:text-6xl font-light tracking-tight mb-3 transition-colors duration-500 ${isLight ? "text-slate-800" : "text-shimmer"}`}>
+          <h1 className={`text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-4 transition-colors duration-500 drop-shadow-lg ${isLight ? "text-slate-800" : "text-shimmer"}`}>
             Espace Jeux
           </h1>
-          <p className={`text-sm sm:text-lg font-light max-w-lg mx-auto transition-colors duration-500 ${isLight ? "text-slate-600" : "text-slate-300"}`}>
-            Détendez-vous tout en enrichissant vos connaissances professionnelles avec nos outils ludiques.
+          <p className={`text-base sm:text-xl font-light max-w-2xl mx-auto transition-colors duration-500 ${isLight ? "text-slate-600" : "text-slate-300"}`}>
+            Détendez-vous tout en enrichissant vos connaissances professionnelles avec nos outils ludiques de nouvelle génération.
           </p>
         </div>
 
-        {/* Selection Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto items-stretch justify-items-center">
-          
-          {/* Card A: Roulette QVT */}
-          <button
-            onClick={() => setActiveGame("roulette")}
-            className={`group relative text-left rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col justify-end h-[400px] w-full max-w-lg shadow-lg hover:shadow-2xl border ${isLight ? "border-slate-200" : "border-white/10"} backdrop-blur-sm`}
-            style={{ 
-              backgroundImage: `url('${BASE_URL}roulette.png')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          >
-            {/* Overlay Gradient */}
-            <div className={`absolute inset-0 transition-opacity duration-500 opacity-80 group-hover:opacity-90 ${isLight ? "bg-gradient-to-t from-white via-white/80 to-white/10" : "bg-gradient-to-t from-[#040009] via-[#040009]/80 to-transparent"}`} />
-            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
-            <div className="relative z-10 p-8 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-blue-500/20 backdrop-blur-md rounded-xl border border-blue-400/30 text-blue-300">
-                  <Sparkles className="w-6 h-6 group-hover:animate-pulse" />
+        {/* Selection Cards Grid - Bento Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 auto-rows-[300px] gap-6 max-w-7xl mx-auto items-stretch justify-items-center">
+          {games.map((game) => {
+            const theme = themeStyles[game.iconTheme];
+            const Icon = game.icon;
+            return (
+              <button
+                key={game.id}
+                onClick={() => setActiveGame(game.id as any)}
+                className={`group relative text-left rounded-3xl overflow-hidden transition-all duration-500 flex flex-col justify-end w-full h-full shadow-lg hover:shadow-2xl hover:-translate-y-2 border ${isLight ? "border-slate-200" : "border-white/10"} backdrop-blur-sm bg-slate-800 ${game.spanClass}`}
+                style={{ 
+                  backgroundImage: `url('${BASE_URL}${game.bgImage}')`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center'
+                }}
+              >
+                {/* Overlay Gradient */}
+                <div className={`absolute inset-0 transition-opacity duration-500 ${isLight ? "opacity-60 group-hover:opacity-80 bg-gradient-to-t from-white via-white/90 to-transparent" : "opacity-80 group-hover:opacity-90 bg-gradient-to-t from-[#040009] via-[#040009]/90 to-transparent"}`} />
+                <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="relative z-10 p-6 sm:p-8 transform translate-y-8 sm:translate-y-12 group-hover:translate-y-0 transition-transform duration-500 flex flex-col justify-end h-full">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-3">
+                    <div className={`p-3 ${theme.bg} backdrop-blur-md rounded-xl border ${theme.border} ${theme.text} shadow-lg ${theme.shadow} shrink-0 w-fit`}>
+                      <Icon className={`${game.iconSizeClass || "w-7 h-7"} group-hover:animate-pulse`} />
+                    </div>
+                    <h3 className={`${game.titleSizeClass || "text-2xl sm:text-3xl"} font-bold tracking-tight drop-shadow-md ${isLight ? "text-slate-900" : "text-white"}`}>
+                      {game.title}
+                    </h3>
+                  </div>
+                  
+                  <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-in-out">
+                    <div className="overflow-hidden">
+                      <p className={`font-medium text-sm leading-relaxed mb-5 ${isLight ? "text-slate-700" : "text-slate-300"}`}>
+                        {game.description}
+                      </p>
+                      <div className={`inline-flex items-center gap-2 px-5 py-2.5 ${theme.btnBg} text-white rounded-full font-semibold text-sm shadow-lg transform group-hover:scale-105 transition-all duration-300`}>
+                        <span>{game.actionText}</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <h3 className={`text-3xl font-bold tracking-tight drop-shadow-md ${isLight ? "text-slate-900" : "text-white"}`}>
-                  Roulette QVT
-                </h3>
-              </div>
-              <p className={`font-light text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 ${isLight ? "text-slate-700" : "text-slate-300"}`}>
-                Tournez la roulette pour obtenir des idées concrètes pour votre bien-être au bureau, des gestes managériaux ou des astuces de carrière.
-              </p>
-              <div className="flex items-center gap-2 text-blue-400 font-semibold text-sm mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-                <span>Lancer le jeu</span>
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-              </div>
-            </div>
-          </button>
-
-          {/* Card B: Memory RH */}
-          <button
-            onClick={() => setActiveGame("memory")}
-            className={`group relative text-left rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col justify-end h-[400px] w-full max-w-lg shadow-lg hover:shadow-2xl border ${isLight ? "border-slate-200" : "border-white/10"} backdrop-blur-sm`}
-            style={{ 
-              backgroundImage: `url('${BASE_URL}memory.png')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          >
-            <div className={`absolute inset-0 transition-opacity duration-500 opacity-80 group-hover:opacity-90 ${isLight ? "bg-gradient-to-t from-white via-white/80 to-white/10" : "bg-gradient-to-t from-[#040009] via-[#040009]/80 to-transparent"}`} />
-            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
-            <div className="relative z-10 p-8 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-purple-500/20 backdrop-blur-md rounded-xl border border-purple-400/30 text-purple-300">
-                  <Brain className="w-6 h-6 group-hover:animate-pulse" />
-                </div>
-                <h3 className={`text-3xl font-bold tracking-tight drop-shadow-md ${isLight ? "text-slate-900" : "text-white"}`}>
-                  Memory RH
-                </h3>
-              </div>
-              <p className={`font-light text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 ${isLight ? "text-slate-700" : "text-slate-300"}`}>
-                Testez votre mémoire RH ! Associez chaque terme de la fonction publique à son idée clé correspondante en retournant les cartes par paires.
-              </p>
-              <div className="flex items-center gap-2 text-purple-400 font-semibold text-sm mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-                <span>Lancer le jeu</span>
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-              </div>
-            </div>
-          </button>
-
-          {/* Card C: Quiz FAQ */}
-          <button
-            onClick={() => setActiveGame("quiz")}
-            className={`group relative text-left rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col justify-end h-[400px] w-full max-w-lg shadow-lg hover:shadow-2xl border ${isLight ? "border-slate-200" : "border-white/10"} backdrop-blur-sm`}
-            style={{ 
-              backgroundImage: `url('${BASE_URL}quiz.png')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          >
-            <div className={`absolute inset-0 transition-opacity duration-500 opacity-80 group-hover:opacity-90 ${isLight ? "bg-gradient-to-t from-white via-white/80 to-white/10" : "bg-gradient-to-t from-[#040009] via-[#040009]/80 to-transparent"}`} />
-            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
-            <div className="relative z-10 p-8 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-orange-500/20 backdrop-blur-md rounded-xl border border-orange-400/30 text-orange-300">
-                  <HelpCircle className="w-6 h-6 group-hover:animate-pulse" />
-                </div>
-                <h3 className={`text-3xl font-bold tracking-tight drop-shadow-md ${isLight ? "text-slate-900" : "text-white"}`}>
-                  Quiz FAQ
-                </h3>
-              </div>
-              <p className={`font-light text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 ${isLight ? "text-slate-700" : "text-slate-300"}`}>
-                Mettez au défi vos connaissances ! Répondez à 10 questions tirées au hasard sur les règlements, congés et droits de la fonction publique.
-              </p>
-              <div className="flex items-center gap-2 text-orange-400 font-semibold text-sm mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-                <span>Lancer le quiz</span>
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-              </div>
-            </div>
-          </button>
-
-          {/* Card D: Casse-brique RH */}
-          <button
-            onClick={() => setActiveGame("cassebrique")}
-            className={`group relative text-left rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col justify-end h-[400px] w-full max-w-lg shadow-lg hover:shadow-2xl border ${isLight ? "border-slate-200" : "border-white/10"} backdrop-blur-sm`}
-            style={{ 
-              backgroundImage: `url('${BASE_URL}cassebrique.png')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          >
-            <div className={`absolute inset-0 transition-opacity duration-500 opacity-80 group-hover:opacity-90 ${isLight ? "bg-gradient-to-t from-white via-white/80 to-white/10" : "bg-gradient-to-t from-[#040009] via-[#040009]/80 to-transparent"}`} />
-            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
-            <div className="relative z-10 p-8 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-red-500/20 backdrop-blur-md rounded-xl border border-red-400/30 text-red-300">
-                  <Zap className="w-6 h-6 group-hover:animate-pulse" />
-                </div>
-                <h3 className={`text-3xl font-bold tracking-tight drop-shadow-md ${isLight ? "text-slate-900" : "text-white"}`}>
-                  Casse-brique RH
-                </h3>
-              </div>
-              <p className={`font-light text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 ${isLight ? "text-slate-700" : "text-slate-300"}`}>
-                Un casse-brique rétro aux couleurs de la CFDT ! Libérez les acquis et droits sociaux de la fonction publique en détruisant les obstacles.
-              </p>
-              <div className="flex items-center gap-2 text-red-400 font-semibold text-sm mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-                <span>Lancer le jeu</span>
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-              </div>
-            </div>
-          </button>
-
-          {/* Card E: Frogger Contractuel */}
-          <button
-            onClick={() => setActiveGame("frogger")}
-            className={`group relative text-left rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col justify-end h-[400px] w-full max-w-lg shadow-lg hover:shadow-2xl border ${isLight ? "border-slate-200" : "border-white/10"} backdrop-blur-sm`}
-            style={{ 
-              backgroundImage: `url('${BASE_URL}frogger.png')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          >
-            <div className={`absolute inset-0 transition-opacity duration-500 opacity-80 group-hover:opacity-90 ${isLight ? "bg-gradient-to-t from-white via-white/80 to-white/10" : "bg-gradient-to-t from-[#040009] via-[#040009]/80 to-transparent"}`} />
-            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
-            <div className="relative z-10 p-8 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-green-500/20 backdrop-blur-md rounded-xl border border-green-400/30 text-green-300">
-                  <Activity className="w-6 h-6 group-hover:animate-pulse" />
-                </div>
-                <h3 className={`text-3xl font-bold tracking-tight drop-shadow-md ${isLight ? "text-slate-900" : "text-white"}`}>
-                  Frogger RH
-                </h3>
-              </div>
-              <p className={`font-light text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 ${isLight ? "text-slate-700" : "text-slate-300"}`}>
-                Le Frogger des Contractuels ! Évitez les pièges de recrutement et sautez sur les bons CDD pour atteindre la Titularisation.
-              </p>
-              <div className="flex items-center gap-2 text-green-400 font-semibold text-sm mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-                <span>Lancer le jeu</span>
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-              </div>
-            </div>
-          </button>
-
-          {/* Card F: Tape-Taupe */}
-          <button
-            onClick={() => setActiveGame("tapetaupe")}
-            className={`group relative text-left rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col justify-end h-[400px] w-full max-w-lg shadow-lg hover:shadow-2xl border ${isLight ? "border-slate-200" : "border-white/10"} backdrop-blur-sm`}
-            style={{ 
-              backgroundImage: `url('${BASE_URL}tapetaupe.png')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          >
-            <div className={`absolute inset-0 transition-opacity duration-500 opacity-80 group-hover:opacity-90 ${isLight ? "bg-gradient-to-t from-white via-white/80 to-white/10" : "bg-gradient-to-t from-[#040009] via-[#040009]/80 to-transparent"}`} />
-            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
-            <div className="relative z-10 p-8 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-yellow-500/20 backdrop-blur-md rounded-xl border border-yellow-400/30 text-yellow-300">
-                  <AlertTriangle className="w-6 h-6 group-hover:animate-pulse" />
-                </div>
-                <h3 className={`text-3xl font-bold tracking-tight drop-shadow-md ${isLight ? "text-slate-900" : "text-white"}`}>
-                  Tape-Taupe Risques
-                </h3>
-              </div>
-              <p className={`font-light text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 ${isLight ? "text-slate-700" : "text-slate-300"}`}>
-                Soyez réactif ! Tapez sur les risques professionnels (RPS, chutes, heures supp) avant qu'un accident ne survienne.
-              </p>
-              <div className="flex items-center gap-2 text-yellow-400 font-semibold text-sm mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-                <span>Démarrer la prévention</span>
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-              </div>
-            </div>
-          </button>
-
-          {/* Card G: Sort Em All */}
-          <button
-            onClick={() => setActiveGame("sortemall")}
-            className={`group relative text-left rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col justify-end h-[400px] w-full max-w-lg shadow-lg hover:shadow-2xl border ${isLight ? "border-slate-200" : "border-white/10"} backdrop-blur-sm`}
-            style={{ 
-              backgroundImage: `url('${BASE_URL}sortemall.png')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          >
-            <div className={`absolute inset-0 transition-opacity duration-500 opacity-80 group-hover:opacity-90 ${isLight ? "bg-gradient-to-t from-white via-white/80 to-white/10" : "bg-gradient-to-t from-[#040009] via-[#040009]/80 to-transparent"}`} />
-            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
-            <div className="relative z-10 p-8 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-sky-500/20 backdrop-blur-md rounded-xl border border-sky-400/30 text-sky-300">
-                  <Inbox className="w-6 h-6 group-hover:animate-pulse" />
-                </div>
-                <h3 className={`text-3xl font-bold tracking-tight drop-shadow-md ${isLight ? "text-slate-900" : "text-white"}`}>
-                  Sort'em All : Instances
-                </h3>
-              </div>
-              <p className={`font-light text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 ${isLight ? "text-slate-700" : "text-slate-300"}`}>
-                Triez le courrier et les dossiers RH dans les bonnes bannettes (CST, CAP, F3SCT...) sous la pression du temps !
-              </p>
-              <div className="flex items-center gap-2 text-sky-400 font-semibold text-sm mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-                <span>Commencer le tri</span>
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-              </div>
-            </div>
-          </button>
-
-          {/* Card H: PacMan */}
-          <button
-            onClick={() => setActiveGame("pacman")}
-            className={`group relative text-left rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col justify-end h-[400px] w-full max-w-lg shadow-lg hover:shadow-2xl border ${isLight ? "border-slate-200" : "border-white/10"} backdrop-blur-sm bg-slate-800`}
-            style={{ 
-              backgroundImage: `url('${BASE_URL}tapetaupe.png')`, // Reuse an image temporarily or use none
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          >
-            <div className={`absolute inset-0 transition-opacity duration-500 opacity-80 group-hover:opacity-90 ${isLight ? "bg-gradient-to-t from-white via-white/80 to-white/10" : "bg-gradient-to-t from-[#040009] via-[#040009]/80 to-transparent"}`} />
-            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
-            <div className="relative z-10 p-8 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-blue-500/20 backdrop-blur-md rounded-xl border border-blue-400/30 text-blue-300">
-                  <Activity className="w-6 h-6 group-hover:animate-bounce" />
-                </div>
-                <h3 className={`text-3xl font-bold tracking-tight drop-shadow-md ${isLight ? "text-slate-900" : "text-white"}`}>
-                  Labyrinthe de la Paie
-                </h3>
-              </div>
-              <p className={`font-light text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 ${isLight ? "text-slate-700" : "text-slate-300"}`}>
-                Un "Pac-Man" RH : Incarnez un gestionnaire, fuyez les anomalies de paie (fantômes) et collectez les délibérations pour sécuriser les dossiers.
-              </p>
-              <div className="flex items-center gap-2 text-blue-400 font-semibold text-sm mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-                <span>Lancer le jeu</span>
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-              </div>
-            </div>
-          </button>
-
-          {/* Card I: Tower Defense */}
-          <button
-            onClick={() => setActiveGame("towerdefense")}
-            className={`group relative text-left rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col justify-end h-[400px] w-full max-w-lg shadow-lg hover:shadow-2xl border ${isLight ? "border-slate-200" : "border-white/10"} backdrop-blur-sm bg-slate-800`}
-            style={{ 
-              backgroundImage: `url('${BASE_URL}cassebrique.png')`, // Reuse an image temporarily
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          >
-            <div className={`absolute inset-0 transition-opacity duration-500 opacity-80 group-hover:opacity-90 ${isLight ? "bg-gradient-to-t from-white via-white/80 to-white/10" : "bg-gradient-to-t from-[#040009] via-[#040009]/80 to-transparent"}`} />
-            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
-            <div className="relative z-10 p-8 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-emerald-500/20 backdrop-blur-md rounded-xl border border-emerald-400/30 text-emerald-300">
-                  <Shield className="w-6 h-6 group-hover:animate-pulse" />
-                </div>
-                <h3 className={`text-3xl font-bold tracking-tight drop-shadow-md ${isLight ? "text-slate-900" : "text-white"}`}>
-                  Tower Defense RH
-                </h3>
-              </div>
-              <p className={`font-light text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 ${isLight ? "text-slate-700" : "text-slate-300"}`}>
-                Gérez les effectifs ! Placez vos chargés de recrutement stratégiquement pour traiter les dossiers de demande avant la rupture du service public.
-              </p>
-              <div className="flex items-center gap-2 text-emerald-400 font-semibold text-sm mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-                <span>Lancer le jeu</span>
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-              </div>
-            </div>
-          </button>
-
-          {/* Card J: Tycoon */}
-          <button
-            onClick={() => setActiveGame("tycoon")}
-            className={`group relative text-left rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col justify-end h-[400px] w-full max-w-lg shadow-lg hover:shadow-2xl border ${isLight ? "border-slate-200" : "border-white/10"} backdrop-blur-sm bg-slate-800`}
-            style={{ 
-              backgroundImage: `url('${BASE_URL}memory.png')`, // Reuse an image temporarily
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          >
-            <div className={`absolute inset-0 transition-opacity duration-500 opacity-80 group-hover:opacity-90 ${isLight ? "bg-gradient-to-t from-white via-white/80 to-white/10" : "bg-gradient-to-t from-[#040009] via-[#040009]/80 to-transparent"}`} />
-            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
-            <div className="relative z-10 p-8 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-amber-500/20 backdrop-blur-md rounded-xl border border-amber-400/30 text-amber-300">
-                  <Building2 className="w-6 h-6 group-hover:animate-pulse" />
-                </div>
-                <h3 className={`text-3xl font-bold tracking-tight drop-shadow-md ${isLight ? "text-slate-900" : "text-white"}`}>
-                  Tycoon RH
-                </h3>
-              </div>
-              <p className={`font-light text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 ${isLight ? "text-slate-700" : "text-slate-300"}`}>
-                "Ma Collectivité" : Un jeu de gestion au tour par tour. Gérez le budget, calmez les syndicats, et survivez aux crises de la fonction publique !
-              </p>
-              <div className="flex items-center gap-2 text-amber-400 font-semibold text-sm mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-                <span>Prendre ses fonctions</span>
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-              </div>
-            </div>
-          </button>
-
+              </button>
+            );
+          })}
         </div>
 
       </div>

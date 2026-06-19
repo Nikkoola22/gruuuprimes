@@ -170,6 +170,135 @@ app.post('/api/completions', async (req, res) => {
   }
 });
 
+// Route pour récupérer les flux RSS de la Fonction Publique
+app.get('/api/fp-rss', async (req, res) => {
+  try {
+    const fetch = (await import('node-fetch')).default;
+    const xml2js = await import('xml2js');
+    const parser = new xml2js.default.Parser();
+
+    const rssUrls = [
+      "https://www.fonction-publique.gouv.fr/flux-rss-concours",
+      "https://www.fonction-publique.gouv.fr/flux-rss-actualites",
+      "https://www.fonction-publique.gouv.fr/flux-rss-rubrique-la-dgafp"
+    ];
+
+    let allArticles = [];
+
+    for (const url of rssUrls) {
+      console.log(`📡 Récupération du flux FP: ${url}`);
+      try {
+        const response = await fetch(url, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+          }
+        });
+
+        if (!response.ok) {
+          console.error(`❌ Erreur fetch FP RSS (${response.status}) pour ${url}:`, response.statusText);
+          continue;
+        }
+
+        const xmlText = await response.text();
+        const jsonData = await parser.parseStringPromise(xmlText);
+
+        const articles = (jsonData.rss?.channel?.[0]?.item || []).map((item) => {
+          const extractText = (node) => {
+            if (!node) return '';
+            if (typeof node === 'string') return node;
+            if (typeof node === 'object') {
+              if (node._) return node._;
+              if (node.a && node.a[0]) return extractText(node.a[0]);
+              return '';
+            }
+            return '';
+          };
+
+          const title = extractText(item.title?.[0]) || 'Sans titre';
+          const link = extractText(item.link?.[0]) || '#';
+          
+          let pubDateStr = extractText(item.pubDate?.[0]) || '';
+          let timestamp = Date.now();
+          // parse "jeu 18/06/2026 - 15:31"
+          const dateMatch = pubDateStr.match(/(\d{2})\/(\d{2})\/(\d{4})\s*-\s*(\d{2}):(\d{2})/);
+          if (dateMatch) {
+            const [_, day, month, year, hour, minute] = dateMatch;
+            timestamp = new Date(`${year}-${month}-${day}T${hour}:${minute}:00`).getTime();
+          } else {
+             const parsed = new Date(pubDateStr).getTime();
+             if (!isNaN(parsed)) timestamp = parsed;
+          }
+          const pubDate = new Date(timestamp).toISOString();
+
+          const categoryRaw = Array.isArray(item.category) ? item.category[0] : (item.category || '');
+          const category = extractText(categoryRaw) || 'Fonction Publique';
+          
+          const descriptionHtml = extractText(item.description?.[0]) || '';
+          const contentEncodedHtml = extractText(item['content:encoded']?.[0]) || '';
+          const combinedHtml = contentEncodedHtml + descriptionHtml;
+          
+          const imgMatch = combinedHtml.match(/(?:<|&lt;)img[^>]+src=["']([^"']+)["']/i);
+          let imageUrl = imgMatch ? imgMatch[1] : null;
+          
+          if (imageUrl && imageUrl.startsWith('/')) {
+            imageUrl = 'https://www.fonction-publique.gouv.fr' + imageUrl;
+          }
+
+          const description = descriptionHtml.replace(/<[^>]*>/g, '').trim().substring(0, 150) || '';
+
+          return {
+            title,
+            link,
+            pubDate,
+            category,
+            description,
+            imageUrl,
+            timestamp
+          };
+        });
+
+        const enrichedArticles = await Promise.all(articles.map(async (article) => {
+          if (!article.imageUrl && article.link && article.link.startsWith('http')) {
+            try {
+              const res = await fetch(article.link, {
+                headers: { 'User-Agent': 'Mozilla/5.0' },
+                signal: AbortSignal.timeout(3000)
+              });
+              if (res.ok) {
+                const html = await res.text();
+                const ogMatch = html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i);
+                if (ogMatch && ogMatch[1]) {
+                  article.imageUrl = ogMatch[1];
+                  if (article.imageUrl.startsWith('/')) {
+                    article.imageUrl = 'https://www.fonction-publique.gouv.fr' + article.imageUrl;
+                  }
+                }
+              }
+            } catch (e) {
+              // Ignore timeouts or network errors
+            }
+          }
+          return article;
+        }));
+
+        allArticles = allArticles.concat(enrichedArticles);
+      } catch (err) {
+        console.error(`💥 Erreur parsing pour ${url}:`, err.message);
+      }
+    }
+
+    allArticles.sort((a, b) => b.timestamp - a.timestamp);
+    allArticles = allArticles.slice(0, 15);
+
+    console.log(`✅ ${allArticles.length} actualités FP trouvées`);
+    res.json({ items: allArticles });
+
+  } catch (error) {
+    console.error("💥 Erreur FP RSS:", error);
+    res.status(500).json({ error: "Erreur récupération RSS FP", details: error.message });
+  }
+});
+
 // Route pour récupérer les actualités CFDT Interco
 app.get('/api/interco-rss', async (req, res) => {
   try {

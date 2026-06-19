@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo, lazy, Suspense } from "react"
-import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye , ArrowDownRight , Users , MessageCircleQuestion , HeartHandshake , Briefcase , Shield , CircleUser , ExternalLink as ExternalLinkIcon , PlayCircle } from "lucide-react"
+import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye , ArrowDownRight , Users , MessageCircleQuestion , HeartHandshake , Briefcase , Shield , CircleUser , ExternalLink as ExternalLinkIcon , PlayCircle } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { searchFAQ } from "./data/FAQdata.ts"
@@ -212,6 +212,9 @@ function App() {
   const [intercoNews, setIntercoNews] = useState<IntercoNewsItem[]>([])
   const [intercoLoading, setIntercoLoading] = useState(true)
   const intercoCarouselRef = useRef<HTMLDivElement>(null)
+  const [fpNews, setFpNews] = useState<IntercoNewsItem[]>([])
+  const [fpLoading, setFpLoading] = useState(true)
+  const fpCarouselRef = useRef<HTMLDivElement>(null)
 
 
 
@@ -357,6 +360,30 @@ function App() {
     const interval = setInterval(fetchIntercoNews, 30 * 60 * 1000)
     return () => clearInterval(interval)
   }, [intercoFallbackNews])
+
+  // --- CHARGER LES ACTUALITÉS FONCTION PUBLIQUE ---
+  useEffect(() => {
+    const fetchFpNews = async () => {
+      try {
+        setFpLoading(true)
+        const apiUrl = import.meta.env.DEV
+          ? '/api/fp-rss'
+          : `${window.location.origin}${BASE_URL === '/' ? '' : BASE_URL}/api/fp-rss`
+        const response = await fetch(apiUrl)
+        if (!response.ok) throw new Error(`Erreur serveur: ${response.status}`)
+        const data = await response.json()
+        const items = data.items || []
+        setFpNews(items)
+      } catch (error) {
+        console.warn('Impossible de récupérer les actualités Fonction Publique', error)
+      } finally {
+        setFpLoading(false)
+      }
+    }
+    fetchFpNews()
+    const interval = setInterval(fetchFpNews, 30 * 60 * 1000)
+    return () => clearInterval(interval)
+  }, [])
 
   // --- FONCTIONS DE GESTION ---
   const handleInfoClick = (info: InfoItem) => setSelectedInfo(info)
@@ -1200,7 +1227,7 @@ ${indicesFactuels}
     <div
       className="min-h-screen relative overflow-x-hidden dark:bg-slate-950"
       style={{
-        background: theme === 'dark' ? undefined : 'linear-gradient(135deg, #fdfbf7 0%, #f4f0ea 50%, #fef3c7 80%, #ffedd5 100%)',
+        background: theme === 'dark' ? undefined : 'linear-gradient(135deg, #fdfbf7 0%, #fff7ed 40%, #ffedd5 80%, #fed7aa 100%)',
       }}
     >
       {/* Dark mode background gradient */}
@@ -1343,6 +1370,20 @@ ${indicesFactuels}
                       </div>
                       <span className="text-sm font-bold text-center">Espace Jeux</span>
                     </button>
+
+                    <button onClick={() => setChatState({ ...chatState, currentView: 'faq' })} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 transition-colors group min-w-[120px]">
+                      <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-amber-100 dark:group-hover:bg-amber-900/50 transition-colors">
+                        <HelpCircle className="w-8 h-8 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform" />
+                      </div>
+                      <span className="text-sm font-bold text-center">Questions<br/>Fréquentes</span>
+                    </button>
+
+                    <a href="https://www.emploi-territorial.fr/emploi-mobilite/?search-col=99599" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group min-w-[120px]">
+                      <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-orange-100 dark:group-hover:bg-orange-900/50 transition-colors">
+                        <Briefcase className="w-8 h-8 text-orange-600 dark:text-orange-400 group-hover:scale-110 transition-transform" />
+                      </div>
+                      <span className="text-sm font-bold text-center">Bourse<br/>Emploi</span>
+                    </a>
                   </div>
                 </div>
 
@@ -1354,7 +1395,7 @@ ${indicesFactuels}
                   <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     
                     {/* Colonne Gauche : Actualités */}
-                    <div className="lg:col-span-3 bg-gradient-to-br from-white/90 via-blue-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-blue-200 shadow-xl shadow-blue-100/50">
+                    <div className="lg:col-span-3 bg-gradient-to-br from-white/90 via-blue-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-blue-200 shadow-xl shadow-blue-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-blue-300 relative z-10">
                       <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-8 justify-between">
                         <div className="flex items-center gap-3">
                           <div className="p-2.5 bg-blue-100/50 rounded-xl border border-blue-200 shadow-sm">
@@ -1368,12 +1409,14 @@ ${indicesFactuels}
                             </span>
                           </h3>
                         </div>
-                        <button
-                          onClick={() => setChatState({ ...chatState, currentView: 'actualites' })}
+                        <a
+                          href="https://www.cig929394.fr/actualites/"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="ml-auto text-xs text-slate-500 hover:text-blue-600 transition-colors duration-150 underline underline-offset-2 font-medium"
                         >
                           Voir toutes les actualités →
-                        </button>
+                        </a>
                       </div>
 
                       {/* --- ACTUALITÉ STATUTAIRE CIG --- */}
@@ -1386,13 +1429,13 @@ ${indicesFactuels}
                         </div>
                         <div className="flex flex-col justify-between">
                           <div>
-                            <h4 className="text-lg font-bold text-slate-800 mt-1 hover:text-blue-600 transition-colors leading-snug">
-                              <a href="https://www.cig929394.fr/actualites/reforme-de-lencadrement-superieur-au-1er-juillet-2026/" target="_blank" rel="noopener noreferrer">
-                                Réforme de l'encadrement supérieur au 1er juillet 2026
+                            <h4 className="text-xl font-bold text-slate-800 dark:text-white mt-1 hover:text-blue-600 transition-colors leading-snug mb-3">
+                              <a href="https://www.cig929394.fr/actualites/" target="_blank" rel="noopener noreferrer">
+                                Actualités Statutaires du CIG
                               </a>
                             </h4>
-                            <p className="text-sm text-slate-600 font-medium mt-2 leading-relaxed">
-                              Retrouvez les détails de la réforme de l'encadrement supérieur de la fonction publique territoriale applicable au 1er juillet 2026 sur le site du CIG Petite Couronne.
+                            <p className="text-base text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
+                              Retrouvez toutes les dernières actualités statutaires et réformes de la fonction publique territoriale sur le site du CIG Petite Couronne.
                             </p>
                           </div>
                           <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
@@ -1405,8 +1448,8 @@ ${indicesFactuels}
                       </div>
 
                       {/* --- ACTUALITÉS CFDT INTERCO --- */}
-                      <h4 className="text-md font-semibold text-slate-800 mb-4 flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+                      <h4 className="text-xl font-bold text-slate-800 mb-4 mt-2 flex items-center gap-2">
+                        <Rss className="w-5 h-5 text-blue-500" />
                         En direct de la CFDT Interco
                       </h4>
 
@@ -1496,14 +1539,17 @@ ${indicesFactuels}
                     </div>
 
                     {/* Colonne Droite : À Lire (Journal) */}
-                    <div className="lg:col-span-1 bg-white/80 rounded-3xl p-6 border border-blue-200 glass-card flex flex-col h-full hover:border-blue-300 hover:shadow-xl transition-all duration-300 shadow-lg shadow-blue-100/50">
+                    <div className="lg:col-span-1 bg-gradient-to-br from-white/90 via-indigo-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-indigo-200 shadow-xl shadow-indigo-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-indigo-300 relative z-10 flex flex-col h-full">
                       <div className="flex items-center gap-3 mb-6">
+                        <div className="p-2.5 bg-indigo-100/50 rounded-xl border border-indigo-200 shadow-sm flex items-center justify-center">
+                          <BookOpen className="w-6 h-6 text-indigo-500" />
+                        </div>
                         <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
-                          <span className="relative inline-block z-10">
-                            <span className="relative z-20 text-slate-800 font-black tracking-tight">À lire</span>
-                            <span className="absolute bottom-1.5 left-[-4%] w-[108%] h-3.5 bg-gradient-to-r from-blue-300 via-cyan-200 to-blue-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-                          </span>
-                        </h3>
+                        <span className="relative inline-block z-10">
+                          <span className="relative z-20 text-slate-800 font-black tracking-tight">À lire</span>
+                          <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-indigo-300 via-purple-200 to-indigo-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                        </span>
+                      </h3>
                       </div>
                       
                       <div className="group overflow-hidden rounded-xl shadow-md relative flex-grow bg-slate-50 flex flex-col border border-slate-100">
@@ -1537,19 +1583,20 @@ ${indicesFactuels}
                 </div>
 
                 {/* --- NOUVELLE SECTION : DOCUMENTS DE RÉFÉRENCE & LIENS UTILES --- */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mt-4 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 w-full mt-8 mb-12">
                   
                   {/* Colonne 1 : À connaître (Docs de référence) */}
-                  <div className="bg-white dark:bg-slate-800/90 rounded-3xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 relative z-10 w-full aspect-[4/5] lg:aspect-[4/5] flex flex-col justify-start overflow-hidden">
-                    {/* Custom Title "À connaître" style */}
-                    <div className="flex items-center mb-4 relative">
-                      <div className="relative flex items-center">
-                        <div className="absolute -left-3 -top-2 w-8 h-12 border-l-4 border-t-4 border-b-4 border-rose-600 rounded-l-md"></div>
-                        <div className="absolute -bottom-2 left-1 w-3 h-3 bg-rose-600 transform rotate-45"></div>
-                        <h3 className="text-3xl font-black tracking-tighter text-teal-900 dark:text-teal-300 ml-4 relative z-10">
-                          À connaître
-                        </h3>
+                  <div className="w-full h-full bg-gradient-to-br from-white/90 via-rose-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-rose-200 shadow-xl shadow-rose-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-rose-300 relative z-10 flex flex-col justify-start group">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="p-2.5 bg-rose-100/50 rounded-xl border border-rose-200 shadow-sm flex items-center justify-center">
+                        <FileText className="w-6 h-6 text-rose-500" />
                       </div>
+                      <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
+                        <span className="relative inline-block z-10">
+                          <span className="relative z-20 text-slate-800 font-black tracking-tight">À connaître</span>
+                          <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-rose-300 via-pink-200 to-rose-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                        </span>
+                      </h3>
                     </div>
 
                     <div className="flex flex-col gap-2">
@@ -1616,16 +1663,18 @@ ${indicesFactuels}
                   </div>
 
                   {/* Colonne 3 : À voir (Youtube) */}
-                  <div className="bg-white dark:bg-slate-800/90 rounded-3xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 relative z-10 w-full aspect-[4/5] lg:aspect-[4/5] flex flex-col justify-start overflow-hidden">
-                    {/* Custom Title "À voir" style */}
-                    <div className="flex items-center mb-4 relative">
-                      <div className="relative flex items-center">
-                        <div className="absolute -left-3 -top-2 w-8 h-12 border-l-4 border-t-4 border-b-4 border-emerald-500 rounded-l-md"></div>
-                        <div className="absolute -bottom-2 left-1 w-3 h-3 bg-emerald-500 transform rotate-45"></div>
-                        <h3 className="text-3xl font-black tracking-tighter text-emerald-900 dark:text-emerald-300 ml-4 relative z-10">
-                          À voir
-                        </h3>
+                  {/* Commentaire ajouté : section contenant des vidéos utiles */}
+                  <div className="w-full h-full bg-gradient-to-br from-white/90 via-amber-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-amber-200 shadow-xl shadow-amber-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-amber-300 relative z-10 flex flex-col justify-start group">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="p-2.5 bg-amber-100/50 rounded-xl border border-amber-200 shadow-sm flex items-center justify-center">
+                        <PlayCircle className="w-6 h-6 text-amber-500" />
                       </div>
+                      <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
+                        <span className="relative inline-block z-10">
+                          <span className="relative z-20 text-slate-800 font-black tracking-tight">À voir</span>
+                          <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                        </span>
+                      </h3>
                     </div>
 
                     <div className="flex-1 flex flex-col justify-center">
@@ -1657,16 +1706,17 @@ ${indicesFactuels}
                   </div>
 
                   {/* Colonne 2 : Liens utiles & FAQ */}
-                  <div className="bg-white dark:bg-slate-800/90 rounded-3xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 relative z-10 w-full aspect-[4/5] lg:aspect-[4/5] flex flex-col justify-start overflow-hidden">
-                    {/* Custom Title "Liens Utiles" style */}
-                    <div className="flex items-center mb-4 relative">
-                      <div className="relative flex items-center">
-                        <div className="absolute -left-3 -top-2 w-8 h-12 border-l-4 border-t-4 border-b-4 border-indigo-600 rounded-l-md"></div>
-                        <div className="absolute -bottom-2 left-1 w-3 h-3 bg-indigo-600 transform rotate-45"></div>
-                        <h3 className="text-3xl font-black tracking-tighter text-indigo-900 dark:text-indigo-300 ml-4 relative z-10">
-                          Liens Utiles
-                        </h3>
+                  <div className="w-full h-full bg-gradient-to-br from-white/90 via-cyan-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-cyan-200 shadow-xl shadow-cyan-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-cyan-300 relative z-10 flex flex-col justify-start group">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="p-2.5 bg-cyan-100/50 rounded-xl border border-cyan-200 shadow-sm flex items-center justify-center">
+                        <Link2 className="w-6 h-6 text-cyan-500" />
                       </div>
+                      <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
+                        <span className="relative inline-block z-10">
+                          <span className="relative z-20 text-slate-800 font-black tracking-tight">Liens Utiles</span>
+                          <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-cyan-300 via-sky-200 to-cyan-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                        </span>
+                      </h3>
                     </div>
 
                     <div className="flex flex-col gap-2 flex-1">
@@ -1701,21 +1751,153 @@ ${indicesFactuels}
                       })}
                     </div>
 
-                    {/* Bouton FAQ intégré en bas de la carte des liens */}
-                    <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700 flex justify-center">
-                      <button
-                        onClick={() => setChatState({ ...chatState, currentView: 'faq' })}
-                        className="group flex items-center gap-3 bg-gradient-to-r from-amber-100 via-yellow-100 to-amber-200 hover:from-amber-200 hover:via-yellow-200 hover:to-amber-300 text-amber-900 border border-amber-300 font-medium px-6 py-2 rounded-full shadow-lg hover:shadow-xl hover:shadow-amber-200/50 transition-all duration-150 hover:scale-105 w-full justify-center"
-                      >
-                        <HelpCircle className="w-6 h-6" />
-                        <span className="text-lg">Questions Fréquentes</span>
-                        <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
-                      </button>
-                    </div>
+                    {/* Le bouton FAQ a été déplacé dans les accès rapides */}
                   </div>
 
 
                 </div>
+
+                {/* --- CAROUSEL FONCTION PUBLIQUE (DÉPLACÉ EN DESSOUS DES 3 FENÊTRES) --- */}
+                <div className="w-full bg-gradient-to-br from-white/90 via-emerald-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-emerald-200 shadow-xl shadow-emerald-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-emerald-300 relative z-10 mb-8">
+                {/* --- CAROUSEL FONCTION PUBLIQUE --- */}
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2.5 bg-emerald-100/50 rounded-xl border border-emerald-200 shadow-sm flex items-center justify-center">
+                    <Landmark className="w-6 h-6 text-emerald-500" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
+                    <span className="relative inline-block z-10">
+                      <span className="relative z-20 text-slate-800 font-black tracking-tight">Actualités de la Fonction Publique</span>
+                      <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-emerald-300 via-teal-200 to-emerald-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                    </span>
+                  </h3>
+                </div>
+
+                {fpLoading ? (
+                  <div className="flex gap-4 overflow-hidden mb-8">
+                    {[...Array(3)].map((_, i) => (
+                      <div key={i} className="flex-none w-64 h-44 bg-slate-100/50 rounded-2xl animate-pulse border border-slate-200" />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="relative group/carousel-fp mb-8">
+                    <button
+                      onClick={() => {
+                        if (fpCarouselRef.current) {
+                          fpCarouselRef.current.scrollBy({ left: -280, behavior: 'smooth' })
+                        }
+                      }}
+                      className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-9 h-9 rounded-full bg-white/90 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-0 group-hover/carousel-fp:opacity-100 hover:bg-slate-50 transition-all duration-150"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        if (fpCarouselRef.current) {
+                          fpCarouselRef.current.scrollBy({ left: 280, behavior: 'smooth' })
+                        }
+                      }}
+                      className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-9 h-9 rounded-full bg-white/90 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-0 group-hover/carousel-fp:opacity-100 hover:bg-slate-50 transition-all duration-150"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+
+                    <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white/80 to-transparent z-[1] pointer-events-none rounded-l-2xl" />
+                    <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white/80 to-transparent z-[1] pointer-events-none rounded-r-2xl" />
+
+                    <div
+                      ref={fpCarouselRef}
+                      className="flex gap-4 overflow-x-auto pb-2 scroll-smooth interco-carousel-track"
+                      style={{ scrollbarWidth: 'none' }}
+                    >
+                      {fpNews.map((article, i) => (
+                        <a
+                          key={i}
+                          href={article.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group/card flex-none w-64 flex flex-col bg-white/80 border border-emerald-200/60 rounded-2xl overflow-hidden hover:border-emerald-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-150 glass-card shadow-sm"
+                        >
+                          <div className="relative w-full h-32 overflow-hidden bg-slate-100 flex-shrink-0 border-b border-slate-100 p-4 flex items-center justify-center">
+                            {article.imageUrl ? (
+                              <img
+                                src={article.imageUrl}
+                                alt={article.title}
+                                className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300 absolute inset-0"
+                              />
+                            ) : (
+                              <div className="text-emerald-400 opacity-50">
+                                <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
+                              </div>
+                            )}
+                            <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/90 backdrop-blur text-emerald-700 border border-emerald-200/50 shadow-sm z-10 max-w-[90%] truncate">
+                              {article.category || 'Actualité'}
+                            </span>
+                          </div>
+
+                          <div className="p-4 flex flex-col justify-between flex-grow">
+                            <p className="text-slate-700 font-medium text-sm leading-snug group-hover/card:text-emerald-700 transition-colors duration-150 line-clamp-3">
+                              {article.title}
+                            </p>
+                            <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
+                              <span className="text-[10px] text-slate-500 font-medium truncate pr-2">
+                                {new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
+                              </span>
+                              <span className="text-xs text-emerald-600 font-semibold flex items-center gap-1 opacity-0 group-hover/card:opacity-100 transition-opacity duration-150 shrink-0">
+                                Lire <ArrowRight className="w-3 h-3" />
+                              </span>
+                            </div>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+
+                </div>
+
+                {/* --- ACTUALITÉ JURIDIQUE CIG VERSAILLES (DÉPLACÉE EN DESSOUS DES 3 FENÊTRES) --- */}
+                <div className="w-full bg-gradient-to-br from-white/90 via-purple-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-purple-200 shadow-xl shadow-purple-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-purple-300 relative z-10 mb-12">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2.5 bg-purple-100/50 rounded-xl border border-purple-200 shadow-sm flex items-center justify-center">
+                      <Scale className="w-6 h-6 text-purple-500" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
+                        <span className="relative inline-block z-10">
+                          <span className="relative z-20 text-slate-800 font-black tracking-tight">Veille Juridique</span>
+                          <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-purple-300 via-fuchsia-200 to-purple-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                        </span>
+                      </h3>
+                  </div>
+                  <div className="flex flex-col md:flex-row gap-6 group/card">
+                    <div className="relative w-full md:w-64 h-40 overflow-hidden rounded-xl shrink-0 border border-slate-200 bg-slate-100/50">
+                      <img src="/images/legal_news_illustration.png" alt="Veille Juridique" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
+                      <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur text-purple-300 border border-purple-500/30">
+                        Juridique
+                      </span>
+                    </div>
+                    <div className="flex flex-col justify-between flex-1">
+                      <div>
+                        <h4 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-1 hover:text-blue-600 transition-colors leading-snug">
+                          <a href="https://www.cigversailles.fr/actualites-juridiques" target="_blank" rel="noopener noreferrer">
+                            Veille Juridique & Statutaire (« Vu cette semaine »)
+                          </a>
+                        </h4>
+                        <p className="text-sm text-slate-600 dark:text-slate-400 font-medium mt-3 leading-relaxed">
+                          Découvrez chaque semaine une synthèse des derniers textes parus au Journal Officiel et de la jurisprudence pertinente pour la fonction publique territoriale sur le site du CIG Grande Couronne.
+                        </p>
+                      </div>
+                      <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
+                        <span className="font-medium bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full">CIG Grande Couronne</span>
+                        <a href="https://www.cigversailles.fr/actualites-juridiques" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 flex items-center gap-1 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full transition-colors">
+                          Toutes les actus juridiques →
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
           </>
         )}
