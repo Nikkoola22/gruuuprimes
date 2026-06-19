@@ -411,7 +411,7 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
   }, [gameState]);
 
   return (
-    <div className="relative z-30 isolate min-h-screen overflow-x-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-500 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 font-sans text-slate-800 dark:text-slate-100">
+    <div className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 overflow-x-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-500  sm: px-4 sm:px-6 lg:px-8 font-sans text-slate-800 dark:text-slate-100">
       
       <div style={{
         position: 'fixed', top: '50%', left: '50%',
@@ -423,8 +423,8 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
 
       <div className="max-w-4xl mx-auto relative z-10">
         
-        <div className="relative z-40 mb-6">
-          <button onClick={onClose} className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm shadow-md">
+        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-50">
+          <button onClick={onClose} className="flex items-center gap-2 px-4  bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm shadow-md">
             <ArrowLeft className="w-4 h-4" /> Retour
           </button>
         </div>
@@ -438,10 +438,10 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
           </p>
 
           <div className="flex flex-wrap justify-center items-center gap-4 text-sm font-bold">
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4 py-2 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 backdrop-blur-sm flex items-center gap-2">
+            <span className="bg-white/50 dark:bg-slate-800/50 px-4  rounded-full shadow-sm border border-slate-200 dark:border-slate-700 backdrop-blur-sm flex items-center gap-2">
               Score : <span className="text-yellow-500 text-base">{score}</span>
             </span>
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4 py-2 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 backdrop-blur-sm flex items-center gap-2">
+            <span className="bg-white/50 dark:bg-slate-800/50 px-4  rounded-full shadow-sm border border-slate-200 dark:border-slate-700 backdrop-blur-sm flex items-center gap-2">
               Vies : 
               <span className="flex items-center gap-1">
                 {Array.from({ length: Math.max(0, lives) }).map((_, idx) => (
@@ -450,7 +450,7 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
               </span>
             </span>
             {message && (
-              <span className="bg-green-500/20 text-green-400 px-4 py-2 rounded-full border border-green-500/40 animate-pulse">
+              <span className="bg-green-500/20 text-green-400 px-4  rounded-full border border-green-500/40 animate-pulse">
                 {message}
               </span>
             )}
@@ -466,7 +466,7 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
               <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-8 text-sm font-light">
                 Mangez les <span className="text-yellow-500 font-bold">Crédits (points)</span> et attrapez les <span className="text-red-400 font-bold">Délibérations (gros points)</span> pour pouvoir chasser les erreurs (Fantômes).
               </p>
-              <button onClick={initGame} className="mx-auto px-8 py-4 bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-medium rounded-2xl shadow-md border hover:scale-[1.02] flex items-center gap-2">
+              <button onClick={initGame} className="mx-auto px-8  bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-medium rounded-2xl shadow-md border hover:scale-[1.02] flex items-center gap-2">
                 <Play className="w-5 h-5 fill-white" /> Jouer
               </button>
             </div>
@@ -483,7 +483,7 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
                 {gameState === "victory" ? "Paie validée ! 🎉" : "Catastrophe RH ! 😢"}
               </h2>
               <p className="mb-8">Score final : <span className="font-bold text-yellow-500">{score}</span></p>
-              <button onClick={initGame} className="mx-auto px-8 py-4 bg-white dark:bg-slate-700 rounded-2xl shadow-md flex items-center gap-2 hover:scale-[1.02]">
+              <button onClick={initGame} className="mx-auto px-8  bg-white dark:bg-slate-700 rounded-2xl shadow-md flex items-center gap-2 hover:scale-[1.02]">
                 <RotateCcw className="w-5 h-5" /> Rejouer
               </button>
             </div>
@@ -503,7 +503,7 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
         </div>
         
         {/* Instructions */}
-        <div className="mt-6 p-4 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-xs sm:text-sm font-light max-w-2xl mx-auto flex items-start gap-3">
+        <div className="mt-6 p-4 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-xs sm:text-sm font-light max-w-2xl mx-auto w-full flex items-start gap-3">
           <Shield className="w-5 h-5 text-blue-400 shrink-0" />
           <div>
             <strong className="block mb-1 font-semibold">Conseil RH :</strong>

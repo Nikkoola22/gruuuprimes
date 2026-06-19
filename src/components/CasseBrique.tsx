@@ -749,7 +749,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
   }, [gameState]);
 
   return (
-    <div className="relative z-30 isolate min-h-screen overflow-x-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-500 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 font-sans text-slate-800 dark:text-slate-100">
+    <div className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 overflow-x-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-500  sm: px-4 sm:px-6 lg:px-8 font-sans text-slate-800 dark:text-slate-100">
       {/* Soft background glow */}
       <div style={{
         position: 'fixed', top: '50%', left: '50%',
@@ -762,11 +762,11 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
       <div className="max-w-4xl mx-auto relative z-10">
         
         {/* Retour button */}
-        <div className="relative z-40 mb-6">
+        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-50">
           <button
             type="button"
             onClick={onClose}
-            className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm shadow-md"
+            className="flex items-center gap-2 px-4  bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm shadow-md"
           >
             <ArrowLeft className="w-4 h-4" />
             Retour
@@ -783,13 +783,13 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
           </p>
 
           <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 text-sm font-bold">
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4 py-2 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
+            <span className="bg-white/50 dark:bg-slate-800/50 px-4  rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
               Niveau : <span className="text-purple-400 text-base font-extrabold">{level}</span>
             </span>
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4 py-2 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
+            <span className="bg-white/50 dark:bg-slate-800/50 px-4  rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
               Score : <span className="text-orange-400 text-base font-extrabold">{score}</span>
             </span>
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4 py-2 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
+            <span className="bg-white/50 dark:bg-slate-800/50 px-4  rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
               Vies : 
               <span className="flex items-center gap-1">
                 {Array.from({ length: Math.max(0, lives) }).map((_, idx) => (
@@ -799,7 +799,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
               </span>
             </span>
             {activePowerUp && (
-              <span className="bg-orange-500/20 text-orange-300 px-4 py-2 rounded-full border border-orange-500/40 text-xs font-semibold flex items-center gap-1.5 animate-bounce">
+              <span className="bg-orange-500/20 text-orange-300 px-4  rounded-full border border-orange-500/40 text-xs font-semibold flex items-center gap-1.5 animate-bounce">
                 <Zap className="w-3.5 h-3.5" />
                 {activePowerUp}
               </span>
@@ -811,7 +811,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
         <div className="max-w-5xl mx-auto bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-3xl p-4 sm:p-6 shadow-xl border border-slate-200 dark:border-slate-700/50 relative overflow-hidden">
           
           {gameState === "ready" && (
-            <div className="text-center py-20 relative z-10 animate-fade-in">
+            <div className="text-center  relative z-10 animate-fade-in">
               <Activity className="w-16 h-16 text-orange-500 mx-auto mb-4 animate-pulse" />
               <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">Prêt à briser les briques des acquis ?</h2>
               <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-8 text-sm font-light leading-relaxed">
@@ -819,7 +819,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
               </p>
               <button
                 onClick={startNewGame}
-                className="mx-auto px-8 py-4 bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-medium rounded-2xl shadow-md hover:shadow-lg border border-slate-200 dark:border-slate-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-2"
+                className="mx-auto px-8  bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-medium rounded-2xl shadow-md hover:shadow-lg border border-slate-200 dark:border-slate-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-2"
               >
                 <Play className="w-5 h-5 fill-white" />
                 <span>Commencer la partie</span>
@@ -828,7 +828,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
           )}
 
           {gameState === "gameover" && (
-            <div className="text-center py-20 relative z-10 animate-scale-up">
+            <div className="text-center  relative z-10 animate-scale-up">
               <div className="w-16 h-16 bg-red-600/20 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 border border-red-500/30">
                 <Heart className="w-8 h-8 opacity-70" />
               </div>
@@ -838,7 +838,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
               </p>
               <button
                 onClick={startNewGame}
-                className="mx-auto px-8 py-4 bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-medium rounded-2xl shadow-md hover:shadow-lg border border-slate-200 dark:border-slate-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-2"
+                className="mx-auto px-8  bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-medium rounded-2xl shadow-md hover:shadow-lg border border-slate-200 dark:border-slate-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-2"
               >
                 <RotateCcw className="w-5 h-5" />
                 <span>Réessayer</span>
@@ -847,7 +847,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
           )}
 
           {gameState === "victory" && (
-            <div className="text-center py-20 relative z-10 animate-scale-up">
+            <div className="text-center  relative z-10 animate-scale-up">
               <Trophy className="w-16 h-16 text-yellow-500 mx-auto mb-4 animate-bounce" />
               <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2 font-light">Victoire complète ! 🎉</h2>
               <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-8 text-sm font-light">
@@ -855,7 +855,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
               </p>
               <button
                 onClick={startNewGame}
-                className="mx-auto px-8 py-4 bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-medium rounded-2xl shadow-md hover:shadow-lg border border-slate-200 dark:border-slate-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-2"
+                className="mx-auto px-8  bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-medium rounded-2xl shadow-md hover:shadow-lg border border-slate-200 dark:border-slate-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-2"
               >
                 <RotateCcw className="w-5 h-5" />
                 <span>Rejouer</span>
@@ -883,7 +883,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
           <Sparkles className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
           <div>
             <strong className="text-slate-800 dark:text-slate-100 font-semibold block mb-1">Comment jouer :</strong>
-            Déplacez la raquette <span className="text-orange-400 font-semibold">CFDT</span> horizontalement avec votre souris, votre doigt ou les flèches directionnelles <kbd className="bg-white dark:bg-slate-800 px-1 py-0.5 rounded border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs shadow-sm">←</kbd> <kbd className="bg-white dark:bg-slate-800 px-1 py-0.5 rounded border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs shadow-sm">→</kbd> pour faire rebondir la balle. Récupérez les capsules bonus pour obtenir des avantages (❤️ = vie, ↔️ = raquette large, ⏳ = balle lente, 🔮 = multi-balles, 🔫 = mode tir avec Espace).
+            Déplacez la raquette <span className="text-orange-400 font-semibold">CFDT</span> horizontalement avec votre souris, votre doigt ou les flèches directionnelles <kbd className="bg-white dark:bg-slate-800 px-1 .5 rounded border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs shadow-sm">←</kbd> <kbd className="bg-white dark:bg-slate-800 px-1 .5 rounded border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs shadow-sm">→</kbd> pour faire rebondir la balle. Récupérez les capsules bonus pour obtenir des avantages (❤️ = vie, ↔️ = raquette large, ⏳ = balle lente, 🔮 = multi-balles, 🔫 = mode tir avec Espace).
           </div>
         </div>
 

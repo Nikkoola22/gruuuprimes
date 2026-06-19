@@ -144,7 +144,7 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="relative z-30 isolate min-h-screen overflow-x-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-500 font-sans text-slate-800 dark:text-slate-100 touch-none select-none flex flex-col">
+    <div className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 overflow-x-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-500 font-sans text-slate-800 dark:text-slate-100 touch-none select-none flex flex-col">
       {/* Soft background glow */}
       <div style={{
         position: 'fixed', top: '50%', left: '50%',
@@ -160,7 +160,7 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
         <div className="flex justify-between items-center bg-white/80 dark:bg-slate-800/80 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm mb-6 backdrop-blur-xl">
           <button
             onClick={onClose}
-            className="flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-lg font-medium transition-all text-sm border border-slate-200 dark:border-slate-600"
+            className="flex items-center gap-2 px-4  bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-lg font-medium transition-all text-sm border border-slate-200 dark:border-slate-600"
           >
             <ArrowLeft className="w-4 h-4" />
             Retour
@@ -172,7 +172,7 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
               <span className="text-3xl font-black text-emerald-400 font-mono">{score}</span>
             </div>
             
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-xl border-2 ${timeLeft <= 10 ? 'bg-red-500/20 border-red-500 text-red-500 animate-pulse' : 'bg-slate-100 dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200'}`}>
+            <div className={`flex items-center gap-2 px-4  rounded-xl border-2 ${timeLeft <= 10 ? 'bg-red-500/20 border-red-500 text-red-500 animate-pulse' : 'bg-slate-100 dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200'}`}>
               <Timer className="w-6 h-6" />
               <span className="text-2xl font-black font-mono">{timeLeft}s</span>
             </div>
@@ -199,7 +199,7 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
               </p>
               <button
                 onClick={startGame}
-                className="flex items-center gap-3 px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white rounded-full font-medium text-xl transition-all shadow-md hover:shadow-lg"
+                className="flex items-center gap-3 px-8  bg-blue-500 hover:bg-blue-600 text-white rounded-full font-medium text-xl transition-all shadow-md hover:shadow-lg"
               >
                 <Play className="w-6 h-6 fill-current" />
                 Prendre son service
@@ -220,7 +220,7 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
 
               <button
                 onClick={startGame}
-                className="flex items-center gap-2 px-8 py-3 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-600 rounded-full font-medium transition-all shadow-md"
+                className="flex items-center gap-2 px-8  bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-600 rounded-full font-medium transition-all shadow-md"
               >
                 <ArrowLeft className="w-5 h-5" />
                 Recommencer le tri
@@ -263,7 +263,7 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
                     key={f.id}
                     className="absolute inset-0 flex items-center justify-center pointer-events-none z-50 animate-stamp"
                   >
-                    <div className={`transform -rotate-12 border-8 rounded-xl px-6 py-4 font-black text-4xl sm:text-5xl uppercase tracking-widest 
+                    <div className={`transform -rotate-12 border-8 rounded-xl px-6  font-black text-4xl sm:text-5xl uppercase tracking-widest 
                       ${f.type === 'success' ? 'border-emerald-500 text-emerald-500 bg-emerald-500/10' : 'border-red-500 text-red-500 bg-red-500/10'}`}
                     >
                       {f.text}

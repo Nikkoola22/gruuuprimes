@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { 
   ArrowLeft, 
   Gamepad2, 
@@ -82,6 +82,22 @@ const games: GameDef[] = [
 const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
   const isLight = theme === 'light';
   const [activeGame, setActiveGame] = useState<GameDef["id"] | "none">("none");
+
+  useEffect(() => {
+    if (activeGame !== "none") {
+      const actuBanner = document.querySelector('.marquee-pausable');
+      if (actuBanner) {
+        window.scrollTo({
+          top: actuBanner.getBoundingClientRect().bottom + window.scrollY,
+          behavior: 'smooth'
+        });
+      } else {
+        window.scrollTo(0, 0);
+      }
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [activeGame]);
 
   if (activeGame === "roulette") return <Suspense fallback={<ViewLoader />}><RouletteQVT onClose={() => setActiveGame("none")} /></Suspense>;
   if (activeGame === "memory") return <Suspense fallback={<ViewLoader />}><MemoryRH onClose={() => setActiveGame("none")} /></Suspense>;

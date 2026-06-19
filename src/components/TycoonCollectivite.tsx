@@ -181,6 +181,138 @@ const ALL_EVENTS: GameEvent[] = [
       { text: "Mobiliser les agents techniques en week-end", impact: { budget: -80, agents: -20, elus: +10, service: +15 } },
       { text: "Repousser la rentrée scolaire", impact: { budget: 0, agents: +10, elus: -25, service: -30 } }
     ]
+  },
+  {
+    id: "greve_nationale",
+    title: "Mouvement Social National",
+    description: "Une grève nationale paralyse les transports. De nombreux agents ne peuvent pas venir travailler, perturbant fortement les services.",
+    icon: AlertTriangle,
+    actions: [
+      { text: "Tolérance (Absence justifiée)", impact: { budget: 0, agents: +15, elus: -10, service: -20 } },
+      { text: "Exiger des jours de congés", impact: { budget: +50, agents: -20, elus: +10, service: -10 } },
+      { text: "Mettre en place des navettes privées", impact: { budget: -150, agents: +10, elus: +5, service: +15 } }
+    ]
+  },
+  {
+    id: "refonte_rifseep",
+    title: "Refonte du RIFSEEP",
+    description: "Le Maire veut revoir le régime indemnitaire au mérite. Les syndicats sont vent debout contre l'introduction du CIA.",
+    icon: FileText,
+    actions: [
+      { text: "Passage en force (Vote au Conseil)", impact: { budget: -50, agents: -30, elus: +20, service: -10 } },
+      { text: "Concertation longue (Ateliers)", impact: { budget: -20, agents: +10, elus: -15, service: 0 } },
+      { text: "Reculer et maintenir l'ancien système", impact: { budget: 0, agents: +20, elus: -25, service: +5 } }
+    ]
+  },
+  {
+    id: "bad_buzz_presse",
+    title: "Bad Buzz dans la Presse Locale",
+    description: "Un article dénonce les conditions de travail au Centre Technique Municipal. Le Maire est furieux et exige des sanctions ou une communication.",
+    icon: Newspaper,
+    actions: [
+      { text: "Sanctionner les agents identifiés", impact: { budget: 0, agents: -30, elus: +15, service: -10 } },
+      { text: "Plan d'action Qualité de Vie", impact: { budget: -200, agents: +25, elus: -10, service: +15 } },
+      { text: "Démenti officiel du Cabinet", impact: { budget: -50, agents: -15, elus: +20, service: 0 } }
+    ]
+  },
+  {
+    id: "nouveau_logiciel",
+    title: "Déploiement du Nouveau Logiciel",
+    description: "Le nouveau SIRH est en panne le jour de la clôture de la paie. Panique dans les services !",
+    icon: Bug,
+    actions: [
+      { text: "Intervention du prestataire (Urgence)", impact: { budget: -150, agents: -5, elus: +5, service: +10 } },
+      { text: "Saisie manuelle nocturne (Heures supp)", impact: { budget: -80, agents: -20, elus: +10, service: 0 } },
+      { text: "Repousser la paie d'une semaine", impact: { budget: 0, agents: -35, elus: -20, service: -15 } }
+    ]
+  },
+  {
+    id: "fete_personnel",
+    title: "Fête Annuelle du Personnel",
+    description: "C'est l'heure de la fête du personnel. L'amicale réclame une subvention exceptionnelle pour inviter un groupe de musique.",
+    icon: HeartHandshake,
+    actions: [
+      { text: "Accorder la super subvention", impact: { budget: -100, agents: +25, elus: -5, service: 0 } },
+      { text: "Budget standard (Buffet froid)", impact: { budget: -30, agents: +5, elus: +5, service: 0 } },
+      { text: "Annuler pour raisons budgétaires", impact: { budget: +50, agents: -30, elus: +15, service: -5 } }
+    ]
+  },
+  {
+    id: "harcelement",
+    title: "Plainte pour Harcèlement",
+    description: "Un agent accuse un cadre très apprécié du Maire de harcèlement moral. L'ambiance est délétère.",
+    icon: Gavel,
+    actions: [
+      { text: "Enquête administrative externe", impact: { budget: -80, agents: +15, elus: -15, service: 0 } },
+      { text: "Changer l'agent de service", impact: { budget: -20, agents: -20, elus: +10, service: -5 } },
+      { text: "Médiation interne (Rapide)", impact: { budget: 0, agents: -5, elus: +5, service: 0 } }
+    ]
+  },
+  {
+    id: "elections_pro",
+    title: "Élections Professionnelles (CST)",
+    description: "La tension monte avec la campagne électorale syndicale. Les demandes de dispenses d'activité pleuvent.",
+    icon: Users,
+    actions: [
+      { text: "Accorder plus d'heures syndicales", impact: { budget: -50, agents: +20, elus: -10, service: -15 } },
+      { text: "Strict respect de la loi (Tensions)", impact: { budget: 0, agents: -15, elus: +15, service: +5 } },
+      { text: "Débats organisés sur le temps de travail", impact: { budget: -20, agents: +10, elus: -5, service: -10 } }
+    ]
+  },
+  {
+    id: "inspection_travail",
+    title: "Visite de l'Inspection du Travail",
+    description: "Des manquements graves à la sécurité ont été constatés dans les ateliers municipaux (EPI manquants, machines vétustes).",
+    icon: AlertTriangle,
+    actions: [
+      { text: "Achat massif d'EPI et rénovation", impact: { budget: -250, agents: +15, elus: -10, service: +10 } },
+      { text: "Fermeture partielle de l'atelier", impact: { budget: 0, agents: -10, elus: -15, service: -25 } },
+      { text: "Plan de conformité étalé sur 2 ans", impact: { budget: -80, agents: 0, elus: +5, service: -5 } }
+    ]
+  },
+  {
+    id: "fusion_services",
+    title: "Fusion de Services",
+    description: "Le DGS décide de fusionner le service Culture et le service Sport. Les équipes refusent de travailler ensemble.",
+    icon: Briefcase,
+    actions: [
+      { text: "Séminaire de cohésion (Coûteux)", impact: { budget: -120, agents: +15, elus: -5, service: +10 } },
+      { text: "Imposer la nouvelle hiérarchie", impact: { budget: 0, agents: -25, elus: +15, service: -10 } },
+      { text: "Accorder des primes de réorganisation", impact: { budget: -150, agents: +20, elus: -10, service: +5 } }
+    ]
+  },
+  {
+    id: "prime_inflation",
+    title: "Prime de Pouvoir d'Achat",
+    description: "Avec l'inflation, les syndicats réclament le versement de la prime exceptionnelle de pouvoir d'achat.",
+    icon: Landmark,
+    actions: [
+      { text: "Verser le montant maximum à tous", impact: { budget: -350, agents: +35, elus: -15, service: +5 } },
+      { text: "Verser un montant modulé (Minima)", impact: { budget: -150, agents: +10, elus: +10, service: 0 } },
+      { text: "Refuser (Pas d'obligation légale)", impact: { budget: 0, agents: -35, elus: +20, service: -5 } }
+    ]
+  },
+  {
+    id: "sobriete_energetique",
+    title: "Plan de Sobriété Énergétique",
+    description: "Chauffage baissé à 19°C dans les bureaux. Les agents viennent avec des plaids et se plaignent d'être malades.",
+    icon: Droplets,
+    actions: [
+      { text: "Acheter des polaires logotées", impact: { budget: -60, agents: +15, elus: +10, service: 0 } },
+      { text: "Tolérer les radiateurs d'appoint", impact: { budget: -40, agents: +20, elus: -15, service: 0 } },
+      { text: "Rappel à l'ordre strict", impact: { budget: 0, agents: -20, elus: +5, service: -5 } }
+    ]
+  },
+  {
+    id: "jo_2024",
+    title: "Préparation des Jeux Olympiques",
+    description: "La ville accueille des épreuves. Les congés d'été sont interdits pour la police municipale et les techniques.",
+    icon: Trophy,
+    actions: [
+      { text: "Prime JO très généreuse", impact: { budget: -300, agents: +25, elus: +10, service: +20 } },
+      { text: "Compensation en repos (CET)", impact: { budget: -50, agents: -5, elus: +15, service: +10 } },
+      { text: "Refuser toute compensation", impact: { budget: 0, agents: -40, elus: -20, service: -20 } }
+    ]
   }
 ];
 
@@ -209,7 +341,7 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
     setLog([]);
     
     // Shuffle and pick 12 events (we duplicate if not enough)
-        let pool = [...ALL_EVENTS].sort(() => Math.random() - 0.5).slice(0, 12);
+        let pool = [...ALL_EVENTS].sort(() => Math.random() - 0.5).slice(0, 24);
     setEventPool(pool);
     setCurrentEvent(pool[0]);
     
@@ -255,7 +387,7 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
     }
 
     // Next Month
-    if (month >= 12) {
+    if (month >= 24) {
       setGameState("victory");
     } else {
       setMonth(m => m + 1);
@@ -289,7 +421,7 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="relative z-30 isolate min-h-screen overflow-x-hidden bg-slate-950 transition-colors duration-500 py-8 px-4 font-sans text-slate-100">
+    <div className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 overflow-x-hidden bg-slate-950 transition-colors duration-500  px-4 font-sans text-slate-100">
       
       {/* Background Ornaments */}
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
@@ -301,7 +433,7 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
         
         {/* Header */}
         <div className="w-full flex justify-between items-center mb-8">
-          <button onClick={onClose} className="flex items-center gap-2 px-5 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white rounded-full font-semibold transition-all shadow-md">
+          <button onClick={onClose} className="flex items-center gap-2 px-5 .5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white rounded-full font-semibold transition-all shadow-md">
             <ArrowLeft className="w-4 h-4" /> Quitter
           </button>
           
@@ -312,8 +444,8 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
             </h1>
           </div>
           
-          <div className="px-5 py-2.5 bg-slate-800 border border-slate-700 rounded-full font-bold text-slate-300">
-            {gameState === "playing" ? `Mois ${month} / 12` : "Bilan"}
+          <div className="px-5 .5 bg-slate-800 border border-slate-700 rounded-full font-bold text-slate-300">
+            {gameState === "playing" ? `Mois ${month} / 24` : "Bilan"}
           </div>
         </div>
 
@@ -324,11 +456,11 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
               <Landmark className="w-24 h-24 text-blue-500 mx-auto mb-6" />
               <h2 className="text-4xl font-bold mb-4">Directrice Générale des Services</h2>
               <p className="text-lg text-slate-400 mb-8 font-light">
-                Bienvenue dans votre nouvelle collectivité territoriale. Vous avez 1 an (12 tours) pour gérer le budget, calmer les syndicats, satisfaire les élus et maintenir le service public. Chaque décision aura des conséquences...
+                Bienvenue dans votre nouvelle collectivité territoriale. Vous avez 2 ans (24 tours) pour gérer le budget, calmer les syndicats, satisfaire les élus et maintenir le service public. Chaque décision aura des conséquences...
               </p>
               <button 
                 onClick={initGame}
-                className="px-10 py-4 bg-blue-600 hover:bg-blue-500 text-white text-xl font-bold rounded-2xl shadow-lg hover:shadow-blue-500/50 transition-all flex items-center gap-3 mx-auto"
+                className="px-10  bg-blue-600 hover:bg-blue-500 text-white text-xl font-bold rounded-2xl shadow-lg hover:shadow-blue-500/50 transition-all flex items-center gap-3 mx-auto"
               >
                 <Play className="w-6 h-6 fill-white" /> Prendre ses fonctions
               </button>
@@ -349,7 +481,7 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
                 {gameState === "victory" ? "Année Clôturée avec Succès !" : "Révocation Immédiate !"}
               </h2>
               <p className="text-slate-300 mb-6">
-                {gameState === "victory" ? "Félicitations, vous avez survécu à 12 mois de gestion RH dans la fonction publique sans vous faire lyncher !" : failReason}
+                {gameState === "victory" ? "Félicitations, vous avez survécu à 24 mois de gestion RH dans la fonction publique sans vous faire lyncher !" : failReason}
               </p>
               
               <div className="grid grid-cols-2 gap-4 mb-8 text-left">
@@ -365,7 +497,7 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
 
               <button 
                 onClick={initGame}
-                className="px-8 py-3 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl shadow-lg transition-all flex items-center gap-2 mx-auto"
+                className="px-8  bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl shadow-lg transition-all flex items-center gap-2 mx-auto"
               >
                 <RotateCcw className="w-5 h-5" /> Recommencer une année
               </button>
@@ -383,11 +515,11 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
           <div className="w-full mb-6 animate-fade-in">
             <div className="flex justify-between text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest px-1">
               <span>Début du Mandat</span>
-              <span className="text-blue-400">Mois {month} / 12</span>
+              <span className="text-blue-400">Mois {month} / 24</span>
               <span>Bilan Annuel</span>
             </div>
             <div className="w-full h-3 bg-slate-800 rounded-full overflow-hidden shadow-inner flex">
-              {[...Array(12)].map((_, i) => (
+              {[...Array(24)].map((_, i) => (
                 <div key={i} className={`h-full flex-1 border-r border-slate-900/50 last:border-0 transition-all duration-500 ${i < month ? 'bg-gradient-to-r from-blue-500 to-purple-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]' : 'bg-transparent'}`} />
               ))}
             </div>
@@ -439,22 +571,22 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
                         
                         <div className="flex flex-wrap gap-2 text-xs font-bold relative z-10 w-full bg-slate-950/50 p-2 rounded-xl border border-slate-800/50">
                           {action.impact.budget !== 0 && (
-                            <div className={`flex-1 min-w-[80px] flex justify-center items-center px-3 py-1.5 rounded-lg border ${action.impact.budget > 0 ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
+                            <div className={`flex-1 min-w-[80px] flex justify-center items-center px-3 .5 rounded-lg border ${action.impact.budget > 0 ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
                               {action.impact.budget > 0 ? '+' : ''}{action.impact.budget}k€
                             </div>
                           )}
                           {action.impact.agents !== 0 && (
-                            <div className={`flex-1 min-w-[80px] flex justify-center items-center px-3 py-1.5 rounded-lg border ${action.impact.agents > 0 ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'bg-red-500/10 border-red-500/30 text-red-400'} flex items-center gap-1`}>
+                            <div className={`flex-1 min-w-[80px] flex justify-center items-center px-3 .5 rounded-lg border ${action.impact.agents > 0 ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'bg-red-500/10 border-red-500/30 text-red-400'} flex items-center gap-1`}>
                               {action.impact.agents > 0 ? <TrendingUp className="w-3 h-3"/> : <TrendingDown className="w-3 h-3"/>} Agents
                             </div>
                           )}
                           {action.impact.elus !== 0 && (
-                            <div className={`flex-1 min-w-[80px] flex justify-center items-center px-3 py-1.5 rounded-lg border ${action.impact.elus > 0 ? 'bg-purple-500/10 border-purple-500/30 text-purple-400' : 'bg-red-500/10 border-red-500/30 text-red-400'} flex items-center gap-1`}>
+                            <div className={`flex-1 min-w-[80px] flex justify-center items-center px-3 .5 rounded-lg border ${action.impact.elus > 0 ? 'bg-purple-500/10 border-purple-500/30 text-purple-400' : 'bg-red-500/10 border-red-500/30 text-red-400'} flex items-center gap-1`}>
                               {action.impact.elus > 0 ? <TrendingUp className="w-3 h-3"/> : <TrendingDown className="w-3 h-3"/>} Élus
                             </div>
                           )}
                           {action.impact.service !== 0 && (
-                            <div className={`flex-1 min-w-[80px] flex justify-center items-center px-3 py-1.5 rounded-lg border ${action.impact.service > 0 ? 'bg-rose-500/10 border-rose-500/30 text-rose-400' : 'bg-red-500/10 border-red-500/30 text-red-400'} flex items-center gap-1`}>
+                            <div className={`flex-1 min-w-[80px] flex justify-center items-center px-3 .5 rounded-lg border ${action.impact.service > 0 ? 'bg-rose-500/10 border-rose-500/30 text-rose-400' : 'bg-red-500/10 border-red-500/30 text-red-400'} flex items-center gap-1`}>
                               {action.impact.service > 0 ? <TrendingUp className="w-3 h-3"/> : <TrendingDown className="w-3 h-3"/>} Service
                             </div>
                           )}
@@ -468,9 +600,9 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
               {/* Right Side Gauges */}
               <div className="flex-1 flex flex-col gap-4">
                 <GaugeCard title="Budget Restant" value={budget} icon={Landmark} colorClass="text-emerald-400" type="currency" />
-                <GaugeCard title="Satisf. Agents" value={agentsSat} icon={Users} colorClass="text-blue-400" type="percent" />
-                <GaugeCard title="Satisf. Élus" value={elusSat} icon={Building2} colorClass="text-purple-400" type="percent" />
-                <GaugeCard title="Qualité S.P." value={servicePub} icon={HeartHandshake} colorClass="text-rose-400" type="percent" />
+                <GaugeCard title="Satisfaction des Agents" value={agentsSat} icon={Users} colorClass="text-blue-400" type="percent" />
+                <GaugeCard title="Satisfaction des Élus" value={elusSat} icon={Building2} colorClass="text-purple-400" type="percent" />
+                <GaugeCard title="Qualité du Service Public" value={servicePub} icon={HeartHandshake} colorClass="text-rose-400" type="percent" />
               </div>
               
             </div>

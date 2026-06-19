@@ -261,7 +261,7 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="relative z-30 isolate min-h-screen overflow-x-hidden bg-slate-50 dark:bg-slate-900 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-500">
+    <div className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 overflow-x-hidden bg-slate-50 dark:bg-slate-900  sm: px-4 sm:px-6 lg:px-8 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-500">
       {/* Soft background glow */}
       <div style={{
         position: 'fixed', top: '50%', left: '50%',
@@ -274,11 +274,11 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
       <div className="max-w-4xl mx-auto relative z-10">
         
         {/* Retour button */}
-        <div className="relative z-40 mb-6">
+        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-50">
           <button
             type="button"
             onClick={onClose}
-            className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm shadow-md"
+            className="flex items-center gap-2 px-4  bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm shadow-md"
           >
             <ArrowLeft className="w-4 h-4" />
             Retour
@@ -295,10 +295,10 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
           </p>
 
           <div className="flex justify-center items-center gap-6 text-sm font-bold">
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4 py-2 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm">
+            <span className="bg-white/50 dark:bg-slate-800/50 px-4  rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm">
               Coups joués : <span className="text-blue-500 text-base font-bold">{moves}</span>
             </span>
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4 py-2 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm">
+            <span className="bg-white/50 dark:bg-slate-800/50 px-4  rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm">
               Paires trouvées : <span className="text-emerald-500 text-base font-bold">{matches} / 6</span>
             </span>
           </div>
@@ -310,7 +310,7 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
 
           {victory ? (
             // Victory Screen
-            <div className="text-center py-12 relative z-10 animate-scale-up">
+            <div className="text-center  relative z-10 animate-scale-up">
               <Trophy className="w-20 h-20 text-yellow-500 mx-auto mb-4 animate-bounce" />
               <h2 className="text-3xl font-bold text-slate-800 dark:text-white mb-2">Félicitations ! 🎉</h2>
               <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-8 text-sm">
@@ -319,7 +319,7 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
 
               <button
                 onClick={handleRestart}
-                className="mx-auto px-8 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white font-bold rounded-2xl shadow-lg hover:opacity-95 transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 btn-shine"
+                className="mx-auto px-8  bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white font-bold rounded-2xl shadow-lg hover:opacity-95 transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 btn-shine"
               >
                 <RotateCcw className="w-5 h-5" />
                 <span>Recommencer une partie</span>
@@ -373,7 +373,7 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
               <div className="mt-8 flex justify-center">
                 <button
                   onClick={handleRestart}
-                  className="px-6 py-3 bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium rounded-xl shadow-sm transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 text-sm border border-slate-200 dark:border-slate-700 backdrop-blur-sm"
+                  className="px-6  bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium rounded-xl shadow-sm transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 text-sm border border-slate-200 dark:border-slate-700 backdrop-blur-sm"
                 >
                   <RotateCcw className="w-4 h-4" />
                   <span>Réinitialiser</span>

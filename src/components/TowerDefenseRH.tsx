@@ -689,7 +689,7 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
   }, [gameState, selectedTower, hoverTile, wave, budget]);
 
   return (
-    <div className="relative z-30 isolate min-h-screen overflow-x-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-500 py-8 px-4 font-sans text-slate-800 dark:text-slate-100">
+    <div className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 overflow-x-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-500  px-4 font-sans text-slate-800 dark:text-slate-100">
       
       <div style={{
         position: 'fixed', top: '50%', left: '50%',
@@ -702,18 +702,18 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
       <div className="max-w-6xl mx-auto relative z-10 flex flex-col items-center">
         
         <div className="w-full flex justify-between items-center mb-6">
-          <button onClick={onClose} className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all shadow-md">
+          <button onClick={onClose} className="flex items-center gap-2 px-4  bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all shadow-md">
             <ArrowLeft className="w-4 h-4" /> Retour
           </button>
           
           <div className="flex gap-4">
-            <div className="bg-slate-800/80 backdrop-blur-md px-6 py-2 rounded-2xl border border-slate-700 flex items-center gap-2 text-yellow-400 font-bold shadow-lg">
+            <div className="bg-slate-800/80 backdrop-blur-md px-6  rounded-2xl border border-slate-700 flex items-center gap-2 text-yellow-400 font-bold shadow-lg">
               <Coins className="w-5 h-5" /> Budget : {budget}k€
             </div>
-            <div className="bg-slate-800/80 backdrop-blur-md px-6 py-2 rounded-2xl border border-slate-700 flex items-center gap-2 text-red-400 font-bold shadow-lg">
+            <div className="bg-slate-800/80 backdrop-blur-md px-6  rounded-2xl border border-slate-700 flex items-center gap-2 text-red-400 font-bold shadow-lg">
               <Heart className="w-5 h-5 fill-red-400" /> Continuité SP : {health}
             </div>
-            <div className="bg-slate-800/80 backdrop-blur-md px-6 py-2 rounded-2xl border border-slate-700 flex items-center gap-2 text-blue-400 font-bold shadow-lg">
+            <div className="bg-slate-800/80 backdrop-blur-md px-6  rounded-2xl border border-slate-700 flex items-center gap-2 text-blue-400 font-bold shadow-lg">
               <Shield className="w-5 h-5" /> Vague : {wave}/10
             </div>
           </div>
@@ -754,7 +754,7 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
               {!waveActiveRef.current && wave < 10 && gameState === "playing" && (
                 <button 
                   onClick={startWave}
-                  className="w-full mt-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg hover:shadow-blue-500/50 flex justify-center items-center gap-2 transition-all animate-pulse"
+                  className="w-full mt-6  bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg hover:shadow-blue-500/50 flex justify-center items-center gap-2 transition-all animate-pulse"
                 >
                   <Play className="w-5 h-5 fill-white" /> Lancer Vague {wave + 1}
                 </button>
@@ -780,7 +780,7 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
                   <p className="text-slate-300 max-w-md text-center mb-8">
                     Les dossiers s'accumulent ! Placez stratégiquement vos chargés de recrutement et vos budgets pour traiter les demandes avant qu'elles ne saturent le service public.
                   </p>
-                  <button onClick={initGame} className="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl shadow-lg hover:scale-105 transition-all text-lg flex items-center gap-2">
+                  <button onClick={initGame} className="px-8  bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl shadow-lg hover:scale-105 transition-all text-lg flex items-center gap-2">
                     <Play className="w-6 h-6 fill-white" /> Démarrer
                   </button>
                 </div>
@@ -797,7 +797,7 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
                     {gameState === "victory" ? "Service Public Sauvé !" : "Rupture du Service..."}
                   </h2>
                   <p className="text-slate-300 mb-8 text-lg">Vous avez survécu à {wave} vagues.</p>
-                  <button onClick={initGame} className="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold rounded-2xl shadow-lg hover:scale-105 transition-all text-lg flex items-center gap-2">
+                  <button onClick={initGame} className="px-8  bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold rounded-2xl shadow-lg hover:scale-105 transition-all text-lg flex items-center gap-2">
                     <RotateCcw className="w-6 h-6" /> Rejouer
                   </button>
                 </div>

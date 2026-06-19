@@ -230,7 +230,7 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="relative z-30 isolate min-h-screen overflow-x-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-500 py-4 sm:py-8 px-4 font-sans text-slate-800 dark:text-slate-100 touch-none select-none">
+    <div className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 overflow-x-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-500  sm: px-4 font-sans text-slate-800 dark:text-slate-100 touch-none select-none">
       {/* Soft background glow */}
       <div style={{
         position: 'fixed', top: '50%', left: '50%',
@@ -243,11 +243,11 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
       <div className="max-w-4xl mx-auto relative z-10 flex flex-col items-center h-full">
         
         {/* Retour button */}
-        <div className="w-full relative z-40 mb-4 flex justify-start">
+        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-50">
           <button
             type="button"
             onClick={onClose}
-            className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm shadow-md"
+            className="flex items-center gap-2 px-4  bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm shadow-md"
           >
             <ArrowLeft className="w-4 h-4" />
             Retour
@@ -261,13 +261,13 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
           </h1>
           
           <div className="flex flex-wrap justify-center items-center gap-4 text-sm font-bold">
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4 py-1.5 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
+            <span className="bg-white/50 dark:bg-slate-800/50 px-4 .5 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
               Niveau : <span className="text-purple-400 font-extrabold">{level}</span>
             </span>
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4 py-1.5 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
+            <span className="bg-white/50 dark:bg-slate-800/50 px-4 .5 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
               Dossiers traités : <span className="text-emerald-400 font-extrabold">{score}</span>
             </span>
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4 py-1.5 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
+            <span className="bg-white/50 dark:bg-slate-800/50 px-4 .5 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
               Alerte : 
               <div className="flex gap-1">
                 {[...Array(MAX_ERRORS)].map((_, i) => (
@@ -330,7 +330,7 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
               </p>
               <button
                 onClick={startGame}
-                className="flex items-center gap-2 px-8 py-3 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-600 rounded-full font-medium text-lg transition-all shadow-sm hover:shadow-md"
+                className="flex items-center gap-2 px-8  bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-600 rounded-full font-medium text-lg transition-all shadow-sm hover:shadow-md"
               >
                 <Play className="w-5 h-5 fill-current" />
                 Démarrer
@@ -350,7 +350,7 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
               </div>
               <button
                 onClick={startGame}
-                className="flex items-center gap-2 px-8 py-3 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-600 rounded-full font-medium transition-all shadow-sm hover:shadow-md"
+                className="flex items-center gap-2 px-8  bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-600 rounded-full font-medium transition-all shadow-sm hover:shadow-md"
               >
                 <ArrowLeft className="w-5 h-5" />
                 Reprendre le service

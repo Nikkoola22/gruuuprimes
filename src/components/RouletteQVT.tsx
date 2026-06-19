@@ -230,7 +230,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="relative z-30 isolate min-h-screen overflow-x-hidden bg-slate-50 dark:bg-slate-900 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-500">
+    <div className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 overflow-x-hidden bg-slate-50 dark:bg-slate-900  sm: px-4 sm:px-6 lg:px-8 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-500">
       {/* Soft background glow */}
       <div style={{
         position: 'fixed', top: '50%', left: '50%',
@@ -243,11 +243,11 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
       <div className="max-w-4xl mx-auto relative z-10">
         
         {/* Retour button */}
-        <div className="relative z-40 mb-6">
+        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-50">
           <button
             type="button"
             onClick={onClose}
-            className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm shadow-md"
+            className="flex items-center gap-2 px-4  bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm shadow-md"
           >
             <ArrowLeft className="w-4 h-4" />
             Retour
@@ -269,7 +269,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
           <button
             onClick={() => !isSpinning && setCurrentFilter("all")}
             disabled={isSpinning}
-            className={`px-4 py-2 text-xs sm:text-sm font-medium rounded-full border transition-all duration-200 ${
+            className={`px-4  text-xs sm:text-sm font-medium rounded-full border transition-all duration-200 ${
               currentFilter === "all"
                 ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700 shadow-sm"
                 : "bg-transparent text-slate-500 dark:text-slate-400 border-transparent hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50"
@@ -280,7 +280,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
           <button
             onClick={() => !isSpinning && setCurrentFilter("qvt")}
             disabled={isSpinning}
-            className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
+            className={`px-4  text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
               currentFilter === "qvt"
                 ? "bg-blue-600 text-white border-blue-600 shadow"
                 : "bg-slate-900/60 text-blue-400 border-blue-500/30 hover:bg-blue-500/10 disabled:opacity-50"
@@ -291,7 +291,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
           <button
             onClick={() => !isSpinning && setCurrentFilter("management")}
             disabled={isSpinning}
-            className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
+            className={`px-4  text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
               currentFilter === "management"
                 ? "bg-emerald-600 text-white border-emerald-600 shadow"
                 : "bg-slate-900/60 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/10 disabled:opacity-50"
@@ -302,7 +302,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
           <button
             onClick={() => !isSpinning && setCurrentFilter("carriere")}
             disabled={isSpinning}
-            className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
+            className={`px-4  text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
               currentFilter === "carriere"
                 ? "bg-purple-600 text-white border-purple-600 shadow"
                 : "bg-slate-900/60 text-purple-400 border-purple-500/30 hover:bg-purple-500/10 disabled:opacity-50"
@@ -313,7 +313,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
           <button
             onClick={() => !isSpinning && setCurrentFilter("detente")}
             disabled={isSpinning}
-            className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
+            className={`px-4  text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
               currentFilter === "detente"
                 ? "bg-amber-600 text-white border-amber-600 shadow"
                 : "bg-slate-900/60 text-amber-400 border-amber-500/30 hover:bg-amber-500/10 disabled:opacity-50"
@@ -327,7 +327,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-gradient-to-br from-slate-800/80 via-purple-900/40 to-slate-800/80 backdrop-blur border border-purple-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl">
           
           {/* Wheel Container */}
-          <div className="flex flex-col items-center justify-center relative py-4">
+          <div className="flex flex-col items-center justify-center relative ">
             {/* Enlarged and glowing responsive container */}
             <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] md:w-[410px] md:h-[410px] mx-auto select-none">
               
@@ -377,7 +377,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
             <button
               onClick={spinWheel}
               disabled={isSpinning}
-              className="mt-8 px-8 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white font-bold rounded-2xl shadow-lg shadow-purple-900/40 hover:opacity-95 hover:scale-[1.02] transition-all duration-150 active:scale-98 disabled:opacity-50 flex items-center gap-2 btn-shine relative z-20"
+              className="mt-8 px-8  bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white font-bold rounded-2xl shadow-lg shadow-purple-900/40 hover:opacity-95 hover:scale-[1.02] transition-all duration-150 active:scale-98 disabled:opacity-50 flex items-center gap-2 btn-shine relative z-20"
             >
               <Sparkles className={`w-5 h-5 ${isSpinning ? 'animate-spin' : ''}`} />
               <span>Je lance la roulette</span>
@@ -387,7 +387,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
           {/* Idea Display card */}
           <div className="flex flex-col justify-center min-h-[220px]">
             {isSpinning && (
-              <div className="text-center py-10 animate-pulse">
+              <div className="text-center  animate-pulse">
                 <Sparkles className="w-12 h-12 text-purple-400 mx-auto mb-4 animate-spin" />
                 <p className="text-slate-300 font-medium">Sélection de votre idée du jour en cours...</p>
                 <p className="text-xs text-slate-400 mt-1">La roulette tourne ! 🎡</p>
@@ -395,7 +395,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
             )}
 
             {!isSpinning && !selectedIdea && (
-              <div className="text-center py-10 border-2 border-dashed border-purple-500/20 rounded-2xl p-6 bg-slate-900/30">
+              <div className="text-center  border-2 border-dashed border-purple-500/20 rounded-2xl p-6 bg-slate-900/30">
                 <Sparkles className="w-10 h-10 text-slate-500 mx-auto mb-3" />
                 <p className="text-slate-200 font-semibold text-sm">Prêt à booster votre journée ?</p>
                 <p className="text-slate-400 text-xs mt-1">Cliquez sur "LANCER" ou sur le bouton pour obtenir une action concrète.</p>
@@ -411,7 +411,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
                     const badge = getCategoryLabel(selectedIdea.category);
                     return (
                       <div className="flex items-center justify-between mb-4">
-                        <span className={`px-3 py-1 rounded-full text-xs font-bold border ${badge.bg} flex items-center gap-1.5`}>
+                        <span className={`px-3  rounded-full text-xs font-bold border ${badge.bg} flex items-center gap-1.5`}>
                           {getCategoryIcon(selectedIdea.category)}
                           {badge.text}
                         </span>
