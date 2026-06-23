@@ -1677,30 +1677,85 @@ ${indicesFactuels}
                     </h3>
                   </div>
 
-                  <div className="flex-1 flex flex-col justify-center">
+                  <div className="flex flex-col gap-4 flex-1 justify-center">
+                    {/* Vidéo 1 */}
+                    <a
+                      href="https://youtu.be/7clMZoElV9o?si=tFlkNao1VyFKrDzC"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
+                    >
+                      <div className="w-[38%] flex-shrink-0 aspect-video rounded-xl bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-850 group-hover:scale-[1.02] transition-transform">
+                        <img src="https://img.youtube.com/vi/7clMZoElV9o/hqdefault.jpg" alt="Les 50 acronymes indispensables" className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition-colors">
+                          <PlayCircle className="w-6 h-6 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
+                        </div>
+                      </div>
+                      <div className="flex-1 flex flex-col justify-center py-1">
+                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-amber-500 transition-colors mb-1">
+                          Les 50 acronymes
+                        </span>
+                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
+                          Décoder les sigles indispensables aux concours territoriaux.
+                        </span>
+                      </div>
+                    </a>
+
+                    {/* Vidéo 2 */}
+                    <a
+                      href="https://www.youtube.com/watch?v=z0mVMJHO8GA"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
+                    >
+                      <div className="w-[38%] flex-shrink-0 aspect-video rounded-xl bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-850 group-hover:scale-[1.02] transition-transform">
+                        <img src="https://img.youtube.com/vi/z0mVMJHO8GA/hqdefault.jpg" alt="150 Questions-Réponses Oral" className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition-colors">
+                          <PlayCircle className="w-6 h-6 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
+                        </div>
+                      </div>
+                      <div className="flex-1 flex flex-col justify-center py-1">
+                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-amber-500 transition-colors mb-1">
+                          150 Questions Oral
+                        </span>
+                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
+                          S'entraîner aux questions types posées par le jury à l'oral.
+                        </span>
+                      </div>
+                    </a>
+
+                    {/* Vidéo 3 */}
+                    <a
+                      href="https://www.youtube.com/watch?v=m9Nirxu_wFk"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
+                    >
+                      <div className="w-[38%] flex-shrink-0 aspect-video rounded-xl bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-850 group-hover:scale-[1.02] transition-transform">
+                        <img src="https://img.youtube.com/vi/m9Nirxu_wFk/hqdefault.jpg" alt="30 Situations Oral" className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition-colors">
+                          <PlayCircle className="w-6 h-6 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
+                        </div>
+                      </div>
+                      <div className="flex-1 flex flex-col justify-center py-1">
+                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-amber-500 transition-colors mb-1">
+                          30 Cas Pratiques
+                        </span>
+                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
+                          Les mises en situation clés pour convaincre le jury d'oral.
+                        </span>
+                      </div>
+                    </a>
+
+                    {/* Lien générique YouTube */}
                     <a
                       href="https://www.youtube.com/results?search_query=fonction+publique+territoriale"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group relative block w-full rounded-2xl overflow-hidden shadow-lg transition-transform hover:scale-[1.02] bg-slate-900"
+                      className="mt-2 text-center text-xs font-semibold text-amber-600 hover:text-amber-500 hover:underline flex items-center justify-center gap-1.5 py-1"
                     >
-                      {/* Background Image / Thumbnail Base (Generic geometric pattern for modern look) */}
-                      <div className="w-full aspect-video bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative">
-                        {/* Decoration */}
-                        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_50%_50%,_rgba(255,255,255,0.2)_0%,_transparent_60%)]"></div>
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-pulse"></div>
-                        <div className="absolute bottom-0 left-0 w-32 h-32 bg-indigo-500 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-pulse" style={{ animationDelay: '1s' }}></div>
-
-                        {/* Main Overlay Text */}
-                        <div className="z-10 flex flex-col items-center justify-center text-center p-4">
-                          <div className="bg-red-600 rounded-full p-3 mb-2 shadow-lg shadow-red-600/50 group-hover:scale-110 transition-transform group-hover:bg-red-500">
-                            <PlayCircle className="w-8 h-8 text-white" strokeWidth={1.5} />
-                          </div>
-                          <span className="text-white font-black text-lg md:text-xl tracking-tight leading-tight">
-                            Vidéos sur la<br /><span className="text-blue-400">Fonction Publique</span>
-                          </span>
-                        </div>
-                      </div>
+                      <span>Voir plus de vidéos sur YouTube</span>
+                      <PlayCircle className="w-4 h-4" />
                     </a>
                   </div>
                 </div>
