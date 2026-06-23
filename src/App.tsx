@@ -1599,22 +1599,22 @@ ${indicesFactuels}
                     </h3>
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-4">
                     {/* Document 1 */}
                     <a
                       href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail_conges_absences/reglement_temps_de_travail/reglement_du_temps_du_travail.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-2xl transition-all"
+                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
                     >
-                      <div className="w-[30%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
+                      <div className="w-[35%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
                         <img src="/images/temps_travail.png" alt="Temps de travail" className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1 flex flex-col justify-center py-1">
-                        <span className="font-bold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-orange-500 transition-colors mb-1">
+                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-orange-500 transition-colors mb-1">
                           Temps de travail
                         </span>
-                        <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
+                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
                           Règlement complet sur le temps de travail, congés et absences.
                         </span>
                       </div>
@@ -1625,16 +1625,16 @@ ${indicesFactuels}
                       href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/formation/reglement_interieur_de_formation_juin_2025.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-2xl transition-all"
+                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
                     >
-                      <div className="w-[30%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
+                      <div className="w-[35%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
                         <img src="/images/formation.png" alt="Formation" className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1 flex flex-col justify-center py-1">
-                        <span className="font-bold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-teal-600 transition-colors mb-1">
+                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-teal-600 transition-colors mb-1">
                           Formation
                         </span>
-                        <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
+                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
                           Règlement intérieur de formation (Mise à jour Juin 2025).
                         </span>
                       </div>
@@ -1645,16 +1645,16 @@ ${indicesFactuels}
                       href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/teletravail/circulaire_evolution_du_teletravail_juin_2023.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-2xl transition-all"
+                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
                     >
-                      <div className="w-[30%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
+                      <div className="w-[35%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
                         <img src="/images/teletravail.png" alt="Télétravail" className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1 flex flex-col justify-center py-1">
-                        <span className="font-bold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-blue-600 transition-colors mb-1">
+                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-blue-600 transition-colors mb-1">
                           Télétravail
                         </span>
-                        <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
+                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
                           Circulaire et charte d'évolution du télétravail.
                         </span>
                       </div>
