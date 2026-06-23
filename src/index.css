@@ -17,7 +17,7 @@ body {
   font-weight: 300;
   font-size: 14px;
   position: relative;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 @media (min-width: 768px) {
@@ -35,14 +35,14 @@ body {
 /* Base font size - responsive */
 html {
   font-size: 16px;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 html,
 body,
 #root {
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 @media (min-width: 768px) {

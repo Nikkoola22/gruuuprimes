@@ -178,9 +178,7 @@ app.get('/api/fp-rss', async (req, res) => {
     const parser = new xml2js.default.Parser();
 
     const rssUrls = [
-      "https://www.fonction-publique.gouv.fr/flux-rss-concours",
-      "https://www.fonction-publique.gouv.fr/flux-rss-actualites",
-      "https://www.fonction-publique.gouv.fr/flux-rss-rubrique-la-dgafp"
+      "https://www.banquedesterritoires.fr/flux/fonction-publique/localtis.xml"
     ];
 
     let allArticles = [];
@@ -241,7 +239,12 @@ app.get('/api/fp-rss', async (req, res) => {
           let imageUrl = imgMatch ? imgMatch[1] : null;
           
           if (imageUrl && imageUrl.startsWith('/')) {
-            imageUrl = 'https://www.fonction-publique.gouv.fr' + imageUrl;
+            try {
+              const urlObj = new URL(link);
+              imageUrl = urlObj.origin + imageUrl;
+            } catch (e) {
+              imageUrl = 'https://www.banquedesterritoires.fr' + imageUrl;
+            }
           }
 
           const description = descriptionHtml.replace(/<[^>]*>/g, '').trim().substring(0, 150) || '';
@@ -270,7 +273,12 @@ app.get('/api/fp-rss', async (req, res) => {
                 if (ogMatch && ogMatch[1]) {
                   article.imageUrl = ogMatch[1];
                   if (article.imageUrl.startsWith('/')) {
-                    article.imageUrl = 'https://www.fonction-publique.gouv.fr' + article.imageUrl;
+                    try {
+                      const urlObj = new URL(article.link);
+                      article.imageUrl = urlObj.origin + article.imageUrl;
+                    } catch (e) {
+                      article.imageUrl = 'https://www.banquedesterritoires.fr' + article.imageUrl;
+                    }
                   }
                 }
               }

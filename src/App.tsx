@@ -1225,7 +1225,7 @@ ${indicesFactuels}
 
   return (
     <div
-      className="min-h-screen relative overflow-x-hidden dark:bg-slate-950"
+      className="min-h-screen relative overflow-x-clip dark:bg-slate-950"
       style={{
         background: theme === 'dark' ? undefined : 'linear-gradient(135deg, #fdfbf7 0%, #fff7ed 40%, #ffedd5 80%, #fed7aa 100%)',
       }}

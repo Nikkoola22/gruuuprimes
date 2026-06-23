@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   ArrowLeft, Building2, Users, Landmark, HeartHandshake,
   TrendingUp, TrendingDown, Play, AlertTriangle, Trophy,
@@ -18,12 +18,12 @@ interface Action {
     service: number;// in %
   };
 }
-
 interface GameEvent {
   id: string;
   title: string;
   description: string;
   icon: React.ElementType;
+  image?: string;
   actions: Action[];
 }
 
@@ -33,6 +33,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Crise Sécuritaire",
     description: "Le Maire exige le recrutement immédiat de 5 agents de Police Municipale suite à des incivilités, mais le budget n'était pas prévu.",
     icon: AlertTriangle,
+    image: "/images/tycoon/tycoon_police.png",
     actions: [
       { text: "Recruter des contractuels (Rapide)", impact: { budget: -150, agents: -5, elus: +15, service: +10 } },
       { text: "Ouvrir un concours (Lent)", impact: { budget: -80, agents: +5, elus: -10, service: +5 } },
@@ -44,6 +45,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Préavis de Grève - Cantines",
     description: "Les agents des cantines scolaires menacent de faire grève si le RIFSEEP n'est pas réévalué. Les parents d'élèves font pression sur les élus.",
     icon: Users,
+    image: "/images/tycoon/tycoon_strike.png",
     actions: [
       { text: "Augmenter le RIFSEEP (+200k€)", impact: { budget: -200, agents: +20, elus: +5, service: +15 } },
       { text: "Négocier une prime exceptionnelle", impact: { budget: -80, agents: +5, elus: 0, service: 0 } },
@@ -55,6 +57,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Pic Hivernal d'Arrêts Maladie",
     description: "L'épidémie de grippe décime le service de l'État Civil. La file d'attente s'allonge et la qualité du service public s'effondre.",
     icon: HeartHandshake,
+    image: "/images/tycoon/tycoon_health.png",
     actions: [
       { text: "Prestations intérimaires", impact: { budget: -100, agents: -5, elus: +5, service: +20 } },
       { text: "Heures supplémentaires pour les présents", impact: { budget: -60, agents: -15, elus: +5, service: +10 } },
@@ -66,6 +69,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Vague de Départs à la Retraite",
     description: "Un service entier d'urbanisme voit ses cadres partir à la retraite d'un coup. La perte d'expertise est critique.",
     icon: Landmark,
+    image: "/images/tycoon/tycoon_retirement.png",
     actions: [
       { text: "Plan de tuilage (Doublons sur 6 mois)", impact: { budget: -250, agents: +15, elus: +10, service: +15 } },
       { text: "Promotions internes accélérées", impact: { budget: -50, agents: +20, elus: -5, service: -10 } },
@@ -77,6 +81,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Cyberattaque sur le SIRH",
     description: "Le logiciel de paie est paralysé par un ransomware. Les agents s'inquiètent pour leur salaire du mois.",
     icon: AlertTriangle,
+    image: "/images/tycoon/tycoon_hack.png",
     actions: [
       { text: "Payer la rançon (Illégal !)", impact: { budget: -300, agents: +10, elus: -30, service: +5 } },
       { text: "Cellule de crise RH avec heures supp'", impact: { budget: -120, agents: -10, elus: +10, service: 0 } },
@@ -88,6 +93,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Alerte Canicule",
     description: "Les températures explosent. Les syndicats demandent l'adaptation des horaires et l'installation de climatiseurs.",
     icon: Building2,
+    image: "/images/tycoon/tycoon_weather.png",
     actions: [
       { text: "Achat de clims & horaires d'été", impact: { budget: -150, agents: +25, elus: +5, service: +5 } },
       { text: "Télétravail massif exceptionnel", impact: { budget: 0, agents: +15, elus: -10, service: -5 } },
@@ -99,6 +105,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Approche des Élections",
     description: "Les élections municipales ont lieu l'année prochaine. Le Maire exige que la satisfaction publique et la sienne soient au plus haut, coûte que coûte.",
     icon: Megaphone,
+    image: "/images/tycoon/tycoon_politics.png",
     actions: [
       { text: "Gel des impôts & Titularisations massives", impact: { budget: -400, agents: +25, elus: +30, service: +10 } },
       { text: "Petites primes électoralistes", impact: { budget: -100, agents: +10, elus: +15, service: 0 } },
@@ -110,6 +117,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Audit de la Chambre Régionale des Comptes",
     description: "La Chambre Régionale pointe du doigt la masse salariale excessive de la commune. Vous devez trouver des économies.",
     icon: Gavel,
+    image: "/images/tycoon/tycoon_finance.png",
     actions: [
       { text: "Non-renouvellement de 20 contractuels", impact: { budget: +300, agents: -25, elus: +10, service: -15 } },
       { text: "Gel du point d'indice (localement)", impact: { budget: +150, agents: -30, elus: +5, service: 0 } },
@@ -121,6 +129,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Hémorragie des Talents",
     description: "Les ingénieurs du service informatique démissionnent un par un pour le secteur privé, attirés par de meilleurs salaires.",
     icon: Briefcase,
+    image: "/images/tycoon/tycoon_hrcrisis.png",
     actions: [
       { text: "Aligner les salaires (Contrats de projet)", impact: { budget: -200, agents: +5, elus: -10, service: +20 } },
       { text: "Embaucher des profils juniors", impact: { budget: -50, agents: 0, elus: +5, service: -15 } },
@@ -132,6 +141,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Nouveau Décret Gouvernemental",
     description: "L'État impose une nouvelle prime obligatoire (Ségur, etc.) pour une partie de vos agents. Ce n'était pas budgété.",
     icon: Newspaper,
+    image: "/images/tycoon/tycoon_finance.png",
     actions: [
       { text: "Appliquer immédiatement (Emprunt)", impact: { budget: -250, agents: +25, elus: -10, service: 0 } },
       { text: "Lisser l'application sur 3 ans", impact: { budget: -80, agents: -10, elus: +5, service: 0 } },
@@ -143,6 +153,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Dépassement du Plafond d'Heures Supp",
     description: "Les agents de la voirie ont explosé leur quota d'heures supplémentaires à cause des récentes intempéries. Ils exigent d'être payés.",
     icon: Clock,
+    image: "/images/tycoon/tycoon_hrcrisis.png",
     actions: [
       { text: "Payer toutes les heures majorées", impact: { budget: -180, agents: +20, elus: -5, service: +5 } },
       { text: "Placer en récupération obligatoire", impact: { budget: 0, agents: -10, elus: +5, service: -20 } },
@@ -154,6 +165,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Visite Ministérielle Surprise",
     description: "Un Ministre vient inaugurer la nouvelle crèche dans 48h. Le Maire veut que tout le personnel soit mobilisé pour que tout soit parfait.",
     icon: Trophy,
+    image: "/images/tycoon/tycoon_politics.png",
     actions: [
       { text: "Mobilisation générale avec primes", impact: { budget: -100, agents: +10, elus: +25, service: +15 } },
       { text: "Réquisition sans contrepartie", impact: { budget: 0, agents: -25, elus: +20, service: +5 } },
@@ -165,6 +177,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Invasion de Punaises de Lit",
     description: "Les bureaux de l'Action Sociale sont infestés. Les agents exercent leur droit de retrait et le public ne peut plus être reçu.",
     icon: Bug,
+    image: "/images/tycoon/tycoon_pest.png",
     actions: [
       { text: "Fermeture & Traitement d'urgence", impact: { budget: -120, agents: +15, elus: -5, service: -15 } },
       { text: "Reloger le service (Location modulaire)", impact: { budget: -200, agents: +10, elus: +5, service: +10 } },
@@ -176,6 +189,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Inondations dans les Écoles",
     description: "De violents orages ont inondé 3 écoles. Il faut nettoyer en urgence avant la rentrée scolaire de lundi !",
     icon: Droplets,
+    image: "/images/tycoon/tycoon_weather.png",
     actions: [
       { text: "Appel à une société de nettoyage privée", impact: { budget: -250, agents: 0, elus: +15, service: +20 } },
       { text: "Mobiliser les agents techniques en week-end", impact: { budget: -80, agents: -20, elus: +10, service: +15 } },
@@ -187,6 +201,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Mouvement Social National",
     description: "Une grève nationale paralyse les transports. De nombreux agents ne peuvent pas venir travailler, perturbant fortement les services.",
     icon: AlertTriangle,
+    image: "/images/tycoon/tycoon_strike.png",
     actions: [
       { text: "Tolérance (Absence justifiée)", impact: { budget: 0, agents: +15, elus: -10, service: -20 } },
       { text: "Exiger des jours de congés", impact: { budget: +50, agents: -20, elus: +10, service: -10 } },
@@ -198,6 +213,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Refonte du RIFSEEP",
     description: "Le Maire veut revoir le régime indemnitaire au mérite. Les syndicats sont vent debout contre l'introduction du CIA.",
     icon: FileText,
+    image: "/images/tycoon/tycoon_finance.png",
     actions: [
       { text: "Passage en force (Vote au Conseil)", impact: { budget: -50, agents: -30, elus: +20, service: -10 } },
       { text: "Concertation longue (Ateliers)", impact: { budget: -20, agents: +10, elus: -15, service: 0 } },
@@ -209,6 +225,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Bad Buzz dans la Presse Locale",
     description: "Un article dénonce les conditions de travail au Centre Technique Municipal. Le Maire est furieux et exige des sanctions ou une communication.",
     icon: Newspaper,
+    image: "/images/tycoon/tycoon_media.png",
     actions: [
       { text: "Sanctionner les agents identifiés", impact: { budget: 0, agents: -30, elus: +15, service: -10 } },
       { text: "Plan d'action Qualité de Vie", impact: { budget: -200, agents: +25, elus: -10, service: +15 } },
@@ -220,6 +237,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Déploiement du Nouveau Logiciel",
     description: "Le nouveau SIRH est en panne le jour de la clôture de la paie. Panique dans les services !",
     icon: Bug,
+    image: "/images/tycoon/tycoon_hack.png",
     actions: [
       { text: "Intervention du prestataire (Urgence)", impact: { budget: -150, agents: -5, elus: +5, service: +10 } },
       { text: "Saisie manuelle nocturne (Heures supp)", impact: { budget: -80, agents: -20, elus: +10, service: 0 } },
@@ -231,6 +249,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Fête Annuelle du Personnel",
     description: "C'est l'heure de la fête du personnel. L'amicale réclame une subvention exceptionnelle pour inviter un groupe de musique.",
     icon: HeartHandshake,
+    image: "/images/tycoon/tycoon_celebration.png",
     actions: [
       { text: "Accorder la super subvention", impact: { budget: -100, agents: +25, elus: -5, service: 0 } },
       { text: "Budget standard (Buffet froid)", impact: { budget: -30, agents: +5, elus: +5, service: 0 } },
@@ -242,6 +261,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Plainte pour Harcèlement",
     description: "Un agent accuse un cadre très apprécié du Maire de harcèlement moral. L'ambiance est délétère.",
     icon: Gavel,
+    image: "/images/tycoon/tycoon_hrcrisis.png",
     actions: [
       { text: "Enquête administrative externe", impact: { budget: -80, agents: +15, elus: -15, service: 0 } },
       { text: "Changer l'agent de service", impact: { budget: -20, agents: -20, elus: +10, service: -5 } },
@@ -253,6 +273,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Élections Professionnelles (CST)",
     description: "La tension monte avec la campagne électorale syndicale. Les demandes de dispenses d'activité pleuvent.",
     icon: Users,
+    image: "/images/tycoon/tycoon_politics.png",
     actions: [
       { text: "Accorder plus d'heures syndicales", impact: { budget: -50, agents: +20, elus: -10, service: -15 } },
       { text: "Strict respect de la loi (Tensions)", impact: { budget: 0, agents: -15, elus: +15, service: +5 } },
@@ -264,6 +285,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Visite de l'Inspection du Travail",
     description: "Des manquements graves à la sécurité ont été constatés dans les ateliers municipaux (EPI manquants, machines vétustes).",
     icon: AlertTriangle,
+    image: "/images/tycoon/tycoon_hrcrisis.png",
     actions: [
       { text: "Achat massif d'EPI et rénovation", impact: { budget: -250, agents: +15, elus: -10, service: +10 } },
       { text: "Fermeture partielle de l'atelier", impact: { budget: 0, agents: -10, elus: -15, service: -25 } },
@@ -275,6 +297,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Fusion de Services",
     description: "Le DGS décide de fusionner le service Culture et le service Sport. Les équipes refusent de travailler ensemble.",
     icon: Briefcase,
+    image: "/images/tycoon/tycoon_retirement.png",
     actions: [
       { text: "Séminaire de cohésion (Coûteux)", impact: { budget: -120, agents: +15, elus: -5, service: +10 } },
       { text: "Imposer la nouvelle hiérarchie", impact: { budget: 0, agents: -25, elus: +15, service: -10 } },
@@ -286,6 +309,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Prime de Pouvoir d'Achat",
     description: "Avec l'inflation, les syndicats réclament le versement de la prime exceptionnelle de pouvoir d'achat.",
     icon: Landmark,
+    image: "/images/tycoon/tycoon_finance.png",
     actions: [
       { text: "Verser le montant maximum à tous", impact: { budget: -350, agents: +35, elus: -15, service: +5 } },
       { text: "Verser un montant modulé (Minima)", impact: { budget: -150, agents: +10, elus: +10, service: 0 } },
@@ -297,6 +321,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Plan de Sobriété Énergétique",
     description: "Chauffage baissé à 19°C dans les bureaux. Les agents viennent avec des plaids et se plaignent d'être malades.",
     icon: Droplets,
+    image: "/images/tycoon/tycoon_weather.png",
     actions: [
       { text: "Acheter des polaires logotées", impact: { budget: -60, agents: +15, elus: +10, service: 0 } },
       { text: "Tolérer les radiateurs d'appoint", impact: { budget: -40, agents: +20, elus: -15, service: 0 } },
@@ -308,6 +333,7 @@ const ALL_EVENTS: GameEvent[] = [
     title: "Préparation des Jeux Olympiques",
     description: "La ville accueille des épreuves. Les congés d'été sont interdits pour la police municipale et les techniques.",
     icon: Trophy,
+    image: "/images/tycoon/tycoon_celebration.png",
     actions: [
       { text: "Prime JO très généreuse", impact: { budget: -300, agents: +25, elus: +10, service: +20 } },
       { text: "Compensation en repos (CET)", impact: { budget: -50, agents: -5, elus: +15, service: +10 } },
@@ -331,6 +357,13 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
   const [eventPool, setEventPool] = useState<GameEvent[]>([]);
   const [log, setLog] = useState<{month: number, text: string, type: "good" | "bad" | "neutral"}[]>([]);
   const [failReason, setFailReason] = useState("");
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (gameState === "playing" && containerRef.current) {
+      containerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [currentEvent, gameState]);
 
   const initGame = () => {
     setBudget(1000);
@@ -421,7 +454,7 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 overflow-x-hidden bg-slate-950 transition-colors duration-500  px-4 font-sans text-slate-100">
+    <div ref={containerRef} className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 bg-slate-950 transition-colors duration-500  px-4 font-sans text-slate-100">
       
       {/* Background Ornaments */}
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
@@ -529,7 +562,7 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
 
 
             {/* Main Area */}
-            <div className="flex flex-col lg:flex-row gap-6 mt-4">
+            <div className="flex flex-col lg:flex-row items-start gap-6 mt-4">
               
               {/* Event Card */}
               <div className="flex-[2] bg-slate-800/50 backdrop-blur-xl border border-slate-700 rounded-3xl p-8 shadow-xl relative overflow-hidden">
@@ -544,6 +577,17 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
                     </div>
                     <h2 className="text-3xl font-bold text-white tracking-tight">Dossier du Mois : <span className="text-rose-300">{currentEvent.title}</span></h2>
                   </div>
+                  
+                  {currentEvent.image && (
+                    <div className="w-full h-48 sm:h-64 mb-6 rounded-2xl overflow-hidden border border-slate-700/50 relative shadow-inner">
+                      <img 
+                        src={currentEvent.image} 
+                        alt={currentEvent.title} 
+                        className="w-full h-full object-cover object-center"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
+                    </div>
+                  )}
                   
                   <p className="text-lg text-slate-300 leading-relaxed mb-8 max-w-2xl bg-slate-900/40 p-6 rounded-2xl border border-slate-700/50">
                     {currentEvent.description}
@@ -598,7 +642,7 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
               </div>
 
               {/* Right Side Gauges */}
-              <div className="flex-1 flex flex-col gap-4">
+              <div className="flex-1 flex flex-col gap-4 lg:sticky lg:top-24 h-fit">
                 <GaugeCard title="Budget Restant" value={budget} icon={Landmark} colorClass="text-emerald-400" type="currency" />
                 <GaugeCard title="Satisfaction des Agents" value={agentsSat} icon={Users} colorClass="text-blue-400" type="percent" />
                 <GaugeCard title="Satisfaction des Élus" value={elusSat} icon={Building2} colorClass="text-purple-400" type="percent" />
