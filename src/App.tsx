@@ -1719,7 +1719,7 @@ ${indicesFactuels}
                     </h3>
                   </div>
 
-                  <div className="flex flex-col gap-2 flex-1">
+                  <div className="flex flex-col gap-4 flex-1">
                     {usefulLinks.map(({ label, href, imageSrc }, idx) => {
                       // Couleurs alternées pour les liens utiles
                       const colors = [
@@ -1736,13 +1736,13 @@ ${indicesFactuels}
                           href={href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-2xl transition-all"
+                          className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
                         >
-                          <div className={`w-[25%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border ${color.border} group-hover:scale-[1.02] transition-transform`}>
+                          <div className={`w-[35%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border ${color.border} group-hover:scale-[1.02] transition-transform`}>
                             <img src={imageSrc} alt={label} className="w-full h-full object-cover" />
                           </div>
                           <div className="flex-1 flex flex-col justify-center py-1">
-                            <span className={`font-bold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:underline decoration-2 underline-offset-4 ${color.decoration}`}>
+                            <span className={`font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:underline decoration-2 underline-offset-4 ${color.decoration}`}>
                               {label}
                             </span>
                           </div>
