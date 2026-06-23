@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo, lazy, Suspense } from "react"
-import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye , ArrowDownRight , Users , MessageCircleQuestion , HeartHandshake , Briefcase , Shield , CircleUser , ExternalLink as ExternalLinkIcon , PlayCircle } from "lucide-react"
+import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye, ArrowDownRight, Users, MessageCircleQuestion, HeartHandshake, Briefcase, Shield, CircleUser, ExternalLink as ExternalLinkIcon, PlayCircle } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { searchFAQ } from "./data/FAQdata.ts"
@@ -1328,10 +1328,10 @@ ${indicesFactuels}
             <div className="grid grid-cols-1 gap-2">
               {/* Colonne principale - pleine largeur */}
               <div className="lg:col-span-1">
-                
+
                 {/* Barre d'accès rapide */}
                 <div className="max-w-7xl mx-auto mb-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
-                  
+
                   {/* Title Section */}
                   <div className="flex items-center gap-2 pr-6 border-r border-slate-200 dark:border-slate-700">
                     <div className="flex flex-col">
@@ -1341,20 +1341,20 @@ ${indicesFactuels}
                     <ArrowDownRight className="w-8 h-8 text-rose-600 dark:text-rose-400" />
                   </div>
 
-                                    {/* Links */}
+                  {/* Links */}
                   <div className="flex flex-1 justify-around items-center gap-4 overflow-x-auto custom-scrollbar pb-2 lg:pb-0">
                     <button onClick={() => handleDomainSelection(0)} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group min-w-[120px]">
                       <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-purple-100 dark:group-hover:bg-purple-900/50 transition-colors">
                         <Search className="w-8 h-8 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
                       </div>
-                      <span className="text-sm font-bold text-center">J'ai une<br/>question</span>
+                      <span className="text-sm font-bold text-center">J'ai une<br />question</span>
                     </button>
-                    
+
                     <button onClick={openMetiersView} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors group min-w-[120px]">
                       <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/50 transition-colors">
                         <LayoutGrid className="w-8 h-8 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
                       </div>
-                      <span className="text-sm font-bold text-center">Grilles<br/>Indiciaires</span>
+                      <span className="text-sm font-bold text-center">Grilles<br />Indiciaires</span>
                     </button>
 
                     <button onClick={openCalculatorsLanding} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group min-w-[120px]">
@@ -1375,14 +1375,14 @@ ${indicesFactuels}
                       <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-amber-100 dark:group-hover:bg-amber-900/50 transition-colors">
                         <HelpCircle className="w-8 h-8 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform" />
                       </div>
-                      <span className="text-sm font-bold text-center">Questions<br/>Fréquentes</span>
+                      <span className="text-sm font-bold text-center">Questions<br />Fréquentes</span>
                     </button>
 
                     <a href="https://www.emploi-territorial.fr/emploi-mobilite/?search-col=99599" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group min-w-[120px]">
                       <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-orange-100 dark:group-hover:bg-orange-900/50 transition-colors">
                         <Briefcase className="w-8 h-8 text-orange-600 dark:text-orange-400 group-hover:scale-110 transition-transform" />
                       </div>
-                      <span className="text-sm font-bold text-center">Bourse<br/>Emploi</span>
+                      <span className="text-sm font-bold text-center">Bourse<br />Emploi</span>
                     </a>
                   </div>
                 </div>
@@ -1390,375 +1390,375 @@ ${indicesFactuels}
               </div>
 
 
-                {/* --- SECTION ACTUALITÉS & À LIRE --- */}
-                <div className="mt-12 mb-8">
-                  <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                    
-                    {/* Colonne Gauche : Actualités */}
-                    <div className="lg:col-span-3 bg-gradient-to-br from-white/90 via-blue-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-blue-200 shadow-xl shadow-blue-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-blue-300 relative z-10">
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-8 justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2.5 bg-blue-100/50 rounded-xl border border-blue-200 shadow-sm">
-                            <Newspaper className="w-6 h-6 text-blue-500" />
-                          </div>
-                          <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
-                            Actualités
-                            <span className="relative inline-block ml-2 z-10">
-                              <span className="relative z-20 text-slate-800 font-black tracking-tight">Syndicales & Statutaires</span>
-                              <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-blue-300 via-cyan-200 to-blue-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-                            </span>
-                          </h3>
-                        </div>
-                        <a
-                          href="https://www.cig929394.fr/actualites/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="ml-auto text-xs text-slate-500 hover:text-blue-600 transition-colors duration-150 underline underline-offset-2 font-medium"
-                        >
-                          Voir toutes les actualités →
-                        </a>
-                      </div>
+              {/* --- SECTION ACTUALITÉS & À LIRE --- */}
+              <div className="mt-12 mb-8">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
-                      {/* --- ACTUALITÉ STATUTAIRE CIG --- */}
-                      <div className="flex flex-col md:flex-row gap-6 mb-8 border-b border-slate-200/80 pb-8 group/card">
-                        <div className="relative w-full md:w-64 h-40 overflow-hidden rounded-xl shrink-0 border border-slate-200 bg-slate-100/50">
-                          <img src="https://www.cig929394.fr/wp-content/uploads/2026/06/Emplois-superieurs-480x252.jpg" alt="Réforme encadrement" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
-                          <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur text-red-300 border border-red-500/30">
-                            Statutaire
-                          </span>
-                        </div>
-                        <div className="flex flex-col justify-between">
-                          <div>
-                            <h4 className="text-xl font-bold text-slate-800 dark:text-white mt-1 hover:text-blue-600 transition-colors leading-snug mb-3">
-                              <a href="https://www.cig929394.fr/actualites/" target="_blank" rel="noopener noreferrer">
-                                Actualités Statutaires du CIG
-                              </a>
-                            </h4>
-                            <p className="text-base text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
-                              Retrouvez toutes les dernières actualités statutaires et réformes de la fonction publique territoriale sur le site du CIG Petite Couronne.
-                            </p>
-                          </div>
-                          <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
-                            <span className="font-medium">CIG Petite Couronne</span>
-                            <a href="https://www.cig929394.fr/actualites/" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1">
-                              Toutes les actus CIG
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* --- ACTUALITÉS CFDT INTERCO --- */}
-                      <h4 className="text-xl font-bold text-slate-800 mb-4 mt-2 flex items-center gap-2">
-                        <Rss className="w-5 h-5 text-blue-500" />
-                        En direct de la CFDT Interco
-                      </h4>
-
-                      {intercoLoading ? (
-                        <div className="flex gap-4 overflow-hidden">
-                          {[...Array(3)].map((_, i) => (
-                            <div key={i} className="flex-none w-64 h-44 bg-slate-800/50 rounded-2xl animate-pulse border border-slate-700/40" />
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="relative group/carousel">
-                          <button
-                            onClick={() => {
-                              if (intercoCarouselRef.current) {
-                                intercoCarouselRef.current.scrollBy({ left: -280, behavior: 'smooth' })
-                              }
-                            }}
-                            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-9 h-9 rounded-full bg-white/90 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-0 group-hover/carousel:opacity-100 hover:bg-slate-50 transition-all duration-150"
-                          >
-                            <ChevronLeft className="w-5 h-5" />
-                          </button>
-
-                          <button
-                            onClick={() => {
-                              if (intercoCarouselRef.current) {
-                                intercoCarouselRef.current.scrollBy({ left: 280, behavior: 'smooth' })
-                              }
-                            }}
-                            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-9 h-9 rounded-full bg-white/90 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-0 group-hover/carousel:opacity-100 hover:bg-slate-50 transition-all duration-150"
-                          >
-                            <ChevronRight className="w-5 h-5" />
-                          </button>
-
-                          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white/80 to-transparent z-[1] pointer-events-none rounded-l-2xl" />
-                          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white/80 to-transparent z-[1] pointer-events-none rounded-r-2xl" />
-
-                          <div
-                            ref={intercoCarouselRef}
-                            className="flex gap-4 overflow-x-auto pb-2 scroll-smooth interco-carousel-track"
-                            style={{ scrollbarWidth: 'none' }}
-                          >
-                            {intercoNews.map((article, i) => {
-                              const date = article.pubDate ? new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }) : ''
-                              return (
-                                <a
-                                  key={i}
-                                  href={article.link}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="group/card flex-none w-64 flex flex-col bg-white/80 border border-blue-200/60 rounded-2xl overflow-hidden hover:border-blue-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-150 glass-card shadow-sm"
-                                >
-                                  <div className="relative w-full h-32 overflow-hidden bg-slate-100/50 flex-shrink-0 border-b border-slate-100">
-                                    <img
-                                      src={article.imageUrl || `${BASE_URL}logo-cfdt.jpg`}
-                                      alt={article.title}
-                                      className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300"
-                                      onError={(e) => {
-                                        const target = e.target as HTMLImageElement;
-                                        target.onerror = null;
-                                        target.src = `${BASE_URL}logo-cfdt.jpg`;
-                                      }}
-                                    />
-                                    {article.category && (
-                                      <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/90 backdrop-blur text-blue-600 border border-blue-200/50 shadow-sm">
-                                        {article.category}
-                                      </span>
-                                    )}
-                                  </div>
-
-                                  <div className="p-4 flex flex-col justify-between flex-grow">
-                                    <p className="text-slate-700 font-medium text-sm leading-snug group-hover/card:text-blue-600 transition-colors duration-150 line-clamp-3">
-                                      {article.title}
-                                    </p>
-                                    <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
-                                      <span className="text-xs text-slate-500 font-medium">{date}</span>
-                                      <span className="text-xs text-blue-500 font-semibold flex items-center gap-1 opacity-0 group-hover/card:opacity-100 transition-opacity duration-150">
-                                        Lire <ArrowRight className="w-3 h-3" />
-                                      </span>
-                                    </div>
-                                  </div>
-                                </a>
-                              )
-                            })}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Colonne Droite : À Lire (Journal) */}
-                    <div className="lg:col-span-1 bg-gradient-to-br from-white/90 via-indigo-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-indigo-200 shadow-xl shadow-indigo-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-indigo-300 relative z-10 flex flex-col h-full">
-                      <div className="flex items-center gap-3 mb-6">
-                        <div className="p-2.5 bg-indigo-100/50 rounded-xl border border-indigo-200 shadow-sm flex items-center justify-center">
-                          <BookOpen className="w-6 h-6 text-indigo-500" />
+                  {/* Colonne Gauche : Actualités */}
+                  <div className="lg:col-span-3 bg-gradient-to-br from-white/90 via-blue-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-blue-200 shadow-xl shadow-blue-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-blue-300 relative z-10">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-8 justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2.5 bg-blue-100/50 rounded-xl border border-blue-200 shadow-sm">
+                          <Newspaper className="w-6 h-6 text-blue-500" />
                         </div>
                         <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
+                          Actualités
+                          <span className="relative inline-block ml-2 z-10">
+                            <span className="relative z-20 text-slate-800 font-black tracking-tight">Syndicales & Statutaires</span>
+                            <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-blue-300 via-cyan-200 to-blue-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                          </span>
+                        </h3>
+                      </div>
+                      <a
+                        href="https://www.cig929394.fr/actualites/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ml-auto text-xs text-slate-500 hover:text-blue-600 transition-colors duration-150 underline underline-offset-2 font-medium"
+                      >
+                        Voir toutes les actualités →
+                      </a>
+                    </div>
+
+                    {/* --- ACTUALITÉ STATUTAIRE CIG --- */}
+                    <div className="flex flex-col md:flex-row gap-6 mb-8 border-b border-slate-200/80 pb-8 group/card">
+                      <div className="relative w-full md:w-64 h-40 overflow-hidden rounded-xl shrink-0 border border-slate-200 bg-slate-100/50">
+                        <img src="https://www.cig929394.fr/wp-content/uploads/2026/06/Emplois-superieurs-480x252.jpg" alt="Réforme encadrement" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
+                        <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur text-red-300 border border-red-500/30">
+                          Statutaire
+                        </span>
+                      </div>
+                      <div className="flex flex-col justify-between">
+                        <div>
+                          <h4 className="text-xl font-bold text-slate-800 dark:text-white mt-1 hover:text-blue-600 transition-colors leading-snug mb-3">
+                            <a href="https://www.cig929394.fr/actualites/" target="_blank" rel="noopener noreferrer">
+                              Actualités Statutaires du CIG
+                            </a>
+                          </h4>
+                          <p className="text-base text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
+                            Retrouvez toutes les dernières actualités statutaires et réformes de la fonction publique territoriale sur le site du CIG Petite Couronne.
+                          </p>
+                        </div>
+                        <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
+                          <span className="font-medium">CIG Petite Couronne</span>
+                          <a href="https://www.cig929394.fr/actualites/" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                            Toutes les actus CIG
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* --- ACTUALITÉS CFDT INTERCO --- */}
+                    <h4 className="text-xl font-bold text-slate-800 mb-4 mt-2 flex items-center gap-2">
+                      <Rss className="w-5 h-5 text-blue-500" />
+                      En direct de la CFDT Interco
+                    </h4>
+
+                    {intercoLoading ? (
+                      <div className="flex gap-4 overflow-hidden">
+                        {[...Array(3)].map((_, i) => (
+                          <div key={i} className="flex-none w-64 h-44 bg-slate-800/50 rounded-2xl animate-pulse border border-slate-700/40" />
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="relative group/carousel">
+                        <button
+                          onClick={() => {
+                            if (intercoCarouselRef.current) {
+                              intercoCarouselRef.current.scrollBy({ left: -280, behavior: 'smooth' })
+                            }
+                          }}
+                          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-9 h-9 rounded-full bg-white/90 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-0 group-hover/carousel:opacity-100 hover:bg-slate-50 transition-all duration-150"
+                        >
+                          <ChevronLeft className="w-5 h-5" />
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            if (intercoCarouselRef.current) {
+                              intercoCarouselRef.current.scrollBy({ left: 280, behavior: 'smooth' })
+                            }
+                          }}
+                          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-9 h-9 rounded-full bg-white/90 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-0 group-hover/carousel:opacity-100 hover:bg-slate-50 transition-all duration-150"
+                        >
+                          <ChevronRight className="w-5 h-5" />
+                        </button>
+
+                        <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white/80 to-transparent z-[1] pointer-events-none rounded-l-2xl" />
+                        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white/80 to-transparent z-[1] pointer-events-none rounded-r-2xl" />
+
+                        <div
+                          ref={intercoCarouselRef}
+                          className="flex gap-4 overflow-x-auto pb-2 scroll-smooth interco-carousel-track"
+                          style={{ scrollbarWidth: 'none' }}
+                        >
+                          {intercoNews.map((article, i) => {
+                            const date = article.pubDate ? new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }) : ''
+                            return (
+                              <a
+                                key={i}
+                                href={article.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group/card flex-none w-64 flex flex-col bg-white/80 border border-blue-200/60 rounded-2xl overflow-hidden hover:border-blue-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-150 glass-card shadow-sm"
+                              >
+                                <div className="relative w-full h-32 overflow-hidden bg-slate-100/50 flex-shrink-0 border-b border-slate-100">
+                                  <img
+                                    src={article.imageUrl || `${BASE_URL}logo-cfdt.jpg`}
+                                    alt={article.title}
+                                    className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300"
+                                    onError={(e) => {
+                                      const target = e.target as HTMLImageElement;
+                                      target.onerror = null;
+                                      target.src = `${BASE_URL}logo-cfdt.jpg`;
+                                    }}
+                                  />
+                                  {article.category && (
+                                    <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/90 backdrop-blur text-blue-600 border border-blue-200/50 shadow-sm">
+                                      {article.category}
+                                    </span>
+                                  )}
+                                </div>
+
+                                <div className="p-4 flex flex-col justify-between flex-grow">
+                                  <p className="text-slate-700 font-medium text-sm leading-snug group-hover/card:text-blue-600 transition-colors duration-150 line-clamp-3">
+                                    {article.title}
+                                  </p>
+                                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
+                                    <span className="text-xs text-slate-500 font-medium">{date}</span>
+                                    <span className="text-xs text-blue-500 font-semibold flex items-center gap-1 opacity-0 group-hover/card:opacity-100 transition-opacity duration-150">
+                                      Lire <ArrowRight className="w-3 h-3" />
+                                    </span>
+                                  </div>
+                                </div>
+                              </a>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Colonne Droite : À Lire (Journal) */}
+                  <div className="lg:col-span-1 bg-gradient-to-br from-white/90 via-indigo-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-indigo-200 shadow-xl shadow-indigo-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-indigo-300 relative z-10 flex flex-col h-full">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="p-2.5 bg-indigo-100/50 rounded-xl border border-indigo-200 shadow-sm flex items-center justify-center">
+                        <BookOpen className="w-6 h-6 text-indigo-500" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
                         <span className="relative inline-block z-10">
                           <span className="relative z-20 text-slate-800 font-black tracking-tight">À lire</span>
                           <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-indigo-300 via-purple-200 to-indigo-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
                         </span>
                       </h3>
+                    </div>
+
+                    <div className="group overflow-hidden rounded-xl shadow-md relative flex-grow bg-slate-50 flex flex-col border border-slate-100">
+                      <a
+                        href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/journal-gennevilliers-printemps-2026.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex flex-col h-full"
+                      >
+                        <div className="absolute inset-0 bg-blue-100/10 group-hover:bg-transparent transition-colors duration-300 z-10 pointer-events-none rounded-xl"></div>
+                        <img
+                          src={`${BASE_URL}journal-2026.png`}
+                          alt="Journal CFDT"
+                          className="w-full flex-grow min-h-[16rem] object-contain transform group-hover:scale-105 transition-transform duration-500 rounded-t-xl bg-slate-100"
+                        />
+                        <div className="p-4 flex flex-col shrink-0 bg-white">
+                          <div>
+                            <h4 className="text-slate-800 text-base font-bold mb-1">Le Journal CFDT</h4>
+                            <p className="text-slate-600 text-xs leading-relaxed line-clamp-2">
+                              Découvrez la dernière édition de notre journal d'information syndicale.
+                            </p>
+                          </div>
+                          <div className="mt-3 flex items-center justify-center gap-2 w-full bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-4 rounded-lg transition-colors duration-150 text-sm">
+                            Télécharger PDF <ArrowRight className="w-4 h-4" />
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* --- NOUVELLE SECTION : DOCUMENTS DE RÉFÉRENCE & LIENS UTILES --- */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 w-full mt-8 mb-12">
+
+                {/* Colonne 1 : À connaître (Docs de référence) */}
+                <div className="w-full h-full bg-gradient-to-br from-white/90 via-rose-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-rose-200 shadow-xl shadow-rose-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-rose-300 relative z-10 flex flex-col justify-start group">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2.5 bg-rose-100/50 rounded-xl border border-rose-200 shadow-sm flex items-center justify-center">
+                      <FileText className="w-6 h-6 text-rose-500" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
+                      <span className="relative inline-block z-10">
+                        <span className="relative z-20 text-slate-800 font-black tracking-tight">À connaître</span>
+                        <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-rose-300 via-pink-200 to-rose-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                      </span>
+                    </h3>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    {/* Document 1 */}
+                    <a
+                      href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail_conges_absences/reglement_temps_de_travail/reglement_du_temps_du_travail.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-2xl transition-all"
+                    >
+                      <div className="w-[30%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
+                        <img src="/images/temps_travail.png" alt="Temps de travail" className="w-full h-full object-cover" />
                       </div>
-                      
-                      <div className="group overflow-hidden rounded-xl shadow-md relative flex-grow bg-slate-50 flex flex-col border border-slate-100">
-                        <a 
-                          href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/journal-gennevilliers-printemps-2026.pdf"
+                      <div className="flex-1 flex flex-col justify-center py-1">
+                        <span className="font-bold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-orange-500 transition-colors mb-1">
+                          Temps de travail
+                        </span>
+                        <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
+                          Règlement complet sur le temps de travail, congés et absences.
+                        </span>
+                      </div>
+                    </a>
+
+                    {/* Document 2 */}
+                    <a
+                      href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/formation/reglement_interieur_de_formation_juin_2025.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-2xl transition-all"
+                    >
+                      <div className="w-[30%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
+                        <img src="/images/formation.png" alt="Formation" className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-1 flex flex-col justify-center py-1">
+                        <span className="font-bold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-teal-600 transition-colors mb-1">
+                          Formation
+                        </span>
+                        <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
+                          Règlement intérieur de formation (Mise à jour Juin 2025).
+                        </span>
+                      </div>
+                    </a>
+
+                    {/* Document 3 */}
+                    <a
+                      href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/teletravail/circulaire_evolution_du_teletravail_juin_2023.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-2xl transition-all"
+                    >
+                      <div className="w-[30%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
+                        <img src="/images/teletravail.png" alt="Télétravail" className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-1 flex flex-col justify-center py-1">
+                        <span className="font-bold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-blue-600 transition-colors mb-1">
+                          Télétravail
+                        </span>
+                        <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
+                          Circulaire et charte d'évolution du télétravail.
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Colonne 3 : À voir (Youtube) */}
+                {/* Commentaire ajouté : section contenant des vidéos utiles */}
+                <div className="w-full h-full bg-gradient-to-br from-white/90 via-amber-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-amber-200 shadow-xl shadow-amber-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-amber-300 relative z-10 flex flex-col justify-start group">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2.5 bg-amber-100/50 rounded-xl border border-amber-200 shadow-sm flex items-center justify-center">
+                      <PlayCircle className="w-6 h-6 text-amber-500" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
+                      <span className="relative inline-block z-10">
+                        <span className="relative z-20 text-slate-800 font-black tracking-tight">À voir</span>
+                        <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                      </span>
+                    </h3>
+                  </div>
+
+                  <div className="flex-1 flex flex-col justify-center">
+                    <a
+                      href="https://www.youtube.com/results?search_query=fonction+publique+territoriale"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group relative block w-full rounded-2xl overflow-hidden shadow-lg transition-transform hover:scale-[1.02] bg-slate-900"
+                    >
+                      {/* Background Image / Thumbnail Base (Generic geometric pattern for modern look) */}
+                      <div className="w-full aspect-video bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative">
+                        {/* Decoration */}
+                        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_50%_50%,_rgba(255,255,255,0.2)_0%,_transparent_60%)]"></div>
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-pulse"></div>
+                        <div className="absolute bottom-0 left-0 w-32 h-32 bg-indigo-500 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-pulse" style={{ animationDelay: '1s' }}></div>
+
+                        {/* Main Overlay Text */}
+                        <div className="z-10 flex flex-col items-center justify-center text-center p-4">
+                          <div className="bg-red-600 rounded-full p-3 mb-2 shadow-lg shadow-red-600/50 group-hover:scale-110 transition-transform group-hover:bg-red-500">
+                            <PlayCircle className="w-8 h-8 text-white" strokeWidth={1.5} />
+                          </div>
+                          <span className="text-white font-black text-lg md:text-xl tracking-tight leading-tight">
+                            Vidéos sur la<br /><span className="text-blue-400">Fonction Publique</span>
+                          </span>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Colonne 2 : Liens utiles & FAQ */}
+                <div className="w-full h-full bg-gradient-to-br from-white/90 via-cyan-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-cyan-200 shadow-xl shadow-cyan-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-cyan-300 relative z-10 flex flex-col justify-start group">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2.5 bg-cyan-100/50 rounded-xl border border-cyan-200 shadow-sm flex items-center justify-center">
+                      <Link2 className="w-6 h-6 text-cyan-500" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
+                      <span className="relative inline-block z-10">
+                        <span className="relative z-20 text-slate-800 font-black tracking-tight">Liens Utiles</span>
+                        <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-cyan-300 via-sky-200 to-cyan-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                      </span>
+                    </h3>
+                  </div>
+
+                  <div className="flex flex-col gap-2 flex-1">
+                    {usefulLinks.map(({ label, href, imageSrc }, idx) => {
+                      // Couleurs alternées pour les liens utiles
+                      const colors = [
+                        { bg: "bg-indigo-100 dark:bg-indigo-900/30", border: "border-indigo-200 dark:border-indigo-800/50", text: "text-indigo-600", decoration: "decoration-indigo-500" },
+                        { bg: "bg-violet-100 dark:bg-violet-900/30", border: "border-violet-200 dark:border-violet-800/50", text: "text-violet-600", decoration: "decoration-violet-500" },
+                        { bg: "bg-fuchsia-100 dark:bg-fuchsia-900/30", border: "border-fuchsia-200 dark:border-fuchsia-800/50", text: "text-fuchsia-600", decoration: "decoration-fuchsia-500" },
+                        { bg: "bg-pink-100 dark:bg-pink-900/30", border: "border-pink-200 dark:border-pink-800/50", text: "text-pink-600", decoration: "decoration-pink-500" },
+                      ]
+                      const color = colors[idx % colors.length];
+
+                      return (
+                        <a
+                          key={label}
+                          href={href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex flex-col h-full"
+                          className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-2xl transition-all"
                         >
-                          <div className="absolute inset-0 bg-blue-100/10 group-hover:bg-transparent transition-colors duration-300 z-10 pointer-events-none rounded-xl"></div>
-                          <img 
-                            src={`${BASE_URL}journal-2026.png`} 
-                            alt="Journal CFDT" 
-                            className="w-full flex-grow min-h-[16rem] object-contain transform group-hover:scale-105 transition-transform duration-500 rounded-t-xl bg-slate-100" 
-                          />
-                          <div className="p-4 flex flex-col shrink-0 bg-white">
-                            <div>
-                              <h4 className="text-slate-800 text-base font-bold mb-1">Le Journal CFDT</h4>
-                              <p className="text-slate-600 text-xs leading-relaxed line-clamp-2">
-                                Découvrez la dernière édition de notre journal d'information syndicale.
-                              </p>
-                            </div>
-                            <div className="mt-3 flex items-center justify-center gap-2 w-full bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-4 rounded-lg transition-colors duration-150 text-sm">
-                              Télécharger PDF <ArrowRight className="w-4 h-4" />
-                            </div>
+                          <div className={`w-[25%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border ${color.border} group-hover:scale-[1.02] transition-transform`}>
+                            <img src={imageSrc} alt={label} className="w-full h-full object-cover" />
+                          </div>
+                          <div className="flex-1 flex flex-col justify-center py-1">
+                            <span className={`font-bold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:underline decoration-2 underline-offset-4 ${color.decoration}`}>
+                              {label}
+                            </span>
                           </div>
                         </a>
-                      </div>
-                    </div>
+                      )
+                    })}
                   </div>
+
+                  {/* Le bouton FAQ a été déplacé dans les accès rapides */}
                 </div>
 
-                {/* --- NOUVELLE SECTION : DOCUMENTS DE RÉFÉRENCE & LIENS UTILES --- */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 w-full mt-8 mb-12">
-                  
-                  {/* Colonne 1 : À connaître (Docs de référence) */}
-                  <div className="w-full h-full bg-gradient-to-br from-white/90 via-rose-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-rose-200 shadow-xl shadow-rose-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-rose-300 relative z-10 flex flex-col justify-start group">
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="p-2.5 bg-rose-100/50 rounded-xl border border-rose-200 shadow-sm flex items-center justify-center">
-                        <FileText className="w-6 h-6 text-rose-500" />
-                      </div>
-                      <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
-                        <span className="relative inline-block z-10">
-                          <span className="relative z-20 text-slate-800 font-black tracking-tight">À connaître</span>
-                          <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-rose-300 via-pink-200 to-rose-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-                        </span>
-                      </h3>
-                    </div>
 
-                    <div className="flex flex-col gap-2">
-                      {/* Document 1 */}
-                      <a 
-                        href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail_conges_absences/reglement_temps_de_travail/reglement_du_temps_du_travail.pdf" 
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-2xl transition-all"
-                      >
-                        <div className="w-[30%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
-                          <img src="/images/temps_travail.png" alt="Temps de travail" className="w-full h-full object-cover" />
-                        </div>
-                        <div className="flex-1 flex flex-col justify-center py-1">
-                          <span className="font-bold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-orange-500 transition-colors mb-1">
-                            Temps de travail
-                          </span>
-                          <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
-                            Règlement complet sur le temps de travail, congés et absences.
-                          </span>
-                        </div>
-                      </a>
+              </div>
 
-                      {/* Document 2 */}
-                      <a 
-                        href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/formation/reglement_interieur_de_formation_juin_2025.pdf" 
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-2xl transition-all"
-                      >
-                        <div className="w-[30%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
-                          <img src="/images/formation.png" alt="Formation" className="w-full h-full object-cover" />
-                        </div>
-                        <div className="flex-1 flex flex-col justify-center py-1">
-                          <span className="font-bold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-teal-600 transition-colors mb-1">
-                            Formation
-                          </span>
-                          <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
-                            Règlement intérieur de formation (Mise à jour Juin 2025).
-                          </span>
-                        </div>
-                      </a>
-
-                      {/* Document 3 */}
-                      <a 
-                        href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/teletravail/circulaire_evolution_du_teletravail_juin_2023.pdf" 
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-2xl transition-all"
-                      >
-                        <div className="w-[30%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
-                          <img src="/images/teletravail.png" alt="Télétravail" className="w-full h-full object-cover" />
-                        </div>
-                        <div className="flex-1 flex flex-col justify-center py-1">
-                          <span className="font-bold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-blue-600 transition-colors mb-1">
-                            Télétravail
-                          </span>
-                          <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
-                            Circulaire et charte d'évolution du télétravail.
-                          </span>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Colonne 3 : À voir (Youtube) */}
-                  {/* Commentaire ajouté : section contenant des vidéos utiles */}
-                  <div className="w-full h-full bg-gradient-to-br from-white/90 via-amber-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-amber-200 shadow-xl shadow-amber-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-amber-300 relative z-10 flex flex-col justify-start group">
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="p-2.5 bg-amber-100/50 rounded-xl border border-amber-200 shadow-sm flex items-center justify-center">
-                        <PlayCircle className="w-6 h-6 text-amber-500" />
-                      </div>
-                      <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
-                        <span className="relative inline-block z-10">
-                          <span className="relative z-20 text-slate-800 font-black tracking-tight">À voir</span>
-                          <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-                        </span>
-                      </h3>
-                    </div>
-
-                    <div className="flex-1 flex flex-col justify-center">
-                      <a 
-                        href="https://www.youtube.com/results?search_query=fonction+publique+territoriale" 
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group relative block w-full rounded-2xl overflow-hidden shadow-lg transition-transform hover:scale-[1.02] bg-slate-900"
-                      >
-                        {/* Background Image / Thumbnail Base (Generic geometric pattern for modern look) */}
-                        <div className="w-full aspect-video bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative">
-                           {/* Decoration */}
-                           <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_50%_50%,_rgba(255,255,255,0.2)_0%,_transparent_60%)]"></div>
-                           <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-pulse"></div>
-                           <div className="absolute bottom-0 left-0 w-32 h-32 bg-indigo-500 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-pulse" style={{ animationDelay: '1s' }}></div>
-                           
-                           {/* Main Overlay Text */}
-                           <div className="z-10 flex flex-col items-center justify-center text-center p-4">
-                             <div className="bg-red-600 rounded-full p-3 mb-2 shadow-lg shadow-red-600/50 group-hover:scale-110 transition-transform group-hover:bg-red-500">
-                               <PlayCircle className="w-8 h-8 text-white" strokeWidth={1.5} />
-                             </div>
-                             <span className="text-white font-black text-lg md:text-xl tracking-tight leading-tight">
-                               Vidéos sur la<br/><span className="text-blue-400">Fonction Publique</span>
-                             </span>
-                           </div>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Colonne 2 : Liens utiles & FAQ */}
-                  <div className="w-full h-full bg-gradient-to-br from-white/90 via-cyan-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-cyan-200 shadow-xl shadow-cyan-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-cyan-300 relative z-10 flex flex-col justify-start group">
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="p-2.5 bg-cyan-100/50 rounded-xl border border-cyan-200 shadow-sm flex items-center justify-center">
-                        <Link2 className="w-6 h-6 text-cyan-500" />
-                      </div>
-                      <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
-                        <span className="relative inline-block z-10">
-                          <span className="relative z-20 text-slate-800 font-black tracking-tight">Liens Utiles</span>
-                          <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-cyan-300 via-sky-200 to-cyan-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-                        </span>
-                      </h3>
-                    </div>
-
-                    <div className="flex flex-col gap-2 flex-1">
-                      {usefulLinks.map(({ label, href, imageSrc }, idx) => {
-                        // Couleurs alternées pour les liens utiles
-                        const colors = [
-                          { bg: "bg-indigo-100 dark:bg-indigo-900/30", border: "border-indigo-200 dark:border-indigo-800/50", text: "text-indigo-600", decoration: "decoration-indigo-500" },
-                          { bg: "bg-violet-100 dark:bg-violet-900/30", border: "border-violet-200 dark:border-violet-800/50", text: "text-violet-600", decoration: "decoration-violet-500" },
-                          { bg: "bg-fuchsia-100 dark:bg-fuchsia-900/30", border: "border-fuchsia-200 dark:border-fuchsia-800/50", text: "text-fuchsia-600", decoration: "decoration-fuchsia-500" },
-                          { bg: "bg-pink-100 dark:bg-pink-900/30", border: "border-pink-200 dark:border-pink-800/50", text: "text-pink-600", decoration: "decoration-pink-500" },
-                        ]
-                        const color = colors[idx % colors.length];
-
-                        return (
-                          <a 
-                            key={label}
-                            href={href} 
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-2xl transition-all"
-                          >
-                            <div className={`w-[25%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border ${color.border} group-hover:scale-[1.02] transition-transform`}>
-                              <img src={imageSrc} alt={label} className="w-full h-full object-cover" />
-                            </div>
-                            <div className="flex-1 flex flex-col justify-center py-1">
-                              <span className={`font-bold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:underline decoration-2 underline-offset-4 ${color.decoration}`}>
-                                {label}
-                              </span>
-                            </div>
-                          </a>
-                        )
-                      })}
-                    </div>
-
-                    {/* Le bouton FAQ a été déplacé dans les accès rapides */}
-                  </div>
-
-
-                </div>
-
-                {/* --- CAROUSEL FONCTION PUBLIQUE (DÉPLACÉ EN DESSOUS DES 3 FENÊTRES) --- */}
-                <div className="w-full bg-gradient-to-br from-white/90 via-emerald-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-emerald-200 shadow-xl shadow-emerald-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-emerald-300 relative z-10 mb-8">
+              {/* --- CAROUSEL FONCTION PUBLIQUE (DÉPLACÉ EN DESSOUS DES 3 FENÊTRES) --- */}
+              <div className="w-full bg-gradient-to-br from-white/90 via-emerald-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-emerald-200 shadow-xl shadow-emerald-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-emerald-300 relative z-10 mb-8">
                 {/* --- CAROUSEL FONCTION PUBLIQUE --- */}
                 <div className="flex items-center gap-3 mb-6">
                   <div className="p-2.5 bg-emerald-100/50 rounded-xl border border-emerald-200 shadow-sm flex items-center justify-center">
@@ -1855,50 +1855,50 @@ ${indicesFactuels}
                 )}
 
 
-                </div>
-
-                {/* --- ACTUALITÉ JURIDIQUE CIG VERSAILLES (DÉPLACÉE EN DESSOUS DES 3 FENÊTRES) --- */}
-                <div className="w-full bg-gradient-to-br from-white/90 via-purple-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-purple-200 shadow-xl shadow-purple-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-purple-300 relative z-10 mb-12">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2.5 bg-purple-100/50 rounded-xl border border-purple-200 shadow-sm flex items-center justify-center">
-                      <Scale className="w-6 h-6 text-purple-500" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
-                        <span className="relative inline-block z-10">
-                          <span className="relative z-20 text-slate-800 font-black tracking-tight">Veille Juridique</span>
-                          <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-purple-300 via-fuchsia-200 to-purple-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-                        </span>
-                      </h3>
-                  </div>
-                  <div className="flex flex-col md:flex-row gap-6 group/card">
-                    <div className="relative w-full md:w-64 h-40 overflow-hidden rounded-xl shrink-0 border border-slate-200 bg-slate-100/50">
-                      <img src="/images/legal_news_illustration.png" alt="Veille Juridique" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
-                      <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur text-purple-300 border border-purple-500/30">
-                        Juridique
-                      </span>
-                    </div>
-                    <div className="flex flex-col justify-between flex-1">
-                      <div>
-                        <h4 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-1 hover:text-blue-600 transition-colors leading-snug">
-                          <a href="https://www.cigversailles.fr/actualites-juridiques" target="_blank" rel="noopener noreferrer">
-                            Veille Juridique & Statutaire (« Vu cette semaine »)
-                          </a>
-                        </h4>
-                        <p className="text-sm text-slate-600 dark:text-slate-400 font-medium mt-3 leading-relaxed">
-                          Découvrez chaque semaine une synthèse des derniers textes parus au Journal Officiel et de la jurisprudence pertinente pour la fonction publique territoriale sur le site du CIG Grande Couronne.
-                        </p>
-                      </div>
-                      <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
-                        <span className="font-medium bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full">CIG Grande Couronne</span>
-                        <a href="https://www.cigversailles.fr/actualites-juridiques" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 flex items-center gap-1 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full transition-colors">
-                          Toutes les actus juridiques →
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
               </div>
+
+              {/* --- ACTUALITÉ JURIDIQUE CIG VERSAILLES (DÉPLACÉE EN DESSOUS DES 3 FENÊTRES) --- */}
+              <div className="w-full bg-gradient-to-br from-white/90 via-purple-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-purple-200 shadow-xl shadow-purple-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-purple-300 relative z-10 mb-12">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2.5 bg-purple-100/50 rounded-xl border border-purple-200 shadow-sm flex items-center justify-center">
+                    <Scale className="w-6 h-6 text-purple-500" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
+                    <span className="relative inline-block z-10">
+                      <span className="relative z-20 text-slate-800 font-black tracking-tight">Veille Juridique</span>
+                      <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-purple-300 via-fuchsia-200 to-purple-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                    </span>
+                  </h3>
+                </div>
+                <div className="flex flex-col md:flex-row gap-6 group/card">
+                  <div className="relative w-full md:w-64 h-40 overflow-hidden rounded-xl shrink-0 border border-slate-200 bg-slate-100/50">
+                    <img src="/images/legal_news_illustration.png" alt="Veille Juridique" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
+                    <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur text-purple-300 border border-purple-500/30">
+                      Juridique
+                    </span>
+                  </div>
+                  <div className="flex flex-col justify-between flex-1">
+                    <div>
+                      <h4 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-1 hover:text-blue-600 transition-colors leading-snug">
+                        <a href="https://www.cigversailles.fr/actualites-juridiques" target="_blank" rel="noopener noreferrer">
+                          Veille Juridique & Statutaire (« Vu cette semaine »)
+                        </a>
+                      </h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 font-medium mt-3 leading-relaxed">
+                        Découvrez chaque semaine une synthèse des derniers textes parus au Journal Officiel et de la jurisprudence pertinente pour la fonction publique territoriale sur le site du CIG Grande Couronne.
+                      </p>
+                    </div>
+                    <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
+                      <span className="font-medium bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full">CIG Grande Couronne</span>
+                      <a href="https://www.cigversailles.fr/actualites-juridiques" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 flex items-center gap-1 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full transition-colors">
+                        Toutes les actus juridiques →
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </>
         )}
       </main>
@@ -1927,10 +1927,10 @@ ${indicesFactuels}
       {/* --- SECTION ACTUALITES --- */}
       {chatState.currentView === 'actualites' && (
         <Suspense fallback={<ViewLoader />}>
-          <Actualites 
-            news={intercoNews} 
-            onClose={() => setChatState({ ...chatState, currentView: 'menu' })} 
-            baseUrl={BASE_URL} 
+          <Actualites
+            news={intercoNews}
+            onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
+            baseUrl={BASE_URL}
           />
         </Suspense>
       )}
