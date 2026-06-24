@@ -17,6 +17,7 @@ const FAQ = lazy(() => import("./components/FAQ.tsx"))
 const LandingPage = lazy(() => import("./components/LandingPage.tsx"))
 const EspaceJeux = lazy(() => import("./components/EspaceJeux.tsx"))
 const Actualites = lazy(() => import("./components/Actualites.tsx"))
+const VeilleJuridique = lazy(() => import("./components/VeilleJuridique.tsx"))
 
 // --- CONFIGURATION BASE URL POUR GITHUB PAGES ---
 const BASE_URL = import.meta.env.BASE_URL
@@ -159,7 +160,7 @@ interface InfoItem {
   content: string
 }
 interface ChatbotState {
-  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites"
+  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille"
   selectedDomain: number | null
   messages: ChatMessage[]
   isProcessing: boolean
@@ -1913,7 +1914,10 @@ ${indicesFactuels}
               </div>
 
               {/* --- ACTUALITÉ JURIDIQUE CIG VERSAILLES (DÉPLACÉE EN DESSOUS DES 3 FENÊTRES) --- */}
-              <div className="w-full bg-gradient-to-br from-white/90 via-purple-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-purple-200 shadow-xl shadow-purple-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-purple-300 relative z-10 mb-12">
+              <div 
+                onClick={() => setChatState({ ...chatState, currentView: 'veille' })}
+                className="w-full bg-gradient-to-br from-white/90 via-purple-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-purple-200 shadow-xl shadow-purple-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-purple-300 relative z-10 mb-12 cursor-pointer"
+              >
                 <div className="flex items-center gap-3 mb-6">
                   <div className="p-2.5 bg-purple-100/50 rounded-xl border border-purple-200 shadow-sm flex items-center justify-center">
                     <Scale className="w-6 h-6 text-purple-500" />
@@ -1934,20 +1938,31 @@ ${indicesFactuels}
                   </div>
                   <div className="flex flex-col justify-between flex-1">
                     <div>
-                      <h4 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-1 hover:text-blue-600 transition-colors leading-snug">
-                        <a href="https://www.cigversailles.fr/actualites-juridiques" target="_blank" rel="noopener noreferrer">
-                          Veille Juridique & Statutaire (« Vu cette semaine »)
-                        </a>
+                      <h4 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-1 hover:text-purple-600 transition-colors leading-snug">
+                        Veille Juridique & Statutaire (« Vu cette semaine »)
                       </h4>
                       <p className="text-sm text-slate-600 dark:text-slate-400 font-medium mt-3 leading-relaxed">
-                        Découvrez chaque semaine une synthèse des derniers textes parus au Journal Officiel et de la jurisprudence pertinente pour la fonction publique territoriale sur le site du CIG Grande Couronne.
+                        Découvrez notre veille juridique interactive. Explorez les dernières décisions marquantes des tribunaux administratifs et du Conseil d'État expliquées simplement, ou testez vos connaissances dans notre nouveau Mode Défi Quiz !
                       </p>
                     </div>
                     <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
-                      <span className="font-medium bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full">CIG Grande Couronne</span>
-                      <a href="https://www.cigversailles.fr/actualites-juridiques" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 flex items-center gap-1 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full transition-colors">
-                        Toutes les actus juridiques →
-                      </a>
+                      <span className="font-medium bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full">Veille CFDT Interactive</span>
+                      <div className="flex items-center gap-3">
+                        <a 
+                          href="https://www.cigversailles.fr/actualites-juridiques" 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          onClick={(e) => e.stopPropagation()}
+                          className="font-semibold text-slate-500 hover:text-slate-700 hover:underline"
+                        >
+                          Source CIG →
+                        </a>
+                        <span 
+                          className="font-semibold text-purple-600 dark:text-purple-400 hover:text-purple-750 flex items-center gap-1 bg-purple-50 dark:bg-purple-900/30 px-3 py-1 rounded-full transition-colors font-bold"
+                        >
+                          Accéder à la veille interactive →
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1987,6 +2002,13 @@ ${indicesFactuels}
             onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
             baseUrl={BASE_URL}
           />
+        </Suspense>
+      )}
+
+      {/* --- SECTION VEILLE JURIDIQUE --- */}
+      {chatState.currentView === 'veille' && (
+        <Suspense fallback={<ViewLoader />}>
+          <VeilleJuridique onClose={() => setChatState({ ...chatState, currentView: 'menu' })} />
         </Suspense>
       )}
 
