@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo, lazy, Suspense } from "react"
-import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye, ArrowDownRight, Users, MessageCircleQuestion, HeartHandshake, Briefcase, Shield, CircleUser, ExternalLink as ExternalLinkIcon, PlayCircle } from "lucide-react"
+import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye, ArrowDownRight, Users, MessageCircleQuestion, HeartHandshake, Briefcase, Shield, CircleUser, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles } from "lucide-react"
+import { AnimatePresence, motion } from "framer-motion"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { searchFAQ } from "./data/FAQdata.ts"
@@ -8,6 +9,12 @@ import { franceInfoRss } from "./data/rss-data.ts"
 import AdminPanel from "./components/AdminPanel.tsx"
 import AdminLogin from "./components/AdminLogin.tsx"
 import { incrementWeeklyStat } from "./lib/adminStats.ts"
+import { SparklesCore } from "./components/ui/Sparkles.tsx"
+import { HoverEffect } from "./components/ui/CardHoverEffect.tsx"
+import { BackgroundGradient } from "./components/ui/BackgroundGradient.tsx"
+import { BorderBeam } from "./components/ui/BorderBeam.tsx"
+import { Toaster, toast } from "sonner"
+import Tilt from "react-parallax-tilt"
 
 const CalculateurCIAV2 = lazy(() => import("./components/CalculateurCIAV2.tsx"))
 const CalculateurPrimesV2 = lazy(() => import("./components/CalculateurPrimesV2.tsx"))
@@ -178,6 +185,7 @@ function App() {
     isProcessing: false,
   })
   const [inputValue, setInputValue] = useState("")
+  const [hoveredQuickAccessIndex, setHoveredQuickAccessIndex] = useState<number | null>(null)
 
   // --- THEME STATE ---
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -193,6 +201,16 @@ function App() {
     }
     localStorage.setItem('theme', theme)
   }, [theme])
+
+  // --- WELCOME TOAST EFFECT ---
+  useEffect(() => {
+    if (!showLanding) {
+      toast.success("Bienvenue sur ATLAS !", {
+        description: "Votre assistant statutaire et calculateur de primes.",
+        duration: 4000,
+      })
+    }
+  }, [showLanding])
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light')
@@ -1231,6 +1249,7 @@ ${indicesFactuels}
         background: theme === 'dark' ? undefined : 'linear-gradient(135deg, #fdfbf7 0%, #fff7ed 40%, #ffedd5 80%, #fed7aa 100%)',
       }}
     >
+      <Toaster richColors position="bottom-right" closeButton theme={theme} />
       {/* Dark mode background gradient */}
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-blue-950 to-slate-950 opacity-0 dark:opacity-100 pointer-events-none z-0 transition-opacity duration-300"></div>
 
@@ -1248,6 +1267,18 @@ ${indicesFactuels}
       {/* HEADER PROFESSIONNEL */}
       <header className="relative bg-gradient-to-r from-white/95 via-slate-50/90 to-white/95 dark:from-slate-900/95 dark:via-blue-950/90 dark:to-slate-900/95 shadow-lg dark:shadow-blue-900/20 z-10 bg-cover bg-center glass-banner header-bottom-glow" style={{ backgroundImage: `url('${BASE_URL}mairie.jpeg')`, backgroundBlendMode: 'overlay' }}>
         <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-slate-50/80 to-white/80 dark:from-slate-900/80 dark:via-blue-900/80 dark:to-slate-900/80 z-0 transition-colors duration-300"></div>
+        {/* Particle sparkles effect background */}
+        <div className="absolute inset-0 z-0 opacity-90 pointer-events-none">
+          <SparklesCore
+            id="header-sparkles"
+            background="transparent"
+            minSize={1.2}
+            maxSize={3.0}
+            particleDensity={50}
+            particleColor={theme === 'dark' ? '#ffffff' : '#4f46e5'}
+            speed={0.6}
+          />
+        </div>
         {/* Scan line traversant le header */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
           <div
@@ -1343,47 +1374,187 @@ ${indicesFactuels}
                   </div>
 
                   {/* Links */}
-                  <div className="flex flex-1 justify-around items-center gap-4 overflow-x-auto custom-scrollbar pb-2 lg:pb-0">
-                    <button onClick={() => handleDomainSelection(0)} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group min-w-[120px]">
-                      <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-purple-100 dark:group-hover:bg-purple-900/50 transition-colors">
+                  <div className="flex flex-1 justify-around items-center gap-4 overflow-x-auto custom-scrollbar pb-2 lg:pb-0 relative">
+                    {/* Spotlight Search Button */}
+                    <button
+                      onClick={() => handleDomainSelection(0)}
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group min-w-[120px] p-3 rounded-2xl"
+                      onMouseEnter={() => setHoveredQuickAccessIndex(0)}
+                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
+                    >
+                      <AnimatePresence>
+                        {hoveredQuickAccessIndex === 0 && (
+                          <motion.span
+                            className="absolute inset-0 h-full w-full bg-slate-100 dark:bg-slate-700/60 block rounded-2xl z-0 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
+                            layoutId="quickAccessHover"
+                            initial={{ opacity: 0 }}
+                            animate={{
+                              opacity: 1,
+                              transition: { duration: 0.15 },
+                            }}
+                            exit={{
+                              opacity: 0,
+                              transition: { duration: 0.15, delay: 0.1 },
+                            }}
+                          />
+                        )}
+                      </AnimatePresence>
+                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-purple-100 dark:group-hover:bg-purple-900/50 transition-colors">
                         <Search className="w-16 h-16 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
                       </div>
-                      <span className="text-sm font-bold text-center">J'ai une<br />question</span>
+                      <span className="relative z-10 text-sm font-bold text-center">J'ai une<br />question</span>
                     </button>
 
-                    <button onClick={openMetiersView} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors group min-w-[120px]">
-                      <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/50 transition-colors">
+                    {/* Spotlight Metiers Button */}
+                    <button
+                      onClick={openMetiersView}
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors group min-w-[120px] p-3 rounded-2xl"
+                      onMouseEnter={() => setHoveredQuickAccessIndex(1)}
+                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
+                    >
+                      <AnimatePresence>
+                        {hoveredQuickAccessIndex === 1 && (
+                          <motion.span
+                            className="absolute inset-0 h-full w-full bg-slate-100 dark:bg-slate-700/60 block rounded-2xl z-0 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
+                            layoutId="quickAccessHover"
+                            initial={{ opacity: 0 }}
+                            animate={{
+                              opacity: 1,
+                              transition: { duration: 0.15 },
+                            }}
+                            exit={{
+                              opacity: 0,
+                              transition: { duration: 0.15, delay: 0.1 },
+                            }}
+                          />
+                        )}
+                      </AnimatePresence>
+                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/50 transition-colors">
                         <LayoutGrid className="w-16 h-16 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
                       </div>
-                      <span className="text-sm font-bold text-center">Grilles<br />Indiciaires</span>
+                      <span className="relative z-10 text-sm font-bold text-center">Grilles<br />Indiciaires</span>
                     </button>
 
-                    <button onClick={openCalculatorsLanding} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group min-w-[120px]">
-                      <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
+                    {/* Spotlight Calculators Button */}
+                    <button
+                      onClick={openCalculatorsLanding}
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group min-w-[120px] p-3 rounded-2xl"
+                      onMouseEnter={() => setHoveredQuickAccessIndex(2)}
+                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
+                    >
+                      <AnimatePresence>
+                        {hoveredQuickAccessIndex === 2 && (
+                          <motion.span
+                            className="absolute inset-0 h-full w-full bg-slate-100 dark:bg-slate-700/60 block rounded-2xl z-0 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
+                            layoutId="quickAccessHover"
+                            initial={{ opacity: 0 }}
+                            animate={{
+                              opacity: 1,
+                              transition: { duration: 0.15 },
+                            }}
+                            exit={{
+                              opacity: 0,
+                              transition: { duration: 0.15, delay: 0.1 },
+                            }}
+                          />
+                        )}
+                      </AnimatePresence>
+                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
                         <Calculator className="w-16 h-16 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform" />
                       </div>
-                      <span className="text-sm font-bold text-center">Calculateurs</span>
+                      <span className="relative z-10 text-sm font-bold text-center">Calculateurs</span>
                     </button>
 
-                    <button onClick={() => setChatState({ ...chatState, currentView: 'jeux' })} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-pink-600 dark:hover:text-pink-400 transition-colors group min-w-[120px]">
-                      <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-pink-100 dark:group-hover:bg-pink-900/50 transition-colors">
+                    {/* Spotlight Espace Jeux Button */}
+                    <button
+                      onClick={() => setChatState({ ...chatState, currentView: 'jeux' })}
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-pink-600 dark:hover:text-pink-400 transition-colors group min-w-[120px] p-3 rounded-2xl"
+                      onMouseEnter={() => setHoveredQuickAccessIndex(3)}
+                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
+                    >
+                      <AnimatePresence>
+                        {hoveredQuickAccessIndex === 3 && (
+                          <motion.span
+                            className="absolute inset-0 h-full w-full bg-slate-100 dark:bg-slate-700/60 block rounded-2xl z-0 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
+                            layoutId="quickAccessHover"
+                            initial={{ opacity: 0 }}
+                            animate={{
+                              opacity: 1,
+                              transition: { duration: 0.15 },
+                            }}
+                            exit={{
+                              opacity: 0,
+                              transition: { duration: 0.15, delay: 0.1 },
+                            }}
+                          />
+                        )}
+                      </AnimatePresence>
+                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-pink-100 dark:group-hover:bg-pink-900/50 transition-colors">
                         <Gamepad2 className="w-16 h-16 text-pink-600 dark:text-pink-400 group-hover:scale-110 transition-transform" />
                       </div>
-                      <span className="text-sm font-bold text-center">Espace Jeux</span>
+                      <span className="relative z-10 text-sm font-bold text-center">Espace Jeux</span>
                     </button>
 
-                    <button onClick={() => setChatState({ ...chatState, currentView: 'faq' })} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 transition-colors group min-w-[120px]">
-                      <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-amber-100 dark:group-hover:bg-amber-900/50 transition-colors">
+                    {/* Spotlight FAQ Button */}
+                    <button
+                      onClick={() => setChatState({ ...chatState, currentView: 'faq' })}
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 transition-colors group min-w-[120px] p-3 rounded-2xl"
+                      onMouseEnter={() => setHoveredQuickAccessIndex(4)}
+                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
+                    >
+                      <AnimatePresence>
+                        {hoveredQuickAccessIndex === 4 && (
+                          <motion.span
+                            className="absolute inset-0 h-full w-full bg-slate-100 dark:bg-slate-700/60 block rounded-2xl z-0 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
+                            layoutId="quickAccessHover"
+                            initial={{ opacity: 0 }}
+                            animate={{
+                              opacity: 1,
+                              transition: { duration: 0.15 },
+                            }}
+                            exit={{
+                              opacity: 0,
+                              transition: { duration: 0.15, delay: 0.1 },
+                            }}
+                          />
+                        )}
+                      </AnimatePresence>
+                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-amber-100 dark:group-hover:bg-amber-900/50 transition-colors">
                         <HelpCircle className="w-16 h-16 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform" />
                       </div>
-                      <span className="text-sm font-bold text-center">Questions<br />Fréquentes</span>
+                      <span className="relative z-10 text-sm font-bold text-center">Questions<br />Fréquentes</span>
                     </button>
 
-                    <a href="https://www.emploi-territorial.fr/emploi-mobilite/?search-col=99599" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group min-w-[120px]">
-                      <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-orange-100 dark:group-hover:bg-orange-900/50 transition-colors">
+                    {/* Spotlight Bourse Emploi Anchor Link */}
+                    <a
+                      href="https://www.emploi-territorial.fr/emploi-mobilite/?search-col=99599"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group min-w-[120px] p-3 rounded-2xl"
+                      onMouseEnter={() => setHoveredQuickAccessIndex(5)}
+                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
+                    >
+                      <AnimatePresence>
+                        {hoveredQuickAccessIndex === 5 && (
+                          <motion.span
+                            className="absolute inset-0 h-full w-full bg-slate-100 dark:bg-slate-700/60 block rounded-2xl z-0 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
+                            layoutId="quickAccessHover"
+                            initial={{ opacity: 0 }}
+                            animate={{
+                              opacity: 1,
+                              transition: { duration: 0.15 },
+                            }}
+                            exit={{
+                              opacity: 0,
+                              transition: { duration: 0.15, delay: 0.1 },
+                            }}
+                          />
+                        )}
+                      </AnimatePresence>
+                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-orange-100 dark:group-hover:bg-orange-900/50 transition-colors">
                         <Briefcase className="w-16 h-16 text-orange-600 dark:text-orange-400 group-hover:scale-110 transition-transform" />
                       </div>
-                      <span className="text-sm font-bold text-center">Bourse<br />Emploi</span>
+                      <span className="relative z-10 text-sm font-bold text-center">Bourse<br />Emploi</span>
                     </a>
                   </div>
                 </div>
@@ -1396,7 +1567,19 @@ ${indicesFactuels}
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
                   {/* Colonne Gauche : Actualités */}
-                  <div className="lg:col-span-3 bg-gradient-to-br from-white/90 via-blue-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-blue-200 shadow-xl shadow-blue-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-blue-300 relative z-10">
+                  <div className="lg:col-span-3 h-full">
+                    <Tilt
+                      glareEnable={true}
+                      glareMaxOpacity={0.04}
+                      glareColor={theme === 'dark' ? '#ffffff' : '#3b82f6'}
+                      glarePosition="all"
+                      glareBorderRadius="24px"
+                      tiltMaxAngleX={4}
+                      tiltMaxAngleY={4}
+                      perspective={1000}
+                      className="w-full h-full"
+                    >
+                    <div className="w-full h-full bg-gradient-to-br from-white/90 via-blue-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-blue-200 shadow-xl shadow-blue-100/50 transition-all duration-300 hover:shadow-2xl hover:border-blue-300 relative z-10 overflow-hidden">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-8 justify-between">
                       <div className="flex items-center gap-3">
                         <div className="p-2.5 bg-blue-100/50 rounded-xl border border-blue-200 shadow-sm">
@@ -1538,53 +1721,55 @@ ${indicesFactuels}
                       </div>
                     )}
                   </div>
-
-                  {/* Colonne Droite : À Lire (Journal) */}
-                  <div className="lg:col-span-1 bg-gradient-to-br from-white/90 via-indigo-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-indigo-200 shadow-xl shadow-indigo-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-indigo-300 relative z-10 flex flex-col h-full">
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="p-2.5 bg-indigo-100/50 rounded-xl border border-indigo-200 shadow-sm flex items-center justify-center">
-                        <BookOpen className="w-6 h-6 text-indigo-500" />
-                      </div>
-                      <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
-                        <span className="relative inline-block z-10">
-                          <span className="relative z-20 text-slate-800 font-black tracking-tight">À lire</span>
-                          <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-indigo-300 via-purple-200 to-indigo-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-                        </span>
-                      </h3>
-                    </div>
-
-                    <div className="group overflow-hidden rounded-xl shadow-md relative flex-grow bg-slate-50 flex flex-col border border-slate-100">
-                      <a
-                        href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/journal-gennevilliers-printemps-2026.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex flex-col h-full"
-                      >
-                        <div className="absolute inset-0 bg-blue-100/10 group-hover:bg-transparent transition-colors duration-300 z-10 pointer-events-none rounded-xl"></div>
-                        <img
-                          src={`${BASE_URL}journal-2026.png`}
-                          alt="Journal CFDT"
-                          className="w-full flex-grow min-h-[16rem] object-contain transform group-hover:scale-105 transition-transform duration-500 rounded-t-xl bg-slate-100"
-                        />
-                        <div className="p-4 flex flex-col shrink-0 bg-white">
-                          <div>
-                            <h4 className="text-slate-800 text-base font-bold mb-1">Le Journal CFDT</h4>
-                            <p className="text-slate-600 text-xs leading-relaxed line-clamp-2">
-                              Découvrez la dernière édition de notre journal d'information syndicale.
-                            </p>
-                          </div>
-                          <div className="mt-3 flex items-center justify-center gap-2 w-full bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-4 rounded-lg transition-colors duration-150 text-sm">
-                            Télécharger PDF <ArrowRight className="w-4 h-4" />
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                </Tilt>
               </div>
 
+              {/* Colonne Droite : À Lire (Journal) */}
+              <div className="lg:col-span-1 bg-gradient-to-br from-white/90 via-indigo-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-indigo-200 shadow-xl shadow-indigo-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-indigo-300 relative z-10 flex flex-col h-full">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2.5 bg-indigo-100/50 rounded-xl border border-indigo-200 shadow-sm flex items-center justify-center">
+                    <BookOpen className="w-6 h-6 text-indigo-500" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
+                    <span className="relative inline-block z-10">
+                      <span className="relative z-20 text-slate-800 font-black tracking-tight">À lire</span>
+                      <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-indigo-300 via-purple-200 to-indigo-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                    </span>
+                  </h3>
+                </div>
+
+                <div className="group overflow-hidden rounded-xl shadow-md relative flex-grow bg-slate-50 flex flex-col border border-slate-100">
+                  <a
+                    href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/journal-gennevilliers-printemps-2026.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col h-full"
+                  >
+                    <div className="absolute inset-0 bg-blue-100/10 group-hover:bg-transparent transition-colors duration-300 z-10 pointer-events-none rounded-xl"></div>
+                    <img
+                      src={`${BASE_URL}journal-2026.png`}
+                      alt="Journal CFDT"
+                      className="w-full flex-grow min-h-[16rem] object-contain transform group-hover:scale-105 transition-transform duration-500 rounded-t-xl bg-slate-100"
+                    />
+                    <div className="p-4 flex flex-col shrink-0 bg-white">
+                      <div>
+                        <h4 className="text-slate-800 text-base font-bold mb-1">Le Journal CFDT</h4>
+                        <p className="text-slate-600 text-xs leading-relaxed line-clamp-2">
+                          Découvrez la dernière édition de notre journal d'information syndicale.
+                        </p>
+                      </div>
+                      <div className="mt-3 flex items-center justify-center gap-2 w-full bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-4 rounded-lg transition-colors duration-150 text-sm">
+                        Télécharger PDF <ArrowRight className="w-4 h-4" />
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
               {/* --- NOUVELLE SECTION : DOCUMENTS DE RÉFÉRENCE & LIENS UTILES --- */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 w-full mt-8 mb-12">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full mt-8 mb-12">
 
                 {/* Colonne 1 : À connaître (Docs de référence) */}
                 <div className="w-full h-full bg-gradient-to-br from-white/90 via-rose-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-rose-200 shadow-xl shadow-rose-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-rose-300 relative z-10 flex flex-col justify-start group">
@@ -1762,7 +1947,20 @@ ${indicesFactuels}
                 </div>
 
                 {/* Colonne 2 : Liens utiles & FAQ */}
-                <div className="w-full h-full bg-gradient-to-br from-white/90 via-cyan-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-cyan-200 shadow-xl shadow-cyan-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-cyan-300 relative z-10 flex flex-col justify-start group">
+                <div className="w-full h-full">
+                  <Tilt
+                    glareEnable={true}
+                    glareMaxOpacity={0.05}
+                    glareColor={theme === 'dark' ? '#ffffff' : '#06b6d4'}
+                    glarePosition="all"
+                    glareBorderRadius="24px"
+                    tiltMaxAngleX={5}
+                    tiltMaxAngleY={5}
+                    perspective={1000}
+                    className="w-full h-full"
+                  >
+                    <div className="w-full h-full bg-gradient-to-br from-white/90 via-cyan-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-cyan-200 shadow-xl shadow-cyan-100/50 transition-all duration-300 hover:border-cyan-300 relative z-10 flex flex-col justify-start group overflow-hidden">
+                    <BorderBeam size={160} duration={8} delay={0} colorFrom="#06b6d4" colorTo="#3b82f6" />
                   <div className="flex items-center gap-3 mb-6">
                     <div className="p-2.5 bg-cyan-100/50 rounded-xl border border-cyan-200 shadow-sm flex items-center justify-center">
                       <Link2 className="w-6 h-6 text-cyan-500" />
@@ -1809,9 +2007,10 @@ ${indicesFactuels}
 
                   {/* Le bouton FAQ a été déplacé dans les accès rapides */}
                 </div>
+              </Tilt>
+            </div>
 
-
-              </div>
+          </div>
 
               {/* --- CAROUSEL FONCTION PUBLIQUE (DÉPLACÉ EN DESSOUS DES 3 FENÊTRES) --- */}
               <div className="w-full bg-gradient-to-br from-white/90 via-emerald-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-emerald-200 shadow-xl shadow-emerald-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-emerald-300 relative z-10 mb-8">
@@ -1914,61 +2113,77 @@ ${indicesFactuels}
               </div>
 
               {/* --- ACTUALITÉ JURIDIQUE CIG VERSAILLES (DÉPLACÉE EN DESSOUS DES 3 FENÊTRES) --- */}
-              <div
-                onClick={() => setChatState({ ...chatState, currentView: 'veille' })}
-                className="w-full bg-gradient-to-br from-white/90 via-purple-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-purple-200 shadow-xl shadow-purple-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-purple-300 relative z-10 mb-12 cursor-pointer"
-              >
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="p-2.5 bg-purple-100/50 rounded-xl border border-purple-200 shadow-sm flex items-center justify-center">
-                    <Scale className="w-6 h-6 text-purple-500" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
-                    <span className="relative inline-block z-10">
-                      <span className="relative z-20 text-slate-800 font-black tracking-tight">Veille Juridique</span>
-                      <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-purple-300 via-fuchsia-200 to-purple-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-                    </span>
-                  </h3>
-                </div>
-                <div className="flex flex-col md:flex-row gap-6 group/card">
-                  <div className="relative w-full md:w-64 h-40 overflow-hidden rounded-xl shrink-0 border border-slate-200 bg-slate-100/50">
-                    <img src="/images/legal_news_illustration.png" alt="Veille Juridique" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
-                    <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur text-purple-300 border border-purple-500/30">
-                      Juridique
-                    </span>
-                  </div>
-                  <div className="flex flex-col justify-between flex-1">
-                    <div>
-                      <h4 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-1 hover:text-purple-600 transition-colors leading-snug">
-                        Veille Juridique & Statutaire (« Vu cette semaine »)
-                      </h4>
-                      <p className="text-sm text-slate-600 dark:text-slate-400 font-medium mt-3 leading-relaxed">
-                        Découvrez notre veille juridique interactive. Explorez les dernières décisions marquantes des tribunaux administratifs et du Conseil d'État expliquées simplement, ou testez vos connaissances dans notre nouveau Mode Défi Quiz !
-                      </p>
-                    </div>
-                    <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
-                      <span className="font-medium bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full">Veille CFDT Interactive</span>
-                      <div className="flex items-center gap-3">
-                        <a
-                          href="https://www.cigversailles.fr/actualites-juridiques"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="font-semibold text-slate-500 hover:text-slate-700 hover:underline"
-                        >
-                          Source CIG →
-                        </a>
-                        <span
-                          className="font-semibold text-purple-600 dark:text-purple-400 hover:text-purple-750 flex items-center gap-1 bg-purple-50 dark:bg-purple-900/30 px-3 py-1 rounded-full transition-colors font-bold"
-                        >
-                          Accéder à la veille interactive →
+              <div className="w-full mb-12 cursor-pointer">
+                <Tilt
+                  glareEnable={true}
+                  glareMaxOpacity={0.04}
+                  glareColor={theme === 'dark' ? '#ffffff' : '#a855f7'}
+                  glarePosition="all"
+                  glareBorderRadius="24px"
+                  tiltMaxAngleX={3}
+                  tiltMaxAngleY={3}
+                  perspective={1000}
+                  className="w-full h-full"
+                >
+                  <BackgroundGradient
+                    containerClassName="w-full rounded-3xl shadow-xl shadow-purple-100/30 dark:shadow-none"
+                    className="w-full bg-gradient-to-br from-white/95 via-purple-50/20 to-white/95 dark:from-slate-900/95 dark:via-purple-950/20 dark:to-slate-900/95 backdrop-blur-xl rounded-3xl p-8 border border-purple-200/50 dark:border-purple-800/40 transition-all duration-300"
+                  >
+                  <div onClick={() => setChatState({ ...chatState, currentView: 'veille' })} className="flex flex-col gap-6">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2.5 bg-purple-100/50 dark:bg-purple-900/40 rounded-xl border border-purple-200 dark:border-purple-800/60 shadow-sm flex items-center justify-center">
+                        <Scale className="w-6 h-6 text-purple-500" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-slate-800 dark:text-white tracking-wide">
+                        <span className="relative inline-block z-10">
+                          <span className="relative z-20 text-slate-800 dark:text-white font-black tracking-tight">Veille Juridique</span>
+                          <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-purple-300 via-fuchsia-200 to-purple-300 dark:from-purple-800 dark:via-fuchsia-900 dark:to-purple-800 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
                         </span>
+                      </h3>
+                    </div>
+                    <div className="flex flex-col md:flex-row gap-6 group/card">
+                      <div className="relative w-full md:w-64 h-40 overflow-hidden rounded-xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-900/50">
+                        <img src="/images/legal_news_illustration.png" alt="Veille Juridique" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
+                        <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur text-purple-300 border border-purple-500/30">
+                          Juridique
+                        </span>
+                      </div>
+                      <div className="flex flex-col justify-between flex-1">
+                        <div>
+                          <h4 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-1 hover:text-purple-600 dark:hover:text-purple-400 transition-colors leading-snug">
+                            Veille Juridique & Statutaire (« Vu cette semaine »)
+                          </h4>
+                          <p className="text-sm text-slate-650 dark:text-slate-400 mt-3 leading-relaxed">
+                            Découvrez notre veille juridique interactive. Explorez les dernières décisions marquantes des tribunaux administratifs et du Conseil d'État expliquées simplement, ou testez vos connaissances dans notre nouveau Mode Défi Quiz !
+                          </p>
+                        </div>
+                        <div className="mt-4 flex items-center justify-between text-xs text-slate-550">
+                          <span className="font-medium bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">Veille CFDT Interactive</span>
+                          <div className="flex items-center gap-3">
+                            <a
+                              href="https://www.cigversailles.fr/actualites-juridiques"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="font-semibold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:underline"
+                            >
+                              Source CIG →
+                            </a>
+                            <span
+                              className="font-semibold text-purple-600 dark:text-purple-400 hover:text-purple-500 flex items-center gap-1 bg-purple-50 dark:bg-purple-900/30 px-3 py-1 rounded-full transition-colors font-bold"
+                            >
+                              Accéder à la veille interactive →
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-
+                </BackgroundGradient>
+              </Tilt>
             </div>
+
+          </div>
           </>
         )}
       </main>

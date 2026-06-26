@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import confetti from "canvas-confetti";
 import { 
   ArrowLeft, 
   Scale, 
@@ -319,6 +320,12 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
       setCurrentQuizIndex(prev => prev + 1);
     } else {
       setQuizCompleted(true);
+      // Trigger a celebratory confetti burst
+      confetti({
+        particleCount: 150,
+        spread: 85,
+        origin: { y: 0.6 }
+      });
     }
   };
 
