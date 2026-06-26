@@ -451,7 +451,7 @@ function App() {
   const usefulLinks = [
     { label: "Jurisprudences", href: "https://www.conseil-etat.fr/actualites", imageSrc: "/images/jurisprudence.png" },
     { label: "Legifrance", href: "https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000006070633/", imageSrc: "/images/legifrance.png" },
-    { label: "Formation", href: "https://www.cnfpt.fr/catalogue/catalogues/region84/#page/1", imageSrc: "/images/formation_lien.png" },
+    { label: "Catalogue CNFPT", href: "https://www.cnfpt.fr/catalogue/catalogues/region84/#page/1", imageSrc: "/images/formation_lien.png" },
     { label: "Primes", href: "https://www.cdg31.fr/sites/default/files/guide_des_primes_2025.pdf", imageSrc: "/images/primes_lien.png" },
   ]
 
@@ -1331,7 +1331,7 @@ ${indicesFactuels}
               <div className="lg:col-span-1">
 
                 {/* Barre d'accès rapide */}
-                <div className="max-w-7xl mx-auto mb-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
+                <div className="max-w-7xl mx-auto mt-8 mb-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
 
                   {/* Title Section */}
                   <div className="flex items-center gap-2 pr-6 border-r border-slate-200 dark:border-slate-700">
@@ -1345,43 +1345,43 @@ ${indicesFactuels}
                   {/* Links */}
                   <div className="flex flex-1 justify-around items-center gap-4 overflow-x-auto custom-scrollbar pb-2 lg:pb-0">
                     <button onClick={() => handleDomainSelection(0)} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group min-w-[120px]">
-                      <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-purple-100 dark:group-hover:bg-purple-900/50 transition-colors">
-                        <Search className="w-8 h-8 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
+                      <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-purple-100 dark:group-hover:bg-purple-900/50 transition-colors">
+                        <Search className="w-16 h-16 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
                       </div>
                       <span className="text-sm font-bold text-center">J'ai une<br />question</span>
                     </button>
 
                     <button onClick={openMetiersView} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors group min-w-[120px]">
-                      <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/50 transition-colors">
-                        <LayoutGrid className="w-8 h-8 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
+                      <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/50 transition-colors">
+                        <LayoutGrid className="w-16 h-16 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
                       </div>
                       <span className="text-sm font-bold text-center">Grilles<br />Indiciaires</span>
                     </button>
 
                     <button onClick={openCalculatorsLanding} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group min-w-[120px]">
-                      <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
-                        <Calculator className="w-8 h-8 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform" />
+                      <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
+                        <Calculator className="w-16 h-16 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform" />
                       </div>
                       <span className="text-sm font-bold text-center">Calculateurs</span>
                     </button>
 
                     <button onClick={() => setChatState({ ...chatState, currentView: 'jeux' })} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-pink-600 dark:hover:text-pink-400 transition-colors group min-w-[120px]">
-                      <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-pink-100 dark:group-hover:bg-pink-900/50 transition-colors">
-                        <Gamepad2 className="w-8 h-8 text-pink-600 dark:text-pink-400 group-hover:scale-110 transition-transform" />
+                      <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-pink-100 dark:group-hover:bg-pink-900/50 transition-colors">
+                        <Gamepad2 className="w-16 h-16 text-pink-600 dark:text-pink-400 group-hover:scale-110 transition-transform" />
                       </div>
                       <span className="text-sm font-bold text-center">Espace Jeux</span>
                     </button>
 
                     <button onClick={() => setChatState({ ...chatState, currentView: 'faq' })} className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 transition-colors group min-w-[120px]">
-                      <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-amber-100 dark:group-hover:bg-amber-900/50 transition-colors">
-                        <HelpCircle className="w-8 h-8 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform" />
+                      <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-amber-100 dark:group-hover:bg-amber-900/50 transition-colors">
+                        <HelpCircle className="w-16 h-16 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform" />
                       </div>
                       <span className="text-sm font-bold text-center">Questions<br />Fréquentes</span>
                     </button>
 
                     <a href="https://www.emploi-territorial.fr/emploi-mobilite/?search-col=99599" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group min-w-[120px]">
-                      <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-orange-100 dark:group-hover:bg-orange-900/50 transition-colors">
-                        <Briefcase className="w-8 h-8 text-orange-600 dark:text-orange-400 group-hover:scale-110 transition-transform" />
+                      <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-orange-100 dark:group-hover:bg-orange-900/50 transition-colors">
+                        <Briefcase className="w-16 h-16 text-orange-600 dark:text-orange-400 group-hover:scale-110 transition-transform" />
                       </div>
                       <span className="text-sm font-bold text-center">Bourse<br />Emploi</span>
                     </a>
@@ -1914,7 +1914,7 @@ ${indicesFactuels}
               </div>
 
               {/* --- ACTUALITÉ JURIDIQUE CIG VERSAILLES (DÉPLACÉE EN DESSOUS DES 3 FENÊTRES) --- */}
-              <div 
+              <div
                 onClick={() => setChatState({ ...chatState, currentView: 'veille' })}
                 className="w-full bg-gradient-to-br from-white/90 via-purple-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-purple-200 shadow-xl shadow-purple-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-purple-300 relative z-10 mb-12 cursor-pointer"
               >
@@ -1948,16 +1948,16 @@ ${indicesFactuels}
                     <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
                       <span className="font-medium bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full">Veille CFDT Interactive</span>
                       <div className="flex items-center gap-3">
-                        <a 
-                          href="https://www.cigversailles.fr/actualites-juridiques" 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
+                        <a
+                          href="https://www.cigversailles.fr/actualites-juridiques"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
                           className="font-semibold text-slate-500 hover:text-slate-700 hover:underline"
                         >
                           Source CIG →
                         </a>
-                        <span 
+                        <span
                           className="font-semibold text-purple-600 dark:text-purple-400 hover:text-purple-750 flex items-center gap-1 bg-purple-50 dark:bg-purple-900/30 px-3 py-1 rounded-full transition-colors font-bold"
                         >
                           Accéder à la veille interactive →

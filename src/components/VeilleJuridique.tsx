@@ -240,10 +240,12 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState<string>("Tous");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
-  const [viewMode, setViewMode] = useState<"fiches" | "quiz">("fiches");
+  const [viewMode, setViewMode] = useState<"fiches" | "quiz">("quiz");
 
   // State for Quiz Mode
-  const [quizQuestions, setQuizQuestions] = useState<LegalQuestion[]>([]);
+  const [quizQuestions, setQuizQuestions] = useState<LegalQuestion[]>(() =>
+    [...LEGAL_DATA].sort(() => Math.random() - 0.5)
+  );
   const [currentQuizIndex, setCurrentQuizIndex] = useState<number>(0);
   const [quizScore, setQuizScore] = useState<number>(0);
   const [selectedAnswer, setSelectedAnswer] = useState<boolean | null>(null);
