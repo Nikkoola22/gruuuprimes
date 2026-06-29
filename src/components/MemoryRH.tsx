@@ -184,6 +184,12 @@ const VictoryConfetti: React.FC = () => {
   );
 };
 
+const getTextSizeClass = (text: string) => {
+  if (text.length > 55) return "text-[10px] sm:text-[11px] md:text-xs lg:text-sm leading-tight";
+  if (text.length > 30) return "text-xs sm:text-xs md:text-sm lg:text-base leading-snug";
+  return "text-sm sm:text-base md:text-base lg:text-lg font-bold leading-snug";
+};
+
 // ─── Composant Principal MemoryRH ─────────────────────────────────────────────
 const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
   const [cards, setCards] = useState<Card[]>(() => shuffleCards());
@@ -259,9 +265,8 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
     setMatches(0);
     setVictory(false);
   };
-
   return (
-    <div className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 overflow-x-hidden bg-slate-50 dark:bg-slate-900  sm: px-4 sm:px-6 lg:px-8 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-500">
+    <div className="relative z-30 isolate min-h-screen flex flex-col pt-3 sm:pt-5 pb-3 overflow-x-hidden bg-slate-50 dark:bg-slate-900 px-4 sm:px-6 lg:px-8 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-500">
       {/* Soft background glow */}
       <div style={{
         position: 'fixed', top: '50%', left: '50%',
@@ -271,64 +276,66 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
         filter: 'blur(40px)', pointerEvents: 'none', zIndex: 0,
       }} />
 
-      <div className="max-w-4xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10">
         
-        {/* Retour button */}
-        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-50">
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex items-center gap-2 px-4  bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm shadow-md"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Retour
-          </button>
-        </div>
+        {/* Compact Header Bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4 pb-4 border-b border-slate-200 dark:border-slate-700/50">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-xs shadow-md"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              Retour
+            </button>
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-800 dark:text-slate-100">
+              Memory RH
+            </h1>
+          </div>
 
-        {/* Title & Stats */}
-        <div className="text-center mb-8 animate-fade-in">
-          <h1 className="text-3xl sm:text-5xl font-light tracking-tight mb-2 text-slate-800 dark:text-slate-100">
-            Memory RH
-          </h1>
-          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-light max-w-lg mx-auto mb-6">
-            Associez chaque terme de la fonction publique (carte foncée) avec sa définition correspondante (carte claire) !
-          </p>
-
-          <div className="flex justify-center items-center gap-6 text-sm font-bold">
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4  rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm">
-              Coups joués : <span className="text-blue-500 text-base font-bold">{moves}</span>
+          <div className="flex items-center gap-3 text-xs font-bold">
+            <span className="bg-white/50 dark:bg-slate-800/50 px-3 py-1.5 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm">
+              Coups : <span className="text-blue-500 font-bold">{moves}</span>
             </span>
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4  rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm">
-              Paires trouvées : <span className="text-emerald-500 text-base font-bold">{matches} / 6</span>
+            <span className="bg-white/50 dark:bg-slate-800/50 px-3 py-1.5 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm">
+              Paires : <span className="text-emerald-500 font-bold">{matches} / 6</span>
             </span>
+            <button
+              onClick={handleRestart}
+              className="px-3 py-1.5 bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium rounded-full shadow-sm transition-all text-xs border border-slate-200 dark:border-slate-700 backdrop-blur-sm flex items-center gap-1"
+            >
+              <RotateCcw className="w-3 h-3" />
+              Reset
+            </button>
           </div>
         </div>
 
         {/* Card Grid */}
-        <div className="max-w-4xl mx-auto bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-3xl p-6 sm:p-8 shadow-xl border border-white/40 dark:border-slate-700/50 relative">
+        <div className="max-w-6xl mx-auto bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-3xl p-4 sm:p-6 shadow-xl border border-white/40 dark:border-slate-700/50 relative">
           {victory && <VictoryConfetti />}
 
           {victory ? (
             // Victory Screen
-            <div className="text-center  relative z-10 animate-scale-up">
-              <Trophy className="w-20 h-20 text-yellow-500 mx-auto mb-4 animate-bounce" />
-              <h2 className="text-3xl font-bold text-slate-800 dark:text-white mb-2">Félicitations ! 🎉</h2>
-              <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-8 text-sm">
+            <div className="text-center  relative z-10 animate-scale-up py-8">
+              <Trophy className="w-16 h-16 text-yellow-500 mx-auto mb-4 animate-bounce" />
+              <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">Félicitations ! 🎉</h2>
+              <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-6 text-sm">
                 Vous avez associé toutes les paires RH avec brio en seulement <span className="font-bold text-blue-500">{moves} coups</span> !
               </p>
 
               <button
                 onClick={handleRestart}
-                className="mx-auto px-8  bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white font-bold rounded-2xl shadow-lg hover:opacity-95 transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 btn-shine"
+                className="mx-auto px-6 py-2.5 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white font-bold rounded-2xl shadow-lg hover:opacity-95 transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 btn-shine text-sm"
               >
-                <RotateCcw className="w-5 h-5" />
+                <RotateCcw className="w-4 h-4" />
                 <span>Recommencer une partie</span>
               </button>
             </div>
           ) : (
             // Cards game board
             <div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 justify-center items-stretch">
+              <div className="grid grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 justify-center items-stretch">
                 {cards.map((card, idx) => {
                   const isFlipped = card.isFlipped || card.isMatched;
                   const isTerm = card.type === "term";
@@ -337,7 +344,7 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
                     <div 
                       key={card.id}
                       onClick={() => handleCardClick(idx)}
-                      className="h-32 sm:h-36 perspective cursor-pointer select-none"
+                      className="h-24 sm:h-28 md:h-32 lg:h-36 w-full perspective cursor-pointer select-none"
                     >
                       <div 
                         className={`w-full h-full relative duration-500 transform-style-3d ${
@@ -350,7 +357,7 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
                         </div>
 
                         {/* Card Front (Face visible) */}
-                        <div className={`absolute inset-0 border rounded-2xl p-3 flex flex-col items-center justify-center text-center text-sm sm:text-base font-medium backface-hidden rotate-y-180 transition-all duration-300 ${
+                        <div className={`absolute inset-0 border rounded-2xl p-2 sm:p-2.5 flex flex-col items-center justify-center text-center backface-hidden rotate-y-180 transition-all duration-300 ${
                           card.isMatched
                             ? "bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 shadow-sm"
                             : isTerm
@@ -362,22 +369,16 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
                               <Check className="w-2.5 h-2.5" />
                             </span>
                           )}
-                          <p className="leading-tight break-words max-w-full font-normal">{card.content}</p>
+                          <p className={`break-words max-w-full ${
+                            isTerm ? "font-bold" : "font-medium"
+                          } ${getTextSizeClass(card.content)}`}>
+                            {card.content}
+                          </p>
                         </div>
                       </div>
                     </div>
                   );
                 })}
-              </div>
-
-              <div className="mt-8 flex justify-center">
-                <button
-                  onClick={handleRestart}
-                  className="px-6  bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium rounded-xl shadow-sm transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 text-sm border border-slate-200 dark:border-slate-700 backdrop-blur-sm"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                  <span>Réinitialiser</span>
-                </button>
               </div>
             </div>
           )}

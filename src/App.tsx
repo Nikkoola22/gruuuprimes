@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo, lazy, Suspense } from "react"
-import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye, ArrowDownRight, Users, MessageCircleQuestion, HeartHandshake, Briefcase, Shield, CircleUser, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles } from "lucide-react"
+import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye, Users, MessageCircleQuestion, HeartHandshake, Briefcase, Shield, CircleUser, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 
 // --- IMPORTATIONS DES DONNÉES ---
@@ -1364,14 +1364,7 @@ ${indicesFactuels}
                 {/* Barre d'accès rapide */}
                 <div className="max-w-7xl mx-auto mt-8 mb-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
 
-                  {/* Title Section */}
-                  <div className="flex items-center gap-2 pr-6 border-r border-slate-200 dark:border-slate-700">
-                    <div className="flex flex-col">
-                      <span className="font-bold text-slate-800 dark:text-slate-100 text-lg leading-tight">Accès</span>
-                      <span className="font-light text-slate-600 dark:text-slate-300 italic uppercase text-sm">RAPIDES</span>
-                    </div>
-                    <ArrowDownRight className="w-8 h-8 text-rose-600 dark:text-rose-400" />
-                  </div>
+
 
                   {/* Links */}
                   <div className="flex flex-1 justify-around items-center gap-4 overflow-x-auto custom-scrollbar pb-2 lg:pb-0 relative">

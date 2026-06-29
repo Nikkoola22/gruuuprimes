@@ -50,6 +50,71 @@ const LOG_LABELS = ["CDD 1 an", "CDD 6 mois", "CDD 3 ans", "CDD 2 ans", "CDD 18 
 const CAR_COLORS = ["#ff2a85", "#ef4444", "#f97316", "#eab308", "#ec4899"];
 const LOG_COLORS = ["#8b5cf6", "#6366f1", "#3b82f6", "#0ea5e9", "#14b8a6"];
 
+const playRetroSound = (type: "jump" | "collision" | "success" | "gameover" | "victory") => {
+  try {
+    // @ts-ignore
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    const ctx = new AudioContextClass();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    const now = ctx.currentTime;
+
+    if (type === "jump") {
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(200, now);
+      osc.frequency.exponentialRampToValueAtTime(800, now + 0.12);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.12);
+      osc.start(now);
+      osc.stop(now + 0.12);
+    } else if (type === "collision") {
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(180, now);
+      osc.frequency.linearRampToValueAtTime(30, now + 0.35);
+      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+      osc.start(now);
+      osc.stop(now + 0.35);
+    } else if (type === "success") {
+      osc.type = "square";
+      const notes = [261.63, 329.63, 392.00, 523.25];
+      notes.forEach((freq, idx) => {
+        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+      });
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.setValueAtTime(0.08, now + 0.24);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+      osc.start(now);
+      osc.stop(now + 0.35);
+    } else if (type === "gameover") {
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.linearRampToValueAtTime(60, now + 0.7);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.7);
+      osc.start(now);
+      osc.stop(now + 0.7);
+    } else if (type === "victory") {
+      osc.type = "square";
+      const melody = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
+      melody.forEach((freq, idx) => {
+        osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+      });
+      gain.gain.setValueAtTime(0.1, now);
+      gain.gain.setValueAtTime(0.1, now + 0.4);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.65);
+      osc.start(now);
+      osc.stop(now + 0.65);
+    }
+  } catch (e) {
+    console.warn("Audio Context blocked or not supported", e);
+  }
+};
+
 const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -208,10 +273,12 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
   const loseLife = () => {
     playerRef.current.isDead = true;
     createDeathParticles(playerRef.current.x, playerRef.current.y, "#ef4444");
+    playRetroSound("collision");
     setLives((l) => {
       const next = l - 1;
       if (next <= 0) {
         setGameState("gameover");
+        playRetroSound("gameover");
       } else {
         setTimeout(() => {
           if (gameState === "playing") resetPlayer();
@@ -248,13 +315,13 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
       p.attachedLog = null;
 
       if (e.key === "ArrowUp") {
-        if (p.y > 0) { p.y -= GRID; setScore(s => s + 10); }
+        if (p.y > 0) { p.y -= GRID; setScore(s => s + 10); playRetroSound("jump"); }
       } else if (e.key === "ArrowDown") {
-        if (p.y < (ROWS - 1) * GRID) p.y += GRID;
+        if (p.y < (ROWS - 1) * GRID) { p.y += GRID; playRetroSound("jump"); }
       } else if (e.key === "ArrowLeft") {
-        if (p.x > 0) p.x -= GRID;
+        if (p.x > 0) { p.x -= GRID; playRetroSound("jump"); }
       } else if (e.key === "ArrowRight") {
-        if (p.x < (COLS - 1) * GRID) p.x += GRID;
+        if (p.x < (COLS - 1) * GRID) { p.x += GRID; playRetroSound("jump"); }
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -268,13 +335,13 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
     p.attachedLog = null;
 
     if (dir === "up") {
-      if (p.y > 0) { p.y -= GRID; setScore(s => s + 10); }
+      if (p.y > 0) { p.y -= GRID; setScore(s => s + 10); playRetroSound("jump"); }
     } else if (dir === "down") {
-      if (p.y < (ROWS - 1) * GRID) p.y += GRID;
+      if (p.y < (ROWS - 1) * GRID) { p.y += GRID; playRetroSound("jump"); }
     } else if (dir === "left") {
-      if (p.x > 0) p.x -= GRID;
+      if (p.x > 0) { p.x -= GRID; playRetroSound("jump"); }
     } else if (dir === "right") {
-      if (p.x < (COLS - 1) * GRID) p.x += GRID;
+      if (p.x < (COLS - 1) * GRID) { p.x += GRID; playRetroSound("jump"); }
     }
   };
 
@@ -369,6 +436,9 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
             setScore(s => s + 100);
             createDeathParticles(goal.x, goal.y, "#22c55e"); // Green sparkles
             resetPlayer();
+            if (!goalsRef.current.every((g) => g.isFilled)) {
+              playRetroSound("success");
+            }
             break;
           }
         }
@@ -384,9 +454,11 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
             setLevel(2);
             setScore(s => s + 1000);
             initLevel(2);
+            playRetroSound("success");
           } else {
             setScore(s => s + 2000);
             setGameState("victory");
+            playRetroSound("victory");
           }
         }
       }
@@ -406,10 +478,10 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
       }
 
       // Route
-      ctx.fillStyle = "#0f172a"; // slate-900 (Très sombre)
+      ctx.fillStyle = "#0f172a"; // slate-900
       ctx.fillRect(0, 7 * GRID, CANVAS_WIDTH, 5 * GRID);
       // Lignes de route
-      ctx.fillStyle = "#475569"; // slate-600
+      ctx.fillStyle = "#475569";
       for (let i = 8; i <= 11; i++) {
         for (let j = 0; j < CANVAS_WIDTH; j += 80) {
           ctx.fillRect(j, i * GRID - 2, 40, 4);
@@ -427,15 +499,20 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
       // Rivière
       ctx.fillStyle = "#1e3a8a"; // blue-900
       ctx.fillRect(0, 1 * GRID, CANVAS_WIDTH, 5 * GRID);
-      // Effets d'eau améliorés
-      ctx.fillStyle = "rgba(59, 130, 246, 0.4)"; // blue-500 translucide
-      for (let i = 1; i <= 5; i++) {
-        for (let j = (performance.now() * 0.05 + i * 20) % 100 - 100; j < CANVAS_WIDTH; j += 100) {
-          ctx.beginPath();
-          ctx.roundRect(j, i * GRID + 14, 50, 8, 4);
-          ctx.roundRect(j + 40, i * GRID + 38, 30, 8, 4);
-          ctx.fill();
+      
+      // Rivière animée (vagues sinus rétro)
+      ctx.strokeStyle = "rgba(147, 197, 253, 0.25)"; // blue-300
+      ctx.lineWidth = 3;
+      const waveSpeed = performance.now() * 0.003;
+      for (let r = 1; r <= 5; r++) {
+        ctx.beginPath();
+        const y = r * GRID + GRID / 2;
+        for (let x = 0; x <= CANVAS_WIDTH; x += 15) {
+          const waveY = y + Math.sin(x * 0.03 + waveSpeed + r) * 6;
+          if (x === 0) ctx.moveTo(x, waveY);
+          else ctx.lineTo(x, waveY);
         }
+        ctx.stroke();
       }
 
       // Zone des buts (Titularisation)
@@ -447,13 +524,19 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
         if (g.isFilled) {
           ctx.fillStyle = "#22c55e"; // emerald-500
           ctx.fillRect(g.x + 4, g.y + 4, g.width - 8, g.height - 8);
-          // Logo CFDT / Titulaire
+          // Logo CDI
           ctx.fillStyle = "white";
           ctx.font = "bold 16px sans-serif";
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
           ctx.fillText("CDI", g.x + g.width / 2, g.y + g.height / 2);
-          ctx.fillStyle = "#064e3b"; // reset
+        } else {
+          // Indiquer l'objectif CDI dans les cases vides
+          ctx.fillStyle = "rgba(16, 185, 129, 0.35)"; // Vert émeraude translucide
+          ctx.font = "bold 13px sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText("CDI", g.x + g.width / 2, g.y + g.height / 2);
         }
       });
 
@@ -461,7 +544,7 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
       entitiesRef.current.forEach(ent => {
         ctx.save();
         ctx.fillStyle = ent.color;
-        ctx.shadowBlur = 12;
+        ctx.shadowBlur = 8;
         ctx.shadowColor = ent.color;
         const pad = 6;
         
@@ -471,7 +554,7 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
           ctx.fill();
           
           // Toit
-          ctx.fillStyle = "rgba(255,255,255,0.15)";
+          ctx.fillStyle = "rgba(255,255,255,0.2)";
           ctx.roundRect(ent.x + pad + 12, ent.y + pad, ent.width - pad*2 - 24, ent.height - pad*2, 4);
           ctx.fill();
 
@@ -499,22 +582,32 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
 
           // Fenêtre centrale
           ctx.shadowBlur = 0;
-          ctx.fillStyle = "rgba(0,0,0,0.6)";
+          ctx.fillStyle = "rgba(0,0,0,0.65)";
           ctx.fillRect(ent.x + ent.width/2 - 12, ent.y + pad + 4, 24, ent.height - pad*2 - 8);
 
         } else {
           // Plateforme (Log)
-          ctx.roundRect(ent.x, ent.y + pad, ent.width, ent.height - pad*2, 12);
+          // Bois foncé pour l'écorce
+          ctx.fillStyle = "#78350f"; 
+          ctx.roundRect(ent.x, ent.y + pad, ent.width, ent.height - pad*2, 8);
           ctx.fill();
           
-          // Texture bois
-          ctx.strokeStyle = "rgba(0,0,0,0.25)";
-          ctx.lineWidth = 3;
+          // Cernes clairs aux bouts
+          ctx.fillStyle = "#f59e0b";
+          ctx.beginPath();
+          ctx.ellipse(ent.x + 8, ent.y + ent.height/2, 4, (ent.height - pad*2)/2 - 2, 0, 0, Math.PI*2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.ellipse(ent.x + ent.width - 8, ent.y + ent.height/2, 4, (ent.height - pad*2)/2 - 2, 0, 0, Math.PI*2);
+          ctx.fill();
+
+          // Veines de bois
+          ctx.strokeStyle = "rgba(0,0,0,0.3)";
+          ctx.lineWidth = 2.5;
           ctx.shadowBlur = 0;
           ctx.beginPath();
-          ctx.moveTo(ent.x + 15, ent.y + pad + 10); ctx.lineTo(ent.x + ent.width - 15, ent.y + pad + 10);
-          ctx.moveTo(ent.x + 10, ent.y + ent.height/2); ctx.lineTo(ent.x + ent.width - 10, ent.y + ent.height/2);
-          ctx.moveTo(ent.x + 15, ent.y + ent.height - pad - 10); ctx.lineTo(ent.x + ent.width - 15, ent.y + ent.height - pad - 10);
+          ctx.moveTo(ent.x + 16, ent.y + ent.height/2 - 3); ctx.lineTo(ent.x + ent.width - 16, ent.y + ent.height/2 - 3);
+          ctx.moveTo(ent.x + 24, ent.y + ent.height/2 + 4); ctx.lineTo(ent.x + ent.width - 24, ent.y + ent.height/2 + 4);
           ctx.stroke();
         }
         ctx.restore();
@@ -527,47 +620,57 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
         ctx.fillText(ent.label, ent.x + ent.width / 2, ent.y + ent.height / 2);
       });
 
-      // Player
+      // Player (Agent Grenouille)
       const p = playerRef.current;
       if (!p.isDead) {
         ctx.save();
-        ctx.fillStyle = p.color;
-        ctx.shadowBlur = 20;
-        ctx.shadowColor = p.color;
-        
         const cx = p.x + GRID/2;
         const cy = p.y + GRID/2;
         
-        // Corps
+        // Corps vert de grenouille
+        ctx.fillStyle = "#22c55e"; // Vert brillant
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = "#22c55e";
         ctx.beginPath();
-        ctx.roundRect(cx - p.width/2 + 6, cy - p.height/2 + 10, p.width - 12, p.height - 16, 10);
+        ctx.ellipse(cx, cy, p.width/2, p.height/2.6, 0, 0, Math.PI*2);
         ctx.fill();
         
-        // Tête (plus claire)
-        ctx.fillStyle = "#bef264";
-        ctx.beginPath();
-        ctx.arc(cx, cy - p.height/4, p.width/3, 0, Math.PI*2);
-        ctx.fill();
-        
-        // Yeux (lunettes)
-        ctx.fillStyle = "#1e293b";
+        // Yeux globuleux
+        ctx.fillStyle = "#bef264"; // Lime
         ctx.shadowBlur = 0;
-        ctx.fillRect(cx - 12, cy - p.height/4 - 4, 10, 6);
-        ctx.fillRect(cx + 2, cy - p.height/4 - 4, 10, 6);
-        ctx.fillRect(cx - 2, cy - p.height/4 - 2, 4, 2); // pont lunettes
-        
-        // Porte-documents (Agent)
-        ctx.fillStyle = "#fb923c"; // orange
-        ctx.roundRect(cx - p.width/2 - 2, cy, 10, 14, 2);
+        ctx.beginPath();
+        ctx.arc(cx - 8, cy - p.height/3, 5, 0, Math.PI*2);
+        ctx.arc(cx + 8, cy - p.height/3, 5, 0, Math.PI*2);
         ctx.fill();
-        ctx.fillStyle = "#f97316";
-        ctx.fillRect(cx - p.width/2, cy - 2, 6, 2); // anse
         
-        ctx.roundRect(cx + p.width/2 - 8, cy, 10, 14, 2);
+        // Pupilles noires
+        ctx.fillStyle = "#000000";
+        ctx.beginPath();
+        ctx.arc(cx - 8, cy - p.height/3, 2, 0, Math.PI*2);
+        ctx.arc(cx + 8, cy - p.height/3, 2, 0, Math.PI*2);
         ctx.fill();
+        
+        // Pattes arrière pliées
+        ctx.strokeStyle = "#16a34a"; // Vert plus foncé
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(cx - p.width/2, cy + 2);
+        ctx.quadraticCurveTo(cx - p.width/2 - 6, cy + 10, cx - 6, cy + p.height/2);
+        ctx.moveTo(cx + p.width/2, cy + 2);
+        ctx.quadraticCurveTo(cx + p.width/2 + 6, cy + 10, cx + 6, cy + p.height/2);
+        ctx.stroke();
+
+        // Petite sacoche CFDT / Porte-documents
+        ctx.fillStyle = "#ea580c"; // Orange CFDT
+        ctx.beginPath();
+        ctx.roundRect(cx - 4, cy - 2, 8, 8, 2);
+        ctx.fill();
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(cx - 2, cy - 3, 4, 1); // Anse
 
         ctx.restore();
       }
+
 
       // Particules (Morts / Victoire)
       particlesRef.current.forEach(part => {
@@ -653,15 +756,7 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
             style={{ imageRendering: 'pixelated' }}
           />
 
-          {/* D-PAD Virtuel pour Mobile */}
-          <div className="absolute bottom-4 right-4 grid grid-cols-3 grid-rows-3 gap-2 sm:hidden opacity-80">
-            <div />
-            <button onPointerDown={(e) => { e.preventDefault(); handleTouch("up"); }} className="w-12 h-12 bg-white/10 rounded-lg backdrop-blur flex justify-center items-center active:bg-white/30 border border-white/20">↑</button>
-            <div />
-            <button onPointerDown={(e) => { e.preventDefault(); handleTouch("left"); }} className="w-12 h-12 bg-white/10 rounded-lg backdrop-blur flex justify-center items-center active:bg-white/30 border border-white/20">←</button>
-            <button onPointerDown={(e) => { e.preventDefault(); handleTouch("down"); }} className="w-12 h-12 bg-white/10 rounded-lg backdrop-blur flex justify-center items-center active:bg-white/30 border border-white/20">↓</button>
-            <button onPointerDown={(e) => { e.preventDefault(); handleTouch("right"); }} className="w-12 h-12 bg-white/10 rounded-lg backdrop-blur flex justify-center items-center active:bg-white/30 border border-white/20">→</button>
-          </div>
+          {/* Le D-PAD Virtuel superposé a été retiré pour ne pas obstruer le jeu */}
 
           {/* Overlays */}
           {gameState === "ready" && (
@@ -721,9 +816,61 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
             </div>
           )}
         </div>
+
+        {/* Console de contrôle rétro (Visible uniquement sur mobile / tablette) */}
+        <div className="w-full max-w-xs sm:max-w-sm mt-6 p-4 bg-slate-800/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl md:hidden flex justify-between items-center select-none touch-none backdrop-blur-md">
+          {/* Croix directionnelle (D-PAD) */}
+          <div className="relative w-28 h-28 flex items-center justify-center bg-slate-700/40 rounded-full border border-slate-600/50 shadow-inner">
+            <div className="absolute w-20 h-7 bg-slate-900 rounded-md flex justify-between px-0.5">
+              <button 
+                onPointerDown={(e) => { e.preventDefault(); handleTouch("left"); }} 
+                className="w-6 h-full text-slate-400 font-bold active:text-white active:scale-90 text-sm flex items-center justify-center"
+              >
+                ◀
+              </button>
+              <button 
+                onPointerDown={(e) => { e.preventDefault(); handleTouch("right"); }} 
+                className="w-6 h-full text-slate-400 font-bold active:text-white active:scale-90 text-sm flex items-center justify-center"
+              >
+                ▶
+              </button>
+            </div>
+            <div className="absolute w-7 h-20 bg-slate-900 rounded-md flex flex-col justify-between py-0.5 items-center">
+              <button 
+                onPointerDown={(e) => { e.preventDefault(); handleTouch("up"); }} 
+                className="w-full h-6 text-slate-400 font-bold active:text-white active:scale-90 text-sm flex items-center justify-center"
+              >
+                ▲
+              </button>
+              <button 
+                onPointerDown={(e) => { e.preventDefault(); handleTouch("down"); }} 
+                className="w-full h-6 text-slate-400 font-bold active:text-white active:scale-90 text-sm flex items-center justify-center"
+              >
+                ▼
+              </button>
+            </div>
+            <div className="absolute w-7 h-7 bg-slate-800 rounded-full border border-slate-950 shadow pointer-events-none" />
+          </div>
+
+          {/* Bouton d'action rouge (START/RESTART) */}
+          <div className="flex flex-col items-center gap-1 pr-2">
+            <button 
+              onPointerDown={(e) => { 
+                e.preventDefault(); 
+                if (gameState === "ready" || gameState === "gameover" || gameState === "victory") {
+                  startNewGame();
+                }
+              }}
+              className="w-12 h-12 bg-red-600 active:bg-red-800 rounded-full border-4 border-slate-900 shadow-md flex items-center justify-center active:scale-90 transition-all text-white font-extrabold text-[10px]"
+            >
+              START
+            </button>
+            <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Action</span>
+          </div>
+        </div>
         
         <p className="mt-6 text-slate-500 dark:text-slate-400 text-xs max-w-lg text-center font-light">
-          Utilisez les <strong className="text-slate-700 dark:text-slate-200 font-semibold">Flèches du clavier</strong> pour vous déplacer. Sur mobile, utilisez les boutons directionnels en bas à droite de la grille.
+          Utilisez les <strong className="text-slate-700 dark:text-slate-200 font-semibold">Flèches du clavier</strong> pour vous déplacer. Sur mobile, utilisez la manette virtuelle ci-dessus.
         </p>
 
       </div>

@@ -41,6 +41,21 @@ const ViewLoader = () => (
   </div>
 );
 
+const EspaceJeuxStyles = () => (
+  <style dangerouslySetInnerHTML={{ __html: `
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-fade-in {
+      animation: fade-in 0.6s ease-out forwards;
+    }
+    .EspaceJeux-root-container .min-h-screen {
+      background-color: #000000 !important;
+    }
+  `}} />
+);
+
 interface GameDef {
   id: "roulette" | "memory" | "quiz" | "cassebrique" | "frogger" | "tapetaupe" | "sortemall" | "pacman" | "towerdefense" | "tycoon";
   title: string;
@@ -80,7 +95,7 @@ const games: GameDef[] = [
 ];
 
 const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
-  const isLight = theme === 'light';
+  const isLight = false; // L'Espace Jeux reste en thème sombre (fond noir) quel que soit le thème global
   const [activeGame, setActiveGame] = useState<GameDef["id"] | "none">("none");
 
   useEffect(() => {
@@ -99,19 +114,30 @@ const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
     }
   }, [activeGame]);
 
-  if (activeGame === "roulette") return <Suspense fallback={<ViewLoader />}><RouletteQVT onClose={() => setActiveGame("none")} /></Suspense>;
-  if (activeGame === "memory") return <Suspense fallback={<ViewLoader />}><MemoryRH onClose={() => setActiveGame("none")} /></Suspense>;
-  if (activeGame === "quiz") return <Suspense fallback={<ViewLoader />}><FAQQuiz onClose={() => setActiveGame("none")} /></Suspense>;
-  if (activeGame === "cassebrique") return <Suspense fallback={<ViewLoader />}><CasseBrique onClose={() => setActiveGame("none")} /></Suspense>;
-  if (activeGame === "frogger") return <Suspense fallback={<ViewLoader />}><FroggerContractuel onClose={() => setActiveGame("none")} /></Suspense>;
-  if (activeGame === "tapetaupe") return <Suspense fallback={<ViewLoader />}><TapeTaupeRisques onClose={() => setActiveGame("none")} /></Suspense>;
-  if (activeGame === "sortemall") return <Suspense fallback={<ViewLoader />}><SortEmAll onClose={() => setActiveGame("none")} /></Suspense>;
-  if (activeGame === "pacman") return <Suspense fallback={<ViewLoader />}><PacManPaie onClose={() => setActiveGame("none")} /></Suspense>;
-  if (activeGame === "towerdefense") return <Suspense fallback={<ViewLoader />}><TowerDefenseRH onClose={() => setActiveGame("none")} /></Suspense>;
-  if (activeGame === "tycoon") return <Suspense fallback={<ViewLoader />}><TycoonCollectivite onClose={() => setActiveGame("none")} /></Suspense>;
+  const wrapGame = (component: React.ReactNode) => (
+    <div className="dark bg-black text-white min-h-screen EspaceJeux-root-container">
+      <EspaceJeuxStyles />
+      <Suspense fallback={<ViewLoader />}>
+        {component}
+      </Suspense>
+    </div>
+  );
+
+  if (activeGame === "roulette") return wrapGame(<RouletteQVT onClose={() => setActiveGame("none")} />);
+  if (activeGame === "memory") return wrapGame(<MemoryRH onClose={() => setActiveGame("none")} />);
+  if (activeGame === "quiz") return wrapGame(<FAQQuiz onClose={() => setActiveGame("none")} />);
+  if (activeGame === "cassebrique") return wrapGame(<CasseBrique onClose={() => setActiveGame("none")} />);
+  if (activeGame === "frogger") return wrapGame(<FroggerContractuel onClose={() => setActiveGame("none")} />);
+  if (activeGame === "tapetaupe") return wrapGame(<TapeTaupeRisques onClose={() => setActiveGame("none")} />);
+  if (activeGame === "sortemall") return wrapGame(<SortEmAll onClose={() => setActiveGame("none")} />);
+  if (activeGame === "pacman") return wrapGame(<PacManPaie onClose={() => setActiveGame("none")} />);
+  if (activeGame === "towerdefense") return wrapGame(<TowerDefenseRH onClose={() => setActiveGame("none")} />);
+  if (activeGame === "tycoon") return wrapGame(<TycoonCollectivite onClose={() => setActiveGame("none")} />);
 
   return (
-    <div className={`relative z-30 isolate min-h-screen overflow-x-hidden py-8 sm:py-12 px-4 sm:px-6 lg:px-8 font-sans transition-colors duration-500 ${isLight ? "bg-slate-50 text-slate-900" : "bg-[#040009] text-white"}`}>
+    <div className="dark bg-black text-white min-h-screen EspaceJeux-root-container">
+      <EspaceJeuxStyles />
+      <div className="relative z-30 isolate min-h-screen overflow-x-hidden py-8 sm:py-12 px-4 sm:px-6 lg:px-8 font-sans transition-colors duration-500 bg-black text-white">
       
       {/* Dynamic Background Effects */}
       <div
@@ -169,8 +195,7 @@ const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
                   backgroundPosition: 'center'
                 }}
               >
-                {/* Overlay Gradient */}
-                <div className={`absolute inset-0 transition-opacity duration-500 ${isLight ? "opacity-60 group-hover:opacity-80 bg-gradient-to-t from-white via-white/90 to-transparent" : "opacity-80 group-hover:opacity-90 bg-gradient-to-t from-[#040009] via-[#040009]/90 to-transparent"}`} />
+                <div className="absolute inset-0 transition-opacity duration-500 opacity-80 group-hover:opacity-90 bg-gradient-to-t from-black via-black/90 to-transparent" />
                 <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
                 <div className="relative z-10 p-6 sm:p-8 transform translate-y-8 sm:translate-y-12 group-hover:translate-y-0 transition-transform duration-500 flex flex-col justify-end h-full">
@@ -202,15 +227,7 @@ const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
 
       </div>
 
-      <style>{`
-        @keyframes fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        .animate-fade-in {
-          animation: fade-in 0.6s ease-out forwards;
-        }
-      `}</style>
+    </div>
     </div>
   );
 };

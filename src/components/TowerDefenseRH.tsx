@@ -30,9 +30,9 @@ const WAYPOINTS = [
 ];
 
 const TOWER_TYPES = {
-  1: { name: "Chargé de Recrutement", cost: 50, range: 100, damage: 15, fireRate: 30, color: "#3b82f6", desc: "Tir rapide, dégâts moyens." },
-  2: { name: "Budget Contractuel", cost: 120, range: 120, damage: 50, fireRate: 90, splash: 60, color: "#ef4444", desc: "Tir très lent, gros dégâts de zone." },
-  3: { name: "Redéploiement", cost: 80, range: 100, damage: 5, fireRate: 60, slowDuration: 120, color: "#8b5cf6", desc: "Ralentit fortement les cibles." }
+  1: { name: "Chargé de Recrutement", cost: 40, range: 100, damage: 15, fireRate: 30, color: "#3b82f6", desc: "Tir rapide, dégâts moyens." },
+  2: { name: "Budget Contractuel", cost: 100, range: 120, damage: 50, fireRate: 90, splash: 60, color: "#ef4444", desc: "Tir très lent, gros dégâts de zone." },
+  3: { name: "Redéploiement", cost: 60, range: 100, damage: 5, fireRate: 60, slowDuration: 120, color: "#8b5cf6", desc: "Ralentit fortement les cibles." }
 };
 
 const ENEMY_TYPES = {
@@ -54,6 +54,83 @@ interface Tower { x: number; y: number; c: number; r: number; type: number; cool
 interface Enemy { id: string; x: number; y: number; type: string; hp: number; maxHp: number; speed: number; reward: number; color: string; radius: number; waypointIndex: number; slowTimer: number; }
 interface Projectile { x: number; y: number; targetId: string; speed: number; damage: number; splash?: number; slowDuration?: number; color: string; }
 interface Particle { x: number; y: number; vx: number; vy: number; life: number; color: string; size: number; }
+
+const playTDSound = (type: "shoot" | "place" | "hit" | "damage" | "wave" | "gameover" | "victory") => {
+  try {
+    // @ts-ignore
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    const ctx = new AudioContextClass();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    const now = ctx.currentTime;
+
+    if (type === "shoot") {
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(400, now);
+      osc.frequency.exponentialRampToValueAtTime(100, now + 0.1);
+      gain.gain.setValueAtTime(0.06, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.1);
+      osc.start(now);
+      osc.stop(now + 0.1);
+    } else if (type === "place") {
+      osc.type = "square";
+      osc.frequency.setValueAtTime(150, now);
+      osc.frequency.setValueAtTime(300, now + 0.08);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
+      osc.start(now);
+      osc.stop(now + 0.2);
+    } else if (type === "hit") {
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(120, now);
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.05);
+      osc.start(now);
+      osc.stop(now + 0.05);
+    } else if (type === "damage") {
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(120, now);
+      osc.frequency.setValueAtTime(80, now + 0.15);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
+      osc.start(now);
+      osc.stop(now + 0.3);
+    } else if (type === "wave") {
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.linearRampToValueAtTime(440, now + 0.5);
+      gain.gain.setValueAtTime(0.1, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.5);
+      osc.start(now);
+      osc.stop(now + 0.5);
+    } else if (type === "gameover") {
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(200, now);
+      osc.frequency.linearRampToValueAtTime(40, now + 0.8);
+      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.8);
+      osc.start(now);
+      osc.stop(now + 0.8);
+    } else if (type === "victory") {
+      osc.type = "triangle";
+      const notes = [262, 330, 392, 523, 659, 784];
+      notes.forEach((freq, idx) => {
+        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+      });
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.setValueAtTime(0.12, now + 0.35);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.55);
+      osc.start(now);
+      osc.stop(now + 0.55);
+    }
+  } catch (e) {
+    console.warn("Blocked by browser audio policies", e);
+  }
+};
 
 const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -118,6 +195,7 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
     spawnTimerRef.current = waveData.interval || 60;
     waveActiveRef.current = true;
     setWave(w => w + 1);
+    playTDSound("wave");
   };
 
   const createParticles = (x: number, y: number, color: string, count: number) => {
@@ -171,6 +249,7 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
         level: 1
       });
       createParticles(c * TILE_SIZE + TILE_SIZE / 2, r * TILE_SIZE + TILE_SIZE / 2, "#ffffff", 10);
+      playTDSound("place");
     }
   };
 
@@ -218,6 +297,7 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
           setBudget(b => b + 25); // Wave clear bonus
           if (wave >= 10) {
             setGameState("victory");
+            playTDSound("victory");
           }
         }
       }
@@ -247,7 +327,12 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
             enemiesRef.current.splice(i, 1);
             setHealth(h => {
               const nextH = h - 1;
-              if (nextH <= 0) setGameState("gameover");
+              if (nextH <= 0) {
+                setGameState("gameover");
+                playTDSound("gameover");
+              } else {
+                playTDSound("damage");
+              }
               return nextH;
             });
             continue;
@@ -297,6 +382,7 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
               slowDuration: tType.slowDuration,
               color: tType.color
             });
+            playTDSound("shoot");
           }
         }
       });
@@ -318,6 +404,7 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
         if (dist < p.speed) {
           // Hit!
           projectilesRef.current.splice(i, 1);
+          playTDSound("hit");
           
           if (p.splash) {
             createParticles(target.x, target.y, p.color, 15);
@@ -487,6 +574,23 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
         ctx.stroke();
       }
 
+      // Draw hover indicator for existing towers (dashed range circle)
+      if (hoverTile) {
+        const existingTower = towersRef.current.find(t => t.c === hoverTile.c && t.r === hoverTile.r);
+        if (existingTower) {
+          const tType = TOWER_TYPES[existingTower.type as keyof typeof TOWER_TYPES];
+          ctx.beginPath();
+          ctx.arc(existingTower.x, existingTower.y, tType.range, 0, Math.PI*2);
+          ctx.fillStyle = "rgba(255, 255, 255, 0.08)";
+          ctx.fill();
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([4, 4]);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+      }
+
       // Draw Towers
       towersRef.current.forEach(t => {
         const tType = TOWER_TYPES[t.type as keyof typeof TOWER_TYPES];
@@ -514,70 +618,71 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
           angle = Math.atan2(target.y - t.y, target.x - t.x);
         }
 
-        ctx.shadowBlur = 10;
+        ctx.shadowBlur = 8;
         ctx.shadowColor = tType.color;
 
         if (t.type === 1) {
-          // Type 1: Chargé de Recrutement (Radar/Turret)
-          // Base
+          // Type 1: Chargé de Recrutement (Agent de bureau)
+          // Bureau en bois/slate
           ctx.fillStyle = "#334155";
-          ctx.beginPath(); ctx.arc(0, 0, 16, 0, Math.PI*2); ctx.fill();
-          ctx.fillStyle = "#475569";
-          ctx.beginPath(); ctx.arc(0, 0, 12, 0, Math.PI*2); ctx.fill();
+          ctx.fillRect(-14, -14, 28, 28);
+          ctx.strokeStyle = "#475569";
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(-14, -14, 28, 28);
           
-          // Turret Head
+          // Head / Desk Facing Target
           ctx.rotate(angle);
-          ctx.fillStyle = tType.color;
-          ctx.beginPath(); ctx.moveTo(12, 0); ctx.lineTo(-8, 10); ctx.lineTo(-8, -10); ctx.fill();
+          ctx.fillStyle = "#ffedd5"; // Peau
+          ctx.beginPath(); ctx.arc(0, 0, 7, 0, Math.PI*2); ctx.fill();
+          ctx.fillStyle = "#3b82f6"; // Casque bleu / Cheveux
+          ctx.beginPath(); ctx.arc(-2, 0, 6.5, Math.PI*0.5, Math.PI*1.5); ctx.fill();
           
-          // Glow core
-          ctx.fillStyle = "#ffffff";
-          ctx.beginPath(); ctx.arc(-2, 0, 4, 0, Math.PI*2); ctx.fill();
+          // Petit écran d'ordinateur
+          ctx.fillStyle = "#94a3b8";
+          ctx.fillRect(5, -4, 2, 8);
+          ctx.fillStyle = "#e2e8f0";
+          ctx.fillRect(7, -3, 1, 6);
 
         } else if (t.type === 2) {
-          // Type 2: Budget (Heavy Cannon / Coin Stack)
-          // Base
+          // Type 2: Budget Contractuel (Bureau blindé / Coffre-fort rouge)
           ctx.fillStyle = "#1e293b";
-          ctx.beginPath(); ctx.rect(-14, -14, 28, 28); ctx.fill();
+          ctx.fillRect(-15, -15, 30, 30);
+          ctx.strokeStyle = "#ef4444";
+          ctx.lineWidth = 2;
+          ctx.strokeRect(-15, -15, 30, 30);
           
-          // Turret Head
+          // Rotation du canon à billets
           ctx.rotate(angle);
-          ctx.fillStyle = tType.color;
-          // Barrel
-          ctx.fillRect(0, -6, 20, 12);
-          // Body
-          ctx.beginPath(); ctx.arc(0, 0, 12, 0, Math.PI*2); ctx.fill();
+          ctx.fillStyle = "#ef4444";
+          ctx.fillRect(0, -5, 16, 10);
           
-          // Details
-          ctx.fillStyle = "#fbbf24"; // Gold ring
-          ctx.fillRect(16, -7, 4, 14);
-          ctx.fillStyle = "#0f172a";
-          ctx.beginPath(); ctx.arc(0, 0, 5, 0, Math.PI*2); ctx.fill();
+          // Piles de pièces d'or sur le dessus
+          ctx.fillStyle = "#fbbf24";
+          ctx.beginPath();
+          ctx.arc(-4, -4, 4, 0, Math.PI*2);
+          ctx.arc(2, 4, 3.5, 0, Math.PI*2);
+          ctx.fill();
 
         } else if (t.type === 3) {
-          // Type 3: Redéploiement (Magic Crystal / Antenna)
+          // Type 3: Redéploiement (Magique / Antenne violette)
           // Base
-          ctx.fillStyle = "#1e293b";
+          ctx.fillStyle = "#312e81";
           ctx.beginPath();
-          ctx.moveTo(0, -16); ctx.lineTo(14, 8); ctx.lineTo(-14, 8);
+          ctx.moveTo(0, -15); ctx.lineTo(13, 8); ctx.lineTo(-13, 8);
           ctx.fill();
           
-          // Rotating Aura
-          const spin = Date.now() / 500;
+          // Aura pulsante de ralentissement
+          const pulse = Math.abs(Math.sin(Date.now() / 250)) * 5 + 8;
+          ctx.fillStyle = "rgba(139, 92, 246, 0.25)";
+          ctx.beginPath(); ctx.arc(0, 0, pulse, 0, Math.PI*2); ctx.fill();
+          
+          // Cristal rotatif
+          const spin = Date.now() / 400;
           ctx.rotate(spin);
-          
-          // Crystals
           ctx.fillStyle = tType.color;
-          for(let i=0; i<3; i++) {
-            ctx.rotate((Math.PI * 2) / 3);
-            ctx.beginPath();
-            ctx.moveTo(0, -18); ctx.lineTo(4, -8); ctx.lineTo(-4, -8);
-            ctx.fill();
-          }
-          
-          // Core
-          ctx.fillStyle = "#e0e7ff";
-          ctx.beginPath(); ctx.arc(0, 0, 6, 0, Math.PI*2); ctx.fill();
+          ctx.beginPath();
+          ctx.moveTo(0, -12); ctx.lineTo(5, 0); ctx.lineTo(0, 12); ctx.lineTo(-5, 0);
+          ctx.fill();
         }
         
         ctx.restore();
@@ -658,13 +763,44 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
 
       // Draw Projectiles
       projectilesRef.current.forEach(p => {
-        ctx.fillStyle = p.color;
-        ctx.shadowBlur = 10;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.shadowBlur = 8;
         ctx.shadowColor = p.color;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.splash ? 6 : 4, 0, Math.PI*2);
-        ctx.fill();
-        ctx.shadowBlur = 0;
+        
+        if (p.color === "#3b82f6") {
+          // Type 1: Paper CV (Dossier blanc volant)
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(-6, -4, 12, 8);
+          ctx.strokeStyle = "#3b82f6";
+          ctx.lineWidth = 1;
+          ctx.strokeRect(-6, -4, 12, 8);
+          // Lignes de texte
+          ctx.fillStyle = "#3b82f6";
+          ctx.fillRect(-4, -1.5, 8, 1);
+          ctx.fillRect(-4, 1, 6, 1);
+        } else if (p.color === "#ef4444") {
+          // Type 2: Big Exploding Euro Coin (Pièce d'or jaune)
+          ctx.fillStyle = "#fbbf24";
+          ctx.beginPath(); ctx.arc(0, 0, 5.5, 0, Math.PI*2); ctx.fill();
+          ctx.strokeStyle = "#d97706";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+          // Symbole € au centre
+          ctx.fillStyle = "#d97706";
+          ctx.font = "bold 7px sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText("€", 0, 0);
+        } else {
+          // Type 3: Purple Slowdown Bubble (Bulle violette)
+          ctx.fillStyle = "#a78bfa";
+          ctx.beginPath(); ctx.arc(0, 0, 4.5, 0, Math.PI*2); ctx.fill();
+          // Reflet blanc
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath(); ctx.arc(-1.5, -1.5, 1.2, 0, Math.PI*2); ctx.fill();
+        }
+        ctx.restore();
       });
 
       // Draw Particles
