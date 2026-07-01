@@ -14,7 +14,7 @@ import { HoverEffect } from "./components/ui/CardHoverEffect.tsx"
 import { BackgroundGradient } from "./components/ui/BackgroundGradient.tsx"
 import { BorderBeam } from "./components/ui/BorderBeam.tsx"
 import { Toaster, toast } from "sonner"
-import Tilt from "react-parallax-tilt"
+import { OrangeGeometricBackground } from "./components/ui/OrangeGeometricBackground.tsx"
 
 const CalculateurCIAV2 = lazy(() => import("./components/CalculateurCIAV2.tsx"))
 const CalculateurPrimesV2 = lazy(() => import("./components/CalculateurPrimesV2.tsx"))
@@ -110,7 +110,7 @@ const RssBandeau = React.memo(({ rssItems, rssLoading, marqueeRef }: { rssItems:
   const renderItems = (keyPrefix: string) => {
     if (rssItems.length === 0) {
       return (
-        <span className="text-base mx-8 font-light text-slate-100">
+        <span className="text-base mx-8 font-semibold text-orange-950">
           {rssLoading ? "Chargement des articles..." : "Aucun article disponible"}
         </span>
       )
@@ -122,7 +122,7 @@ const RssBandeau = React.memo(({ rssItems, rssLoading, marqueeRef }: { rssItems:
           href={item.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-lg font-light mx-6 hover:text-cyan-300 cursor-pointer text-white transition-colors duration-100 inline-block"
+          className="text-lg font-semibold mx-6 hover:text-orange-855 cursor-pointer text-orange-950 transition-colors duration-100 inline-block"
         >
           {item.title}
         </a>
@@ -131,13 +131,13 @@ const RssBandeau = React.memo(({ rssItems, rssLoading, marqueeRef }: { rssItems:
   }
 
   return (
-    <section className="relative bg-gradient-to-r from-blue-600/60 via-indigo-600/60 to-blue-600/60 backdrop-blur-md text-white overflow-hidden w-full shadow-lg border-b border-blue-500/30 z-50 glass-banner marquee-pausable">
+    <section className="relative bg-gradient-to-r from-orange-600/60 via-amber-500/60 to-orange-600/60 backdrop-blur-md text-orange-950 overflow-hidden w-full shadow-lg border-b border-orange-500/30 z-50 glass-banner marquee-pausable">
       <div className="relative h-16 flex items-center overflow-hidden">
         {/* Label ACTU fixe à gauche */}
-        <div className="absolute left-0 top-0 h-full w-40 flex items-center justify-center bg-gradient-to-r from-indigo-700 to-blue-700 backdrop-blur z-20 shadow-lg glass-pill actu-pill-glow">
+        <div className="absolute left-0 top-0 h-full w-40 flex items-center justify-center bg-gradient-to-r from-amber-400 to-orange-300 backdrop-blur z-20 shadow-lg glass-pill actu-pill-glow">
           <div className="flex items-center gap-2">
-            <Rss className="w-4 h-4 text-cyan-300 animate-pulse" />
-            <span className="text-base font-light tracking-wide text-white">ACTU:</span>
+            <Rss className="w-4 h-4 text-orange-950 animate-pulse" />
+            <span className="text-base font-bold tracking-wide text-orange-950">ACTU:</span>
           </div>
         </div>
         {/* Container du défilement - 2 copies pour boucle infinie */}
@@ -1250,6 +1250,9 @@ ${indicesFactuels}
       }}
     >
       <Toaster richColors position="bottom-right" closeButton theme={theme} />
+      {/* Orange geometric background shapes */}
+      <OrangeGeometricBackground />
+
       {/* Dark mode background gradient */}
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-blue-950 to-slate-950 opacity-0 dark:opacity-100 pointer-events-none z-0 transition-opacity duration-300"></div>
 
@@ -1267,18 +1270,6 @@ ${indicesFactuels}
       {/* HEADER PROFESSIONNEL */}
       <header className="relative bg-gradient-to-r from-white/95 via-slate-50/90 to-white/95 dark:from-slate-900/95 dark:via-blue-950/90 dark:to-slate-900/95 shadow-lg dark:shadow-blue-900/20 z-10 bg-cover bg-center glass-banner header-bottom-glow" style={{ backgroundImage: `url('${BASE_URL}mairie.jpeg')`, backgroundBlendMode: 'overlay' }}>
         <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-slate-50/80 to-white/80 dark:from-slate-900/80 dark:via-blue-900/80 dark:to-slate-900/80 z-0 transition-colors duration-300"></div>
-        {/* Particle sparkles effect background */}
-        <div className="absolute inset-0 z-0 opacity-90 pointer-events-none">
-          <SparklesCore
-            id="header-sparkles"
-            background="transparent"
-            minSize={1.2}
-            maxSize={3.0}
-            particleDensity={50}
-            particleColor={theme === 'dark' ? '#ffffff' : '#4f46e5'}
-            speed={0.6}
-          />
-        </div>
         {/* Scan line traversant le header */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
           <div
@@ -1561,17 +1552,6 @@ ${indicesFactuels}
 
                   {/* Colonne Gauche : Actualités */}
                   <div className="lg:col-span-3 h-full">
-                    <Tilt
-                      glareEnable={true}
-                      glareMaxOpacity={0.04}
-                      glareColor={theme === 'dark' ? '#ffffff' : '#3b82f6'}
-                      glarePosition="all"
-                      glareBorderRadius="24px"
-                      tiltMaxAngleX={4}
-                      tiltMaxAngleY={4}
-                      perspective={1000}
-                      className="w-full h-full"
-                    >
                     <div className="w-full h-full bg-gradient-to-br from-white/90 via-blue-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-blue-200 shadow-xl shadow-blue-100/50 transition-all duration-300 hover:shadow-2xl hover:border-blue-300 relative z-10 overflow-hidden">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-8 justify-between">
                       <div className="flex items-center gap-3">
@@ -1714,7 +1694,6 @@ ${indicesFactuels}
                       </div>
                     )}
                   </div>
-                </Tilt>
               </div>
 
               {/* Colonne Droite : À Lire (Journal) */}
@@ -1941,17 +1920,6 @@ ${indicesFactuels}
 
                 {/* Colonne 2 : Liens utiles & FAQ */}
                 <div className="w-full h-full">
-                  <Tilt
-                    glareEnable={true}
-                    glareMaxOpacity={0.05}
-                    glareColor={theme === 'dark' ? '#ffffff' : '#06b6d4'}
-                    glarePosition="all"
-                    glareBorderRadius="24px"
-                    tiltMaxAngleX={5}
-                    tiltMaxAngleY={5}
-                    perspective={1000}
-                    className="w-full h-full"
-                  >
                     <div className="w-full h-full bg-gradient-to-br from-white/90 via-cyan-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-cyan-200 shadow-xl shadow-cyan-100/50 transition-all duration-300 hover:border-cyan-300 relative z-10 flex flex-col justify-start group overflow-hidden">
                     <BorderBeam size={160} duration={8} delay={0} colorFrom="#06b6d4" colorTo="#3b82f6" />
                   <div className="flex items-center gap-3 mb-6">
@@ -1998,9 +1966,7 @@ ${indicesFactuels}
                     })}
                   </div>
 
-                  {/* Le bouton FAQ a été déplacé dans les accès rapides */}
-                </div>
-              </Tilt>
+                  </div>
             </div>
 
           </div>
@@ -2107,20 +2073,8 @@ ${indicesFactuels}
 
               {/* --- ACTUALITÉ JURIDIQUE CIG VERSAILLES (DÉPLACÉE EN DESSOUS DES 3 FENÊTRES) --- */}
               <div className="w-full mb-12 cursor-pointer">
-                <Tilt
-                  glareEnable={true}
-                  glareMaxOpacity={0.04}
-                  glareColor={theme === 'dark' ? '#ffffff' : '#a855f7'}
-                  glarePosition="all"
-                  glareBorderRadius="24px"
-                  tiltMaxAngleX={3}
-                  tiltMaxAngleY={3}
-                  perspective={1000}
-                  className="w-full h-full"
-                >
-                  <BackgroundGradient
-                    containerClassName="w-full rounded-3xl shadow-xl shadow-purple-100/30 dark:shadow-none"
-                    className="w-full bg-gradient-to-br from-white/95 via-purple-50/20 to-white/95 dark:from-slate-900/95 dark:via-purple-950/20 dark:to-slate-900/95 backdrop-blur-xl rounded-3xl p-8 border border-purple-200/50 dark:border-purple-800/40 transition-all duration-300"
+                  <div
+                    className="w-full rounded-3xl shadow-xl shadow-purple-100/30 dark:shadow-none bg-gradient-to-br from-white/95 via-purple-50/20 to-white/95 dark:from-slate-900/95 dark:via-purple-950/20 dark:to-slate-900/95 backdrop-blur-xl p-8 border border-purple-200/50 dark:border-purple-800/40 transition-all duration-300"
                   >
                   <div onClick={() => setChatState({ ...chatState, currentView: 'veille' })} className="flex flex-col gap-6">
                     <div className="flex items-center gap-3">
@@ -2172,8 +2126,7 @@ ${indicesFactuels}
                       </div>
                     </div>
                   </div>
-                </BackgroundGradient>
-              </Tilt>
+                </div>
             </div>
 
           </div>
@@ -2485,12 +2438,12 @@ ${indicesFactuels}
       </section>
 
       <footer
-        className="relative text-slate-400 text-center py-3 mt-0 z-10 border-t border-purple-500/20 glass-banner footer-glass"
+        className="relative text-slate-200 text-center py-3 mt-0 z-10 border-t border-orange-500/20 glass-banner footer-glass"
         style={{
           backgroundImage: `
             linear-gradient(to right, 
               rgba(15, 23, 42, 0.85), 
-              rgba(88, 28, 135, 0.85), 
+              rgba(194, 65, 12, 0.85), 
               rgba(15, 23, 42, 0.85)
             ),
             url('${BASE_URL}mairie.jpeg')
@@ -2502,34 +2455,34 @@ ${indicesFactuels}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-center items-center gap-2 mb-3">
-            <span className="text-pink-400 font-light text-base tracking-wide">CFDT Gennevilliers</span>
+            <span className="text-orange-300 font-semibold text-base tracking-wide">CFDT Gennevilliers</span>
           </div>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-5 mb-3">
             <a
               href="tel:0140856464"
-              className="flex items-center gap-2 text-pink-400/90 hover:text-pink-300 transition-all duration-200 hover:scale-110 font-light text-sm"
+              className="flex items-center gap-2 text-orange-200 hover:text-white transition-all duration-200 hover:scale-105 font-medium text-sm"
             >
-              <Phone className="w-5 h-5" />
+              <Phone className="w-5 h-5 text-orange-300" />
               <span>01 40 85 64 64</span>
             </a>
             <a
               href="mailto:cfdt-interco@ville-gennevilliers.fr"
-              className="flex items-center gap-2 text-pink-400/90 hover:text-pink-300 transition-all duration-200 hover:scale-110 font-light text-sm"
+              className="flex items-center gap-2 text-orange-200 hover:text-white transition-all duration-200 hover:scale-105 font-medium text-sm"
             >
-              <Mail className="w-5 h-5" />
+              <Mail className="w-5 h-5 text-orange-300" />
               <span>cfdt-interco@ville-gennevilliers.fr</span>
             </a>
-            <div className="flex items-center gap-2 text-pink-400/90 font-light text-sm">
-              <MapPin className="w-5 h-5" />
+            <div className="flex items-center gap-2 text-orange-200 font-medium text-sm">
+              <MapPin className="w-5 h-5 text-orange-300" />
               <span>177 av. Gabriel-Péri</span>
             </div>
           </div>
-          <p className="text-xs text-slate-500 font-light leading-tight">
+          <p className="text-xs text-slate-300 font-normal leading-tight">
             92237 Gennevilliers Cedex
           </p>
 
           {/* Bouton Admin */}
-          <div className="mt-4 pt-4 border-t border-purple-500/20">
+          <div className="mt-4 pt-4 border-t border-orange-500/20">
             <button
               onClick={() => {
                 // Vérifier si déjà authentifié
@@ -2540,7 +2493,7 @@ ${indicesFactuels}
                   setShowAdminLogin(true);
                 }
               }}
-              className="px-4 py-2 bg-purple-600/50 border border-purple-500/50 text-purple-300 rounded-lg hover:bg-purple-600/70 transition-all duration-200 font-light text-xs glass-pill"
+              className="px-4 py-2 bg-orange-600/50 border border-orange-500/50 text-white rounded-lg hover:bg-orange-600/70 transition-all duration-200 font-semibold text-xs glass-pill"
             >
               Accès Administrateur
             </button>

@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { FontLoader, Font } from 'three/examples/jsm/loaders/FontLoader.js'
 import { ShapeGeometry } from 'three'
+import { OrangeGeometricBackground } from './ui/OrangeGeometricBackground.tsx'
 
 interface Props {
   onEnter: () => void
@@ -217,6 +218,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
       fontFamily: "'Outfit', sans-serif",
       overflow: 'hidden',
     }}>
+      <OrangeGeometricBackground />
       {/* Fonts */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap');
