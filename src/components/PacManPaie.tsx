@@ -319,45 +319,73 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
             ctx.fillRect(c * TILE_SIZE + 2, r * TILE_SIZE + 2, TILE_SIZE - 4, TILE_SIZE - 4);
             ctx.shadowBlur = 0;
           } else if (tile === 2) {
-            // Dot (Crédit/Prime)
-            ctx.fillStyle = "#fbbf24";
-            ctx.beginPath();
-            ctx.arc(c * TILE_SIZE + TILE_SIZE / 2, r * TILE_SIZE + TILE_SIZE / 2, 3, 0, Math.PI * 2);
-            ctx.fill();
+            // Dot (Bonus Dollar)
+            ctx.fillStyle = "#fbbf24"; // Gold
+            ctx.font = "bold 14px sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("$", c * TILE_SIZE + TILE_SIZE / 2, r * TILE_SIZE + TILE_SIZE / 2);
           } else if (tile === 3) {
-            // Power Pellet (Délibération)
-            ctx.fillStyle = "#f87171";
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = "#f87171";
-            ctx.beginPath();
-            ctx.arc(c * TILE_SIZE + TILE_SIZE / 2, r * TILE_SIZE + TILE_SIZE / 2, 7 + Math.sin(Date.now() / 150) * 2, 0, Math.PI * 2);
-            ctx.fill();
+            // Power Pellet (Billet de paie / Grosse Prime)
+            ctx.fillStyle = "#10b981"; // Green
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = "#10b981";
+            
+            // Draw a small paycheck bill
+            const x = c * TILE_SIZE + 4;
+            const y = r * TILE_SIZE + 5;
+            const w = TILE_SIZE - 8;
+            const h = TILE_SIZE - 10;
+            ctx.fillRect(x, y, w, h);
+            
+            // Draw tiny details on bill
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 9px sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("$", c * TILE_SIZE + TILE_SIZE / 2, r * TILE_SIZE + TILE_SIZE / 2);
             ctx.shadowBlur = 0;
           }
         }
       }
-
-      // Draw Player
+ 
+      // Draw Player (Bulletin de Salaire)
       const p = playerRef.current;
       ctx.save();
       ctx.translate(p.x + TILE_SIZE / 2, p.y + TILE_SIZE / 2);
       
-      // Rotation based on direction
-      if (p.vx > 0) ctx.rotate(0);
-      else if (p.vx < 0) ctx.rotate(Math.PI);
-      else if (p.vy > 0) ctx.rotate(Math.PI / 2);
-      else if (p.vy < 0) ctx.rotate(-Math.PI / 2);
-
-      // Mouth animation
-      const mouthAngle = 0.2 + Math.abs(Math.sin(Date.now() / 100)) * 0.4;
-      
-      ctx.fillStyle = "#fbbf24"; // Yellow
+      // Draw a document sheet representing the Paycheck
+      ctx.fillStyle = "#a855f7"; // Neon purple document
       ctx.shadowBlur = 15;
-      ctx.shadowColor = "#fbbf24";
+      ctx.shadowColor = "#a855f7";
+      
+      // Main sheet shape
       ctx.beginPath();
-      ctx.arc(0, 0, TILE_SIZE / 2 - 2, mouthAngle * Math.PI, (2 - mouthAngle) * Math.PI);
-      ctx.lineTo(0, 0);
+      // Draw a rounded rectangle for a document
+      ctx.roundRect(-TILE_SIZE / 2 + 3, -TILE_SIZE / 2 + 2, TILE_SIZE - 6, TILE_SIZE - 4, 3);
       ctx.fill();
+
+      // Lines of text on the paycheck
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      // Line 1
+      ctx.moveTo(-TILE_SIZE / 2 + 6, -TILE_SIZE / 2 + 6);
+      ctx.lineTo(TILE_SIZE / 2 - 6, -TILE_SIZE / 2 + 6);
+      // Line 2
+      ctx.moveTo(-TILE_SIZE / 2 + 6, -TILE_SIZE / 2 + 10);
+      ctx.lineTo(TILE_SIZE / 2 - 6, -TILE_SIZE / 2 + 10);
+      // Line 3
+      ctx.moveTo(-TILE_SIZE / 2 + 6, -TILE_SIZE / 2 + 14);
+      ctx.lineTo(TILE_SIZE / 2 - 10, -TILE_SIZE / 2 + 14);
+      ctx.stroke();
+
+      // Gold seal badge
+      ctx.fillStyle = "#fbbf24";
+      ctx.beginPath();
+      ctx.arc(TILE_SIZE / 2 - 7, TILE_SIZE / 2 - 6, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+
       ctx.restore();
 
       // Draw Ghosts
