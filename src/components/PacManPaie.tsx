@@ -51,6 +51,8 @@ interface Ghost extends Entity {
   startX: number;
   startY: number;
   name: string;
+  lastTileX?: number;
+  lastTileY?: number;
 }
 
 const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
@@ -72,11 +74,11 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
     playerRef.current = { x: 10 * TILE_SIZE, y: 16 * TILE_SIZE, vx: 0, vy: 0, nextVx: 0, nextVy: 0, speed: 2 };
     
     ghostsRef.current = [
-      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#ef4444", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Indu" },
-      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#3b82f6", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Absence" },
-      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#f59e0b", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Erreur CM" },
-      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#ec4899", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Surcharge" },
-      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#10b981", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Retard" },
+      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#ef4444", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Indu", lastTileX: 10, lastTileY: 10 },
+      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#3b82f6", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Absence", lastTileX: 10, lastTileY: 10 },
+      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#f59e0b", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Erreur CM", lastTileX: 10, lastTileY: 10 },
+      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#ec4899", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Surcharge", lastTileX: 10, lastTileY: 10 },
+      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#10b981", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Retard", lastTileX: 10, lastTileY: 10 },
     ];
     
     setScore(0);
@@ -93,6 +95,8 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
       g.isVulnerable = false;
       g.vx = 0;
       g.vy = -g.speed;
+      g.lastTileX = 10;
+      g.lastTileY = 10;
     });
   };
 
@@ -232,70 +236,65 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
 
         const actualSpeed = g.isVulnerable ? g.speed * 0.6 : g.speed;
 
+        const currentTileX = Math.round(g.x / TILE_SIZE);
+        const currentTileY = Math.round(g.y / TILE_SIZE);
+        const hasMovedTile = g.lastTileX === undefined || g.lastTileY === undefined || currentTileX !== g.lastTileX || currentTileY !== g.lastTileY;
+
         // Si le fantôme est dans la maison de départ (avec une marge de sécurité), on le guide vers la sortie
         const inHouse = g.y >= 9 * TILE_SIZE && g.y <= 11 * TILE_SIZE && g.x >= 9 * TILE_SIZE && g.x <= 12 * TILE_SIZE;
 
-        if (inHouse) {
-          if (
-            (g.x % TILE_SIZE < actualSpeed || g.x % TILE_SIZE > TILE_SIZE - actualSpeed) &&
-            (g.y % TILE_SIZE < actualSpeed || g.y % TILE_SIZE > TILE_SIZE - actualSpeed)
-          ) {
-            const snappedX = Math.round(g.x / TILE_SIZE) * TILE_SIZE;
-            const snappedY = Math.round(g.y / TILE_SIZE) * TILE_SIZE;
-            g.x = snappedX;
-            g.y = snappedY;
+        if (hasMovedTile) {
+          g.x = currentTileX * TILE_SIZE;
+          g.y = currentTileY * TILE_SIZE;
+          g.lastTileX = currentTileX;
+          g.lastTileY = currentTileY;
 
-            if (snappedX < 10 * TILE_SIZE) {
+          if (inHouse) {
+            if (currentTileX < 10) {
               g.vx = actualSpeed;
               g.vy = 0;
-            } else if (snappedX > 10 * TILE_SIZE) {
+            } else if (currentTileX > 10) {
               g.vx = -actualSpeed;
               g.vy = 0;
             } else {
               g.vx = 0;
               g.vy = -actualSpeed; // Se déplacer vers le haut pour sortir
             }
-          }
-        } else if (
-          (g.x % TILE_SIZE < actualSpeed || g.x % TILE_SIZE > TILE_SIZE - actualSpeed) &&
-          (g.y % TILE_SIZE < actualSpeed || g.y % TILE_SIZE > TILE_SIZE - actualSpeed)
-        ) {
-          const snappedX = Math.round(g.x / TILE_SIZE) * TILE_SIZE;
-          const snappedY = Math.round(g.y / TILE_SIZE) * TILE_SIZE;
-          g.x = snappedX;
-          g.y = snappedY;
-
-          // Decide new direction at intersections
-          const possibleMoves = [];
-          const directions = [
-            { vx: 0, vy: -actualSpeed }, // Up
-            { vx: 0, vy: actualSpeed },  // Down
-            { vx: -actualSpeed, vy: 0 }, // Left
-            { vx: actualSpeed, vy: 0 },  // Right
-          ];
-
-          directions.forEach(dir => {
-            // Don't reverse direction immediately unless trapped
-            if (Math.sign(dir.vx) === -Math.sign(g.vx) && Math.sign(dir.vy) === -Math.sign(g.vy) && (g.vx !== 0 || g.vy !== 0)) return;
-            if (!checkCollisionWithWall(snappedX + Math.sign(dir.vx) * TILE_SIZE, snappedY + Math.sign(dir.vy) * TILE_SIZE)) {
-              possibleMoves.push(dir);
-            }
-          });
-
-          if (possibleMoves.length > 0) {
-            const move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-            g.vx = move.vx;
-            g.vy = move.vy;
           } else {
-            // Reverse if trapped
-            g.vx = -g.vx;
-            g.vy = -g.vy;
+            // Decide new direction at intersections
+            const possibleMoves = [];
+            const directions = [
+              { vx: 0, vy: -actualSpeed }, // Up
+              { vx: 0, vy: actualSpeed },  // Down
+              { vx: -actualSpeed, vy: 0 }, // Left
+              { vx: actualSpeed, vy: 0 },  // Right
+            ];
+
+            directions.forEach(dir => {
+              // Don't reverse direction immediately unless trapped
+              if (Math.sign(dir.vx) === -Math.sign(g.vx) && Math.sign(dir.vy) === -Math.sign(g.vy) && (g.vx !== 0 || g.vy !== 0)) return;
+              if (!checkCollisionWithWall(g.x + Math.sign(dir.vx) * TILE_SIZE, g.y + Math.sign(dir.vy) * TILE_SIZE)) {
+                possibleMoves.push(dir);
+              }
+            });
+
+            if (possibleMoves.length > 0) {
+              const move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+              g.vx = move.vx;
+              g.vy = move.vy;
+            } else {
+              // Reverse if trapped
+              g.vx = -g.vx;
+              g.vy = -g.vy;
+            }
           }
         }
 
         if (!checkCollisionWithWall(g.x + g.vx, g.y + g.vy)) {
           g.x += Math.sign(g.vx) * actualSpeed;
           g.y += Math.sign(g.vy) * actualSpeed;
+        } else {
+          g.lastTileX = undefined; // Force re-evaluation on next frame if blocked
         }
 
         // Collision with player
@@ -310,6 +309,10 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
             g.x = g.startX;
             g.y = g.startY;
             g.isVulnerable = false;
+            g.lastTileX = 10;
+            g.lastTileY = 10;
+            g.vx = 0;
+            g.vy = -g.speed;
             setMessage("ANOMALIE RÉSOLUE !");
             setTimeout(() => setMessage(""), 1000);
           } else {
