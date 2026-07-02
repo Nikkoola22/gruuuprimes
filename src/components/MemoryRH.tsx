@@ -290,7 +290,7 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
               Retour
             </button>
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-800 dark:text-slate-100">
-              Memory RH
+              Défis ta mémoire
             </h1>
           </div>
 

@@ -93,7 +93,7 @@ const games: GameDef[] = [
   { id: "frogger", title: "Frogger RH", description: "Évitez les pièges et visez la titularisation.", actionText: "Jouer", icon: Activity, iconTheme: "green", bgImage: "frogger.png", spanClass: "col-span-1" },
   { id: "tapetaupe", title: "Tape-Taupe", description: "Tapez sur les risques professionnels avant l'accident.", actionText: "Prévention", icon: AlertTriangle, iconTheme: "yellow", bgImage: "tapetaupe.png", spanClass: "col-span-1" },
   { id: "roulette", title: "Roulette QVT", description: "Obtenez des idées concrètes pour votre bien-être au bureau.", actionText: "Lancer", icon: Sparkles, iconTheme: "blue", bgImage: "roulette.png", spanClass: "md:col-span-2 lg:col-span-2" },
-  { id: "memory", title: "Memory RH", description: "Testez votre mémoire en associant chaque terme RH.", actionText: "Jouer", icon: Brain, iconTheme: "purple", bgImage: "memory.png", spanClass: "col-span-1" }
+  { id: "memory", title: "Défis ta mémoire", description: "Testez votre mémoire en associant chaque terme RH.", actionText: "Jouer", icon: Brain, iconTheme: "purple", bgImage: "memory.png", spanClass: "col-span-1" }
 ];
 
 const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
