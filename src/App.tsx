@@ -1742,8 +1742,8 @@ ${indicesFactuels}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full mt-8 mb-12">
 
                 {/* Colonne 1 : À connaître (Docs de référence) */}
-                <div className="w-full h-full bg-gradient-to-br from-white/90 via-rose-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-5 border border-rose-200 shadow-xl shadow-rose-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-rose-300 relative z-10 flex flex-col justify-start group">
-                  <div className="flex items-center gap-3 mb-4">
+                <div className="w-full bg-gradient-to-br from-white/90 via-rose-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-4 border border-rose-200 shadow-xl shadow-rose-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-rose-300 relative z-10 flex flex-col justify-start group">
+                  <div className="flex items-center gap-2 mb-3">
                     <div className="p-2 bg-rose-100/50 rounded-xl border border-rose-200 shadow-sm flex items-center justify-center">
                       <FileText className="w-5 h-5 text-rose-500" />
                     </div>
@@ -1755,7 +1755,7 @@ ${indicesFactuels}
                     </h3>
                   </div>
 
-                  <div className="flex flex-col gap-2.5">
+                  <div className="flex flex-col gap-1.5">
                     {/* Document 1 */}
                     <a
                       href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail_conges_absences/reglement_temps_de_travail/reglement_du_temps_du_travail.pdf"
@@ -1763,7 +1763,7 @@ ${indicesFactuels}
                       rel="noopener noreferrer"
                       className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-xl transition-all"
                     >
-                      <div className="w-12 h-12 flex-shrink-0 rounded-xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
+                      <div className="w-9 h-9 flex-shrink-0 rounded-xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
                         <img src="/images/temps_travail.png" alt="Temps de travail" className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1 flex flex-col justify-center">
@@ -1783,7 +1783,7 @@ ${indicesFactuels}
                       rel="noopener noreferrer"
                       className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-xl transition-all"
                     >
-                      <div className="w-12 h-12 flex-shrink-0 rounded-xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
+                      <div className="w-9 h-9 flex-shrink-0 rounded-xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
                         <img src="/images/formation.png" alt="Formation" className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1 flex flex-col justify-center">
@@ -1803,7 +1803,7 @@ ${indicesFactuels}
                       rel="noopener noreferrer"
                       className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-xl transition-all"
                     >
-                      <div className="w-12 h-12 flex-shrink-0 rounded-xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
+                      <div className="w-9 h-9 flex-shrink-0 rounded-xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
                         <img src="/images/teletravail.png" alt="Télétravail" className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1 flex flex-col justify-center">
@@ -1819,8 +1819,8 @@ ${indicesFactuels}
                 </div>
 
                 {/* Colonne 2 : À voir (Youtube) */}
-                <div className="w-full h-full bg-gradient-to-br from-white/90 via-amber-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-5 border border-amber-200 shadow-xl shadow-amber-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-amber-300 relative z-10 flex flex-col justify-start group">
-                  <div className="flex items-center gap-3 mb-4">
+                <div className="w-full bg-gradient-to-br from-white/90 via-amber-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-4 border border-amber-200 shadow-xl shadow-amber-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-amber-300 relative z-10 flex flex-col justify-start group">
+                  <div className="flex items-center gap-2 mb-3">
                     <div className="p-2 bg-amber-100/50 rounded-xl border border-amber-200 shadow-sm flex items-center justify-center">
                       <PlayCircle className="w-5 h-5 text-amber-500" />
                     </div>
@@ -1832,7 +1832,7 @@ ${indicesFactuels}
                     </h3>
                   </div>
 
-                  <div className="flex flex-col gap-2.5">
+                  <div className="flex flex-col gap-1.5">
                     {/* Vidéo 1 */}
                     <a
                       href="https://youtu.be/7clMZoElV9o?si=tFlkNao1VyFKrDzC"
@@ -1840,7 +1840,7 @@ ${indicesFactuels}
                       rel="noopener noreferrer"
                       className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-xl transition-all"
                     >
-                      <div className="w-20 aspect-video flex-shrink-0 rounded-lg bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-855 group-hover:scale-[1.02] transition-transform">
+                      <div className="w-16 aspect-video flex-shrink-0 rounded-lg bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-855 group-hover:scale-[1.02] transition-transform">
                         <img src="https://img.youtube.com/vi/7clMZoElV9o/hqdefault.jpg" alt="Les 50 acronymes indispensables" className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition-colors">
                           <PlayCircle className="w-5 h-5 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
@@ -1863,7 +1863,7 @@ ${indicesFactuels}
                       rel="noopener noreferrer"
                       className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-xl transition-all"
                     >
-                      <div className="w-20 aspect-video flex-shrink-0 rounded-lg bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-855 group-hover:scale-[1.02] transition-transform">
+                      <div className="w-16 aspect-video flex-shrink-0 rounded-lg bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-855 group-hover:scale-[1.02] transition-transform">
                         <img src="https://img.youtube.com/vi/z0mVMJHO8GA/hqdefault.jpg" alt="150 Questions-Réponses Oral" className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition-colors">
                           <PlayCircle className="w-5 h-5 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
@@ -1886,7 +1886,7 @@ ${indicesFactuels}
                       rel="noopener noreferrer"
                       className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-xl transition-all"
                     >
-                      <div className="w-20 aspect-video flex-shrink-0 rounded-lg bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-855 group-hover:scale-[1.02] transition-transform">
+                      <div className="w-16 aspect-video flex-shrink-0 rounded-lg bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-855 group-hover:scale-[1.02] transition-transform">
                         <img src="https://img.youtube.com/vi/m9Nirxu_wFk/hqdefault.jpg" alt="30 Situations Oral" className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition-colors">
                           <PlayCircle className="w-5 h-5 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
@@ -1916,9 +1916,9 @@ ${indicesFactuels}
                 </div>
 
                 {/* Colonne 3 : Liens utiles & FAQ */}
-                <div className="w-full h-full bg-gradient-to-br from-white/90 via-cyan-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-5 border border-cyan-200 shadow-xl shadow-cyan-100/50 transition-all duration-300 hover:border-cyan-300 relative z-10 flex flex-col justify-start group overflow-hidden">
+                <div className="w-full bg-gradient-to-br from-white/90 via-cyan-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-4 border border-cyan-200 shadow-xl shadow-cyan-100/50 transition-all duration-300 hover:border-cyan-300 relative z-10 flex flex-col justify-start group overflow-hidden">
                   <BorderBeam size={160} duration={8} delay={0} colorFrom="#06b6d4" colorTo="#3b82f6" />
-                  <div className="flex items-center gap-3 mb-4">
+                  <div className="flex items-center gap-2 mb-3">
                     <div className="p-2 bg-cyan-100/50 rounded-xl border border-cyan-200 shadow-sm flex items-center justify-center">
                       <Link2 className="w-5 h-5 text-cyan-500" />
                     </div>
@@ -1930,7 +1930,7 @@ ${indicesFactuels}
                     </h3>
                   </div>
 
-                  <div className="flex flex-col gap-2.5">
+                  <div className="flex flex-col gap-1.5">
                     {usefulLinks.map(({ label, href, imageSrc }, idx) => {
                       // Couleurs alternées pour les liens utiles
                       const colors = [
@@ -1949,7 +1949,7 @@ ${indicesFactuels}
                           rel="noopener noreferrer"
                           className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-xl transition-all"
                         >
-                          <div className={`w-12 h-12 flex-shrink-0 rounded-xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border ${color.border} group-hover:scale-[1.02] transition-transform`}>
+                          <div className={`w-9 h-9 flex-shrink-0 rounded-xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border ${color.border} group-hover:scale-[1.02] transition-transform`}>
                             <img src={imageSrc} alt={label} className="w-full h-full object-cover" />
                           </div>
                           <div className="flex-1 flex flex-col justify-center">
