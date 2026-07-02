@@ -282,7 +282,7 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
         </div>
 
         {/* Game Grid Area */}
-        <div className="relative w-full max-w-lg aspect-square bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-3xl p-4 sm:p-8 shadow-xl border border-slate-200 dark:border-slate-700/50 flex items-center justify-center overflow-hidden">
+        <div className="relative w-full max-w-2xl aspect-square bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-3xl p-4 sm:p-8 shadow-xl border border-slate-200 dark:border-slate-700/50 flex items-center justify-center overflow-hidden">
           
           {/* Grille css 3x3 */}
           <div className="grid grid-cols-3 grid-rows-3 gap-3 sm:gap-6 w-full h-full relative z-10">
@@ -298,12 +298,12 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
                 {/* La Taupe */}
                 {mole && !mole.hit && (
                   <div 
-                    className={`absolute bottom-5 w-[80%] h-[75%] bg-gradient-to-t ${mole.def.color} rounded-xl shadow-[0_0_30px_currentColor] flex flex-col items-center justify-center animate-slide-up border-2 border-white/20`}
+                    className={`absolute bottom-5 w-[85%] h-[80%] bg-gradient-to-t ${mole.def.color} rounded-xl shadow-[0_0_30px_currentColor] flex flex-col items-center justify-center animate-slide-up border-2 border-white/20`}
                     style={{ color: 'rgba(148,163,184,0.3)' }} // Soft color
                   >
                     <div className="absolute inset-0 bg-black/10 rounded-xl" />
-                    <span className="relative z-10 text-3xl sm:text-5xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]">{mole.def.emoji}</span>
-                    <span className="relative z-10 text-[9px] sm:text-[10px] font-black uppercase tracking-wider mt-1 text-center leading-tight px-1 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] line-clamp-2">
+                    <span className="relative z-10 text-4xl sm:text-6xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]">{mole.def.emoji}</span>
+                    <span className="relative z-10 text-[10px] sm:text-[13px] font-black uppercase tracking-wider mt-1.5 text-center leading-tight px-2 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] line-clamp-2">
                       {mole.def.label}
                     </span>
                   </div>
