@@ -25,6 +25,7 @@ const SortEmAll = lazy(() => import("./SortEmAll.tsx"));
 const PacManPaie = lazy(() => import("./PacManPaie.tsx"));
 const TowerDefenseRH = lazy(() => import("./TowerDefenseRH.tsx"));
 const TycoonCollectivite = lazy(() => import("./TycoonCollectivite.tsx"));
+const EscapeGameRH = lazy(() => import("./EscapeGameRH.tsx"));
 
 interface EspaceJeuxProps {
   onClose: () => void;
@@ -57,7 +58,7 @@ const EspaceJeuxStyles = () => (
 );
 
 interface GameDef {
-  id: "roulette" | "memory" | "quiz" | "cassebrique" | "frogger" | "tapetaupe" | "sortemall" | "pacman" | "towerdefense" | "tycoon";
+  id: "roulette" | "memory" | "quiz" | "cassebrique" | "frogger" | "tapetaupe" | "sortemall" | "pacman" | "towerdefense" | "tycoon" | "escapegame";
   title: string;
   description: string;
   actionText: string;
@@ -83,6 +84,7 @@ const themeStyles: Record<string, { bg: string, text: string, border: string, sh
 
 const games: GameDef[] = [
   { id: "tycoon", title: "Tycoon RH", description: "\"Ma Collectivité\" : Un jeu de gestion au tour par tour. Gérez le budget, calmez les syndicats, et survivez aux crises !", actionText: "Prendre ses fonctions", icon: Building2, iconTheme: "amber", bgImage: "memory.png", spanClass: "md:col-span-2 lg:col-span-2 lg:row-span-2", iconSizeClass: "w-8 h-8 sm:w-12 sm:h-12", titleSizeClass: "text-3xl sm:text-5xl" },
+  { id: "escapegame", title: "Escape Game RH", description: "S'échapper des mauvaises situations au travail en adoptant les bons réflexes statutaires et QVT.", actionText: "S'échapper", icon: Sparkles, iconTheme: "purple", bgImage: "roulette.png", spanClass: "col-span-1" },
   { id: "pacman", title: "Labyrinthe Paie", description: "Incarnez un gestionnaire, fuyez les fantômes et sécurisez les dossiers de paie.", actionText: "Lancer le jeu", icon: Activity, iconTheme: "blue", bgImage: "tapetaupe.png", spanClass: "md:col-span-2 lg:col-span-2" },
   { id: "towerdefense", title: "Tower Defense", description: "Gérez les effectifs face aux demandes RH.", actionText: "Défendre", icon: Shield, iconTheme: "emerald", bgImage: "cassebrique.png", spanClass: "col-span-1" },
   { id: "cassebrique", title: "Casse-brique", description: "Un casse-brique rétro ! Libérez les acquis sociaux.", actionText: "Jouer", icon: Zap, iconTheme: "red", bgImage: "cassebrique.png", spanClass: "col-span-1" },
@@ -133,6 +135,7 @@ const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
   if (activeGame === "pacman") return wrapGame(<PacManPaie onClose={() => setActiveGame("none")} />);
   if (activeGame === "towerdefense") return wrapGame(<TowerDefenseRH onClose={() => setActiveGame("none")} />);
   if (activeGame === "tycoon") return wrapGame(<TycoonCollectivite onClose={() => setActiveGame("none")} />);
+  if (activeGame === "escapegame") return wrapGame(<EscapeGameRH onClose={() => setActiveGame("none")} />);
 
   return (
     <div className="dark bg-black text-white min-h-screen EspaceJeux-root-container">
