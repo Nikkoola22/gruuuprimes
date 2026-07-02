@@ -282,10 +282,10 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
         </div>
 
         {/* Game Grid Area */}
-        <div className="relative w-full max-w-2xl aspect-square bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-3xl p-4 sm:p-8 shadow-xl border border-slate-200 dark:border-slate-700/50 flex items-center justify-center overflow-hidden">
+        <div className="relative w-full max-w-2xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-3xl p-4 sm:p-8 shadow-xl border border-slate-200 dark:border-slate-700/50 overflow-hidden">
           
           {/* Grille css 3x3 */}
-          <div className="grid grid-cols-3 grid-rows-3 gap-3 sm:gap-6 w-full h-full relative z-10">
+          <div className="grid grid-cols-3 grid-rows-3 gap-3 sm:gap-6 w-full aspect-square relative z-10">
             {holes.map((mole, i) => (
               <div 
                 key={i} 
