@@ -1740,7 +1740,7 @@ ${indicesFactuels}
 
 
               {/* --- NOUVELLE SECTION : DOCUMENTS DE RÉFÉRENCE & LIENS UTILES --- */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8 mb-12 -mx-4 sm:-mx-6 lg:-mx-8">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8 mb-12 -mx-4 w-[calc(100%+2rem)] sm:-mx-6 sm:w-[calc(100%+3rem)] lg:-mx-8 lg:w-[calc(100%+4rem)]">
 
                 {/* Colonne 1 : À connaître (Docs de référence) */}
                 <div className="w-full bg-gradient-to-br from-white/90 via-rose-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-4 border border-rose-200 shadow-xl shadow-rose-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-rose-300 relative z-10 flex flex-col justify-start group">
