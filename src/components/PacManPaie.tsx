@@ -567,6 +567,35 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
             </div>
           )}
 
+          {/* D-pad mobile — visible uniquement sur écran tactile */}
+          {gameState === "playing" && (
+            <div className="mt-4 flex flex-col items-center gap-1 md:hidden select-none">
+              <button
+                onTouchStart={(e) => { e.preventDefault(); const p = playerRef.current; p.nextVx = 0; p.nextVy = -p.speed; }}
+                className="w-16 h-16 bg-slate-800/90 border border-slate-600 rounded-2xl flex items-center justify-center text-white text-2xl active:bg-slate-600 shadow-lg"
+                aria-label="Haut"
+              >▲</button>
+              <div className="flex gap-1">
+                <button
+                  onTouchStart={(e) => { e.preventDefault(); const p = playerRef.current; p.nextVx = -p.speed; p.nextVy = 0; }}
+                  className="w-16 h-16 bg-slate-800/90 border border-slate-600 rounded-2xl flex items-center justify-center text-white text-2xl active:bg-slate-600 shadow-lg"
+                  aria-label="Gauche"
+                >◀</button>
+                <div className="w-16 h-16" />
+                <button
+                  onTouchStart={(e) => { e.preventDefault(); const p = playerRef.current; p.nextVx = p.speed; p.nextVy = 0; }}
+                  className="w-16 h-16 bg-slate-800/90 border border-slate-600 rounded-2xl flex items-center justify-center text-white text-2xl active:bg-slate-600 shadow-lg"
+                  aria-label="Droite"
+                >▶</button>
+              </div>
+              <button
+                onTouchStart={(e) => { e.preventDefault(); const p = playerRef.current; p.nextVx = 0; p.nextVy = p.speed; }}
+                className="w-16 h-16 bg-slate-800/90 border border-slate-600 rounded-2xl flex items-center justify-center text-white text-2xl active:bg-slate-600 shadow-lg"
+                aria-label="Bas"
+              >▼</button>
+            </div>
+          )}
+
         </div>
         
         {/* Instructions */}

@@ -224,6 +224,42 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
 
   const handleMouseLeave = () => setHoverTile(null);
 
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    if (gameState !== "playing" || e.touches.length === 0) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = (touch.clientX - rect.left) * (CANVAS_WIDTH / rect.width);
+    const y = (touch.clientY - rect.top) * (CANVAS_HEIGHT / rect.height);
+    const c = Math.floor(x / TILE_SIZE);
+    const r = Math.floor(y / TILE_SIZE);
+    setHoverTile({c, r});
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    if (gameState !== "playing" || !hoverTile) return;
+    const {c, r} = hoverTile;
+    const onPath = PATH_TILES.some(pt => pt.c === c && pt.r === r);
+    if (onPath) return;
+    const existingTower = towersRef.current.find(t => t.c === c && t.r === r);
+    if (existingTower) return;
+    const tType = TOWER_TYPES[selectedTower as keyof typeof TOWER_TYPES];
+    if (budget >= tType.cost) {
+      setBudget(b => b - tType.cost);
+      towersRef.current.push({
+        x: c * TILE_SIZE + TILE_SIZE / 2,
+        y: r * TILE_SIZE + TILE_SIZE / 2,
+        c, r,
+        type: selectedTower,
+        cooldown: 0,
+        level: 1
+      });
+      createParticles(c * TILE_SIZE + TILE_SIZE / 2, r * TILE_SIZE + TILE_SIZE / 2, "#ffffff", 10);
+      playTDSound("place");
+    }
+  };
+
   const handleClick = () => {
     if (gameState !== "playing" || !hoverTile) return;
     
@@ -946,7 +982,9 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
                 onClick={handleClick}
-                className={`bg-[#0b1121] rounded-2xl cursor-crosshair border border-slate-800 ${gameState !== "playing" ? 'opacity-30' : ''}`}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                className={`bg-[#0b1121] rounded-2xl cursor-crosshair border border-slate-800 touch-none ${gameState !== "playing" ? 'opacity-30' : ''}`}
                 style={{ imageRendering: 'pixelated' }}
               />
             </div>
