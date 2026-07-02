@@ -396,25 +396,42 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
           className="lp-buy-btn"
           onClick={onEnter}
           style={{
-            display: 'inline-flex', alignItems: 'center', gap: 9,
-            padding: 'clamp(10px, 2.5vw, 13px) clamp(20px, 4vw, 26px)', borderRadius: 12, 
-            border: isLight ? '2px solid #38bdf8' : '2px solid #00FFFF',
-            background: isLight ? 'linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)' : 'linear-gradient(135deg, #1a0033 0%, #003044 100%)',
-            color: isLight ? '#0284c7' : '#00FFFF', fontFamily: "'Outfit', sans-serif",
-            fontSize: 'clamp(13px, 3vw, 15px)', fontWeight: 700, letterSpacing: '0.02em',
+            display: 'inline-flex', alignItems: 'center', gap: 12,
+            padding: 'clamp(14px, 3vw, 18px) clamp(28px, 5vw, 40px)', borderRadius: 16,
+            border: isLight ? '2.5px solid #0284c7' : '2.5px solid #00FFFF',
+            background: isLight
+              ? 'linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%)'
+              : 'linear-gradient(135deg, #00c8ff 0%, #0055ff 100%)',
+            color: '#ffffff', fontFamily: "'Outfit', sans-serif",
+            fontSize: 'clamp(15px, 3.5vw, 19px)', fontWeight: 800, letterSpacing: '0.06em',
+            textTransform: 'uppercase',
             cursor: 'pointer',
-            boxShadow: isLight 
-              ? '0 0 0 2px rgba(56,189,248,0.2), 0 0 20px rgba(56,189,248,0.4), inset 0 1px 0 rgba(255,255,255,0.6)'
-              : '0 0 0 2px rgba(0,255,255,0.2), 0 0 20px rgba(0,255,255,0.55), inset 0 1px 0 rgba(255,255,255,0.08)',
+            boxShadow: isLight
+              ? '0 0 0 4px rgba(2,132,199,0.25), 0 0 40px rgba(2,132,199,0.6), 0 8px 24px rgba(2,132,199,0.4)'
+              : '0 0 0 4px rgba(0,255,255,0.3), 0 0 50px rgba(0,255,255,0.7), 0 8px 30px rgba(0,100,255,0.5)',
+            animation: 'lpEntryPulse 2s ease-in-out infinite',
             transition: 'transform 0.2s, box-shadow 0.2s',
           }}
         >
-          Entrée
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <path d="M2.5 7.5H12.5M12.5 7.5L8.5 3.5M12.5 7.5L8.5 11.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+          Entrer
+          <svg width="20" height="20" viewBox="0 0 15 15" fill="none">
+            <path d="M2.5 7.5H12.5M12.5 7.5L8.5 3.5M12.5 7.5L8.5 11.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
+        <style>{`
+          @keyframes lpEntryPulse {
+            0%, 100% { transform: scale(1); box-shadow: ${isLight
+              ? '0 0 0 4px rgba(2,132,199,0.25), 0 0 40px rgba(2,132,199,0.6), 0 8px 24px rgba(2,132,199,0.4)'
+              : '0 0 0 4px rgba(0,255,255,0.3), 0 0 50px rgba(0,255,255,0.7), 0 8px 30px rgba(0,100,255,0.5)'}; }
+            50% { transform: scale(1.04); box-shadow: ${isLight
+              ? '0 0 0 8px rgba(2,132,199,0.15), 0 0 60px rgba(2,132,199,0.8), 0 12px 32px rgba(2,132,199,0.5)'
+              : '0 0 0 8px rgba(0,255,255,0.15), 0 0 80px rgba(0,255,255,0.9), 0 12px 40px rgba(0,100,255,0.7)'}; }
+          }
+          .lp-buy-btn:hover { transform: scale(1.07) !important; }
+          .lp-buy-btn:active { transform: scale(0.97) !important; }
+        `}</style>
       </div>
+
 
       {/* Edge line */}
       <div style={{
