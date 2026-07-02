@@ -1737,42 +1737,40 @@ ${indicesFactuels}
                   </a>
                 </div>
               </div>
-            </div>
-          </div>
 
               {/* --- NOUVELLE SECTION : DOCUMENTS DE RÉFÉRENCE & LIENS UTILES --- */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full mt-8 mb-12">
 
                 {/* Colonne 1 : À connaître (Docs de référence) */}
-                <div className="w-full h-full bg-gradient-to-br from-white/90 via-rose-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-rose-200 shadow-xl shadow-rose-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-rose-300 relative z-10 flex flex-col justify-start group">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2.5 bg-rose-100/50 rounded-xl border border-rose-200 shadow-sm flex items-center justify-center">
-                      <FileText className="w-6 h-6 text-rose-500" />
+                <div className="w-full h-full bg-gradient-to-br from-white/90 via-rose-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-5 border border-rose-200 shadow-xl shadow-rose-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-rose-300 relative z-10 flex flex-col justify-start group">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-rose-100/50 rounded-xl border border-rose-200 shadow-sm flex items-center justify-center">
+                      <FileText className="w-5 h-5 text-rose-500" />
                     </div>
-                    <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
+                    <h3 className="text-xl font-bold text-slate-800 tracking-wide">
                       <span className="relative inline-block z-10">
                         <span className="relative z-20 text-slate-800 font-black tracking-tight">À connaître</span>
-                        <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-rose-300 via-pink-200 to-rose-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                        <span className="absolute bottom-1 left-[-2%] w-[104%] h-2.5 bg-gradient-to-r from-rose-300 via-pink-200 to-rose-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
                       </span>
                     </h3>
                   </div>
 
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-2.5">
                     {/* Document 1 */}
                     <a
                       href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail_conges_absences/reglement_temps_de_travail/reglement_du_temps_du_travail.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
+                      className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-xl transition-all"
                     >
-                      <div className="w-[35%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
+                      <div className="w-12 h-12 flex-shrink-0 rounded-xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
                         <img src="/images/temps_travail.png" alt="Temps de travail" className="w-full h-full object-cover" />
                       </div>
-                      <div className="flex-1 flex flex-col justify-center py-1">
-                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-orange-500 transition-colors mb-1">
+                      <div className="flex-1 flex flex-col justify-center">
+                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-orange-500 transition-colors mb-0.5">
                           Temps de travail
                         </span>
-                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
+                        <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
                           Règlement complet sur le temps de travail, congés et absences.
                         </span>
                       </div>
@@ -1783,17 +1781,17 @@ ${indicesFactuels}
                       href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/formation/reglement_interieur_de_formation_juin_2025.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
+                      className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-xl transition-all"
                     >
-                      <div className="w-[35%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
+                      <div className="w-12 h-12 flex-shrink-0 rounded-xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
                         <img src="/images/formation.png" alt="Formation" className="w-full h-full object-cover" />
                       </div>
-                      <div className="flex-1 flex flex-col justify-center py-1">
-                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-teal-600 transition-colors mb-1">
+                      <div className="flex-1 flex flex-col justify-center">
+                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-teal-600 transition-colors mb-0.5">
                           Formation
                         </span>
-                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
-                          Règlement intérieur de formation (Mise à jour Juin 2025).
+                        <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
+                          Reglement interieur de formation (Mise à jour Juin 2025).
                         </span>
                       </div>
                     </a>
@@ -1803,16 +1801,16 @@ ${indicesFactuels}
                       href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/teletravail/circulaire_evolution_du_teletravail_juin_2023.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
+                      className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-xl transition-all"
                     >
-                      <div className="w-[35%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
+                      <div className="w-12 h-12 flex-shrink-0 rounded-xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
                         <img src="/images/teletravail.png" alt="Télétravail" className="w-full h-full object-cover" />
                       </div>
-                      <div className="flex-1 flex flex-col justify-center py-1">
-                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-blue-600 transition-colors mb-1">
+                      <div className="flex-1 flex flex-col justify-center">
+                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-blue-600 transition-colors mb-0.5">
                           Télétravail
                         </span>
-                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
+                        <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
                           Circulaire et charte d'évolution du télétravail.
                         </span>
                       </div>
@@ -1820,40 +1818,39 @@ ${indicesFactuels}
                   </div>
                 </div>
 
-                {/* Colonne 3 : À voir (Youtube) */}
-                {/* Commentaire ajouté : section contenant des vidéos utiles */}
-                <div className="w-full h-full bg-gradient-to-br from-white/90 via-amber-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-amber-200 shadow-xl shadow-amber-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-amber-300 relative z-10 flex flex-col justify-start group">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2.5 bg-amber-100/50 rounded-xl border border-amber-200 shadow-sm flex items-center justify-center">
-                      <PlayCircle className="w-6 h-6 text-amber-500" />
+                {/* Colonne 2 : À voir (Youtube) */}
+                <div className="w-full h-full bg-gradient-to-br from-white/90 via-amber-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-5 border border-amber-200 shadow-xl shadow-amber-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-amber-300 relative z-10 flex flex-col justify-start group">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-amber-100/50 rounded-xl border border-amber-200 shadow-sm flex items-center justify-center">
+                      <PlayCircle className="w-5 h-5 text-amber-500" />
                     </div>
-                    <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
+                    <h3 className="text-xl font-bold text-slate-800 tracking-wide">
                       <span className="relative inline-block z-10">
                         <span className="relative z-20 text-slate-800 font-black tracking-tight">À voir</span>
-                        <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                        <span className="absolute bottom-1 left-[-2%] w-[104%] h-2.5 bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
                       </span>
                     </h3>
                   </div>
 
-                  <div className="flex flex-col gap-4 flex-1 justify-center">
+                  <div className="flex flex-col gap-2.5">
                     {/* Vidéo 1 */}
                     <a
                       href="https://youtu.be/7clMZoElV9o?si=tFlkNao1VyFKrDzC"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
+                      className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-xl transition-all"
                     >
-                      <div className="w-[38%] flex-shrink-0 aspect-video rounded-xl bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-850 group-hover:scale-[1.02] transition-transform">
+                      <div className="w-20 aspect-video flex-shrink-0 rounded-lg bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-855 group-hover:scale-[1.02] transition-transform">
                         <img src="https://img.youtube.com/vi/7clMZoElV9o/hqdefault.jpg" alt="Les 50 acronymes indispensables" className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition-colors">
-                          <PlayCircle className="w-6 h-6 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
+                          <PlayCircle className="w-5 h-5 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
                         </div>
                       </div>
-                      <div className="flex-1 flex flex-col justify-center py-1">
-                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-amber-500 transition-colors mb-1">
+                      <div className="flex-1 flex flex-col justify-center">
+                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-amber-500 transition-colors mb-0.5">
                           Les 50 acronymes
                         </span>
-                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
+                        <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
                           Décoder les sigles indispensables aux concours territoriaux.
                         </span>
                       </div>
@@ -1864,19 +1861,19 @@ ${indicesFactuels}
                       href="https://www.youtube.com/watch?v=z0mVMJHO8GA"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
+                      className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-xl transition-all"
                     >
-                      <div className="w-[38%] flex-shrink-0 aspect-video rounded-xl bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-850 group-hover:scale-[1.02] transition-transform">
+                      <div className="w-20 aspect-video flex-shrink-0 rounded-lg bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-855 group-hover:scale-[1.02] transition-transform">
                         <img src="https://img.youtube.com/vi/z0mVMJHO8GA/hqdefault.jpg" alt="150 Questions-Réponses Oral" className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition-colors">
-                          <PlayCircle className="w-6 h-6 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
+                          <PlayCircle className="w-5 h-5 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
                         </div>
                       </div>
-                      <div className="flex-1 flex flex-col justify-center py-1">
-                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-amber-500 transition-colors mb-1">
+                      <div className="flex-1 flex flex-col justify-center">
+                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-amber-500 transition-colors mb-0.5">
                           150 Questions Oral
                         </span>
-                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
+                        <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
                           S'entraîner aux questions types posées par le jury à l'oral.
                         </span>
                       </div>
@@ -1887,19 +1884,19 @@ ${indicesFactuels}
                       href="https://www.youtube.com/watch?v=m9Nirxu_wFk"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
+                      className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-xl transition-all"
                     >
-                      <div className="w-[38%] flex-shrink-0 aspect-video rounded-xl bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-850 group-hover:scale-[1.02] transition-transform">
+                      <div className="w-20 aspect-video flex-shrink-0 rounded-lg bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-855 group-hover:scale-[1.02] transition-transform">
                         <img src="https://img.youtube.com/vi/m9Nirxu_wFk/hqdefault.jpg" alt="30 Situations Oral" className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition-colors">
-                          <PlayCircle className="w-6 h-6 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
+                          <PlayCircle className="w-5 h-5 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
                         </div>
                       </div>
-                      <div className="flex-1 flex flex-col justify-center py-1">
-                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-amber-500 transition-colors mb-1">
+                      <div className="flex-1 flex flex-col justify-center">
+                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:text-amber-500 transition-colors mb-0.5">
                           30 Cas Pratiques
                         </span>
-                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
+                        <span className="text-[11px] leading-snug text-slate-600 dark:text-slate-400">
                           Les mises en situation clés pour convaincre le jury d'oral.
                         </span>
                       </div>
@@ -1910,31 +1907,30 @@ ${indicesFactuels}
                       href="https://www.youtube.com/results?search_query=fonction+publique+territoriale"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-2 text-center text-xs font-semibold text-amber-600 hover:text-amber-500 hover:underline flex items-center justify-center gap-1.5 py-1"
+                      className="mt-1 text-center text-[11px] font-semibold text-amber-600 hover:text-amber-500 hover:underline flex items-center justify-center gap-1 py-0.5"
                     >
                       <span>Voir plus de vidéos sur YouTube</span>
-                      <PlayCircle className="w-4 h-4" />
+                      <PlayCircle className="w-3.5 h-3.5" />
                     </a>
                   </div>
                 </div>
 
-                {/* Colonne 2 : Liens utiles & FAQ */}
-                <div className="w-full h-full">
-                    <div className="w-full h-full bg-gradient-to-br from-white/90 via-cyan-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-cyan-200 shadow-xl shadow-cyan-100/50 transition-all duration-300 hover:border-cyan-300 relative z-10 flex flex-col justify-start group overflow-hidden">
-                    <BorderBeam size={160} duration={8} delay={0} colorFrom="#06b6d4" colorTo="#3b82f6" />
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2.5 bg-cyan-100/50 rounded-xl border border-cyan-200 shadow-sm flex items-center justify-center">
-                      <Link2 className="w-6 h-6 text-cyan-500" />
+                {/* Colonne 3 : Liens utiles & FAQ */}
+                <div className="w-full h-full bg-gradient-to-br from-white/90 via-cyan-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-5 border border-cyan-200 shadow-xl shadow-cyan-100/50 transition-all duration-300 hover:border-cyan-300 relative z-10 flex flex-col justify-start group overflow-hidden">
+                  <BorderBeam size={160} duration={8} delay={0} colorFrom="#06b6d4" colorTo="#3b82f6" />
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-cyan-100/50 rounded-xl border border-cyan-200 shadow-sm flex items-center justify-center">
+                      <Link2 className="w-5 h-5 text-cyan-500" />
                     </div>
-                    <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
+                    <h3 className="text-xl font-bold text-slate-800 tracking-wide">
                       <span className="relative inline-block z-10">
                         <span className="relative z-20 text-slate-800 font-black tracking-tight">Liens Utiles</span>
-                        <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-cyan-300 via-sky-200 to-cyan-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
+                        <span className="absolute bottom-1 left-[-2%] w-[104%] h-2.5 bg-gradient-to-r from-cyan-300 via-sky-200 to-cyan-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
                       </span>
                     </h3>
                   </div>
 
-                  <div className="flex flex-col gap-4 flex-1">
+                  <div className="flex flex-col gap-2.5">
                     {usefulLinks.map(({ label, href, imageSrc }, idx) => {
                       // Couleurs alternées pour les liens utiles
                       const colors = [
@@ -1951,13 +1947,13 @@ ${indicesFactuels}
                           href={href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
+                          className="group flex w-full items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1 rounded-xl transition-all"
                         >
-                          <div className={`w-[35%] flex-shrink-0 aspect-square rounded-2xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border ${color.border} group-hover:scale-[1.02] transition-transform`}>
+                          <div className={`w-12 h-12 flex-shrink-0 rounded-xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border ${color.border} group-hover:scale-[1.02] transition-transform`}>
                             <img src={imageSrc} alt={label} className="w-full h-full object-cover" />
                           </div>
-                          <div className="flex-1 flex flex-col justify-center py-1">
-                            <span className={`font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:underline decoration-2 underline-offset-4 ${color.decoration}`}>
+                          <div className="flex-1 flex flex-col justify-center">
+                            <span className={`font-extrabold text-slate-900 dark:text-slate-100 text-base leading-tight group-hover:underline decoration-2 underline-offset-4 ${color.decoration}`}>
                               {label}
                             </span>
                           </div>
@@ -1965,11 +1961,13 @@ ${indicesFactuels}
                       )
                     })}
                   </div>
+                </div>
 
-                  </div>
-            </div>
+              </div>
 
           </div>
+
+        </div>
 
               {/* --- CAROUSEL FONCTION PUBLIQUE (DÉPLACÉ EN DESSOUS DES 3 FENÊTRES) --- */}
               <div className="w-full bg-gradient-to-br from-white/90 via-emerald-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-emerald-200 shadow-xl shadow-emerald-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-emerald-300 relative z-10 mb-8">
