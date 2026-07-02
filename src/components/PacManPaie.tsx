@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { ArrowLeft, Play, Activity, RotateCcw, Trophy, Heart, Shield, Ghost } from 'lucide-react';
+import { ArrowLeft, Play, Activity, RotateCcw, Trophy, Heart, Shield, Ghost, AlertTriangle } from 'lucide-react';
 
 interface PacManProps {
   onClose: () => void;
