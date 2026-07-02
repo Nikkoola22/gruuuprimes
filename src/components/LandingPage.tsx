@@ -398,17 +398,17 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 12,
             padding: 'clamp(14px, 3vw, 18px) clamp(28px, 5vw, 40px)', borderRadius: 16,
-            border: isLight ? '2.5px solid #0284c7' : '2.5px solid #00FFFF',
+            border: isLight ? '2.5px solid #ff0055' : '2.5px solid #FF1C74',
             background: isLight
-              ? 'linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%)'
-              : 'linear-gradient(135deg, #00c8ff 0%, #0055ff 100%)',
+              ? 'linear-gradient(135deg, #ff0055 0%, #ff5500 100%)'
+              : 'linear-gradient(135deg, #FF1C74 0%, #AA00DD 100%)',
             color: '#ffffff', fontFamily: "'Outfit', sans-serif",
             fontSize: 'clamp(15px, 3.5vw, 19px)', fontWeight: 800, letterSpacing: '0.06em',
             textTransform: 'uppercase',
             cursor: 'pointer',
             boxShadow: isLight
-              ? '0 0 0 4px rgba(2,132,199,0.25), 0 0 40px rgba(2,132,199,0.6), 0 8px 24px rgba(2,132,199,0.4)'
-              : '0 0 0 4px rgba(0,255,255,0.3), 0 0 50px rgba(0,255,255,0.7), 0 8px 30px rgba(0,100,255,0.5)',
+              ? '0 0 0 4px rgba(255,0,85,0.2), 0 0 40px rgba(255,0,85,0.55), 0 8px 24px rgba(255,85,0,0.35)'
+              : '0 0 0 4px rgba(255,28,116,0.25), 0 0 50px rgba(255,28,116,0.65), 0 8px 30px rgba(170,0,221,0.4)',
             animation: 'lpEntryPulse 2s ease-in-out infinite',
             transition: 'transform 0.2s, box-shadow 0.2s',
           }}
@@ -421,11 +421,11 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
         <style>{`
           @keyframes lpEntryPulse {
             0%, 100% { transform: scale(1); box-shadow: ${isLight
-              ? '0 0 0 4px rgba(2,132,199,0.25), 0 0 40px rgba(2,132,199,0.6), 0 8px 24px rgba(2,132,199,0.4)'
-              : '0 0 0 4px rgba(0,255,255,0.3), 0 0 50px rgba(0,255,255,0.7), 0 8px 30px rgba(0,100,255,0.5)'}; }
+              ? '0 0 0 4px rgba(255,0,85,0.2), 0 0 40px rgba(255,0,85,0.55), 0 8px 24px rgba(255,85,0,0.35)'
+              : '0 0 0 4px rgba(255,28,116,0.25), 0 0 50px rgba(255,28,116,0.65), 0 8px 30px rgba(170,0,221,0.4)'}; }
             50% { transform: scale(1.04); box-shadow: ${isLight
-              ? '0 0 0 8px rgba(2,132,199,0.15), 0 0 60px rgba(2,132,199,0.8), 0 12px 32px rgba(2,132,199,0.5)'
-              : '0 0 0 8px rgba(0,255,255,0.15), 0 0 80px rgba(0,255,255,0.9), 0 12px 40px rgba(0,100,255,0.7)'}; }
+              ? '0 0 0 8px rgba(255,0,85,0.12), 0 0 65px rgba(255,0,85,0.75), 0 12px 32px rgba(255,85,0,0.5)'
+              : '0 0 0 8px rgba(255,28,116,0.15), 0 0 75px rgba(255,28,116,0.85), 0 12px 40px rgba(170,0,221,0.6)'}; }
           }
           .lp-buy-btn:hover { transform: scale(1.07) !important; }
           .lp-buy-btn:active { transform: scale(0.97) !important; }
