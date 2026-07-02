@@ -8,7 +8,7 @@ interface TapeTaupeRisquesProps {
 const BASE_URL = import.meta.env.BASE_URL;
 
 // --- Constants & Types ---
-type MoleType = "RPS" | "CHUTE" | "HEURES" | "DEPASSEMENT" | "HARCELEMENT" | "INCENDIE" | "TMS" | "DELEGUE" | "EPI" | "CHSCT" | "FORMATION" | "ERGO";
+type MoleType = "RPS" | "CHUTE" | "HEURES" | "DEPASSEMENT" | "HARCELEMENT" | "INCENDIE" | "TMS" | "DELEGUE" | "EPI" | "CHSCT" | "FORMATION" | "ERGO" | "AMIANTE" | "AGRESSION" | "BRUIT" | "DUERP" | "VISITE" | "DROIT_ALERTE";
 
 interface MoleDefinition {
   type: MoleType;
@@ -26,6 +26,9 @@ const MOLES: MoleDefinition[] = [
   { type: "HARCELEMENT", label: "Harcèlement", emoji: "👿", isDanger: true, color: "from-red-600 to-red-900" },
   { type: "INCENDIE", label: "Risque Incendie", emoji: "🔥", isDanger: true, color: "from-orange-600 to-yellow-500" },
   { type: "TMS", label: "Troubles Musculaires", emoji: "🦴", isDanger: true, color: "from-amber-600 to-orange-700" },
+  { type: "AMIANTE", label: "Amiante / Toxiques", emoji: "☣️", isDanger: true, color: "from-amber-700 to-yellow-900" },
+  { type: "AGRESSION", label: "Agression Usager", emoji: "😡", isDanger: true, color: "from-red-700 to-red-950" },
+  { type: "BRUIT", label: "Bruit Assourdissant", emoji: "📢", isDanger: true, color: "from-rose-700 to-pink-900" },
   
   // Pièges (Bonnes pratiques) - Couleurs trompeuses (similaires aux dangers)
   { type: "DELEGUE", label: "Délégué Syndical", emoji: "🛡️", isDanger: false, color: "from-purple-500 to-fuchsia-600" },
@@ -33,6 +36,9 @@ const MOLES: MoleDefinition[] = [
   { type: "CHSCT", label: "Réunion CHSCT", emoji: "👥", isDanger: false, color: "from-red-500 to-rose-700" },
   { type: "FORMATION", label: "Formation Sécurité", emoji: "🎓", isDanger: false, color: "from-amber-600 to-orange-700" },
   { type: "ERGO", label: "Ergonomie Poste", emoji: "💺", isDanger: false, color: "from-pink-500 to-rose-600" },
+  { type: "DUERP", label: "Document Unique", emoji: "📋", isDanger: false, color: "from-emerald-500 to-green-700" },
+  { type: "VISITE", label: "Visite Médicale", emoji: "🩺", isDanger: false, color: "from-teal-500 to-cyan-600" },
+  { type: "DROIT_ALERTE", label: "Droit d'alerte", emoji: "🚨", isDanger: false, color: "from-red-500 to-rose-600" },
 ];
 
 interface ActiveMole {
