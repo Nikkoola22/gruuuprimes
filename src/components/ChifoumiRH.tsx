@@ -166,6 +166,57 @@ const MODE2_RULES: Rule[] = [
   }
 ];
 
+interface Situation {
+  id: number;
+  text: string;
+}
+
+const MODE1_SITUATIONS: Situation[] = [
+  {
+    id: 1,
+    text: "Deux agents de votre service s'opposent violemment en public lors d'une réunion sur la répartition des tâches, créant un malaise général."
+  },
+  {
+    id: 2,
+    text: "Un agent d'ordinaire investi fait de nombreuses erreurs de saisie inédites et s'isole de plus en plus aux pauses repas."
+  },
+  {
+    id: 3,
+    text: "Un agent arrive systématiquement avec 30 minutes de retard sans justificatif depuis deux semaines, perturbant l'ouverture de l'accueil public."
+  },
+  {
+    id: 4,
+    text: "La collectivité déploie un nouveau logiciel de gestion des courriers. Plusieurs agents expriment une forte anxiété et refusent de l'utiliser."
+  },
+  {
+    id: 5,
+    text: "Des agents des espaces verts omettent régulièrement de porter leurs équipements de protection individuelle (EPI) malgré plusieurs consignes informelles."
+  }
+];
+
+const MODE2_SITUATIONS: Situation[] = [
+  {
+    id: 1,
+    text: "Votre équipe fait face à une augmentation continue des demandes d'urbanisme des usagers et commence à montrer des signes de surcharge d'activité."
+  },
+  {
+    id: 2,
+    text: "Les secrétaires de mairie perdent un temps précieux à traiter les dossiers à cause d'une mauvaise maîtrise des nouveaux outils de dématérialisation."
+  },
+  {
+    id: 3,
+    text: "Un agent très compétent s'investit de moins en moins, estimant que ses efforts continus et sa polyvalence passent inaperçus."
+  },
+  {
+    id: 4,
+    text: "Le seul technicien expert en voirie et réseaux de la collectivité part à la retraite dans 6 mois, menaçant la continuité de service."
+  },
+  {
+    id: 5,
+    text: "Un poste d'instructeur de dossiers RH est vacant depuis 3 mois car les profils reçus manquent d'expérience en droit de la FPT."
+  }
+];
+
 const ChifoumiRH: React.FC<ChifoumiRHProps> = ({ onClose }) => {
   const [gameState, setGameState] = useState<"menu" | "intro" | "playing" | "results">("menu");
   const [selectedMode, setSelectedMode] = useState<Mode>("mode1");
@@ -540,6 +591,25 @@ const ChifoumiRH: React.FC<ChifoumiRHProps> = ({ onClose }) => {
               <div className="flex flex-col items-center">
                 <span className="text-xs text-slate-400 uppercase font-semibold">Ordi (Situation)</span>
                 <span className="text-3xl font-black text-slate-400 mt-1">{computerScore}</span>
+              </div>
+            </div>
+
+            {/* ACTIVE SITUATION DISPLAY */}
+            <div className="bg-gradient-to-r from-orange-500/10 via-amber-500/5 to-orange-500/10 border border-orange-500/20 rounded-3xl p-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-16 h-16 bg-orange-500/5 rounded-full blur-xl animate-pulse"></div>
+              <div className="flex items-start gap-3">
+                <div className="p-2.5 bg-orange-500/20 border border-orange-500/30 text-orange-400 rounded-xl mt-0.5 shadow-md flex items-center justify-center shrink-0">
+                  <HelpCircle className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs uppercase font-bold tracking-wider text-orange-400 mb-1">Situation active :</h4>
+                  <p className="text-slate-200 text-sm leading-relaxed font-light">
+                    {selectedMode === "mode1" 
+                      ? MODE1_SITUATIONS[(round - 1) % MODE1_SITUATIONS.length].text
+                      : MODE2_SITUATIONS[(round - 1) % MODE2_SITUATIONS.length].text
+                    }
+                  </p>
+                </div>
               </div>
             </div>
 
