@@ -85,6 +85,7 @@ const themeStyles: Record<string, { bg: string, text: string, border: string, sh
 const games: GameDef[] = [
   { id: "tycoon", title: "Tycoon RH", description: "\"Ma Collectivité\" : Un jeu de gestion au tour par tour. Gérez le budget, calmez les syndicats, et survivez aux crises !", actionText: "Prendre ses fonctions", icon: Building2, iconTheme: "amber", bgImage: "memory.png", spanClass: "md:col-span-2 lg:col-span-2 lg:row-span-2", iconSizeClass: "w-8 h-8 sm:w-12 sm:h-12", titleSizeClass: "text-3xl sm:text-5xl" },
   { id: "escapegame", title: "Escape Game RH", description: "S'échapper des mauvaises situations au travail en adoptant les bons réflexes statutaires et QVT.", actionText: "S'échapper", icon: Sparkles, iconTheme: "purple", bgImage: "roulette.png", spanClass: "col-span-1" },
+  { id: "quiz", title: "Quiz FAQ", description: "10 questions sur les droits de la fonction publique.", actionText: "Lancer", icon: HelpCircle, iconTheme: "orange", bgImage: "quiz.png", spanClass: "col-span-1" },
   { id: "pacman", title: "Labyrinthe Paie", description: "Incarnez un gestionnaire, fuyez les fantômes et sécurisez les dossiers de paie.", actionText: "Lancer le jeu", icon: Activity, iconTheme: "blue", bgImage: "tapetaupe.png", spanClass: "md:col-span-2 lg:col-span-2" },
   { id: "towerdefense", title: "Tower Defense", description: "Gérez les effectifs face aux demandes RH.", actionText: "Défendre", icon: Shield, iconTheme: "emerald", bgImage: "cassebrique.png", spanClass: "col-span-1" },
   { id: "cassebrique", title: "Casse-brique", description: "Un casse-brique rétro ! Libérez les acquis sociaux.", actionText: "Jouer", icon: Zap, iconTheme: "red", bgImage: "cassebrique.png", spanClass: "col-span-1" },
@@ -92,8 +93,7 @@ const games: GameDef[] = [
   { id: "frogger", title: "Frogger RH", description: "Évitez les pièges et visez la titularisation.", actionText: "Jouer", icon: Activity, iconTheme: "green", bgImage: "frogger.png", spanClass: "col-span-1" },
   { id: "tapetaupe", title: "Tape-Taupe", description: "Tapez sur les risques professionnels avant l'accident.", actionText: "Prévention", icon: AlertTriangle, iconTheme: "yellow", bgImage: "tapetaupe.png", spanClass: "col-span-1" },
   { id: "roulette", title: "Roulette QVT", description: "Obtenez des idées concrètes pour votre bien-être au bureau.", actionText: "Lancer", icon: Sparkles, iconTheme: "blue", bgImage: "roulette.png", spanClass: "md:col-span-2 lg:col-span-2" },
-  { id: "memory", title: "Memory RH", description: "Testez votre mémoire en associant chaque terme RH.", actionText: "Jouer", icon: Brain, iconTheme: "purple", bgImage: "memory.png", spanClass: "col-span-1" },
-  { id: "quiz", title: "Quiz FAQ", description: "10 questions sur les droits de la fonction publique.", actionText: "Lancer", icon: HelpCircle, iconTheme: "orange", bgImage: "quiz.png", spanClass: "col-span-1" }
+  { id: "memory", title: "Memory RH", description: "Testez votre mémoire en associant chaque terme RH.", actionText: "Jouer", icon: Brain, iconTheme: "purple", bgImage: "memory.png", spanClass: "col-span-1" }
 ];
 
 const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
