@@ -160,6 +160,12 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
       const p = playerRef.current;
       const maze = mazeRef.current;
 
+      // Les fantômes accélèrent au fur et à mesure (vitesse de base de 1.4, augmente jusqu'à 2.8 avec le score)
+      const currentBaseSpeed = Math.min(2.8, 1.4 + (score / 1500) * 1.4);
+      ghostsRef.current.forEach(g => {
+        g.speed = currentBaseSpeed;
+      });
+
       // Try applying next direction if centered roughly
       if (
         (p.x % TILE_SIZE < p.speed || p.x % TILE_SIZE > TILE_SIZE - p.speed) &&
