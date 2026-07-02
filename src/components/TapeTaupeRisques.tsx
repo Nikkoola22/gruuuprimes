@@ -289,30 +289,22 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
             {holes.map((mole, i) => (
               <div 
                 key={i} 
-                className="relative bg-white dark:bg-slate-700 rounded-2xl border border-slate-200 dark:border-slate-600 flex items-end justify-center overflow-hidden shadow-sm cursor-pointer group hover:border-blue-400 dark:hover:border-blue-500 transition-colors"
+                className="relative bg-slate-100 dark:bg-slate-800/40 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center justify-center overflow-hidden shadow-inner cursor-pointer group hover:border-blue-400 dark:hover:border-blue-500 transition-colors animate-fade-in"
                 onPointerDown={(e) => handleHoleClick(i, e)}
               >
-                {/* Trou noir (fond) */}
-                <div className="absolute inset-x-2 bottom-4 h-[35%] bg-slate-100 dark:bg-slate-900 rounded-[50%] shadow-inner opacity-90 border border-slate-200 dark:border-slate-800" />
-                
-                {/* La Taupe */}
+                {/* La Taupe (Carte) */}
                 {mole && !mole.hit && (
                   <div 
-                    className={`absolute bottom-2 w-[92%] h-[86%] bg-gradient-to-t ${mole.def.color} rounded-xl shadow-[0_0_30px_currentColor] flex flex-col items-center justify-center animate-slide-up border-2 border-white/20`}
+                    className={`absolute inset-2 bg-gradient-to-t ${mole.def.color} rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] flex flex-col items-center justify-center animate-slide-up border-2 border-white/20 z-10`}
                     style={{ color: 'rgba(148,163,184,0.3)' }} // Soft color
                   >
                     <div className="absolute inset-0 bg-black/10 rounded-xl" />
-                    <span className="relative z-10 text-5xl sm:text-7xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]">{mole.def.emoji}</span>
-                    <span className="relative z-10 text-[11px] sm:text-[15px] font-black uppercase tracking-wider mt-1.5 text-center leading-tight px-2 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] line-clamp-2">
+                    <span className="relative z-10 text-5xl sm:text-7xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.3)]">{mole.def.emoji}</span>
+                    <span className="relative z-10 text-[11px] sm:text-[15px] font-black uppercase tracking-wider mt-2 text-center leading-tight px-2 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)] line-clamp-2">
                       {mole.def.label}
                     </span>
                   </div>
                 )}
-                
-                {/* Rebord tech devant */}
-                <div className="absolute bottom-0 w-full h-6 bg-slate-50 dark:bg-slate-800 rounded-b-xl border-t border-slate-200 dark:border-slate-600 z-10 flex justify-center items-center">
-                  <div className="w-12 h-1.5 rounded-full bg-slate-200 dark:bg-slate-600 shadow-inner" />
-                </div>
               </div>
             ))}
           </div>
