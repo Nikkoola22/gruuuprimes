@@ -72,9 +72,9 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
     playerRef.current = { x: 10 * TILE_SIZE, y: 16 * TILE_SIZE, vx: 0, vy: 0, nextVx: 0, nextVy: 0, speed: 2 };
     
     ghostsRef.current = [
-      { x: 9 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 1.5, vy: 0, nextVx: 0, nextVy: 0, speed: 1.5, color: "#ef4444", isVulnerable: false, startX: 9 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Indu" },
+      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#ef4444", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Indu" },
       { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#3b82f6", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Absence" },
-      { x: 11 * TILE_SIZE, y: 10 * TILE_SIZE, vx: -1.5, vy: 0, nextVx: 0, nextVy: 0, speed: 1.5, color: "#f59e0b", isVulnerable: false, startX: 11 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Erreur CM" },
+      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#f59e0b", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Erreur CM" },
     ];
     
     setScore(0);
@@ -89,18 +89,8 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
       g.x = g.startX;
       g.y = g.startY;
       g.isVulnerable = false;
-      
-      // Initialize exit velocity based on start position inside the house
-      if (g.startX < 10 * TILE_SIZE) {
-        g.vx = g.speed;
-        g.vy = 0;
-      } else if (g.startX > 10 * TILE_SIZE) {
-        g.vx = -g.speed;
-        g.vy = 0;
-      } else {
-        g.vx = 0;
-        g.vy = -g.speed;
-      }
+      g.vx = 0;
+      g.vy = -g.speed;
     });
   };
 
