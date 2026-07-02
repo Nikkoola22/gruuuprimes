@@ -227,13 +227,15 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
         if (g.x < -TILE_SIZE) g.x = CANVAS_WIDTH;
         if (g.x > CANVAS_WIDTH) g.x = -TILE_SIZE;
 
+        const actualSpeed = g.isVulnerable ? g.speed * 0.6 : g.speed;
+
         // Si le fantôme est dans la maison de départ (avec une marge de sécurité), on le guide vers la sortie
         const inHouse = g.y >= 9 * TILE_SIZE && g.y <= 11 * TILE_SIZE && g.x >= 9 * TILE_SIZE && g.x <= 12 * TILE_SIZE;
 
         if (inHouse) {
           if (
-            (g.x % TILE_SIZE < g.speed || g.x % TILE_SIZE > TILE_SIZE - g.speed) &&
-            (g.y % TILE_SIZE < g.speed || g.y % TILE_SIZE > TILE_SIZE - g.speed)
+            (g.x % TILE_SIZE < actualSpeed || g.x % TILE_SIZE > TILE_SIZE - actualSpeed) &&
+            (g.y % TILE_SIZE < actualSpeed || g.y % TILE_SIZE > TILE_SIZE - actualSpeed)
           ) {
             const snappedX = Math.round(g.x / TILE_SIZE) * TILE_SIZE;
             const snappedY = Math.round(g.y / TILE_SIZE) * TILE_SIZE;
@@ -241,19 +243,19 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
             g.y = snappedY;
 
             if (snappedX < 10 * TILE_SIZE) {
-              g.vx = g.speed;
+              g.vx = actualSpeed;
               g.vy = 0;
             } else if (snappedX > 10 * TILE_SIZE) {
-              g.vx = -g.speed;
+              g.vx = -actualSpeed;
               g.vy = 0;
             } else {
               g.vx = 0;
-              g.vy = -g.speed; // Se déplacer vers le haut pour sortir
+              g.vy = -actualSpeed; // Se déplacer vers le haut pour sortir
             }
           }
         } else if (
-          (g.x % TILE_SIZE < g.speed || g.x % TILE_SIZE > TILE_SIZE - g.speed) &&
-          (g.y % TILE_SIZE < g.speed || g.y % TILE_SIZE > TILE_SIZE - g.speed)
+          (g.x % TILE_SIZE < actualSpeed || g.x % TILE_SIZE > TILE_SIZE - actualSpeed) &&
+          (g.y % TILE_SIZE < actualSpeed || g.y % TILE_SIZE > TILE_SIZE - actualSpeed)
         ) {
           const snappedX = Math.round(g.x / TILE_SIZE) * TILE_SIZE;
           const snappedY = Math.round(g.y / TILE_SIZE) * TILE_SIZE;
@@ -263,15 +265,15 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
           // Decide new direction at intersections
           const possibleMoves = [];
           const directions = [
-            { vx: 0, vy: -g.speed }, // Up
-            { vx: 0, vy: g.speed },  // Down
-            { vx: -g.speed, vy: 0 }, // Left
-            { vx: g.speed, vy: 0 },  // Right
+            { vx: 0, vy: -actualSpeed }, // Up
+            { vx: 0, vy: actualSpeed },  // Down
+            { vx: -actualSpeed, vy: 0 }, // Left
+            { vx: actualSpeed, vy: 0 },  // Right
           ];
 
           directions.forEach(dir => {
             // Don't reverse direction immediately unless trapped
-            if (dir.vx === -g.vx && dir.vy === -g.vy && (g.vx !== 0 || g.vy !== 0)) return;
+            if (Math.sign(dir.vx) === -Math.sign(g.vx) && Math.sign(dir.vy) === -Math.sign(g.vy) && (g.vx !== 0 || g.vy !== 0)) return;
             if (!checkCollisionWithWall(snappedX + dir.vx, snappedY + dir.vy)) {
               possibleMoves.push(dir);
             }
@@ -289,7 +291,6 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
         }
 
         if (!checkCollisionWithWall(g.x + g.vx, g.y + g.vy)) {
-          const actualSpeed = g.isVulnerable ? g.speed * 0.6 : g.speed;
           g.x += Math.sign(g.vx) * actualSpeed;
           g.y += Math.sign(g.vy) * actualSpeed;
         }
