@@ -726,7 +726,7 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
         {/* Title & Stats */}
         <div className="text-center mb-4 w-full">
           <h1 className="text-2xl sm:text-4xl font-bold tracking-tight mb-2 text-slate-800 dark:text-slate-100">
-            Le "Frogger" des Contractuels
+            Chasse au CDI
           </h1>
           
           <div className="flex flex-wrap justify-center items-center gap-4 text-sm font-bold">
@@ -764,7 +764,7 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
               <div className="w-20 h-20 bg-pink-500/20 rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(244,114,182,0.4)]">
                 <Activity className="w-10 h-10 text-pink-400" />
               </div>
-              <h2 className="text-3xl font-bold text-slate-800 dark:text-white mb-4">La Traversée du Contractuel</h2>
+              <h2 className="text-3xl font-bold text-slate-800 dark:text-white mb-4">Chasse au CDI</h2>
               <p className="text-slate-600 dark:text-slate-300 max-w-md mx-auto mb-8 font-light text-sm">
                 Évitez les motifs de recrutement abusifs (voitures) et sautez sur les CDD légaux (bûches) pour atteindre la Titularisation / le CDI !
               </p>
