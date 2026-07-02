@@ -72,9 +72,9 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
     playerRef.current = { x: 10 * TILE_SIZE, y: 16 * TILE_SIZE, vx: 0, vy: 0, nextVx: 0, nextVy: 0, speed: 2 };
     
     ghostsRef.current = [
-      { x: 9 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -2, nextVx: 0, nextVy: 0, speed: 1.5, color: "#ef4444", isVulnerable: false, startX: 9 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Indu" },
-      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -2, nextVx: 0, nextVy: 0, speed: 1.5, color: "#3b82f6", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Absence" },
-      { x: 11 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -2, nextVx: 0, nextVy: 0, speed: 1.5, color: "#f59e0b", isVulnerable: false, startX: 11 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Erreur CM" },
+      { x: 9 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 1.5, vy: 0, nextVx: 0, nextVy: 0, speed: 1.5, color: "#ef4444", isVulnerable: false, startX: 9 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Indu" },
+      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#3b82f6", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Absence" },
+      { x: 11 * TILE_SIZE, y: 10 * TILE_SIZE, vx: -1.5, vy: 0, nextVx: 0, nextVy: 0, speed: 1.5, color: "#f59e0b", isVulnerable: false, startX: 11 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Erreur CM" },
     ];
     
     setScore(0);
@@ -88,9 +88,19 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
     ghostsRef.current.forEach(g => {
       g.x = g.startX;
       g.y = g.startY;
-      g.vx = 0;
-      g.vy = -g.speed;
       g.isVulnerable = false;
+      
+      // Initialize exit velocity based on start position inside the house
+      if (g.startX < 10 * TILE_SIZE) {
+        g.vx = g.speed;
+        g.vy = 0;
+      } else if (g.startX > 10 * TILE_SIZE) {
+        g.vx = -g.speed;
+        g.vy = 0;
+      } else {
+        g.vx = 0;
+        g.vy = -g.speed;
+      }
     });
   };
 
@@ -227,8 +237,8 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
         if (g.x < -TILE_SIZE) g.x = CANVAS_WIDTH;
         if (g.x > CANVAS_WIDTH) g.x = -TILE_SIZE;
 
-        // Si le fantôme est dans la maison de départ, on le guide vers la sortie
-        const inHouse = g.y >= 9 * TILE_SIZE && g.y <= 10 * TILE_SIZE && g.x >= 9 * TILE_SIZE && g.x <= 11 * TILE_SIZE;
+        // Si le fantôme est dans la maison de départ (avec une marge de sécurité), on le guide vers la sortie
+        const inHouse = g.y >= 9 * TILE_SIZE && g.y <= 11 * TILE_SIZE && g.x >= 9 * TILE_SIZE && g.x <= 12 * TILE_SIZE;
 
         if (inHouse) {
           if (
