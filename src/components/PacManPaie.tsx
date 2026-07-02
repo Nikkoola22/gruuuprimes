@@ -177,7 +177,7 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
         const snappedX = Math.round(p.x / TILE_SIZE) * TILE_SIZE;
         const snappedY = Math.round(p.y / TILE_SIZE) * TILE_SIZE;
         
-        if (!checkCollisionWithWall(snappedX + p.nextVx, snappedY + p.nextVy)) {
+        if (!checkCollisionWithWall(snappedX + Math.sign(p.nextVx) * TILE_SIZE, snappedY + Math.sign(p.nextVy) * TILE_SIZE)) {
           p.x = snappedX;
           p.y = snappedY;
           p.vx = p.nextVx;
@@ -274,7 +274,7 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
           directions.forEach(dir => {
             // Don't reverse direction immediately unless trapped
             if (Math.sign(dir.vx) === -Math.sign(g.vx) && Math.sign(dir.vy) === -Math.sign(g.vy) && (g.vx !== 0 || g.vy !== 0)) return;
-            if (!checkCollisionWithWall(snappedX + dir.vx, snappedY + dir.vy)) {
+            if (!checkCollisionWithWall(snappedX + Math.sign(dir.vx) * TILE_SIZE, snappedY + Math.sign(dir.vy) * TILE_SIZE)) {
               possibleMoves.push(dir);
             }
           });
