@@ -335,23 +335,63 @@ const ChifoumiRH: React.FC<ChifoumiRHProps> = ({ onClose }) => {
 
   // Obtenir le message de la règle de combat
   const getRuleMessage = () => {
-    if (!playerChoice || !computerChoice || playerChoice === computerChoice) {
+    if (!playerChoice || !computerChoice) return "";
+
+    if (playerChoice === computerChoice) {
       if (selectedMode === "mode1") {
-        return "Vous avez fait le même choix : dans la réalité, l'enjeu est souvent de combiner prévention et accompagnement.";
+        return `Vous avez fait le même choix (${currentMoves[playerChoice].name}) : dans la réalité, l'enjeu est souvent de combiner prévention et accompagnement.`;
       } else {
-        return "Vous avez fait le même choix : dans la réalité, l'enjeu est souvent de combiner les actions de recrutement, de formation et de reconnaissance.";
+        return `Vous avez fait le même choix (${currentMoves[playerChoice].name}) : dans la réalité, l'enjeu est souvent de combiner les actions de recrutement, de formation et de reconnaissance.`;
       }
     }
 
-    const winRule = currentRules.find(
-      (r) => r.winner === playerChoice && r.loser === computerChoice
-    );
-    if (winRule) return winRule.message;
+    if (selectedMode === "mode1") {
+      // MODE 1: A (Prévenir), B (Accompagner), C (Sanctionner)
+      if (playerChoice === "A" && computerChoice === "C") {
+        return "Tu as misé sur la prévention : tu cherches à éviter que la situation ne dégénère et qu'on doive en venir à la sanction.";
+      }
+      if (playerChoice === "C" && computerChoice === "A") {
+        return "Tu as choisi la sanction directe, mais l'IA montre qu'une action de prévention en amont aurait permis d'éviter cette dérive sans sévérité immédiate.";
+      }
 
-    const loseRule = currentRules.find(
-      (r) => r.winner === computerChoice && r.loser === playerChoice
-    );
-    return loseRule ? loseRule.message : "";
+      if (playerChoice === "B" && computerChoice === "A") {
+        return "Tu as choisi l'accompagnement : tu donnes du soutien concret et tu transformes la prévention en action personnalisée.";
+      }
+      if (playerChoice === "A" && computerChoice === "B") {
+        return "Tu as misé sur la prévention générale, mais l'IA rappelle que face à cette situation précise, un accompagnement personnalisé de l'agent est requis.";
+      }
+
+      if (playerChoice === "C" && computerChoice === "B") {
+        return "Tu as choisi la sanction : quand la prévention et l'accompagnement ne suffisent plus, la sanction rappelle le cadre et protège le service public.";
+      }
+      if (playerChoice === "B" && computerChoice === "C") {
+        return "Tu as tenté l'accompagnement, mais l'IA rappelle que la gravité des faits ou le non-respect répété du cadre nécessite ici une sanction.";
+      }
+    } else {
+      // MODE 2: A (Recrutement), B (Formation), C (Reconnaissance)
+      if (playerChoice === "A" && computerChoice === "C") {
+        return "Tu as misé sur le recrutement : sans ressources suffisantes, même une reconnaissance des efforts ne compense pas le manque d'effectifs.";
+      }
+      if (playerChoice === "C" && computerChoice === "A") {
+        return "Tu as choisi la reconnaissance, mais l'IA montre que sans recrutement pour soulager l'équipe en sous-effectif, la reconnaissance ne suffit pas.";
+      }
+
+      if (playerChoice === "B" && computerChoice === "A") {
+        return "Tu as misé sur la formation : tu développes les compétences des personnes déjà en poste et tu valorises le potentiel interne.";
+      }
+      if (playerChoice === "A" && computerChoice === "B") {
+        return "Tu as choisi de recruter en externe, mais l'IA rappelle que former et faire monter en compétences vos agents internes est plus durable et valorisant.";
+      }
+
+      if (playerChoice === "C" && computerChoice === "B") {
+        return "Tu as misé sur la reconnaissance : sans reconnaissance, la formation et les efforts fournis risquent de ne pas être durables.";
+      }
+      if (playerChoice === "B" && computerChoice === "C") {
+        return "Tu as misé sur la formation des compétences, mais l'IA rappelle que sans reconnaissance des efforts, les agents formés risquent de se démotiver.";
+      }
+    }
+
+    return "";
   };
 
   // Obtenir le message générique suite au gain/perte
