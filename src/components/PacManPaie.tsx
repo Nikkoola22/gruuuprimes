@@ -166,8 +166,9 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
       const currentBaseSpeed = Math.min(2.8, 1.4 + (score / 1500) * 1.4);
       ghostsRef.current.forEach(g => {
         g.speed = currentBaseSpeed;
-        if (g.vx !== 0) g.vx = Math.sign(g.vx) * currentBaseSpeed;
-        if (g.vy !== 0) g.vy = Math.sign(g.vy) * currentBaseSpeed;
+        const speed = g.isVulnerable ? currentBaseSpeed * 0.6 : currentBaseSpeed;
+        if (g.vx !== 0) g.vx = Math.sign(g.vx) * speed;
+        if (g.vy !== 0) g.vy = Math.sign(g.vy) * speed;
       });
 
       // Try applying next direction if centered roughly
