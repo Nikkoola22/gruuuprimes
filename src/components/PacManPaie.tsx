@@ -164,6 +164,8 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
       const currentBaseSpeed = Math.min(2.8, 1.4 + (score / 1500) * 1.4);
       ghostsRef.current.forEach(g => {
         g.speed = currentBaseSpeed;
+        if (g.vx !== 0) g.vx = Math.sign(g.vx) * currentBaseSpeed;
+        if (g.vy !== 0) g.vy = Math.sign(g.vy) * currentBaseSpeed;
       });
 
       // Try applying next direction if centered roughly
@@ -225,7 +227,31 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
         if (g.x < -TILE_SIZE) g.x = CANVAS_WIDTH;
         if (g.x > CANVAS_WIDTH) g.x = -TILE_SIZE;
 
-        if (
+        // Si le fantôme est dans la maison de départ, on le guide vers la sortie
+        const inHouse = g.y >= 9 * TILE_SIZE && g.y <= 10 * TILE_SIZE && g.x >= 9 * TILE_SIZE && g.x <= 11 * TILE_SIZE;
+
+        if (inHouse) {
+          if (
+            (g.x % TILE_SIZE < g.speed || g.x % TILE_SIZE > TILE_SIZE - g.speed) &&
+            (g.y % TILE_SIZE < g.speed || g.y % TILE_SIZE > TILE_SIZE - g.speed)
+          ) {
+            const snappedX = Math.round(g.x / TILE_SIZE) * TILE_SIZE;
+            const snappedY = Math.round(g.y / TILE_SIZE) * TILE_SIZE;
+            g.x = snappedX;
+            g.y = snappedY;
+
+            if (snappedX < 10 * TILE_SIZE) {
+              g.vx = g.speed;
+              g.vy = 0;
+            } else if (snappedX > 10 * TILE_SIZE) {
+              g.vx = -g.speed;
+              g.vy = 0;
+            } else {
+              g.vx = 0;
+              g.vy = -g.speed; // Se déplacer vers le haut pour sortir
+            }
+          }
+        } else if (
           (g.x % TILE_SIZE < g.speed || g.x % TILE_SIZE > TILE_SIZE - g.speed) &&
           (g.y % TILE_SIZE < g.speed || g.y % TILE_SIZE > TILE_SIZE - g.speed)
         ) {
