@@ -567,70 +567,90 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
 
       ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // Minimalist background
+      // === ARRIÈRE-PLAN ARCADE ===
+      ctx.fillStyle = '#020010';
+      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+      // Grille de points CRT
+      ctx.fillStyle = 'rgba(255,255,255,0.022)';
+      for (let gx = 0; gx <= CANVAS_WIDTH; gx += 28) {
+        for (let gy = 0; gy <= CANVAS_HEIGHT; gy += 28) {
+          ctx.beginPath();
+          ctx.arc(gx, gy, 0.7, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Bordure néon violette (murs arcade)
       ctx.save();
-      ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+      ctx.shadowBlur = 22;
+      ctx.shadowColor = '#cc00ff';
+      ctx.strokeStyle = 'rgba(180,0,255,0.55)';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(1.5, 1.5, CANVAS_WIDTH - 3, CANVAS_HEIGHT - 3);
       ctx.restore();
 
-      // Dessiner les briques
       bricksRef.current.forEach((brick) => {
         if (brick.isHit) return;
 
-        // Fond brique
         ctx.save();
-        ctx.shadowBlur = 10;
+        // Gradient arcade (style Arkanoid)
+        const bGrad = ctx.createLinearGradient(brick.x, brick.y, brick.x, brick.y + brick.height);
+        bGrad.addColorStop(0, brick.color);
+        bGrad.addColorStop(1, brick.color + '99');
+        ctx.fillStyle = bGrad;
+        ctx.shadowBlur = 16;
         ctx.shadowColor = brick.color;
-        ctx.fillStyle = brick.color;
-        
-        // Tracé arrondi de la brique
         ctx.beginPath();
-        const r = 4; // radius
-        ctx.roundRect(brick.x, brick.y, brick.width, brick.height, r);
+        ctx.roundRect(brick.x + 1, brick.y + 1, brick.width - 2, brick.height - 2, 2);
         ctx.fill();
 
-        // Ajout d'un léger reflet blanc translucide en haut de la brique
-        ctx.fillStyle = "rgba(255, 255, 255, 0.25)";
-        ctx.beginPath();
-        ctx.roundRect(brick.x + 1, brick.y + 1, brick.width - 2, 3, 2);
-        ctx.fill();
-        
+        // Reflet haut (3D arcade)
+        ctx.fillStyle = 'rgba(255,255,255,0.40)';
+        ctx.fillRect(brick.x + 2, brick.y + 2, brick.width - 4, 2);
+
+        // Ombre bas
+        ctx.fillStyle = 'rgba(0,0,0,0.45)';
+        ctx.fillRect(brick.x + 2, brick.y + brick.height - 4, brick.width - 4, 2);
         ctx.restore();
 
-        // Texte sur la brique
+        // Texte monospace arcade
         ctx.save();
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "bold 9px sans-serif";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 8px monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.shadowBlur = 6;
+        ctx.shadowColor = '#fff';
         ctx.fillText(brick.text, brick.x + brick.width / 2, brick.y + brick.height / 2 + 1);
         ctx.restore();
       });
 
-      // Dessiner la raquette aux couleurs de la CFDT (Orange avec bande blanche et bordure brillante)
+      // Raquette style arcade néon orange
       const pad = paddleRef.current;
       ctx.save();
-      ctx.shadowBlur = 15;
-      ctx.shadowColor = "#ff7900";
-      ctx.fillStyle = "#ff7900";
+      const padGrad = ctx.createLinearGradient(pad.x, pad.y, pad.x, pad.y + pad.height);
+      padGrad.addColorStop(0, '#ffffff');
+      padGrad.addColorStop(0.3, '#ffaa33');
+      padGrad.addColorStop(1, '#cc5500');
+      ctx.fillStyle = padGrad;
+      ctx.shadowBlur = 28;
+      ctx.shadowColor = '#ff7900';
       ctx.beginPath();
-      ctx.roundRect(pad.x, pad.y, pad.width, pad.height, 6);
+      ctx.roundRect(pad.x, pad.y, pad.width, pad.height, 5);
       ctx.fill();
-      
-      // Bordure blanche pour la faire ressortir
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-      
-      // Bande blanche centrale logo style
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(pad.x + pad.width / 2 - 12, pad.y + 1, 24, pad.height - 2);
-      
-      // Petit texte CFDT
-      ctx.font = "900 8px sans-serif";
-      ctx.fillStyle = "#c2410c";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText("CFDT", pad.x + pad.width / 2, pad.y + pad.height / 2 + 0.5);
+
+      // Reflet haut
+      ctx.fillStyle = 'rgba(255,255,255,0.55)';
+      ctx.fillRect(pad.x + 3, pad.y + 1, pad.width - 6, 2);
+
+      // Texte CFDT
+      ctx.shadowBlur = 0;
+      ctx.font = '900 8px monospace';
+      ctx.fillStyle = '#551500';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('CFDT', pad.x + pad.width / 2, pad.y + pad.height / 2 + 0.5);
       ctx.restore();
 
       // Dessiner les balles (Orbes lumineuses dont la couleur s'adapte aux bonus actifs)
@@ -749,14 +769,14 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
   }, [gameState]);
 
   return (
-    <div className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 overflow-x-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-500  sm: px-4 sm:px-6 lg:px-8 font-sans text-slate-800 dark:text-slate-100">
-      {/* Soft background glow */}
+    <div className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 overflow-x-hidden font-sans" style={{background: 'linear-gradient(180deg, #050014 0%, #0a0028 100%)'}}>
+      {/* Fond néon ambiant */}
       <div style={{
-        position: 'fixed', top: '50%', left: '50%',
+        position: 'fixed', top: '30%', left: '50%',
         transform: 'translate(-50%,-50%)',
-        width: 800, height: 800, borderRadius: '50%',
-        background: 'radial-gradient(ellipse at center, rgba(148,163,184,0.1) 0%, transparent 70%)',
-        filter: 'blur(40px)', pointerEvents: 'none', zIndex: 0,
+        width: 700, height: 500, borderRadius: '50%',
+        background: 'radial-gradient(ellipse at center, rgba(180,0,255,0.08) 0%, transparent 70%)',
+        filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0,
       }} />
 
       <div className="max-w-4xl mx-auto relative z-10">
@@ -766,7 +786,8 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
           <button
             type="button"
             onClick={onClose}
-            className="flex items-center gap-2 px-4  bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm shadow-md"
+            className="flex items-center gap-2 px-4 py-2 text-white rounded-full font-bold transition-all text-sm shadow-md"
+            style={{background: 'rgba(180,0,255,0.3)', border: '1px solid rgba(180,0,255,0.6)', backdropFilter: 'blur(8px)'}}
           >
             <ArrowLeft className="w-4 h-4" />
             Retour
@@ -775,31 +796,31 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
 
         {/* Title & Stats */}
         <div className="text-center mb-6 animate-fade-in">
-          <h1 className="text-3xl sm:text-5xl font-light tracking-tight mb-2 text-slate-800 dark:text-slate-100">
-            Casse-brique RH <span className="text-orange-500 font-semibold font-sans text-2xl sm:text-4xl">CFDT</span>
+          <h1 className="text-3xl sm:text-5xl font-black tracking-widest mb-2 uppercase" style={{fontFamily: 'monospace', color: '#ff7900', textShadow: '0 0 20px #ff790088, 0 0 60px #ff790044'}}>
+            CASSE-BRIQUE <span style={{color: '#cc00ff', textShadow: '0 0 20px #cc00ff88'}}>CFDT</span>
           </h1>
-          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-light max-w-lg mx-auto mb-6">
-            Libérez vos acquis sociaux et droits de la fonction publique en détruisant les briques !
+          <p className="text-sm sm:text-base font-light max-w-lg mx-auto mb-6" style={{color: 'rgba(255,255,255,0.45)', fontFamily: 'monospace', letterSpacing: '0.05em'}}>
+            LIBÉREZ VOS ACQUIS SOCIAUX — DÉTRUISEZ LES BRIQUES !
           </p>
 
           <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 text-sm font-bold">
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4  rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
-              Niveau : <span className="text-purple-400 text-base font-extrabold">{level}</span>
+            <span className="px-4 py-2 rounded font-mono text-xs" style={{background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(180,0,255,0.4)', color: '#cc00ff', letterSpacing: '0.1em'}}>
+              LEVEL <span className="text-white text-base">0{level}</span>
             </span>
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4  rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
-              Score : <span className="text-orange-400 text-base font-extrabold">{score}</span>
+            <span className="px-4 py-2 rounded font-mono text-xs" style={{background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(255,121,0,0.4)', color: '#ff7900', letterSpacing: '0.1em'}}>
+              SCORE <span className="text-white text-base">{String(score).padStart(6, '0')}</span>
             </span>
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4  rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
-              Vies : 
-              <span className="flex items-center gap-1">
+            <span className="px-4 py-2 rounded font-mono text-xs flex items-center gap-1.5" style={{background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(239,68,68,0.4)', color: '#ef4444', letterSpacing: '0.1em'}}>
+              LIVES 
+              <span className="flex gap-1">
                 {Array.from({ length: Math.max(0, lives) }).map((_, idx) => (
-                  <Heart key={idx} className="w-4 h-4 text-red-500 fill-red-500 animate-pulse" />
+                  <Heart key={idx} className="w-4 h-4 text-red-500 fill-red-500" />
                 ))}
-                {lives <= 0 && <span className="text-red-500 font-bold text-xs">Aucune</span>}
+                {lives <= 0 && <span className="text-red-500 font-bold text-xs">---</span>}
               </span>
             </span>
             {activePowerUp && (
-              <span className="bg-orange-500/20 text-orange-300 px-4  rounded-full border border-orange-500/40 text-xs font-semibold flex items-center gap-1.5 animate-bounce">
+              <span className="px-4 py-2 rounded font-mono text-xs flex items-center gap-1.5 animate-bounce" style={{background: 'rgba(255,121,0,0.15)', border: '1px solid rgba(255,121,0,0.5)', color: '#ff7900', letterSpacing: '0.08em'}}>
                 <Zap className="w-3.5 h-3.5" />
                 {activePowerUp}
               </span>
@@ -808,57 +829,62 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
         </div>
 
         {/* Game Area Container */}
-        <div className="max-w-5xl mx-auto bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-3xl p-4 sm:p-6 shadow-xl border border-slate-200 dark:border-slate-700/50 relative overflow-hidden">
+        <div className="max-w-5xl mx-auto backdrop-blur-xl rounded-2xl p-4 sm:p-6 relative overflow-hidden" style={{background: 'rgba(2,0,16,0.85)', border: '1px solid rgba(180,0,255,0.3)', boxShadow: '0 0 40px rgba(180,0,255,0.15), inset 0 0 40px rgba(0,0,0,0.5)'}}>
           
           {gameState === "ready" && (
-            <div className="text-center  relative z-10 animate-fade-in">
-              <Activity className="w-16 h-16 text-orange-500 mx-auto mb-4 animate-pulse" />
-              <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">Prêt à briser les briques des acquis ?</h2>
-              <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-8 text-sm font-light leading-relaxed">
-                Utilisez votre souris ou glissez votre doigt sur l'écran pour diriger la raquette aux couleurs de la <span className="text-orange-400 font-bold">CFDT</span>. Collectez les bonus qui tombent pour vous aider !
+            <div className="text-center py-16 relative z-10 animate-fade-in">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" style={{background: 'rgba(255,121,0,0.15)', border: '2px solid rgba(255,121,0,0.5)', boxShadow: '0 0 30px rgba(255,121,0,0.3)'}}>
+                <Activity className="w-10 h-10" style={{color: '#ff7900'}} />
+              </div>
+              <h2 className="text-2xl font-black mb-3 tracking-widest uppercase" style={{fontFamily: 'monospace', color: '#ff7900', textShadow: '0 0 15px #ff790066'}}>PRESS START</h2>
+              <p className="max-w-sm mx-auto mb-8 text-sm leading-relaxed" style={{color: 'rgba(255,255,255,0.5)', fontFamily: 'monospace'}}>
+                Dirigez la raquette <span style={{color: '#ff7900', fontWeight: 700}}>CFDT</span> avec la souris, le doigt ou les flèches. Collectez les capsules bonus !
               </p>
               <button
                 onClick={startNewGame}
-                className="mx-auto px-8  bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-medium rounded-2xl shadow-md hover:shadow-lg border border-slate-200 dark:border-slate-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-2"
+                className="mx-auto px-10 py-3 font-black rounded text-sm tracking-widest uppercase flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-95"
+                style={{fontFamily: 'monospace', background: 'linear-gradient(135deg, #ff7900, #cc5500)', color: '#fff', boxShadow: '0 0 30px rgba(255,121,0,0.5)', border: '1px solid rgba(255,121,0,0.6)'}}
               >
                 <Play className="w-5 h-5 fill-white" />
-                <span>Commencer la partie</span>
+                INSERT COIN
               </button>
             </div>
           )}
 
           {gameState === "gameover" && (
-            <div className="text-center  relative z-10 animate-scale-up">
-              <div className="w-16 h-16 bg-red-600/20 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 border border-red-500/30">
-                <Heart className="w-8 h-8 opacity-70" />
+            <div className="text-center py-16 relative z-10 animate-scale-up">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" style={{background: 'rgba(239,68,68,0.15)', border: '2px solid rgba(239,68,68,0.5)', boxShadow: '0 0 30px rgba(239,68,68,0.3)'}}>
+                <Heart className="w-10 h-10" style={{color: '#ef4444'}} />
               </div>
-              <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2 font-light">Partie terminée ! 😢</h2>
-              <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-8 text-sm font-light">
-                Vous avez bien défendu les droits, mais vous n'avez plus de vies ! Votre score final est de <span className="font-bold text-orange-400">{score} points</span>.
+              <h2 className="text-3xl font-black mb-3 tracking-widest uppercase" style={{fontFamily: 'monospace', color: '#ef4444', textShadow: '0 0 20px #ef444466'}}>GAME OVER</h2>
+              <p className="max-w-sm mx-auto mb-8 text-sm" style={{color: 'rgba(255,255,255,0.5)', fontFamily: 'monospace'}}>
+                SCORE FINAL : <span style={{color: '#ff7900', fontWeight: 700}}>{String(score).padStart(6, '0')}</span>
               </p>
               <button
                 onClick={startNewGame}
-                className="mx-auto px-8  bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-medium rounded-2xl shadow-md hover:shadow-lg border border-slate-200 dark:border-slate-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-2"
+                className="mx-auto px-10 py-3 font-black rounded text-sm tracking-widest uppercase flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-95"
+                style={{fontFamily: 'monospace', background: 'linear-gradient(135deg, #ef4444, #991b1b)', color: '#fff', boxShadow: '0 0 30px rgba(239,68,68,0.4)', border: '1px solid rgba(239,68,68,0.5)'}}
               >
                 <RotateCcw className="w-5 h-5" />
-                <span>Réessayer</span>
+                TRY AGAIN
               </button>
             </div>
           )}
 
           {gameState === "victory" && (
-            <div className="text-center  relative z-10 animate-scale-up">
-              <Trophy className="w-16 h-16 text-yellow-500 mx-auto mb-4 animate-bounce" />
-              <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2 font-light">Victoire complète ! 🎉</h2>
-              <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-8 text-sm font-light">
-                Bravo ! Vous avez libéré tous les acquis sociaux de la fonction publique territoriale avec un score de <span className="font-bold text-green-400">{score} points</span> !
+            <div className="text-center py-16 relative z-10 animate-scale-up">
+              <Trophy className="w-20 h-20 mx-auto mb-6 animate-bounce" style={{color: '#facc15', filter: 'drop-shadow(0 0 20px #facc1588)'}} />
+              <h2 className="text-3xl font-black mb-3 tracking-widest uppercase" style={{fontFamily: 'monospace', color: '#facc15', textShadow: '0 0 20px #facc1566'}}>VICTOIRE !</h2>
+              <p className="max-w-sm mx-auto mb-8 text-sm" style={{color: 'rgba(255,255,255,0.5)', fontFamily: 'monospace'}}>
+                SCORE FINAL : <span style={{color: '#22c55e', fontWeight: 700}}>{String(score).padStart(6, '0')}</span>
               </p>
               <button
                 onClick={startNewGame}
-                className="mx-auto px-8  bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-medium rounded-2xl shadow-md hover:shadow-lg border border-slate-200 dark:border-slate-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-2"
+                className="mx-auto px-10 py-3 font-black rounded text-sm tracking-widest uppercase flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-95"
+                style={{fontFamily: 'monospace', background: 'linear-gradient(135deg, #facc15, #ca8a04)', color: '#000', boxShadow: '0 0 30px rgba(250,204,21,0.4)', border: '1px solid rgba(250,204,21,0.6)'}}
               >
                 <RotateCcw className="w-5 h-5" />
-                <span>Rejouer</span>
+                PLAY AGAIN
               </button>
             </div>
           )}
@@ -871,7 +897,8 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
                 height={CANVAS_HEIGHT}
                 onMouseMove={handleMouseMove}
                 onTouchMove={handleTouchMove}
-                className="bg-transparent rounded-2xl border border-slate-200 dark:border-slate-700 shadow-inner cursor-none max-w-full block"
+                className="rounded-xl cursor-none max-w-full block"
+                style={{border: '2px solid rgba(180,0,255,0.35)', boxShadow: '0 0 30px rgba(180,0,255,0.2)'}}
               />
             </div>
           )}
@@ -879,11 +906,11 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
         </div>
 
         {/* Game Instructions */}
-        <div className="mt-6 p-4 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-xs sm:text-sm font-light text-slate-600 dark:text-slate-300 flex items-start gap-3 max-w-2xl mx-auto">
-          <Sparkles className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
+        <div className="mt-6 p-4 rounded-xl text-xs font-mono flex items-start gap-3 max-w-2xl mx-auto" style={{background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,121,0,0.2)', color: 'rgba(255,255,255,0.4)'}}>
+          <Sparkles className="w-4 h-4 shrink-0 mt-0.5" style={{color: '#ff7900'}} />
           <div>
-            <strong className="text-slate-800 dark:text-slate-100 font-semibold block mb-1">Comment jouer :</strong>
-            Déplacez la raquette <span className="text-orange-400 font-semibold">CFDT</span> horizontalement avec votre souris, votre doigt ou les flèches directionnelles <kbd className="bg-white dark:bg-slate-800 px-1 .5 rounded border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs shadow-sm">←</kbd> <kbd className="bg-white dark:bg-slate-800 px-1 .5 rounded border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs shadow-sm">→</kbd> pour faire rebondir la balle. Récupérez les capsules bonus pour obtenir des avantages (❤️ = vie, ↔️ = raquette large, ⏳ = balle lente, 🔮 = multi-balles, 🔫 = mode tir avec Espace).
+            <strong className="block mb-1" style={{color: '#ff7900', letterSpacing: '0.08em'}}>CONTROLS :</strong>
+            SOURIS / DOIGT / FLÈCHES ←→ — ESPACE = TIR | &#x2764; vie | ⇔ raquette large | ⏳ balle lente | 🔮 multi-balles | 🔫 mode tir
           </div>
         </div>
 
