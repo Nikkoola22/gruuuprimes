@@ -119,7 +119,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
 
   // Refs de physique pour éviter les saccades dues au rafraîchissement d'état React
   const paddleRef = useRef({ x: 270, y: 382, width: 100, height: 12 });
-  const ballsRef = useRef<Ball[]>([{ x: 320, y: 360, vx: 3, vy: -4, radius: 6, active: true, trail: [] }]);
+  const ballsRef = useRef<Ball[]>([{ x: 320, y: 360, vx: 5, vy: -6, radius: 6, active: true, trail: [] }]);
   const bricksRef = useRef<Brick[]>([]);
   const particlesRef = useRef<Particle[]>([]);
   const powerupsRef = useRef<PowerUp[]>([]);
@@ -174,7 +174,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
     if (powerupTimerRef.current) clearTimeout(powerupTimerRef.current);
 
     paddleRef.current = { x: 360, y: 560, width: 80, height: 10 };
-    ballsRef.current = [{ x: 400, y: 540, vx: 3, vy: -4, radius: 6, active: true, trail: [] }];
+    ballsRef.current = [{ x: 400, y: 540, vx: 5, vy: -6, radius: 6, active: true, trail: [] }];
     particlesRef.current = [];
     powerupsRef.current = [];
     
@@ -284,7 +284,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
 
     // Initialiser les étoiles spatiales
     const stars = [];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 150; i++) {
       stars.push({
         x: Math.random() * CANVAS_WIDTH,
         y: Math.random() * CANVAS_HEIGHT,
@@ -546,7 +546,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
           setLevel(2);
           initBricks(2);
           paddleRef.current = { x: 360, y: 560, width: 80, height: 10 };
-          ballsRef.current = [{ x: 400, y: 540, vx: 3, vy: -4, radius: 6, active: true, trail: [] }];
+          ballsRef.current = [{ x: 400, y: 540, vx: 5, vy: -6, radius: 6, active: true, trail: [] }];
           powerupsRef.current = [];
           shakeRef.current = 15;
         } else {
@@ -567,19 +567,52 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
 
       ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // === ARRIÈRE-PLAN ARCADE ===
-      ctx.fillStyle = '#020010';
+      // === FOND SPATIAL ===
+      // Dégradé espace profond
+      const spaceGrad = ctx.createLinearGradient(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+      spaceGrad.addColorStop(0, '#000510');
+      spaceGrad.addColorStop(0.4, '#020020');
+      spaceGrad.addColorStop(0.8, '#050005');
+      spaceGrad.addColorStop(1, '#000008');
+      ctx.fillStyle = spaceGrad;
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // Grille de points CRT
-      ctx.fillStyle = 'rgba(255,255,255,0.022)';
-      for (let gx = 0; gx <= CANVAS_WIDTH; gx += 28) {
-        for (let gy = 0; gy <= CANVAS_HEIGHT; gy += 28) {
-          ctx.beginPath();
-          ctx.arc(gx, gy, 0.7, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
+      // Nébuleuse violette
+      const nebula1 = ctx.createRadialGradient(520, 140, 0, 520, 140, 240);
+      nebula1.addColorStop(0, 'rgba(130,0,200,0.09)');
+      nebula1.addColorStop(1, 'transparent');
+      ctx.fillStyle = nebula1;
+      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+      // Nébuleuse bleue
+      const nebula2 = ctx.createRadialGradient(140, 420, 0, 140, 420, 180);
+      nebula2.addColorStop(0, 'rgba(0,60,180,0.07)');
+      nebula2.addColorStop(1, 'transparent');
+      ctx.fillStyle = nebula2;
+      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+      // Nébuleuse rose
+      const nebula3 = ctx.createRadialGradient(680, 480, 0, 680, 480, 160);
+      nebula3.addColorStop(0, 'rgba(200,0,100,0.06)');
+      nebula3.addColorStop(1, 'transparent');
+      ctx.fillStyle = nebula3;
+      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+      // Étoiles scintillantes
+      starsRef.current.forEach(star => {
+        star.alpha += star.speed;
+        if (star.alpha > 1) { star.alpha = 1; star.speed = -star.speed; }
+        if (star.alpha < 0.08) { star.alpha = 0.08; star.speed = -star.speed; }
+        ctx.save();
+        ctx.globalAlpha = star.alpha;
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowBlur = star.size > 1.2 ? 6 : 2;
+        ctx.shadowColor = star.size > 1.2 ? '#aaccff' : '#ffffff';
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      });
 
       // Bordure néon violette (murs arcade)
       ctx.save();
