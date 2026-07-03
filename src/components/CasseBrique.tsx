@@ -119,7 +119,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
 
   // Refs de physique pour éviter les saccades dues au rafraîchissement d'état React
   const paddleRef = useRef({ x: 270, y: 382, width: 100, height: 18 });
-  const ballsRef = useRef<Ball[]>([{ x: 320, y: 360, vx: 5, vy: -6, radius: 6, active: true, trail: [] }]);
+  const ballsRef = useRef<Ball[]>([{ x: 320, y: 360, vx: 7, vy: -8, radius: 6, active: true, trail: [] }]);
   const bricksRef = useRef<Brick[]>([]);
   const particlesRef = useRef<Particle[]>([]);
   const powerupsRef = useRef<PowerUp[]>([]);
@@ -233,7 +233,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
     if (powerupTimerRef.current) clearTimeout(powerupTimerRef.current);
 
           paddleRef.current = { x: 360, y: 560, width: 80, height: 16 };
-    ballsRef.current = [{ x: 400, y: 540, vx: 5, vy: -6, radius: 6, active: true, trail: [] }];
+    ballsRef.current = [{ x: 400, y: 540, vx: 7, vy: -8, radius: 6, active: true, trail: [] }];
     particlesRef.current = [];
     powerupsRef.current = [];
     
@@ -567,8 +567,8 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
             ballsRef.current = [{
               x: paddleRef.current.x + paddleRef.current.width / 2,
               y: paddleRef.current.y - 10,
-              vx: 5,
-              vy: -6,
+              vx: 7,
+              vy: -8,
               radius: 6,
               active: true,
               trail: []
@@ -580,7 +580,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
 
       // Déplacer les power-ups
       powerupsRef.current.forEach((pup) => {
-        pup.y += 2; // vitesse de chute
+        pup.y += 4; // vitesse de chute rapide
 
         // Collision raquette
         const pad = paddleRef.current;
@@ -613,7 +613,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
           setLevel(2);
           initBricks(2);
                 paddleRef.current = { x: 360, y: 560, width: 80, height: 16 };
-          ballsRef.current = [{ x: 400, y: 540, vx: 5, vy: -6, radius: 6, active: true, trail: [] }];
+          ballsRef.current = [{ x: 400, y: 540, vx: 7, vy: -8, radius: 6, active: true, trail: [] }];
           powerupsRef.current = [];
           shakeRef.current = 15;
         } else {
