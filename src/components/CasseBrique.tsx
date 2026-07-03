@@ -118,7 +118,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
   };
 
   // Refs de physique pour éviter les saccades dues au rafraîchissement d'état React
-  const paddleRef = useRef({ x: 270, y: 382, width: 100, height: 12 });
+  const paddleRef = useRef({ x: 270, y: 382, width: 100, height: 18 });
   const ballsRef = useRef<Ball[]>([{ x: 320, y: 360, vx: 5, vy: -6, radius: 6, active: true, trail: [] }]);
   const bricksRef = useRef<Brick[]>([]);
   const particlesRef = useRef<Particle[]>([]);
@@ -131,6 +131,65 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
 
   // Timers des power-ups
   const powerupTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+
+  // Synthèse sonore Web Audio
+  const playSound = useCallback((type: 'paddle' | 'wall' | 'brick' | 'powerup' | 'death' | 'victory') => {
+    if (!audioCtxRef.current) {
+      audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+    }
+    const ac = audioCtxRef.current;
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.connect(gain);
+    gain.connect(ac.destination);
+    const now = ac.currentTime;
+    if (type === 'paddle') {
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(320, now);
+      osc.frequency.exponentialRampToValueAtTime(240, now + 0.08);
+      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+      osc.start(now); osc.stop(now + 0.1);
+    } else if (type === 'wall') {
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(180, now);
+      gain.gain.setValueAtTime(0.1, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+      osc.start(now); osc.stop(now + 0.07);
+    } else if (type === 'brick') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(520, now);
+      osc.frequency.exponentialRampToValueAtTime(200, now + 0.12);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+      osc.start(now); osc.stop(now + 0.15);
+    } else if (type === 'powerup') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.setValueAtTime(660, now + 0.08);
+      osc.frequency.setValueAtTime(880, now + 0.16);
+      gain.gain.setValueAtTime(0.22, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+      osc.start(now); osc.stop(now + 0.3);
+    } else if (type === 'death') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(300, now);
+      osc.frequency.exponentialRampToValueAtTime(60, now + 0.5);
+      gain.gain.setValueAtTime(0.25, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+      osc.start(now); osc.stop(now + 0.55);
+    } else if (type === 'victory') {
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(523, now);
+      osc.frequency.setValueAtTime(659, now + 0.12);
+      osc.frequency.setValueAtTime(784, now + 0.24);
+      osc.frequency.setValueAtTime(1046, now + 0.36);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+      osc.start(now); osc.stop(now + 0.6);
+    }
+  }, []);
 
   // Réinitialiser les briques
   const initBricks = useCallback((lvl: number) => {
@@ -173,7 +232,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
     setActivePowerUp(null);
     if (powerupTimerRef.current) clearTimeout(powerupTimerRef.current);
 
-    paddleRef.current = { x: 360, y: 560, width: 80, height: 10 };
+          paddleRef.current = { x: 360, y: 560, width: 80, height: 16 };
     ballsRef.current = [{ x: 400, y: 540, vx: 5, vy: -6, radius: 6, active: true, trail: [] }];
     particlesRef.current = [];
     powerupsRef.current = [];
@@ -395,11 +454,13 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
           ball.x = ball.radius;
           ball.vx = -ball.vx;
           shakeRef.current = Math.max(shakeRef.current, 3);
+          playSound('wall');
         }
         if (ball.x + ball.radius > CANVAS_WIDTH) {
           ball.x = CANVAS_WIDTH - ball.radius;
           ball.vx = -ball.vx;
           shakeRef.current = Math.max(shakeRef.current, 3);
+          playSound('wall');
         }
 
         // Rebond plafond
@@ -407,6 +468,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
           ball.y = ball.radius;
           ball.vy = -ball.vy;
           shakeRef.current = Math.max(shakeRef.current, 3);
+          playSound('wall');
         }
 
         // Perte de balle (bas de l'écran)
@@ -434,6 +496,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
           if (Math.abs(ball.vx) > speed * 0.95) ball.vx = Math.sign(ball.vx) * speed * 0.95;
           ball.y = pad.y - ball.radius;
           shakeRef.current = Math.max(shakeRef.current, 4);
+          playSound('paddle');
         }
 
         // Collision briques
@@ -451,6 +514,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
             setScore((s) => s + brick.points);
             createExplosion(brick.x + brick.width / 2, brick.y + brick.height / 2, brick.color);
             shakeRef.current = Math.max(shakeRef.current, 8);
+            playSound('brick');
 
             // Physique de rebond sur la brique
             const overlapX = Math.min(ball.x + ball.radius - brick.x, brick.x + brick.width - (ball.x - ball.radius));
@@ -495,14 +559,16 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
         setLives((l) => {
           const nextL = l - 1;
           if (nextL <= 0) {
+            playSound('death');
             setGameState("gameover");
           } else {
+            playSound('death');
             // Remettre une balle sur la raquette
             ballsRef.current = [{
               x: paddleRef.current.x + paddleRef.current.width / 2,
               y: paddleRef.current.y - 10,
-              vx: 3,
-              vy: -4,
+              vx: 5,
+              vy: -6,
               radius: 6,
               active: true,
               trail: []
@@ -525,6 +591,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
           pup.x <= pad.x + pad.width
         ) {
           applyPowerUp(pup.type);
+          playSound('powerup');
           pup.y = 9999; // Supprimer
         }
       });
@@ -545,11 +612,12 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
         if (levelRef.current === 1) {
           setLevel(2);
           initBricks(2);
-          paddleRef.current = { x: 360, y: 560, width: 80, height: 10 };
+                paddleRef.current = { x: 360, y: 560, width: 80, height: 16 };
           ballsRef.current = [{ x: 400, y: 540, vx: 5, vy: -6, radius: 6, active: true, trail: [] }];
           powerupsRef.current = [];
           shakeRef.current = 15;
         } else {
+          playSound('victory');
           setGameState("victory");
         }
       }
