@@ -361,7 +361,7 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
 
   useEffect(() => {
     if (gameState === "playing" && containerRef.current) {
-      containerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      containerRef.current.scrollIntoView({ behavior: 'auto', block: 'start' });
     }
   }, [currentEvent, gameState]);
 
@@ -374,18 +374,25 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
     setLog([]);
     
     // Shuffle and pick 12 events (we duplicate if not enough)
-        let pool = [...ALL_EVENTS].sort(() => Math.random() - 0.5).slice(0, 24);
+    let pool = [...ALL_EVENTS].sort(() => Math.random() - 0.5).slice(0, 24);
     setEventPool(pool);
     setCurrentEvent(pool[0]);
     
     setGameState("playing");
   };
 
+  const IMPACT_MULTIPLIER = 1.5;
+
   const handleAction = (action: Action) => {
-    const newBudget = budget + action.impact.budget;
-    const newAgents = Math.min(100, Math.max(0, agentsSat + action.impact.agents));
-    const newElus = Math.min(100, Math.max(0, elusSat + action.impact.elus));
-    const newService = Math.min(100, Math.max(0, servicePub + action.impact.service));
+    const multipliedBudget = Math.round(action.impact.budget * IMPACT_MULTIPLIER);
+    const multipliedAgents = Math.round(action.impact.agents * IMPACT_MULTIPLIER);
+    const multipliedElus = Math.round(action.impact.elus * IMPACT_MULTIPLIER);
+    const multipliedService = Math.round(action.impact.service * IMPACT_MULTIPLIER);
+
+    const newBudget = budget + multipliedBudget;
+    const newAgents = Math.min(100, Math.max(0, agentsSat + multipliedAgents));
+    const newElus = Math.min(100, Math.max(0, elusSat + multipliedElus));
+    const newService = Math.min(100, Math.max(0, servicePub + multipliedService));
 
     setBudget(newBudget);
     setAgentsSat(newAgents);
@@ -394,7 +401,7 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
 
     // Logging
     const impactText = `Mois ${month} : Action choisie - "${action.text}"`;
-    const logType = (action.impact.agents > 0 || action.impact.service > 0) ? "good" : (action.impact.agents < 0 || action.impact.service < 0) ? "bad" : "neutral";
+    const logType = (multipliedAgents > 0 || multipliedService > 0) ? "good" : (multipliedAgents < 0 || multipliedService < 0) ? "bad" : "neutral";
     setLog(prev => [{month, text: impactText, type: logType}, ...prev]);
 
     // Check Game Over Conditions
@@ -517,15 +524,42 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
                 {gameState === "victory" ? "Félicitations, vous avez survécu à 24 mois de gestion RH dans la fonction publique sans vous faire lyncher !" : failReason}
               </p>
               
-              <div className="grid grid-cols-2 gap-4 mb-8 text-left">
-                <div className="bg-slate-900/50 p-3 rounded-xl border border-slate-700">
-                  <span className="text-xs text-slate-400 block mb-1">Budget Final</span>
-                  <span className="font-bold text-emerald-400">{budget} k€</span>
+              <div className="bg-slate-900/40 p-5 rounded-2xl border border-slate-700/60 mb-6 text-left">
+                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3 text-center border-b border-slate-700/50 pb-2">
+                  Bilan de Fin de Mandat
+                </h3>
+                
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  <div className={`p-3 rounded-xl border ${budget <= 0 ? 'bg-red-500/10 border-red-500/30' : 'bg-slate-900/60 border-slate-800'}`}>
+                    <span className="text-xs text-slate-400 block mb-0.5">Budget</span>
+                    <span className={`font-bold text-lg ${budget <= 0 ? 'text-red-400 animate-pulse font-extrabold' : 'text-emerald-400'}`}>{budget} k€</span>
+                  </div>
+                  <div className={`p-3 rounded-xl border ${agentsSat <= 0 ? 'bg-red-500/10 border-red-500/30' : 'bg-slate-900/60 border-slate-800'}`}>
+                    <span className="text-xs text-slate-400 block mb-0.5">Satisfaction Agents</span>
+                    <span className={`font-bold text-lg ${agentsSat <= 0 ? 'text-red-400 animate-pulse font-extrabold' : 'text-blue-400'}`}>{agentsSat}%</span>
+                  </div>
+                  <div className={`p-3 rounded-xl border ${elusSat <= 0 ? 'bg-red-500/10 border-red-500/30' : 'bg-slate-900/60 border-slate-800'}`}>
+                    <span className="text-xs text-slate-400 block mb-0.5">Satisfaction Élus</span>
+                    <span className={`font-bold text-lg ${elusSat <= 0 ? 'text-red-400 animate-pulse font-extrabold' : 'text-purple-400'}`}>{elusSat}%</span>
+                  </div>
+                  <div className={`p-3 rounded-xl border ${servicePub <= 0 ? 'bg-red-500/10 border-red-500/30' : 'bg-slate-900/60 border-slate-800'}`}>
+                    <span className="text-xs text-slate-400 block mb-0.5">Service Public</span>
+                    <span className={`font-bold text-lg ${servicePub <= 0 ? 'text-red-400 animate-pulse font-extrabold' : 'text-rose-400'}`}>{servicePub}%</span>
+                  </div>
                 </div>
-                <div className="bg-slate-900/50 p-3 rounded-xl border border-slate-700">
-                  <span className="text-xs text-slate-400 block mb-1">Service Public</span>
-                  <span className="font-bold text-blue-400">{servicePub}%</span>
-                </div>
+
+                {gameState === "gameover" && (
+                  <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-3 text-red-300 text-sm">
+                    <span className="font-bold block mb-1">🔴 Motif de la révocation :</span>
+                    <p className="leading-relaxed">
+                      {failReason} 
+                      {budget <= 0 && " Sans budget, la commune ne peut plus payer ses charges et est placée sous tutelle administrative de la préfecture."}
+                      {agentsSat <= 0 && " Les agents, épuisés ou mécontents, ont bloqué tous les services municipaux."}
+                      {elusSat <= 0 && " Vous avez perdu la confiance politique indispensable pour gouverner."}
+                      {servicePub <= 0 && " Le service public n'est plus assuré, déclenchant la colère des habitants."}
+                    </p>
+                  </div>
+                )}
               </div>
 
               <button 
@@ -613,28 +647,40 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
                           </span>
                         </div>
                         
-                        <div className="flex flex-wrap gap-2 text-xs font-bold relative z-10 w-full bg-slate-950/50 p-2 rounded-xl border border-slate-800/50">
-                          {action.impact.budget !== 0 && (
-                            <div className={`flex-1 min-w-[80px] flex justify-center items-center px-3 .5 rounded-lg border ${action.impact.budget > 0 ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
-                              {action.impact.budget > 0 ? '+' : ''}{action.impact.budget}k€
+                        {(() => {
+                          const multBudget = Math.round(action.impact.budget * IMPACT_MULTIPLIER);
+                          const multAgents = Math.round(action.impact.agents * IMPACT_MULTIPLIER);
+                          const multElus = Math.round(action.impact.elus * IMPACT_MULTIPLIER);
+                          const multService = Math.round(action.impact.service * IMPACT_MULTIPLIER);
+                          
+                          return (
+                            <div className="flex flex-wrap gap-2 text-sm font-bold relative z-10 w-full bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/80">
+                              {multBudget !== 0 && (
+                                <div className={`flex-1 min-w-[90px] flex justify-center items-center px-3 py-1.5 rounded-lg border ${multBudget > 0 ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400 shadow-[0_2px_10px_rgba(16,185,129,0.1)]' : 'bg-red-500/15 border-red-500/30 text-red-400 shadow-[0_2px_10px_rgba(239,68,68,0.1)]'} transition-all`}>
+                                  {multBudget > 0 ? '+' : ''}{multBudget}k€
+                                </div>
+                              )}
+                              {multAgents !== 0 && (
+                                <div className={`flex-1 min-w-[95px] flex justify-center items-center px-3 py-1.5 rounded-lg border ${multAgents > 0 ? 'bg-blue-500/15 border-blue-500/30 text-blue-400 shadow-[0_2px_10px_rgba(59,130,246,0.1)]' : 'bg-red-500/15 border-red-500/30 text-red-400 shadow-[0_2px_10px_rgba(239,68,68,0.1)]'} flex items-center gap-1.5 transition-all`}>
+                                  {multAgents > 0 ? <TrendingUp className="w-3.5 h-3.5"/> : <TrendingDown className="w-3.5 h-3.5"/>}
+                                  <span>Agents</span>
+                                </div>
+                              )}
+                              {multElus !== 0 && (
+                                <div className={`flex-1 min-w-[95px] flex justify-center items-center px-3 py-1.5 rounded-lg border ${multElus > 0 ? 'bg-purple-500/15 border-purple-500/30 text-purple-400 shadow-[0_2px_10px_rgba(168,85,247,0.1)]' : 'bg-red-500/15 border-red-500/30 text-red-400 shadow-[0_2px_10px_rgba(239,68,68,0.1)]'} flex items-center gap-1.5 transition-all`}>
+                                  {multElus > 0 ? <TrendingUp className="w-3.5 h-3.5"/> : <TrendingDown className="w-3.5 h-3.5"/>}
+                                  <span>Élus</span>
+                                </div>
+                              )}
+                              {multService !== 0 && (
+                                <div className={`flex-1 min-w-[95px] flex justify-center items-center px-3 py-1.5 rounded-lg border ${multService > 0 ? 'bg-rose-500/15 border-rose-500/30 text-rose-400 shadow-[0_2px_10px_rgba(244,63,94,0.1)]' : 'bg-red-500/15 border-red-500/30 text-red-400 shadow-[0_2px_10px_rgba(239,68,68,0.1)]'} flex items-center gap-1.5 transition-all`}>
+                                  {multService > 0 ? <TrendingUp className="w-3.5 h-3.5"/> : <TrendingDown className="w-3.5 h-3.5"/>}
+                                  <span>Service</span>
+                                </div>
+                              )}
                             </div>
-                          )}
-                          {action.impact.agents !== 0 && (
-                            <div className={`flex-1 min-w-[80px] flex justify-center items-center px-3 .5 rounded-lg border ${action.impact.agents > 0 ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'bg-red-500/10 border-red-500/30 text-red-400'} flex items-center gap-1`}>
-                              {action.impact.agents > 0 ? <TrendingUp className="w-3 h-3"/> : <TrendingDown className="w-3 h-3"/>} Agents
-                            </div>
-                          )}
-                          {action.impact.elus !== 0 && (
-                            <div className={`flex-1 min-w-[80px] flex justify-center items-center px-3 .5 rounded-lg border ${action.impact.elus > 0 ? 'bg-purple-500/10 border-purple-500/30 text-purple-400' : 'bg-red-500/10 border-red-500/30 text-red-400'} flex items-center gap-1`}>
-                              {action.impact.elus > 0 ? <TrendingUp className="w-3 h-3"/> : <TrendingDown className="w-3 h-3"/>} Élus
-                            </div>
-                          )}
-                          {action.impact.service !== 0 && (
-                            <div className={`flex-1 min-w-[80px] flex justify-center items-center px-3 .5 rounded-lg border ${action.impact.service > 0 ? 'bg-rose-500/10 border-rose-500/30 text-rose-400' : 'bg-red-500/10 border-red-500/30 text-red-400'} flex items-center gap-1`}>
-                              {action.impact.service > 0 ? <TrendingUp className="w-3 h-3"/> : <TrendingDown className="w-3 h-3"/>} Service
-                            </div>
-                          )}
-                        </div>
+                          );
+                        })()}
                       </button>
                     ))}
                   </div>
@@ -656,8 +702,8 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
       </div>
 
       <style>{`
-        @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fade-in 0.4s ease-out forwards; }
+        @keyframes fade-in { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fade-in 0.15s ease-out forwards; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: rgba(30, 41, 59, 0.5); border-radius: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(71, 85, 105, 0.8); border-radius: 4px; }
