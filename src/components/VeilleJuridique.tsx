@@ -342,21 +342,21 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
   }, [activeTab]);
 
   return (
-    <div className="fixed inset-0 z-[60] overflow-y-auto overflow-x-hidden overscroll-contain bg-slate-50 dark:bg-slate-900 flex flex-col">
+    <div className="dark fixed inset-0 z-[60] overflow-y-auto overflow-x-hidden overscroll-contain bg-slate-950 text-white flex flex-col font-sans">
       
       {/* Banner / Header */}
-      <header className="relative z-40 bg-white/90 dark:bg-slate-800/95 backdrop-blur-md py-8 border-b border-slate-200 dark:border-slate-700 shadow-sm shrink-0">
+      <header className="relative z-40 bg-slate-900/90 backdrop-blur-xl py-8 border-b border-slate-800 shadow-2xl shrink-0">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div className="flex items-center gap-4">
-            <div className="p-3.5 bg-purple-100 dark:bg-purple-900/50 rounded-2xl border border-purple-200 dark:border-purple-800 shadow-inner flex items-center justify-center animate-pulse">
-              <Scale className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+            <div className="p-3.5 bg-purple-500/20 rounded-2xl border border-purple-500/30 shadow-inner flex items-center justify-center animate-pulse">
+              <Scale className="w-8 h-8 text-purple-400" />
             </div>
             <div>
-              <h1 className="text-3xl font-black text-slate-950 dark:text-white tracking-tight flex items-center gap-2">
+              <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-2">
                 Veille Juridique
                 <span className="text-xs font-bold px-2.5 py-1 bg-purple-600 text-white rounded-full uppercase tracking-widest animate-bounce">2026</span>
               </h1>
-              <p className="text-slate-600 dark:text-slate-300 text-sm font-medium mt-1">
+              <p className="text-slate-300 text-sm font-medium mt-1">
                 Les dernières décisions des Tribunaux Administratifs et du Conseil d'État expliquées simplement.
               </p>
             </div>
@@ -365,10 +365,10 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
           {/* Controls: Mode Switcher & Close button */}
           <div className="flex items-center gap-3 self-start md:self-auto">
             {/* View Mode Toggle */}
-            <div className="bg-slate-100 dark:bg-slate-700/60 p-1 rounded-full border border-slate-200 dark:border-slate-600 flex items-center shadow-sm">
+            <div className="bg-slate-900 p-1 rounded-full border border-slate-800 flex items-center shadow-lg">
               <button
                 onClick={() => setViewMode("fiches")}
-                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${viewMode === "fiches" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-md" : "text-slate-600 dark:text-slate-300 hover:text-slate-900"}`}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${viewMode === "fiches" ? "bg-purple-600 text-white shadow-md" : "text-slate-300 hover:text-white"}`}
               >
                 <BookOpen className="w-3.5 h-3.5 inline mr-1.5" />
                 Fiches d'étude
@@ -378,7 +378,7 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
                   setViewMode("quiz");
                   startQuiz();
                 }}
-                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${viewMode === "quiz" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-md" : "text-slate-600 dark:text-slate-300 hover:text-slate-900"}`}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${viewMode === "quiz" ? "bg-purple-600 text-white shadow-md" : "text-slate-300 hover:text-white"}`}
               >
                 <Trophy className="w-3.5 h-3.5 inline mr-1.5" />
                 Mode Défi Quiz
@@ -388,7 +388,7 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
             {/* Back Button */}
             <button
               onClick={onClose}
-              className="flex items-center gap-2 px-4 py-2 bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/30 dark:hover:bg-rose-900/40 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60 rounded-full font-bold transition-all text-sm shadow-sm hover:scale-105"
+              className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-500 text-white border border-red-500/40 rounded-full font-bold transition-all text-sm shadow-md hover:scale-105"
             >
               <ArrowLeft className="w-4 h-4" />
               Retour
@@ -403,20 +403,20 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
         {viewMode === "fiches" ? (
           <>
             {/* Search & Filter Bar */}
-            <div className="w-full flex flex-col md:flex-row gap-4 items-center bg-white dark:bg-slate-800/80 p-4 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-md backdrop-blur">
+            <div className="w-full flex flex-col md:flex-row gap-4 items-center bg-slate-900/80 p-4 rounded-3xl border border-slate-800 shadow-xl backdrop-blur-xl">
               <div className="relative flex-grow w-full">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400" />
                 <input
                   type="text"
                   placeholder="Rechercher une décision, un mot-clé (ex: harcèlement, congés)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm font-medium focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all outline-none text-slate-800 dark:text-slate-100"
+                  className="w-full pl-12 pr-4 py-3 bg-slate-950 border border-slate-700/80 rounded-2xl text-sm font-medium focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all outline-none text-white placeholder-slate-400"
                 />
                 {searchQuery && (
                   <button 
                     onClick={() => setSearchQuery("")}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 hover:text-slate-600 bg-slate-200 dark:bg-slate-700 hover:scale-110 px-2 py-0.5 rounded"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-300 hover:text-white bg-slate-800 hover:scale-110 px-2.5 py-1 rounded-lg border border-slate-700"
                   >
                     Effacer
                   </button>
@@ -424,7 +424,7 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
               </div>
               
               {/* Optional results count badge */}
-              <div className="shrink-0 text-xs font-bold text-slate-500 bg-slate-100 dark:bg-slate-700/60 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-600">
+              <div className="shrink-0 text-xs font-bold text-purple-300 bg-purple-950/60 px-4 py-2.5 rounded-xl border border-purple-500/30">
                 {filteredQuestions.length} décision{filteredQuestions.length > 1 ? "s" : ""} trouvée{filteredQuestions.length > 1 ? "s" : ""}
               </div>
             </div>
@@ -437,15 +437,15 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
                   <button
                     key={cat.name}
                     onClick={() => setActiveTab(cat.name)}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-xs font-bold transition-all shrink-0 shadow-sm ${
+                    className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-xs font-bold transition-all shrink-0 shadow-md ${
                       isActive 
-                        ? "bg-purple-600 border-purple-600 text-white shadow-purple-600/20 scale-105" 
-                        : "bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300"
+                        ? "bg-purple-600 border-purple-500 text-white shadow-purple-600/30 scale-105" 
+                        : "bg-slate-900 hover:bg-slate-800 border-slate-800 text-slate-300 hover:text-white"
                     }`}
                   >
                     {cat.icon}
                     <span>{cat.name}</span>
-                    <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${isActive ? "bg-white/30 text-white" : "bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400"}`}>
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full ${isActive ? "bg-white/30 text-white" : "bg-slate-800 text-slate-400 border border-slate-700"}`}>
                       {cat.count}
                     </span>
                   </button>
@@ -480,25 +480,25 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
                     <div 
                       key={item.id}
                       onClick={() => toggleCard(item.id)}
-                      className={`group bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer flex flex-col ${
+                      className={`group bg-slate-900/90 rounded-3xl border border-slate-800 shadow-xl hover:shadow-2xl hover:border-purple-500/50 transition-all duration-300 overflow-hidden cursor-pointer flex flex-col ${
                         isOpen 
-                          ? "ring-2 ring-purple-500/50 shadow-purple-100 dark:shadow-none -translate-y-1" 
-                          : "hover:-translate-y-1 hover:border-slate-300 dark:hover:border-slate-600"
+                          ? "ring-2 ring-purple-500/60 shadow-purple-900/30 -translate-y-1" 
+                          : "hover:-translate-y-1"
                       }`}
                     >
                       {/* Top Bar with Category Badge and ID */}
-                      <div className="px-6 pt-5 pb-3 flex items-center justify-between border-b border-slate-100 dark:border-slate-700/50">
-                        <span className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full border ${tabColorDetails.color}`}>
+                      <div className="px-6 pt-5 pb-3 flex items-center justify-between border-b border-slate-800">
+                        <span className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full border bg-purple-950/60 text-purple-300 border-purple-500/30`}>
                           {item.category}
                         </span>
                         <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-black bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 px-2 py-0.5 rounded-md">
+                          <span className="text-[10px] font-black bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700">
                             CASE {item.id}
                           </span>
-                          <span className={`text-[10px] font-black px-2 py-0.5 rounded-md border ${
-                            item.difficulty === "Facile" ? "bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 border-emerald-200" :
-                            item.difficulty === "Moyen" ? "bg-amber-50 dark:bg-amber-950/20 text-amber-600 border-amber-200" :
-                            "bg-rose-50 dark:bg-rose-950/20 text-rose-600 border-rose-200"
+                          <span className={`text-[10px] font-black px-2.5 py-1 rounded-md border ${
+                            item.difficulty === "Facile" ? "bg-emerald-950/40 text-emerald-300 border-emerald-500/40" :
+                            item.difficulty === "Moyen" ? "bg-amber-950/40 text-amber-300 border-amber-500/40" :
+                            "bg-rose-950/40 text-rose-300 border-rose-500/40"
                           }`}>
                             {item.difficulty}
                           </span>
@@ -507,27 +507,27 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
 
                       {/* Question Container */}
                       <div className="px-6 py-5 flex-grow flex gap-4 items-start">
-                        <div className="p-2.5 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-750 flex items-center justify-center text-slate-400 group-hover:text-purple-500 group-hover:bg-purple-50 dark:group-hover:bg-purple-950/30 dark:group-hover:border-purple-900/50 transition-all shrink-0">
+                        <div className="p-3 bg-slate-950 rounded-2xl border border-slate-800 flex items-center justify-center text-purple-400 group-hover:text-purple-300 transition-all shrink-0">
                           <Gavel className="w-5 h-5" />
                         </div>
                         <div className="flex-grow">
-                          <h3 className="text-base font-black text-slate-900 dark:text-white leading-snug tracking-tight">
+                          <h3 className="text-base font-extrabold text-white leading-snug tracking-tight group-hover:text-purple-300 transition-colors">
                             {item.question}
                           </h3>
                         </div>
                       </div>
 
-                      {/* Expandable Answer Section (Smooth Height Transition) */}
+                      {/* Expandable Answer Section */}
                       <div className={`expandable-content ${isOpen ? "open" : ""}`}>
-                        <div className="border-t border-slate-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-900/20">
+                        <div className="border-t border-slate-800 bg-slate-950/60">
                           <div className="p-6 flex flex-col gap-4">
                             
                             {/* Answer Block */}
-                            <div className="p-4 bg-emerald-50/60 dark:bg-emerald-950/20 border-l-4 border-emerald-500 rounded-r-2xl">
-                              <h4 className="text-xs font-black text-emerald-800 dark:text-emerald-400 uppercase tracking-wider mb-1">
+                            <div className="p-4 bg-emerald-950/40 border-l-4 border-emerald-500 rounded-r-2xl border border-emerald-900/40">
+                              <h4 className="text-xs font-black text-emerald-400 uppercase tracking-wider mb-1">
                                 Réponse & Règle de Droit
                               </h4>
-                              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                              <p className="text-sm text-slate-200 leading-relaxed font-normal">
                                 {item.answer}
                               </p>
                             </div>

@@ -54,10 +54,10 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
     // Theme-specific colors
     const isLight = theme === 'light'
     const bgColor = isLight ? 0xffffff : 0x040009
-    
+
     // Vibrant and highly saturated colors for light mode
-    const emissivePalette = isLight 
-      ? [0xff0055, 0xff5500, 0xffaa00, 0x00cc44, 0x0077ff, 0xaa00ff] 
+    const emissivePalette = isLight
+      ? [0xff0055, 0xff5500, 0xffaa00, 0x00cc44, 0x0077ff, 0xaa00ff]
       : [0xFF1C74, 0xCC0055, 0xFF00BB, 0xAA00DD, 0xFF4499, 0xDD0088]
 
     const edgeColor = isLight ? 0x000000 : 0xFF5599
@@ -80,24 +80,30 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
     const edgeBaseMat = new THREE.LineBasicMaterial({ color: edgeColor, transparent: true, opacity: isLight ? 0.6 : 0.48 })
 
     const defs: Array<[[number, number, number], [number, number, number], [number, number, number]]> = [
-      [[1.44, 2.04, 0.88], [ 0.00,  0.00,  0.00], [0.00,  0.00,  0.00]],
-      [[1.02, 1.52, 0.82], [-0.92,  0.44, -0.50], [0.05,  0.28,  0.08]],
-      [[1.18, 0.88, 1.02], [ 0.88, -0.52,  0.30], [0.10, -0.22,  0.05]],
-      [[0.68, 0.68, 0.68], [ 0.26,  1.28,  0.55], [-0.18, 0.42,  0.28]],
-      [[0.82, 0.62, 0.74], [-0.58, -1.12,  0.24], [0.12,  0.18, -0.22]],
-      [[0.52, 1.08, 0.62], [ 1.06,  0.82, -0.56], [0.22, -0.32,  0.10]],
-      [[0.56, 0.46, 0.40], [-0.19, -0.46,  0.88], [-0.10, 0.52,  0.18]],
-      [[0.50, 0.40, 0.50], [ 0.54, -1.38, -0.32], [0.32,  0.22, -0.10]],
-      [[0.40, 0.84, 0.50], [-1.24, -0.30,  0.14], [0.10,  0.30,  0.18]],
-      [[0.30, 0.30, 0.30], [ 0.84,  1.58,  0.32], [0.38,  0.12,  0.30]],
-      [[0.60, 0.30, 0.80], [-0.44,  1.58, -0.22], [0.22, -0.38,  0.12]],
-      [[0.34, 0.60, 0.34], [ 1.34, -0.08,  0.54], [-0.12, 0.58,  0.22]],
+      [[1.44, 2.04, 0.88], [0.00, 0.00, 0.00], [0.00, 0.00, 0.00]],
+      [[1.02, 1.52, 0.82], [-0.92, 0.44, -0.50], [0.05, 0.28, 0.08]],
+      [[1.18, 0.88, 1.02], [0.88, -0.52, 0.30], [0.10, -0.22, 0.05]],
+      [[0.68, 0.68, 0.68], [0.26, 1.28, 0.55], [-0.18, 0.42, 0.28]],
+      [[0.82, 0.62, 0.74], [-0.58, -1.12, 0.24], [0.12, 0.18, -0.22]],
+      [[0.52, 1.08, 0.62], [1.06, 0.82, -0.56], [0.22, -0.32, 0.10]],
+      [[0.56, 0.46, 0.40], [-0.19, -0.46, 0.88], [-0.10, 0.52, 0.18]],
+      [[0.50, 0.40, 0.50], [0.54, -1.38, -0.32], [0.32, 0.22, -0.10]],
+      [[0.40, 0.84, 0.50], [-1.24, -0.30, 0.14], [0.10, 0.30, 0.18]],
+      [[0.30, 0.30, 0.30], [0.84, 1.58, 0.32], [0.38, 0.12, 0.30]],
+      [[0.60, 0.30, 0.80], [-0.44, 1.58, -0.22], [0.22, -0.38, 0.12]],
+      [[0.34, 0.60, 0.34], [1.34, -0.08, 0.54], [-0.12, 0.58, 0.22]],
     ]
 
     // Lettres à afficher sur les 4 premiers cubes
-    const letters = ['F', 'C', 'T', 'D']
-    const fontSize = 0.38
-    let font: Font | null = null
+    const letters = ['F', 'C', 'T', 'D'];
+    const fontSize = 0.6;
+    let font: Font | null = null;
+    const letterMat = new THREE.MeshBasicMaterial({
+      color: isLight ? 0x111827 : 0xffffff,
+      transparent: true,
+      opacity: 0.92,
+      side: THREE.DoubleSide,
+    });
     // Charger la police de caractères de base Three.js (helvetiker)
     new FontLoader().load('https://cdn.jsdelivr.net/npm/three@0.150.1/examples/fonts/helvetiker_regular.typeface.json', loadedFont => {
       font = loadedFont
@@ -113,12 +119,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
         const shapes = font.generateShapes(letters[i], fontSize)
         const textGeo = new ShapeGeometry(shapes)
         textGeo.center()
-        const textMat = new THREE.MeshBasicMaterial({
-          color: textColor,
-          transparent: true,
-          opacity: 0.92,
-          side: THREE.DoubleSide,
-        })
+        const textMat = letterMat;
         const textMesh = new THREE.Mesh(textGeo, textMat)
         // Colle la lettre à la face avant du cube, parfaitement plat
         textMesh.position.set(0, 0, size[2] / 2 + 0.001)
@@ -153,16 +154,16 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
     })
 
     const lightDefs: Array<[number, number, number, [number, number, number]]> = isLight ? [
-      [0xffffff, 8, 20, [ 0.0,  0.0,  4.0]],
-      [0xffb3ba, 5, 16, [ 3.5,  2.0,  0.0]],
-      [0xbae1ff, 4, 14, [-3.5, -1.0,  0.0]],
+      [0xffffff, 8, 20, [0.0, 0.0, 4.0]],
+      [0xffb3ba, 5, 16, [3.5, 2.0, 0.0]],
+      [0xbae1ff, 4, 14, [-3.5, -1.0, 0.0]],
     ] : [
-      [0xFF1C74, 12, 20, [ 0.0,  0.0,  4.0]],
-      [0xFF00CC,  8, 16, [ 3.5,  2.0,  0.0]],
-      [0x8800BB,  6, 14, [-3.5, -1.0,  0.0]],
-      [0xFF6699,  7, 14, [ 0.0,  4.0,  2.0]],
-      [0xCC0044,  5, 12, [ 0.0, -3.5,  2.0]],
-      [0xFFAACC,  3, 10, [-2.0,  2.5,  2.5]],
+      [0xFF1C74, 12, 20, [0.0, 0.0, 4.0]],
+      [0xFF00CC, 8, 16, [3.5, 2.0, 0.0]],
+      [0x8800BB, 6, 14, [-3.5, -1.0, 0.0]],
+      [0xFF6699, 7, 14, [0.0, 4.0, 2.0]],
+      [0xCC0044, 5, 12, [0.0, -3.5, 2.0]],
+      [0xFFAACC, 3, 10, [-2.0, 2.5, 2.5]],
     ]
 
     lightDefs.forEach(([color, intensity, dist, p]) => {
@@ -212,8 +213,8 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
     <div style={{
       position: 'fixed',
       inset: 0,
-      background: isLight 
-        ? 'linear-gradient(135deg, #fdfbf7 0%, #fff7ed 40%, #ffedd5 80%, #fed7aa 100%)' 
+      background: isLight
+        ? 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%)'
         : 'linear-gradient(135deg, #1a0022 0%, #2a0033 40%, #3a0055 80%, #FF1C74 100%)',
       fontFamily: "'Outfit', sans-serif",
       overflow: 'hidden',
@@ -268,7 +269,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
         position: 'absolute', top: '50%', left: '50%',
         transform: 'translate(-50%,-50%)',
         width: 700, height: 700, borderRadius: '50%',
-        background: isLight 
+        background: isLight
           ? 'radial-gradient(ellipse at center, rgba(253,164,175,0.4) 0%, rgba(186,230,253,0.2) 42%, transparent 68%)'
           : 'radial-gradient(ellipse at center, rgba(200,0,100,0.20) 0%, rgba(110,0,160,0.09) 42%, transparent 68%)',
         filter: 'blur(18px)', pointerEvents: 'none', zIndex: 1,
@@ -293,9 +294,9 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 'clamp(14px, 4vw, 17px)', letterSpacing: '0.03em', color: isLight ? '#334155' : '#F2EAF6' }}>
           <svg width="26" height="26" viewBox="0 0 28 28" fill="none" style={{ filter: isLight ? 'none' : 'drop-shadow(0 0 10px rgba(255,28,116,0.85))' }}>
-            <path d="M14 2L2 10L14 26L26 10L14 2Z" fill={isLight ? "rgba(244,114,182,0.2)" : "rgba(255,28,116,0.14)"} stroke={isLight ? "#ec4899" : "#FF1C74"} strokeWidth="1.5" strokeLinejoin="round"/>
-            <path d="M14 2L9 10L14 26L19 10L14 2Z" fill={isLight ? "rgba(244,114,182,0.15)" : "rgba(255,28,116,0.1)"} stroke={isLight ? "#ec4899" : "#FF1C74"} strokeWidth="0.75" strokeLinejoin="round"/>
-            <line x1="2" y1="10" x2="26" y2="10" stroke={isLight ? "#ec4899" : "#FF1C74"} strokeWidth="0.75" strokeOpacity="0.45"/>
+            <path d="M14 2L2 10L14 26L26 10L14 2Z" fill={isLight ? "rgba(244,114,182,0.2)" : "rgba(255,28,116,0.14)"} stroke={isLight ? "#ec4899" : "#FF1C74"} strokeWidth="1.5" strokeLinejoin="round" />
+            <path d="M14 2L9 10L14 26L19 10L14 2Z" fill={isLight ? "rgba(244,114,182,0.15)" : "rgba(255,28,116,0.1)"} stroke={isLight ? "#ec4899" : "#FF1C74"} strokeWidth="0.75" strokeLinejoin="round" />
+            <line x1="2" y1="10" x2="26" y2="10" stroke={isLight ? "#ec4899" : "#FF1C74"} strokeWidth="0.75" strokeOpacity="0.45" />
           </svg>
           Atlas
         </div>
@@ -315,7 +316,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
           onClick={onQuizz}
           style={{
             padding: 'clamp(6px, 2vw, 8px) clamp(16px, 4vw, 20px)', borderRadius: 100, border: 'none',
-            background: isLight ? 'linear-gradient(135deg, #f472b6, #db2777)' : 'linear-gradient(135deg, #FF1C74, #CC0055)',
+            background: isLight ? 'linear-gradient(135deg, #FFB86C, #FF9A33)' : 'linear-gradient(135deg, #FF9500, #FF7700)',
             color: '#fff', fontFamily: "'Outfit', sans-serif",
             fontSize: 'clamp(11px, 2.5vw, 13px)', fontWeight: 600, letterSpacing: '0.025em',
             cursor: 'pointer',
@@ -341,7 +342,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
         </div>
         <div style={{ width: 30, height: 1, background: isLight ? 'rgba(244,114,182,0.4)' : 'rgba(255,28,116,0.4)', margin: '12px 0' }} />
         <div style={{ fontSize: 'clamp(9px, 2vw, 11px)', fontWeight: 500, color: isLight ? '#64748b' : 'rgba(242,234,246,0.48)', lineHeight: 1.5, maxWidth: 175, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
-          Alternative Investments Intelligence
+          Mise à jour régulières – fait par tes collègues de Gennevilliers
         </div>
       </div>
 
@@ -359,7 +360,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
         </div>
         <div style={{ width: 30, height: 1, background: isLight ? 'rgba(244,114,182,0.4)' : 'rgba(255,28,116,0.4)', margin: '12px 0' }} />
         <div style={{ fontSize: 'clamp(9px, 2vw, 11px)', fontWeight: 500, color: isLight ? '#64748b' : 'rgba(242,234,246,0.48)', lineHeight: 1.5, maxWidth: 175, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
-          Assets backed by the vault at launch
+          et des news locales et nationales
         </div>
       </div>
 
@@ -380,7 +381,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
         <div style={{
           fontFamily: "'Syne', sans-serif", fontWeight: 800,
           fontSize: 'clamp(40px, 12vw, 98px)', lineHeight: 0.9, letterSpacing: '-0.04em',
-          background: isLight ? 'linear-gradient(165deg, #1e293b 22%, #db2777 100%)' : 'linear-gradient(165deg, #FFFFFF 22%, rgba(255,110,160,0.72) 100%)',
+                      background: isLight ? 'linear-gradient(165deg, #FFB86C 22%, #FF9A33 100%)' : 'linear-gradient(165deg, #FF9500 22%, #FF7700 100%)',
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
         }}>
           Atlas
@@ -398,34 +399,32 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 12,
             padding: 'clamp(14px, 3vw, 18px) clamp(28px, 5vw, 40px)', borderRadius: 16,
-            border: isLight ? '2.5px solid #ff0055' : '2.5px solid #FF1C74',
-            background: isLight
-              ? 'linear-gradient(135deg, #ff0055 0%, #ff5500 100%)'
-              : 'linear-gradient(135deg, #FF1C74 0%, #AA00DD 100%)',
-            color: '#ffffff', fontFamily: "'Outfit', sans-serif",
-            fontSize: 'clamp(15px, 3.5vw, 19px)', fontWeight: 800, letterSpacing: '0.06em',
+            border: 'none',
+            background: isLight ? 'linear-gradient(135deg, #FFB86C, #FF9A33)' : 'linear-gradient(135deg, #FF9500, #FF7700)',
+            color: '#fff',
+            fontFamily: "'Outfit', sans-serif",
+            fontSize: 'clamp(15px, 3.5vw, 19px)',
+            fontWeight: 800,
+            letterSpacing: '0.06em',
             textTransform: 'uppercase',
             cursor: 'pointer',
-            boxShadow: isLight
-              ? '0 0 0 4px rgba(255,0,85,0.2), 0 0 40px rgba(255,0,85,0.55), 0 8px 24px rgba(255,85,0,0.35)'
-              : '0 0 0 4px rgba(255,28,116,0.25), 0 0 50px rgba(255,28,116,0.65), 0 8px 30px rgba(170,0,221,0.4)',
-            animation: 'lpEntryPulse 2s ease-in-out infinite',
-            transition: 'transform 0.2s, box-shadow 0.2s',
+            boxShadow: isLight ? '0 0 16px rgba(244,114,182,0.3)' : '0 0 22px rgba(255,28,116,0.38)',
+            transition: 'box-shadow 0.2s, transform 0.15s',
           }}
         >
           Entrer
           <svg width="20" height="20" viewBox="0 0 15 15" fill="none">
-            <path d="M2.5 7.5H12.5M12.5 7.5L8.5 3.5M12.5 7.5L8.5 11.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M2.5 7.5H12.5M12.5 7.5L8.5 3.5M12.5 7.5L8.5 11.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
         <style>{`
           @keyframes lpEntryPulse {
             0%, 100% { transform: scale(1); box-shadow: ${isLight
-              ? '0 0 0 4px rgba(255,0,85,0.2), 0 0 40px rgba(255,0,85,0.55), 0 8px 24px rgba(255,85,0,0.35)'
-              : '0 0 0 4px rgba(255,28,116,0.25), 0 0 50px rgba(255,28,116,0.65), 0 8px 30px rgba(170,0,221,0.4)'}; }
+            ? '0 0 0 4px rgba(255,0,85,0.2), 0 0 40px rgba(255,0,85,0.55), 0 8px 24px rgba(255,85,0,0.35)'
+            : '0 0 0 4px rgba(255,28,116,0.25), 0 0 50px rgba(255,28,116,0.65), 0 8px 30px rgba(170,0,221,0.4)'}; }
             50% { transform: scale(1.04); box-shadow: ${isLight
-              ? '0 0 0 8px rgba(255,0,85,0.12), 0 0 65px rgba(255,0,85,0.75), 0 12px 32px rgba(255,85,0,0.5)'
-              : '0 0 0 8px rgba(255,28,116,0.15), 0 0 75px rgba(255,28,116,0.85), 0 12px 40px rgba(170,0,221,0.6)'}; }
+            ? '0 0 0 8px rgba(255,0,85,0.12), 0 0 65px rgba(255,0,85,0.75), 0 12px 32px rgba(255,85,0,0.5)'
+            : '0 0 0 8px rgba(255,28,116,0.15), 0 0 75px rgba(255,28,116,0.85), 0 12px 40px rgba(170,0,221,0.6)'}; }
           }
           .lp-buy-btn:hover { transform: scale(1.07) !important; }
           .lp-buy-btn:active { transform: scale(0.97) !important; }

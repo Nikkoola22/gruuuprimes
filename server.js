@@ -170,15 +170,34 @@ app.post('/api/completions', async (req, res) => {
   }
 });
 
+// Données de secours en cas d'erreur de serveur externe RSS
+const FALLBACK_FP_ARTICLES = [
+  { title: "AMF - Gestion des carrières et rémunérations territoriales", link: "https://www.amf.asso.fr", pubDate: new Date().toISOString(), category: "AMF", description: "Dernières actualités sur le statut des agents territoriaux.", timestamp: Date.now() },
+  { title: "AMF - Protection sociale complémentaire et prévoyance RH", link: "https://www.amf.asso.fr", pubDate: new Date().toISOString(), category: "AMF", description: "Accord-cadre sur la santé et la prévoyance dans la fonction publique.", timestamp: Date.now() - 3600000 }
+];
+
+const FALLBACK_INTERCO_ARTICLES = [
+  { title: "Réforme de la NBI : Ce que la CFDT défend pour vous", link: "https://interco.cfdt.fr/reforme-de-la-nbi-ce-que-la-cfdt-defend-pour-vous/", pubDate: new Date().toISOString(), category: "Protection judiciaire", description: "Analyse et propositions CFDT sur la Nouvelle Bonification Indiciaire.", imageUrl: null },
+  { title: "Congé de naissance : 2 mois supplémentaires dès le 1er juillet 2026", link: "https://interco.cfdt.fr/conge-de-naissance-2-mois-supplementaires-des-le-1er-juillet-2026/", pubDate: new Date().toISOString(), category: "Actu générale", description: "Décryptage de la nouvelle mesure sur le congé de naissance.", imageUrl: null },
+  { title: "Droit à l’avocat pour enfants en assistance éducative : les propositions CFDT", link: "https://interco.cfdt.fr/droit-a-lavocat-pour-enfants-en-assistance-educative-ambition-legitime-qui-appelle-des-moyens-a-la-hauteur/", pubDate: new Date().toISOString(), category: "Services judiciaires", description: "Une ambition légitime qui appelle des moyens à la hauteur.", imageUrl: null }
+];
+
+
+const FALLBACK_RSS_ARTICLES = [
+  { title: "FranceInfo - Les dernières mesures relatives à la fonction publique", link: "https://www.franceinfo.fr/politique", pubDate: new Date().toISOString() },
+  { title: "FranceInfo - Évolution des grilles de salaire et carrières", link: "https://www.franceinfo.fr/economie", pubDate: new Date().toISOString() },
+  { title: "FranceInfo - Dialogue social et actualités syndicales", link: "https://www.franceinfo.fr/societe", pubDate: new Date().toISOString() }
+];
+
 // Route pour récupérer les flux RSS de la Fonction Publique
 app.get('/api/fp-rss', async (req, res) => {
   try {
     const fetch = (await import('node-fetch')).default;
-
     const url = "https://www.amf.asso.fr/page-toute-actualite/36012";
     console.log(`📡 Scraping des actualités AMF: ${url}`);
 
     const response = await fetch(url, {
+      signal: AbortSignal.timeout(5000),
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         'Accept-Language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7'
@@ -186,13 +205,12 @@ app.get('/api/fp-rss', async (req, res) => {
     });
 
     if (!response.ok) {
-      console.error(`❌ Erreur fetch AMF (${response.status})`);
-      return res.status(500).json({ error: "Erreur récupération actualités AMF" });
+      console.warn(`⚠️ Erreur fetch AMF (${response.status}) - Utilisation des données de secours`);
+      return res.status(200).json({ items: FALLBACK_FP_ARTICLES });
     }
 
     const html = await response.text();
 
-    // Decode HTML entities helper
     const decodeHtmlEntities = (str) => {
       if (!str) return '';
       return str
@@ -230,7 +248,6 @@ app.get('/api/fp-rss', async (req, res) => {
         .replace(/&deg;/g, '°');
     };
 
-    // Parse french date to ISO string/timestamp
     const parseFrenchDate = (dateText) => {
       let pubDate = new Date().toISOString();
       let timestamp = Date.now();
@@ -268,39 +285,31 @@ app.get('/api/fp-rss', async (req, res) => {
       return { pubDate, timestamp };
     };
 
-    // Split HTML by box grid class
     const parts = html.split(/class\s*=\s*["'][^"']*liste_actu2[^"']*["']/);
     const articles = [];
 
-    // Skip the first part (pre-content)
     for (let i = 1; i < parts.length; i++) {
       const part = parts[i];
-
-      // 1. Link
       const linkMatch = part.match(/href=["']([^"']+)["']/);
       let link = linkMatch ? linkMatch[1] : '#';
       if (link.startsWith('/')) {
         link = 'https://www.amf.asso.fr' + link;
       }
 
-      // 2. Image URL
       const imgMatch = part.match(/<img[^>]+src=["']([^"']+)["']/i);
       let imageUrl = imgMatch ? imgMatch[1] : null;
       if (imageUrl && imageUrl.startsWith('/')) {
         imageUrl = 'https://www.amf.asso.fr' + imageUrl;
       }
 
-      // 3. Title
       const titleMatch = part.match(/<h3><a[^>]*>([\s\S]*?)<\/a><\/h3>/i);
       let title = titleMatch ? titleMatch[1] : 'Sans titre';
       title = decodeHtmlEntities(title.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim());
 
-      // 4. Description
       const descMatch = part.match(/<div class="panel"[^>]*>([\s\S]*?)<\/div>/i);
       let description = descMatch ? descMatch[1] : '';
       description = decodeHtmlEntities(description.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim());
 
-      // 5. Date text (e.g. "30 Juin 2026 - Réf: BW43249")
       const dateMatch = part.match(/<div style="font-size:\s*12px;[^>]*>([\s\S]*?)<\/div>/i);
       let dateText = dateMatch ? dateMatch[1] : '';
       dateText = decodeHtmlEntities(dateText.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim());
@@ -319,18 +328,19 @@ app.get('/api/fp-rss', async (req, res) => {
       });
     }
 
-    // Sort by timestamp desc
     articles.sort((a, b) => b.timestamp - a.timestamp);
-
-    // Limit to 15 articles
     const resultArticles = articles.slice(0, 15);
+
+    if (resultArticles.length === 0) {
+      return res.status(200).json({ items: FALLBACK_FP_ARTICLES });
+    }
 
     console.log(`✅ Actualités FP AMF : ${resultArticles.length} articles récupérés`);
     res.json({ items: resultArticles });
 
   } catch (error) {
-    console.error("💥 Erreur FP AMF Route:", error);
-    res.status(500).json({ error: "Erreur récupération actualités AMF", details: error.message });
+    console.warn("⚠️ Erreur FP AMF Route (fallback activé):", error.message);
+    res.status(200).json({ items: FALLBACK_FP_ARTICLES });
   }
 });
 
@@ -341,18 +351,19 @@ app.get('/api/interco-rss', async (req, res) => {
     const xml2js = await import('xml2js');
     const parser = new xml2js.default.Parser();
 
-    const rssUrl = "https://interco.cfdt.fr/feed/";
+    const rssUrl = "https://interco.cfdt.fr/actualites/feed/";
     console.log(`📡 Récupération du flux Interco CFDT: ${rssUrl}`);
 
     const response = await fetch(rssUrl, {
+      signal: AbortSignal.timeout(5000),
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
       }
     });
 
     if (!response.ok) {
-      console.error(`❌ Erreur fetch Interco RSS (${response.status}):`, response.statusText);
-      return res.status(response.status).json({ error: 'Erreur récupération RSS Interco' });
+      console.warn(`⚠️ Erreur fetch Interco RSS (${response.status}) - Utilisation des données de secours`);
+      return res.status(200).json({ items: FALLBACK_INTERCO_ARTICLES });
     }
 
     const xmlText = await response.text();
@@ -368,10 +379,8 @@ app.get('/api/interco-rss', async (req, res) => {
       const contentEncodedHtml = item['content:encoded']?.[0] || '';
       const combinedHtml = contentEncodedHtml + descriptionHtml;
       
-      // Extraction de l'URL de l'image (attribut src d'une balise img)
       const imgMatch = combinedHtml.match(/<img[^>]+src=["']([^"']+)["']/i);
       const imageUrl = imgMatch ? imgMatch[1] : null;
-
       const description = descriptionHtml.replace(/<[^>]*>/g, '').trim().substring(0, 150) || '';
 
       return {
@@ -384,12 +393,16 @@ app.get('/api/interco-rss', async (req, res) => {
       };
     });
 
+    if (articles.length === 0) {
+      return res.status(200).json({ items: FALLBACK_INTERCO_ARTICLES });
+    }
+
     console.log(`✅ ${articles.length} actualités Interco CFDT trouvées`);
     res.status(200).json({ items: articles });
 
   } catch (error) {
-    console.error("💥 Erreur Interco RSS:", error);
-    res.status(200).json({ items: [], error: "Erreur récupération RSS Interco", details: error.message });
+    console.warn("⚠️ Erreur Interco RSS (fallback activé):", error.message);
+    res.status(200).json({ items: FALLBACK_INTERCO_ARTICLES });
   }
 });
 
@@ -401,38 +414,42 @@ app.get('/api/rss', async (req, res) => {
     const parser = new xml2js.default.Parser();
     
     const rssUrl = "https://www.franceinfo.fr/politique.rss";
-    
     console.log(`📡 Récupération du flux RSS: ${rssUrl}`);
     
     const response = await fetch(rssUrl, {
+      signal: AbortSignal.timeout(5000),
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
       }
     });
     
     if (!response.ok) {
-      console.error(`❌ Erreur fetch RSS (${response.status}):`, response.statusText);
-      return res.status(response.status).json({ error: 'Erreur récupération RSS' });
+      console.warn(`⚠️ Erreur fetch RSS (${response.status}) - Utilisation des données de secours`);
+      return res.status(200).json({ items: FALLBACK_RSS_ARTICLES });
     }
     
     const xmlText = await response.text();
     const jsonData = await parser.parseStringPromise(xmlText);
     
-    // Extraction des articles
     const articles = (jsonData.rss?.channel?.[0]?.item || []).slice(0, 10).map((item) => ({
       title: item.title?.[0] || 'Sans titre',
       link: item.link?.[0] || '#',
       pubDate: item.pubDate?.[0] || new Date().toISOString()
     }));
     
+    if (articles.length === 0) {
+      return res.status(200).json({ items: FALLBACK_RSS_ARTICLES });
+    }
+
     console.log(`✅ ${articles.length} articles RSS trouvés`);
     res.status(200).json({ items: articles });
     
   } catch (error) {
-    console.error("💥 Erreur RSS:", error);
-    res.status(200).json({ items: [], error: "Erreur récupération RSS", details: error.message });
+    console.warn("⚠️ Erreur RSS (fallback activé):", error.message);
+    res.status(200).json({ items: FALLBACK_RSS_ARTICLES });
   }
 });
+
 
 app.listen(PORT, () => {
   console.log(`🚀 Serveur API démarré sur http://localhost:${PORT}`);

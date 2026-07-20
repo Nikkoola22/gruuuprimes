@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo, lazy, Suspense } from "react"
-import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye, Users, MessageCircleQuestion, HeartHandshake, Briefcase, Shield, CircleUser, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles } from "lucide-react"
+import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye, Users, MessageCircleQuestion, HeartHandshake, Briefcase, Shield, CircleUser, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 
 // --- IMPORTATIONS DES DONNÉES ---
@@ -29,10 +29,16 @@ const VeilleJuridique = lazy(() => import("./components/VeilleJuridique.tsx"))
 // --- CONFIGURATION BASE URL POUR GITHUB PAGES ---
 const BASE_URL = import.meta.env.BASE_URL
 
-// --- CONFIGURATION API PERPLEXITY ---
-const BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL || (import.meta.env.DEV
-  ? "http://localhost:3001/api/completions"
-  : "/api/completions")
+// --- CONFIGURATION API PERPLEXITY & RSS ---
+const getApiEndpoint = (endpoint: string) => {
+  if (import.meta.env.DEV) {
+    return `http://localhost:3001/api/${endpoint}`;
+  }
+  return `/api/${endpoint}`;
+};
+
+const BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL || getApiEndpoint("completions");
+
 
 // --- RSS ITEM TYPE ---
 interface RssItem {
@@ -246,6 +252,13 @@ function App() {
   const [showExpandSearch, setShowExpandSearch] = useState(false)
   const [showUsefulLinks, setShowUsefulLinks] = useState(false)
   const [lastQuestion, setLastQuestion] = useState<string>("")
+  const [showMacMenuBar, setShowMacMenuBar] = useState<boolean>(() => {
+    const saved = localStorage.getItem('showMacMenuBar');
+    return saved === null ? true : saved === 'true';
+  })
+  useEffect(() => {
+    localStorage.setItem('showMacMenuBar', String(showMacMenuBar));
+  }, [showMacMenuBar]);
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesListRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -298,9 +311,7 @@ function App() {
         }
 
         // Construire l'URL de l'API selon l'environnement
-        const apiUrl = import.meta.env.DEV && BASE_URL === '/'
-          ? '/api/rss'
-          : `${window.location.origin}${BASE_URL}api/rss`
+        const apiUrl = getApiEndpoint('rss')
         const response = await fetch(apiUrl)
 
         if (!response.ok) {
@@ -353,9 +364,7 @@ function App() {
     const fetchIntercoNews = async () => {
       try {
         setIntercoLoading(true)
-        const apiUrl = import.meta.env.DEV
-          ? '/api/interco-rss'
-          : `${window.location.origin}${BASE_URL === '/' ? '' : BASE_URL}/api/interco-rss`
+        const apiUrl = getApiEndpoint('interco-rss')
         const response = await fetch(apiUrl)
         if (!response.ok) throw new Error(`Erreur serveur: ${response.status}`)
         const data = await response.json()
@@ -385,9 +394,7 @@ function App() {
     const fetchFpNews = async () => {
       try {
         setFpLoading(true)
-        const apiUrl = import.meta.env.DEV
-          ? '/api/fp-rss'
-          : `${window.location.origin}${BASE_URL === '/' ? '' : BASE_URL}/api/fp-rss`
+        const apiUrl = getApiEndpoint('fp-rss')
         const response = await fetch(apiUrl)
         if (!response.ok) throw new Error(`Erreur serveur: ${response.status}`)
         const data = await response.json()
@@ -1246,7 +1253,7 @@ ${indicesFactuels}
     <div
       className="min-h-screen relative overflow-x-clip dark:bg-slate-950"
       style={{
-        background: theme === 'dark' ? undefined : 'linear-gradient(135deg, #fdfbf7 0%, #fff7ed 40%, #ffedd5 80%, #fed7aa 100%)',
+        background: theme === 'dark' ? undefined : 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%)',
       }}
     >
       <Toaster richColors position="bottom-right" closeButton theme={theme} />
@@ -1267,75 +1274,91 @@ ${indicesFactuels}
 
       {/* Couches de fond supplémentaires — supprimées (GPU layers plein écran) */}
 
-      {/* HEADER PROFESSIONNEL */}
-      <header className="relative bg-gradient-to-r from-white/95 via-slate-50/90 to-white/95 dark:from-slate-900/95 dark:via-blue-950/90 dark:to-slate-900/95 shadow-lg dark:shadow-blue-900/20 z-10 bg-cover bg-center glass-banner header-bottom-glow" style={{ backgroundImage: `url('${BASE_URL}mairie.jpeg')`, backgroundBlendMode: 'overlay' }}>
-        <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-slate-50/80 to-white/80 dark:from-slate-900/80 dark:via-blue-900/80 dark:to-slate-900/80 z-0 transition-colors duration-300"></div>
-        {/* Scan line traversant le header */}
+      {/* HEADER PROFESSIONNEL MODERNE & DYNAMIQUE */}
+      <header className="relative bg-white/75 dark:bg-slate-950/75 backdrop-blur-xl border-b border-slate-200/30 dark:border-slate-800/30 shadow-sm dark:shadow-blue-950/10 z-30 transition-all duration-300">
+        {/* Shimmer effect / Ligne brillante animée */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
           <div
-            className="absolute top-0 left-0 h-full w-20"
+            className="absolute top-0 left-0 h-full w-[150px]"
             style={{
-              background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.07), transparent)',
-              animation: 'header-scan 12s ease-in-out 3s infinite',
+              background: 'linear-gradient(90deg, transparent, rgba(59,130,246,0.12), transparent)',
+              animation: 'header-scan 8s cubic-bezier(0.4, 0, 0.2, 1) infinite',
               willChange: 'transform',
             }}
           />
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 relative z-10">
-          <div className="flex items-center justify-between gap-2 sm:gap-5">
-            {/* Logo et texte à gauche */}
-            <div className="flex items-center gap-3 group">
-              <div className="relative logo-glow-ambient">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-lg blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 relative z-10">
+          <div className="flex items-center justify-between gap-4 sm:gap-6">
+            {/* Logo et titre (Gauche) */}
+            <div className="flex items-center gap-3.5 group cursor-pointer" onClick={() => setShowLanding(true)}>
+              <div className="relative">
+                {/* Glow effect on hover */}
+                <div className="absolute inset-0 bg-blue-500/20 rounded-2xl blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 scale-110"></div>
                 {logoLoadError ? (
-                  <div className="w-14 h-14 sm:w-24 sm:h-24 rounded-xl bg-gradient-to-br from-orange-500 to-orange-700 border border-white/20 shadow-lg flex items-center justify-center relative transition-transform duration-300 group-hover:scale-105">
-                    <span className="text-white font-semibold tracking-wider text-xs sm:text-xl">CFDT</span>
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-650 border border-white/20 shadow-md flex items-center justify-center relative transition-all duration-300 group-hover:scale-105 group-hover:rotate-3">
+                    <span className="text-white font-black tracking-wider text-xs sm:text-lg">CFDT</span>
                   </div>
                 ) : (
                   <img
                     src={`${BASE_URL}logo-cfdt.jpg`}
                     alt="Logo CFDT"
-                    className="w-14 h-14 sm:w-24 sm:h-24 object-contain relative transition-transform duration-300 group-hover:scale-105"
+                    className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain relative transition-all duration-300 group-hover:scale-105 group-hover:rotate-3 shadow-sm"
                     onError={() => setLogoLoadError(true)}
                   />
                 )}
               </div>
+              
               <div className="flex flex-col justify-center">
-                <h1 className="text-3xl sm:text-5xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-slate-800 via-slate-600 to-slate-900 dark:from-white dark:via-blue-100 dark:to-white drop-shadow-sm transition-colors duration-300">
+                <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 dark:from-white dark:via-blue-100 dark:to-white drop-shadow-sm transition-colors duration-300">
                   ATLAS
                 </h1>
-                <div className="flex items-center gap-2 mt-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.5)]"></div>
-                  <p className="text-[10px] sm:text-xs text-orange-600 font-semibold tracking-[0.25em] sm:tracking-[0.3em] uppercase">
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse shadow-[0_0_8px_rgba(249,115,22,0.7)]"></span>
+                  <p className="text-[9px] sm:text-xxs text-orange-600 dark:text-orange-400 font-bold tracking-[0.2em] uppercase">
                     Assistant syndical CFDT
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Texte centre — masqué sur mobile */}
-            <div className="hidden sm:flex flex-col items-center justify-center flex-grow">
-              <div className="relative group/mairie inline-flex items-center justify-center">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-cyan-400/20 rounded-full blur-xl opacity-0 group-hover/mairie:opacity-100 transition-opacity duration-500"></div>
-                <div className="relative flex items-center gap-3 px-6 py-2 rounded-full bg-white/60 dark:bg-slate-800/60 border border-slate-200/50 dark:border-slate-700/50 backdrop-blur-md shadow-sm transition-colors duration-300">
-                  <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.5)]"></div>
-                  <h2 className="text-sm md:text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-700 to-slate-500 dark:from-slate-200 dark:to-white uppercase tracking-[0.2em] transition-colors duration-300">
+            {/* Ville & Description (Centre) */}
+            <div className="hidden md:flex flex-col items-center justify-center flex-grow">
+              <div className="relative group/badge inline-flex items-center justify-center">
+                <div className="absolute inset-0 bg-blue-400/10 rounded-full blur-lg opacity-0 group-hover/badge:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative flex items-center gap-2.5 px-5 py-1.5 rounded-full bg-slate-50/50 dark:bg-slate-900/50 border border-slate-200/40 dark:border-slate-800/40 backdrop-blur-md shadow-sm transition-all duration-300 hover:border-blue-500/30">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                  <h2 className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.25em]">
                     Mairie de Gennevilliers
                   </h2>
-                  <div className="w-1.5 h-1.5 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.5)]"></div>
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
                 </div>
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 font-medium dark:font-normal tracking-wide transition-colors duration-300">Chatbot d'assistance pour les agents municipaux</p>
+              <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1.5 font-medium tracking-wide">
+                Chatbot d'assistance pour les agents municipaux
+              </p>
             </div>
 
-            {/* Contact à droite et Theme Toggle */}
-            <div className="flex items-center gap-4 text-right">
+            {/* Actions / Toggles (Droite) */}
+            <div className="flex items-center gap-2.5">
+              <button
+                onClick={() => setShowMacMenuBar(prev => !prev)}
+                className={`p-2.5 rounded-xl border shadow-sm transition-all duration-300 hover:scale-105 active:scale-95 ${
+                  showMacMenuBar
+                    ? 'bg-blue-600 border-blue-600 text-white shadow-blue-500/20'
+                    : 'bg-white/80 dark:bg-slate-900/80 border-slate-200/50 dark:border-slate-800/50 text-slate-700 dark:text-slate-250 hover:bg-slate-50 dark:hover:bg-slate-800/90'
+                }`}
+                title={showMacMenuBar ? "Désactiver la barre de menus macOS" : "Activer la barre de menus macOS"}
+              >
+                <Laptop className="w-5 h-5" />
+              </button>
+              
               <button
                 onClick={toggleTheme}
-                className="p-2 sm:p-3 rounded-full bg-white/60 hover:bg-white/90 border border-slate-200 shadow-sm transition-all duration-200"
+                className="p-2.5 rounded-xl bg-white/85 dark:bg-slate-900/85 border border-slate-200/50 dark:border-slate-800/50 text-slate-700 dark:text-slate-250 hover:bg-slate-50 dark:hover:bg-slate-800/90 shadow-sm transition-all duration-300 hover:scale-105 active:scale-95 hover:rotate-12"
                 title="Basculer le thème"
               >
-                <Eye className="w-5 h-5 sm:w-6 sm:h-6 text-slate-700 dark:text-slate-900" />
+                <Eye className="w-5 h-5" />
               </button>
             </div>
           </div>
@@ -1552,52 +1575,48 @@ ${indicesFactuels}
 
                   {/* Colonne Gauche : Actualités */}
                   <div className="lg:col-span-3 h-full">
-                    <div className="w-full h-full bg-gradient-to-br from-white/90 via-blue-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-blue-200 shadow-xl shadow-blue-100/50 transition-all duration-300 hover:shadow-2xl hover:border-blue-300 relative z-10 overflow-hidden">
+                    <div className="w-full h-full bg-white/95 backdrop-blur-xl rounded-3xl p-8 border border-slate-200 shadow-xl shadow-slate-200/50 relative z-10 overflow-hidden">
                       <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-8 justify-between">
                         <div className="flex items-center gap-3">
-                          <div className="p-2.5 bg-blue-100/50 rounded-xl border border-blue-200 shadow-sm">
-                            <Newspaper className="w-6 h-6 text-blue-500" />
+                          <div className="p-2.5 bg-blue-50 rounded-xl border border-blue-200 shadow-xs">
+                            <Newspaper className="w-6 h-6 text-blue-600" />
                           </div>
-                          <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
-                            Actualités
-                            <span className="relative inline-block ml-2 z-10">
-                              <span className="relative z-20 text-slate-800 font-black tracking-tight">Syndicales & Statutaires</span>
-                              <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-blue-300 via-cyan-200 to-blue-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-                            </span>
+                          <h3 className="text-2xl font-extrabold text-slate-900 tracking-wide">
+                            Actualités <span className="text-blue-600">Syndicales & Statutaires</span>
                           </h3>
                         </div>
                         <a
                           href="https://www.cig929394.fr/actualites/"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="ml-auto text-xs text-slate-500 hover:text-blue-600 transition-colors duration-150 underline underline-offset-2 font-medium"
+                          className="ml-auto text-xs text-blue-600 hover:text-blue-700 transition-colors font-bold underline underline-offset-2"
                         >
                           Voir toutes les actualités →
                         </a>
                       </div>
 
                       {/* --- ACTUALITÉ STATUTAIRE CIG --- */}
-                      <div className="flex flex-col md:flex-row gap-6 mb-8 border-b border-slate-200/80 pb-8 group/card">
-                        <div className="relative w-full md:w-64 h-40 overflow-hidden rounded-xl shrink-0 border border-slate-200 bg-slate-100/50">
-                          <img src="https://www.cig929394.fr/wp-content/uploads/2026/06/Emplois-superieurs-480x252.jpg" alt="Réforme encadrement" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
-                          <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur text-red-300 border border-red-500/30">
-                            Statutaire
+                      <div className="flex flex-col md:flex-row gap-6 mb-8 border-b border-slate-200 pb-8 group/card">
+                        <div className="relative w-full md:w-64 h-40 overflow-hidden rounded-xl shrink-0 border border-slate-200 bg-slate-50">
+                          <img src="https://www.cig929394.fr/wp-content/uploads/2026/07/FOCUS-BIP_Actu-juillet26-480x252.png" alt="Autorisations d'absence" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
+                          <span className="absolute top-2 left-2 inline-block text-[10px] font-bold px-2.5 py-1 rounded-full bg-white/90 backdrop-blur text-red-600 border border-red-200 shadow-sm">
+                            Statutaire CIG
                           </span>
                         </div>
                         <div className="flex flex-col justify-between">
                           <div>
-                            <h4 className="text-xl font-bold text-slate-800 dark:text-white mt-1 hover:text-blue-600 transition-colors leading-snug mb-3">
-                              <a href="https://www.cig929394.fr/actualites/" target="_blank" rel="noopener noreferrer">
-                                Actualités Statutaires du CIG
+                            <h4 className="text-xl font-bold text-slate-900 mt-1 hover:text-blue-600 transition-colors leading-snug mb-3">
+                              <a href="https://www.cig929394.fr/actualites/les-modalites-doctroi-des-autorisations-dabsence-liees-a-la-famille-fixees-par-decret/" target="_blank" rel="noopener noreferrer">
+                                Les modalités d’octroi des autorisations d’absence liées à la famille fixées par décret
                               </a>
                             </h4>
-                            <p className="text-base text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
-                              Retrouvez toutes les dernières actualités statutaires et réformes de la fonction publique territoriale sur le site du CIG Petite Couronne.
+                            <p className="text-sm text-slate-600 font-medium leading-relaxed">
+                              Les autorisations spéciales d’absence (ASA) liées à la parentalité et aux événements familiaux, prévues par le CGFP, sont désormais fixées par le décret n°2026-604 du 6 juillet 2026, applicable au 1er janvier 2027.
                             </p>
                           </div>
                           <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
-                            <span className="font-medium">CIG Petite Couronne</span>
-                            <a href="https://www.cig929394.fr/actualites/" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                            <span className="font-semibold text-blue-700">CIG Petite Couronne</span>
+                            <a href="https://www.cig929394.fr/actualites/" target="_blank" rel="noopener noreferrer" className="font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1">
                               Toutes les actus CIG
                             </a>
                           </div>
@@ -1605,15 +1624,15 @@ ${indicesFactuels}
                       </div>
 
                       {/* --- ACTUALITÉS CFDT INTERCO --- */}
-                      <h4 className="text-xl font-bold text-slate-800 mb-4 mt-2 flex items-center gap-2">
-                        <Rss className="w-5 h-5 text-blue-500" />
+                      <h4 className="text-xl font-bold text-slate-900 mb-4 mt-2 flex items-center gap-2">
+                        <Rss className="w-5 h-5 text-blue-600" />
                         En direct de la CFDT Interco
                       </h4>
 
                       {intercoLoading ? (
                         <div className="flex gap-4 overflow-hidden">
                           {[...Array(3)].map((_, i) => (
-                            <div key={i} className="flex-none w-64 h-44 bg-slate-800/50 rounded-2xl animate-pulse border border-slate-700/40" />
+                            <div key={i} className="flex-none w-64 h-44 bg-slate-100 rounded-2xl animate-pulse border border-slate-200" />
                           ))}
                         </div>
                       ) : (
@@ -1624,7 +1643,7 @@ ${indicesFactuels}
                                 intercoCarouselRef.current.scrollBy({ left: -280, behavior: 'smooth' })
                               }
                             }}
-                            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-9 h-9 rounded-full bg-white/90 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-0 group-hover/carousel:opacity-100 hover:bg-slate-50 transition-all duration-150"
+                            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-700 shadow-md opacity-0 group-hover/carousel:opacity-100 hover:bg-slate-50 transition-all duration-150"
                           >
                             <ChevronLeft className="w-5 h-5" />
                           </button>
@@ -1635,13 +1654,13 @@ ${indicesFactuels}
                                 intercoCarouselRef.current.scrollBy({ left: 280, behavior: 'smooth' })
                               }
                             }}
-                            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-9 h-9 rounded-full bg-white/90 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-0 group-hover/carousel:opacity-100 hover:bg-slate-50 transition-all duration-150"
+                            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-700 shadow-md opacity-0 group-hover/carousel:opacity-100 hover:bg-slate-50 transition-all duration-150"
                           >
                             <ChevronRight className="w-5 h-5" />
                           </button>
 
-                          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white/80 to-transparent z-[1] pointer-events-none rounded-l-2xl" />
-                          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white/80 to-transparent z-[1] pointer-events-none rounded-r-2xl" />
+                          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-[1] pointer-events-none rounded-l-2xl" />
+                          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-[1] pointer-events-none rounded-r-2xl" />
 
                           <div
                             ref={intercoCarouselRef}
@@ -1656,9 +1675,9 @@ ${indicesFactuels}
                                   href={article.link}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="group/card flex-none w-64 flex flex-col bg-white/80 border border-blue-200/60 rounded-2xl overflow-hidden hover:border-blue-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-150 glass-card shadow-sm"
+                                  className="group/card flex-none w-64 flex flex-col bg-white border border-slate-200/90 rounded-2xl overflow-hidden hover:border-blue-500 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 shadow-md"
                                 >
-                                  <div className="relative w-full h-32 overflow-hidden bg-slate-100/50 flex-shrink-0 border-b border-slate-100">
+                                  <div className="relative w-full h-32 overflow-hidden bg-slate-50 flex-shrink-0 border-b border-slate-100">
                                     <img
                                       src={article.imageUrl || `${BASE_URL}logo-cfdt.jpg`}
                                       alt={article.title}
@@ -1670,19 +1689,19 @@ ${indicesFactuels}
                                       }}
                                     />
                                     {article.category && (
-                                      <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/90 backdrop-blur text-blue-600 border border-blue-200/50 shadow-sm">
+                                      <span className="absolute top-2 left-2 inline-block text-[10px] font-bold px-2.5 py-1 rounded-full bg-white/95 backdrop-blur text-blue-700 border border-blue-200 shadow-sm">
                                         {article.category}
                                       </span>
                                     )}
                                   </div>
 
-                                  <div className="p-4 flex flex-col justify-between flex-grow">
-                                    <p className="text-slate-700 font-medium text-sm leading-snug group-hover/card:text-blue-600 transition-colors duration-150 line-clamp-3">
+                                  <div className="p-4 flex flex-col justify-between flex-grow bg-white">
+                                    <p className="text-slate-900 font-bold text-sm leading-snug group-hover/card:text-blue-600 transition-colors duration-150 line-clamp-3">
                                       {article.title}
                                     </p>
                                     <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
                                       <span className="text-xs text-slate-500 font-medium">{date}</span>
-                                      <span className="text-xs text-blue-500 font-semibold flex items-center gap-1 opacity-0 group-hover/card:opacity-100 transition-opacity duration-150">
+                                      <span className="text-xs text-blue-600 font-bold flex items-center gap-1 opacity-90 group-hover/card:opacity-100 transition-opacity duration-150">
                                         Lire <ArrowRight className="w-3 h-3" />
                                       </span>
                                     </div>
@@ -1697,44 +1716,47 @@ ${indicesFactuels}
                   </div>
 
                   {/* Colonne Droite : À Lire (Journal) */}
-                  <div className="lg:col-span-1 bg-gradient-to-br from-white/90 via-indigo-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-indigo-200 shadow-xl shadow-indigo-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-indigo-300 relative z-10 flex flex-col h-full">
+                  <div className="lg:col-span-1 bg-white/95 backdrop-blur-xl rounded-3xl p-8 border border-slate-200 shadow-xl shadow-slate-200/50 relative z-10 flex flex-col h-full">
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="p-2.5 bg-indigo-100/50 rounded-xl border border-indigo-200 shadow-sm flex items-center justify-center">
-                        <BookOpen className="w-6 h-6 text-indigo-500" />
+                      <div className="p-2.5 bg-indigo-50 rounded-xl border border-indigo-200 flex items-center justify-center">
+                        <BookOpen className="w-6 h-6 text-indigo-600" />
                       </div>
-                      <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
-                        <span className="relative inline-block z-10">
-                          <span className="relative z-20 text-slate-800 font-black tracking-tight">À lire</span>
-                          <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-indigo-300 via-purple-200 to-indigo-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-                        </span>
+                      <h3 className="text-2xl font-extrabold text-slate-900 tracking-wide">
+                        À lire
                       </h3>
                     </div>
 
-                    <div className="group overflow-hidden rounded-xl shadow-md relative flex-grow bg-slate-50 flex flex-col border border-slate-100">
-                      <a
-                        href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/journal-gennevilliers-printemps-2026.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex flex-col h-full"
-                      >
-                        <div className="absolute inset-0 bg-blue-100/10 group-hover:bg-transparent transition-colors duration-300 z-10 pointer-events-none rounded-xl"></div>
-                        <img
-                          src={`${BASE_URL}journal-2026.png`}
-                          alt="Journal CFDT"
-                          className="w-full flex-grow min-h-[16rem] object-contain transform group-hover:scale-105 transition-transform duration-500 rounded-t-xl bg-slate-100"
-                        />
-                        <div className="p-4 flex flex-col shrink-0 bg-white">
-                          <div>
-                            <h4 className="text-slate-800 text-base font-bold mb-1">Le Journal CFDT</h4>
-                            <p className="text-slate-600 text-xs leading-relaxed line-clamp-2">
-                              Découvrez la dernière édition de notre journal d'information syndicale.
+                    <div className="flex flex-col gap-6 flex-grow mt-4">
+                      {/* Carte: Le Journal CFDT (Printemps 2026) */}
+                      <div className="group bg-white border border-slate-200 rounded-2xl p-5 shadow-md hover:border-orange-400 transition-all duration-300 flex flex-col">
+                        <a
+                          href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/journal-gennevilliers-printemps-2026.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex flex-col h-full"
+                        >
+                          <div className="overflow-hidden rounded-xl shadow-sm mb-4 relative min-h-[12rem] max-h-[14rem] border border-slate-100 flex items-center justify-center bg-slate-50">
+                            <img
+                              src={`${BASE_URL}journal-2026.png`}
+                              alt="Journal CFDT Printemps 2026"
+                              className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500"
+                            />
+                          </div>
+                          <div className="flex flex-col shrink-0">
+                            <h4 className="text-slate-900 text-base font-bold mb-1 flex items-center gap-1.5">
+                              <FileText className="w-4 h-4 text-orange-500 shrink-0" />
+                              Journal - Printemps 2026
+                            </h4>
+                            <p className="text-slate-600 text-xs mb-4 leading-relaxed font-medium">
+                              Découvrez la dernière édition de l'Écho de la CFDT.
                             </p>
+                            <div className="flex items-center justify-center gap-2 w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 px-4 rounded-xl shadow-md transition-all text-xs">
+                              Télécharger (PDF)
+                              <ArrowRight className="w-4 h-4" />
+                            </div>
                           </div>
-                          <div className="mt-3 flex items-center justify-center gap-2 w-full bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-4 rounded-lg transition-colors duration-150 text-sm">
-                            Télécharger PDF <ArrowRight className="w-4 h-4" />
-                          </div>
-                        </div>
-                      </a>
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1972,24 +1994,21 @@ ${indicesFactuels}
               </div>
 
               {/* --- CAROUSEL FONCTION PUBLIQUE (DÉPLACÉ EN DESSOUS DES 3 FENÊTRES) --- */}
-              <div className="w-full bg-gradient-to-br from-white/90 via-emerald-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-8 border border-emerald-200 shadow-xl shadow-emerald-100/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-emerald-300 relative z-10 mb-8">
+              <div className="w-full bg-white/95 backdrop-blur-xl rounded-3xl p-8 border border-slate-200 shadow-xl shadow-slate-200/50 relative z-10 mb-8">
                 {/* --- CAROUSEL FONCTION PUBLIQUE --- */}
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="p-2.5 bg-emerald-100/50 rounded-xl border border-emerald-200 shadow-sm flex items-center justify-center">
-                    <Landmark className="w-6 h-6 text-emerald-500" />
+                  <div className="p-2.5 bg-emerald-50 rounded-xl border border-emerald-200 flex items-center justify-center">
+                    <Landmark className="w-6 h-6 text-emerald-600" />
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
-                    <span className="relative inline-block z-10">
-                      <span className="relative z-20 text-slate-800 font-black tracking-tight">Actualités de la Fonction Publique</span>
-                      <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-emerald-300 via-teal-200 to-emerald-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-                    </span>
+                  <h3 className="text-2xl font-extrabold text-slate-900 tracking-wide">
+                    Actualités de la <span className="text-emerald-600">Fonction Publique</span>
                   </h3>
                 </div>
 
                 {fpLoading ? (
                   <div className="flex gap-4 overflow-hidden mb-8">
                     {[...Array(3)].map((_, i) => (
-                      <div key={i} className="flex-none w-64 h-44 bg-slate-100/50 rounded-2xl animate-pulse border border-slate-200" />
+                      <div key={i} className="flex-none w-64 h-44 bg-slate-100 rounded-2xl animate-pulse border border-slate-200" />
                     ))}
                   </div>
                 ) : (
@@ -2000,7 +2019,7 @@ ${indicesFactuels}
                           fpCarouselRef.current.scrollBy({ left: -280, behavior: 'smooth' })
                         }
                       }}
-                      className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-9 h-9 rounded-full bg-white/90 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-0 group-hover/carousel-fp:opacity-100 hover:bg-slate-50 transition-all duration-150"
+                      className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-700 shadow-md opacity-0 group-hover/carousel-fp:opacity-100 hover:bg-slate-50 transition-all duration-150"
                     >
                       <ChevronLeft className="w-5 h-5" />
                     </button>
@@ -2011,13 +2030,13 @@ ${indicesFactuels}
                           fpCarouselRef.current.scrollBy({ left: 280, behavior: 'smooth' })
                         }
                       }}
-                      className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-9 h-9 rounded-full bg-white/90 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-0 group-hover/carousel-fp:opacity-100 hover:bg-slate-50 transition-all duration-150"
+                      className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-700 shadow-md opacity-0 group-hover/carousel-fp:opacity-100 hover:bg-slate-50 transition-all duration-150"
                     >
                       <ChevronRight className="w-5 h-5" />
                     </button>
 
-                    <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white/80 to-transparent z-[1] pointer-events-none rounded-l-2xl" />
-                    <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white/80 to-transparent z-[1] pointer-events-none rounded-r-2xl" />
+                    <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-[1] pointer-events-none rounded-l-2xl" />
+                    <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-[1] pointer-events-none rounded-r-2xl" />
 
                     <div
                       ref={fpCarouselRef}
@@ -2030,9 +2049,9 @@ ${indicesFactuels}
                           href={article.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group/card flex-none w-64 flex flex-col bg-white/80 border border-emerald-200/60 rounded-2xl overflow-hidden hover:border-emerald-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-150 glass-card shadow-sm"
+                          className="group/card flex-none w-64 flex flex-col bg-white border border-slate-200/90 rounded-2xl overflow-hidden hover:border-emerald-500 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 shadow-md"
                         >
-                          <div className="relative w-full h-32 overflow-hidden bg-slate-100 flex-shrink-0 border-b border-slate-100 p-4 flex items-center justify-center">
+                          <div className="relative w-full h-32 overflow-hidden bg-slate-50 flex-shrink-0 border-b border-slate-100 p-4 flex items-center justify-center">
                             {article.imageUrl ? (
                               <img
                                 src={article.imageUrl}
@@ -2040,24 +2059,24 @@ ${indicesFactuels}
                                 className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300 absolute inset-0"
                               />
                             ) : (
-                              <div className="text-emerald-400 opacity-50">
+                              <div className="text-emerald-500 opacity-50">
                                 <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
                               </div>
                             )}
-                            <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/90 backdrop-blur text-emerald-700 border border-emerald-200/50 shadow-sm z-10 max-w-[90%] truncate">
+                            <span className="absolute top-2 left-2 inline-block text-[10px] font-bold px-2.5 py-1 rounded-full bg-white/95 backdrop-blur text-emerald-700 border border-emerald-200 shadow-sm z-10 max-w-[90%] truncate">
                               {article.category || 'Actualité'}
                             </span>
                           </div>
 
-                          <div className="p-4 flex flex-col justify-between flex-grow">
-                            <p className="text-slate-700 font-medium text-sm leading-snug group-hover/card:text-emerald-700 transition-colors duration-150 line-clamp-3">
+                          <div className="p-4 flex flex-col justify-between flex-grow bg-white">
+                            <p className="text-slate-900 font-bold text-sm leading-snug group-hover/card:text-emerald-600 transition-colors duration-150 line-clamp-3">
                               {article.title}
                             </p>
                             <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
                               <span className="text-[10px] text-slate-500 font-medium truncate pr-2">
                                 {new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
                               </span>
-                              <span className="text-xs text-emerald-600 font-semibold flex items-center gap-1 opacity-0 group-hover/card:opacity-100 transition-opacity duration-150 shrink-0">
+                              <span className="text-xs text-emerald-600 font-bold flex items-center gap-1 opacity-90 group-hover/card:opacity-100 transition-opacity duration-150 shrink-0">
                                 Lire <ArrowRight className="w-3 h-3" />
                               </span>
                             </div>

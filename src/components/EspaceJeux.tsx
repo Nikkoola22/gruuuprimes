@@ -13,6 +13,10 @@ import {
   Shield,
   Building2
 } from "lucide-react";
+import { SpotlightCard } from "./ui/SpotlightCard.tsx";
+import { ShinyText } from "./ui/ShinyText.tsx";
+import { TiltedCard } from "./ui/TiltedCard.tsx";
+
 
 // Lazy-load les quatre jeux
 const RouletteQVT = lazy(() => import("./RouletteQVT.tsx"));
@@ -174,8 +178,8 @@ const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
           <div className={`inline-flex p-4 rounded-2xl mb-4 shadow-xl backdrop-blur-md transition-colors duration-500 ${isLight ? "bg-white/50 border border-slate-200 text-slate-700" : "bg-white/5 border border-white/10 text-slate-300"}`}>
             <Gamepad2 className="w-10 h-10 animate-pulse" />
           </div>
-          <h1 className={`text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-4 transition-colors duration-500 drop-shadow-lg ${isLight ? "text-slate-800" : "text-shimmer"}`}>
-            Espace Jeux
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-4 drop-shadow-lg">
+            <ShinyText text="Espace Jeux Interactive RH" color="#f97316" shineColor="#ffffff" speed={3} />
           </h1>
           <p className={`text-base sm:text-xl font-light max-w-2xl mx-auto transition-colors duration-500 ${isLight ? "text-slate-600" : "text-slate-300"}`}>
             Détendez-vous tout en enrichissant vos connaissances professionnelles avec nos outils ludiques de nouvelle génération.

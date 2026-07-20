@@ -21,8 +21,8 @@ export default function IntercoCarousel() {
   useEffect(() => {
     const fetchIntercoArticles = async () => {
       try {
-        setLoading(true)
-        const response = await fetch('/api/interco-rss')
+        const apiUrl = import.meta.env.DEV ? 'http://localhost:3001/api/interco-rss' : '/api/interco-rss'
+        const response = await fetch(apiUrl)
         
         if (!response.ok) {
           throw new Error('Erreur lors de la récupération des actualités')
@@ -137,7 +137,7 @@ export default function IntercoCarousel() {
                 className="group snap-start flex-shrink-0 w-full sm:w-96 flex flex-col rounded-xl bg-gradient-to-br from-slate-800/50 via-indigo-900/40 to-slate-800/50 border border-indigo-500/30 hover:border-indigo-400/60 overflow-hidden transition-all duration-200 hover:shadow-2xl hover:shadow-indigo-500/20 hover:-translate-y-2 backdrop-blur glass-card"
               >
                 {/* Image de l'article avec zoom au survol et fallback sur logo CFDT */}
-                <div className="relative w-full h-40 overflow-hidden bg-slate-900/50 flex-shrink-0">
+                <div className="relative w-full h-44 overflow-hidden bg-gradient-to-br from-indigo-950 via-slate-950 to-purple-950 border-b border-indigo-500/30 flex-shrink-0">
                   <img
                     src={article.imageUrl || `${import.meta.env.BASE_URL}logo-cfdt.jpg`}
                     alt={article.title}
@@ -149,7 +149,7 @@ export default function IntercoCarousel() {
                     }}
                   />
                   {article.category && (
-                    <span className="absolute top-3 left-3 inline-block px-3 py-1 bg-slate-900/80 backdrop-blur border border-indigo-400/50 rounded-full text-xs font-medium text-indigo-300">
+                    <span className="absolute top-3 left-3 inline-block px-3 py-1 bg-slate-950/85 backdrop-blur border border-amber-500/40 rounded-full text-xs font-bold text-amber-300 shadow-md">
                       {article.category}
                     </span>
                   )}

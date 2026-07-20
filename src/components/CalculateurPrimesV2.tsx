@@ -31,6 +31,9 @@ import {
   FolderKanban,
   Building
 } from 'lucide-react'
+import { BorderGlow } from './ui/BorderGlow.tsx'
+import { ShinyText } from './ui/ShinyText.tsx'
+
 import { 
   ifse1Data, 
   getDirectionFullName, 
@@ -1087,13 +1090,20 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                   )}
                 </div>
 
-                <div className="p-6 bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl border-2 border-green-300 shadow-md">
-                  <div className="text-center">
-                    <p className="text-green-800 text-sm font-semibold mb-1">TOTAL MENSUEL ESTIMÉ</p>
-                    <p className="text-5xl font-bold text-green-700">{totalMonthly.toLocaleString('fr-FR')}€</p>
-                    <p className="text-slate-600 dark:text-slate-300 text-sm mt-2 font-medium">Soit environ <strong className="text-green-700">{(totalMonthly * 12).toLocaleString('fr-FR')}€</strong> par an</p>
+                <BorderGlow glowColor="from-emerald-500 via-green-400 to-teal-500">
+                  <div className="p-6 text-center">
+                    <p className="text-emerald-400 text-xs font-bold tracking-widest uppercase mb-1">
+                      <ShinyText text="TOTAL MENSUEL ESTIMÉ" color="#34d399" shineColor="#ffffff" speed={2} />
+                    </p>
+                    <p className="text-5xl font-extrabold text-white my-2">
+                      {totalMonthly.toLocaleString('fr-FR')}€
+                    </p>
+                    <p className="text-slate-300 text-sm font-medium">
+                      Soit environ <strong className="text-emerald-400 font-bold">{(totalMonthly * 12).toLocaleString('fr-FR')}€</strong> par an
+                    </p>
                   </div>
-                </div>
+                </BorderGlow>
+
 
                 <div className="flex gap-3">
                   <button
