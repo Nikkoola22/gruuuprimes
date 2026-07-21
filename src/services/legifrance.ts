@@ -80,7 +80,11 @@ export const STATUTORY_HR_TOOLS = [
     id: 'legifrance_live',
     name: 'Recherche Légifrance PISTE',
     icon: 'Search',
-    description: 'Interrogation directe en temps réel des codes révisés (CGFP, CGCT) et jurisprexport async function queryStatutoryEngine(toolId: string, userQuery: string): Promise<StatutoryQueryResult> {
+    description: 'Interrogation directe en temps réel des codes révisés (CGFP, CGCT) et jurisprudence DILA.'
+  }
+];
+
+export async function queryStatutoryEngine(toolId: string, userQuery: string): Promise<StatutoryQueryResult> {
   const q = userQuery.toLowerCase();
 
   // Analyse dédiée pour les Actes Vacataires / Contrats d'engagement
@@ -307,9 +311,6 @@ Conformément à l'article L. 532-4 du CGFP, vous disposez du droit :
       jurisprudencesAssociees: ["Jurisprudence administrative DILA / Légifrance"],
       recommandations: ["Procéder aux formalités habituelles de notification."]
     }
-  };
-}liers)',
-    content: `La requête "${userQuery}" a été analysée au regard des dispositions du CGFP et des textes statutaires en vigueur.`
   };
 }
 
