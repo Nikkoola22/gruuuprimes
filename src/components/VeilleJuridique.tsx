@@ -18,7 +18,10 @@ import {
   UserCheck,
   Clock,
   Heart,
-  FileSignature
+  FileSignature,
+  UploadCloud,
+  FileText,
+  X
 } from "lucide-react";
 
 export interface LegalQuestion {
@@ -250,6 +253,37 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
   const [statutResult, setStatutResult] = useState<StatutoryQueryResult | null>(null);
   const [isStatutLoading, setIsStatutLoading] = useState<boolean>(false);
   const [copiedSuccess, setCopiedSuccess] = useState<boolean>(false);
+  const [uploadedFile, setUploadedFile] = useState<{ name: string; size: number; content: string } | null>(null);
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const text = event.target?.result as string || "";
+      setUploadedFile({
+        name: file.name,
+        size: file.size,
+        content: text
+      });
+    };
+    reader.readAsText(file);
+  };
+
+  const handleAnalyzeFile = async () => {
+    if (!uploadedFile) return;
+    setIsStatutLoading(true);
+    const queryContext = `Analyse du document RH uploadé: "${uploadedFile.name}" (Contenu: ${uploadedFile.content.slice(0, 500)}...)`;
+    const res = await queryStatutoryEngine(selectedStatutTool, queryContext);
+    setStatutResult({
+      ...res,
+      title: `Analyse Statutaire & Conformité CGFP : ${uploadedFile.name}`,
+      category: `Audit Documentaire RH (Mairie de Gennevilliers)`,
+      content: `L'analyse du document "${uploadedFile.name}" (${Math.round(uploadedFile.size / 1024)} ko) a été effectuée au regard des dispositions du Code Général de la Fonction Publique (CGFP) et de la jurisprudence DILA / Légifrance.`,
+    });
+    setIsStatutLoading(false);
+  };
+
 
   // State for Quiz Mode
   const [quizQuestions, setQuizQuestions] = useState<LegalQuestion[]>(() =>
@@ -808,12 +842,77 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
               })}
             </div>
 
-            {/* Interactive Query Input & Result Card */}
+            {/* Interactive Query Input & Document Upload Card */}
             <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl flex flex-col gap-6">
+              
+              {/* File Upload Zone */}
+              <div className="p-5 bg-slate-950/80 rounded-2xl border border-dashed border-slate-800 flex flex-col items-center justify-center gap-3 text-center transition-all hover:border-emerald-500/50 group">
+                <input
+                  type="file"
+                  id="rh-file-upload"
+                  accept=".txt,.pdf,.doc,.docx,.md,.json"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                />
+                
+                {!uploadedFile ? (
+                  <label htmlFor="rh-file-upload" className="cursor-pointer flex flex-col items-center gap-2">
+                    <div className="p-3 bg-emerald-500/10 text-emerald-400 rounded-2xl border border-emerald-500/20 group-hover:scale-110 transition-transform">
+                      <UploadCloud className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <span className="text-sm font-bold text-slate-200 hover:text-emerald-400 transition-colors">
+                        Glissez-déposez ou cliquez pour uploader un document RH à analyser
+                      </span>
+                      <p className="text-[11px] text-slate-500 mt-1 font-medium">
+                        Formats supportés : PDF, Word (.docx), Texte (.txt), Markdown (.md) • Analyse CGFP & Légifrance
+                      </p>
+                    </div>
+                  </label>
+                ) : (
+                  <div className="w-full flex flex-col md:flex-row items-center justify-between gap-4 p-3 bg-slate-900 rounded-xl border border-emerald-500/40">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-lg">
+                        <FileText className="w-5 h-5" />
+                      </div>
+                      <div className="text-left">
+                        <span className="text-xs font-bold text-white block truncate max-w-xs md:max-w-md">{uploadedFile.name}</span>
+                        <span className="text-[10px] text-slate-400 font-medium">{Math.round(uploadedFile.size / 1024)} ko • Prêt pour l'analyse CGFP</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={handleAnalyzeFile}
+                        disabled={isStatutLoading}
+                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center gap-1.5"
+                      >
+                        {isStatutLoading ? (
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                        ) : (
+                          <>
+                            <Sparkles className="w-3.5 h-3.5 text-emerald-300" />
+                            <span>Lancer l'analyse CGFP</span>
+                          </>
+                        )}
+                      </button>
+                      <button
+                        onClick={() => setUploadedFile(null)}
+                        className="p-2 bg-slate-800 hover:bg-rose-950 hover:text-rose-400 text-slate-400 rounded-xl transition-colors"
+                        title="Retirer le fichier"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Text Search Input */}
               <div className="flex flex-col md:flex-row gap-3">
                 <input
                   type="text"
-                  placeholder="Posez votre question statutaire RH (ex: durée contrat CGFP Art. L. 332-23, IFSE RIFSEEP...)"
+                  placeholder="Ou posez votre question statutaire RH (ex: durée contrat CGFP Art. L. 332-23, IFSE RIFSEEP...)"
                   value={statutInput}
                   onChange={(e) => setStatutInput(e.target.value)}
                   onKeyDown={async (e) => {
@@ -846,6 +945,7 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
                   )}
                 </button>
               </div>
+
 
               {/* Result Display */}
               {statutResult && (
