@@ -242,7 +242,7 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState<string>("Tous");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
-  const [viewMode, setViewMode] = useState<"fiches" | "quiz" | "statut">("statut");
+  const [viewMode, setViewMode] = useState<"fiches" | "quiz" | "statut">("quiz");
 
   // State for Statutory HR Suite & Légifrance
   const [selectedStatutTool, setSelectedStatutTool] = useState<string>("arretes");
