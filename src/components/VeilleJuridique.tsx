@@ -947,28 +947,159 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
               </div>
 
 
-              {/* Result Display */}
+              {/* Result Display with Dual Audit: FORME & FOND */}
               {statutResult && (
-                <div className="p-6 bg-slate-950 rounded-2xl border border-slate-800 flex flex-col gap-4 animate-fadeIn">
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                <div className="p-6 bg-slate-950 rounded-2xl border border-slate-800 flex flex-col gap-6 animate-fadeIn">
+                  
+                  {/* Header Banner */}
+                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 pb-4 border-b border-slate-800">
                     <div>
                       <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">{statutResult.category}</span>
-                      <h3 className="text-lg font-black text-white mt-0.5">{statutResult.title}</h3>
+                      <h3 className="text-xl font-black text-white mt-0.5">{statutResult.title}</h3>
                     </div>
-                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-950 border border-emerald-500/40 text-emerald-300">
+                    <span className={`px-4 py-1.5 rounded-full text-xs font-black border uppercase tracking-wider ${
+                      statutResult.riskLevel === 'high' 
+                        ? 'bg-rose-950/80 border-rose-500/50 text-rose-300' 
+                        : statutResult.riskLevel === 'mid' 
+                          ? 'bg-amber-950/80 border-amber-500/50 text-amber-300' 
+                          : 'bg-emerald-950/80 border-emerald-500/50 text-emerald-300'
+                    }`}>
                       {statutResult.riskText}
                     </span>
                   </div>
 
-                  {/* Legal Visas */}
-                  <div className="p-4 bg-slate-900/80 rounded-xl border border-slate-800 text-xs font-medium text-slate-300 flex flex-col gap-1.5">
-                    <span className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">Visas Légaux CGFP :</span>
+                  {/* General Summary */}
+                  <div className="p-4 bg-slate-900/90 rounded-xl border border-slate-800 text-xs font-medium text-slate-300 leading-relaxed">
+                    {statutResult.content}
+                  </div>
+
+                  {/* Visas Légaux CGFP */}
+                  <div className="p-4 bg-slate-900/80 rounded-xl border border-slate-800 text-xs font-medium text-slate-300 flex flex-col gap-2">
+                    <span className="font-bold text-slate-400 text-[10px] uppercase tracking-wider flex items-center gap-1.5">
+                      <Scale className="w-3.5 h-3.5 text-emerald-400" />
+                      Visas & Fondements Légaux CGFP :
+                    </span>
                     <ul className="list-disc list-inside space-y-1">
                       {statutResult.legalVisas.map((v, idx) => (
-                        <li key={idx} className="text-emerald-300">{v}</li>
+                        <li key={idx} className="text-emerald-300 font-semibold">{v}</li>
                       ))}
                     </ul>
                   </div>
+
+                  {/* DUAL AUDIT GRID : LA FORME vs LE FOND */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    {/* --- AUDIT SUR LA FORME --- */}
+                    <div className="p-5 bg-slate-900 rounded-2xl border border-slate-800 flex flex-col gap-4">
+                      <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                        <h4 className="text-sm font-black text-white flex items-center gap-2">
+                          <FileSignature className="w-4 h-4 text-cyan-400" />
+                          1. ANALYSE SUR LA FORME
+                        </h4>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
+                          Rédaction & Visas
+                        </span>
+                      </div>
+
+                      {statutResult.analyseForme ? (
+                        <>
+                          <div className="flex flex-col gap-2">
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Checklist des Mentions Obligatoires :</span>
+                            <div className="space-y-1.5">
+                              {statutResult.analyseForme.mentionsObligatoires.map((m, idx) => (
+                                <div key={idx} className="flex items-center justify-between text-xs p-2 bg-slate-950/60 rounded-lg border border-slate-800">
+                                  <span className="text-slate-300 font-medium">{m.name}</span>
+                                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${m.present ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-rose-950 text-rose-400 border border-rose-800'}`}>
+                                    {m.note || (m.present ? 'Présent' : 'Manquant')}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col gap-1.5 pt-2">
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Remarques sur la forme :</span>
+                            <ul className="space-y-1 text-xs text-slate-300">
+                              {statutResult.analyseForme.remarquesForme.map((r, idx) => (
+                                <li key={idx} className="flex items-start gap-1.5">
+                                  <span className="text-cyan-400 font-bold">•</span>
+                                  <span>{r}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </>
+                      ) : (
+                        <p className="text-xs text-slate-400 font-medium">Mentions rédactionnelles conformes aux modèles d'arrêtés municipaux.</p>
+                      )}
+                    </div>
+
+                    {/* --- AUDIT SUR LE FOND --- */}
+                    <div className="p-5 bg-slate-900 rounded-2xl border border-slate-800 flex flex-col gap-4">
+                      <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                        <h4 className="text-sm font-black text-white flex items-center gap-2">
+                          <Gavel className="w-4 h-4 text-purple-400" />
+                          2. ANALYSE SUR LE FOND
+                        </h4>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800">
+                          Légalité & Jurisprudence
+                        </span>
+                      </div>
+
+                      {statutResult.analyseFond ? (
+                        <>
+                          <div className="p-3 bg-slate-950/80 rounded-xl border border-slate-800 text-xs flex flex-col gap-1">
+                            <span className="text-[10px] font-bold text-slate-400 uppercase">Qualification Juridique :</span>
+                            <span className="text-purple-300 font-bold">{statutResult.analyseFond.qualificationJuridique}</span>
+                            <p className="text-rose-400 font-extrabold mt-1 text-[11px]">{statutResult.analyseFond.risquesRequalification}</p>
+                          </div>
+
+                          <div className="flex flex-col gap-1.5">
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Critères & Motifs d'Analyse :</span>
+                            <ul className="space-y-1.5 text-xs text-slate-300">
+                              {statutResult.analyseFond.remarquesFond.map((rf, idx) => (
+                                <li key={idx} className="p-2 bg-slate-950/40 rounded-lg border border-slate-800/60 leading-relaxed">
+                                  {rf}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+
+                          {statutResult.analyseFond.jurisprudencesAssociees && (
+                            <div className="flex flex-col gap-1 pt-2">
+                              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Jurisprudence DILA / Conseil d'État :</span>
+                              <ul className="space-y-1 text-[11px] text-emerald-300 font-medium">
+                                {statutResult.analyseFond.jurisprudencesAssociees.map((j, idx) => (
+                                  <li key={idx} className="flex items-center gap-1.5">
+                                    <Scale className="w-3 h-3 text-emerald-400 shrink-0" />
+                                    <span>{j}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <p className="text-xs text-slate-400 font-medium">Analyse statutaire conforme au Code Général de la Fonction Publique.</p>
+                      )}
+                    </div>
+
+                  </div>
+
+                  {/* RECOMMANDATIONS RH & SÉCURISATION JURIDIQUE */}
+                  {statutResult.analyseFond?.recommandations && (
+                    <div className="p-5 bg-emerald-950/30 rounded-2xl border border-emerald-500/30 flex flex-col gap-2">
+                      <span className="text-xs font-black text-emerald-400 uppercase tracking-widest flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-emerald-300" />
+                        Recommandations RH & Sécurisation Juridique Mairie de Gennevilliers :
+                      </span>
+                      <ul className="list-disc list-inside space-y-1.5 text-xs text-slate-200 font-medium">
+                        {statutResult.analyseFond.recommandations.map((rec, idx) => (
+                          <li key={idx} className="leading-relaxed">{rec}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
                   {/* Sample Act Document / Code Box */}
                   {statutResult.sampleDocument && (
