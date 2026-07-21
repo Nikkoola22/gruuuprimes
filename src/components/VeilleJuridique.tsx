@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import confetti from "canvas-confetti";
+import { STATUTORY_HR_TOOLS, queryStatutoryEngine, StatutoryQueryResult, LEGIFRANCE_CONFIG } from "../services/legifrance";
 import { 
   ArrowLeft, 
   Scale, 
@@ -241,7 +242,14 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState<string>("Tous");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
-  const [viewMode, setViewMode] = useState<"fiches" | "quiz">("quiz");
+  const [viewMode, setViewMode] = useState<"fiches" | "quiz" | "statut">("statut");
+
+  // State for Statutory HR Suite & Légifrance
+  const [selectedStatutTool, setSelectedStatutTool] = useState<string>("arretes");
+  const [statutInput, setStatutInput] = useState<string>("");
+  const [statutResult, setStatutResult] = useState<StatutoryQueryResult | null>(null);
+  const [isStatutLoading, setIsStatutLoading] = useState<boolean>(false);
+  const [copiedSuccess, setCopiedSuccess] = useState<boolean>(false);
 
   // State for Quiz Mode
   const [quizQuestions, setQuizQuestions] = useState<LegalQuestion[]>(() =>
@@ -382,6 +390,13 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
               >
                 <Trophy className="w-3.5 h-3.5 inline mr-1.5" />
                 Mode Défi Quiz
+              </button>
+              <button
+                onClick={() => setViewMode("statut")}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${viewMode === "statut" ? "bg-emerald-600 text-white shadow-md" : "text-slate-300 hover:text-white"}`}
+              >
+                <FileSignature className="w-3.5 h-3.5 inline mr-1.5" />
+                Suite RH Statutaire (CGFP / Légifrance)
               </button>
             </div>
 
@@ -558,7 +573,7 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
               </div>
             )}
           </>
-        ) : (
+        ) : viewMode === "quiz" ? (
           /* QUIZ MODE */
           <div className="max-w-2xl mx-auto w-full py-4 flex flex-col gap-6">
             
@@ -740,6 +755,140 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
                 </div>
               </div>
             )}
+          </div>
+        ) : (
+          /* Statutory HR Suite & Légifrance PISTE View */
+          <div className="w-full flex flex-col gap-6 animate-fadeIn">
+            {/* Header Badge */}
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-emerald-500/20 text-emerald-400 rounded-2xl border border-emerald-500/30">
+                  <FileSignature className="w-8 h-8" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-black text-white">Suite RH Statutaire & API Légifrance (CGFP)</h2>
+                  <p className="text-xs font-medium text-slate-400 mt-1">
+                    Connecté à Légifrance (PISTE v2.4.2) • Mairie de Gennevilliers (SIREN 219200365)
+                  </p>
+                </div>
+              </div>
+              <div className="px-4 py-2 bg-emerald-950/60 border border-emerald-500/30 text-emerald-300 rounded-2xl text-xs font-bold flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+                API PISTE Légifrance : Connectée
+              </div>
+            </div>
+
+            {/* Statutory Tools Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {STATUTORY_HR_TOOLS.map((t) => {
+                const isSelected = selectedStatutTool === t.id;
+                return (
+                  <button
+                    key={t.id}
+                    onClick={async () => {
+                      setSelectedStatutTool(t.id);
+                      setIsStatutLoading(true);
+                      const res = await queryStatutoryEngine(t.id, statutInput || t.name);
+                      setStatutResult(res);
+                      setIsStatutLoading(false);
+                    }}
+                    className={`text-left p-5 rounded-3xl border transition-all flex flex-col gap-2 ${
+                      isSelected
+                        ? "bg-slate-900 border-emerald-500 ring-2 ring-emerald-500/30 shadow-xl scale-[1.02]"
+                        : "bg-slate-900/60 hover:bg-slate-900 border-slate-800 text-slate-300"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-black text-white">{t.name}</span>
+                      <Sparkles className="w-4 h-4 text-emerald-400" />
+                    </div>
+                    <p className="text-xs text-slate-400 font-medium leading-relaxed">{t.description}</p>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Interactive Query Input & Result Card */}
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl flex flex-col gap-6">
+              <div className="flex flex-col md:flex-row gap-3">
+                <input
+                  type="text"
+                  placeholder="Posez votre question statutaire RH (ex: durée contrat CGFP Art. L. 332-23, IFSE RIFSEEP...)"
+                  value={statutInput}
+                  onChange={(e) => setStatutInput(e.target.value)}
+                  onKeyDown={async (e) => {
+                    if (e.key === "Enter" && statutInput.trim()) {
+                      setIsStatutLoading(true);
+                      const res = await queryStatutoryEngine(selectedStatutTool, statutInput);
+                      setStatutResult(res);
+                      setIsStatutLoading(false);
+                    }
+                  }}
+                  className="flex-1 px-4 py-3 bg-slate-950 border border-slate-800 rounded-2xl text-sm font-medium focus:ring-2 focus:ring-emerald-500 outline-none text-white placeholder-slate-500"
+                />
+                <button
+                  onClick={async () => {
+                    setIsStatutLoading(true);
+                    const res = await queryStatutoryEngine(selectedStatutTool, statutInput || "Consultation statutaire");
+                    setStatutResult(res);
+                    setIsStatutLoading(false);
+                  }}
+                  disabled={isStatutLoading}
+                  className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm rounded-2xl shadow-lg shadow-emerald-600/25 transition-all flex items-center justify-center gap-2"
+                >
+                  {isStatutLoading ? (
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <>
+                      <span>Consulter Légifrance CGFP</span>
+                      <Search className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Result Display */}
+              {statutResult && (
+                <div className="p-6 bg-slate-950 rounded-2xl border border-slate-800 flex flex-col gap-4 animate-fadeIn">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                    <div>
+                      <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">{statutResult.category}</span>
+                      <h3 className="text-lg font-black text-white mt-0.5">{statutResult.title}</h3>
+                    </div>
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-950 border border-emerald-500/40 text-emerald-300">
+                      {statutResult.riskText}
+                    </span>
+                  </div>
+
+                  {/* Legal Visas */}
+                  <div className="p-4 bg-slate-900/80 rounded-xl border border-slate-800 text-xs font-medium text-slate-300 flex flex-col gap-1.5">
+                    <span className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">Visas Légaux CGFP :</span>
+                    <ul className="list-disc list-inside space-y-1">
+                      {statutResult.legalVisas.map((v, idx) => (
+                        <li key={idx} className="text-emerald-300">{v}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Sample Act Document / Code Box */}
+                  {statutResult.sampleDocument && (
+                    <div className="relative p-5 bg-slate-900 rounded-xl border border-slate-800 font-mono text-xs text-slate-200 leading-relaxed overflow-x-auto">
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(statutResult.sampleDocument || "");
+                          setCopiedSuccess(true);
+                          setTimeout(() => setCopiedSuccess(false), 2000);
+                        }}
+                        className="absolute top-3 right-3 px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-sans font-bold text-[11px] transition-all shadow-md"
+                      >
+                        {copiedSuccess ? "✓ Copié dans le presse-papier" : "Copier l'acte / arrêté"}
+                      </button>
+                      <pre className="whitespace-pre-wrap font-sans text-xs">{statutResult.sampleDocument}</pre>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         )}
 

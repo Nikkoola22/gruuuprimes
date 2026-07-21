@@ -15,6 +15,8 @@ import { BackgroundGradient } from "./components/ui/BackgroundGradient.tsx"
 import { BorderBeam } from "./components/ui/BorderBeam.tsx"
 import { Toaster, toast } from "sonner"
 import { OrangeGeometricBackground } from "./components/ui/OrangeGeometricBackground.tsx"
+import { queryPisteLegifrance } from "./services/legifrance.ts"
+
 
 const CalculateurCIAV2 = lazy(() => import("./components/CalculateurCIAV2.tsx"))
 const CalculateurPrimesV2 = lazy(() => import("./components/CalculateurPrimesV2.tsx"))
@@ -975,6 +977,12 @@ Question d'un agent territorial : ${question}
   }
 
   const traiterQuestion = async (question: string) => {
+    // ⚡ Interrogation transparente de l'API PISTE Légifrance en parallèle
+    const pistePromise = queryPisteLegifrance(question).catch(err => {
+      console.warn("[PISTE] Erreur transparente:", err)
+      return []
+    })
+
     const {
       sommaireUnifie,
       rechercherAvecPriorite,
@@ -1061,15 +1069,24 @@ PROTOCOLE TÉLÉTRAVAIL :\n${typeof teletravailData === 'string' ? teletravailDa
       contenuCible = `${contenuCible}\n\n=== FAQ INTERNES PERTINENTES ===\n${faqContexte}`.trim()
     }
 
+    // Attendre les résultats PISTE Légifrance
+    const pisteResults = await pistePromise
+    let pisteContexte = ""
+    if (pisteResults && pisteResults.length > 0) {
+      pisteContexte = `\n\n=== RÉSULTATS DIRECTS API PISTE LÉGIFRANCE (DILA - TEMPS RÉEL) ===\n` +
+        pisteResults.map((item, idx) => `${idx + 1}. [${item.title}] ${item.num || ''} (${item.nature || 'Texte'}) - État: ${item.etat || 'VIGUEUR'}\nLien: ${item.link || 'https://www.legifrance.gouv.fr'}`).join('\n')
+      
+      contenuCible += pisteContexte
+    }
+
     const systemPromptSommaire = `
 Tu es un assistant CFDT pour la Mairie de Gennevilliers.
 
 RÈGLES STRICTES :
-1. Réponds UNIQUEMENT en utilisant les documents ci-dessous
-2. Ne cherche JAMAIS sur internet, n'utilise JAMAIS tes connaissances externes
-3. Sois précis sur les chiffres et délais mentionnés dans les documents
-4. Réponds comme un collègue syndical bienveillant
-5. Ne mentionne JAMAIS [CHAPITRE X - ARTICLE Y] dans ta réponse. Réponds naturellement.
+1. Réponds en utilisant les documents internes et les données réglementaires Légifrance fournies.
+2. Sois précis sur les chiffres, statuts CGFP et délais statutaires.
+3. Réponds comme un collègue syndical bienveillant et professionnel.
+4. Ne mentionne JAMAIS [CHAPITRE X - ARTICLE Y] de manière brute. Réponds naturellement.
 
 ⚠️ RÈGLE CRITIQUE - INTERPRÈTE LA QUESTION :
 - Si l'utilisateur demande "congés bonifiés" → cherche "congé bonifié" dans les documents
@@ -1078,14 +1095,12 @@ RÈGLES STRICTES :
 
 ⚠️ RÈGLE CRITIQUE - SI TU TROUVES L'INFO :
 - Donne directement la réponse, sans dire "Je ne trouve pas"
-- Cite les détails précis des documents
+- Cite les détails précis des documents ou des textes CGFP / Légifrance.
 - Même si la question est mal formulée, tente de comprendre et répondre si possible
 
-⚠️ RÈGLE CRITIQUE - SI TU NE TROUVES PAS L'INFO :
-- Réponds UNIQUEMENT : "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64."
-- ARRÊTE-TOI IMMÉDIATEMENT après cette phrase
-- N'ajoute AUCUNE information supplémentaire
-- Ne commence JAMAIS par "Je ne trouve pas" puis donne une réponse ensuite
+⚠️ RÈGLE CRITIQUE - SI TU NE TROUVES PAS L'INFO INTERNE :
+- Si l'information n'est pas présente dans les documents internes, tente d'utiliser la section PISTE Légifrance si disponible.
+- Sinon réponds UNIQUEMENT : "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64."
 
 DOCUMENTATION :
 ${contenuCible}
@@ -1114,6 +1129,9 @@ ${contenuCible}
 
     const reponseCore = await appelPerplexity(buildMessages(systemPromptSommaire))
     if (!isInternalNotFound(reponseCore)) {
+      if (pisteResults && pisteResults.length > 0) {
+        return `${reponseCore}\n\n⚡ *Source : API PISTE Légifrance (DILA) & Fonds Statutaire CGFP*`
+      }
       return reponseCore
     }
 
@@ -1125,33 +1143,30 @@ ${contenuCible}
     }
 
     const bipContexte = await genererContexteBip(question)
-    if (!bipContexte) {
-      return reponseCore
-    }
-
-    const systemPromptBip = `
+    if (bipContexte) {
+      const systemPromptBip = `
 Tu es un assistant CFDT pour la Mairie de Gennevilliers.
 
 RÈGLES STRICTES :
 1. Réponds UNIQUEMENT à partir des fiches BIP ci-dessous
 2. Ne cherche JAMAIS sur internet, n'utilise JAMAIS tes connaissances externes
 3. Donne une réponse directe et précise quand l'information est présente
-  4. Si des éléments factuels partiels sont présents (durées, délais, montants, conditions), réponds avec ces éléments au lieu de conclure à une absence d'information
+4. Si des éléments factuels partiels sont présents (durées, délais, montants, conditions), réponds avec ces éléments au lieu de conclure à une absence d'information
 5. Si l'information n'est pas présente dans les fiches BIP, réponds UNIQUEMENT :
 "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64."
 
 FICHES BIP :
 ${bipContexte}
-    `
+      `
 
-    const reponseBip = await appelPerplexity(buildMessages(systemPromptBip))
-    if (!isInternalNotFound(reponseBip)) {
-      return reponseBip
-    }
+      const reponseBip = await appelPerplexity(buildMessages(systemPromptBip))
+      if (!isInternalNotFound(reponseBip)) {
+        return reponseBip
+      }
 
-    const indicesFactuels = extraireIndicesFactuelsBip(question, bipContexte)
-    if (indicesFactuels) {
-      const systemPromptBipRenforce = `
+      const indicesFactuels = extraireIndicesFactuelsBip(question, bipContexte)
+      if (indicesFactuels) {
+        const systemPromptBipRenforce = `
 Tu es un assistant CFDT pour la Mairie de Gennevilliers.
 
 RÈGLES STRICTES :
@@ -1163,16 +1178,28 @@ RÈGLES STRICTES :
 
 INDICES FACTUELS BIP :
 ${indicesFactuels}
-      `
+        `
 
-      const reponseBipRenforcee = await appelPerplexity(buildMessages(systemPromptBipRenforce))
-      if (!isInternalNotFound(reponseBipRenforcee)) {
-        return reponseBipRenforcee
+        const reponseBipRenforcee = await appelPerplexity(buildMessages(systemPromptBipRenforce))
+        if (!isInternalNotFound(reponseBipRenforcee)) {
+          return reponseBipRenforcee
+        }
       }
     }
 
-    return reponseBip
+    // ⚡ Interrogation transparente Légifrance statutaire directe si les documents internes n'ont pas trouvé la réponse
+    try {
+      const reponseLegifranceAutomatique = await rechercherLegifrance(question)
+      if (reponseLegifranceAutomatique && reponseLegifranceAutomatique.length > 30) {
+        return `${reponseLegifranceAutomatique}\n\n⚡ *Source : API PISTE Légifrance (DILA) & Code Général de la Fonction Publique*`
+      }
+    } catch (err) {
+      console.warn("[Légifrance Auto] Erreur:", err)
+    }
+
+    return "Je ne trouve pas cette information dans nos documents internes ni dans les textes statutaires Légifrance. Contactez la CFDT au 01 40 85 64 64."
   }
+
 
   const handleSendMessage = async () => {
     const question = inputValue.trim()
