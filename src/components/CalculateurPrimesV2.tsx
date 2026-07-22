@@ -5,7 +5,6 @@ import {
   CheckCircle2, 
   TrendingUp, 
   ArrowLeft, 
-
   Briefcase,
   Building2,
   Users,
@@ -29,7 +28,10 @@ import {
   Crown,
   HandHelping,
   FolderKanban,
-  Building
+  Building,
+  RotateCcw,
+  ShieldAlert,
+  Coins
 } from 'lucide-react'
 import { BorderGlow } from './ui/BorderGlow.tsx'
 import { ShinyText } from './ui/ShinyText.tsx'
@@ -46,61 +48,60 @@ interface CalculateurPrimesProps {
   onClose?: () => void
 }
 
-// Définition des étapes du wizard
 const STEPS = [
   { 
     id: 1, 
     title: 'Catégorie', 
-    subtitle: 'Votre grille indiciaire',
+    subtitle: 'Grille indiciaire',
     icon: Briefcase,
     color: 'blue',
-    description: 'La catégorie détermine votre grille de rémunération. Elle correspond à votre niveau de qualification.',
-    tip: '💡 Catégorie A = Bac+3 minimum | B = Bac à Bac+2 | C = Sans condition de diplôme'
+    description: 'La catégorie détermine votre niveau de qualification (A = Bac+3, B = Bac à Bac+2, C = Sans diplôme).',
+    tip: '💡 Choisissez votre catégorie statutaire d\'appartenance (A, B ou C).'
   },
   { 
     id: 2, 
     title: 'Fonction', 
-    subtitle: 'IFSE 1 - Prime de base',
+    subtitle: 'IFSE 1 - Socle fixe',
     icon: Users,
     color: 'cyan',
-    description: 'L\'IFSE 1 est votre prime principale. Elle dépend de votre fonction et de vos responsabilités.',
-    tip: '💡 Cette prime est versée chaque mois automatiquement selon votre poste'
+    description: 'L\'IFSE 1 est la prime mensuelle liée à la responsabilité de votre poste.',
+    tip: '💡 Cette prime est versée chaque mois automatiquement.'
   },
   { 
     id: 3, 
     title: 'Direction & Métier', 
-    subtitle: 'IFSE 2 - Primes complémentaires',
+    subtitle: 'IFSE 2 - Sujétions',
     icon: Building2,
     color: 'teal',
-    description: 'Les primes IFSE 2 sont liées à votre direction, service et métier. Elles récompensent les sujétions particulières.',
-    tip: '💡 Certaines primes sont cumulables selon votre situation'
+    description: 'Primes complémentaires associées à votre direction, service et contraintes métiers.',
+    tip: '💡 Les primes de sujétion s\'ajoutent selon vos missions effectives.'
   },
   { 
     id: 4, 
     title: 'Week-ends', 
-    subtitle: 'IFSE 3 - Travail week-end',
+    subtitle: 'IFSE 3 - Astreintes',
     icon: Calendar,
     color: 'purple',
-    description: 'Si vous travaillez les samedis et/ou dimanches, vous percevez une indemnité supplémentaire.',
-    tip: '💡 40€ par samedi et 40€ par dimanche travaillé en moyenne'
+    description: 'Forfaits pour les samedis et dimanches travaillés dans le mois.',
+    tip: '💡 40€, 60€ ou 80€ par samedi ou dimanche travaillé.'
   },
   { 
     id: 5, 
     title: 'Primes spéciales', 
-    subtitle: 'Primes particulières',
+    subtitle: 'Missions particulières',
     icon: Award,
     color: 'orange',
-    description: 'Certaines situations donnent droit à des primes additionnelles (intérim, apprentissage...).',
-    tip: '💡 Ces primes sont versées uniquement si vous êtes dans une situation particulière'
+    description: 'Primes événementielles (intérim, tutorat d\'apprenti, suppléance...).',
+    tip: '💡 Cochez uniquement les primes correspondant à vos fonctions.'
   },
   { 
     id: 6, 
     title: 'Résultat', 
-    subtitle: 'Votre total mensuel',
+    subtitle: 'Synthèse globale',
     icon: Calculator,
-    color: 'green',
-    description: 'Récapitulatif de toutes vos primes et indemnités mensuelles.',
-    tip: '🎉 N\'oubliez pas que ce calcul est indicatif'
+    color: 'emerald',
+    description: 'Tableau de bord complet de vos primes RIFSEEP estimées.',
+    tip: '🎉 Cette estimation est mensuelle brute.'
   }
 ]
 
@@ -108,7 +109,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
   const [currentStep, setCurrentStep] = useState(1)
   const [showTip, setShowTip] = useState(true)
   
-  // États des sélections
+  // Selection states
   const [selectedCategory, setSelectedCategory] = useState('')
   const [selectedFunctionIndex, setSelectedFunctionIndex] = useState<number | null>(null)
   const [selectedDirection, setSelectedDirection] = useState('')
@@ -130,7 +131,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
   const navigationSectionRef = useRef<HTMLDivElement | null>(null)
   const mainScrollRef = useRef<HTMLDivElement | null>(null)
 
-  // Calculs
+  // Calculations
   const ifse1Amount = useMemo(() => {
     if (selectedFunctionIndex === null) return 0
     const item = ifse1Data[selectedFunctionIndex]
@@ -149,10 +150,10 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
   const specialPrimesData = useMemo(() => [
     { name: 'Prime intérim', amount: 150, desc: 'Remplacement temporaire d\'un poste vacant' },
-    { name: 'Prime technicité (Formateur)', amount: 75, desc: 'Expertise technique reconnue' },
-    { name: 'Prime Maître apprentissage', amount: 98.46, desc: 'Encadrement d\'un apprenti' },
-    { name: 'Prime Référent financier suppléant', amount: 40, desc: 'Suppléance référent financier' },
-    { name: 'Prime ODEC Partiel', amount: 40, desc: 'Officier d\'état civil partiel' },
+    { name: 'Prime technicité (Formateur)', amount: 75, desc: 'Expertise technique ou d\'animation reconnue' },
+    { name: 'Prime Maître d\'apprentissage', amount: 98.46, desc: 'Encadrement statutaire d\'un apprenti' },
+    { name: 'Prime Référent financier suppléant', amount: 40, desc: 'Suppléance de régisseur ou référent financier' },
+    { name: 'Prime ODEC Partiel', amount: 40, desc: 'Officier d\'état civil à temps partiel' },
   ], [])
 
   const specialPrimesAmount = useMemo(() => {
@@ -228,7 +229,6 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
   const totalMonthly = Math.round((ifse1Amount + ifse2Amount + ifse3Total + specialPrimesAmount) * 100) / 100
 
-  // Progression
   const getStepStatus = (stepId: number) => {
     if (stepId === 1) return selectedCategory ? 'completed' : currentStep === 1 ? 'active' : 'pending'
     if (stepId === 2) return selectedFunctionIndex !== null ? 'completed' : currentStep === 2 ? 'active' : 'pending'
@@ -242,9 +242,9 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
   const canGoNext = () => {
     if (currentStep === 1) return selectedCategory !== ''
     if (currentStep === 2) return selectedFunctionIndex !== null
-    if (currentStep === 3) return true // Optionnel
-    if (currentStep === 4) return true // Optionnel
-    if (currentStep === 5) return true // Optionnel
+    if (currentStep === 3) return true
+    if (currentStep === 4) return true
+    if (currentStep === 5) return true
     return false
   }
 
@@ -254,39 +254,8 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
     window.setTimeout(() => {
       const target = ref.current
       if (!target) return
-
-      // Walk up the DOM to find the actual scrolling container.
-      // Skip mainScrollRef (flex-1 unconstrained — grows freely, never scrolls).
-      let container: HTMLElement | null = target.parentElement
-      while (container && container !== document.body) {
-        if (container !== mainScrollRef.current) {
-          const overflow = window.getComputedStyle(container).overflowY
-          if (overflow === 'auto' || overflow === 'scroll') break
-        }
-        container = container.parentElement
-      }
-
-      if (!container || container === document.body) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        return
-      }
-
-      // Offset for the sticky header "Retour aux calculateurs / Calculateurs CFDT"
-      const stickyHeader = container.querySelector('[class*="sticky"]') as HTMLElement | null
-      const headerHeight = stickyHeader ? stickyHeader.offsetHeight : 68
-
-      const containerRect = container.getBoundingClientRect()
-      const targetRect = target.getBoundingClientRect()
-      const scrollTop = container.scrollTop + (targetRect.top - containerRect.top) - headerHeight - 8
-
-      container.scrollTo({ top: Math.max(0, scrollTop), behavior: 'smooth' })
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }, delay)
-  }
-
-  const scrollToNavigation = () => {
-    window.setTimeout(() => {
-      navigationSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
-    }, 160)
   }
 
   const handleCategorySelect = (category: string) => {
@@ -296,7 +265,6 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
   const handleFunctionSelect = (index: number) => {
     setSelectedFunctionIndex(index)
-    scrollToNavigation()
   }
 
   const goNext = () => {
@@ -311,7 +279,6 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
     }
   }
 
-  // Handlers
   const handleDirectionSelect = (dir: string) => {
     setSelectedDirection(dir)
     setSelectedIFSE2(new Set())
@@ -320,19 +287,11 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
     setLastToggledPrimeIdx(null)
   }
 
-  useEffect(() => {
-    if (selectedDirection) {
-      // 350ms: wait for slide-in-from-bottom duration-300 animation to finish
-      scrollToSection(serviceSectionRef, 350)
-    }
-  }, [selectedDirection])
-
   const handleServiceSelect = (service: string) => {
     setSelectedService(service)
     setSelectedIFSE2(new Set())
     setSelectedJob('')
     setLastToggledPrimeIdx(null)
-    scrollToSection(jobSectionRef)
   }
 
   const handleJobSelect = (job: string) => {
@@ -340,21 +299,20 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
     setLastToggledPrimeIdx(null)
     if (!job) return
     
-    const directionPrimes = getIFSE2ByDirection(selectedDirection)
-    const jobPrimes = directionPrimes.filter(p => 
+    const directionPrimesList = getIFSE2ByDirection(selectedDirection)
+    const jobPrimes = directionPrimesList.filter(p => 
       p.jobs?.includes(job) && 
       (!selectedService || p.service === selectedService || p.service === 'Tous services')
     )
     
     const newSelectedIFSE2 = new Set<number>()
     jobPrimes.forEach(jobPrime => {
-      const primeIdx = directionPrimes.findIndex(p => p === jobPrime)
+      const primeIdx = directionPrimesList.findIndex(p => p === jobPrime)
       if (primeIdx >= 0) {
         newSelectedIFSE2.add(primeIdx)
       }
     })
     setSelectedIFSE2(newSelectedIFSE2)
-    scrollToSection(primesSectionRef, 450)
   }
 
   const handleToggleIFSE2 = (idx: number) => {
@@ -399,780 +357,591 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
   const currentStepData = STEPS[currentStep - 1]
   const StepIcon = currentStepData.icon
 
-  // Couleurs par étape
-  const getStepColor = (color: string) => {
-    const colors: Record<string, { bg: string, border: string, text: string, ring: string }> = {
-      blue: { bg: 'from-blue-500 to-cyan-500', border: 'border-blue-400/50', text: 'text-blue-300', ring: 'ring-blue-400/50' },
-      cyan: { bg: 'from-cyan-500 to-teal-500', border: 'border-cyan-400/50', text: 'text-cyan-300', ring: 'ring-cyan-400/50' },
-      teal: { bg: 'from-teal-500 to-green-500', border: 'border-teal-400/50', text: 'text-teal-300', ring: 'ring-teal-400/50' },
-      purple: { bg: 'from-purple-500 to-pink-500', border: 'border-purple-400/50', text: 'text-purple-300', ring: 'ring-purple-400/50' },
-      orange: { bg: 'from-orange-500 to-amber-500', border: 'border-orange-400/50', text: 'text-orange-300', ring: 'ring-orange-400/50' },
-      green: { bg: 'from-green-500 to-emerald-500', border: 'border-green-400/50', text: 'text-green-300', ring: 'ring-green-400/50' },
-    }
-    return colors[color] || colors.blue
-  }
-
-  const stepColor = getStepColor(currentStepData.color)
-
   const getDirectionVisual = (dir: string) => {
-    const map: Record<string, {
-      icon: typeof Building2
-      active: string
-      badge: string
-      hover: string
-    }> = {
-      DAF: { icon: Wallet, active: 'bg-lime-500/20 border-lime-400 shadow-lg shadow-lime-500/20', badge: 'bg-lime-500/20 text-lime-200 border-lime-400/40', hover: 'hover:border-lime-400/50' },
-      DAJ: { icon: Scale, active: 'bg-stone-500/20 border-stone-300 shadow-lg shadow-stone-500/20', badge: 'bg-stone-500/20 text-stone-200 border-stone-300/40', hover: 'hover:border-stone-300/50' },
-      DCCS: { icon: HandHelping, active: 'bg-fuchsia-500/20 border-fuchsia-400 shadow-lg shadow-fuchsia-500/20', badge: 'bg-fuchsia-500/20 text-fuchsia-200 border-fuchsia-400/40', hover: 'hover:border-fuchsia-400/50' },
-      DCJ: { icon: BookOpen, active: 'bg-pink-500/20 border-pink-400 shadow-lg shadow-pink-500/20', badge: 'bg-pink-500/20 text-pink-200 border-pink-400/40', hover: 'hover:border-pink-400/50' },
-      DE: { icon: Trees, active: 'bg-emerald-500/20 border-emerald-400 shadow-lg shadow-emerald-500/20', badge: 'bg-emerald-500/20 text-emerald-200 border-emerald-400/40', hover: 'hover:border-emerald-400/50' },
-      DG: { icon: Crown, active: 'bg-yellow-500/20 border-yellow-400 shadow-lg shadow-yellow-500/20', badge: 'bg-yellow-500/20 text-yellow-200 border-yellow-400/40', hover: 'hover:border-yellow-400/50' },
-      DH: { icon: Home, active: 'bg-orange-500/20 border-orange-400 shadow-lg shadow-orange-500/20', badge: 'bg-orange-500/20 text-orange-200 border-orange-400/40', hover: 'hover:border-orange-400/50' },
-      DDU: { icon: Map, active: 'bg-cyan-500/20 border-cyan-400 shadow-lg shadow-cyan-500/20', badge: 'bg-cyan-500/20 text-cyan-200 border-cyan-400/40', hover: 'hover:border-cyan-400/50' },
-      DESS: { icon: Shield, active: 'bg-violet-500/20 border-violet-400 shadow-lg shadow-violet-500/20', badge: 'bg-violet-500/20 text-violet-200 border-violet-400/40', hover: 'hover:border-violet-400/50' },
-      DME: { icon: Baby, active: 'bg-green-500/20 border-green-400 shadow-lg shadow-green-500/20', badge: 'bg-green-500/20 text-green-200 border-green-400/40', hover: 'hover:border-green-400/50' },
-      DRH: { icon: Users, active: 'bg-sky-500/20 border-sky-400 shadow-lg shadow-sky-500/20', badge: 'bg-sky-500/20 text-sky-200 border-sky-400/40', hover: 'hover:border-sky-400/50' },
-      DMS: { icon: HeartPulse, active: 'bg-rose-500/20 border-rose-400 shadow-lg shadow-rose-500/20', badge: 'bg-rose-500/20 text-rose-200 border-rose-400/40', hover: 'hover:border-rose-400/50' },
-      DMSP: { icon: HeartPulse, active: 'bg-red-500/20 border-red-400 shadow-lg shadow-red-500/20', badge: 'bg-red-500/20 text-red-200 border-red-400/40', hover: 'hover:border-red-400/50' },
-      DMRU: { icon: Landmark, active: 'bg-amber-500/20 border-amber-400 shadow-lg shadow-amber-500/20', badge: 'bg-amber-500/20 text-amber-200 border-amber-400/40', hover: 'hover:border-amber-400/50' },
-      DPE: { icon: Baby, active: 'bg-teal-500/20 border-teal-400 shadow-lg shadow-teal-500/20', badge: 'bg-teal-500/20 text-teal-200 border-teal-400/40', hover: 'hover:border-teal-400/50' },
-      DPO: { icon: FolderKanban, active: 'bg-indigo-500/20 border-indigo-400 shadow-lg shadow-indigo-500/20', badge: 'bg-indigo-500/20 text-indigo-200 border-indigo-400/40', hover: 'hover:border-indigo-400/50' },
-      DPB: { icon: Building, active: 'bg-blue-500/20 border-blue-400 shadow-lg shadow-blue-500/20', badge: 'bg-blue-500/20 text-blue-200 border-blue-400/40', hover: 'hover:border-blue-400/50' },
-      DRU: { icon: Map, active: 'bg-slate-500/20 border-slate-300 shadow-lg shadow-slate-500/20', badge: 'bg-slate-500/20 text-slate-200 border-slate-300/40', hover: 'hover:border-slate-300/50' },
-      DSA: { icon: HandHelping, active: 'bg-emerald-500/20 border-emerald-300 shadow-lg shadow-emerald-500/20', badge: 'bg-emerald-500/20 text-emerald-100 border-emerald-300/40', hover: 'hover:border-emerald-300/50' },
-      DSI: { icon: Cpu, active: 'bg-blue-500/20 border-blue-300 shadow-lg shadow-blue-500/20', badge: 'bg-blue-500/20 text-blue-100 border-blue-300/40', hover: 'hover:border-blue-300/50' },
-      'Toutes dir°': { icon: Briefcase, active: 'bg-neutral-500/20 border-neutral-300 shadow-lg shadow-neutral-500/20', badge: 'bg-neutral-500/20 text-neutral-200 border-neutral-300/40', hover: 'hover:border-neutral-300/50' },
+    const map: Record<string, { icon: typeof Building2; colorClass: string }> = {
+      DAF: { icon: Wallet, colorClass: 'text-amber-400 bg-amber-500/10 border-amber-500/30' },
+      DAJ: { icon: Scale, colorClass: 'text-slate-300 bg-slate-500/10 border-slate-500/30' },
+      DCCS: { icon: HandHelping, colorClass: 'text-fuchsia-400 bg-fuchsia-500/10 border-fuchsia-500/30' },
+      DCJ: { icon: BookOpen, colorClass: 'text-pink-400 bg-pink-500/10 border-pink-500/30' },
+      DE: { icon: Trees, colorClass: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30' },
+      DG: { icon: Crown, colorClass: 'text-yellow-400 bg-yellow-500/10 border-yellow-500/30' },
+      DH: { icon: Home, colorClass: 'text-orange-400 bg-orange-500/10 border-orange-500/30' },
+      DDU: { icon: Map, colorClass: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/30' },
+      DESS: { icon: Shield, colorClass: 'text-violet-400 bg-violet-500/10 border-violet-500/30' },
+      DME: { icon: Baby, colorClass: 'text-green-400 bg-green-500/10 border-green-500/30' },
+      DRH: { icon: Users, colorClass: 'text-sky-400 bg-sky-500/10 border-sky-500/30' },
+      DMS: { icon: HeartPulse, colorClass: 'text-rose-400 bg-rose-500/10 border-rose-500/30' },
+      DMSP: { icon: HeartPulse, colorClass: 'text-red-400 bg-red-500/10 border-red-500/30' },
+      DMRU: { icon: Landmark, colorClass: 'text-amber-400 bg-amber-500/10 border-amber-500/30' },
+      DPE: { icon: Baby, colorClass: 'text-teal-400 bg-teal-500/10 border-teal-500/30' },
+      DPO: { icon: FolderKanban, colorClass: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/30' },
+      DPB: { icon: Building, colorClass: 'text-blue-400 bg-blue-500/10 border-blue-500/30' },
+      DRU: { icon: Map, colorClass: 'text-slate-300 bg-slate-500/10 border-slate-500/30' },
+      DSA: { icon: HandHelping, colorClass: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30' },
+      DSI: { icon: Cpu, colorClass: 'text-blue-400 bg-blue-500/10 border-blue-500/30' },
+      'Toutes dir°': { icon: Briefcase, colorClass: 'text-neutral-400 bg-neutral-500/10 border-neutral-500/30' },
     }
-    return map[dir] || {
-      icon: Wrench,
-      active: 'bg-cyan-500/20 border-cyan-400 shadow-lg shadow-cyan-500/20',
-      badge: 'bg-cyan-500/20 text-cyan-200 border-cyan-400/40',
-      hover: 'hover:border-cyan-400/50'
-    }
+    return map[dir] || { icon: Wrench, colorClass: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/30' }
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(216,180,254,0.15),_transparent_28%),linear-gradient(135deg,#fdfbf7_0%,#f4f0ea_48%,#fef3c7_100%)] flex flex-col">
-      {/* Header */}
-      <div className="bg-white dark:bg-slate-800/80 backdrop-blur-md py-4 border-b border-purple-100 shadow-sm glass-banner">
-        <div className="px-4 sm:px-6 flex flex-col gap-4 max-w-4xl mx-auto sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center justify-between w-full sm:w-auto gap-3 min-w-0">
-            <div className="min-w-0">
-              <h1 className="text-xl sm:text-2xl font-semibold text-slate-800 dark:text-white">Calculateur de Primes</h1>
-              <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm">Estimez vos primes RIFSEEP en quelques clics</p>
+    <div className="min-h-screen bg-slate-950 flex flex-col font-sans text-slate-100 selection:bg-cyan-500 selection:text-slate-950">
+      
+      {/* Background Glow Overlay */}
+      <div 
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 rounded-full"
+        style={{
+          width: 1000, height: 1000,
+          background: 'radial-gradient(ellipse at center, rgba(6,182,212,0.1) 0%, rgba(59,130,246,0.05) 50%, transparent 75%)',
+          filter: 'blur(70px)'
+        }}
+      />
+
+      <div className="relative z-10 flex flex-col flex-1">
+
+        {/* --- Top Sticky Navigation Header --- */}
+        <div className="bg-slate-900/90 backdrop-blur-2xl py-4 px-4 sm:px-8 border-b border-slate-800 shadow-[0_4px_25px_rgba(0,0,0,0.6)] sticky top-0 z-30">
+          <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
+            
+            <div className="flex items-center gap-4">
+              {onClose && (
+                <button
+                  onClick={onClose}
+                  className="p-2.5 rounded-2xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-all border border-slate-700 shadow-sm"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                </button>
+              )}
+
+              <div>
+                <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
+                  <TrendingUp className="w-6 h-6 text-cyan-400" />
+                  Calculateur de Primes RIFSEEP
+                </h1>
+                <p className="text-xs text-slate-400 font-medium">
+                  Simulation complète IFSE 1, IFSE 2, IFSE 3 et primes spéciales
+                </p>
+              </div>
             </div>
-            <div className={`p-3 bg-gradient-to-br ${stepColor.bg} rounded-xl shadow-md flex-shrink-0`}>
-              <TrendingUp className="w-6 h-6 text-white" />
+
+            {totalMonthly > 0 && (
+              <div className="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 px-4 py-2 rounded-2xl flex items-center gap-2 font-mono font-bold text-xs shadow-inner">
+                <Coins className="w-4 h-4 text-cyan-400 animate-pulse" />
+                <span>Estimé:</span>
+                <span className="text-cyan-200 text-sm">{totalMonthly.toLocaleString('fr-FR')}€/mois</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* --- Interactive Stepper Header --- */}
+        <div className="bg-slate-900/60 border-b border-slate-800 py-3.5 px-4 sm:px-8 shadow-sm">
+          <div className="max-w-3xl mx-auto">
+            <div className="flex items-center justify-between overflow-x-auto pb-1">
+              {STEPS.map((step, idx) => {
+                const status = getStepStatus(step.id)
+                const Icon = step.icon
+                const isActive = currentStep === step.id
+
+                return (
+                  <div key={step.id} className="flex items-center shrink-0">
+                    <button
+                      onClick={() => {
+                        if (status === 'completed' || step.id <= currentStep) {
+                          setCurrentStep(step.id)
+                        }
+                      }}
+                      disabled={status === 'pending' && step.id > currentStep}
+                      className={`flex flex-col items-center gap-1.5 transition-all ${
+                        status === 'pending' && step.id > currentStep ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer hover:scale-105'
+                      }`}
+                    >
+                      <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-sm transition-all ${
+                        status === 'completed'
+                          ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                          : isActive
+                            ? 'bg-cyan-500 text-slate-950 shadow-[0_0_20px_rgba(6,182,212,0.4)] scale-110'
+                            : 'bg-slate-800 text-slate-500 border border-slate-700'
+                      }`}>
+                        {status === 'completed' ? <CheckCircle2 className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
+                      </div>
+                      <span className={`text-[11px] hidden sm:block ${
+                        isActive ? 'font-black text-white' : 'font-medium text-slate-400'
+                      }`}>
+                        {step.title}
+                      </span>
+                    </button>
+
+                    {idx < STEPS.length - 1 && (
+                      <div className={`w-6 sm:w-10 h-0.5 mx-2 transition-all ${
+                        getStepStatus(STEPS[idx + 1].id) !== 'pending' ? 'bg-cyan-500' : 'bg-slate-800'
+                      }`} />
+                    )}
+                  </div>
+                )
+              })}
             </div>
           </div>
-          {onClose && (
-            <button
-              onClick={onClose}
-              className="flex w-full items-center justify-center gap-2 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-all border border-red-200 glass-pill sm:w-auto font-medium"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">Retour</span>
-            </button>
-          )}
         </div>
-      </div>
 
-      {/* Barre de progression */}
-      <div className="bg-white dark:bg-slate-800/60 border-b border-purple-100 py-3 px-4 glass-banner">
-        <div className="max-w-4xl mx-auto overflow-x-auto pb-2">
-          <div className="flex items-center justify-between mb-2 min-w-[560px]">
-            {STEPS.map((step, idx) => {
-              const status = getStepStatus(step.id)
-              const Icon = step.icon
-              return (
-                <div key={step.id} className="flex items-center">
-                  <button
-                    onClick={() => {
-                      if (status === 'completed' || step.id <= currentStep) {
-                        setCurrentStep(step.id)
-                      }
-                    }}
-                    disabled={status === 'pending' && step.id > currentStep}
-                    className={`relative flex flex-col items-center transition-all duration-300 ${
-                      status === 'pending' && step.id > currentStep ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer hover:scale-105'
-                    }`}
-                  >
-                    <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                      status === 'completed'
-                        ? 'bg-green-500 text-white shadow-lg shadow-green-500/30'
-                        : status === 'active'
-                          ? `bg-gradient-to-br ${getStepColor(step.color).bg} text-white shadow-lg animate-pulse`
-                            : 'bg-slate-100 dark:bg-slate-800 text-slate-400 border border-slate-200'
-                    }`}>
-                      {status === 'completed' ? (
-                        <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
-                      ) : (
-                        <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
-                      )}
-                    </div>
-                    <span className={`text-[10px] sm:text-xs mt-1 font-medium ${
-                      status === 'active' ? getStepColor(step.color).text.replace('300', '600') : 'text-slate-400'
-                    }`}>
-                      {step.title}
+        {/* --- Main Wizard Container --- */}
+        <div ref={mainScrollRef} className="flex-1 p-4 sm:p-8 overflow-y-auto">
+          <div className="max-w-3xl mx-auto">
+
+            {/* Step Header Banner */}
+            <div className="mb-6 p-6 rounded-3xl bg-slate-900/90 border border-slate-800 shadow-xl backdrop-blur-2xl">
+              <div className="flex items-start gap-4">
+                <div className="p-3.5 rounded-2xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 shrink-0">
+                  <StepIcon className="w-6 h-6" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs font-mono font-bold text-slate-400">Étape {currentStep}/6</span>
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold text-cyan-300 bg-cyan-500/10 border border-cyan-500/30">
+                      {currentStepData.subtitle}
                     </span>
-                  </button>
-                  {idx < STEPS.length - 1 && (
-                    <div className={`w-4 sm:w-8 h-0.5 mx-1 sm:mx-2 transition-all duration-500 ${
-                      getStepStatus(STEPS[idx + 1].id) !== 'pending' ? 'bg-green-400' : 'bg-slate-200'
-                    }`} />
-                  )}
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Récapitulatif flottant */}
-      {totalMonthly > 0 && currentStep < 6 && (
-        <div className="sticky top-24 sm:top-28 z-30 px-4 sm:px-6 pt-3 pointer-events-none animate-in fade-in slide-in-from-top duration-500">
-          <div className="max-w-4xl mx-auto flex justify-center sm:justify-end">
-            <div className="bg-white dark:bg-slate-800/95 dark:bg-slate-900/95 backdrop-blur-md rounded-xl p-4 shadow-xl border border-green-200 glass-card">
-              <div className="flex items-center gap-3">
-                <Sparkles className="w-5 h-5 text-green-500" />
-                <div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Total estimé</p>
-                  <p className="text-xl font-bold text-green-600">{totalMonthly.toLocaleString('fr-FR')}€<span className="text-sm font-normal text-slate-400">/mois</span></p>
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-black text-white mb-1 tracking-tight">{currentStepData.title}</h2>
+                  <p className="text-slate-400 text-xs sm:text-sm leading-relaxed font-medium">{currentStepData.description}</p>
                 </div>
               </div>
+
+              {showTip && (
+                <div className="mt-4 p-3.5 bg-amber-500/10 border border-amber-500/25 rounded-2xl flex items-center justify-between text-xs text-amber-300 font-medium">
+                  <span className="flex items-center gap-2">
+                    <Info className="w-4 h-4 text-amber-400 shrink-0" />
+                    {currentStepData.tip}
+                  </span>
+                  <button onClick={() => setShowTip(false)} className="text-slate-500 hover:text-white text-xs px-1.5">✕</button>
+                </div>
+              )}
             </div>
-          </div>
-        </div>
-      )}
 
-      {/* Contenu principal */}
-      <div ref={mainScrollRef} className="flex-1 overflow-y-auto p-4 sm:p-6">
-        <div className="max-w-2xl mx-auto">
-          
-          {/* En-tête de l'étape */}
-          <div className={`mb-6 p-4 sm:p-6 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 shadow-sm glass-card`}>
-            <div className="flex items-start gap-4">
-              <div className={`p-3 rounded-xl bg-gradient-to-br ${stepColor.bg} shadow-md`}>
-                <StepIcon className="w-6 h-6 text-white" />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-slate-500 dark:text-slate-400 text-sm font-medium">Étape {currentStep}/6</span>
-                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${stepColor.text.replace('300','700')} bg-white dark:bg-slate-800 border border-slate-200 shadow-sm`}>
-                    {currentStepData.subtitle}
-                  </span>
-                </div>
-                <h2 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white mb-2">{currentStepData.title}</h2>
-                <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">{currentStepData.description}</p>
-              </div>
-            </div>
-            
-            {/* Tip */}
-            {showTip && (
-              <div className="mt-4 p-3 bg-amber-50/80 border border-amber-200/60 rounded-lg flex items-start gap-3 glass-card shadow-sm">
-                <Info className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
-                {currentStepData.tip === "💡 Ces primes sont versées uniquement si vous êtes dans une situation particulière" ? (
-                  <p className="text-base font-bold text-amber-800">{currentStepData.tip}</p>
-                ) : (
-                  <p className="text-xs sm:text-sm text-amber-900/80 font-medium">{currentStepData.tip}</p>
-                )}
-                <button onClick={() => setShowTip(false)} className="text-amber-700/50 hover:text-amber-700 text-xs transition-colors">✕</button>
-              </div>
-            )}
-          </div>
-
-          {/* Contenu de l'étape */}
-          <div className={`p-4 sm:p-6 rounded-2xl bg-white dark:bg-slate-800/70 border border-slate-200 shadow-md ring-2 ring-transparent transition-all duration-500 glass-card`}>
-            
-            {/* ÉTAPE 1: Catégorie */}
-            {currentStep === 1 && (
-              <div className="space-y-4 animate-in fade-in duration-500">
-                <div className="flex items-center justify-between gap-3 mb-1">
-                  <label className="text-sm text-slate-700 block font-medium">Sélectionnez votre catégorie d'emploi :</label>
-                  <span className="text-xs px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 text-slate-500 dark:text-slate-400 font-medium">
-                    3 profils
-                  </span>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {[
-                    { key: 'A', level: 'Cadres', accent: 'from-blue-500 to-cyan-500', activeBorder: 'border-blue-400', hoverBorder: 'hover:border-blue-300', glow: 'shadow-blue-200', lightBg: 'bg-white dark:bg-slate-800' },
-                    { key: 'B', level: 'Intermédiaires', accent: 'from-cyan-500 to-teal-500', activeBorder: 'border-cyan-400', hoverBorder: 'hover:border-cyan-300', glow: 'shadow-cyan-200', lightBg: 'bg-white dark:bg-slate-800' },
-                    { key: 'C', level: 'Exécution', accent: 'from-teal-500 to-green-500', activeBorder: 'border-teal-400', hoverBorder: 'hover:border-teal-300', glow: 'shadow-teal-200', lightBg: 'bg-white dark:bg-slate-800' },
-                  ].map(cat => (
-                    <button
-                      key={cat.key}
-                      onClick={() => handleCategorySelect(cat.key)}
-                      className={`group p-5 sm:p-6 rounded-xl border-2 transition-all duration-300 ${
-                        selectedCategory === cat.key
-                          ? `bg-gradient-to-br ${cat.accent} ${cat.activeBorder} shadow-lg ${cat.glow} scale-105`
-                          : `${cat.lightBg} border-slate-200 ${cat.hoverBorder} hover:shadow-md`
-                      }`}
-                    >
-                      <div className="flex items-start justify-between gap-2 mb-3">
-                        <div className="text-left flex-1">
-                          <div className={`text-2xl sm:text-3xl font-black transition-colors ${selectedCategory === cat.key ? 'text-white' : 'text-slate-800 dark:text-white group-hover:text-slate-900'}`}>Cat. {cat.key}</div>
-                          <div className={`text-base font-bold transition-colors ${selectedCategory === cat.key ? 'text-white/95' : 'text-slate-500 dark:text-slate-400'}`}>{cat.level}</div>
-                        </div>
-                        {selectedCategory === cat.key && (
-                          <CheckCircle2 className="w-6 h-6 text-white flex-shrink-0 mt-1" />
-                        )}
-                      </div>
-                    </button>
-                  ))}
-                </div>
-                {selectedCategory && (
-                  <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg flex items-center justify-between gap-3 glass-card animate-in fade-in duration-300 shadow-sm">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-600" />
-                      <span className="text-sm font-medium text-green-800">Catégorie {selectedCategory} sélectionnée</span>
-                    </div>
-                    <span className="text-xs font-semibold text-green-700/80">Passez à l'étape Fonction</span>
+            {/* Step Body Card */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/90 border border-slate-800 shadow-[0_4px_30px_rgba(0,0,0,0.4)] backdrop-blur-2xl">
+              
+              {/* ÉTAPE 1: Catégorie */}
+              {currentStep === 1 && (
+                <div className="space-y-6">
+                  <div className="text-center mb-4">
+                    <h3 className="text-lg font-black text-white mb-1">Sélectionnez votre catégorie statutaire</h3>
+                    <p className="text-xs text-slate-400">Niveau de qualification RH requis pour votre grille</p>
                   </div>
-                )}
-              </div>
-            )}
 
-            {/* ÉTAPE 2: Fonction */}
-            {currentStep === 2 && (
-              <div className="space-y-4 animate-in fade-in duration-500">
-                <div className="flex items-center justify-between gap-3">
-                  <label className="text-sm text-slate-700 block font-medium">Choisissez votre fonction :</label>
-                  <span className="text-xs px-2 py-1 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-700 font-medium">
-                    Cat. {selectedCategory}
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-500 dark:text-slate-400 font-medium">{functionsForCategory.length} fonction(s)</span>
-                  {selectedFunctionIndex !== null && (
-                    <span className="text-cyan-600 font-semibold">Sélection active</span>
-                  )}
-                </div>
-
-                <div className="max-h-72 overflow-y-auto pr-1 space-y-2 teal-scrollbar">
-                  {functionsForCategory.map((item, idx) => (
-                    <button
-                      key={item.globalIdx}
-                      onClick={() => handleFunctionSelect(item.globalIdx)}
-                      style={{ animationDelay: `${Math.min(260, idx * 20)}ms` }}
-                      className={`w-full p-3 rounded-lg text-left transition-all border glass-card animate-in fade-in duration-300 ${
-                        selectedFunctionIndex === item.globalIdx
-                          ? 'bg-cyan-50 border-cyan-300 shadow-md ring-1 ring-cyan-200'
-                          : 'bg-white dark:bg-slate-800 border-slate-200 hover:bg-slate-50 dark:bg-slate-900 hover:border-cyan-300 shadow-sm hover:shadow-md'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between gap-3">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
-                            selectedFunctionIndex === item.globalIdx ? 'bg-cyan-500 border-cyan-500' : 'border-slate-300'
-                          }`}>
-                            {selectedFunctionIndex === item.globalIdx && <span className="text-white text-xs">✓</span>}
-                          </div>
-                          <p className="text-sm font-medium text-slate-800 dark:text-white">{item.functionName}</p>
-                        </div>
-                        <span className="text-cyan-600 font-bold">{item.amount}€</span>
-                      </div>
-                    </button>
-                  ))}
-
-                  {functionsForCategory.length === 0 && (
-                    <div className="p-4 bg-slate-50 dark:bg-slate-900 border border-slate-200 rounded-lg text-center">
-                      <p className="text-slate-500 dark:text-slate-400 text-sm">Aucune fonction disponible pour cette catégorie.</p>
-                    </div>
-                  )}
-                </div>
-                
-                {selectedFunctionIndex !== null && (
-                  <div className="mt-4 p-4 bg-cyan-50 border border-cyan-200 rounded-xl glass-card animate-in fade-in duration-300 shadow-sm">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Votre IFSE 1</p>
-                        <p className="text-lg font-semibold text-slate-800 dark:text-white">{ifse1Data[selectedFunctionIndex].function}</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-2xl font-bold text-cyan-600">{ifse1Amount}€</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">par mois</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* ÉTAPE 3: Direction & Métier */}
-            {currentStep === 3 && (
-              <div className="space-y-6 animate-in fade-in duration-500">
-                {/* Direction */}
-                <div>
-                  <div className="flex items-center justify-center gap-3 mb-4">
-                    <span className="w-7 h-7 rounded-full bg-teal-100 border border-teal-200 flex items-center justify-center text-teal-700 font-bold text-sm">1</span>
-                    <h3 className="text-base sm:text-lg font-bold text-slate-800 dark:text-white">Votre direction</h3>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto">
-                    {allDirections.map(dir => {
-                      const isActive = selectedDirection === dir
-                      const visual = getDirectionVisual(dir)
-                      const DirectionIcon = visual.icon
-                      const directionJobsCount = getIFSE2ByDirection(dir)
-                        .flatMap(p => p.jobs || [])
-                        .filter((job, idx, arr) => arr.indexOf(job) === idx && job !== '').length
-
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {[
+                      { key: 'A', title: 'Catégorie A', level: 'Cadres / Conception', sub: 'Bac +3 minimum', color: 'from-blue-500 to-cyan-500' },
+                      { key: 'B', title: 'Catégorie B', level: 'Intermédiaires / Maîtrise', sub: 'Bac à Bac +2', color: 'from-cyan-500 to-teal-500' },
+                      { key: 'C', title: 'Catégorie C', level: 'Exécution / Technique', sub: 'Sans condition de diplôme', color: 'from-teal-500 to-emerald-500' },
+                    ].map(cat => {
+                      const isSelected = selectedCategory === cat.key
                       return (
                         <button
-                          key={dir}
-                          onClick={() => handleDirectionSelect(dir)}
-                          style={{ animationDelay: `${Math.min(420, allDirections.indexOf(dir) * 35)}ms` }}
-                          className={`group relative overflow-hidden text-left p-4 rounded-xl border-2 transition-all duration-300 glass-card ${
-                            isActive
-                              ? `${visual.active.replace('500/20','100').replace('500/20','200/50')} scale-[1.02]`
-                              : `bg-white dark:bg-slate-800 border-slate-200 ${visual.hover} hover:bg-slate-50 dark:bg-slate-900 hover:-translate-y-1 hover:scale-[1.015] hover:shadow-lg hover:shadow-slate-200/40`
-                          } animate-in fade-in slide-in-from-bottom duration-500`}
+                          key={cat.key}
+                          onClick={() => handleCategorySelect(cat.key)}
+                          className={`p-6 rounded-3xl border-2 text-left transition-all duration-300 relative overflow-hidden group ${
+                            isSelected
+                              ? 'border-cyan-400 bg-cyan-950/50 shadow-[0_0_30px_rgba(6,182,212,0.25)] scale-[1.02]'
+                              : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 hover:bg-slate-900'
+                          }`}
                         >
-                          <div className="pointer-events-none absolute inset-0 bg-white dark:bg-slate-800/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                          <div className="flex items-start justify-between gap-3">
-                            <div className="flex items-start gap-3">
-                              <div className={`w-10 h-10 rounded-lg border flex items-center justify-center transition-all duration-300 ${visual.badge.replace('500/20','100').replace('200','700')} ${isActive ? '' : 'group-hover:-translate-y-1 group-hover:scale-110 group-hover:shadow-md'}`}>
-                                <DirectionIcon className={`w-5 h-5 transition-all duration-300 ${isActive ? '' : 'group-hover:scale-110 group-hover:rotate-3'}`} />
-                              </div>
-                              <div>
-                                <p className={`font-semibold transition-colors duration-300 ${isActive ? 'text-slate-900' : 'text-slate-800 dark:text-white group-hover:text-slate-900'}`}>{getDirectionFullName(dir)}</p>
-                                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 transition-colors duration-300 group-hover:text-slate-600 dark:text-slate-300">Code: {dir}</p>
-                              </div>
-                            </div>
-                            <span className="text-xs px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 transition-all duration-300 group-hover:border-slate-300 group-hover:bg-slate-200 group-hover:text-slate-800 dark:text-white">
-                              {directionJobsCount} métiers
-                            </span>
+                          <div className="flex justify-between items-start mb-3">
+                            <span className="text-3xl font-black text-white font-mono">{cat.key}</span>
+                            {isSelected && <CheckCircle2 className="w-6 h-6 text-cyan-400" />}
                           </div>
+                          <h4 className="font-bold text-white text-sm mb-1">{cat.level}</h4>
+                          <p className="text-[11px] text-slate-400 font-medium">{cat.sub}</p>
                         </button>
                       )
                     })}
                   </div>
                 </div>
+              )}
 
-                {/* Service */}
-                {selectedDirection && (
-                  <div ref={serviceSectionRef} className="animate-in slide-in-from-bottom duration-300">
-                    <div className="flex items-center justify-center gap-3 mb-4">
-                      <span className="w-7 h-7 rounded-full bg-cyan-100 border border-cyan-200 flex items-center justify-center text-cyan-700 font-bold text-sm">2</span>
-                      <h3 className="text-base sm:text-lg font-bold text-slate-800 dark:text-white">Votre service <span className="text-sm font-normal text-slate-500 dark:text-slate-400">(optionnel)</span></h3>
-                    </div>
-                    <div className="flex flex-wrap justify-center gap-5 max-w-2xl mx-auto py-2">
-                      <button
-                        onClick={() => handleServiceSelect('')}
-                        className={`bg-white dark:bg-slate-800/90 rounded-2xl shadow-2xl border border-blue-200 p-5 max-w-xs w-full transition-transform hover:scale-105 hover:shadow-blue-400/50 flex flex-col items-center text-center glass-card ${
-                          selectedService === ''
-                            ? 'ring-2 ring-teal-400 border-teal-400 scale-105'
-                            : 'hover:ring-2 hover:ring-blue-300'
-                        }`}
-                      >
-                        <p className="text-base font-bold text-blue-700">Tous les services</p>
-                        <p className="text-xs text-gray-500">Affiche toutes les primes de la direction</p>
-                      </button>
+              {/* ÉTAPE 2: Fonction (IFSE 1) */}
+              {currentStep === 2 && (
+                <div className="space-y-5">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-base font-bold text-white">Fonctions disponibles (Cat. {selectedCategory})</h3>
+                    <span className="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-lg border border-cyan-500/20">
+                      {functionsForCategory.length} fonctions
+                    </span>
+                  </div>
 
-                      {availableServices.map(service => (
+                  <div className="max-h-80 overflow-y-auto pr-1 space-y-2.5 scrollbar-thin scrollbar-thumb-slate-700">
+                    {functionsForCategory.map((item) => {
+                      const isSelected = selectedFunctionIndex === item.globalIdx
+                      return (
                         <button
-                          key={service}
-                          onClick={() => handleServiceSelect(service)}
-                          style={{ animationDelay: `${Math.min(260, availableServices.indexOf(service) * 30)}ms` }}
-                          className={`bg-white dark:bg-slate-800/90 rounded-2xl shadow-2xl border border-blue-200 p-5 max-w-xs w-full transition-transform hover:scale-105 hover:shadow-blue-400/50 flex flex-col items-center text-center glass-card animate-in fade-in duration-300 ${
-                            selectedService === service
-                              ? 'ring-2 ring-teal-400 border-teal-400 scale-105'
-                              : 'hover:ring-2 hover:ring-blue-300'
+                          key={item.globalIdx}
+                          onClick={() => handleFunctionSelect(item.globalIdx)}
+                          className={`w-full p-4 rounded-2xl border transition-all text-left flex items-center justify-between gap-4 ${
+                            isSelected
+                              ? 'border-cyan-400 bg-cyan-950/40 shadow-[0_0_20px_rgba(6,182,212,0.2)]'
+                              : 'border-slate-800 bg-slate-950/60 hover:border-slate-700 hover:bg-slate-900'
                           }`}
                         >
-                          <p className="text-base font-bold text-blue-700">{service}</p>
-                          <p className="text-xs text-gray-500">Service ciblé</p>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Métier */}
-                {selectedDirection && (
-                  <div ref={jobSectionRef} className="animate-in slide-in-from-bottom duration-300">
-                    <div className="flex items-center justify-center gap-3 mb-3">
-                      <span className="w-7 h-7 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-700 font-bold text-sm">3</span>
-                      <h3 className="text-base sm:text-lg font-bold text-slate-800 dark:text-white">Votre métier</h3>
-                    </div>
-                    <p className="text-sm sm:text-base text-amber-700 mb-3 font-semibold text-center">Si votre métier n'apparaît pas, aucune IFSE2 ne s'applique à votre profil.</p>
-
-                    <div className="flex items-center justify-between mb-2 max-w-2xl mx-auto">
-                      <p className="text-sm font-semibold text-emerald-700">{availableJobs.length} métier(s) disponible(s)</p>
-                      {selectedJob && (
-                        <p className="text-sm font-medium text-teal-700">Sélection: {selectedJob}</p>
-                      )}
-                    </div>
-
-                    {availableJobs.length > 6 && (
-                      <div className="flex justify-center mb-2">
-                        <button
-                          onClick={() => setCompactJobsView(v => !v)}
-                          className="px-3 py-1.5 rounded-lg text-xs border border-slate-200 text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:border-teal-300 transition-all"
-                        >
-                          {compactJobsView ? 'Vue detaillee' : 'Vue compacte'}
-                        </button>
-                      </div>
-                    )}
-
-                    <div className={`overflow-y-auto pr-1 teal-scrollbar max-w-2xl mx-auto ${compactJobsView ? 'max-h-64 space-y-1.5' : 'max-h-60 space-y-2'}`}>
-                      {availableJobs.map((job, idx) => (
-                        <button
-                          key={job}
-                          onClick={() => handleJobSelect(job)}
-                          style={{ animationDelay: `${Math.min(320, idx * 22)}ms` }}
-                          className={`group relative overflow-hidden w-full rounded-xl border-2 transition-all glass-card ${compactJobsView ? 'p-3' : 'p-3.5'} ${
-                            selectedJob === job
-                              ? 'bg-teal-50 border-teal-400 shadow-md ring-1 ring-teal-200'
-                              : 'bg-white dark:bg-slate-800 border-slate-200 hover:bg-slate-50 dark:bg-slate-900 hover:border-teal-300 hover:-translate-y-1 hover:scale-[1.01] hover:shadow-md'
-                          } animate-in fade-in duration-300`}
-                        >
-                          <div className="pointer-events-none absolute inset-0 bg-white dark:bg-slate-800/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                          <div className="flex flex-col items-center justify-center gap-1">
-                            <p className={`${compactJobsView ? 'text-sm' : 'text-base'} font-semibold text-center leading-snug transition-colors duration-300 ${selectedJob === job ? 'text-teal-900' : 'text-slate-800 dark:text-white group-hover:text-slate-900'}`}>{job}</p>
-                            {selectedJob === job && (
-                              <span className="inline-flex items-center gap-1 text-[11px] text-teal-800 bg-teal-100 border border-teal-300 rounded-full px-2 py-0.5">
-                                <CheckCircle2 className="w-3 h-3" />
-                                Sélectionné
-                              </span>
-                            )}
-                          </div>
-                        </button>
-                      ))}
-
-                      {availableJobs.length === 0 && (
-                        <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 text-center">
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Aucun métier disponible pour cette direction/service.</p>
-                        </div>
-                      )}
-                    </div>
-
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 italic">Si vous ne trouvez pas votre métier, contactez-nous.</p>
-                  </div>
-                )}
-
-                {/* Primes associées */}
-                {selectedJob && (
-                  <div ref={primesSectionRef} className="animate-in slide-in-from-bottom duration-300">
-                    <div className="mb-3 p-3 bg-teal-50 border border-teal-200 rounded-lg glass-card max-w-2xl mx-auto text-center shadow-sm">
-                      <p className="text-sm text-teal-700 font-semibold">
-                        {getDirectionFullName(selectedDirection)}
-                        {selectedService ? ` · ${selectedService}` : ' · Tous les services'}
-                      </p>
-                      <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 font-medium">
-                        {selectedJob} · {selectedIFSE2.size} prime(s) activée(s)
-                      </p>
-                    </div>
-                    <label className="text-sm text-slate-700 block font-semibold mb-3 text-center">Primes disponibles pour votre profil :</label>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
-                      {availablePrimesForSelectedJob.map((prime, idx) => (
-                        <button
-                          key={`${prime.motif}-${prime.realIdx}`}
-                          onClick={() => handleToggleIFSE2(prime.realIdx)}
-                          style={{ animationDelay: `${Math.min(260, idx * 24)}ms` }}
-                          className={`bg-white dark:bg-slate-800/90 rounded-xl shadow-sm border border-blue-200 p-4 transition-transform hover:scale-105 hover:shadow-md flex flex-col items-center text-center glass-card animate-in fade-in duration-300 ${
-                            selectedIFSE2.has(prime.realIdx)
-                              ? 'ring-2 ring-teal-400 border-teal-400 scale-105 shadow-md'
-                              : 'hover:ring-2 hover:ring-blue-300'
-                          }`}
-                        >
-                          <div className="flex flex-col items-center gap-2 w-full">
-                            <div className={`w-7 h-7 rounded-full flex items-center justify-center mb-1 ${selectedIFSE2.has(prime.realIdx) ? 'bg-teal-500 border-teal-500 border-2' : 'bg-blue-50 border border-blue-200'}`}> 
-                              {selectedIFSE2.has(prime.realIdx) && <span className="text-white text-base">✓</span>}
+                          <div className="flex items-center gap-3">
+                            <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${isSelected ? 'border-cyan-400 bg-cyan-400 text-slate-950' : 'border-slate-700'}`}>
+                              {isSelected && <span className="text-[10px] font-black">✓</span>}
                             </div>
-                            <p className="text-sm font-bold text-blue-700 leading-snug w-full break-words">{prime.motif}</p>
-                            <p className="text-xs text-gray-500 w-full break-words">{prime.service}</p>
-                            <span className="text-lg font-semibold text-green-600 mt-1 block">{prime.amount}€</span>
-                            {lastToggledPrimeIdx === prime.realIdx && (
-                              <span className={`text-[11px] font-medium ${lastToggleWasAdd ? 'text-emerald-600' : 'text-amber-600'} animate-pulse`}>
-                                {lastToggleWasAdd ? 'Ajoutée' : 'Retirée'}
-                              </span>
-                            )}
+                            <span className="text-sm font-extrabold text-white">{item.functionName}</span>
                           </div>
+                          <span className="text-base font-black text-cyan-400 font-mono">{item.amount}€/mois</span>
                         </button>
-                      ))}
-                    </div>
-                    {ifse2Amount > 0 && (
-                      <div className="mt-3 p-3 bg-teal-50 border border-teal-200 rounded-lg text-center glass-card max-w-2xl mx-auto shadow-sm">
-                        <span className="text-teal-700 font-medium">Total IFSE 2 : <strong className="text-teal-800">{ifse2Amount}€/mois</strong></span>
-                      </div>
-                    )}
-
-                    {availablePrimesForSelectedJob.length === 0 && (
-                      <div className="mt-3 p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 rounded-lg text-center glass-card max-w-2xl mx-auto">
-                        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Aucune prime IFSE2 trouvée pour ce métier avec ce filtre de service.</p>
-                      </div>
-                    )}
+                      )
+                    })}
                   </div>
-                )}
+                </div>
+              )}
 
-                {!selectedDirection && (
-                  <div className="p-4 bg-slate-50 dark:bg-slate-900 border border-slate-200 rounded-lg text-center glass-card">
-                    <p className="text-slate-600 dark:text-slate-300 text-sm font-medium">Sélectionnez votre direction pour voir les primes disponibles</p>
-                    <p className="text-xs text-slate-400 mt-1">Cette étape est optionnelle, vous pouvez passer directement à la suivante</p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* ÉTAPE 4: Week-ends */}
-            {currentStep === 4 && (
-              <div className="space-y-6 animate-in fade-in duration-500">
-                <div className="grid grid-cols-2 gap-4">
+              {/* ÉTAPE 3: Direction & Métier (IFSE 2) */}
+              {currentStep === 3 && (
+                <div className="space-y-6">
+                  {/* Directions */}
                   <div>
-                    <label className="text-sm text-slate-700 block font-semibold mb-2">Samedis travaillés / mois</label>
-                    <div className="flex items-center gap-2 mb-2">
-                      {[0, 1, 2, 3, 4, 5].map(n => (
-                        <button
-                          key={n}
-                          onClick={() => setWeekendSaturdays(n)}
-                          className={`w-10 h-10 rounded-lg font-bold transition-all glass-pill shadow-sm border ${
-                            weekendSaturdays === n
-                              ? 'bg-purple-500 text-white border-purple-500 shadow-md'
-                              : 'bg-white dark:bg-slate-800 border-slate-200 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:bg-slate-900 hover:border-purple-300'
-                          }`}
-                        >
-                          {n}
-                        </button>
-                      ))}
+                    <h4 className="text-xs font-black uppercase tracking-wider text-slate-400 mb-3 font-mono">1. Choisissez votre Direction</h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-h-56 overflow-y-auto pr-1">
+                      {allDirections.map(dir => {
+                        const isSelected = selectedDirection === dir
+                        const visual = getDirectionVisual(dir)
+                        const DirIcon = visual.icon
+
+                        return (
+                          <button
+                            key={dir}
+                            onClick={() => handleDirectionSelect(dir)}
+                            className={`p-3 rounded-2xl border transition-all text-left flex items-center gap-2.5 ${
+                              isSelected
+                                ? 'border-teal-400 bg-teal-950/50 shadow-[0_0_15px_rgba(20,184,166,0.3)]'
+                                : 'border-slate-800 bg-slate-950/60 hover:border-slate-700'
+                            }`}
+                          >
+                            <div className={`p-2 rounded-xl border ${visual.colorClass} shrink-0`}>
+                              <DirIcon className="w-4 h-4" />
+                            </div>
+                            <div className="min-w-0">
+                              <span className="font-bold text-white text-xs block truncate">{dir}</span>
+                              <span className="text-[10px] text-slate-400 truncate block">{getDirectionFullName(dir)}</span>
+                            </div>
+                          </button>
+                        )
+                      })}
                     </div>
-                    <label className="text-xs text-slate-500 dark:text-slate-400 block font-medium mb-1">Forfait par samedi :</label>
-                    <select
-                      value={weekendRateSat}
-                      onChange={e => setWeekendRateSat(Number(e.target.value))}
-                      className="w-full px-2 py-2 rounded-lg border border-purple-200 bg-white dark:bg-slate-800 text-slate-700 text-sm glass-pill shadow-sm focus:border-purple-400 focus:ring-1 focus:ring-purple-400 outline-none"
-                    >
-                      {[40, 60, 80].map(rate => (
-                        <option key={rate} value={rate}>{rate} €</option>
-                      ))}
-                    </select>
-                    {weekendSaturdays > 0 && (
-                      <p className="text-purple-700 font-semibold text-sm mt-2">{weekendSaturdays} × {weekendRateSat}€ = {weekendSaturdays * weekendRateSat}€</p>
-                    )}
                   </div>
-                  <div>
-                    <label className="text-sm text-slate-700 block font-semibold mb-2">Dimanches travaillés / mois</label>
-                    <div className="flex items-center gap-2 mb-2">
-                      {[0, 1, 2, 3, 4, 5].map(n => (
+
+                  {/* Services */}
+                  {selectedDirection && availableServices.length > 0 && (
+                    <div ref={serviceSectionRef} className="pt-2 border-t border-slate-800">
+                      <h4 className="text-xs font-black uppercase tracking-wider text-slate-400 mb-2 font-mono">2. Filtrer par Service (Optionnel)</h4>
+                      <div className="flex flex-wrap gap-2">
                         <button
-                          key={n}
-                          onClick={() => setWeekendSundays(n)}
-                          className={`w-10 h-10 rounded-lg font-bold transition-all glass-pill shadow-sm border ${
-                            weekendSundays === n
-                              ? 'bg-purple-500 text-white border-purple-500 shadow-md'
-                              : 'bg-white dark:bg-slate-800 border-slate-200 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:bg-slate-900 hover:border-purple-300'
-                          }`}
+                          onClick={() => handleServiceSelect('')}
+                          className={`px-3 py-1.5 rounded-xl border text-xs font-bold transition-all ${selectedService === '' ? 'border-teal-400 bg-teal-500/20 text-teal-300' : 'border-slate-800 bg-slate-950 text-slate-400'}`}
                         >
-                          {n}
+                          Tous services
                         </button>
-                      ))}
-                    </div>
-                    <label className="text-xs text-slate-500 dark:text-slate-400 block font-medium mb-1">Forfait par dimanche :</label>
-                    <select
-                      value={weekendRateSun}
-                      onChange={e => setWeekendRateSun(Number(e.target.value))}
-                      className="w-full px-2 py-2 rounded-lg border border-purple-200 bg-white dark:bg-slate-800 text-slate-700 text-sm glass-pill shadow-sm focus:border-purple-400 focus:ring-1 focus:ring-purple-400 outline-none"
-                    >
-                      {[40, 60, 80].map(rate => (
-                        <option key={rate} value={rate}>{rate} €</option>
-                      ))}
-                    </select>
-                    {weekendSundays > 0 && (
-                      <p className="text-purple-700 font-semibold text-sm mt-2">{weekendSundays} × {weekendRateSun}€ = {weekendSundays * weekendRateSun}€</p>
-                    )}
-                  </div>
-                </div>
-                {ifse3Total > 0 && (
-                  <div className="p-4 bg-purple-50 border border-purple-200 rounded-xl text-center glass-card shadow-sm">
-                    <p className="text-purple-700 font-medium">Total IFSE 3 : <strong className="text-xl font-bold">{ifse3Total}€/mois</strong></p>
-                  </div>
-                )}
-                {ifse3Total === 0 && (
-                  <div className="p-4 bg-slate-50 dark:bg-slate-900 border border-slate-200 rounded-lg text-center glass-card">
-                    <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Vous ne travaillez pas les week-ends ? Pas de souci, passez à l'étape suivante.</p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* ÉTAPE 5: Primes spéciales */}
-            {currentStep === 5 && (
-              <div className="space-y-4 animate-in fade-in duration-500">
-                <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 font-medium">Cochez les primes particulières qui s'appliquent à votre situation :</p>
-                <div className="space-y-3">
-                  {specialPrimesData.map((prime, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => handleToggleSpecialPrime(idx)}
-                      className={`w-full p-4 rounded-xl text-left transition-all border glass-card ${
-                        selectedSpecialPrimes.has(idx)
-                          ? 'bg-orange-50 border-orange-300 shadow-md ring-1 ring-orange-200'
-                          : 'bg-white dark:bg-slate-800 border-slate-200 hover:bg-slate-50 dark:bg-slate-900 hover:border-orange-200 shadow-sm'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-6 h-6 rounded border-2 flex items-center justify-center ${
-                            selectedSpecialPrimes.has(idx) ? 'bg-orange-500 border-orange-500' : 'border-slate-300'
-                          }`}>
-                            {selectedSpecialPrimes.has(idx) && <span className="text-white text-sm">✓</span>}
-                          </div>
-                          <div>
-                            <p className="text-slate-800 dark:text-white font-semibold">{prime.name}</p>
-                            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">{prime.desc}</p>
-                          </div>
-                        </div>
-                        <span className="text-orange-600 font-bold text-lg">{prime.amount}€</span>
+                        {availableServices.map(service => (
+                          <button
+                            key={service}
+                            onClick={() => handleServiceSelect(service)}
+                            className={`px-3 py-1.5 rounded-xl border text-xs font-bold transition-all ${selectedService === service ? 'border-teal-400 bg-teal-500/20 text-teal-300' : 'border-slate-800 bg-slate-950 text-slate-400'}`}
+                          >
+                            {service}
+                          </button>
+                        ))}
                       </div>
-                    </button>
-                  ))}
-                </div>
-                
-                {specialPrimesAmount > 0 && (
-                  <div className="p-4 bg-orange-50 border border-orange-200 rounded-xl text-center glass-card shadow-sm">
-                    <p className="text-orange-700 font-medium">Total primes spéciales : <strong className="text-xl font-bold">{specialPrimesAmount}€/mois</strong></p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* ÉTAPE 6: Résultat */}
-            {currentStep === 6 && (
-              <div className="space-y-6 animate-in fade-in duration-500">
-                <div className="text-center mb-6">
-                  <Sparkles className="w-12 h-12 text-green-500 mx-auto mb-3" />
-                  <h3 className="text-2xl font-bold text-slate-800 dark:text-white">Votre estimation</h3>
-                  <p className="text-slate-600 dark:text-slate-300 font-medium">Récapitulatif de vos primes mensuelles</p>
-                  <p className="text-base font-bold text-amber-600 text-center mt-2">
-                    ⚠️ ATTENTION : si vous avez un montant réel supérieur, vous avez sans doute une IFSE 4 (avantage acquis / négociation)
-                  </p>
-                </div>
-
-                <div className="space-y-3">
-                  {ifse1Amount > 0 && (
-                    <div className="flex justify-between items-center p-4 bg-blue-50 rounded-xl border border-blue-200 shadow-sm">
-                      <div>
-                        <p className="text-blue-700 font-semibold">IFSE 1 - Prime de fonction</p>
-                        <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">{selectedFunctionIndex !== null ? ifse1Data[selectedFunctionIndex].function : ''}</p>
-                      </div>
-                      <span className="text-2xl font-bold text-blue-700">{ifse1Amount}€</span>
                     </div>
                   )}
-                  
-                  {ifse2Amount > 0 && (
-                    <div className="flex justify-between items-center p-4 bg-teal-50 rounded-xl border border-teal-200 shadow-sm">
-                      <div>
-                        <p className="text-teal-700 font-semibold">IFSE 2 - Primes de sujétion</p>
-                        <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">{selectedIFSE2.size} prime(s) sélectionnée(s)</p>
+
+                  {/* Jobs */}
+                  {selectedDirection && (
+                    <div ref={jobSectionRef} className="pt-2 border-t border-slate-800">
+                      <h4 className="text-xs font-black uppercase tracking-wider text-slate-400 mb-2 font-mono">3. Sélectionnez votre Métier</h4>
+                      <div className="max-h-48 overflow-y-auto pr-1 space-y-2">
+                        {availableJobs.map(job => {
+                          const isSelected = selectedJob === job
+                          return (
+                            <button
+                              key={job}
+                              onClick={() => handleJobSelect(job)}
+                              className={`w-full p-3 rounded-2xl border text-left flex justify-between items-center text-xs transition-all ${
+                                isSelected
+                                  ? 'border-teal-400 bg-teal-950/40 text-white font-bold shadow-[0_0_15px_rgba(20,184,166,0.2)]'
+                                  : 'border-slate-800 bg-slate-950 text-slate-300 hover:border-slate-700'
+                              }`}
+                            >
+                              <span>{job}</span>
+                              {isSelected && <CheckCircle2 className="w-4 h-4 text-teal-400" />}
+                            </button>
+                          )
+                        })}
                       </div>
-                      <span className="text-2xl font-bold text-teal-700">{ifse2Amount}€</span>
                     </div>
                   )}
-                  
+
+                  {/* Available Primes List */}
+                  {selectedJob && (
+                    <div ref={primesSectionRef} className="pt-4 border-t border-slate-800">
+                      <h4 className="text-xs font-black uppercase tracking-wider text-teal-400 mb-3 font-mono">Primes de sujétion applicables (IFSE 2)</h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {availablePrimesForSelectedJob.map(prime => {
+                          const isSelected = selectedIFSE2.has(prime.realIdx)
+                          return (
+                            <button
+                              key={`${prime.motif}-${prime.realIdx}`}
+                              onClick={() => handleToggleIFSE2(prime.realIdx)}
+                              className={`p-3.5 rounded-2xl border text-left transition-all ${
+                                isSelected
+                                  ? 'border-teal-400 bg-teal-950/40 shadow-[0_0_15px_rgba(20,184,166,0.2)]'
+                                  : 'border-slate-800 bg-slate-950 opacity-60 hover:opacity-100'
+                              }`}
+                            >
+                              <div className="flex justify-between items-start mb-1">
+                                <span className="font-bold text-white text-xs">{prime.motif}</span>
+                                <span className="text-emerald-400 font-mono font-black text-xs">+{prime.amount}€</span>
+                              </div>
+                              <span className="text-[10px] text-slate-400 block">{prime.service}</span>
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+              )}
+
+              {/* ÉTAPE 4: Week-ends (IFSE 3) */}
+              {currentStep === 4 && (
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {/* Samedis */}
+                    <div className="bg-slate-950 p-5 rounded-3xl border border-slate-800">
+                      <label className="text-xs font-bold text-slate-300 block mb-3 uppercase tracking-wider font-mono">
+                        Samedis travaillés / mois
+                      </label>
+                      <div className="flex gap-2 mb-4">
+                        {[0, 1, 2, 3, 4, 5].map(n => (
+                          <button
+                            key={n}
+                            onClick={() => setWeekendSaturdays(n)}
+                            className={`flex-1 py-2.5 rounded-xl font-bold font-mono text-xs border transition-all ${
+                              weekendSaturdays === n
+                                ? 'bg-purple-500 text-white border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)]'
+                                : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+                            }`}
+                          >
+                            {n}
+                          </button>
+                        ))}
+                      </div>
+                      <label className="text-[11px] text-slate-400 block mb-1">Forfait par samedi :</label>
+                      <select
+                        value={weekendRateSat}
+                        onChange={e => setWeekendRateSat(Number(e.target.value))}
+                        className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-purple-400 font-mono"
+                      >
+                        {[40, 60, 80].map(r => (
+                          <option key={r} value={r}>{r} € / samedi</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Dimanches */}
+                    <div className="bg-slate-950 p-5 rounded-3xl border border-slate-800">
+                      <label className="text-xs font-bold text-slate-300 block mb-3 uppercase tracking-wider font-mono">
+                        Dimanches travaillés / mois
+                      </label>
+                      <div className="flex gap-2 mb-4">
+                        {[0, 1, 2, 3, 4, 5].map(n => (
+                          <button
+                            key={n}
+                            onClick={() => setWeekendSundays(n)}
+                            className={`flex-1 py-2.5 rounded-xl font-bold font-mono text-xs border transition-all ${
+                              weekendSundays === n
+                                ? 'bg-purple-500 text-white border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)]'
+                                : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+                            }`}
+                          >
+                            {n}
+                          </button>
+                        ))}
+                      </div>
+                      <label className="text-[11px] text-slate-400 block mb-1">Forfait par dimanche :</label>
+                      <select
+                        value={weekendRateSun}
+                        onChange={e => setWeekendRateSun(Number(e.target.value))}
+                        className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-purple-400 font-mono"
+                      >
+                        {[40, 60, 80].map(r => (
+                          <option key={r} value={r}>{r} € / dimanche</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
                   {ifse3Total > 0 && (
-                    <div className="flex justify-between items-center p-4 bg-purple-50 rounded-xl border border-purple-200 shadow-sm">
-                      <div>
-                        <p className="text-purple-700 font-semibold">IFSE 3 - Week-ends</p>
-                        <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">{weekendSaturdays} sam. + {weekendSundays} dim.</p>
-                      </div>
-                      <span className="text-2xl font-bold text-purple-700">{ifse3Total}€</span>
-                    </div>
-                  )}
-                  
-                  {specialPrimesAmount > 0 && (
-                    <div className="flex justify-between items-center p-4 bg-orange-50 rounded-xl border border-orange-200 shadow-sm">
-                      <div>
-                        <p className="text-orange-700 font-semibold">Primes particulières</p>
-                        <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">{selectedSpecialPrimes.size} prime(s)</p>
-                      </div>
-                      <span className="text-2xl font-bold text-orange-700">{specialPrimesAmount}€</span>
+                    <div className="p-4 bg-purple-500/10 border border-purple-500/30 rounded-2xl text-center">
+                      <span className="text-purple-300 font-bold text-xs font-mono">
+                        Total IFSE 3 (Week-ends) : <b className="text-purple-200 text-base">{ifse3Total}€/mois</b>
+                      </span>
                     </div>
                   )}
                 </div>
+              )}
 
-                <BorderGlow glowColor="from-emerald-500 via-green-400 to-teal-500">
-                  <div className="p-6 text-center">
-                    <p className="text-emerald-400 text-xs font-bold tracking-widest uppercase mb-1">
-                      <ShinyText text="TOTAL MENSUEL ESTIMÉ" color="#34d399" shineColor="#ffffff" speed={2} />
-                    </p>
-                    <p className="text-5xl font-extrabold text-white my-2">
-                      {totalMonthly.toLocaleString('fr-FR')}€
-                    </p>
-                    <p className="text-slate-300 text-sm font-medium">
-                      Soit environ <strong className="text-emerald-400 font-bold">{(totalMonthly * 12).toLocaleString('fr-FR')}€</strong> par an
-                    </p>
+              {/* ÉTAPE 5: Primes spéciales */}
+              {currentStep === 5 && (
+                <div className="space-y-4">
+                  <div className="space-y-2.5">
+                    {specialPrimesData.map((prime, idx) => {
+                      const isSelected = selectedSpecialPrimes.has(idx)
+                      return (
+                        <button
+                          key={idx}
+                          onClick={() => handleToggleSpecialPrime(idx)}
+                          className={`w-full p-4 rounded-2xl border transition-all text-left flex items-center justify-between ${
+                            isSelected
+                              ? 'border-amber-400 bg-amber-950/40 shadow-[0_0_15px_rgba(245,158,11,0.2)]'
+                              : 'border-slate-800 bg-slate-950 opacity-70 hover:opacity-100'
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className={`w-5 h-5 rounded-md border flex items-center justify-center ${isSelected ? 'bg-amber-400 border-amber-400 text-slate-950' : 'border-slate-700'}`}>
+                              {isSelected && <span className="text-[10px] font-black">✓</span>}
+                            </div>
+                            <div>
+                              <h4 className="font-bold text-white text-xs">{prime.name}</h4>
+                              <p className="text-[11px] text-slate-400">{prime.desc}</p>
+                            </div>
+                          </div>
+                          <span className="text-amber-400 font-mono font-black text-sm">+{prime.amount}€</span>
+                        </button>
+                      )
+                    })}
                   </div>
-                </BorderGlow>
+                </div>
+              )}
 
+              {/* ÉTAPE 6: Résultat Dashboard */}
+              {currentStep === 6 && (
+                <div className="space-y-6">
+                  
+                  {/* Hero Result Banner */}
+                  <BorderGlow glowColor="from-cyan-500 via-emerald-400 to-teal-500">
+                    <div className="p-8 text-center bg-slate-950/90 rounded-3xl">
+                      <p className="text-cyan-400 text-xs font-bold tracking-widest uppercase mb-1 font-mono">
+                        <ShinyText text="TOTAL RIFSEEP ESTIMÉ" color="#22d3ee" shineColor="#ffffff" speed={2} />
+                      </p>
+                      <p className="text-5xl sm:text-6xl font-black text-white font-mono tracking-tight my-2">
+                        {totalMonthly.toLocaleString('fr-FR')}€<span className="text-lg text-slate-400 font-normal">/mois</span>
+                      </p>
+                      <p className="text-slate-300 text-xs sm:text-sm font-medium">
+                        Soit une enveloppe annuelle d'environ <strong className="text-cyan-300 font-bold">{(totalMonthly * 12).toLocaleString('fr-FR')}€</strong>
+                      </p>
+                    </div>
+                  </BorderGlow>
 
-                <div className="flex gap-3">
+                  {/* Detailed breakdown list */}
+                  <div className="space-y-3">
+                    {ifse1Amount > 0 && (
+                      <div className="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex justify-between items-center">
+                        <div>
+                          <span className="text-xs font-bold text-blue-300 uppercase tracking-wider font-mono block">IFSE 1 - Socle Fixe</span>
+                          <span className="text-sm font-bold text-white">{ifse1Data[selectedFunctionIndex!].function}</span>
+                        </div>
+                        <span className="text-xl font-black text-blue-400 font-mono">+{ifse1Amount}€</span>
+                      </div>
+                    )}
+
+                    {ifse2Amount > 0 && (
+                      <div className="p-4 rounded-2xl bg-teal-500/10 border border-teal-500/30 flex justify-between items-center">
+                        <div>
+                          <span className="text-xs font-bold text-teal-300 uppercase tracking-wider font-mono block">IFSE 2 - Primes de Sujétion</span>
+                          <span className="text-xs text-slate-300">{selectedIFSE2.size} prime(s) active(s) sur {selectedJob}</span>
+                        </div>
+                        <span className="text-xl font-black text-teal-400 font-mono">+{ifse2Amount}€</span>
+                      </div>
+                    )}
+
+                    {ifse3Total > 0 && (
+                      <div className="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex justify-between items-center">
+                        <div>
+                          <span className="text-xs font-bold text-purple-300 uppercase tracking-wider font-mono block">IFSE 3 - Week-ends</span>
+                          <span className="text-xs text-slate-300">{weekendSaturdays} samedi(s) + {weekendSundays} dimanche(s)</span>
+                        </div>
+                        <span className="text-xl font-black text-purple-400 font-mono">+{ifse3Total}€</span>
+                      </div>
+                    )}
+
+                    {specialPrimesAmount > 0 && (
+                      <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex justify-between items-center">
+                        <div>
+                          <span className="text-xs font-bold text-amber-300 uppercase tracking-wider font-mono block">Primes Spéciales</span>
+                          <span className="text-xs text-slate-300">{selectedSpecialPrimes.size} prime(s) sélectionnée(s)</span>
+                        </div>
+                        <span className="text-xl font-black text-amber-400 font-mono">+{specialPrimesAmount}€</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Warning */}
+                  <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3 text-amber-300 text-xs">
+                    <ShieldAlert className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                    <div>
+                      <b>Remarque :</b> Si votre montant réel sur fiche de paie est supérieur, vous bénéficiez sans doute d'une garantie d'avantage acquis (IFSE 4 / négociation historique).
+                    </div>
+                  </div>
+
                   <button
                     onClick={resetCalculator}
-                    className="flex-1 px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-800 dark:text-white rounded-xl font-semibold transition-all"
+                    className="w-full py-4 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2"
                   >
-                    Recommencer
+                    <RotateCcw className="w-4 h-4" /> Recommencer un calcul
                   </button>
-                  {onClose && (
-                    <button
-                      onClick={onClose}
-                      className="flex-1 px-6 py-3 bg-green-600 hover:bg-green-500 text-white rounded-xl font-semibold transition-all shadow-md"
-                    >
-                      Terminer
-                    </button>
-                  )}
-                </div>
 
-                <p className="text-base font-bold text-amber-600 text-center mt-4">
-                  ⚠️ Ce calcul est indicatif. Pour une estimation précise, contactez le service RH.
-                </p>
+                </div>
+              )}
+
+            </div>
+
+            {/* Navigation Bar */}
+            {currentStep < 6 && (
+              <div ref={navigationSectionRef} className="flex items-center justify-between gap-4 mt-6">
+                <button
+                  onClick={goPrev}
+                  disabled={!canGoPrev()}
+                  className={`px-6 py-3.5 rounded-2xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all ${
+                    canGoPrev()
+                      ? 'bg-slate-800 hover:bg-slate-700 text-white shadow-sm'
+                      : 'opacity-40 cursor-not-allowed bg-slate-900 text-slate-500 border border-slate-800'
+                  }`}
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  Précédent
+                </button>
+
+                <button
+                  onClick={goNext}
+                  disabled={!canGoNext()}
+                  className={`px-8 py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider flex items-center gap-2 transition-all ${
+                    canGoNext()
+                      ? 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:scale-105 active:scale-95'
+                      : 'opacity-40 cursor-not-allowed bg-slate-900 text-slate-500 border border-slate-800'
+                  }`}
+                >
+                  {currentStep === 5 ? 'Résultat' : 'Suivant'}
+                  <ChevronRight className="w-4 h-4" />
+                </button>
               </div>
             )}
+
           </div>
-
-          {/* Boutons de navigation */}
-          {currentStep < 6 && (
-            <div ref={navigationSectionRef} className="flex flex-col-reverse mt-6 gap-3 sm:flex-row sm:justify-between sm:gap-4">
-              <button
-                onClick={goPrev}
-                disabled={!canGoPrev()}
-                className={`flex w-full items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all sm:w-auto ${
-                  canGoPrev()
-                    ? 'bg-slate-200 hover:bg-slate-300 text-slate-800 dark:text-white'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-400 border border-slate-200 cursor-not-allowed'
-                }`}
-              >
-                <ChevronLeft className="w-5 h-5" />
-                Précédent
-              </button>
-              
-              <button
-                onClick={goNext}
-                disabled={!canGoNext()}
-                className={`flex w-full items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all sm:w-auto ${
-                  canGoNext()
-                    ? `bg-gradient-to-r ${stepColor.bg} hover:opacity-90 text-white shadow-md`
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-400 border border-slate-200 cursor-not-allowed'
-                }`}
-              >
-                {currentStep === 5 ? 'Voir le résultat' : 'Suivant'}
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-          )}
-
-          {/* Skip pour les étapes optionnelles */}
-          {(currentStep === 3 || currentStep === 4 || currentStep === 5) && (
-            <div className="text-center mt-4">
-              <button
-                onClick={goNext}
-                className="text-sm font-medium text-slate-400 hover:text-slate-600 dark:text-slate-300 transition-colors"
-              >
-                Passer cette étape →
-              </button>
-            </div>
-          )}
         </div>
+
       </div>
+
     </div>
   )
 }

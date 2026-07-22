@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { ArrowLeft, Play, AlertTriangle, RotateCcw, Trophy, Shield, Crosshair, Zap, Coins, Heart } from 'lucide-react';
+import { ArrowLeft, Play, AlertTriangle, RotateCcw, Trophy, Shield, Crosshair, Zap, Coins, Heart, FastForward, Sparkles, Volume2, VolumeX, Target, Award } from 'lucide-react';
 
 interface TowerDefenseProps {
   onClose: () => void;
@@ -30,32 +30,40 @@ const WAYPOINTS = [
 ];
 
 const TOWER_TYPES = {
-  1: { name: "Chargé de Recrutement", cost: 40, range: 100, damage: 15, fireRate: 30, color: "#3b82f6", desc: "Tir rapide, dégâts moyens." },
-  2: { name: "Budget Contractuel", cost: 100, range: 120, damage: 50, fireRate: 90, splash: 60, color: "#ef4444", desc: "Tir très lent, gros dégâts de zone." },
-  3: { name: "Redéploiement", cost: 60, range: 100, damage: 5, fireRate: 60, slowDuration: 120, color: "#8b5cf6", desc: "Ralentit fortement les cibles." }
+  1: { id: 1, name: "Chargé de Recrutement", cost: 40, range: 110, damage: 16, fireRate: 28, color: "#3b82f6", glowColor: "rgba(59, 130, 246, 0.6)", desc: "Tir rapide de dossiers CV. Efficace contre les petites vagues." },
+  2: { id: 2, name: "Budget Contractuel", cost: 100, range: 135, damage: 55, fireRate: 85, splash: 65, color: "#ef4444", glowColor: "rgba(239, 68, 68, 0.6)", desc: "Tir de pièces d'or lourdes. Dégâts de zone dévastateurs." },
+  3: { id: 3, name: "Redéploiement", cost: 60, range: 115, damage: 6, fireRate: 50, slowDuration: 120, color: "#a855f7", glowColor: "rgba(168, 85, 247, 0.6)", desc: "Onde de choc administrative. Ralentit fortement les cibles." }
 };
 
 const ENEMY_TYPES = {
-  cumul: { name: "Cumul", maxHp: 81, speed: 1.2, reward: 5, color: "#f59e0b", radius: 10 },
-  retraite: { name: "Retraite", maxHp: 405, speed: 0.6, reward: 15, color: "#10b981", radius: 14 },
-  saisonnier: { name: "Pic Saisonnier", maxHp: 63, speed: 2.2, reward: 4, color: "#ec4899", radius: 8 }
+  cumul: { name: "Cumul d'Emplois", maxHp: 85, speed: 1.25, reward: 5, color: "#f59e0b", radius: 11, label: "DOSSIER CUMUL" },
+  retraite: { name: "Départ Retraite Non Anticipé", maxHp: 420, speed: 0.65, reward: 15, color: "#10b981", radius: 15, label: "DOSSIER RETRAITE" },
+  saisonnier: { name: "Urgence Pic Saisonnier", maxHp: 65, speed: 2.3, reward: 4, color: "#ec4899", radius: 9, label: "URGENCE RH" }
 };
 
 const WAVES = [
   { count: 10, type: "cumul", interval: 60 },
-  { count: 15, type: "cumul", interval: 50 },
-  { count: 10, type: "cumul", interval: 40 },
-  { count: 5, type: "retraite", interval: 100 },
-  { count: 20, type: "saisonnier", interval: 30 },
-  { count: 10, type: "cumul", interval: 40 }, // wave 6 starts mixing manually in spawner
+  { count: 16, type: "cumul", interval: 48 },
+  { count: 12, type: "cumul", interval: 38 },
+  { count: 6, type: "retraite", interval: 95 },
+  { count: 22, type: "saisonnier", interval: 28 },
+  { count: 12, type: "cumul", interval: 35 },
+  { count: 15, type: "saisonnier", interval: 25 },
+  { count: 12, type: "retraite", interval: 80 },
+  { count: 25, type: "saisonnier", interval: 22 },
+  { count: 35, type: "mixed", interval: 20 },
 ];
 
-interface Tower { x: number; y: number; c: number; r: number; type: number; cooldown: number; level: number; }
-interface Enemy { id: string; x: number; y: number; type: string; hp: number; maxHp: number; speed: number; reward: number; color: string; radius: number; waypointIndex: number; slowTimer: number; }
+interface Tower { x: number; y: number; c: number; r: number; type: number; cooldown: number; level: number; totalKills: number; }
+interface Enemy { id: string; x: number; y: number; type: string; hp: number; maxHp: number; speed: number; reward: number; color: string; radius: number; waypointIndex: number; slowTimer: number; hitFlash: number; }
 interface Projectile { x: number; y: number; targetId: string; speed: number; damage: number; splash?: number; slowDuration?: number; color: string; }
-interface Particle { x: number; y: number; vx: number; vy: number; life: number; color: string; size: number; }
+interface Particle { x: number; y: number; vx: number; vy: number; life: number; maxLife: number; color: string; size: number; }
+interface FloatingText { id: string; x: number; y: number; text: string; color: string; life: number; vy: number; }
+
+let isMutedGlobal = false;
 
 const playTDSound = (type: "shoot" | "place" | "hit" | "damage" | "wave" | "gameover" | "victory") => {
+  if (isMutedGlobal) return;
   try {
     // @ts-ignore
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -70,31 +78,31 @@ const playTDSound = (type: "shoot" | "place" | "hit" | "damage" | "wave" | "game
 
     if (type === "shoot") {
       osc.type = "sine";
-      osc.frequency.setValueAtTime(400, now);
-      osc.frequency.exponentialRampToValueAtTime(100, now + 0.1);
+      osc.frequency.setValueAtTime(450, now);
+      osc.frequency.exponentialRampToValueAtTime(120, now + 0.08);
       gain.gain.setValueAtTime(0.06, now);
-      gain.gain.linearRampToValueAtTime(0.01, now + 0.1);
+      gain.gain.linearRampToValueAtTime(0.001, now + 0.08);
       osc.start(now);
-      osc.stop(now + 0.1);
+      osc.stop(now + 0.08);
     } else if (type === "place") {
-      osc.type = "square";
-      osc.frequency.setValueAtTime(150, now);
-      osc.frequency.setValueAtTime(300, now + 0.08);
-      gain.gain.setValueAtTime(0.08, now);
-      gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
-      osc.start(now);
-      osc.stop(now + 0.2);
-    } else if (type === "hit") {
       osc.type = "triangle";
-      osc.frequency.setValueAtTime(120, now);
-      gain.gain.setValueAtTime(0.04, now);
-      gain.gain.linearRampToValueAtTime(0.01, now + 0.05);
+      osc.frequency.setValueAtTime(180, now);
+      osc.frequency.setValueAtTime(360, now + 0.07);
+      gain.gain.setValueAtTime(0.1, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.18);
       osc.start(now);
-      osc.stop(now + 0.05);
+      osc.stop(now + 0.18);
+    } else if (type === "hit") {
+      osc.type = "square";
+      osc.frequency.setValueAtTime(140, now);
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.04);
+      osc.start(now);
+      osc.stop(now + 0.04);
     } else if (type === "damage") {
       osc.type = "sawtooth";
-      osc.frequency.setValueAtTime(120, now);
-      osc.frequency.setValueAtTime(80, now + 0.15);
+      osc.frequency.setValueAtTime(140, now);
+      osc.frequency.setValueAtTime(70, now + 0.15);
       gain.gain.setValueAtTime(0.15, now);
       gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
       osc.start(now);
@@ -102,15 +110,15 @@ const playTDSound = (type: "shoot" | "place" | "hit" | "damage" | "wave" | "game
     } else if (type === "wave") {
       osc.type = "sawtooth";
       osc.frequency.setValueAtTime(220, now);
-      osc.frequency.linearRampToValueAtTime(440, now + 0.5);
-      gain.gain.setValueAtTime(0.1, now);
-      gain.gain.linearRampToValueAtTime(0.01, now + 0.5);
+      osc.frequency.linearRampToValueAtTime(520, now + 0.4);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.4);
       osc.start(now);
-      osc.stop(now + 0.5);
+      osc.stop(now + 0.4);
     } else if (type === "gameover") {
       osc.type = "sawtooth";
-      osc.frequency.setValueAtTime(200, now);
-      osc.frequency.linearRampToValueAtTime(40, now + 0.8);
+      osc.frequency.setValueAtTime(240, now);
+      osc.frequency.linearRampToValueAtTime(50, now + 0.8);
       gain.gain.setValueAtTime(0.18, now);
       gain.gain.linearRampToValueAtTime(0.01, now + 0.8);
       osc.start(now);
@@ -128,67 +136,90 @@ const playTDSound = (type: "shoot" | "place" | "hit" | "damage" | "wave" | "game
       osc.stop(now + 0.55);
     }
   } catch (e) {
-    console.warn("Blocked by browser audio policies", e);
+    // Ignore audio policy errors
   }
 };
 
 const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  
+
   const [gameState, setGameState] = useState<"ready" | "playing" | "gameover" | "victory">("ready");
-  const [budget, setBudget] = useState(150);
+  const [budget, setBudget] = useState(125);
   const [health, setHealth] = useState(20);
   const [wave, setWave] = useState(0);
+  const [totalKills, setTotalKills] = useState(0);
   const [selectedTower, setSelectedTower] = useState<number>(1);
-  const [hoverTile, setHoverTile] = useState<{c: number, r: number} | null>(null);
+  const [hoverTile, setHoverTile] = useState<{ c: number; r: number } | null>(null);
+  const [gameSpeed, setGameSpeed] = useState<1 | 2>(1);
+  const [isMuted, setIsMuted] = useState(false);
+
+  // Sync global mute
+  useEffect(() => {
+    isMutedGlobal = isMuted;
+  }, [isMuted]);
 
   // Game Engine Refs
   const towersRef = useRef<Tower[]>([]);
   const enemiesRef = useRef<Enemy[]>([]);
   const projectilesRef = useRef<Projectile[]>([]);
   const particlesRef = useRef<Particle[]>([]);
+  const floatingTextsRef = useRef<FloatingText[]>([]);
   const enemyIdCounter = useRef(0);
-  
+  const textIdCounter = useRef(0);
+
   // Wave Logic Refs
   const waveActiveRef = useRef(false);
   const spawnTimerRef = useRef(0);
-  const enemiesToSpawnRef = useRef<{type: string}[]>([]);
+  const enemiesToSpawnRef = useRef<{ type: string }[]>([]);
 
   const initGame = useCallback(() => {
     towersRef.current = [];
     enemiesRef.current = [];
     projectilesRef.current = [];
     particlesRef.current = [];
+    floatingTextsRef.current = [];
     waveActiveRef.current = false;
     enemiesToSpawnRef.current = [];
-    
-    setBudget(150);
+
+    setBudget(125);
     setHealth(20);
     setWave(0);
+    setTotalKills(0);
     setGameState("playing");
   }, []);
 
+  const addFloatingText = (x: number, y: number, text: string, color: string) => {
+    floatingTextsRef.current.push({
+      id: `txt_${textIdCounter.current++}`,
+      x: x + (Math.random() - 0.5) * 12,
+      y: y - 10,
+      text,
+      color,
+      life: 35,
+      vy: -1.2
+    });
+  };
+
   const startWave = () => {
     if (waveActiveRef.current || wave >= 10 || gameState !== "playing") return;
-    
+
     const wIdx = Math.min(wave, WAVES.length - 1);
     const waveData = WAVES[wIdx];
-    
-    let toSpawn: {type: string}[] = [];
-    
-    // Custom logic for later waves
+
+    let toSpawn: { type: string }[] = [];
+
     if (wave === 5) {
-      toSpawn = Array(10).fill({type: "saisonnier"}).concat(Array(3).fill({type: "retraite"}));
+      toSpawn = Array(12).fill({ type: "saisonnier" }).concat(Array(4).fill({ type: "retraite" }));
     } else if (wave === 6) {
-      toSpawn = Array(20).fill({type: "cumul"}).concat(Array(5).fill({type: "retraite"}));
+      toSpawn = Array(22).fill({ type: "cumul" }).concat(Array(6).fill({ type: "retraite" }));
     } else if (wave === 7) {
-      toSpawn = Array(30).fill({type: "saisonnier"});
+      toSpawn = Array(32).fill({ type: "saisonnier" });
     } else if (wave === 8) {
-      toSpawn = Array(10).fill({type: "retraite"}).concat(Array(10).fill({type: "cumul"}));
+      toSpawn = Array(12).fill({ type: "retraite" }).concat(Array(12).fill({ type: "cumul" }));
     } else if (wave === 9) {
-      toSpawn = Array(20).fill({type: "retraite"}).concat(Array(20).fill({type: "saisonnier"}));
+      toSpawn = Array(25).fill({ type: "retraite" }).concat(Array(25).fill({ type: "saisonnier" }));
     } else {
-      toSpawn = Array(waveData.count).fill({type: waveData.type});
+      toSpawn = Array(waveData.count).fill({ type: waveData.type });
     }
 
     enemiesToSpawnRef.current = toSpawn;
@@ -200,96 +231,94 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
 
   const createParticles = (x: number, y: number, color: string, count: number) => {
     for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 3.5 + 0.5;
       particlesRef.current.push({
         x, y,
-        vx: (Math.random() - 0.5) * 4,
-        vy: (Math.random() - 0.5) * 4,
-        life: Math.random() * 20 + 10,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        life: Math.random() * 25 + 15,
+        maxLife: 40,
         color,
-        size: Math.random() * 3 + 1
+        size: Math.random() * 3.5 + 1.5
       });
     }
   };
 
   // Interaction handlers
-  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (gameState !== "playing") return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) * (CANVAS_WIDTH / rect.width);
-    const y = (e.clientY - rect.top) * (CANVAS_HEIGHT / rect.height);
+  const getGridCoords = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+    const rect = canvas.getBoundingClientRect();
+    let clientX = 0;
+    let clientY = 0;
+
+    if ('touches' in e) {
+      if (e.touches.length === 0) return null;
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
+    const x = (clientX - rect.left) * (CANVAS_WIDTH / rect.width);
+    const y = (clientY - rect.top) * (CANVAS_HEIGHT / rect.height);
     const c = Math.floor(x / TILE_SIZE);
     const r = Math.floor(y / TILE_SIZE);
-    setHoverTile({c, r});
+
+    if (c < 0 || c >= COLS || r < 0 || r >= ROWS) return null;
+    return { c, r, x, y };
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (gameState !== "playing") return;
+    const coords = getGridCoords(e);
+    setHoverTile(coords ? { c: coords.c, r: coords.r } : null);
   };
 
   const handleMouseLeave = () => setHoverTile(null);
 
-  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault();
-    if (gameState !== "playing" || e.touches.length === 0) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const touch = e.touches[0];
-    const x = (touch.clientX - rect.left) * (CANVAS_WIDTH / rect.width);
-    const y = (touch.clientY - rect.top) * (CANVAS_HEIGHT / rect.height);
-    const c = Math.floor(x / TILE_SIZE);
-    const r = Math.floor(y / TILE_SIZE);
-    setHoverTile({c, r});
+  const placeTowerAt = (c: number, r: number) => {
+    if (gameState !== "playing") return;
+    const onPath = PATH_TILES.some(pt => pt.c === c && pt.r === r);
+    if (onPath) return;
+
+    const existingTower = towersRef.current.find(t => t.c === c && t.r === r);
+    if (existingTower) return;
+
+    const tType = TOWER_TYPES[selectedTower as keyof typeof TOWER_TYPES];
+    if (budget >= tType.cost) {
+      setBudget(b => b - tType.cost);
+      const px = c * TILE_SIZE + TILE_SIZE / 2;
+      const py = r * TILE_SIZE + TILE_SIZE / 2;
+
+      towersRef.current.push({
+        x: px,
+        y: py,
+        c, r,
+        type: selectedTower,
+        cooldown: 0,
+        level: 1,
+        totalKills: 0
+      });
+      createParticles(px, py, tType.color, 16);
+      addFloatingText(px, py, `-${tType.cost}k€`, "#f59e0b");
+      playTDSound("place");
+    }
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const coords = getGridCoords(e);
+    if (coords) placeTowerAt(coords.c, coords.r);
   };
 
   const handleTouchEnd = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
-    if (gameState !== "playing" || !hoverTile) return;
-    const {c, r} = hoverTile;
-    const onPath = PATH_TILES.some(pt => pt.c === c && pt.r === r);
-    if (onPath) return;
-    const existingTower = towersRef.current.find(t => t.c === c && t.r === r);
-    if (existingTower) return;
-    const tType = TOWER_TYPES[selectedTower as keyof typeof TOWER_TYPES];
-    if (budget >= tType.cost) {
-      setBudget(b => b - tType.cost);
-      towersRef.current.push({
-        x: c * TILE_SIZE + TILE_SIZE / 2,
-        y: r * TILE_SIZE + TILE_SIZE / 2,
-        c, r,
-        type: selectedTower,
-        cooldown: 0,
-        level: 1
-      });
-      createParticles(c * TILE_SIZE + TILE_SIZE / 2, r * TILE_SIZE + TILE_SIZE / 2, "#ffffff", 10);
-      playTDSound("place");
-    }
+    if (hoverTile) placeTowerAt(hoverTile.c, hoverTile.r);
   };
 
-  const handleClick = () => {
-    if (gameState !== "playing" || !hoverTile) return;
-    
-    const {c, r} = hoverTile;
-    
-    // Check if on path
-    const onPath = PATH_TILES.some(pt => pt.c === c && pt.r === r);
-    if (onPath) return;
-
-    // Check if tower exists
-    const existingTower = towersRef.current.find(t => t.c === c && t.r === r);
-    if (existingTower) return; // Upgrade logic could go here
-
-    const tType = TOWER_TYPES[selectedTower as keyof typeof TOWER_TYPES];
-    if (budget >= tType.cost) {
-      setBudget(b => b - tType.cost);
-      towersRef.current.push({
-        x: c * TILE_SIZE + TILE_SIZE / 2,
-        y: r * TILE_SIZE + TILE_SIZE / 2,
-        c, r,
-        type: selectedTower,
-        cooldown: 0,
-        level: 1
-      });
-      createParticles(c * TILE_SIZE + TILE_SIZE / 2, r * TILE_SIZE + TILE_SIZE / 2, "#ffffff", 10);
-      playTDSound("place");
-    }
-  };
-
-  // Main Loop
+  // Main Game Loop
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -301,268 +330,393 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
     const updateGame = () => {
       if (gameState !== "playing") return;
 
-      // Spawning
-      if (waveActiveRef.current) {
-        if (spawnTimerRef.current <= 0 && enemiesToSpawnRef.current.length > 0) {
-          const eDef = enemiesToSpawnRef.current.shift()!;
-          const baseData = ENEMY_TYPES[eDef.type as keyof typeof ENEMY_TYPES];
-          
-          // Slight hp scaling per wave
-          const hpMultiplier = 1 + (wave * 0.15);
+      const ticks = gameSpeed;
 
-          enemiesRef.current.push({
-            id: `enemy_${enemyIdCounter.current++}`,
-            x: WAYPOINTS[0].x - TILE_SIZE, // Start offscreen
-            y: WAYPOINTS[0].y,
-            type: eDef.type,
-            hp: baseData.maxHp * hpMultiplier,
-            maxHp: baseData.maxHp * hpMultiplier,
-            speed: baseData.speed,
-            reward: baseData.reward,
-            color: baseData.color,
-            radius: baseData.radius,
-            waypointIndex: 1,
-            slowTimer: 0
-          });
-          spawnTimerRef.current = WAVES[Math.min(wave - 1, WAVES.length - 1)].interval || 60;
-        } else if (enemiesToSpawnRef.current.length > 0) {
-          spawnTimerRef.current--;
-        } else if (enemiesRef.current.length === 0) {
-          // Wave complete
-          waveActiveRef.current = false;
-          setBudget(b => b + 25); // Wave clear bonus
-          if (wave >= 10) {
-            setGameState("victory");
-            playTDSound("victory");
+      for (let tick = 0; tick < ticks; tick++) {
+        // Spawning
+        if (waveActiveRef.current) {
+          if (spawnTimerRef.current <= 0 && enemiesToSpawnRef.current.length > 0) {
+            const eDef = enemiesToSpawnRef.current.shift()!;
+            const baseData = ENEMY_TYPES[eDef.type as keyof typeof ENEMY_TYPES];
+            const hpMultiplier = 1 + (wave * 0.16);
+
+            enemiesRef.current.push({
+              id: `enemy_${enemyIdCounter.current++}`,
+              x: WAYPOINTS[0].x - TILE_SIZE,
+              y: WAYPOINTS[0].y,
+              type: eDef.type,
+              hp: baseData.maxHp * hpMultiplier,
+              maxHp: baseData.maxHp * hpMultiplier,
+              speed: baseData.speed,
+              reward: baseData.reward,
+              color: baseData.color,
+              radius: baseData.radius,
+              waypointIndex: 1,
+              slowTimer: 0,
+              hitFlash: 0
+            });
+            spawnTimerRef.current = WAVES[Math.min(wave - 1, WAVES.length - 1)].interval || 60;
+          } else if (enemiesToSpawnRef.current.length > 0) {
+            spawnTimerRef.current--;
+          } else if (enemiesRef.current.length === 0) {
+            waveActiveRef.current = false;
+            const waveBonus = 25 + wave * 3;
+            setBudget(b => b + waveBonus);
+            addFloatingText(CANVAS_WIDTH / 2, 80, `+${waveBonus}k€ BONUS VAGUE CLAIRE !`, "#34d399");
+
+            if (wave >= 10) {
+              setGameState("victory");
+              playTDSound("victory");
+            }
           }
         }
-      }
 
-      // Update Enemies
-      for (let i = enemiesRef.current.length - 1; i >= 0; i--) {
-        const e = enemiesRef.current[i];
-        
-        // Effects
-        let currentSpeed = e.speed;
-        if (e.slowTimer > 0) {
-          e.slowTimer--;
-          currentSpeed *= 0.4;
+        // Update Enemies
+        for (let i = enemiesRef.current.length - 1; i >= 0; i--) {
+          const e = enemiesRef.current[i];
+          if (e.hitFlash > 0) e.hitFlash--;
+
+          let currentSpeed = e.speed;
+          if (e.slowTimer > 0) {
+            e.slowTimer--;
+            currentSpeed *= 0.42;
+          }
+
+          const targetWp = WAYPOINTS[e.waypointIndex];
+          const dx = targetWp.x - e.x;
+          const dy = targetWp.y - e.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < currentSpeed) {
+            e.x = targetWp.x;
+            e.y = targetWp.y;
+            e.waypointIndex++;
+            if (e.waypointIndex >= WAYPOINTS.length) {
+              // Reached exit!
+              enemiesRef.current.splice(i, 1);
+              createParticles(e.x, e.y, "#ef4444", 20);
+              addFloatingText(e.x, e.y, "-1 SP", "#f87171");
+              setHealth(h => {
+                const nextH = h - 1;
+                if (nextH <= 0) {
+                  setGameState("gameover");
+                  playTDSound("gameover");
+                } else {
+                  playTDSound("damage");
+                }
+                return nextH;
+              });
+              continue;
+            }
+          } else {
+            e.x += (dx / dist) * currentSpeed;
+            e.y += (dy / dist) * currentSpeed;
+          }
         }
 
-        const targetWp = WAYPOINTS[e.waypointIndex];
-        const dx = targetWp.x - e.x;
-        const dy = targetWp.y - e.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+        // Update Towers & Firing
+        towersRef.current.forEach(t => {
+          if (t.cooldown > 0) t.cooldown--;
 
-        if (dist < currentSpeed) {
-          e.x = targetWp.x;
-          e.y = targetWp.y;
-          e.waypointIndex++;
-          if (e.waypointIndex >= WAYPOINTS.length) {
-            // Reached end!
-            enemiesRef.current.splice(i, 1);
-            setHealth(h => {
-              const nextH = h - 1;
-              if (nextH <= 0) {
-                setGameState("gameover");
-                playTDSound("gameover");
-              } else {
-                playTDSound("damage");
+          if (t.cooldown <= 0) {
+            const tType = TOWER_TYPES[t.type as keyof typeof TOWER_TYPES];
+
+            let target: Enemy | null = null;
+            let maxProgress = -1;
+
+            for (const e of enemiesRef.current) {
+              const dx = e.x - t.x;
+              const dy = e.y - t.y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist <= tType.range) {
+                const progress = e.waypointIndex * 1000 - dist;
+                if (progress > maxProgress) {
+                  maxProgress = progress;
+                  target = e;
+                }
               }
-              return nextH;
-            });
+            }
+
+            if (target) {
+              t.cooldown = tType.fireRate;
+              projectilesRef.current.push({
+                x: t.x,
+                y: t.y,
+                targetId: target.id,
+                speed: 9,
+                damage: tType.damage,
+                splash: tType.splash,
+                slowDuration: tType.slowDuration,
+                color: tType.color
+              });
+              playTDSound("shoot");
+            }
+          }
+        });
+
+        // Update Projectiles
+        for (let i = projectilesRef.current.length - 1; i >= 0; i--) {
+          const p = projectilesRef.current[i];
+          const target = enemiesRef.current.find(e => e.id === p.targetId);
+
+          if (!target) {
+            projectilesRef.current.splice(i, 1);
             continue;
           }
-        } else {
-          e.x += (dx / dist) * currentSpeed;
-          e.y += (dy / dist) * currentSpeed;
-        }
-      }
 
-      // Update Towers
-      towersRef.current.forEach(t => {
-        if (t.cooldown > 0) t.cooldown--;
-        
-        if (t.cooldown <= 0) {
-          const tType = TOWER_TYPES[t.type as keyof typeof TOWER_TYPES];
-          
-          // Find target (first in range)
-          let target: Enemy | null = null;
-          let minDist = tType.range;
-          
-          // Prioritize enemies further along the path
-          let maxProgress = -1;
+          const dx = target.x - p.x;
+          const dy = target.y - p.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
 
-          for (const e of enemiesRef.current) {
-            const dx = e.x - t.x;
-            const dy = e.y - t.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist <= tType.range) {
-              const progress = e.waypointIndex * 1000 - dist; // Heuristic
-              if (progress > maxProgress) {
-                maxProgress = progress;
-                target = e;
+          if (dist < p.speed) {
+            projectilesRef.current.splice(i, 1);
+            playTDSound("hit");
+
+            if (p.splash) {
+              createParticles(target.x, target.y, p.color, 18);
+              enemiesRef.current.forEach(e => {
+                const ddx = e.x - target.x;
+                const ddy = e.y - target.y;
+                if (Math.sqrt(ddx * ddx + ddy * ddy) <= p.splash!) {
+                  e.hp -= p.damage;
+                  e.hitFlash = 6;
+                  addFloatingText(e.x, e.y, `-${p.damage}`, "#f87171");
+                }
+              });
+            } else {
+              createParticles(target.x, target.y, p.color, 6);
+              target.hp -= p.damage;
+              target.hitFlash = 6;
+              addFloatingText(target.x, target.y, `-${p.damage}`, p.color);
+              if (p.slowDuration) {
+                target.slowTimer = p.slowDuration;
               }
             }
-          }
-
-          if (target) {
-            t.cooldown = tType.fireRate;
-            projectilesRef.current.push({
-              x: t.x,
-              y: t.y,
-              targetId: target.id,
-              speed: 8,
-              damage: tType.damage,
-              splash: tType.splash,
-              slowDuration: tType.slowDuration,
-              color: tType.color
-            });
-            playTDSound("shoot");
-          }
-        }
-      });
-
-      // Update Projectiles
-      for (let i = projectilesRef.current.length - 1; i >= 0; i--) {
-        const p = projectilesRef.current[i];
-        const target = enemiesRef.current.find(e => e.id === p.targetId);
-        
-        if (!target) {
-          projectilesRef.current.splice(i, 1);
-          continue;
-        }
-
-        const dx = target.x - p.x;
-        const dy = target.y - p.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < p.speed) {
-          // Hit!
-          projectilesRef.current.splice(i, 1);
-          playTDSound("hit");
-          
-          if (p.splash) {
-            createParticles(target.x, target.y, p.color, 15);
-            enemiesRef.current.forEach(e => {
-              const ddx = e.x - target.x;
-              const ddy = e.y - target.y;
-              if (Math.sqrt(ddx * ddx + ddy * ddy) <= p.splash!) {
-                e.hp -= p.damage;
-              }
-            });
           } else {
-            createParticles(target.x, target.y, p.color, 5);
-            target.hp -= p.damage;
-            if (p.slowDuration) {
-              target.slowTimer = p.slowDuration;
-            }
+            p.x += (dx / dist) * p.speed;
+            p.y += (dy / dist) * p.speed;
           }
-        } else {
-          p.x += (dx / dist) * p.speed;
-          p.y += (dy / dist) * p.speed;
         }
-      }
 
-      // Check dead enemies
-      for (let i = enemiesRef.current.length - 1; i >= 0; i--) {
-        const e = enemiesRef.current[i];
-        if (e.hp <= 0) {
-          setBudget(b => b + e.reward);
-          createParticles(e.x, e.y, "#ffffff", 12);
-          enemiesRef.current.splice(i, 1);
+        // Check dead enemies
+        for (let i = enemiesRef.current.length - 1; i >= 0; i--) {
+          const e = enemiesRef.current[i];
+          if (e.hp <= 0) {
+            setBudget(b => b + e.reward);
+            setTotalKills(k => k + 1);
+            addFloatingText(e.x, e.y, `+${e.reward}k€`, "#f59e0b");
+            createParticles(e.x, e.y, "#fbbf24", 15);
+            enemiesRef.current.splice(i, 1);
+          }
         }
-      }
 
-      // Update particles
-      for (let i = particlesRef.current.length - 1; i >= 0; i--) {
-        const pt = particlesRef.current[i];
-        pt.x += pt.vx;
-        pt.y += pt.vy;
-        pt.life--;
-        if (pt.life <= 0) particlesRef.current.splice(i, 1);
+        // Update particles
+        for (let i = particlesRef.current.length - 1; i >= 0; i--) {
+          const pt = particlesRef.current[i];
+          pt.x += pt.vx;
+          pt.y += pt.vy;
+          pt.life--;
+          if (pt.life <= 0) particlesRef.current.splice(i, 1);
+        }
+
+        // Update floating text
+        for (let i = floatingTextsRef.current.length - 1; i >= 0; i--) {
+          const ft = floatingTextsRef.current[i];
+          ft.y += ft.vy;
+          ft.life--;
+          if (ft.life <= 0) floatingTextsRef.current.splice(i, 1);
+        }
       }
     };
 
     const drawGame = () => {
-      ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+      // Clear Canvas with rich tactical TD gradient background
+      const bgGradient = ctx.createRadialGradient(
+        CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, 50,
+        CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, 500
+      );
+      bgGradient.addColorStop(0, "#0f172a");
+      bgGradient.addColorStop(0.6, "#090d16");
+      bgGradient.addColorStop(1, "#030712");
+      ctx.fillStyle = bgGradient;
+      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // Draw Environment Scenery
-      
-      // 1. Little Lake (Bottom Right)
+      // --- 1. Grass / Ground Grid with Subtle Checkerboard Texture ---
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          const isPath = PATH_TILES.some(pt => pt.c === c && pt.r === r);
+          if (!isPath) {
+            ctx.fillStyle = (r + c) % 2 === 0 ? "rgba(15, 23, 42, 0.4)" : "rgba(30, 41, 59, 0.25)";
+            ctx.fillRect(c * TILE_SIZE, r * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+          }
+        }
+      }
+
+      // Decorative Ground Pebbles / Grass Tufts
+      ctx.fillStyle = "rgba(51, 65, 85, 0.3)";
+      const bgDots = [
+        [50, 50], [750, 40], [200, 150], [620, 220], [180, 520], [700, 520], [320, 360], [450, 50]
+      ];
+      bgDots.forEach(([dx, dy]) => {
+        ctx.beginPath(); ctx.arc(dx, dy, 3, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(dx + 5, dy - 2, 2, 0, Math.PI * 2); ctx.fill();
+      });
+
+      // --- 2. Environment Scenery (Lake, Mairie, Trees) ---
+
+      // Lake (Bottom Right)
       ctx.save();
-      ctx.fillStyle = "#0369a1"; // Deep blue
+      const lakeGrad = ctx.createRadialGradient(680, 480, 10, 680, 480, 90);
+      lakeGrad.addColorStop(0, "#0284c7");
+      lakeGrad.addColorStop(0.7, "#0369a1");
+      lakeGrad.addColorStop(1, "#0c4a6e");
+      ctx.fillStyle = lakeGrad;
       ctx.beginPath();
-      ctx.moveTo(600, 400);
-      ctx.bezierCurveTo(700, 380, 750, 450, 780, 480);
-      ctx.bezierCurveTo(800, 500, 750, 580, 650, 550);
-      ctx.bezierCurveTo(550, 520, 580, 420, 600, 400);
+      ctx.moveTo(590, 410);
+      ctx.bezierCurveTo(700, 390, 760, 440, 780, 490);
+      ctx.bezierCurveTo(790, 540, 730, 580, 640, 560);
+      ctx.bezierCurveTo(560, 530, 570, 430, 590, 410);
       ctx.fill();
-      
-      // Water ripples
-      ctx.strokeStyle = "rgba(255,255,255,0.2)";
+      ctx.strokeStyle = "rgba(56, 189, 248, 0.3)";
       ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.arc(680, 480, 20, 0, Math.PI); ctx.stroke();
-      ctx.beginPath(); ctx.arc(700, 450, 15, 0, Math.PI); ctx.stroke();
-      ctx.beginPath(); ctx.arc(650, 510, 25, 0, Math.PI); ctx.stroke();
+      ctx.stroke();
+
+      // Water ripples animation
+      const rippleOffset = (Date.now() / 800) % 20;
+      ctx.strokeStyle = "rgba(255,255,255,0.25)";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(670, 470, 15 + rippleOffset, 0, Math.PI * 1.2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(710, 500, 10 + (rippleOffset * 0.7), 0, Math.PI * 1.5); ctx.stroke();
       ctx.restore();
 
-      // 2. Houses (Mairie / Annexes)
-      const drawHouse = (x: number, y: number, color: string) => {
+      // Houses / Mairie Annexes with Shadows
+      const drawStylizedHouse = (x: number, y: number, color: string, label: string) => {
         ctx.save();
         ctx.translate(x, y);
+
+        // Shadow
+        ctx.fillStyle = "rgba(0,0,0,0.5)";
+        ctx.fillRect(-18, 10, 44, 8);
+
         // Base
         ctx.fillStyle = color;
-        ctx.fillRect(-20, -15, 40, 30);
+        ctx.fillRect(-20, -15, 40, 28);
+        ctx.strokeStyle = "#334155";
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(-20, -15, 40, 28);
+
         // Roof
-        ctx.fillStyle = "#b91c1c"; // Red roof
+        ctx.fillStyle = "#991b1b";
         ctx.beginPath();
-        ctx.moveTo(-25, -15);
-        ctx.lineTo(0, -35);
-        ctx.lineTo(25, -15);
+        ctx.moveTo(-24, -15);
+        ctx.lineTo(0, -32);
+        ctx.lineTo(24, -15);
         ctx.fill();
+        ctx.strokeStyle = "#dc2626";
+        ctx.stroke();
+
+        // Glowing Windows
+        ctx.fillStyle = "#fef08a";
+        ctx.shadowColor = "#fef08a";
+        ctx.shadowBlur = 6;
+        ctx.fillRect(-13, -6, 7, 7);
+        ctx.fillRect(6, -6, 7, 7);
+        ctx.shadowBlur = 0;
+
         // Door
         ctx.fillStyle = "#475569";
-        ctx.fillRect(-6, 0, 12, 15);
-        // Windows
-        ctx.fillStyle = "#fbbf24"; // Lit windows
-        ctx.fillRect(-15, -5, 6, 6);
-        ctx.fillRect(9, -5, 6, 6);
+        ctx.fillRect(-5, 2, 10, 11);
+
+        // Mini Badge Label
+        ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
+        ctx.fillRect(-22, 16, 44, 12);
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "bold 8px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(label, 0, 24);
+
         ctx.restore();
       };
-      
-      drawHouse(120, 80, "#e2e8f0");
-      drawHouse(300, 450, "#cbd5e1");
-      drawHouse(520, 150, "#f1f5f9");
 
-      // 3. Trees
-      const drawTree = (x: number, y: number, scale: number = 1) => {
+      drawStylizedHouse(120, 80, "#1e293b", "ANNEXE RH");
+      drawStylizedHouse(300, 450, "#1e293b", "POLE SOCIAL");
+      drawStylizedHouse(520, 150, "#1e293b", "MAIRIE");
+
+      // Trees with Shadows & Foliage Layers
+      const drawStylizedTree = (x: number, y: number, scale: number = 1) => {
         ctx.save();
         ctx.translate(x, y);
         ctx.scale(scale, scale);
+
+        // Shadow
+        ctx.fillStyle = "rgba(0,0,0,0.4)";
+        ctx.beginPath(); ctx.ellipse(0, 12, 14, 6, 0, 0, Math.PI * 2); ctx.fill();
+
         // Trunk
         ctx.fillStyle = "#78350f";
-        ctx.fillRect(-4, 0, 8, 15);
-        // Leaves
-        ctx.fillStyle = "#15803d";
-        ctx.beginPath(); ctx.arc(0, -5, 12, 0, Math.PI*2); ctx.fill();
-        ctx.beginPath(); ctx.arc(-8, 5, 10, 0, Math.PI*2); ctx.fill();
-        ctx.beginPath(); ctx.arc(8, 5, 10, 0, Math.PI*2); ctx.fill();
+        ctx.fillRect(-4, 0, 8, 14);
+
+        // Canopy layers
+        ctx.fillStyle = "#065f46";
+        ctx.beginPath(); ctx.arc(0, -6, 15, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#047857";
+        ctx.beginPath(); ctx.arc(-6, 2, 11, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(6, 2, 11, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#10b981";
+        ctx.beginPath(); ctx.arc(-2, -10, 8, 0, Math.PI * 2); ctx.fill();
+
         ctx.restore();
       };
 
-      // Forest clumps
       const treePositions = [
-        [40, 40], [70, 30], [20, 80], [60, 90], // Top Left
-        [700, 80], [740, 60], [760, 100], [720, 120], // Top Right
-        [40, 500], [80, 530], [30, 560], [100, 480], // Bottom Left
-        [380, 200], [420, 220], [390, 250], // Middle Island
+        [35, 45], [75, 30], [25, 85], [65, 95],
+        [710, 75], [750, 55], [765, 95], [725, 125],
+        [45, 490], [85, 535], [35, 565], [105, 475],
+        [375, 200], [425, 220], [395, 255]
       ];
-      treePositions.forEach(pos => drawTree(pos[0], pos[1], 1 + Math.random() * 0.4));
+      treePositions.forEach(pos => drawStylizedTree(pos[0], pos[1], 1.1));
 
 
-      // Draw Grid & Path
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+      // --- 3. High-Tech Winding Stone Path ---
+
+      // Path Under-Glow / Outer Border
+      ctx.strokeStyle = "rgba(16, 185, 129, 0.25)";
+      ctx.lineWidth = TILE_SIZE + 6;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.beginPath();
+      ctx.moveTo(WAYPOINTS[0].x, WAYPOINTS[0].y);
+      for (let i = 1; i < WAYPOINTS.length; i++) {
+        ctx.lineTo(WAYPOINTS[i].x, WAYPOINTS[i].y);
+      }
+      ctx.stroke();
+
+      // Main Stone Path Bed
+      ctx.strokeStyle = "#1e293b";
+      ctx.lineWidth = TILE_SIZE;
+      ctx.stroke();
+
+      // Inner Cobblestone Center Line
+      ctx.strokeStyle = "#334155";
+      ctx.lineWidth = TILE_SIZE - 8;
+      ctx.stroke();
+
+      // Animated Path Flow Arrows (>>>)
+      ctx.save();
+      ctx.strokeStyle = "rgba(52, 211, 153, 0.4)";
+      ctx.lineWidth = 3;
+      ctx.setLineDash([10, 15]);
+      ctx.lineDashOffset = -(Date.now() / 25) % 25;
+      ctx.beginPath();
+      ctx.moveTo(WAYPOINTS[0].x, WAYPOINTS[0].y);
+      for (let i = 1; i < WAYPOINTS.length; i++) {
+        ctx.lineTo(WAYPOINTS[i].x, WAYPOINTS[i].y);
+      }
+      ctx.stroke();
+      ctx.restore();
+
+      // Grid Overlay (Subtle tactical lines)
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.04)";
       ctx.lineWidth = 1;
       for (let i = 0; i <= COLS; i++) {
         ctx.beginPath(); ctx.moveTo(i * TILE_SIZE, 0); ctx.lineTo(i * TILE_SIZE, CANVAS_HEIGHT); ctx.stroke();
@@ -571,71 +725,139 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
         ctx.beginPath(); ctx.moveTo(0, j * TILE_SIZE); ctx.lineTo(CANVAS_WIDTH, j * TILE_SIZE); ctx.stroke();
       }
 
-      // Draw Path
-      ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
-      PATH_TILES.forEach(pt => {
-        ctx.fillRect(pt.c * TILE_SIZE, pt.r * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-      });
+      // --- 4. Entrance Portal & Exit Fortress Base ---
 
-      // Draw connection lines for path
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
-      ctx.lineWidth = 15;
-      ctx.lineJoin = "round";
-      ctx.beginPath();
-      ctx.moveTo(WAYPOINTS[0].x, WAYPOINTS[0].y);
-      for (let i = 1; i < WAYPOINTS.length; i++) {
-        ctx.lineTo(WAYPOINTS[i].x, WAYPOINTS[i].y);
-      }
+      // Entrance Portal (Waypoint 0)
+      const spawnWp = WAYPOINTS[0];
+      ctx.save();
+      ctx.translate(spawnWp.x + 15, spawnWp.y);
+      const portalAngle = Date.now() / 300;
+      ctx.rotate(portalAngle);
+      ctx.shadowColor = "#a855f7";
+      ctx.shadowBlur = 15;
+      ctx.fillStyle = "rgba(168, 85, 247, 0.3)";
+      ctx.beginPath(); ctx.arc(0, 0, 18, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = "#c084fc";
+      ctx.lineWidth = 3;
+      ctx.strokeRect(-12, -12, 24, 24);
+      ctx.restore();
+
+      ctx.save();
+      ctx.fillStyle = "#e9d5ff";
+      ctx.font = "bold 9px monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("ENTRÉE AGENTS", spawnWp.x + 18, spawnWp.y - 22);
+      ctx.restore();
+
+      // Exit Citadel Base (Last Waypoint)
+      const exitWp = WAYPOINTS[WAYPOINTS.length - 1];
+      ctx.save();
+      ctx.translate(exitWp.x - 15, exitWp.y);
+      ctx.shadowColor = "#10b981";
+      ctx.shadowBlur = 20;
+      ctx.fillStyle = "#064e3b";
+      ctx.beginPath(); ctx.arc(0, 0, 20, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = "#34d399";
+      ctx.lineWidth = 3;
       ctx.stroke();
-      
-      // Start/End markers
-      ctx.fillStyle = "#34d399";
-      ctx.beginPath(); ctx.arc(WAYPOINTS[0].x, WAYPOINTS[0].y, 12, 0, Math.PI*2); ctx.fill();
-      ctx.fillStyle = "#f87171";
-      ctx.beginPath(); ctx.arc(WAYPOINTS[WAYPOINTS.length-1].x, WAYPOINTS[WAYPOINTS.length-1].y, 12, 0, Math.PI*2); ctx.fill();
 
-      // Draw hover indicator
+      // Shield Crest Icon
+      ctx.fillStyle = "#34d399";
+      ctx.beginPath();
+      ctx.moveTo(0, -10);
+      ctx.lineTo(8, -5);
+      ctx.lineTo(8, 4);
+      ctx.lineTo(0, 10);
+      ctx.lineTo(-8, 4);
+      ctx.lineTo(-8, -5);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = "#ecfdf5";
+      ctx.font = "bold 9px monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("CITADELLE SP", 0, -25);
+      ctx.restore();
+
+
+      // --- 5. Hover & Placement Preview ---
       if (hoverTile && !PATH_TILES.some(pt => pt.c === hoverTile.c && pt.r === hoverTile.r)) {
-        ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
-        ctx.fillRect(hoverTile.c * TILE_SIZE, hoverTile.r * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        
-        // Show range preview
+        const hx = hoverTile.c * TILE_SIZE;
+        const hy = hoverTile.r * TILE_SIZE;
+        const cx = hx + TILE_SIZE / 2;
+        const cy = hy + TILE_SIZE / 2;
+
         const tType = TOWER_TYPES[selectedTower as keyof typeof TOWER_TYPES];
+        const canAfford = budget >= tType.cost;
+
+        // Hover Cell Outline
+        ctx.fillStyle = canAfford ? "rgba(52, 211, 153, 0.2)" : "rgba(239, 68, 68, 0.2)";
+        ctx.fillRect(hx, hy, TILE_SIZE, TILE_SIZE);
+        ctx.strokeStyle = canAfford ? "#34d399" : "#f87171";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(hx, hy, TILE_SIZE, TILE_SIZE);
+
+        // Range Circle Preview
+        ctx.save();
         ctx.beginPath();
-        ctx.arc(hoverTile.c * TILE_SIZE + TILE_SIZE/2, hoverTile.r * TILE_SIZE + TILE_SIZE/2, tType.range, 0, Math.PI*2);
-        ctx.fillStyle = budget >= tType.cost ? "rgba(59, 130, 246, 0.15)" : "rgba(239, 68, 68, 0.15)";
+        ctx.arc(cx, cy, tType.range, 0, Math.PI * 2);
+        ctx.fillStyle = canAfford ? "rgba(52, 211, 153, 0.12)" : "rgba(239, 68, 68, 0.12)";
         ctx.fill();
-        ctx.strokeStyle = budget >= tType.cost ? "rgba(59, 130, 246, 0.5)" : "rgba(239, 68, 68, 0.5)";
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = canAfford ? "rgba(52, 211, 153, 0.6)" : "rgba(239, 68, 68, 0.6)";
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([6, 6]);
         ctx.stroke();
+        ctx.restore();
       }
 
-      // Draw hover indicator for existing towers (dashed range circle)
+      // Existing Tower Hover Range
       if (hoverTile) {
         const existingTower = towersRef.current.find(t => t.c === hoverTile.c && t.r === hoverTile.r);
         if (existingTower) {
           const tType = TOWER_TYPES[existingTower.type as keyof typeof TOWER_TYPES];
+          ctx.save();
           ctx.beginPath();
-          ctx.arc(existingTower.x, existingTower.y, tType.range, 0, Math.PI*2);
-          ctx.fillStyle = "rgba(255, 255, 255, 0.08)";
+          ctx.arc(existingTower.x, existingTower.y, tType.range, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(255, 255, 255, 0.06)";
           ctx.fill();
-          ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
-          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+          ctx.lineWidth = 2;
           ctx.setLineDash([4, 4]);
           ctx.stroke();
-          ctx.setLineDash([]);
+          ctx.restore();
         }
       }
 
-      // Draw Towers
+
+      // --- 6. Draw Towers ---
       towersRef.current.forEach(t => {
         const tType = TOWER_TYPES[t.type as keyof typeof TOWER_TYPES];
-        
+
         ctx.save();
         ctx.translate(t.x, t.y);
-        
-        // Find target to rotate towards
-        let angle = -Math.PI / 2; // Default facing up
+
+        // 1. Pedestal Base
+        ctx.shadowColor = tType.glowColor;
+        ctx.shadowBlur = 12;
+        ctx.fillStyle = "#0f172a";
+        ctx.beginPath();
+        ctx.arc(0, 0, 17, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = tType.color;
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        // 4 Corner LEDs on Base
+        for (let i = 0; i < 4; i++) {
+          const a = (Math.PI / 2) * i;
+          ctx.fillStyle = tType.color;
+          ctx.beginPath();
+          ctx.arc(Math.cos(a) * 14, Math.sin(a) * 14, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Find Target Angle
+        let angle = -Math.PI / 2;
         let target: Enemy | null = null;
         let maxProgress = -1;
         for (const e of enemiesRef.current) {
@@ -654,199 +876,187 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
           angle = Math.atan2(target.y - t.y, target.x - t.x);
         }
 
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = tType.color;
-
+        // Tower Specific Graphics
         if (t.type === 1) {
-          // Type 1: Chargé de Recrutement (Agent de bureau)
-          // Bureau en bois/slate
-          ctx.fillStyle = "#334155";
-          ctx.fillRect(-14, -14, 28, 28);
-          ctx.strokeStyle = "#475569";
-          ctx.lineWidth = 1.5;
-          ctx.strokeRect(-14, -14, 28, 28);
-          
-          // Head / Desk Facing Target
+          // Type 1: Chargé de Recrutement
           ctx.rotate(angle);
-          ctx.fillStyle = "#ffedd5"; // Peau
-          ctx.beginPath(); ctx.arc(0, 0, 7, 0, Math.PI*2); ctx.fill();
-          ctx.fillStyle = "#3b82f6"; // Casque bleu / Cheveux
-          ctx.beginPath(); ctx.arc(-2, 0, 6.5, Math.PI*0.5, Math.PI*1.5); ctx.fill();
-          
-          // Petit écran d'ordinateur
-          ctx.fillStyle = "#94a3b8";
-          ctx.fillRect(5, -4, 2, 8);
-          ctx.fillStyle = "#e2e8f0";
-          ctx.fillRect(7, -3, 1, 6);
+          ctx.fillStyle = "#1e3a8a";
+          ctx.fillRect(-10, -10, 20, 20);
+          ctx.strokeStyle = "#3b82f6";
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(-10, -10, 20, 20);
+
+          // Head & Headset
+          ctx.fillStyle = "#ffedd5";
+          ctx.beginPath(); ctx.arc(0, 0, 6, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#3b82f6";
+          ctx.fillRect(2, -7, 6, 4); // Launcher/Screen
 
         } else if (t.type === 2) {
-          // Type 2: Budget Contractuel (Bureau blindé / Coffre-fort rouge)
-          ctx.fillStyle = "#1e293b";
-          ctx.fillRect(-15, -15, 30, 30);
+          // Type 2: Budget Contractuel (Heavy Cannon)
+          ctx.rotate(angle);
+          ctx.fillStyle = "#450a0a";
+          ctx.fillRect(-11, -11, 22, 22);
           ctx.strokeStyle = "#ef4444";
           ctx.lineWidth = 2;
-          ctx.strokeRect(-15, -15, 30, 30);
-          
-          // Rotation du canon à billets
-          ctx.rotate(angle);
+          ctx.strokeRect(-11, -11, 22, 22);
+
+          // Cannon Barrels
           ctx.fillStyle = "#ef4444";
-          ctx.fillRect(0, -5, 16, 10);
-          
-          // Piles de pièces d'or sur le dessus
+          ctx.fillRect(0, -6, 15, 12);
           ctx.fillStyle = "#fbbf24";
-          ctx.beginPath();
-          ctx.arc(-4, -4, 4, 0, Math.PI*2);
-          ctx.arc(2, 4, 3.5, 0, Math.PI*2);
-          ctx.fill();
+          ctx.fillRect(10, -4, 4, 8); // Gold tip
 
         } else if (t.type === 3) {
-          // Type 3: Redéploiement (Magique / Antenne violette)
-          // Base
-          ctx.fillStyle = "#312e81";
-          ctx.beginPath();
-          ctx.moveTo(0, -15); ctx.lineTo(13, 8); ctx.lineTo(-13, 8);
-          ctx.fill();
-          
-          // Aura pulsante de ralentissement
-          const pulse = Math.abs(Math.sin(Date.now() / 250)) * 5 + 8;
-          ctx.fillStyle = "rgba(139, 92, 246, 0.25)";
-          ctx.beginPath(); ctx.arc(0, 0, pulse, 0, Math.PI*2); ctx.fill();
-          
-          // Cristal rotatif
-          const spin = Date.now() / 400;
+          // Type 3: Redéploiement (Slow Aura Tower)
+          const pulse = Math.abs(Math.sin(Date.now() / 250)) * 6 + 10;
+          ctx.fillStyle = "rgba(168, 85, 247, 0.35)";
+          ctx.beginPath(); ctx.arc(0, 0, pulse, 0, Math.PI * 2); ctx.fill();
+
+          const spin = Date.now() / 350;
           ctx.rotate(spin);
-          ctx.fillStyle = tType.color;
+          ctx.fillStyle = "#a855f7";
           ctx.beginPath();
-          ctx.moveTo(0, -12); ctx.lineTo(5, 0); ctx.lineTo(0, 12); ctx.lineTo(-5, 0);
+          ctx.moveTo(0, -13); ctx.lineTo(6, 0); ctx.lineTo(0, 13); ctx.lineTo(-6, 0);
           ctx.fill();
         }
-        
+
         ctx.restore();
       });
 
-      // Draw Enemies
+
+      // --- 7. Draw Enemies ---
       enemiesRef.current.forEach(e => {
         ctx.save();
         ctx.translate(e.x, e.y);
-        
+
         const isFrozen = e.slowTimer > 0;
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = isFrozen ? "#60a5fa" : e.color;
-        
-        // Wobble effect
+
+        // Shadow under enemy
+        ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+        ctx.beginPath(); ctx.ellipse(0, e.radius * 0.8, e.radius, e.radius * 0.4, 0, 0, Math.PI * 2); ctx.fill();
+
+        ctx.shadowBlur = e.hitFlash > 0 ? 20 : 10;
+        ctx.shadowColor = e.hitFlash > 0 ? "#ffffff" : (isFrozen ? "#60a5fa" : e.color);
+
         const wobble = Math.sin(Date.now() / 150 + e.x) * 2;
-        
+
         if (e.type === "cumul") {
-          // Normal Folder
-          ctx.fillStyle = isFrozen ? "#93c5fd" : e.color;
+          // Folder Icon
+          ctx.fillStyle = e.hitFlash > 0 ? "#ffffff" : (isFrozen ? "#93c5fd" : e.color);
           ctx.beginPath();
-          ctx.roundRect(-e.radius, -e.radius + wobble, e.radius * 2, e.radius * 1.5, 2);
+          ctx.roundRect(-e.radius, -e.radius + wobble, e.radius * 2, e.radius * 1.5, 3);
           ctx.fill();
-          // Folder Tab
           ctx.fillRect(-e.radius, -e.radius - 3 + wobble, e.radius, 4);
-          // Paper inside
           ctx.fillStyle = "#ffffff";
-          ctx.fillRect(-e.radius + 2, -e.radius - 2 + wobble, e.radius * 2 - 4, 2);
-          
+          ctx.fillRect(-e.radius + 3, -e.radius - 1 + wobble, e.radius * 2 - 6, 2);
+
         } else if (e.type === "retraite") {
-          // Heavy Box / Safe
-          ctx.fillStyle = isFrozen ? "#60a5fa" : e.color;
-          // Main body
+          // Heavy Safe Box
+          ctx.fillStyle = e.hitFlash > 0 ? "#ffffff" : (isFrozen ? "#60a5fa" : e.color);
           ctx.fillRect(-e.radius, -e.radius, e.radius * 2, e.radius * 2);
-          // Straps / details
           ctx.fillStyle = "#0f172a";
-          ctx.fillRect(-e.radius + 4, -e.radius, 4, e.radius * 2);
-          ctx.fillRect(-e.radius, -e.radius + 4, e.radius * 2, 4);
-          
-          // Heavy bobbing
-          ctx.translate(0, Math.sin(Date.now() / 300 + e.x) * 1.5);
-          
+          ctx.fillRect(-e.radius + 4, -e.radius, 5, e.radius * 2);
+          ctx.fillRect(-e.radius, -e.radius + 4, e.radius * 2, 5);
+
         } else if (e.type === "saisonnier") {
-          // Fast Envelope / Paper Airplane
-          // Determine direction
+          // Speed Airplane
           const targetWp = WAYPOINTS[e.waypointIndex];
           if (targetWp) {
-             const angle = Math.atan2(targetWp.y - e.y, targetWp.x - e.x);
-             ctx.rotate(angle);
+            const angle = Math.atan2(targetWp.y - e.y, targetWp.x - e.x);
+            ctx.rotate(angle);
           }
-          
-          ctx.fillStyle = isFrozen ? "#bfdbfe" : e.color;
+          ctx.fillStyle = e.hitFlash > 0 ? "#ffffff" : (isFrozen ? "#bfdbfe" : e.color);
           ctx.beginPath();
-          ctx.moveTo(e.radius + 2, 0); // Tip
-          ctx.lineTo(-e.radius, e.radius); // Bottom wing
-          ctx.lineTo(-e.radius / 2, 0); // Inner center
-          ctx.lineTo(-e.radius, -e.radius); // Top wing
+          ctx.moveTo(e.radius + 3, 0);
+          ctx.lineTo(-e.radius, e.radius);
+          ctx.lineTo(-e.radius / 2, 0);
+          ctx.lineTo(-e.radius, -e.radius);
           ctx.closePath();
           ctx.fill();
-          
-          // Speed trail
-          ctx.fillStyle = "rgba(255,255,255,0.5)";
-          ctx.fillRect(-e.radius - 6, -1, 4, 2);
         }
-        
-        // HP Bar
-        ctx.rotate(-ctx.getTransform().e); // reset rotation for HP bar (hacky but works if we just restore)
-        ctx.restore(); 
-        
+
+        ctx.restore();
+
+        // HP Bar (Draw above enemy without rotation)
         ctx.save();
         const hpPercent = Math.max(0, e.hp / e.maxHp);
-        ctx.fillStyle = "#ef4444";
-        ctx.fillRect(e.x - e.radius, e.y - e.radius - 8, e.radius * 2, 3);
-        ctx.fillStyle = "#10b981";
-        ctx.fillRect(e.x - e.radius, e.y - e.radius - 8, e.radius * 2 * hpPercent, 3);
+        const barW = e.radius * 2.2;
+        const barH = 4;
+        const barX = e.x - barW / 2;
+        const barY = e.y - e.radius - 10;
+
+        ctx.fillStyle = "rgba(15, 23, 42, 0.8)";
+        ctx.fillRect(barX - 1, barY - 1, barW + 2, barH + 2);
+        ctx.fillStyle = hpPercent > 0.5 ? "#10b981" : (hpPercent > 0.25 ? "#f59e0b" : "#ef4444");
+        ctx.fillRect(barX, barY, barW * hpPercent, barH);
         ctx.restore();
       });
 
-      // Draw Projectiles
+
+      // --- 8. Draw Projectiles ---
       projectilesRef.current.forEach(p => {
         ctx.save();
         ctx.translate(p.x, p.y);
-        ctx.shadowBlur = 8;
+        ctx.shadowBlur = 10;
         ctx.shadowColor = p.color;
-        
+
         if (p.color === "#3b82f6") {
-          // Type 1: Paper CV (Dossier blanc volant)
+          // White Flying CV Document
           ctx.fillStyle = "#ffffff";
           ctx.fillRect(-6, -4, 12, 8);
           ctx.strokeStyle = "#3b82f6";
           ctx.lineWidth = 1;
           ctx.strokeRect(-6, -4, 12, 8);
-          // Lignes de texte
           ctx.fillStyle = "#3b82f6";
           ctx.fillRect(-4, -1.5, 8, 1);
           ctx.fillRect(-4, 1, 6, 1);
         } else if (p.color === "#ef4444") {
-          // Type 2: Big Exploding Euro Coin (Pièce d'or jaune)
+          // Spinning Gold Coin
           ctx.fillStyle = "#fbbf24";
-          ctx.beginPath(); ctx.arc(0, 0, 5.5, 0, Math.PI*2); ctx.fill();
+          ctx.beginPath(); ctx.arc(0, 0, 6, 0, Math.PI * 2); ctx.fill();
           ctx.strokeStyle = "#d97706";
-          ctx.lineWidth = 1;
+          ctx.lineWidth = 1.5;
           ctx.stroke();
-          // Symbole € au centre
           ctx.fillStyle = "#d97706";
-          ctx.font = "bold 7px sans-serif";
+          ctx.font = "bold 8px sans-serif";
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
           ctx.fillText("€", 0, 0);
         } else {
-          // Type 3: Purple Slowdown Bubble (Bulle violette)
-          ctx.fillStyle = "#a78bfa";
-          ctx.beginPath(); ctx.arc(0, 0, 4.5, 0, Math.PI*2); ctx.fill();
-          // Reflet blanc
+          // Purple Orb
+          ctx.fillStyle = "#c084fc";
+          ctx.beginPath(); ctx.arc(0, 0, 5, 0, Math.PI * 2); ctx.fill();
           ctx.fillStyle = "#ffffff";
-          ctx.beginPath(); ctx.arc(-1.5, -1.5, 1.2, 0, Math.PI*2); ctx.fill();
+          ctx.beginPath(); ctx.arc(-1.5, -1.5, 1.5, 0, Math.PI * 2); ctx.fill();
         }
         ctx.restore();
       });
 
-      // Draw Particles
+
+      // --- 9. Draw Particles ---
       particlesRef.current.forEach(pt => {
+        ctx.save();
         ctx.fillStyle = pt.color;
-        ctx.globalAlpha = pt.life / 30;
+        ctx.globalAlpha = Math.max(0, pt.life / pt.maxLife);
         ctx.beginPath();
-        ctx.arc(pt.x, pt.y, pt.size, 0, Math.PI*2);
+        ctx.arc(pt.x, pt.y, pt.size, 0, Math.PI * 2);
         ctx.fill();
-        ctx.globalAlpha = 1.0;
+        ctx.restore();
+      });
+
+
+      // --- 10. Draw Floating Text ---
+      floatingTextsRef.current.forEach(ft => {
+        ctx.save();
+        ctx.fillStyle = ft.color;
+        ctx.shadowColor = ft.color;
+        ctx.shadowBlur = 8;
+        ctx.font = "black 11px monospace";
+        ctx.textAlign = "center";
+        ctx.globalAlpha = Math.max(0, ft.life / 35);
+        ctx.fillText(ft.text, ft.x, ft.y);
+        ctx.restore();
       });
     };
 
@@ -858,135 +1068,240 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
 
     loop();
     return () => cancelAnimationFrame(animationId);
-  }, [gameState, selectedTower, hoverTile, wave, budget]);
+  }, [gameState, selectedTower, hoverTile, wave, budget, gameSpeed]);
 
   return (
-    <div className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 overflow-x-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-500  px-4 font-sans text-slate-800 dark:text-slate-100">
-      
-      <div style={{
-        position: 'fixed', top: '50%', left: '50%',
-        transform: 'translate(-50%,-50%)',
-        width: 1000, height: 1000, borderRadius: '50%',
-        background: 'radial-gradient(ellipse at center, rgba(16,185,129,0.08) 0%, transparent 70%)',
-        filter: 'blur(50px)', pointerEvents: 'none', zIndex: 0,
-      }} />
+    <div className="relative z-30 isolate min-h-screen flex flex-col pt-4 sm:pt-8 pb-10 overflow-x-hidden bg-slate-950 transition-colors duration-500 px-3 sm:px-6 font-sans text-slate-100 selection:bg-emerald-500 selection:text-slate-950">
 
-      <div className="max-w-6xl mx-auto relative z-10 flex flex-col items-center">
-        
-        {/* Header Bar */}
-        <div className="w-full flex justify-between items-center mb-6 z-20">
-          <button
-            onClick={onClose}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-full font-bold transition-all text-sm shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:scale-105 active:scale-95"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Retour
-          </button>
+      {/* Cyberpunk Radial Backdrop */}
+      <div
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 rounded-full"
+        style={{
+          width: 1100, height: 1100,
+          background: 'radial-gradient(ellipse at center, rgba(16,185,129,0.12) 0%, rgba(139,92,246,0.06) 45%, transparent 70%)',
+          filter: 'blur(60px)',
+        }}
+      />
+
+      <div className="max-w-6xl mx-auto relative z-10 flex flex-col items-center w-full">
+
+        {/* --- Top Header Navigation Bar --- */}
+        <div className="w-full flex flex-wrap justify-between items-center gap-3 mb-5 z-20 bg-slate-900/80 backdrop-blur-2xl px-5 py-3 rounded-3xl border border-slate-800/80 shadow-[0_4px_25px_rgba(0,0,0,0.6)]">
           
-          <div className="flex gap-3 sm:gap-4">
-            <div className="bg-slate-900/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-slate-800 flex items-center gap-2 text-amber-400 font-black text-sm shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
-              <Coins className="w-4 h-4" /> Budget : <span className="text-amber-300 font-mono text-base">{budget}k€</span>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onClose}
+              className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white rounded-2xl font-bold transition-all text-xs border border-slate-700 hover:scale-105 active:scale-95 shadow-md"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Retour
+            </button>
+
+            <h1 className="hidden md:flex items-center gap-2 font-mono font-black text-sm tracking-wider uppercase text-emerald-400">
+              <Shield className="w-4 h-4 text-emerald-400" />
+              Tower Defense RH
+            </h1>
+          </div>
+
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+            {/* Speed Toggle */}
+            <button
+              onClick={() => setGameSpeed(s => (s === 1 ? 2 : 1))}
+              className={`px-3 py-1.5 rounded-xl border text-xs font-mono font-bold flex items-center gap-1.5 transition-all ${gameSpeed === 2 ? 'bg-amber-500/20 border-amber-500/50 text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.3)]' : 'bg-slate-800/80 border-slate-700 text-slate-300'}`}
+              title="Vitesse de jeu"
+            >
+              <FastForward className="w-3.5 h-3.5" />
+              {gameSpeed}X
+            </button>
+
+            {/* Sound Toggle */}
+            <button
+              onClick={() => setIsMuted(m => !m)}
+              className="p-2 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-300 hover:text-white transition-all"
+              title={isMuted ? "Activer le son" : "Couper le son"}
+            >
+              {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
+            </button>
+
+            {/* Budget Stat */}
+            <div className="bg-slate-950/90 border border-amber-500/30 px-3.5 py-1.5 rounded-2xl flex items-center gap-2 text-amber-400 font-black text-xs shadow-inner">
+              <Coins className="w-4 h-4 text-amber-400 animate-pulse" />
+              <span>Budget:</span>
+              <span className="text-amber-300 font-mono text-sm">{budget}k€</span>
             </div>
-            <div className="bg-slate-900/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-slate-800 flex items-center gap-2 text-rose-400 font-black text-sm shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
-              <Heart className="w-4 h-4 fill-rose-400" /> Continuité SP : <span className="text-rose-300 font-mono text-base">{health}</span>
+
+            {/* Health Stat */}
+            <div className="bg-slate-950/90 border border-rose-500/30 px-3.5 py-1.5 rounded-2xl flex items-center gap-2 text-rose-400 font-black text-xs shadow-inner">
+              <Heart className="w-4 h-4 fill-rose-500 text-rose-500 animate-bounce" />
+              <span>SP:</span>
+              <span className="text-rose-300 font-mono text-sm">{health}</span>
             </div>
-            <div className="bg-slate-900/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-slate-800 flex items-center gap-2 text-sky-400 font-black text-sm shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
-              <Shield className="w-4 h-4" /> Vague : <span className="text-sky-300 font-mono text-base">{wave}/10</span>
+
+            {/* Wave Stat */}
+            <div className="bg-slate-950/90 border border-sky-500/30 px-3.5 py-1.5 rounded-2xl flex items-center gap-2 text-sky-400 font-black text-xs shadow-inner">
+              <Shield className="w-4 h-4 text-sky-400" />
+              <span>Vague:</span>
+              <span className="text-sky-300 font-mono text-sm">{wave}/10</span>
             </div>
           </div>
         </div>
 
-        <div className="flex w-full gap-6 items-start">
-          
-          {/* Toolbar */}
-          <div className="w-64 flex flex-col gap-4">
-            <div className="bg-slate-950/80 backdrop-blur-2xl p-5 rounded-3xl border border-slate-800 shadow-[0_0_40px_rgba(0,0,0,0.6)]">
-              <h3 className="text-base font-black text-white mb-4 uppercase tracking-wider font-mono flex items-center gap-2">
-                <Shield className="w-5 h-5 text-emerald-400" /> Défenses RH
+        {/* --- Main Dashboard Container --- */}
+        <div className="flex flex-col lg:flex-row w-full gap-5 items-start">
+
+          {/* Left Sidebar: Tower Shop & Tactical Controls */}
+          <div className="w-full lg:w-72 flex flex-col gap-4">
+            
+            {/* Tower Selection Card */}
+            <div className="bg-slate-900/90 backdrop-blur-2xl p-4 sm:p-5 rounded-3xl border border-slate-800 shadow-[0_0_35px_rgba(0,0,0,0.5)]">
+              <h3 className="text-xs font-black text-slate-300 mb-3 uppercase tracking-wider font-mono flex items-center justify-between">
+                <span className="flex items-center gap-2 text-emerald-400">
+                  <Target className="w-4 h-4" /> Bureaux de Défense
+                </span>
+                <span className="text-[10px] text-slate-500 font-normal">Sélectionnez</span>
               </h3>
-              
-              <div className="flex flex-col gap-3">
+
+              <div className="flex flex-col gap-2.5">
                 {[1, 2, 3].map(type => {
                   const tData = TOWER_TYPES[type as keyof typeof TOWER_TYPES];
                   const canAfford = budget >= tData.cost;
                   const isSelected = selectedTower === type;
-                  
+
                   return (
                     <button
                       key={type}
                       onClick={() => setSelectedTower(type)}
-                      className={`p-3.5 rounded-2xl border text-left transition-all ${isSelected ? 'border-emerald-400 bg-emerald-500/15 shadow-[0_0_20px_rgba(16,185,129,0.3)] scale-[1.02]' : 'border-slate-800 bg-slate-900/90 hover:border-slate-700'} ${!canAfford && 'opacity-40 grayscale'}`}
+                      className={`p-3 rounded-2xl border text-left transition-all relative overflow-hidden group ${
+                        isSelected
+                          ? 'border-emerald-400 bg-emerald-950/40 shadow-[0_0_20px_rgba(16,185,129,0.25)] scale-[1.02]'
+                          : 'border-slate-800 bg-slate-950/70 hover:border-slate-700 hover:bg-slate-900/90'
+                      } ${!canAfford ? 'opacity-50 grayscale' : ''}`}
                     >
                       <div className="flex justify-between items-center mb-1">
-                        <span className="font-extrabold text-white text-xs sm:text-sm flex items-center gap-2">
-                          <div className="w-3 h-3 rounded-full shadow-lg" style={{backgroundColor: tData.color, boxShadow: `0 0 10px ${tData.color}`}} />
+                        <span className="font-extrabold text-white text-xs flex items-center gap-2">
+                          <div
+                            className="w-3 h-3 rounded-full shadow-lg shrink-0"
+                            style={{ backgroundColor: tData.color, boxShadow: `0 0 10px ${tData.color}` }}
+                          />
                           {tData.name}
                         </span>
-                        <span className="text-amber-400 text-xs font-black font-mono">{tData.cost}k€</span>
+                        <span className="text-amber-400 text-xs font-black font-mono bg-amber-500/10 px-2 py-0.5 rounded-lg border border-amber-500/20">
+                          {tData.cost}k€
+                        </span>
                       </div>
-                      <p className="text-[11px] text-slate-400 leading-tight font-medium">{tData.desc}</p>
+                      <p className="text-[11px] text-slate-400 leading-snug font-medium mb-1.5">{tData.desc}</p>
+                      
+                      <div className="flex items-center gap-3 text-[10px] text-slate-400 font-mono pt-1 border-t border-slate-800/80">
+                        <span>Portée: <b className="text-slate-200">{tData.range}</b></span>
+                        <span>Dégâts: <b className="text-slate-200">{tData.damage}</b></span>
+                      </div>
                     </button>
                   );
                 })}
               </div>
 
+              {/* Start Next Wave Button */}
               {!waveActiveRef.current && wave < 10 && gameState === "playing" && (
-                <button 
+                <button
                   onClick={startWave}
-                  className="w-full mt-6 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black rounded-full shadow-[0_0_25px_rgba(16,185,129,0.5)] flex justify-center items-center gap-2 transition-all uppercase tracking-wider text-xs animate-pulse"
+                  className="w-full mt-5 py-3.5 bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black rounded-2xl shadow-[0_0_30px_rgba(16,185,129,0.4)] flex justify-center items-center gap-2 transition-all uppercase tracking-wider text-xs hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  <Play className="w-4 h-4 fill-current" /> Lancer Vague {wave + 1}
+                  <Play className="w-4 h-4 fill-current" /> Lancer Vague {wave + 1} / 10
                 </button>
               )}
             </div>
-            
-            <div className="bg-slate-950/80 backdrop-blur-2xl p-4 rounded-3xl border border-slate-800 shadow-xl text-xs text-slate-300 font-medium">
-              <h4 className="font-extrabold text-white mb-2 uppercase tracking-wide font-mono text-xs">Tactique RH</h4>
-              <p className="mb-1.5 text-slate-400">1. Sélectionnez un bureau de défense RH.</p>
-              <p className="mb-1.5 text-slate-400">2. Placez-le sur la grille hors du parcours.</p>
-              <p className="text-slate-400">3. Lancez la vague pour intercepter les dossiers.</p>
+
+            {/* Tactical Guide / Legend Card */}
+            <div className="bg-slate-900/90 backdrop-blur-2xl p-4 rounded-3xl border border-slate-800 text-xs text-slate-300 font-medium">
+              <h4 className="font-extrabold text-white mb-2 uppercase tracking-wide font-mono text-[11px] flex items-center gap-1.5 text-sky-400">
+                <Sparkles className="w-3.5 h-3.5" /> Légende & Ennemis
+              </h4>
+              <ul className="space-y-1.5 text-[11px] text-slate-400">
+                <li className="flex items-center justify-between">
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-amber-500 inline-block" /> Cumul d'Emplois</span>
+                  <span className="font-mono text-slate-500">Moyen</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-emerald-500 inline-block" /> Départ Retraite</span>
+                  <span className="font-mono text-slate-500">Lourd</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-pink-500 inline-block" /> Pic Saisonnier</span>
+                  <span className="font-mono text-slate-500">Rapide</span>
+                </li>
+              </ul>
             </div>
+
           </div>
 
-          {/* Canvas Container */}
-          <div className="flex-1 relative">
-            <div className="bg-slate-950/90 backdrop-blur-2xl rounded-3xl p-3 shadow-[0_0_50px_rgba(0,0,0,0.7)] border border-slate-800 inline-block overflow-hidden relative">
+          {/* Right Area: Game Canvas Frame */}
+          <div className="flex-1 w-full relative">
+            <div className="bg-slate-900/90 backdrop-blur-2xl rounded-3xl p-2.5 sm:p-3 shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-slate-800 relative overflow-hidden">
               
+              {/* Ready Screen Overlay */}
               {gameState === "ready" && (
-                <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-2xl z-20 flex flex-col items-center justify-center p-6 text-center animate-fade-in">
-                  <div className="w-20 h-20 bg-emerald-500/20 border border-emerald-500/40 rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_35px_rgba(16,185,129,0.4)] transform -rotate-3 hover:rotate-0 transition-transform">
-                    <Shield className="w-10 h-10 text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+                <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-2xl z-20 flex flex-col items-center justify-center p-6 text-center animate-fade-in">
+                  <div className="w-20 h-20 bg-emerald-500/10 border-2 border-emerald-500/40 rounded-3xl flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(16,185,129,0.3)] transform -rotate-3 hover:rotate-0 transition-transform">
+                    <Shield className="w-10 h-10 text-emerald-400 drop-shadow-[0_0_12px_rgba(16,185,129,0.8)]" />
                   </div>
-                  <h2 className="text-3xl font-black text-white mb-3 uppercase tracking-wider" style={{fontFamily: 'monospace'}}>TOWER DEFENSE RH</h2>
-                  <p className="text-slate-300 max-w-sm mx-auto mb-8 font-medium text-sm leading-relaxed">
-                    Déployez vos bureaux d'expertise RH le long du chemin pour stopper la vague de dossiers et demandes d'agents !
-                  </p>
-                  <button 
-                    onClick={initGame}
-                    className="px-8 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black rounded-full text-base transition-all shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:scale-105 active:scale-95 uppercase tracking-wider flex items-center gap-3"
-                  >
-                    <Play className="w-5 h-5 fill-current" /> Prendre la défense
-                  </button>
-                </div>
-              )}
-
-              {(gameState === "gameover" || gameState === "victory") && (
-                <div className="absolute inset-0 bg-slate-900/90 backdrop-blur-md z-20 flex flex-col items-center justify-center animate-scale-up">
-                  {gameState === "victory" ? (
-                    <Trophy className="w-24 h-24 text-yellow-400 mb-6 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)]" />
-                  ) : (
-                    <AlertTriangle className="w-24 h-24 text-red-500 mb-6 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]" />
-                  )}
-                  <h2 className="text-4xl font-bold text-white mb-4">
-                    {gameState === "victory" ? "Service Public Sauvé !" : "Rupture du Service..."}
+                  <h2 className="text-3xl sm:text-4xl font-black text-white mb-3 uppercase tracking-wider font-mono text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-400">
+                    TOWER DEFENSE RH
                   </h2>
-                  <p className="text-slate-300 mb-8 text-lg">Vous avez survécu à {wave} vagues.</p>
-                  <button onClick={initGame} className="px-8  bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold rounded-2xl shadow-lg hover:scale-105 transition-all text-lg flex items-center gap-2">
-                    <RotateCcw className="w-6 h-6" /> Rejouer
+                  <p className="text-slate-300 max-w-md mx-auto mb-8 font-medium text-sm leading-relaxed">
+                    Protégez la citadelle du Service Public ! Placez stratégiquement vos bureaux RH le long de la route pour neutraliser les flux de dossiers complexes.
+                  </p>
+                  <button
+                    onClick={initGame}
+                    className="px-10 py-4 bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black rounded-full text-base transition-all shadow-[0_0_35px_rgba(16,185,129,0.5)] hover:scale-105 active:scale-95 uppercase tracking-wider flex items-center gap-3"
+                  >
+                    <Play className="w-6 h-6 fill-current" /> Démarrer la Défense
                   </button>
                 </div>
               )}
 
+              {/* Game Over / Victory Modal */}
+              {(gameState === "gameover" || gameState === "victory") && (
+                <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-xl z-20 flex flex-col items-center justify-center p-6 text-center animate-scale-up">
+                  {gameState === "victory" ? (
+                    <div className="w-20 h-20 bg-amber-500/10 border-2 border-amber-500/40 rounded-3xl flex items-center justify-center mb-4 shadow-[0_0_40px_rgba(245,158,11,0.4)]">
+                      <Trophy className="w-10 h-10 text-amber-400 drop-shadow-[0_0_15px_rgba(245,158,11,0.8)]" />
+                    </div>
+                  ) : (
+                    <div className="w-20 h-20 bg-rose-500/10 border-2 border-rose-500/40 rounded-3xl flex items-center justify-center mb-4 shadow-[0_0_40px_rgba(239,68,68,0.4)]">
+                      <AlertTriangle className="w-10 h-10 text-rose-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]" />
+                    </div>
+                  )}
+
+                  <h2 className="text-3xl sm:text-4xl font-black text-white mb-2 font-mono">
+                    {gameState === "victory" ? "SERVICE PUBLIC SAUVÉ !" : "RUPTURE DU SERVICE..."}
+                  </h2>
+                  <p className="text-slate-300 mb-6 text-sm max-w-sm">
+                    {gameState === "victory"
+                      ? "Félicitations ! Vous avez repoussé les 10 vagues de dossiers administratifs avec succès."
+                      : `Vous avez tenu jusqu'à la vague ${wave}/10 avec ${totalKills} dossiers traités.`}
+                  </p>
+
+                  <div className="flex items-center gap-4 mb-8 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
+                    <div className="text-center px-4 border-r border-slate-800">
+                      <div className="text-xs text-slate-400">Dossiers gérés</div>
+                      <div className="text-lg font-black font-mono text-emerald-400">{totalKills}</div>
+                    </div>
+                    <div className="text-center px-4">
+                      <div className="text-xs text-slate-400">Budget final</div>
+                      <div className="text-lg font-black font-mono text-amber-400">{budget}k€</div>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={initGame}
+                    className="px-8 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black rounded-full shadow-[0_0_30px_rgba(16,185,129,0.4)] hover:scale-105 transition-all text-sm flex items-center gap-2 uppercase tracking-wider"
+                  >
+                    <RotateCcw className="w-5 h-5" /> Rejouer une partie
+                  </button>
+                </div>
+              )}
+
+              {/* Game Canvas */}
               <canvas
                 ref={canvasRef}
                 width={CANVAS_WIDTH}
@@ -994,16 +1309,21 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
                 onClick={handleClick}
-                onTouchStart={handleTouchStart}
+                onTouchStart={handleMouseMove}
                 onTouchEnd={handleTouchEnd}
-                className={`bg-[#0b1121] rounded-2xl cursor-crosshair border border-slate-800 touch-none ${gameState !== "playing" ? 'opacity-30' : ''}`}
+                className={`w-full h-auto max-h-[600px] bg-slate-950 rounded-2xl cursor-crosshair border border-slate-800 touch-none shadow-2xl ${
+                  gameState !== "playing" ? 'opacity-20' : ''
+                }`}
                 style={{ imageRendering: 'pixelated' }}
               />
+
             </div>
           </div>
 
         </div>
+
       </div>
+
       <style>{`
         @keyframes scale-up { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         .animate-scale-up { animation: scale-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
