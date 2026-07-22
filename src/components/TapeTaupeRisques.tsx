@@ -237,14 +237,8 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
 
   return (
     <div className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 overflow-x-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-500  sm: px-4 font-sans text-slate-800 dark:text-slate-100 touch-none select-none">
-      {/* Soft background glow */}
-      <div style={{
-        position: 'fixed', top: '50%', left: '50%',
-        transform: 'translate(-50%,-50%)',
-        width: 800, height: 800, borderRadius: '50%',
-        background: 'radial-gradient(ellipse at center, rgba(148,163,184,0.1) 0%, transparent 70%)',
-        filter: 'blur(40px)', pointerEvents: 'none', zIndex: 0,
-      }} />
+      {/* Background glow effects */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-amber-500/10 via-purple-500/10 to-rose-500/10 rounded-full blur-3xl pointer-events-none z-0" />
 
       <div className="max-w-4xl mx-auto relative z-10 flex flex-col items-center h-full">
         
@@ -253,7 +247,7 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
           <button
             type="button"
             onClick={onClose}
-            className="flex items-center gap-2 px-4  bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm shadow-md"
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white rounded-full font-bold transition-all text-sm shadow-[0_0_20px_rgba(225,29,72,0.4)] hover:scale-105 active:scale-95"
           >
             <ArrowLeft className="w-4 h-4" />
             Retour
@@ -262,24 +256,24 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
 
         {/* Header */}
         <div className="text-center mb-6 w-full">
-          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight mb-2 text-slate-800 dark:text-slate-100">
+          <h1 className="text-3xl sm:text-5xl font-black tracking-wider uppercase bg-gradient-to-r from-orange-400 via-amber-300 to-rose-400 bg-clip-text text-transparent drop-shadow-sm mb-3">
             Tape-Taupe des Risques
           </h1>
           
-          <div className="flex flex-wrap justify-center items-center gap-4 text-sm font-bold">
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4 .5 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
-              Niveau : <span className="text-purple-400 font-extrabold">{level}</span>
+          <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-4 text-xs sm:text-sm font-bold">
+            <span className="bg-slate-900/80 backdrop-blur-md px-4 py-1.5 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.3)] border border-purple-500/30 text-slate-200 flex items-center gap-2">
+              Niveau : <span className="text-purple-400 font-black text-base">{level}</span>
             </span>
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4 .5 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
-              Dossiers traités : <span className="text-emerald-400 font-extrabold">{score}</span>
+            <span className="bg-slate-900/80 backdrop-blur-md px-4 py-1.5 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.3)] border border-emerald-500/30 text-slate-200 flex items-center gap-2">
+              Dossiers traités : <span className="text-emerald-400 font-black text-base">{score}</span>
             </span>
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4 .5 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
+            <span className="bg-slate-900/80 backdrop-blur-md px-4 py-1.5 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.3)] border border-rose-500/30 text-slate-200 flex items-center gap-2">
               Alerte : 
-              <div className="flex gap-1">
+              <div className="flex gap-1.5">
                 {[...Array(MAX_ERRORS)].map((_, i) => (
                   <div 
                     key={i} 
-                    className={`w-3 h-3 rounded-full ${i < errors ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]' : 'bg-slate-700'}`}
+                    className={`w-3.5 h-3.5 rounded-full transition-all duration-300 ${i < errors ? 'bg-rose-500 shadow-[0_0_12px_rgba(244,63,94,1)] scale-110' : 'bg-slate-800 border border-slate-700'}`}
                   />
                 ))}
               </div>
@@ -288,25 +282,28 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
         </div>
 
         {/* Game Grid Area */}
-        <div className="relative w-full max-w-4xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-3xl p-2 sm:p-4 shadow-xl border border-slate-200 dark:border-slate-700/50 overflow-hidden">
+        <div className="relative w-full max-w-2xl bg-slate-950/70 backdrop-blur-2xl rounded-3xl p-3 sm:p-5 shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-slate-800/80 overflow-hidden">
           
           {/* Grille css 3x3 */}
-          <div className="grid grid-cols-3 grid-rows-3 gap-2 sm:gap-4 w-full aspect-square relative z-10">
+          <div className="grid grid-cols-3 grid-rows-3 gap-3 sm:gap-4 w-full aspect-square relative z-10">
             {holes.map((mole, i) => (
               <div 
                 key={i} 
-                className="relative bg-slate-100 dark:bg-slate-800/40 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center justify-center overflow-hidden shadow-inner cursor-pointer group hover:border-blue-400 dark:hover:border-blue-500 transition-colors animate-fade-in"
+                className="relative bg-slate-900/90 rounded-2xl border border-slate-800 flex items-center justify-center overflow-hidden shadow-[inset_0_4px_12px_rgba(0,0,0,0.8)] cursor-pointer group hover:border-amber-500/40 transition-all duration-200"
                 onPointerDown={(e) => handleHoleClick(i, e)}
               >
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40 pointer-events-none" />
+                
                 {/* La Taupe (Carte) */}
                 {mole && !mole.hit && (
                   <div 
-                    className={`absolute inset-1 bg-gradient-to-t ${mole.def.color} rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] flex flex-col items-center justify-center animate-slide-up border border-white/20 z-10`}
-                    style={{ color: 'rgba(148,163,184,0.3)' }} // Soft color
+                    className={`absolute inset-1.5 bg-gradient-to-t ${mole.def.color} rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.6)] flex flex-col items-center justify-center animate-slide-up border border-white/30 z-10 cursor-pointer active:scale-95 transition-transform`}
                   >
-                    <div className="absolute inset-0 bg-black/10 rounded-xl" />
-                    <span className="relative z-10 text-3xl sm:text-5xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.3)]">{mole.def.emoji}</span>
-                    <span className="relative z-10 text-[10px] sm:text-[13px] font-black uppercase tracking-wider mt-1 text-center leading-tight px-1.5 text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)] line-clamp-2">
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent rounded-xl pointer-events-none" />
+                    <span className="relative z-10 text-4xl sm:text-6xl drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] transform hover:scale-110 transition-transform">
+                      {mole.def.emoji}
+                    </span>
+                    <span className="relative z-10 text-[11px] sm:text-[13px] font-extrabold uppercase tracking-wide mt-1.5 text-center leading-tight px-1 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] line-clamp-2">
                       {mole.def.label}
                     </span>
                   </div>
@@ -317,38 +314,42 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
 
           {/* Overlays */}
           {gameState === "ready" && (
-            <div className="absolute inset-0 bg-white/60 dark:bg-slate-900/80 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-20">
-              <div className="w-20 h-20 bg-orange-500/20 rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(249,115,22,0.4)]">
-                <AlertTriangle className="w-10 h-10 text-orange-400" />
+            <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center z-20 animate-fade-in">
+              <div className="w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_35px_rgba(245,158,11,0.5)] transform -rotate-3 hover:rotate-0 transition-transform">
+                <AlertTriangle className="w-10 h-10 text-white drop-shadow-md" />
               </div>
-              <h2 className="text-3xl font-bold text-slate-800 dark:text-white mb-4">Prévention des Risques</h2>
-              <p className="text-slate-600 dark:text-slate-300 max-w-md mx-auto mb-8 font-light text-sm">
-                Tapez sur les situations dangereuses (<span className="text-pink-400">RPS</span>, <span className="text-red-400">Non-respect des horaires</span>, <span className="text-orange-400">Chutes</span>) avant qu'il ne soit trop tard ! <br/><br/>
-                <strong>ATTENTION :</strong> Ne tapez pas sur le Délégué Syndical 🛡️ ni sur les équipements conformes 🦺 !
+              <h2 className="text-3xl sm:text-4xl font-black text-white mb-3 uppercase tracking-wide">Prévention des Risques</h2>
+              <p className="text-slate-300 max-w-md mx-auto mb-8 font-medium text-sm leading-relaxed">
+                Tapez sur les situations dangereuses (<span className="text-amber-400 font-bold">RPS</span>, <span className="text-rose-400 font-bold">Non-respect des horaires</span>, <span className="text-orange-400 font-bold">Chutes</span>) avant qu'il ne soit trop tard ! <br/><br/>
+                <span className="inline-block bg-slate-900/90 border border-amber-500/30 px-3 py-1.5 rounded-lg text-amber-300 text-xs">
+                  ⚠️ <strong>ATTENTION :</strong> Ne tapez pas sur le Délégué 🛡️ ni sur les équipements conformes 🦺 !
+                </span>
               </p>
               <button
                 onClick={startGame}
-                className="flex items-center gap-2 px-8  bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-600 rounded-full font-medium text-lg transition-all shadow-sm hover:shadow-md"
+                className="flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black rounded-full text-lg transition-all shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:scale-105 active:scale-95 uppercase tracking-wider"
               >
-                <Play className="w-5 h-5 fill-current" />
-                Démarrer
+                <Play className="w-6 h-6 fill-current" />
+                Démarrer la partie
               </button>
             </div>
           )}
 
           {gameState === "gameover" && (
-            <div className="absolute inset-0 bg-white/80 dark:bg-slate-900/90 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-20 animate-fade-in">
-              <h2 className="text-4xl sm:text-5xl font-bold text-red-500 mb-2 leading-tight">
-                ALERTE DÉCLENCHÉE
+            <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center z-20 animate-fade-in">
+              <h2 className="text-4xl sm:text-6xl font-black bg-gradient-to-r from-rose-500 to-red-600 bg-clip-text text-transparent mb-2 leading-tight uppercase tracking-wider drop-shadow-[0_0_20px_rgba(225,29,72,0.5)]">
+                ALERTE DÉCLENCHÉE !
               </h2>
-              <p className="text-slate-600 dark:text-slate-300 text-lg mb-6">Trop d'accidents ou d'erreurs ont eu lieu sur votre site.</p>
-              <div className="bg-white/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 p-4 rounded-xl mb-8 flex flex-col items-center min-w-[200px] shadow-sm">
-                <p className="text-slate-400 text-sm uppercase tracking-wider mb-1">Dossiers traités</p>
-                <p className="text-5xl font-bold text-orange-400">{score}</p>
+              <p className="text-slate-300 text-base mb-6 max-w-md">Trop d'accidents ou de non-conformités ont été signalés sur votre site.</p>
+              
+              <div className="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl mb-8 flex flex-col items-center min-w-[220px] shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+                <p className="text-slate-400 text-xs uppercase tracking-widest font-bold mb-1">Dossiers traités</p>
+                <p className="text-6xl font-black text-amber-400 drop-shadow-[0_0_15px_rgba(245,158,11,0.4)]">{score}</p>
               </div>
+              
               <button
                 onClick={startGame}
-                className="flex items-center gap-2 px-8  bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-600 rounded-full font-medium transition-all shadow-sm hover:shadow-md"
+                className="flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black rounded-full text-base transition-all shadow-[0_0_25px_rgba(225,29,72,0.5)] hover:scale-105 active:scale-95 uppercase tracking-wider"
               >
                 <ArrowLeft className="w-5 h-5" />
                 Reprendre le service
@@ -362,7 +363,7 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
         {feedback.map(f => (
           <div 
             key={f.id}
-            className={`fixed font-black text-2xl drop-shadow-lg pointer-events-none animate-float-up z-50 ${f.color}`}
+            className={`fixed font-black text-2xl drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] pointer-events-none animate-float-up z-50 ${f.color}`}
             style={{ left: f.x - 20, top: f.y - 20 }}
           >
             {f.text}
@@ -373,18 +374,19 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
 
       <style>{`
         @keyframes slideUp {
-          from { transform: translateY(100%); }
-          to { transform: translateY(0); }
+          from { transform: translateY(100%) scale(0.8); opacity: 0; }
+          to { transform: translateY(0) scale(1); opacity: 1; }
         }
         .animate-slide-up {
-          animation: slideUp 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+          animation: slideUp 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
         @keyframes floatUp {
-          0% { transform: translateY(0) scale(1); opacity: 1; }
-          100% { transform: translateY(-50px) scale(1.5); opacity: 0; }
+          0% { transform: translateY(0) scale(0.8); opacity: 1; }
+          50% { transform: translateY(-30px) scale(1.3); opacity: 1; }
+          100% { transform: translateY(-60px) scale(1.5); opacity: 0; }
         }
         .animate-float-up {
-          animation: floatUp 0.8s ease-out forwards;
+          animation: floatUp 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
         }
       `}</style>
     </div>

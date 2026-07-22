@@ -242,23 +242,27 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
 
       <div className="max-w-4xl mx-auto relative z-10">
         
-        {/* Retour button */}
-        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-50">
+        {/* Header */}
+        <div className="w-full flex justify-between items-center mb-6 z-20">
           <button
-            type="button"
             onClick={onClose}
-            className="flex items-center gap-2 px-4  bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm shadow-md"
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white rounded-full font-bold transition-all text-sm shadow-[0_0_20px_rgba(219,39,119,0.4)] hover:scale-105 active:scale-95"
           >
             <ArrowLeft className="w-4 h-4" />
             Retour
           </button>
+
+          <div className="text-center">
+            <h1 className="text-2xl sm:text-4xl font-black tracking-widest uppercase bg-gradient-to-r from-pink-400 via-purple-300 to-cyan-400 bg-clip-text text-transparent drop-shadow-sm" style={{fontFamily: 'monospace'}}>
+              ROULETTE QVT
+            </h1>
+          </div>
+
+          <div className="w-20" />
         </div>
 
-        {/* Title */}
+        {/* Title Subtext */}
         <div className="text-center mb-8 animate-fade-in">
-          <h1 className="text-3xl sm:text-5xl font-light tracking-tight mb-2 text-slate-800 dark:text-slate-100">
-            Roulette QVT &amp; Idée du Jour
-          </h1>
           <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-light max-w-lg mx-auto">
             Lancez la roulette pour découvrir une action concrète bien-être, management positif ou conseil carrière.
           </p>

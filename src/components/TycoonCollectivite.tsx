@@ -472,37 +472,46 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
       <div className="max-w-5xl mx-auto relative z-10 flex flex-col h-full">
         
         {/* Header */}
-        <div className="w-full flex justify-between items-center mb-8">
-          <button onClick={onClose} className="flex items-center gap-2 px-5 .5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white rounded-full font-semibold transition-all shadow-md">
+        <div className="w-full flex justify-between items-center mb-8 z-20">
+          <button
+            onClick={onClose}
+            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-full font-bold transition-all text-sm shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:scale-105 active:scale-95"
+          >
             <ArrowLeft className="w-4 h-4" /> Quitter
           </button>
           
           <div className="flex items-center gap-3">
-            <Building2 className="w-8 h-8 text-blue-400" />
-            <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Gennevilliers City
+            <div className="w-10 h-10 bg-blue-500/20 border border-blue-500/40 rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.4)]">
+              <Building2 className="w-6 h-6 text-blue-400" />
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-black tracking-widest uppercase bg-gradient-to-r from-blue-400 via-sky-300 to-purple-400 bg-clip-text text-transparent drop-shadow-sm" style={{fontFamily: 'monospace'}}>
+              GENNEVILLIERS CITY
             </h1>
           </div>
           
-          <div className="px-5 .5 bg-slate-800 border border-slate-700 rounded-full font-bold text-slate-300">
-            {gameState === "playing" ? `Mois ${month} / 24` : "Bilan"}
+          <div className="px-5 py-2 bg-slate-900/90 border border-slate-800 rounded-full font-mono font-black text-amber-400 text-sm shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+            {gameState === "playing" ? `MOIS ${month} / 24` : "BILAN"}
           </div>
         </div>
 
         {/* Menu Screen */}
         {gameState === "menu" && (
           <div className="flex-1 flex items-center justify-center min-h-[60vh]">
-            <div className="bg-slate-800/50 backdrop-blur-2xl border border-slate-700/50 p-12 rounded-3xl text-center max-w-2xl shadow-2xl">
-              <Landmark className="w-24 h-24 text-blue-500 mx-auto mb-6" />
-              <h2 className="text-4xl font-bold mb-4">Directrice Générale des Services</h2>
-              <p className="text-lg text-slate-400 mb-8 font-light">
-                Bienvenue dans votre nouvelle collectivité territoriale. Vous avez 2 ans (24 tours) pour gérer le budget, calmer les syndicats, satisfaire les élus et maintenir le service public. Chaque décision aura des conséquences...
+            <div className="bg-slate-950/80 backdrop-blur-2xl border border-slate-800 p-8 sm:p-12 rounded-3xl text-center max-w-2xl shadow-[0_0_50px_rgba(0,0,0,0.7)] animate-fade-in">
+              <div className="w-24 h-24 bg-blue-500/20 border border-blue-500/40 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_35px_rgba(59,130,246,0.4)] transform -rotate-3 hover:rotate-0 transition-transform">
+                <Landmark className="w-12 h-12 text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]" />
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-black mb-4 text-white uppercase tracking-wider" style={{fontFamily: 'monospace'}}>
+                DIRECTRICE GÉNÉRALE DES SERVICES
+              </h2>
+              <p className="text-slate-300 text-sm sm:text-base mb-8 font-medium leading-relaxed">
+                Bienvenue dans votre nouvelle collectivité territoriale. Vous avez 2 ans (24 tours) pour gérer le budget, arbitrer les demandes syndicales, satisfaire les élus et maintenir la continuité du service public !
               </p>
               <button 
                 onClick={initGame}
-                className="px-10  bg-blue-600 hover:bg-blue-500 text-white text-xl font-bold rounded-2xl shadow-lg hover:shadow-blue-500/50 transition-all flex items-center gap-3 mx-auto"
+                className="px-10 py-4 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400 text-white font-black rounded-full text-lg shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-all hover:scale-105 active:scale-95 flex items-center gap-3 mx-auto uppercase tracking-wider"
               >
-                <Play className="w-6 h-6 fill-white" /> Prendre ses fonctions
+                <Play className="w-6 h-6 fill-current" /> Prendre ses fonctions
               </button>
             </div>
           </div>

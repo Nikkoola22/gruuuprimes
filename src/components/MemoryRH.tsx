@@ -278,34 +278,28 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
 
       <div className="max-w-6xl mx-auto relative z-10">
         
-        {/* Compact Header Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4 pb-4 border-b border-slate-200 dark:border-slate-700/50">
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-xs shadow-md"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              Retour
-            </button>
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-800 dark:text-slate-100">
-              Défis ta mémoire
-            </h1>
-          </div>
+        {/* Header */}
+        <div className="w-full flex justify-between items-center mb-6 z-20">
+          <button
+            onClick={onClose}
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-full font-bold transition-all text-sm shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 active:scale-95"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Retour
+          </button>
 
-          <div className="flex items-center gap-3 text-xs font-bold">
-            <span className="bg-white/50 dark:bg-slate-800/50 px-3 py-1.5 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm">
-              Coups : <span className="text-blue-500 font-bold">{moves}</span>
+          <div className="flex gap-4">
+            <span className="bg-slate-900/90 backdrop-blur-md px-4 py-1.5 rounded-2xl border border-slate-800 text-slate-200 text-xs font-mono font-bold flex items-center gap-2 shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+              Coups : <span className="text-purple-400 font-black text-sm">{moves}</span>
             </span>
-            <span className="bg-white/50 dark:bg-slate-800/50 px-3 py-1.5 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm">
-              Paires : <span className="text-emerald-500 font-bold">{matches} / 6</span>
+            <span className="bg-slate-900/90 backdrop-blur-md px-4 py-1.5 rounded-2xl border border-slate-800 text-slate-200 text-xs font-mono font-bold flex items-center gap-2 shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+              Paires : <span className="text-emerald-400 font-black text-sm">{matches} / 6</span>
             </span>
             <button
               onClick={handleRestart}
-              className="px-3 py-1.5 bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium rounded-full shadow-sm transition-all text-xs border border-slate-200 dark:border-slate-700 backdrop-blur-sm flex items-center gap-1"
+              className="px-4 py-1.5 bg-slate-900/90 hover:bg-slate-800 text-slate-200 font-bold rounded-2xl transition-all text-xs border border-slate-800 backdrop-blur-md flex items-center gap-1.5 shadow-md active:scale-95"
             >
-              <RotateCcw className="w-3 h-3" />
+              <RotateCcw className="w-3.5 h-3.5 text-purple-400" />
               Reset
             </button>
           </div>

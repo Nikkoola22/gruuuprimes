@@ -1085,30 +1085,30 @@ const FAQQuiz: React.FC<FAQQuizProps> = ({ onClose }) => {
         </div>
 
         {/* Visual Timeline of previous/upcoming questions */}
-        <div className="flex gap-1.5 justify-center mb-6">
+        <div className="flex gap-2 justify-center mb-6">
           {questions.map((_, idx) => {
             const isPast = idx < currentIndex;
             const isCurrent = idx === currentIndex;
             const answer = answers[idx];
             const isCorrect = answer === questions[idx].correctIndex;
 
-            let bg = "bg-slate-700/60";
-            if (isCurrent) bg = "bg-blue-500 ring-4 ring-blue-500/30 scale-110";
-            else if (isPast) bg = isCorrect ? "bg-emerald-500" : "bg-red-500";
+            let bg = "bg-slate-800 border border-slate-700";
+            if (isCurrent) bg = "bg-amber-400 ring-4 ring-amber-400/30 scale-110 shadow-[0_0_12px_rgba(251,191,36,0.8)]";
+            else if (isPast) bg = isCorrect ? "bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.6)]" : "bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.6)]";
 
             return (
               <div
                 key={idx}
                 className={`h-2.5 rounded-full transition-all duration-300 ${bg}`}
-                style={{ width: isCurrent ? "1.5rem" : "0.625rem" }}
+                style={{ width: isCurrent ? "1.75rem" : "0.75rem" }}
               />
             );
           })}
         </div>
 
-        <h3 className="text-lg sm:text-xl font-medium text-slate-800 dark:text-slate-100 mb-6 flex items-start gap-3 relative z-10">
-          <HelpCircle className="w-6 h-6 text-orange-400 shrink-0 mt-0.5" />
-          <span className="leading-snug font-light">{current.question}</span>
+        <h3 className="text-lg sm:text-2xl font-black text-white mb-6 flex items-start gap-3 relative z-10" style={{fontFamily: 'monospace'}}>
+          <HelpCircle className="w-7 h-7 text-amber-400 shrink-0 mt-0.5 drop-shadow-[0_0_10px_rgba(251,191,36,0.8)]" />
+          <span className="leading-snug">{current.question}</span>
         </h3>
 
         <div className="space-y-3 mb-6">
@@ -1116,22 +1116,22 @@ const FAQQuiz: React.FC<FAQQuizProps> = ({ onClose }) => {
             const isCorrect = i === current.correctIndex;
             const isSelected = i === selectedOption;
 
-            let btnClass = "w-full text-left px-5  rounded-2xl border-2 font-light transition-all duration-200 flex items-center group relative overflow-hidden ";
-            let badgeClass = "w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm mr-4 shrink-0 transition-all duration-200 ";
+            let btnClass = "w-full text-left px-5 py-3.5 rounded-2xl border-2 font-medium transition-all duration-200 flex items-center group relative overflow-hidden ";
+            let badgeClass = "w-8 h-8 rounded-xl flex items-center justify-center font-black text-sm mr-4 shrink-0 transition-all duration-200 font-mono ";
 
             if (!answered) {
-              btnClass += "border bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md hover:scale-[1.01] active:scale-[0.99] cursor-pointer";
-              badgeClass += "bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 group-hover:bg-blue-500 group-hover:text-white";
+              btnClass += "border-slate-800 bg-slate-900/90 text-slate-200 hover:border-amber-500/60 hover:bg-slate-800/90 hover:shadow-[0_0_20px_rgba(245,158,11,0.2)] hover:scale-[1.01] active:scale-[0.99] cursor-pointer";
+              badgeClass += "bg-slate-800 text-slate-400 group-hover:bg-amber-500 group-hover:text-slate-950";
             } else {
               if (isCorrect) {
-                btnClass += "border bg-emerald-50 dark:bg-emerald-900/30 border-emerald-500 text-emerald-700 dark:text-emerald-300 shadow-sm animate-pulse-green";
-                badgeClass += "bg-emerald-500 text-white";
+                btnClass += "border-emerald-500 bg-emerald-500/20 text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.4)] animate-pulse";
+                badgeClass += "bg-emerald-500 text-slate-950 font-black";
               } else if (isSelected) {
-                btnClass += "border bg-red-50 dark:bg-red-900/30 border-red-500 text-red-700 dark:text-red-300 shadow-sm animate-shake";
-                badgeClass += "bg-red-500 text-white";
+                btnClass += "border-rose-500 bg-rose-500/20 text-rose-300 shadow-[0_0_20px_rgba(244,63,94,0.4)]";
+                badgeClass += "bg-rose-500 text-white font-black";
               } else {
-                btnClass += "border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 text-slate-400 opacity-60 cursor-default";
-                badgeClass += "bg-slate-200 dark:bg-slate-800 text-slate-400";
+                btnClass += "border-slate-800 bg-slate-950/50 text-slate-500 opacity-50 cursor-default";
+                badgeClass += "bg-slate-900 text-slate-600";
               }
             }
 

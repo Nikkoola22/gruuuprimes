@@ -156,24 +156,24 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
       
       <div className="flex-1 w-full max-w-5xl mx-auto relative z-10 flex flex-col p-4 sm:p-6">
         
-        {/* Header (Score & Timer) */}
-        <div className="flex justify-between items-center bg-white/80 dark:bg-slate-800/80 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm mb-6 backdrop-blur-xl">
+        {/* Header & Score */}
+        <div className="w-full flex justify-between items-center mb-8 relative z-20">
           <button
             onClick={onClose}
-            className="flex items-center gap-2 px-4  bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-lg font-medium transition-all text-sm border border-slate-200 dark:border-slate-600"
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-full font-bold transition-all text-sm shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:scale-105 active:scale-95"
           >
             <ArrowLeft className="w-4 h-4" />
             Retour
           </button>
 
-          <div className="flex items-center gap-6">
-            <div className="flex flex-col items-center">
-              <span className="text-xs text-slate-400 font-bold uppercase tracking-widest">Dossiers Triés</span>
-              <span className="text-3xl font-black text-emerald-400 font-mono">{score}</span>
+          <div className="flex gap-4 sm:gap-6">
+            <div className="flex flex-col items-center bg-slate-900/80 backdrop-blur-md px-4 py-1.5 rounded-2xl border border-slate-800 shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+              <span className="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest">Dossiers Triés</span>
+              <span className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono drop-shadow-[0_0_10px_rgba(52,211,153,0.4)]">{score}</span>
             </div>
             
-            <div className={`flex items-center gap-2 px-4  rounded-xl border-2 ${timeLeft <= 10 ? 'bg-red-500/20 border-red-500 text-red-500 animate-pulse' : 'bg-slate-100 dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200'}`}>
-              <Timer className="w-6 h-6" />
+            <div className={`flex items-center gap-2 px-5 py-2 rounded-2xl border-2 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.5)] ${timeLeft <= 10 ? 'bg-rose-500/20 border-rose-500 text-rose-400 animate-pulse shadow-[0_0_20px_rgba(244,63,94,0.6)]' : 'bg-slate-900/80 border-slate-800 text-slate-200'}`}>
+              <Timer className="w-6 h-6 text-blue-400" />
               <span className="text-2xl font-black font-mono">{timeLeft}s</span>
             </div>
           </div>
@@ -183,23 +183,23 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
         <div className="flex-1 flex flex-col items-center justify-center relative w-full mb-8">
           
           {gameState === "ready" && (
-            <div className="absolute inset-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl z-30 flex flex-col items-center justify-center rounded-3xl border border-slate-200 dark:border-slate-700 p-8 text-center shadow-xl">
-              <Inbox className="w-20 h-20 text-blue-400 mb-6" />
-              <h1 className="text-4xl font-bold mb-4 text-slate-800 dark:text-white">
-                Sort'em All : Instances
+            <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-2xl z-30 flex flex-col items-center justify-center rounded-3xl border border-slate-800 p-8 text-center shadow-[0_0_50px_rgba(0,0,0,0.6)] animate-fade-in">
+              <div className="w-20 h-20 bg-blue-500/20 border border-blue-500/40 rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_35px_rgba(59,130,246,0.4)] transform -rotate-3 hover:rotate-0 transition-transform">
+                <Inbox className="w-10 h-10 text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]" />
+              </div>
+              <h1 className="text-3xl sm:text-5xl font-black mb-3 text-white uppercase tracking-wider" style={{fontFamily: 'monospace'}}>
+                SORT'EM ALL : INSTANCES
               </h1>
-              <p className="text-slate-600 dark:text-slate-300 max-w-lg mb-8 text-lg">
-                Le tri du courrier est une urgence absolue ! Lisez la question de l'agent et envoyez le dossier dans la <strong>bonne bannette</strong>.
+              <p className="text-slate-300 max-w-lg mb-8 text-sm sm:text-base leading-relaxed font-medium">
+                Le tri du courrier RH est une priorité absolue ! Analysez les demandes et aiguillez chaque dossier vers la <strong>bonne instance</strong>.
                 <br/><br/>
-                <span className="text-sm font-light text-slate-400">
-                  Temps alloué : 60 secondes.<br/>
-                  Bonne réponse : +1s <br/>
-                  Erreur d'instance : -5s
+                <span className="inline-block bg-slate-900 border border-slate-800 px-4 py-2 rounded-xl text-xs text-slate-400 font-mono">
+                  ⏱️ Temps : 60s | ✅ Succès : +1s | ❌ Erreur : -5s
                 </span>
               </p>
               <button
                 onClick={startGame}
-                className="flex items-center gap-3 px-8  bg-blue-500 hover:bg-blue-600 text-white rounded-full font-medium text-xl transition-all shadow-md hover:shadow-lg"
+                className="flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400 text-white font-black text-lg rounded-full transition-all shadow-[0_0_30px_rgba(59,130,246,0.5)] hover:scale-105 active:scale-95 uppercase tracking-wider"
               >
                 <Play className="w-6 h-6 fill-current" />
                 Prendre son service
@@ -208,19 +208,19 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
           )}
 
           {gameState === "gameover" && (
-            <div className="absolute inset-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl z-30 flex flex-col items-center justify-center rounded-3xl border border-slate-200 dark:border-slate-700 p-8 text-center shadow-xl">
-              <h2 className="text-5xl font-black text-red-500 mb-2">FIN DE SERVICE</h2>
-              <p className="text-slate-600 dark:text-slate-400 text-xl mb-8">La pile de courrier vous a submergé.</p>
+            <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-2xl z-30 flex flex-col items-center justify-center rounded-3xl border border-slate-800 p-8 text-center shadow-[0_0_50px_rgba(0,0,0,0.6)] animate-fade-in">
+              <h2 className="text-4xl sm:text-6xl font-black text-rose-500 mb-2 uppercase tracking-wider drop-shadow-[0_0_25px_rgba(244,63,94,0.5)]" style={{fontFamily: 'monospace'}}>FIN DE SERVICE</h2>
+              <p className="text-slate-300 text-base mb-8">La pile de courrier s'est accumulée.</p>
               
-              <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 mb-8 shadow-sm w-64">
-                <p className="text-sm text-slate-500 font-bold uppercase mb-2">Score de tri</p>
-                <p className="text-6xl font-black text-emerald-400">{score}</p>
-                <p className="text-xs text-slate-400 mt-2">Dossiers traités</p>
+              <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl mb-8 shadow-[0_0_30px_rgba(0,0,0,0.5)] w-64">
+                <p className="text-xs text-slate-400 font-bold font-mono uppercase mb-1">Score de tri</p>
+                <p className="text-6xl font-black text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.4)]">{score}</p>
+                <p className="text-xs text-slate-500 mt-2">Dossiers traités</p>
               </div>
 
               <button
                 onClick={startGame}
-                className="flex items-center gap-2 px-8  bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-600 rounded-full font-medium transition-all shadow-md"
+                className="flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black rounded-full text-base transition-all shadow-[0_0_25px_rgba(244,63,94,0.5)] hover:scale-105 active:scale-95 uppercase tracking-wider"
               >
                 <ArrowLeft className="w-5 h-5" />
                 Recommencer le tri

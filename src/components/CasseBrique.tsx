@@ -855,7 +855,37 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
         ctx.restore();
       });
 
-      ctx.restore(); // for screen shake
+      // === POST-PROCESSING & SHADER PASS (ReShade / SweetFX CRT & Vignette Glow Style) ===
+      ctx.save();
+      
+      // 1. Vignette optique (Ambient Occlusion aux bords du canvas)
+      const vignetteGrad = ctx.createRadialGradient(
+        CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH * 0.35,
+        CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH * 0.65
+      );
+      vignetteGrad.addColorStop(0, 'rgba(0,0,0,0)');
+      vignetteGrad.addColorStop(0.7, 'rgba(0,0,0,0.3)');
+      vignetteGrad.addColorStop(1, 'rgba(0,0,0,0.85)');
+      ctx.fillStyle = vignetteGrad;
+      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+      // 2. Scanlines CRT (Lignes horizontales rétro émulateur arcade)
+      ctx.fillStyle = 'rgba(10, 15, 30, 0.08)';
+      for (let y = 0; y < CANVAS_HEIGHT; y += 4) {
+        ctx.fillRect(0, y, CANVAS_WIDTH, 1.5);
+      }
+
+      // 3. Bloom / Chromatic Aberration Subtile (Lueur globale arcade)
+      const bloomGrad = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
+      bloomGrad.addColorStop(0, 'rgba(204,0,255,0.03)');
+      bloomGrad.addColorStop(0.5, 'rgba(255,121,0,0.02)');
+      bloomGrad.addColorStop(1, 'rgba(0,200,255,0.03)');
+      ctx.fillStyle = bloomGrad;
+      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+      ctx.restore();
+
+      ctx.restore(); // pour le Screen Shake
     };
 
     const loop = () => {
@@ -887,8 +917,8 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
           <button
             type="button"
             onClick={onClose}
-            className="flex items-center gap-2 px-4 py-2 text-white rounded-full font-bold transition-all text-sm shadow-md"
-            style={{background: 'rgba(180,0,255,0.3)', border: '1px solid rgba(180,0,255,0.6)', backdropFilter: 'blur(8px)'}}
+            className="flex items-center gap-2 px-4 py-2 text-white rounded-full font-bold transition-all text-sm shadow-[0_0_20px_rgba(180,0,255,0.4)] hover:scale-105 active:scale-95"
+            style={{background: 'linear-gradient(135deg, rgba(180,0,255,0.4), rgba(120,0,200,0.6))', border: '1px solid rgba(220,100,255,0.6)', backdropFilter: 'blur(12px)'}}
           >
             <ArrowLeft className="w-4 h-4" />
             Retour
@@ -897,32 +927,32 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
 
         {/* Title & Stats */}
         <div className="text-center mb-6 animate-fade-in">
-          <h1 className="text-3xl sm:text-5xl font-black tracking-widest mb-2 uppercase" style={{fontFamily: 'monospace', color: '#ff7900', textShadow: '0 0 20px #ff790088, 0 0 60px #ff790044'}}>
-            CASSE-BRIQUE <span style={{color: '#cc00ff', textShadow: '0 0 20px #cc00ff88'}}>CFDT</span>
+          <h1 className="text-3xl sm:text-5xl font-black tracking-widest mb-2 uppercase" style={{fontFamily: 'monospace', color: '#ff7900', textShadow: '0 0 25px rgba(255,121,0,0.6), 0 0 60px rgba(255,121,0,0.3)'}}>
+            CASSE-BRIQUE <span style={{color: '#cc00ff', textShadow: '0 0 25px rgba(204,0,255,0.7)'}}>CFDT</span>
           </h1>
-          <p className="text-sm sm:text-base font-light max-w-lg mx-auto mb-6" style={{color: 'rgba(255,255,255,0.45)', fontFamily: 'monospace', letterSpacing: '0.05em'}}>
+          <p className="text-xs sm:text-sm font-semibold max-w-lg mx-auto mb-6 tracking-widest" style={{color: 'rgba(255,255,255,0.6)', fontFamily: 'monospace'}}>
             LIBÉREZ VOS ACQUIS SOCIAUX — DÉTRUISEZ LES BRIQUES !
           </p>
 
-          <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 text-sm font-bold">
-            <span className="px-4 py-2 rounded font-mono text-xs" style={{background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(180,0,255,0.4)', color: '#cc00ff', letterSpacing: '0.1em'}}>
-              LEVEL <span className="text-white text-base">0{level}</span>
+          <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-6 text-sm font-bold">
+            <span className="px-4 py-2 rounded-xl font-mono text-xs shadow-[0_4px_12px_rgba(0,0,0,0.5)]" style={{background: 'rgba(15,10,35,0.85)', border: '1px solid rgba(180,0,255,0.5)', color: '#d8b4fe', letterSpacing: '0.1em'}}>
+              LEVEL <span className="text-white text-base font-black ml-1">0{level}</span>
             </span>
-            <span className="px-4 py-2 rounded font-mono text-xs" style={{background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(255,121,0,0.4)', color: '#ff7900', letterSpacing: '0.1em'}}>
-              SCORE <span className="text-white text-base">{String(score).padStart(6, '0')}</span>
+            <span className="px-4 py-2 rounded-xl font-mono text-xs shadow-[0_4px_12px_rgba(0,0,0,0.5)]" style={{background: 'rgba(15,10,35,0.85)', border: '1px solid rgba(255,121,0,0.5)', color: '#fdba74', letterSpacing: '0.1em'}}>
+              SCORE <span className="text-amber-400 text-base font-black ml-1">{String(score).padStart(6, '0')}</span>
             </span>
-            <span className="px-4 py-2 rounded font-mono text-xs flex items-center gap-1.5" style={{background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(239,68,68,0.4)', color: '#ef4444', letterSpacing: '0.1em'}}>
-              LIVES 
+            <span className="px-4 py-2 rounded-xl font-mono text-xs flex items-center gap-2 shadow-[0_4px_12px_rgba(0,0,0,0.5)]" style={{background: 'rgba(15,10,35,0.85)', border: '1px solid rgba(239,68,68,0.5)', color: '#fca5a5', letterSpacing: '0.1em'}}>
+              VIES
               <span className="flex gap-1">
                 {Array.from({ length: Math.max(0, lives) }).map((_, idx) => (
-                  <Heart key={idx} className="w-4 h-4 text-red-500 fill-red-500" />
+                  <Heart key={idx} className="w-4 h-4 text-rose-500 fill-rose-500 drop-shadow-[0_0_8px_rgba(244,63,94,0.8)]" />
                 ))}
-                {lives <= 0 && <span className="text-red-500 font-bold text-xs">---</span>}
+                {lives <= 0 && <span className="text-rose-500 font-bold text-xs">---</span>}
               </span>
             </span>
             {activePowerUp && (
-              <span className="px-4 py-2 rounded font-mono text-xs flex items-center gap-1.5 animate-bounce" style={{background: 'rgba(255,121,0,0.15)', border: '1px solid rgba(255,121,0,0.5)', color: '#ff7900', letterSpacing: '0.08em'}}>
-                <Zap className="w-3.5 h-3.5" />
+              <span className="px-4 py-2 rounded-xl font-mono text-xs flex items-center gap-1.5 animate-bounce shadow-[0_0_20px_rgba(255,121,0,0.4)]" style={{background: 'rgba(255,121,0,0.2)', border: '1px solid rgba(255,121,0,0.6)', color: '#ff7900', letterSpacing: '0.08em'}}>
+                <Zap className="w-3.5 h-3.5 fill-current" />
                 {activePowerUp}
               </span>
             )}
@@ -930,24 +960,24 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
         </div>
 
         {/* Game Area Container */}
-        <div className="max-w-5xl mx-auto backdrop-blur-xl rounded-2xl p-4 sm:p-6 relative overflow-hidden" style={{background: 'rgba(2,0,16,0.85)', border: '1px solid rgba(180,0,255,0.3)', boxShadow: '0 0 40px rgba(180,0,255,0.15), inset 0 0 40px rgba(0,0,0,0.5)'}}>
+        <div className="max-w-5xl mx-auto backdrop-blur-2xl rounded-3xl p-4 sm:p-6 relative overflow-hidden" style={{background: 'rgba(5,2,20,0.9)', border: '1px solid rgba(180,0,255,0.4)', boxShadow: '0 0 50px rgba(180,0,255,0.2), inset 0 0 60px rgba(0,0,0,0.8)'}}>
           
           {gameState === "ready" && (
             <div className="text-center py-16 relative z-10 animate-fade-in">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" style={{background: 'rgba(255,121,0,0.15)', border: '2px solid rgba(255,121,0,0.5)', boxShadow: '0 0 30px rgba(255,121,0,0.3)'}}>
-                <Activity className="w-10 h-10" style={{color: '#ff7900'}} />
+              <div className="w-20 h-20 mx-auto mb-6 rounded-2xl flex items-center justify-center transform -rotate-3 hover:rotate-0 transition-transform" style={{background: 'linear-gradient(135deg, rgba(255,121,0,0.3), rgba(204,0,255,0.3))', border: '2px solid rgba(255,121,0,0.6)', boxShadow: '0 0 35px rgba(255,121,0,0.4)'}}>
+                <Activity className="w-10 h-10 text-amber-400 drop-shadow-[0_0_10px_rgba(255,121,0,0.8)]" />
               </div>
-              <h2 className="text-2xl font-black mb-3 tracking-widest uppercase" style={{fontFamily: 'monospace', color: '#ff7900', textShadow: '0 0 15px #ff790066'}}>PRESS START</h2>
-              <p className="max-w-sm mx-auto mb-8 text-sm leading-relaxed" style={{color: 'rgba(255,255,255,0.5)', fontFamily: 'monospace'}}>
-                Dirigez la raquette <span style={{color: '#ff7900', fontWeight: 700}}>CFDT</span> avec la souris, le doigt ou les flèches. Collectez les capsules bonus !
+              <h2 className="text-3xl font-black mb-3 tracking-widest uppercase" style={{fontFamily: 'monospace', color: '#ff7900', textShadow: '0 0 20px rgba(255,121,0,0.7)'}}>PRESS START</h2>
+              <p className="max-w-md mx-auto mb-8 text-sm leading-relaxed" style={{color: 'rgba(255,255,255,0.6)', fontFamily: 'monospace'}}>
+                Dirigez la raquette <span style={{color: '#ff7900', fontWeight: 800}}>CFDT</span> avec la souris, le doigt ou les flèches du clavier. Attrapez les capsules bonus !
               </p>
               <button
                 onClick={startNewGame}
-                className="mx-auto px-10 py-3 font-black rounded text-sm tracking-widest uppercase flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-95"
-                style={{fontFamily: 'monospace', background: 'linear-gradient(135deg, #ff7900, #cc5500)', color: '#fff', boxShadow: '0 0 30px rgba(255,121,0,0.5)', border: '1px solid rgba(255,121,0,0.6)'}}
+                className="mx-auto px-10 py-4 font-black rounded-full text-base tracking-widest uppercase flex items-center justify-center gap-3 transition-all hover:scale-105 active:scale-95 shadow-[0_0_35px_rgba(255,121,0,0.6)]"
+                style={{fontFamily: 'monospace', background: 'linear-gradient(135deg, #ff7900, #e65c00)', color: '#fff', border: '1px solid rgba(255,255,255,0.4)'}}
               >
-                <Play className="w-5 h-5 fill-white" />
-                INSERT COIN
+                <Play className="w-6 h-6 fill-white" />
+                DÉMARRER LA PARTIE
               </button>
             </div>
           )}

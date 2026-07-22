@@ -381,7 +381,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
         <div style={{
           fontFamily: "'Syne', sans-serif", fontWeight: 800,
           fontSize: 'clamp(40px, 12vw, 98px)', lineHeight: 0.9, letterSpacing: '-0.04em',
-                      background: isLight ? 'linear-gradient(165deg, #FFB86C 22%, #FF9A33 100%)' : 'linear-gradient(165deg, #FF9500 22%, #FF7700 100%)',
+          background: isLight ? 'linear-gradient(165deg, #FFB86C 22%, #FF9A33 100%)' : 'linear-gradient(165deg, #FF9500 22%, #FF7700 100%)',
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
         }}>
           Atlas

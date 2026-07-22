@@ -873,20 +873,25 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
 
       <div className="max-w-6xl mx-auto relative z-10 flex flex-col items-center">
         
-        <div className="w-full flex justify-between items-center mb-6">
-          <button onClick={onClose} className="flex items-center gap-2 px-4  bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all shadow-md">
-            <ArrowLeft className="w-4 h-4" /> Retour
+        {/* Header Bar */}
+        <div className="w-full flex justify-between items-center mb-6 z-20">
+          <button
+            onClick={onClose}
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-full font-bold transition-all text-sm shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:scale-105 active:scale-95"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Retour
           </button>
           
-          <div className="flex gap-4">
-            <div className="bg-slate-800/80 backdrop-blur-md px-6  rounded-2xl border border-slate-700 flex items-center gap-2 text-yellow-400 font-bold shadow-lg">
-              <Coins className="w-5 h-5" /> Budget : {budget}k€
+          <div className="flex gap-3 sm:gap-4">
+            <div className="bg-slate-900/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-slate-800 flex items-center gap-2 text-amber-400 font-black text-sm shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+              <Coins className="w-4 h-4" /> Budget : <span className="text-amber-300 font-mono text-base">{budget}k€</span>
             </div>
-            <div className="bg-slate-800/80 backdrop-blur-md px-6  rounded-2xl border border-slate-700 flex items-center gap-2 text-red-400 font-bold shadow-lg">
-              <Heart className="w-5 h-5 fill-red-400" /> Continuité SP : {health}
+            <div className="bg-slate-900/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-slate-800 flex items-center gap-2 text-rose-400 font-black text-sm shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+              <Heart className="w-4 h-4 fill-rose-400" /> Continuité SP : <span className="text-rose-300 font-mono text-base">{health}</span>
             </div>
-            <div className="bg-slate-800/80 backdrop-blur-md px-6  rounded-2xl border border-slate-700 flex items-center gap-2 text-blue-400 font-bold shadow-lg">
-              <Shield className="w-5 h-5" /> Vague : {wave}/10
+            <div className="bg-slate-900/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-slate-800 flex items-center gap-2 text-sky-400 font-black text-sm shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+              <Shield className="w-4 h-4" /> Vague : <span className="text-sky-300 font-mono text-base">{wave}/10</span>
             </div>
           </div>
         </div>
@@ -895,8 +900,10 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
           
           {/* Toolbar */}
           <div className="w-64 flex flex-col gap-4">
-            <div className="bg-slate-800/60 backdrop-blur-xl p-4 rounded-3xl border border-slate-700 shadow-xl">
-              <h3 className="text-lg font-bold text-white mb-4">Défenses RH</h3>
+            <div className="bg-slate-950/80 backdrop-blur-2xl p-5 rounded-3xl border border-slate-800 shadow-[0_0_40px_rgba(0,0,0,0.6)]">
+              <h3 className="text-base font-black text-white mb-4 uppercase tracking-wider font-mono flex items-center gap-2">
+                <Shield className="w-5 h-5 text-emerald-400" /> Défenses RH
+              </h3>
               
               <div className="flex flex-col gap-3">
                 {[1, 2, 3].map(type => {
@@ -908,16 +915,16 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
                     <button
                       key={type}
                       onClick={() => setSelectedTower(type)}
-                      className={`p-3 rounded-2xl border text-left transition-all ${isSelected ? 'border-white bg-white/10 scale-105' : 'border-slate-600 bg-slate-800 hover:bg-slate-700'} ${!canAfford && 'opacity-50 grayscale'}`}
+                      className={`p-3.5 rounded-2xl border text-left transition-all ${isSelected ? 'border-emerald-400 bg-emerald-500/15 shadow-[0_0_20px_rgba(16,185,129,0.3)] scale-[1.02]' : 'border-slate-800 bg-slate-900/90 hover:border-slate-700'} ${!canAfford && 'opacity-40 grayscale'}`}
                     >
                       <div className="flex justify-between items-center mb-1">
-                        <span className="font-bold text-white text-sm flex items-center gap-2">
+                        <span className="font-extrabold text-white text-xs sm:text-sm flex items-center gap-2">
                           <div className="w-3 h-3 rounded-full shadow-lg" style={{backgroundColor: tData.color, boxShadow: `0 0 10px ${tData.color}`}} />
                           {tData.name}
                         </span>
-                        <span className="text-yellow-400 text-xs font-bold">{tData.cost}k€</span>
+                        <span className="text-amber-400 text-xs font-black font-mono">{tData.cost}k€</span>
                       </div>
-                      <p className="text-xs text-slate-400 leading-tight">{tData.desc}</p>
+                      <p className="text-[11px] text-slate-400 leading-tight font-medium">{tData.desc}</p>
                     </button>
                   );
                 })}
@@ -926,34 +933,39 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
               {!waveActiveRef.current && wave < 10 && gameState === "playing" && (
                 <button 
                   onClick={startWave}
-                  className="w-full mt-6  bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg hover:shadow-blue-500/50 flex justify-center items-center gap-2 transition-all animate-pulse"
+                  className="w-full mt-6 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black rounded-full shadow-[0_0_25px_rgba(16,185,129,0.5)] flex justify-center items-center gap-2 transition-all uppercase tracking-wider text-xs animate-pulse"
                 >
-                  <Play className="w-5 h-5 fill-white" /> Lancer Vague {wave + 1}
+                  <Play className="w-4 h-4 fill-current" /> Lancer Vague {wave + 1}
                 </button>
               )}
             </div>
             
-            <div className="bg-slate-800/60 backdrop-blur-xl p-4 rounded-3xl border border-slate-700 shadow-xl text-xs text-slate-300">
-              <h4 className="font-bold text-white mb-2">Instructions</h4>
-              <p className="mb-2">1. Sélectionnez une défense RH.</p>
-              <p className="mb-2">2. Cliquez sur la grille (hors du chemin) pour la construire.</p>
-              <p>3. Lancez la vague pour traiter les dossiers (ennemis).</p>
+            <div className="bg-slate-950/80 backdrop-blur-2xl p-4 rounded-3xl border border-slate-800 shadow-xl text-xs text-slate-300 font-medium">
+              <h4 className="font-extrabold text-white mb-2 uppercase tracking-wide font-mono text-xs">Tactique RH</h4>
+              <p className="mb-1.5 text-slate-400">1. Sélectionnez un bureau de défense RH.</p>
+              <p className="mb-1.5 text-slate-400">2. Placez-le sur la grille hors du parcours.</p>
+              <p className="text-slate-400">3. Lancez la vague pour intercepter les dossiers.</p>
             </div>
           </div>
 
           {/* Canvas Container */}
           <div className="flex-1 relative">
-            <div className="bg-slate-950/80 backdrop-blur-xl rounded-3xl p-4 shadow-2xl border border-slate-700/50 inline-block overflow-hidden relative">
+            <div className="bg-slate-950/90 backdrop-blur-2xl rounded-3xl p-3 shadow-[0_0_50px_rgba(0,0,0,0.7)] border border-slate-800 inline-block overflow-hidden relative">
               
               {gameState === "ready" && (
-                <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm z-20 flex flex-col items-center justify-center">
-                  <Shield className="w-20 h-20 text-emerald-500 mb-6" />
-                  <h2 className="text-3xl font-bold text-white mb-4">Tower Defense : Effectifs</h2>
-                  <p className="text-slate-300 max-w-md text-center mb-8">
-                    Les dossiers s'accumulent ! Placez stratégiquement vos chargés de recrutement et vos budgets pour traiter les demandes avant qu'elles ne saturent le service public.
+                <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-2xl z-20 flex flex-col items-center justify-center p-6 text-center animate-fade-in">
+                  <div className="w-20 h-20 bg-emerald-500/20 border border-emerald-500/40 rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_35px_rgba(16,185,129,0.4)] transform -rotate-3 hover:rotate-0 transition-transform">
+                    <Shield className="w-10 h-10 text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+                  </div>
+                  <h2 className="text-3xl font-black text-white mb-3 uppercase tracking-wider" style={{fontFamily: 'monospace'}}>TOWER DEFENSE RH</h2>
+                  <p className="text-slate-300 max-w-sm mx-auto mb-8 font-medium text-sm leading-relaxed">
+                    Déployez vos bureaux d'expertise RH le long du chemin pour stopper la vague de dossiers et demandes d'agents !
                   </p>
-                  <button onClick={initGame} className="px-8  bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl shadow-lg hover:scale-105 transition-all text-lg flex items-center gap-2">
-                    <Play className="w-6 h-6 fill-white" /> Démarrer
+                  <button 
+                    onClick={initGame}
+                    className="px-8 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black rounded-full text-base transition-all shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:scale-105 active:scale-95 uppercase tracking-wider flex items-center gap-3"
+                  >
+                    <Play className="w-5 h-5 fill-current" /> Prendre la défense
                   </button>
                 </div>
               )}

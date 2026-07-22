@@ -490,67 +490,86 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
 
       <div className="max-w-4xl mx-auto relative z-10">
         
+        {/* Retour button */}
         <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-50">
-          <button onClick={onClose} className="flex items-center gap-2 px-4  bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm shadow-md">
-            <ArrowLeft className="w-4 h-4" /> Retour
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black rounded-full transition-all text-sm shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:scale-105 active:scale-95"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Retour
           </button>
         </div>
 
+        {/* Title & Stats */}
         <div className="text-center mb-6 animate-fade-in">
-          <h1 className="text-3xl sm:text-5xl font-light tracking-tight mb-2">
-            Pac-Man <span className="text-blue-500 font-bold">de la Paie</span>
+          <h1 className="text-3xl sm:text-5xl font-black tracking-widest mb-2 uppercase" style={{fontFamily: 'monospace', color: '#eab308', textShadow: '0 0 25px rgba(234,179,8,0.6), 0 0 60px rgba(234,179,8,0.3)'}}>
+            PAC-MAN <span style={{color: '#38bdf8', textShadow: '0 0 25px rgba(56,189,248,0.7)'}}>PAIE</span>
           </h1>
-          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-light max-w-lg mx-auto mb-6">
-            Collectez les primes et fuyez les erreurs de gestion !
-          </p>
-
-          <div className="flex flex-wrap justify-center items-center gap-4 text-sm font-bold">
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4  rounded-full shadow-sm border border-slate-200 dark:border-slate-700 backdrop-blur-sm flex items-center gap-2">
-              Score : <span className="text-yellow-500 text-base">{score}</span>
+          
+          <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-6 text-sm font-bold mt-4">
+            <span className="px-4 py-2 rounded-xl font-mono text-xs shadow-[0_4px_12px_rgba(0,0,0,0.5)]" style={{background: 'rgba(15,23,42,0.85)', border: '1px solid rgba(234,179,8,0.5)', color: '#fef08a', letterSpacing: '0.1em'}}>
+              SCORE <span className="text-amber-400 text-base font-black ml-1">{score}</span>
             </span>
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4  rounded-full shadow-sm border border-slate-200 dark:border-slate-700 backdrop-blur-sm flex items-center gap-2">
-              Vies : 
-              <span className="flex items-center gap-1">
+            <span className="px-4 py-2 rounded-xl font-mono text-xs flex items-center gap-2 shadow-[0_4px_12px_rgba(0,0,0,0.5)]" style={{background: 'rgba(15,23,42,0.85)', border: '1px solid rgba(239,68,68,0.5)', color: '#fca5a5', letterSpacing: '0.1em'}}>
+              VIES
+              <span className="flex gap-1">
                 {Array.from({ length: Math.max(0, lives) }).map((_, idx) => (
-                  <Heart key={idx} className="w-4 h-4 text-red-500 fill-red-500" />
+                  <Heart key={idx} className="w-4 h-4 text-rose-500 fill-rose-500 drop-shadow-[0_0_8px_rgba(244,63,94,0.8)]" />
                 ))}
               </span>
             </span>
             {message && (
-              <span className="bg-green-500/20 text-green-400 px-4  rounded-full border border-green-500/40 animate-pulse">
+              <span className="bg-emerald-500/20 text-emerald-300 px-4 py-2 rounded-xl border border-emerald-500/50 font-mono text-xs animate-pulse shadow-[0_0_15px_rgba(16,185,129,0.4)]">
                 {message}
               </span>
             )}
           </div>
         </div>
 
-        <div className="flex justify-center max-w-2xl mx-auto bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-3xl p-4 sm:p-6 shadow-xl border border-slate-200 dark:border-slate-700/50 relative overflow-hidden min-h-[500px]">
+        <div className="flex flex-col items-center justify-center max-w-2xl mx-auto bg-slate-950/80 backdrop-blur-2xl rounded-3xl p-4 sm:p-6 shadow-[0_0_50px_rgba(0,0,0,0.6)] border border-slate-800 relative overflow-hidden min-h-[480px]">
           
           {gameState === "ready" && (
-            <div className="text-center self-center relative z-10 w-full animate-fade-in">
-              <Ghost className="w-16 h-16 text-blue-500 mx-auto mb-4 animate-bounce" />
-              <h2 className="text-2xl font-bold mb-2">Prêt à gérer la paie ?</h2>
-              <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-8 text-sm font-light">
-                Mangez les <span className="text-yellow-500 font-bold">Crédits (points)</span> et attrapez les <span className="text-red-400 font-bold">Délibérations (gros points)</span> pour pouvoir chasser les erreurs (Fantômes).
+            <div className="text-center self-center relative z-10 w-full animate-fade-in py-10">
+              <div className="w-20 h-20 bg-yellow-500/20 border border-yellow-500/40 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_35px_rgba(234,179,8,0.4)] transform -rotate-3 hover:rotate-0 transition-transform">
+                <Ghost className="w-10 h-10 text-yellow-400 drop-shadow-[0_0_10px_rgba(234,179,8,0.8)] animate-bounce" />
+              </div>
+              <h2 className="text-3xl font-black mb-3 text-white tracking-wide uppercase" style={{fontFamily: 'monospace'}}>PRÊT À GÉRER LA PAIE ?</h2>
+              <p className="text-slate-300 max-w-sm mx-auto mb-8 text-sm font-medium leading-relaxed">
+                Mangez les <span className="text-yellow-400 font-bold">Crédits</span> et attrapez les <span className="text-rose-400 font-bold">Délibérations</span> pour pouvoir chasser les Erreurs RH (Fantômes) !
               </p>
-              <button onClick={initGame} className="mx-auto px-8  bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-medium rounded-2xl shadow-md border hover:scale-[1.02] flex items-center gap-2">
-                <Play className="w-5 h-5 fill-white" /> Jouer
+              <button 
+                onClick={initGame} 
+                className="mx-auto px-8 py-3.5 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-black rounded-full shadow-[0_0_30px_rgba(234,179,8,0.5)] border border-yellow-300 transition-all hover:scale-105 active:scale-95 flex items-center gap-3 uppercase tracking-wider text-base"
+              >
+                <Play className="w-6 h-6 fill-current" /> Jouer
               </button>
             </div>
           )}
 
           {(gameState === "gameover" || gameState === "victory") && (
-            <div className="text-center self-center relative z-10 w-full animate-scale-up">
+            <div className="text-center self-center relative z-10 w-full animate-scale-up py-10">
               {gameState === "victory" ? (
-                <Trophy className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
+                <div className="w-20 h-20 bg-amber-500/20 border border-amber-500/50 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_40px_rgba(245,158,11,0.5)]">
+                  <Trophy className="w-10 h-10 text-amber-400 drop-shadow-[0_0_15px_rgba(245,158,11,0.8)]" />
+                </div>
               ) : (
-                <AlertTriangle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+                <div className="w-20 h-20 bg-rose-500/20 border border-rose-500/50 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_40px_rgba(244,63,94,0.5)]">
+                  <AlertTriangle className="w-10 h-10 text-rose-400 drop-shadow-[0_0_15px_rgba(244,63,94,0.8)]" />
+                </div>
               )}
-              <h2 className="text-2xl font-bold mb-2">
-                {gameState === "victory" ? "Paie validée ! 🎉" : "Catastrophe RH ! 😢"}
+              <h2 className="text-3xl sm:text-4xl font-black mb-3 text-white tracking-wide uppercase" style={{fontFamily: 'monospace'}}>
+                {gameState === "victory" ? "PAIE VALIDÉE ! 🎉" : "CATASTROPHE RH ! 😢"}
               </h2>
-              <p className="mb-8">Score final : <span className="font-bold text-yellow-500">{score}</span></p>
-              <button onClick={initGame} className="mx-auto px-8  bg-white dark:bg-slate-700 rounded-2xl shadow-md flex items-center gap-2 hover:scale-[1.02]">
+              <div className="bg-slate-900/90 border border-slate-800 p-4 rounded-xl max-w-xs mx-auto mb-8">
+                <p className="text-slate-400 text-xs font-mono uppercase mb-1">Score Final</p>
+                <p className="text-5xl font-black text-amber-400 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]">{score}</p>
+              </div>
+              <button 
+                onClick={initGame} 
+                className="mx-auto px-8 py-3.5 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black rounded-full shadow-[0_0_25px_rgba(245,158,11,0.4)] flex items-center gap-3 transition-all hover:scale-105 active:scale-95 uppercase tracking-wider text-base"
+              >
                 <RotateCcw className="w-5 h-5" /> Rejouer
               </button>
             </div>
@@ -562,7 +581,7 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
                 ref={canvasRef}
                 width={CANVAS_WIDTH}
                 height={CANVAS_HEIGHT}
-                className="bg-slate-900 rounded-xl shadow-inner border border-slate-700 max-w-full h-auto block"
+                className="bg-slate-950 rounded-2xl shadow-[inset_0_0_30px_rgba(0,0,0,0.9)] border border-slate-800 max-w-full h-auto block"
               />
             </div>
           )}

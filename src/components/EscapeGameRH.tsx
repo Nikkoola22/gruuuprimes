@@ -278,35 +278,35 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="w-full max-w-2xl bg-slate-900/60 border border-slate-800/80 rounded-3xl p-8 backdrop-blur-md relative overflow-hidden shadow-2xl"
+              className="w-full max-w-2xl bg-slate-950/80 border border-purple-500/30 rounded-3xl p-8 backdrop-blur-2xl relative overflow-hidden shadow-[0_0_50px_rgba(168,85,247,0.2)]"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-2xl"></div>
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
               
-              <h2 className="text-2xl font-bold text-purple-300 mb-4 text-center">
-                Es-tu prêt à relever le défi RH ?
+              <h2 className="text-3xl sm:text-4xl font-black text-white mb-4 text-center tracking-wide uppercase" style={{fontFamily: 'monospace'}}>
+                ES-TU PRÊT À RELEVER LE DÉFI RH ?
               </h2>
               
-              <p className="text-slate-300 text-sm leading-relaxed mb-6 font-light">
+              <p className="text-slate-300 text-sm leading-relaxed mb-6 font-medium text-center">
                 Chaque jour, les agents et managers territoriaux font face à des choix complexes : surcharge d'activité, conflits d'usagers, respect du droit d'alerte, déconnexion en télétravail...
               </p>
               
-              <div className="border border-slate-800 bg-slate-950/40 rounded-2xl p-5 mb-8 text-xs text-slate-400 leading-relaxed font-light">
-                <strong className="text-slate-300 block mb-2 font-semibold">🔍 Concept du jeu :</strong>
-                Vous allez être confronté à <span className="text-purple-300 font-medium">5 scénarios de crise réalistes</span>. Pour chacun, choisissez la meilleure réponse :
-                <ul className="list-disc list-inside mt-2 space-y-1">
-                  <li><span className="text-emerald-400 font-medium">Le Bon Réflexe (2 pts)</span> : préserve la QVT et s'appuie sur les bons dispositifs légaux.</li>
-                  <li><span className="text-amber-400 font-medium">Le Choix Risqué (1 pt)</span> : solution temporaire improvisée qui masque le problème ou vous fragilise.</li>
-                  <li><span className="text-rose-400 font-medium">Le Choix Contre-Productif (0 pt)</span> : nuit au collectif et aggrave la crise.</li>
+              <div className="border border-slate-800 bg-slate-900/90 rounded-2xl p-5 mb-8 text-xs text-slate-300 leading-relaxed font-medium shadow-inner">
+                <strong className="text-purple-300 block mb-2 font-bold uppercase tracking-wider text-xs font-mono">🔍 Concept du jeu :</strong>
+                Vous allez être confronté à <span className="text-purple-300 font-bold">5 scénarios de crise réalistes</span>. Pour chacun, choisissez la meilleure réponse :
+                <ul className="list-disc list-inside mt-3 space-y-1.5">
+                  <li><span className="text-emerald-400 font-bold">Le Bon Réflexe (2 pts)</span> : préserve la QVT et s'appuie sur les bons dispositifs légaux.</li>
+                  <li><span className="text-amber-400 font-bold">Le Choix Risqué (1 pt)</span> : solution temporaire improvisée qui masque le problème.</li>
+                  <li><span className="text-rose-400 font-bold">Le Choix Contre-Productif (0 pt)</span> : nuit au collectif et aggrave la crise.</li>
                 </ul>
               </div>
 
               <div className="flex justify-center">
                 <button
                   onClick={handleStart}
-                  className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-full font-bold text-sm shadow-lg hover:shadow-purple-500/20 transform hover:scale-105 transition-all flex items-center gap-2 animate-bounce"
+                  className="px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white rounded-full font-black text-base shadow-[0_0_30px_rgba(168,85,247,0.5)] transform hover:scale-105 active:scale-95 transition-all flex items-center gap-3 uppercase tracking-wider animate-pulse"
                 >
                   Commencer l'escape game
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-5 h-5" />
                 </button>
               </div>
             </motion.div>

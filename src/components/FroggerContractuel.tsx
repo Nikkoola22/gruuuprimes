@@ -724,73 +724,66 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
         </div>
 
         {/* Title & Stats */}
-        <div className="text-center mb-4 w-full">
-          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight mb-2 text-slate-800 dark:text-slate-100">
-            Chasse au CDI
+        <div className="text-center mb-6 w-full animate-fade-in">
+          <h1 className="text-3xl sm:text-5xl font-black tracking-widest mb-2 uppercase" style={{fontFamily: 'monospace', color: '#4ade80', textShadow: '0 0 25px rgba(74,222,128,0.6)'}}>
+            CHASSE AU <span style={{color: '#38bdf8', textShadow: '0 0 25px rgba(56,189,248,0.7)'}}>CDI</span>
           </h1>
-          
-          <div className="flex flex-wrap justify-center items-center gap-4 text-sm font-bold">
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4 .5 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
-              Niveau : <span className="text-purple-400 font-extrabold">{level}</span>
+          <p className="text-xs sm:text-sm font-semibold max-w-lg mx-auto mb-6 tracking-widest text-slate-300" style={{fontFamily: 'monospace'}}>
+            ÉVITEZ LA PRÉCARITÉ — REJOIGNEZ LA FONCTION PUBLIQUE !
+          </p>
+
+          <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-6 text-sm font-bold">
+            <span className="px-4 py-2 rounded-xl font-mono text-xs shadow-[0_4px_12px_rgba(0,0,0,0.5)]" style={{background: 'rgba(15,23,42,0.85)', border: '1px solid rgba(74,222,128,0.5)', color: '#86efac', letterSpacing: '0.1em'}}>
+              VIES <span className="text-emerald-400 text-base font-black ml-1">{lives}</span>
             </span>
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4 .5 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-2">
-              Score : <span className="text-orange-400 font-extrabold">{score}</span>
-            </span>
-            <span className="bg-white/50 dark:bg-slate-800/50 px-4 .5 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 backdrop-blur-sm flex items-center gap-1">
-              Vies : 
-              {[...Array(lives)].map((_, i) => (
-                <ShieldAlert key={i} className="w-4 h-4 text-red-500 inline fill-red-500/30" />
-              ))}
+            <span className="px-4 py-2 rounded-xl font-mono text-xs shadow-[0_4px_12px_rgba(0,0,0,0.5)]" style={{background: 'rgba(15,23,42,0.85)', border: '1px solid rgba(56,189,248,0.5)', color: '#7dd3fc', letterSpacing: '0.1em'}}>
+              POSTES VALIDÉS <span className="text-sky-400 text-base font-black ml-1">{score} / 5</span>
             </span>
           </div>
         </div>
 
-        {/* Game Area */}
-        <div className="relative rounded-xl overflow-hidden shadow-xl border border-slate-200 dark:border-slate-700 bg-slate-900">
-          
+        {/* Canvas & Overlays */}
+        <div className="relative rounded-3xl overflow-hidden border border-slate-800 shadow-[0_0_50px_rgba(0,0,0,0.7)] backdrop-blur-2xl bg-slate-950/80">
           <canvas
             ref={canvasRef}
             width={CANVAS_WIDTH}
             height={CANVAS_HEIGHT}
-            className="block max-w-full h-auto touch-none"
-            style={{ imageRendering: 'pixelated' }}
+            className="block max-w-full h-auto mx-auto"
           />
-
-          {/* Le D-PAD Virtuel superposé a été retiré pour ne pas obstruer le jeu */}
 
           {/* Overlays */}
           {gameState === "ready" && (
-            <div className="absolute inset-0 bg-white/60 dark:bg-slate-900/80 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-20">
-              <div className="w-20 h-20 bg-pink-500/20 rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(244,114,182,0.4)]">
-                <Activity className="w-10 h-10 text-pink-400" />
+            <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-2xl flex flex-col items-center justify-center p-6 text-center z-20 animate-fade-in">
+              <div className="w-20 h-20 bg-emerald-500/20 border border-emerald-500/40 rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_35px_rgba(16,185,129,0.4)] transform -rotate-3 hover:rotate-0 transition-transform">
+                <Activity className="w-10 h-10 text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
               </div>
-              <h2 className="text-3xl font-bold text-slate-800 dark:text-white mb-4">Chasse au CDI</h2>
-              <p className="text-slate-600 dark:text-slate-300 max-w-md mx-auto mb-8 font-light text-sm">
-                Évitez les motifs de recrutement abusifs (voitures) et sautez sur les CDD légaux (bûches) pour atteindre la Titularisation / le CDI !
+              <h2 className="text-3xl sm:text-4xl font-black text-white mb-3 uppercase tracking-wider" style={{fontFamily: 'monospace'}}>CHASSE AU CDI</h2>
+              <p className="text-slate-300 max-w-md mx-auto mb-8 font-medium text-sm leading-relaxed">
+                Évitez les pièges de la précarité (voitures) et naviguez sur les contrats CDD légaux (bûches) pour atteindre les 5 postes de Titularisation !
               </p>
               <button
                 onClick={startNewGame}
-                className="flex items-center gap-2 px-8  bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-600 rounded-full font-medium text-lg transition-all shadow-sm hover:shadow-md"
+                className="flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black rounded-full text-lg transition-all shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:scale-105 active:scale-95 uppercase tracking-wider"
               >
-                <Play className="w-5 h-5 fill-current" />
-                Jouer
+                <Play className="w-6 h-6 fill-current" />
+                Démarrer la partie
               </button>
             </div>
           )}
 
           {gameState === "gameover" && (
-            <div className="absolute inset-0 bg-white/80 dark:bg-slate-900/90 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-20 animate-fade-in">
-              <h2 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-red-400 to-red-600 mb-2 drop-shadow-lg">
-                LICENCIEMENT
+            <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-2xl flex flex-col items-center justify-center p-6 text-center z-20 animate-fade-in">
+              <h2 className="text-4xl sm:text-6xl font-black text-rose-500 mb-2 uppercase tracking-wider drop-shadow-[0_0_25px_rgba(244,63,94,0.5)]" style={{fontFamily: 'monospace'}}>
+                FIN DE CONTRAT !
               </h2>
-              <p className="text-slate-600 dark:text-slate-300 text-lg mb-6">Motif : Fin de contrat ou recours contentieux.</p>
-              <div className="bg-white/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 p-4 rounded-xl mb-8 shadow-sm">
-                <p className="text-slate-400 text-sm uppercase tracking-wider mb-1">Score Final</p>
-                <p className="text-4xl font-bold text-orange-400">{score}</p>
+              <p className="text-slate-300 text-base mb-6">Motif : Rupture ou non-renouvellement de contrat.</p>
+              <div className="bg-slate-900/90 border border-slate-800 p-4 rounded-xl mb-8 min-w-[200px] shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+                <p className="text-slate-400 text-xs font-mono uppercase mb-1">Score Final</p>
+                <p className="text-5xl font-black text-amber-400 drop-shadow-[0_0_15px_rgba(245,158,11,0.4)]">{score}</p>
               </div>
               <button
                 onClick={startNewGame}
-                className="flex items-center gap-2 px-8  bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-600 rounded-full font-medium transition-all shadow-sm hover:shadow-md"
+                className="flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black rounded-full text-base transition-all shadow-[0_0_25px_rgba(244,63,94,0.5)] hover:scale-105 active:scale-95 uppercase tracking-wider"
               >
                 <ArrowLeft className="w-5 h-5" />
                 Réessayer
@@ -799,18 +792,20 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
           )}
 
           {gameState === "victory" && (
-            <div className="absolute inset-0 bg-white/80 dark:bg-slate-900/90 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-20 animate-fade-in">
-              <Sparkles className="w-16 h-16 text-emerald-400 mb-4 animate-pulse" />
-              <h2 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-emerald-300 to-teal-500 mb-2">
+            <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-2xl flex flex-col items-center justify-center p-6 text-center z-20 animate-fade-in">
+              <div className="w-20 h-20 bg-emerald-500/20 border border-emerald-500/50 rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(16,185,129,0.5)]">
+                <Sparkles className="w-10 h-10 text-emerald-400 animate-pulse drop-shadow-[0_0_15px_rgba(16,185,129,0.8)]" />
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-black text-emerald-400 mb-2 uppercase tracking-wider drop-shadow-[0_0_25px_rgba(16,185,129,0.5)]" style={{fontFamily: 'monospace'}}>
                 TITULARISATION ATTEINTE !
               </h2>
-              <p className="text-emerald-700 dark:text-emerald-300 text-lg mb-8 max-w-sm">Vous avez triomphé des méandres réglementaires avec brio.</p>
+              <p className="text-slate-300 text-base mb-8 max-w-sm">Vous avez franchi tous les obstacles statutaires avec succès !</p>
               
               <button
                 onClick={startNewGame}
-                className="flex items-center gap-2 px-8  bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-600 rounded-full font-medium text-lg transition-all shadow-sm hover:shadow-md"
+                className="flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black rounded-full text-base transition-all shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:scale-105 active:scale-95 uppercase tracking-wider"
               >
-                <Play className="w-5 h-5 fill-current" />
+                <Play className="w-6 h-6 fill-current" />
                 Refaire une carrière
               </button>
             </div>
