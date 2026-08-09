@@ -158,6 +158,22 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
     isMutedGlobal = isMuted;
   }, [isMuted]);
 
+  // Keyboard Shortcuts (1, 2, 3 to pick tower, Space to launch wave)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (gameState !== "playing") return;
+      if (e.key === "1") setSelectedTower(1);
+      if (e.key === "2") setSelectedTower(2);
+      if (e.key === "3") setSelectedTower(3);
+      if (e.code === "Space") {
+        e.preventDefault();
+        startWave();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [gameState, wave]);
+
   // Game Engine Refs
   const towersRef = useRef<Tower[]>([]);
   const enemiesRef = useRef<Enemy[]>([]);
@@ -495,6 +511,20 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
           } else {
             p.x += (dx / dist) * p.speed;
             p.y += (dy / dist) * p.speed;
+
+            // Particle Motion Trail Behind Projectiles
+            if (Math.random() < 0.75) {
+              particlesRef.current.push({
+                x: p.x + (Math.random() - 0.5) * 4,
+                y: p.y + (Math.random() - 0.5) * 4,
+                vx: (Math.random() - 0.5) * 0.6,
+                vy: (Math.random() - 0.5) * 0.6,
+                life: 14,
+                maxLife: 14,
+                color: p.color,
+                size: Math.random() * 2.5 + 1
+              });
+            }
           }
         }
 
@@ -874,6 +904,19 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
         }
         if (target) {
           angle = Math.atan2(target.y - t.y, target.x - t.x);
+
+          // Type 1 Laser Target Line Effect
+          if (t.type === 1) {
+            ctx.save();
+            ctx.strokeStyle = "rgba(59, 130, 246, 0.4)";
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(target.x - t.x, target.y - t.y);
+            ctx.stroke();
+            ctx.restore();
+          }
         }
 
         // Tower Specific Graphics
@@ -1086,20 +1129,20 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
       <div className="max-w-6xl mx-auto relative z-10 flex flex-col items-center w-full">
 
         {/* --- Top Header Navigation Bar --- */}
-        <div className="w-full flex flex-wrap justify-between items-center gap-3 mb-5 z-20 bg-slate-900/80 backdrop-blur-2xl px-5 py-3 rounded-3xl border border-slate-800/80 shadow-[0_4px_25px_rgba(0,0,0,0.6)]">
+        <div className="w-full flex flex-wrap justify-between items-center gap-3 mb-5 z-20 bg-slate-900/90 backdrop-blur-2xl px-5 py-3 rounded-3xl border border-emerald-500/20 shadow-[0_0_35px_rgba(16,185,129,0.15)]">
           
           <div className="flex items-center gap-3">
             <button
               onClick={onClose}
-              className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white rounded-2xl font-bold transition-all text-xs border border-slate-700 hover:scale-105 active:scale-95 shadow-md"
+              className="flex items-center gap-2 px-4 py-2 bg-slate-800/90 hover:bg-slate-700 text-slate-200 hover:text-white rounded-2xl font-bold transition-all text-xs border border-slate-700 hover:scale-105 active:scale-95 shadow-md"
             >
               <ArrowLeft className="w-4 h-4" />
               Retour
             </button>
 
             <h1 className="hidden md:flex items-center gap-2 font-mono font-black text-sm tracking-wider uppercase text-emerald-400">
-              <Shield className="w-4 h-4 text-emerald-400" />
-              Tower Defense RH
+              <Shield className="w-4 h-4 text-emerald-400 animate-pulse" />
+              Tower Defense RH <span className="text-[10px] text-slate-400 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 font-sans font-normal">v2.0 Sci-Fi Edition</span>
             </h1>
           </div>
 
@@ -1107,7 +1150,7 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
             {/* Speed Toggle */}
             <button
               onClick={() => setGameSpeed(s => (s === 1 ? 2 : 1))}
-              className={`px-3 py-1.5 rounded-xl border text-xs font-mono font-bold flex items-center gap-1.5 transition-all ${gameSpeed === 2 ? 'bg-amber-500/20 border-amber-500/50 text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.3)]' : 'bg-slate-800/80 border-slate-700 text-slate-300'}`}
+              className={`px-3 py-1.5 rounded-xl border text-xs font-mono font-bold flex items-center gap-1.5 transition-all ${gameSpeed === 2 ? 'bg-amber-500/20 border-amber-500/50 text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.3)] scale-105' : 'bg-slate-800/80 border-slate-700 text-slate-300 hover:bg-slate-700'}`}
               title="Vitesse de jeu"
             >
               <FastForward className="w-3.5 h-3.5" />
@@ -1117,28 +1160,28 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
             {/* Sound Toggle */}
             <button
               onClick={() => setIsMuted(m => !m)}
-              className="p-2 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-300 hover:text-white transition-all"
+              className="p-2 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-300 hover:text-white transition-all hover:scale-105"
               title={isMuted ? "Activer le son" : "Couper le son"}
             >
               {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
             </button>
 
             {/* Budget Stat */}
-            <div className="bg-slate-950/90 border border-amber-500/30 px-3.5 py-1.5 rounded-2xl flex items-center gap-2 text-amber-400 font-black text-xs shadow-inner">
-              <Coins className="w-4 h-4 text-amber-400 animate-pulse" />
+            <div className="bg-slate-950/90 border border-amber-500/40 px-3.5 py-1.5 rounded-2xl flex items-center gap-2 text-amber-400 font-black text-xs shadow-[0_0_15px_rgba(245,158,11,0.15)]">
+              <Coins className="w-4 h-4 text-amber-400 animate-bounce" />
               <span>Budget:</span>
               <span className="text-amber-300 font-mono text-sm">{budget}k€</span>
             </div>
 
             {/* Health Stat */}
-            <div className="bg-slate-950/90 border border-rose-500/30 px-3.5 py-1.5 rounded-2xl flex items-center gap-2 text-rose-400 font-black text-xs shadow-inner">
-              <Heart className="w-4 h-4 fill-rose-500 text-rose-500 animate-bounce" />
+            <div className="bg-slate-950/90 border border-rose-500/40 px-3.5 py-1.5 rounded-2xl flex items-center gap-2 text-rose-400 font-black text-xs shadow-[0_0_15px_rgba(244,63,94,0.15)]">
+              <Heart className="w-4 h-4 fill-rose-500 text-rose-500 animate-pulse" />
               <span>SP:</span>
               <span className="text-rose-300 font-mono text-sm">{health}</span>
             </div>
 
             {/* Wave Stat */}
-            <div className="bg-slate-950/90 border border-sky-500/30 px-3.5 py-1.5 rounded-2xl flex items-center gap-2 text-sky-400 font-black text-xs shadow-inner">
+            <div className="bg-slate-950/90 border border-sky-500/40 px-3.5 py-1.5 rounded-2xl flex items-center gap-2 text-sky-400 font-black text-xs shadow-[0_0_15px_rgba(56,189,248,0.15)]">
               <Shield className="w-4 h-4 text-sky-400" />
               <span>Vague:</span>
               <span className="text-sky-300 font-mono text-sm">{wave}/10</span>
@@ -1173,12 +1216,13 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
                       onClick={() => setSelectedTower(type)}
                       className={`p-3 rounded-2xl border text-left transition-all relative overflow-hidden group ${
                         isSelected
-                          ? 'border-emerald-400 bg-emerald-950/40 shadow-[0_0_20px_rgba(16,185,129,0.25)] scale-[1.02]'
+                          ? 'border-emerald-400 bg-gradient-to-r from-emerald-950/60 to-slate-900 shadow-[0_0_25px_rgba(16,185,129,0.3)] scale-[1.02]'
                           : 'border-slate-800 bg-slate-950/70 hover:border-slate-700 hover:bg-slate-900/90'
                       } ${!canAfford ? 'opacity-50 grayscale' : ''}`}
                     >
                       <div className="flex justify-between items-center mb-1">
                         <span className="font-extrabold text-white text-xs flex items-center gap-2">
+                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">[{type}]</span>
                           <div
                             className="w-3 h-3 rounded-full shadow-lg shrink-0"
                             style={{ backgroundColor: tData.color, boxShadow: `0 0 10px ${tData.color}` }}
@@ -1206,7 +1250,7 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
                   onClick={startWave}
                   className="w-full mt-5 py-3.5 bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black rounded-2xl shadow-[0_0_30px_rgba(16,185,129,0.4)] flex justify-center items-center gap-2 transition-all uppercase tracking-wider text-xs hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  <Play className="w-4 h-4 fill-current" /> Lancer Vague {wave + 1} / 10
+                  <Play className="w-4 h-4 fill-current" /> Lancer Vague {wave + 1} / 10 <span className="opacity-70 text-[10px] font-mono">[Espace]</span>
                 </button>
               )}
             </div>
