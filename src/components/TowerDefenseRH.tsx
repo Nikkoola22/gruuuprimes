@@ -584,7 +584,56 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
         }
       }
 
-      // --- 2. Realistic Natural Lake & Shoreline ---
+      // --- 2. Realistic Paved Road Path (Drawn under buildings & scenery) ---
+
+      // 1. Dirt / Sand Foundation Border
+      ctx.strokeStyle = "#78350f";
+      ctx.lineWidth = TILE_SIZE + 6;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.beginPath();
+      ctx.moveTo(WAYPOINTS[0].x, WAYPOINTS[0].y);
+      for (let i = 1; i < WAYPOINTS.length; i++) {
+        ctx.lineTo(WAYPOINTS[i].x, WAYPOINTS[i].y);
+      }
+      ctx.stroke();
+
+      // 2. Asphalt Road Bed
+      ctx.strokeStyle = "#334155";
+      ctx.lineWidth = TILE_SIZE;
+      ctx.stroke();
+
+      // 3. Cobblestone Curbs
+      ctx.strokeStyle = "#475569";
+      ctx.lineWidth = TILE_SIZE - 6;
+      ctx.stroke();
+
+      // 4. Center Dashed Road Line
+      ctx.save();
+      ctx.strokeStyle = "#fef08a";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([8, 12]);
+      ctx.lineDashOffset = -(time / 30) % 20;
+      ctx.beginPath();
+      ctx.moveTo(WAYPOINTS[0].x, WAYPOINTS[0].y);
+      for (let i = 1; i < WAYPOINTS.length; i++) {
+        ctx.lineTo(WAYPOINTS[i].x, WAYPOINTS[i].y);
+      }
+      ctx.stroke();
+      ctx.restore();
+
+      // Grid Overlay (Subtle tactical lines)
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= COLS; i++) {
+        ctx.beginPath(); ctx.moveTo(i * TILE_SIZE, 0); ctx.lineTo(i * TILE_SIZE, CANVAS_HEIGHT); ctx.stroke();
+      }
+      for (let j = 0; j <= ROWS; j++) {
+        ctx.beginPath(); ctx.moveTo(0, j * TILE_SIZE); ctx.lineTo(CANVAS_WIDTH, j * TILE_SIZE); ctx.stroke();
+      }
+
+
+      // --- 3. Realistic Natural Lake & Shoreline ---
       ctx.save();
       // Dirt/Sand Shoreline Border
       ctx.fillStyle = "#78350f";
@@ -624,7 +673,7 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
       ctx.restore();
 
 
-      // --- 3. Realistic French Municipal Buildings ---
+      // --- 4. Realistic French Municipal Buildings (Drawn OVER the Road) ---
       const drawFrenchFlag = (bx: number, by: number, w = 12, h = 8) => {
         ctx.save();
         ctx.translate(bx, by);
@@ -789,9 +838,10 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
         ctx.restore();
       };
 
-      drawRealisticAdminBuilding(120, 80, "ANNEXE RH", "#0284c7");
-      drawRealisticAdminBuilding(300, 450, "PÔLE SOCIAL", "#8b5cf6");
-      drawRealisticMairie(520, 150);
+      // Position buildings in open green spaces clear of the road!
+      drawRealisticAdminBuilding(280, 45, "ANNEXE RH", "#0284c7");       // Top open park (above Row 2 road)
+      drawRealisticAdminBuilding(75, 420, "PÔLE SOCIAL", "#8b5cf6");      // Lower left park (clear of left road)
+      drawRealisticMairie(380, 190);                                     // Center Plaza (inside upper loop)
 
       // Realistic Park Trees
       const drawRealisticTree = (x: number, y: number, scale = 1) => {
@@ -822,58 +872,9 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
         [35, 45], [75, 30], [25, 85], [65, 95],
         [710, 75], [750, 55], [765, 95], [725, 125],
         [45, 490], [85, 535], [35, 565], [105, 475],
-        [375, 200], [425, 220], [395, 255]
+        [480, 210], [520, 230], [495, 260]
       ];
       treePositions.forEach(pos => drawRealisticTree(pos[0], pos[1], 1.15));
-
-
-      // --- 4. Realistic Paved Road Path ---
-
-      // 1. Dirt / Sand Foundation Border
-      ctx.strokeStyle = "#78350f";
-      ctx.lineWidth = TILE_SIZE + 6;
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
-      ctx.beginPath();
-      ctx.moveTo(WAYPOINTS[0].x, WAYPOINTS[0].y);
-      for (let i = 1; i < WAYPOINTS.length; i++) {
-        ctx.lineTo(WAYPOINTS[i].x, WAYPOINTS[i].y);
-      }
-      ctx.stroke();
-
-      // 2. Asphalt Road Bed
-      ctx.strokeStyle = "#334155";
-      ctx.lineWidth = TILE_SIZE;
-      ctx.stroke();
-
-      // 3. Cobblestone Curbs
-      ctx.strokeStyle = "#475569";
-      ctx.lineWidth = TILE_SIZE - 6;
-      ctx.stroke();
-
-      // 4. Center Dashed Road Line
-      ctx.save();
-      ctx.strokeStyle = "#fef08a";
-      ctx.lineWidth = 2;
-      ctx.setLineDash([8, 12]);
-      ctx.lineDashOffset = -(time / 30) % 20;
-      ctx.beginPath();
-      ctx.moveTo(WAYPOINTS[0].x, WAYPOINTS[0].y);
-      for (let i = 1; i < WAYPOINTS.length; i++) {
-        ctx.lineTo(WAYPOINTS[i].x, WAYPOINTS[i].y);
-      }
-      ctx.stroke();
-      ctx.restore();
-
-      // Grid Overlay (Subtle tactical lines)
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
-      ctx.lineWidth = 1;
-      for (let i = 0; i <= COLS; i++) {
-        ctx.beginPath(); ctx.moveTo(i * TILE_SIZE, 0); ctx.lineTo(i * TILE_SIZE, CANVAS_HEIGHT); ctx.stroke();
-      }
-      for (let j = 0; j <= ROWS; j++) {
-        ctx.beginPath(); ctx.moveTo(0, j * TILE_SIZE); ctx.lineTo(CANVAS_WIDTH, j * TILE_SIZE); ctx.stroke();
-      }
 
 
       // --- 4. Sci-Fi Entrance Vortex Portal & Exit Shield Citadel ---
