@@ -27,6 +27,7 @@ const LandingPage = lazy(() => import("./components/LandingPage.tsx"))
 const EspaceJeux = lazy(() => import("./components/EspaceJeux.tsx"))
 const Actualites = lazy(() => import("./components/Actualites.tsx"))
 const VeilleJuridique = lazy(() => import("./components/VeilleJuridique.tsx"))
+import MacMenuBar from "./components/MacMenuBar.tsx"
 
 // --- CONFIGURATION BASE URL POUR GITHUB PAGES ---
 const BASE_URL = import.meta.env.BASE_URL
@@ -1301,8 +1302,20 @@ ${indicesFactuels}
 
       {/* Couches de fond supplémentaires — supprimées (GPU layers plein écran) */}
 
+      {/* BARRE DE MENUS STYLE MAC OS (ACTIVÉE VIA L'ICÔNE ORDINATEUR) */}
+      {showMacMenuBar && (
+        <MacMenuBar
+          theme={theme}
+          toggleTheme={toggleTheme}
+          currentView={chatState.currentView}
+          setView={(v) => setChatState(s => ({ ...s, currentView: v }))}
+          openCalculator={(calc) => setActiveCalculator(calc)}
+          onClose={() => setShowMacMenuBar(false)}
+        />
+      )}
+
       {/* HEADER PROFESSIONNEL MODERNE & DYNAMIQUE */}
-      <header className="relative bg-white/75 dark:bg-slate-950/75 backdrop-blur-xl border-b border-slate-200/30 dark:border-slate-800/30 shadow-sm dark:shadow-blue-950/10 z-30 transition-all duration-300">
+      <header className={`relative bg-white/75 dark:bg-slate-950/75 backdrop-blur-xl border-b border-slate-200/30 dark:border-slate-800/30 shadow-sm dark:shadow-blue-950/10 z-30 transition-all duration-300 ${showMacMenuBar ? 'mt-7' : ''}`}>
         {/* Shimmer effect / Ligne brillante animée */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
           <div
