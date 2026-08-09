@@ -560,52 +560,46 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
     };
 
     const drawGame = () => {
-      // Clear Canvas with rich tactical TD gradient background
-      const bgGradient = ctx.createRadialGradient(
-        CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, 50,
-        CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, 550
-      );
-      bgGradient.addColorStop(0, "#0b1329");
-      bgGradient.addColorStop(0.5, "#060919");
-      bgGradient.addColorStop(1, "#02040a");
-      ctx.fillStyle = bgGradient;
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
       const time = Date.now();
 
-      // --- 1. Grass / Ground Grid with High-Tech Circuit Aesthetics ---
+      // --- 1. Realistic Natural Grass & Soil Terrain ---
+      ctx.fillStyle = "#1e4630"; // Base lush green
+      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+      // Realistic Grass Texture Pattern
       for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
           const isPath = PATH_TILES.some(pt => pt.c === c && pt.r === r);
           if (!isPath) {
-            ctx.fillStyle = (r + c) % 2 === 0 ? "rgba(15, 23, 42, 0.5)" : "rgba(30, 41, 59, 0.3)";
+            ctx.fillStyle = (r + c) % 2 === 0 ? "#163f2a" : "#1a4931";
             ctx.fillRect(c * TILE_SIZE, r * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 
-            // Subtle Grid Dot/Circuit Corners
-            ctx.fillStyle = "rgba(16, 185, 129, 0.08)";
-            ctx.fillRect(c * TILE_SIZE + 1, r * TILE_SIZE + 1, 3, 3);
+            // Subtle Grass Blades Accent
+            if ((r * 7 + c * 13) % 5 === 0) {
+              ctx.fillStyle = "rgba(52, 211, 153, 0.15)";
+              ctx.fillRect(c * TILE_SIZE + 8, r * TILE_SIZE + 12, 2, 5);
+              ctx.fillRect(c * TILE_SIZE + 11, r * TILE_SIZE + 10, 2, 7);
+            }
           }
         }
       }
 
-      // Floating Ambient Cyber Dust / Spores
-      for (let i = 0; i < 12; i++) {
-        const px = (Math.sin(time / 2000 + i * 1.5) * 0.5 + 0.5) * CANVAS_WIDTH;
-        const py = ((time / 40 + i * 50) % CANVAS_HEIGHT);
-        ctx.fillStyle = "rgba(52, 211, 153, 0.25)";
-        ctx.beginPath();
-        ctx.arc(px, py, 1.5, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // --- 2. Environment Scenery (Cyber Lake, Sci-Fi Annexes, Bioluminescent Trees) ---
-
-      // Cyber Lake (Bottom Right)
+      // --- 2. Realistic Natural Lake & Shoreline ---
       ctx.save();
-      const lakeGrad = ctx.createRadialGradient(680, 480, 10, 680, 480, 100);
-      lakeGrad.addColorStop(0, "#0284c7");
-      lakeGrad.addColorStop(0.6, "#0369a1");
-      lakeGrad.addColorStop(1, "#082f49");
+      // Dirt/Sand Shoreline Border
+      ctx.fillStyle = "#78350f";
+      ctx.beginPath();
+      ctx.moveTo(575, 405);
+      ctx.bezierCurveTo(705, 375, 775, 425, 790, 485);
+      ctx.bezierCurveTo(800, 555, 740, 595, 630, 575);
+      ctx.bezierCurveTo(545, 545, 555, 425, 575, 405);
+      ctx.fill();
+
+      // Deep Blue Natural Water Body
+      const lakeGrad = ctx.createRadialGradient(680, 480, 10, 680, 480, 95);
+      lakeGrad.addColorStop(0, "#38bdf8");
+      lakeGrad.addColorStop(0.5, "#0284c7");
+      lakeGrad.addColorStop(1, "#0369a1");
       ctx.fillStyle = lakeGrad;
       ctx.beginPath();
       ctx.moveTo(580, 410);
@@ -613,112 +607,213 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
       ctx.bezierCurveTo(795, 550, 735, 590, 635, 570);
       ctx.bezierCurveTo(550, 540, 560, 430, 580, 410);
       ctx.fill();
-      ctx.strokeStyle = "rgba(56, 189, 248, 0.5)";
-      ctx.lineWidth = 2.5;
-      ctx.shadowColor = "#38bdf8";
-      ctx.shadowBlur = 12;
+
+      // Water Ripples & Shore Reflection
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+      ctx.lineWidth = 1.5;
       ctx.stroke();
 
-      // Water ripples animation & Center Hologram Beacon
-      const rippleOffset = (time / 600) % 25;
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
-      ctx.lineWidth = 1.5;
-      ctx.beginPath(); ctx.arc(670, 470, 10 + rippleOffset, 0, Math.PI * 2); ctx.stroke();
-      ctx.beginPath(); ctx.arc(710, 500, 8 + (rippleOffset * 0.7), 0, Math.PI * 2); ctx.stroke();
+      const rippleOffset = (time / 700) % 20;
+      ctx.beginPath(); ctx.arc(670, 470, 10 + rippleOffset, 0, Math.PI * 1.2); ctx.stroke();
 
-      // Holographic Lotus Beacon in Lake
-      ctx.fillStyle = "#38bdf8";
-      ctx.beginPath(); ctx.arc(670, 470, 5, 0, Math.PI * 2); ctx.fill();
+      // Natural Lily Pads
+      ctx.fillStyle = "#15803d";
+      ctx.beginPath(); ctx.arc(630, 460, 6, 0, Math.PI * 1.8); ctx.fill();
+      ctx.beginPath(); ctx.arc(710, 520, 5, 0, Math.PI * 1.8); ctx.fill();
+      ctx.beginPath(); ctx.arc(660, 530, 7, 0, Math.PI * 1.8); ctx.fill();
       ctx.restore();
 
-      // Sci-Fi Buildings / Mairie Annexes
-      const drawFuturisticHouse = (x: number, y: number, primaryColor: string, roofColor: string, label: string) => {
+
+      // --- 3. Realistic French Municipal Buildings ---
+      const drawFrenchFlag = (bx: number, by: number, w = 12, h = 8) => {
+        ctx.save();
+        ctx.translate(bx, by);
+        const colW = w / 3;
+        ctx.fillStyle = "#002395"; ctx.fillRect(-w / 2, -h / 2, colW, h);
+        ctx.fillStyle = "#ffffff"; ctx.fillRect(-w / 2 + colW, -h / 2, colW, h);
+        ctx.fillStyle = "#ed2939"; ctx.fillRect(-w / 2 + colW * 2, -h / 2, colW, h);
+        ctx.strokeStyle = "rgba(0,0,0,0.4)";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(-w / 2, -h / 2, w, h);
+        ctx.restore();
+      };
+
+      // Mairie de Gennevilliers (Hôtel de Ville classique)
+      const drawRealisticMairie = (x: number, y: number) => {
         ctx.save();
         ctx.translate(x, y);
 
-        // Ambient Building Shadow
-        ctx.fillStyle = "rgba(0,0,0,0.6)";
+        // Soft Drop Shadow
+        ctx.fillStyle = "rgba(0,0,0,0.45)";
         ctx.beginPath();
-        ctx.ellipse(0, 16, 26, 10, 0, 0, Math.PI * 2);
+        ctx.ellipse(0, 24, 40, 12, 0, 0, Math.PI * 2);
         ctx.fill();
 
-        // Metallic Base
-        ctx.fillStyle = primaryColor;
-        ctx.fillRect(-22, -18, 44, 32);
-        ctx.strokeStyle = "#334155";
+        // Main Stone Facade
+        ctx.fillStyle = "#cbd5e1";
+        ctx.fillRect(-34, -22, 68, 44);
+        ctx.strokeStyle = "#475569";
         ctx.lineWidth = 2;
-        ctx.strokeRect(-22, -18, 44, 32);
+        ctx.strokeRect(-34, -22, 68, 44);
 
-        // Tech Grid Panels
-        ctx.fillStyle = "rgba(255,255,255,0.05)";
-        ctx.fillRect(-18, -14, 16, 10);
-        ctx.fillRect(2, -14, 16, 10);
+        // Side Wings / Columns
+        ctx.fillStyle = "#94a3b8";
+        ctx.fillRect(-38, -22, 6, 44);
+        ctx.fillRect(32, -22, 6, 44);
 
-        // Sci-Fi Glass Roof
-        ctx.fillStyle = roofColor;
-        ctx.shadowColor = roofColor;
-        ctx.shadowBlur = 15;
+        // Pediment Roof
+        ctx.fillStyle = "#334155";
         ctx.beginPath();
-        ctx.moveTo(-26, -18);
-        ctx.lineTo(0, -36);
-        ctx.lineTo(26, -18);
+        ctx.moveTo(-38, -22);
+        ctx.lineTo(0, -44);
+        ctx.lineTo(38, -22);
         ctx.fill();
+        ctx.strokeStyle = "#1e293b";
+        ctx.lineWidth = 2;
+        ctx.stroke();
 
-        // Glowing Windows
-        ctx.fillStyle = "#38bdf8";
-        ctx.shadowColor = "#38bdf8";
-        ctx.shadowBlur = 8;
-        ctx.fillRect(-14, -6, 8, 8);
-        ctx.fillRect(6, -6, 8, 8);
+        // Clock Tower Belfry
+        ctx.fillStyle = "#e2e8f0";
+        ctx.fillRect(-11, -58, 22, 16);
+        ctx.strokeStyle = "#475569";
+        ctx.strokeRect(-11, -58, 22, 16);
 
-        // Entrance Portal Door
-        ctx.fillStyle = "#0f172a";
-        ctx.fillRect(-6, 4, 12, 10);
-        ctx.strokeStyle = "#38bdf8";
-        ctx.strokeRect(-6, 4, 12, 10);
+        // Clock Face
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath(); ctx.arc(0, -50, 5, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = "#0f172a";
+        ctx.lineWidth = 1; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, -50); ctx.lineTo(0, -53); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, -50); ctx.lineTo(2, -50); ctx.stroke();
 
-        // Floating Hologram Label Badge
-        ctx.fillStyle = "rgba(15, 23, 42, 0.9)";
-        ctx.fillRect(-26, 20, 52, 14);
-        ctx.strokeStyle = "rgba(56, 189, 248, 0.5)";
+        // Flag Pole at top
+        ctx.strokeStyle = "#94a3b8";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(0, -58); ctx.lineTo(0, -70); ctx.stroke();
+        drawFrenchFlag(7, -66, 12, 8);
+
+        // Arched Windows
+        for (let row = 0; row < 2; row++) {
+          for (let col = -2; col <= 2; col++) {
+            if (row === 1 && col === 0) continue;
+            const wx = col * 13;
+            const wy = -14 + row * 16;
+            ctx.fillStyle = "#fef08a";
+            ctx.fillRect(wx - 4, wy, 8, 10);
+            ctx.strokeStyle = "#475569";
+            ctx.lineWidth = 1;
+            ctx.strokeRect(wx - 4, wy, 8, 10);
+          }
+        }
+
+        // Entrance Steps & Double Door
+        ctx.fillStyle = "#64748b";
+        ctx.fillRect(-14, 14, 28, 8);
+        ctx.fillRect(-16, 18, 32, 4);
+
+        ctx.fillStyle = "#451a03";
+        ctx.fillRect(-6, 2, 12, 14);
+        ctx.strokeStyle = "#fbbf24";
         ctx.lineWidth = 1;
-        ctx.strokeRect(-26, 20, 52, 14);
-        ctx.fillStyle = "#38bdf8";
-        ctx.font = "bold 8px monospace";
+        ctx.strokeRect(-6, 2, 12, 14);
+
+        // Label Banner
+        ctx.fillStyle = "rgba(15, 23, 42, 0.95)";
+        ctx.fillRect(-40, 26, 80, 16);
+        ctx.strokeStyle = "#fbbf24";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(-40, 26, 80, 16);
+        ctx.fillStyle = "#fef08a";
+        ctx.font = "bold 8.5px sans-serif";
         ctx.textAlign = "center";
-        ctx.fillText(label, 0, 30);
+        ctx.fillText("MAIRIE DE GENNEVILLIERS", 0, 37);
 
         ctx.restore();
       };
 
-      drawFuturisticHouse(120, 80, "#1e293b", "#0284c7", "ANNEXE RH");
-      drawFuturisticHouse(300, 450, "#1e293b", "#7c3aed", "PÔLE SOCIAL");
-      drawFuturisticHouse(520, 150, "#1e293b", "#059669", "MAIRIE");
+      // Annexe RH & Pôle Social Buildings
+      const drawRealisticAdminBuilding = (x: number, y: number, label: string, accentColor: string) => {
+        ctx.save();
+        ctx.translate(x, y);
 
-      // Bioluminescent Trees with Glowing Foliage & Shadows
-      const drawCyberTree = (x: number, y: number, scale: number = 1) => {
+        // Drop Shadow
+        ctx.fillStyle = "rgba(0,0,0,0.4)";
+        ctx.beginPath(); ctx.ellipse(0, 18, 32, 10, 0, 0, Math.PI * 2); ctx.fill();
+
+        // Brick/Stone Facade Body
+        ctx.fillStyle = "#334155";
+        ctx.fillRect(-26, -20, 52, 36);
+        ctx.strokeStyle = "#1e293b";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(-26, -20, 52, 36);
+
+        // Roof Trim Accent
+        ctx.fillStyle = accentColor;
+        ctx.fillRect(-28, -24, 56, 5);
+        ctx.fillRect(-28, -20, 4, 36);
+
+        // Windows Grid
+        ctx.fillStyle = "#7dd3fc";
+        for (let r = 0; r < 2; r++) {
+          for (let c = -1; c <= 1; c++) {
+            ctx.fillRect(c * 15 - 4, -14 + r * 14, 8, 9);
+            ctx.strokeStyle = "#1e293b";
+            ctx.lineWidth = 0.8;
+            ctx.strokeRect(c * 15 - 4, -14 + r * 14, 8, 9);
+          }
+        }
+
+        // Awning & Door
+        ctx.fillStyle = accentColor;
+        ctx.fillRect(-9, -2, 18, 3);
+        ctx.fillStyle = "#0f172a";
+        ctx.fillRect(-7, 1, 14, 15);
+
+        // Flag
+        ctx.strokeStyle = "#94a3b8";
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(20, -24); ctx.lineTo(20, -34); ctx.stroke();
+        drawFrenchFlag(25, -31, 10, 6);
+
+        // Label Badge
+        ctx.fillStyle = "rgba(15, 23, 42, 0.95)";
+        ctx.fillRect(-30, 20, 60, 15);
+        ctx.strokeStyle = accentColor;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(-30, 20, 60, 15);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 8.5px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(label, 0, 30.5);
+
+        ctx.restore();
+      };
+
+      drawRealisticAdminBuilding(120, 80, "ANNEXE RH", "#0284c7");
+      drawRealisticAdminBuilding(300, 450, "PÔLE SOCIAL", "#8b5cf6");
+      drawRealisticMairie(520, 150);
+
+      // Realistic Park Trees
+      const drawRealisticTree = (x: number, y: number, scale = 1) => {
         ctx.save();
         ctx.translate(x, y);
         ctx.scale(scale, scale);
 
-        // Shadow
-        ctx.fillStyle = "rgba(0,0,0,0.5)";
-        ctx.beginPath(); ctx.ellipse(0, 14, 16, 7, 0, 0, Math.PI * 2); ctx.fill();
+        // Realistic Drop Shadow
+        ctx.fillStyle = "rgba(0,0,0,0.35)";
+        ctx.beginPath(); ctx.ellipse(2, 12, 14, 6, 0, 0, Math.PI * 2); ctx.fill();
 
-        // Trunk
+        // Bark Trunk
+        ctx.fillStyle = "#78350f";
+        ctx.fillRect(-3, 0, 6, 14);
         ctx.fillStyle = "#451a03";
-        ctx.fillRect(-4, 0, 8, 16);
+        ctx.fillRect(-1, 0, 2, 14);
 
-        // Bioluminescent Canopy layers
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = "#10b981";
-        ctx.fillStyle = "#064e3b";
-        ctx.beginPath(); ctx.arc(0, -6, 16, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = "#047857";
-        ctx.beginPath(); ctx.arc(-7, 2, 12, 0, Math.PI * 2); ctx.fill();
-        ctx.beginPath(); ctx.arc(7, 2, 12, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = "#34d399";
-        ctx.beginPath(); ctx.arc(-2, -10, 9, 0, Math.PI * 2); ctx.fill();
+        // Multi-toned Natural Leaf Clusters
+        ctx.fillStyle = "#14532d"; ctx.beginPath(); ctx.arc(0, -6, 15, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#15803d"; ctx.beginPath(); ctx.arc(-6, 2, 11, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(6, 2, 11, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#22c55e"; ctx.beginPath(); ctx.arc(-2, -8, 8, 0, Math.PI * 2); ctx.fill();
 
         ctx.restore();
       };
@@ -729,17 +824,14 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
         [45, 490], [85, 535], [35, 565], [105, 475],
         [375, 200], [425, 220], [395, 255]
       ];
-      treePositions.forEach(pos => drawCyberTree(pos[0], pos[1], 1.1));
+      treePositions.forEach(pos => drawRealisticTree(pos[0], pos[1], 1.15));
 
 
-      // --- 3. High-Tech Winding Neon Conduit Path ---
+      // --- 4. Realistic Paved Road Path ---
 
-      // Outer Neon Path Aura Glow
-      ctx.save();
-      ctx.shadowColor = "#10b981";
-      ctx.shadowBlur = 20;
-      ctx.strokeStyle = "rgba(16, 185, 129, 0.35)";
-      ctx.lineWidth = TILE_SIZE + 8;
+      // 1. Dirt / Sand Foundation Border
+      ctx.strokeStyle = "#78350f";
+      ctx.lineWidth = TILE_SIZE + 6;
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
       ctx.beginPath();
@@ -748,26 +840,23 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
         ctx.lineTo(WAYPOINTS[i].x, WAYPOINTS[i].y);
       }
       ctx.stroke();
-      ctx.restore();
 
-      // Main Dark Slate Conduit Bed
-      ctx.strokeStyle = "#0f172a";
+      // 2. Asphalt Road Bed
+      ctx.strokeStyle = "#334155";
       ctx.lineWidth = TILE_SIZE;
       ctx.stroke();
 
-      // Inner Metallic Channel
-      ctx.strokeStyle = "#1e293b";
-      ctx.lineWidth = TILE_SIZE - 10;
+      // 3. Cobblestone Curbs
+      ctx.strokeStyle = "#475569";
+      ctx.lineWidth = TILE_SIZE - 6;
       ctx.stroke();
 
-      // High-Voltage Center Laser Line
+      // 4. Center Dashed Road Line
       ctx.save();
-      ctx.strokeStyle = "rgba(52, 211, 153, 0.8)";
-      ctx.lineWidth = 3;
-      ctx.shadowColor = "#34d399";
-      ctx.shadowBlur = 10;
-      ctx.setLineDash([12, 16]);
-      ctx.lineDashOffset = -(time / 20) % 28;
+      ctx.strokeStyle = "#fef08a";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([8, 12]);
+      ctx.lineDashOffset = -(time / 30) % 20;
       ctx.beginPath();
       ctx.moveTo(WAYPOINTS[0].x, WAYPOINTS[0].y);
       for (let i = 1; i < WAYPOINTS.length; i++) {
@@ -776,8 +865,8 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
       ctx.stroke();
       ctx.restore();
 
-      // Grid Overlay (Tactical lines)
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.04)";
+      // Grid Overlay (Subtle tactical lines)
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
       ctx.lineWidth = 1;
       for (let i = 0; i <= COLS; i++) {
         ctx.beginPath(); ctx.moveTo(i * TILE_SIZE, 0); ctx.lineTo(i * TILE_SIZE, CANVAS_HEIGHT); ctx.stroke();
