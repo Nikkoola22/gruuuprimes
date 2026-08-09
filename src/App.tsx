@@ -1924,151 +1924,216 @@ ${indicesFactuels}
                 </div>
 
                 {/* Colonne 3 : À voir (Youtube) */}
-                {/* Commentaire ajouté : section contenant des vidéos utiles */}
-                <div className="w-full bg-gradient-to-br from-white/90 via-amber-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-4 border border-amber-200 shadow-xl shadow-amber-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-amber-300 relative z-10 flex flex-col justify-start group">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-2.5 bg-amber-100/50 rounded-xl border border-amber-200 shadow-sm flex items-center justify-center">
-                      <PlayCircle className="w-6 h-6 text-amber-500" />
+                <div className="w-full bg-gradient-to-br from-white/95 via-amber-50/50 to-yellow-50/30 backdrop-blur-2xl rounded-3xl p-6 border-2 border-amber-200/80 shadow-2xl shadow-amber-500/10 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-amber-500/20 hover:border-amber-300 relative z-10 flex flex-col justify-between group">
+                  <div>
+                    {/* Header de la carte */}
+                    <div className="flex items-center justify-between mb-5 pb-4 border-b border-amber-100/80">
+                      <div className="flex items-center gap-3.5">
+                        <div className="p-3 bg-gradient-to-br from-amber-500 to-yellow-500 text-slate-950 rounded-2xl shadow-lg shadow-amber-500/30 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                          <PlayCircle className="w-6 h-6 fill-current" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-2xl font-black text-slate-900 tracking-tight">À voir</h3>
+                            <span className="bg-amber-500/10 border border-amber-400/30 text-amber-700 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
+                              YouTube RH
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-500 font-medium">Vidéos & préparation aux concours FPT</p>
+                        </div>
+                      </div>
                     </div>
-                    <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
-                      <span className="relative inline-block z-10">
-                        <span className="relative z-20 text-slate-800 font-black tracking-tight">À voir</span>
-                        <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-                      </span>
-                    </h3>
+
+                    {/* Liste des vidéos sous forme de micro-cartes premium */}
+                    <div className="flex flex-col gap-3.5">
+                      {/* Vidéo 1 */}
+                      <a
+                        href="https://youtu.be/7clMZoElV9o?si=tFlkNao1VyFKrDzC"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/item relative bg-white/90 hover:bg-white border border-amber-100 hover:border-amber-300 rounded-2xl p-3.5 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4 overflow-hidden"
+                      >
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-amber-500 to-yellow-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                        <div className="w-20 h-14 flex-shrink-0 rounded-2xl bg-slate-900 overflow-hidden relative shadow-md border border-slate-200 group-hover/item:scale-105 transition-transform duration-300">
+                          <img src="https://img.youtube.com/vi/7clMZoElV9o/hqdefault.jpg" alt="Les 50 acronymes indispensables" className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover/item:bg-black/20 transition-colors">
+                            <PlayCircle className="w-7 h-7 text-white drop-shadow-lg group-hover/item:scale-110 transition-transform" />
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/50">
+                              Sigles & Concours
+                            </span>
+                          </div>
+                          <h4 className="font-black text-slate-900 text-base leading-snug group-hover/item:text-amber-600 transition-colors truncate">
+                            Les 50 acronymes
+                          </h4>
+                          <p className="text-xs text-slate-500 line-clamp-1 font-medium">
+                            Décoder les sigles clés des concours territoriaux.
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 p-2 rounded-xl bg-amber-50 group-hover/item:bg-amber-500 text-amber-600 group-hover/item:text-slate-950 transition-all shadow-sm">
+                          <ExternalLinkIcon className="w-4 h-4" />
+                        </div>
+                      </a>
+
+                      {/* Vidéo 2 */}
+                      <a
+                        href="https://www.youtube.com/watch?v=z0mVMJHO8GA"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/item relative bg-white/90 hover:bg-white border border-amber-100 hover:border-amber-300 rounded-2xl p-3.5 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4 overflow-hidden"
+                      >
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-amber-500 to-yellow-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                        <div className="w-20 h-14 flex-shrink-0 rounded-2xl bg-slate-900 overflow-hidden relative shadow-md border border-slate-200 group-hover/item:scale-105 transition-transform duration-300">
+                          <img src="https://img.youtube.com/vi/z0mVMJHO8GA/hqdefault.jpg" alt="150 Questions-Réponses Oral" className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover/item:bg-black/20 transition-colors">
+                            <PlayCircle className="w-7 h-7 text-white drop-shadow-lg group-hover/item:scale-110 transition-transform" />
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/50">
+                              Préparation Jury
+                            </span>
+                          </div>
+                          <h4 className="font-black text-slate-900 text-base leading-snug group-hover/item:text-amber-600 transition-colors truncate">
+                            150 Questions Oral
+                          </h4>
+                          <p className="text-xs text-slate-500 line-clamp-1 font-medium">
+                            Entraînement complet aux questions d'entretien.
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 p-2 rounded-xl bg-amber-50 group-hover/item:bg-amber-500 text-amber-600 group-hover/item:text-slate-950 transition-all shadow-sm">
+                          <ExternalLinkIcon className="w-4 h-4" />
+                        </div>
+                      </a>
+
+                      {/* Vidéo 3 */}
+                      <a
+                        href="https://www.youtube.com/watch?v=m9Nirxu_wFk"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/item relative bg-white/90 hover:bg-white border border-amber-100 hover:border-amber-300 rounded-2xl p-3.5 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4 overflow-hidden"
+                      >
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-amber-500 to-yellow-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                        <div className="w-20 h-14 flex-shrink-0 rounded-2xl bg-slate-900 overflow-hidden relative shadow-md border border-slate-200 group-hover/item:scale-105 transition-transform duration-300">
+                          <img src="https://img.youtube.com/vi/m9Nirxu_wFk/hqdefault.jpg" alt="30 Situations Oral" className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover/item:bg-black/20 transition-colors">
+                            <PlayCircle className="w-7 h-7 text-white drop-shadow-lg group-hover/item:scale-110 transition-transform" />
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/50">
+                              Cas Pratiques
+                            </span>
+                          </div>
+                          <h4 className="font-black text-slate-900 text-base leading-snug group-hover/item:text-amber-600 transition-colors truncate">
+                            30 Mises en situation
+                          </h4>
+                          <p className="text-xs text-slate-500 line-clamp-1 font-medium">
+                            Cas pratiques et mises en situation pour l'oral.
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 p-2 rounded-xl bg-amber-50 group-hover/item:bg-amber-500 text-amber-600 group-hover/item:text-slate-950 transition-all shadow-sm">
+                          <ExternalLinkIcon className="w-4 h-4" />
+                        </div>
+                      </a>
+                    </div>
                   </div>
 
-                  <div className="flex flex-col gap-2">
-                    {/* Vidéo 1 */}
-                    <a
-                      href="https://youtu.be/7clMZoElV9o?si=tFlkNao1VyFKrDzC"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
-                    >
-                      <div className="w-16 h-10 flex-shrink-0 rounded-xl bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 group-hover:scale-[1.02] transition-transform">
-                        <img src="https://img.youtube.com/vi/7clMZoElV9o/hqdefault.jpg" alt="Les 50 acronymes indispensables" className="w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition-colors">
-                          <PlayCircle className="w-6 h-6 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
-                        </div>
-                      </div>
-                      <div className="flex-1 flex flex-col justify-center py-1">
-                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-amber-500 transition-colors mb-1">
-                          Les 50 acronymes
-                        </span>
-                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
-                          Décoder les sigles indispensables aux concours territoriaux.
-                        </span>
-                      </div>
-                    </a>
-
-                    {/* Vidéo 2 */}
-                    <a
-                      href="https://www.youtube.com/watch?v=z0mVMJHO8GA"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
-                    >
-                      <div className="w-16 h-10 flex-shrink-0 rounded-xl bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 group-hover:scale-[1.02] transition-transform">
-                        <img src="https://img.youtube.com/vi/z0mVMJHO8GA/hqdefault.jpg" alt="150 Questions-Réponses Oral" className="w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition-colors">
-                          <PlayCircle className="w-6 h-6 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
-                        </div>
-                      </div>
-                      <div className="flex-1 flex flex-col justify-center py-1">
-                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-amber-500 transition-colors mb-1">
-                          150 Questions Oral
-                        </span>
-                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
-                          S'entraîner aux questions types posées par le jury à l'oral.
-                        </span>
-                      </div>
-                    </a>
-
-                    {/* Vidéo 3 */}
-                    <a
-                      href="https://www.youtube.com/watch?v=m9Nirxu_wFk"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
-                    >
-                      <div className="w-16 h-10 flex-shrink-0 rounded-xl bg-slate-900 flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 group-hover:scale-[1.02] transition-transform">
-                        <img src="https://img.youtube.com/vi/m9Nirxu_wFk/hqdefault.jpg" alt="30 Situations Oral" className="w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/10 transition-colors">
-                          <PlayCircle className="w-6 h-6 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
-                        </div>
-                      </div>
-                      <div className="flex-1 flex flex-col justify-center py-1">
-                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-amber-500 transition-colors mb-1">
-                          30 Cas Pratiques
-                        </span>
-                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
-                          Les mises en situation clés pour convaincre le jury d'oral.
-                        </span>
-                      </div>
-                    </a>
-
-                    {/* Lien générique YouTube */}
+                  {/* Pied de carte */}
+                  <div className="mt-4 pt-3 border-t border-amber-100/60 flex items-center justify-between text-xs text-amber-800 font-extrabold">
                     <a
                       href="https://www.youtube.com/results?search_query=fonction+publique+territoriale"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-2 text-center text-xs font-semibold text-amber-600 hover:text-amber-500 hover:underline flex items-center justify-center gap-1.5 py-1"
+                      className="flex items-center gap-1.5 text-amber-700 hover:text-amber-900 transition-colors"
                     >
-                      <span>Voir plus de vidéos sur YouTube</span>
-                      <PlayCircle className="w-4 h-4" />
+                      <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                      Voir plus de tutoriels sur YouTube
                     </a>
+                    <ExternalLinkIcon className="w-3.5 h-3.5 text-amber-500" />
                   </div>
                 </div>
 
-                {/* Colonne 2 : Liens utiles & FAQ */}
+                {/* Colonne 2 : Liens utiles */}
                 <div className="w-full">
-                  <div className="w-full bg-gradient-to-br from-white/90 via-cyan-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-4 border border-cyan-200 shadow-xl shadow-cyan-100/50 transition-all duration-300 hover:border-cyan-300 relative z-10 flex flex-col justify-start group overflow-hidden">
+                  <div className="w-full bg-gradient-to-br from-white/95 via-cyan-50/50 to-sky-50/30 backdrop-blur-2xl rounded-3xl p-6 border-2 border-cyan-200/80 shadow-2xl shadow-cyan-500/10 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-cyan-500/20 hover:border-cyan-300 relative z-10 flex flex-col justify-between group overflow-hidden">
                     <BorderBeam size={160} duration={8} delay={0} colorFrom="#06b6d4" colorTo="#3b82f6" />
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2.5 bg-cyan-100/50 rounded-xl border border-cyan-200 shadow-sm flex items-center justify-center">
-                        <Link2 className="w-6 h-6 text-cyan-500" />
-                      </div>
-                      <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
-                        <span className="relative inline-block z-10">
-                          <span className="relative z-20 text-slate-800 font-black tracking-tight">Liens Utiles</span>
-                          <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-cyan-300 via-sky-200 to-cyan-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-                        </span>
-                      </h3>
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                      {usefulLinks.map(({ label, href, imageSrc }, idx) => {
-                        // Couleurs alternées pour les liens utiles
-                        const colors = [
-                          { bg: "bg-indigo-100 dark:bg-indigo-900/30", border: "border-indigo-200 dark:border-indigo-800/50", text: "text-indigo-600", decoration: "decoration-indigo-500" },
-                          { bg: "bg-violet-100 dark:bg-violet-900/30", border: "border-violet-200 dark:border-violet-800/50", text: "text-violet-600", decoration: "decoration-violet-500" },
-                          { bg: "bg-fuchsia-100 dark:bg-fuchsia-900/30", border: "border-fuchsia-200 dark:border-fuchsia-800/50", text: "text-fuchsia-600", decoration: "decoration-fuchsia-500" },
-                          { bg: "bg-pink-100 dark:bg-pink-900/30", border: "border-pink-200 dark:border-pink-800/50", text: "text-pink-600", decoration: "decoration-pink-500" },
-                        ]
-                        const color = colors[idx % colors.length];
-
-                        return (
-                          <a
-                            key={label}
-                            href={href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
-                          >
-                            <div className={`w-10 h-10 flex-shrink-0 rounded-xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border ${color.border} group-hover:scale-[1.02] transition-transform`}>
-                              <img src={imageSrc} alt={label} className="w-full h-full object-cover" />
-                            </div>
-                            <div className="flex-1 flex flex-col justify-center py-1">
-                              <span className={`font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:underline decoration-2 underline-offset-4 ${color.decoration}`}>
-                                {label}
+                    <div>
+                      {/* Header de la carte */}
+                      <div className="flex items-center justify-between mb-5 pb-4 border-b border-cyan-100/80">
+                        <div className="flex items-center gap-3.5">
+                          <div className="p-3 bg-gradient-to-br from-cyan-500 to-blue-500 text-white rounded-2xl shadow-lg shadow-cyan-500/30 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                            <Link2 className="w-6 h-6" />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h3 className="text-2xl font-black text-slate-900 tracking-tight">Liens Utiles</h3>
+                              <span className="bg-cyan-500/10 border border-cyan-400/30 text-cyan-700 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
+                                Portails RH
                               </span>
                             </div>
-                          </a>
-                        )
-                      })}
+                            <p className="text-xs text-slate-500 font-medium">Bases de données & sites institutionnels</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Liste des liens utiles sous forme de micro-cartes */}
+                      <div className="flex flex-col gap-3">
+                        {usefulLinks.map(({ label, href, imageSrc }, idx) => {
+                          const linkDetails = [
+                            { tag: "DÉCISIONS & JURISPRUDENCE", desc: "Décisions et arrêts du Conseil d'État", color: "indigo" },
+                            { tag: "TEXTES & CODES DE LOI", desc: "Code Général de la Fonction Publique (CGFP)", color: "violet" },
+                            { tag: "CATALOGUE RÉGIONAL", desc: "Offre complète de formation CNFPT", color: "fuchsia" },
+                            { tag: "RÉGIME INDEMNITAIRE", desc: "Guide récapitulatif des primes 2025", color: "pink" }
+                          ][idx] || { tag: "PORTAIL OFFICIEL", desc: "Site institutionnel de référence", color: "cyan" };
+
+                          return (
+                            <a
+                              key={label}
+                              href={href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="group/item relative bg-white/90 hover:bg-white border border-cyan-100 hover:border-cyan-300 rounded-2xl p-3 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
+                            >
+                              <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-cyan-500 to-blue-500 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                              <div className="w-12 h-12 flex-shrink-0 rounded-2xl bg-gradient-to-br from-cyan-50 to-blue-50 p-1 flex items-center justify-center shadow-inner border border-cyan-100/60 relative group-hover/item:scale-105 transition-transform duration-300">
+                                <img src={imageSrc} alt={label} className="w-full h-full object-contain rounded-xl" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-1.5 mb-0.5">
+                                  <span className="text-[9px] font-black uppercase tracking-wider text-cyan-700 bg-cyan-50 px-2 py-0.5 rounded-md border border-cyan-200/50">
+                                    {linkDetails.tag}
+                                  </span>
+                                </div>
+                                <h4 className="font-black text-slate-900 text-base leading-snug group-hover/item:text-cyan-600 transition-colors truncate">
+                                  {label}
+                                </h4>
+                                <p className="text-[11px] text-slate-500 line-clamp-1 font-medium">
+                                  {linkDetails.desc}
+                                </p>
+                              </div>
+                              <div className="flex-shrink-0 p-2 rounded-xl bg-cyan-50 group-hover/item:bg-cyan-600 text-cyan-600 group-hover/item:text-white transition-all shadow-sm">
+                                <ExternalLinkIcon className="w-4 h-4" />
+                              </div>
+                            </a>
+                          );
+                        })}
+                      </div>
                     </div>
 
+                    {/* Pied de carte */}
+                    <div className="mt-4 pt-3 border-t border-cyan-100/60 flex items-center justify-between text-xs text-cyan-800 font-extrabold">
+                      <span className="flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-cyan-500" />
+                        Accès direct sécurisé
+                      </span>
+                      <span className="text-[11px] text-slate-400 font-normal">Sites externes certifiés</span>
+                    </div>
                   </div>
                 </div>
 
