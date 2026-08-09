@@ -178,6 +178,7 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
   const [selectedChoiceIndex, setSelectedChoiceIndex] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [scoresHistory, setScoresHistory] = useState<number[]>([]);
+  const [userChoices, setUserChoices] = useState<number[]>([]);
 
   const currentScenario = SCENARIOS[currentScenarioIndex];
   const maxScenarios = SCENARIOS.length;
@@ -187,6 +188,7 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
     setCurrentScenarioIndex(0);
     setSelectedChoiceIndex(null);
     setScoresHistory([]);
+    setUserChoices([]);
     setGameState("playing");
   };
 
@@ -196,6 +198,7 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
     const chosenChoice = currentScenario.choices[choiceIndex];
     setScore((prev) => prev + chosenChoice.score);
     setScoresHistory((prev) => [...prev, chosenChoice.score]);
+    setUserChoices((prev) => [...prev, choiceIndex]);
   };
 
   const handleNext = () => {
@@ -241,27 +244,27 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
         <div className="flex justify-between items-center mb-8">
           <button
             onClick={onClose}
-            className="flex items-center gap-2 px-4 py-2 bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-full transition-all text-xs"
+            className="flex items-center gap-2 px-4 py-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-200 rounded-full transition-all text-xs sm:text-sm font-medium"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
+            <ArrowLeft className="w-4 h-4" />
             Retour à l'Espace Jeux
           </button>
           
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-slate-400 font-medium">Escape Game RH</span>
-            <div className="w-2.5 h-2.5 rounded-full bg-purple-500 animate-pulse"></div>
+          <div className="flex items-center gap-2 bg-purple-950/40 border border-purple-500/30 px-3 py-1.5 rounded-full">
+            <span className="text-xs sm:text-sm text-purple-300 font-bold">Escape Game RH</span>
+            <div className="w-2.5 h-2.5 rounded-full bg-purple-400 animate-pulse"></div>
           </div>
         </div>
 
         {/* TITLE BLOCK */}
         <div className="text-center mb-8">
-          <div className="inline-flex p-3 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-purple-400 mb-3 shadow-lg">
+          <div className="inline-flex p-3.5 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-purple-400 mb-3 shadow-lg">
             <Building2 className="w-8 h-8" />
           </div>
-          <h1 className="text-4xl sm:text-5xl font-black tracking-tight mb-2 bg-gradient-to-r from-purple-400 via-pink-200 to-purple-400 bg-clip-text text-transparent">
+          <h1 className="text-4xl sm:text-5xl font-black tracking-tight mb-3 bg-gradient-to-r from-purple-300 via-pink-200 to-purple-400 bg-clip-text text-transparent">
             Escape Game RH
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 max-w-lg mx-auto font-light">
+          <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto font-normal leading-relaxed">
             S'échapper des mauvaises situations de travail en adoptant les bons réflexes statutaires et QVT dans la fonction publique.
           </p>
         </div>
@@ -278,32 +281,41 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="w-full max-w-2xl bg-slate-950/80 border border-purple-500/30 rounded-3xl p-8 backdrop-blur-2xl relative overflow-hidden shadow-[0_0_50px_rgba(168,85,247,0.2)]"
+              className="w-full max-w-2xl bg-slate-950/90 border border-purple-500/30 rounded-3xl p-8 backdrop-blur-2xl relative overflow-hidden shadow-[0_0_50px_rgba(168,85,247,0.2)]"
             >
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
               
-              <h2 className="text-3xl sm:text-4xl font-black text-white mb-4 text-center tracking-wide uppercase" style={{fontFamily: 'monospace'}}>
+              <h2 className="text-2xl sm:text-3xl font-black text-white mb-4 text-center tracking-wide uppercase font-mono">
                 ES-TU PRÊT À RELEVER LE DÉFI RH ?
               </h2>
               
-              <p className="text-slate-300 text-sm leading-relaxed mb-6 font-medium text-center">
+              <p className="text-slate-200 text-sm sm:text-base leading-relaxed mb-6 font-normal text-center">
                 Chaque jour, les agents et managers territoriaux font face à des choix complexes : surcharge d'activité, conflits d'usagers, respect du droit d'alerte, déconnexion en télétravail...
               </p>
               
-              <div className="border border-slate-800 bg-slate-900/90 rounded-2xl p-5 mb-8 text-xs text-slate-300 leading-relaxed font-medium shadow-inner">
-                <strong className="text-purple-300 block mb-2 font-bold uppercase tracking-wider text-xs font-mono">🔍 Concept du jeu :</strong>
+              <div className="border border-slate-800 bg-slate-900/90 rounded-2xl p-6 mb-8 text-sm text-slate-200 leading-relaxed font-normal shadow-inner">
+                <strong className="text-purple-300 block mb-3 font-bold uppercase tracking-wider text-xs font-mono">🔍 Concept du jeu :</strong>
                 Vous allez être confronté à <span className="text-purple-300 font-bold">5 scénarios de crise réalistes</span>. Pour chacun, choisissez la meilleure réponse :
-                <ul className="list-disc list-inside mt-3 space-y-1.5">
-                  <li><span className="text-emerald-400 font-bold">Le Bon Réflexe (2 pts)</span> : préserve la QVT et s'appuie sur les bons dispositifs légaux.</li>
-                  <li><span className="text-amber-400 font-bold">Le Choix Risqué (1 pt)</span> : solution temporaire improvisée qui masque le problème.</li>
-                  <li><span className="text-rose-400 font-bold">Le Choix Contre-Productif (0 pt)</span> : nuit au collectif et aggrave la crise.</li>
+                <ul className="mt-3 space-y-2.5">
+                  <li className="flex items-start gap-2.5">
+                    <span className="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold text-xs shrink-0 mt-0.5">2 pts</span>
+                    <span><strong className="text-emerald-300 font-semibold">Le Bon Réflexe</strong> : préserve la QVT et s'appuie sur les bons dispositifs légaux.</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold text-xs shrink-0 mt-0.5">1 pt</span>
+                    <span><strong className="text-amber-300 font-semibold">Le Choix Risqué</strong> : solution temporaire improvisée qui masque le problème.</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="px-2 py-0.5 rounded bg-rose-500/20 border border-rose-500/40 text-rose-300 font-bold text-xs shrink-0 mt-0.5">0 pt</span>
+                    <span><strong className="text-rose-300 font-semibold">Le Choix Contre-Productif</strong> : nuit au collectif et aggrave la crise.</span>
+                  </li>
                 </ul>
               </div>
 
               <div className="flex justify-center">
                 <button
                   onClick={handleStart}
-                  className="px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white rounded-full font-black text-base shadow-[0_0_30px_rgba(168,85,247,0.5)] transform hover:scale-105 active:scale-95 transition-all flex items-center gap-3 uppercase tracking-wider animate-pulse"
+                  className="px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white rounded-full font-black text-base shadow-[0_0_30px_rgba(168,85,247,0.5)] transform hover:scale-105 active:scale-95 transition-all flex items-center gap-3 uppercase tracking-wider"
                 >
                   Commencer l'escape game
                   <ArrowRight className="w-5 h-5" />
@@ -322,53 +334,69 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
               className="w-full max-w-3xl flex flex-col gap-6"
             >
               {/* PROGRESS BAR & STAGE COUNTER */}
-              <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-5 backdrop-blur-md flex flex-col gap-3">
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-slate-400">Scénario de crise {currentScenarioIndex + 1} sur {maxScenarios}</span>
-                  <span className="font-semibold text-purple-400 uppercase tracking-wider">{currentScenario.theme}</span>
+              <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-5 backdrop-blur-md flex flex-col gap-3 shadow-lg">
+                <div className="flex justify-between items-center text-xs sm:text-sm">
+                  <span className="text-slate-300 font-medium">Scénario de crise <strong className="text-purple-300">{currentScenarioIndex + 1}</strong> sur <strong>{maxScenarios}</strong></span>
+                  <span className="font-bold text-purple-300 bg-purple-950/60 px-3 py-1 rounded-full border border-purple-500/30 uppercase tracking-wider text-[11px] sm:text-xs">
+                    {currentScenario.theme}
+                  </span>
                 </div>
                 {/* Visual bar */}
-                <div className="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden">
+                <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
                   <div 
-                    className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300"
-                    style={{ width: `${((currentScenarioIndex) / maxScenarios) * 100}%` }}
+                    className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-purple-400 transition-all duration-500 rounded-full"
+                    style={{ width: `${((currentScenarioIndex + (selectedChoiceIndex !== null ? 1 : 0)) / maxScenarios) * 100}%` }}
                   ></div>
                 </div>
               </div>
 
               {/* SITUATION CARD */}
-              <div className="bg-gradient-to-br from-slate-900/90 to-purple-950/20 border border-purple-500/20 rounded-3xl p-8 relative overflow-hidden shadow-xl">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-full blur-2xl"></div>
-                <h3 className="text-xl font-extrabold text-white mb-3">
+              <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-purple-950/40 border border-purple-500/30 rounded-3xl p-7 relative overflow-hidden shadow-xl">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl"></div>
+                <div className="flex items-center gap-2 mb-2 text-xs font-bold uppercase tracking-wider text-purple-400">
+                  <ShieldAlert className="w-4 h-4 text-purple-400" />
+                  Mise en situation #{currentScenario.id}
+                </div>
+                <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-3 tracking-tight">
                   {currentScenario.title}
                 </h3>
-                <p className="text-slate-300 text-sm leading-relaxed font-light">
+                <p className="text-slate-200 text-sm sm:text-base leading-relaxed font-normal bg-slate-950/50 p-4 rounded-2xl border border-slate-800/80">
                   {currentScenario.description}
                 </p>
               </div>
 
               {/* OPTIONS LIST */}
-              <div className="flex flex-col gap-3.5">
+              <div className="flex flex-col gap-4">
+                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider px-1">
+                  Sélectionnez la meilleure réponse :
+                </div>
                 {currentScenario.choices.map((choice, index) => {
                   const isSelected = selectedChoiceIndex === index;
                   const hasAnswered = selectedChoiceIndex !== null;
 
-                  let borderStyle = "border-slate-800/80 hover:border-slate-700 bg-slate-900/50";
-                  let bgStyle = "";
-                  
-                  if (isSelected) {
-                    if (choice.type === "bon") {
-                      borderStyle = "border-emerald-500 bg-emerald-500/10 shadow-[0_0_15px_rgba(16,185,129,0.15)]";
-                      bgStyle = "text-emerald-400";
-                    } else if (choice.type === "risque") {
-                      borderStyle = "border-amber-500 bg-amber-500/10 shadow-[0_0_15px_rgba(245,158,11,0.15)]";
-                      bgStyle = "text-amber-400";
+                  let borderStyle = "border-slate-800/80 hover:border-purple-500/50 bg-slate-900/60 hover:bg-slate-800/80";
+                  let badgeStyle = "bg-slate-800 text-slate-300 border-slate-700";
+                  let textStyle = "text-slate-100 font-normal";
+
+                  if (hasAnswered) {
+                    if (isSelected) {
+                      if (choice.type === "bon") {
+                        borderStyle = "border-emerald-500 bg-emerald-950/40 shadow-[0_0_20px_rgba(16,185,129,0.2)] ring-1 ring-emerald-500/50";
+                        badgeStyle = "bg-emerald-500 text-slate-950 font-bold border-emerald-400";
+                        textStyle = "text-emerald-100 font-medium";
+                      } else if (choice.type === "risque") {
+                        borderStyle = "border-amber-500 bg-amber-950/40 shadow-[0_0_20px_rgba(245,158,11,0.2)] ring-1 ring-amber-500/50";
+                        badgeStyle = "bg-amber-500 text-slate-950 font-bold border-amber-400";
+                        textStyle = "text-amber-100 font-medium";
+                      } else {
+                        borderStyle = "border-rose-500 bg-rose-950/40 shadow-[0_0_20px_rgba(244,63,94,0.2)] ring-1 ring-rose-500/50";
+                        badgeStyle = "bg-rose-500 text-white font-bold border-rose-400";
+                        textStyle = "text-rose-100 font-medium";
+                      }
                     } else {
-                      borderStyle = "border-rose-500 bg-rose-500/10 shadow-[0_0_15px_rgba(244,63,94,0.15)]";
-                      bgStyle = "text-rose-400";
+                      borderStyle = "border-slate-800/50 bg-slate-950/30 opacity-60 cursor-default";
+                      textStyle = "text-slate-300 font-normal";
                     }
-                  } else if (hasAnswered) {
-                    borderStyle = "border-slate-900/40 bg-slate-950/20 opacity-40 cursor-default";
                   }
 
                   return (
@@ -376,27 +404,31 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
                       key={index}
                       disabled={hasAnswered}
                       onClick={() => handleChoiceSelect(index)}
-                      className={`w-full p-5 rounded-2xl border transition-all text-left flex items-start gap-4 ${borderStyle}`}
+                      className={`w-full p-5 rounded-2xl border transition-all text-left flex items-start gap-4 group ${borderStyle}`}
                     >
-                      <div className="mt-0.5 shrink-0">
-                        {hasAnswered && choice.type === "bon" && (
-                          <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-                        )}
-                        {hasAnswered && choice.type === "risque" && (
-                          <AlertTriangle className="w-5 h-5 text-amber-400" />
-                        )}
-                        {hasAnswered && choice.type === "interdit" && (
-                          <XCircle className="w-5 h-5 text-rose-400" />
-                        )}
-                        {!hasAnswered && (
-                          <div className="w-5 h-5 rounded-full border border-slate-600 flex items-center justify-center text-[10px] font-bold text-slate-500">
-                            {String.fromCharCode(65 + index)}
-                          </div>
+                      <div className={`w-8 h-8 rounded-xl border flex items-center justify-center text-xs shrink-0 font-bold transition-transform group-hover:scale-105 ${badgeStyle}`}>
+                        {hasAnswered && isSelected ? (
+                          choice.type === "bon" ? <CheckCircle2 className="w-5 h-5" /> :
+                          choice.type === "risque" ? <AlertTriangle className="w-5 h-5" /> :
+                          <XCircle className="w-5 h-5" />
+                        ) : (
+                          String.fromCharCode(65 + index)
                         )}
                       </div>
-                      <p className={`text-xs md:text-sm font-light leading-relaxed text-slate-200 ${bgStyle}`}>
-                        {choice.label}
-                      </p>
+                      <div className="flex-1">
+                        {isSelected && (
+                          <span className={`text-[10px] uppercase tracking-wider font-extrabold px-2.5 py-0.5 rounded-full mb-1.5 inline-block ${
+                            choice.type === "bon" ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40" :
+                            choice.type === "risque" ? "bg-amber-500/20 text-amber-300 border border-amber-500/40" :
+                            "bg-rose-500/20 text-rose-300 border border-rose-500/40"
+                          }`}>
+                            Votre choix
+                          </span>
+                        )}
+                        <p className={`text-sm sm:text-base leading-relaxed ${textStyle}`}>
+                          {choice.label}
+                        </p>
+                      </div>
                     </button>
                   );
                 })}
@@ -409,45 +441,54 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -15 }}
-                    className={`rounded-3xl p-6 border text-left shadow-2xl relative overflow-hidden ${
+                    className={`rounded-3xl p-6 sm:p-7 border text-left shadow-2xl relative overflow-hidden ${
                       currentScenario.choices[selectedChoiceIndex].type === "bon"
-                        ? "bg-emerald-500/5 border-emerald-500/30"
+                        ? "bg-gradient-to-br from-emerald-950/80 via-slate-900 to-slate-950 border-emerald-500/50 shadow-emerald-900/20"
                         : currentScenario.choices[selectedChoiceIndex].type === "risque"
-                        ? "bg-amber-500/5 border-amber-500/30"
-                        : "bg-rose-500/5 border-rose-500/30"
+                        ? "bg-gradient-to-br from-amber-950/80 via-slate-900 to-slate-950 border-amber-500/50 shadow-amber-900/20"
+                        : "bg-gradient-to-br from-rose-950/80 via-slate-900 to-slate-950 border-rose-500/50 shadow-rose-900/20"
                     }`}
                   >
-                    <div className="flex items-center gap-2 mb-3">
-                      {currentScenario.choices[selectedChoiceIndex].type === "bon" && (
-                        <>
-                          <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-                          <h4 className="font-extrabold text-emerald-400 text-sm uppercase tracking-wide">Excellent Réflexe ! (+2 pts)</h4>
-                        </>
-                      )}
-                      {currentScenario.choices[selectedChoiceIndex].type === "risque" && (
-                        <>
-                          <AlertTriangle className="w-5 h-5 text-amber-400" />
-                          <h4 className="font-extrabold text-amber-400 text-sm uppercase tracking-wide">Comportement Risqué (+1 pt)</h4>
-                        </>
-                      )}
-                      {currentScenario.choices[selectedChoiceIndex].type === "interdit" && (
-                        <>
-                          <XCircle className="w-5 h-5 text-rose-400" />
-                          <h4 className="font-extrabold text-rose-400 text-sm uppercase tracking-wide">À Éviter Absolument (+0 pt)</h4>
-                        </>
-                      )}
+                    <div className="flex items-center justify-between gap-3 mb-4 flex-wrap border-b border-slate-800 pb-3">
+                      <div className="flex items-center gap-2.5">
+                        {currentScenario.choices[selectedChoiceIndex].type === "bon" && (
+                          <div className="px-3.5 py-1.5 bg-emerald-500/20 border border-emerald-500/40 rounded-full flex items-center gap-2">
+                            <CheckCircle2 className="w-4.5 h-4.5 text-emerald-400" />
+                            <span className="font-extrabold text-emerald-300 text-xs sm:text-sm uppercase tracking-wider">Excellent Réflexe (+2 pts)</span>
+                          </div>
+                        )}
+                        {currentScenario.choices[selectedChoiceIndex].type === "risque" && (
+                          <div className="px-3.5 py-1.5 bg-amber-500/20 border border-amber-500/40 rounded-full flex items-center gap-2">
+                            <AlertTriangle className="w-4.5 h-4.5 text-amber-400" />
+                            <span className="font-extrabold text-amber-300 text-xs sm:text-sm uppercase tracking-wider">Comportement Risqué (+1 pt)</span>
+                          </div>
+                        )}
+                        {currentScenario.choices[selectedChoiceIndex].type === "interdit" && (
+                          <div className="px-3.5 py-1.5 bg-rose-500/20 border border-rose-500/40 rounded-full flex items-center gap-2">
+                            <XCircle className="w-4.5 h-4.5 text-rose-400" />
+                            <span className="font-extrabold text-rose-300 text-xs sm:text-sm uppercase tracking-wider">À Éviter Absolument (+0 pt)</span>
+                          </div>
+                        )}
+                      </div>
+                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Analyse & Explication</span>
                     </div>
 
-                    <p className="text-slate-300 text-xs md:text-sm font-light leading-relaxed">
-                      {currentScenario.choices[selectedChoiceIndex].feedback}
-                    </p>
+                    <div className="bg-slate-950/70 rounded-2xl p-5 border border-slate-800 mb-6">
+                      <h4 className="text-xs font-bold text-purple-300 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-purple-400" />
+                        Pourquoi cette évaluation ?
+                      </h4>
+                      <p className="text-slate-100 text-sm sm:text-base leading-relaxed font-normal">
+                        {currentScenario.choices[selectedChoiceIndex].feedback}
+                      </p>
+                    </div>
 
-                    <div className="flex justify-end mt-5">
+                    <div className="flex justify-end">
                       <button
                         onClick={handleNext}
-                        className="px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-full font-bold text-xs shadow-md transition-all flex items-center gap-1.5"
+                        className="px-7 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-full font-bold text-sm shadow-xl transition-all flex items-center gap-2 transform hover:scale-105 active:scale-95"
                       >
-                        <span>{currentScenarioIndex + 1 >= maxScenarios ? "Terminer & Voir le Bilan" : "Scénario Suivant"}</span>
+                        <span>{currentScenarioIndex + 1 >= maxScenarios ? "Voir le Bilan Final" : "Scénario Suivant"}</span>
                         <ArrowRight className="w-4 h-4" />
                       </button>
                     </div>
@@ -464,46 +505,115 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
               key="results"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="w-full max-w-2xl bg-slate-900/60 border border-slate-800 rounded-3xl p-8 backdrop-blur-md text-center shadow-2xl relative overflow-hidden"
+              className="w-full max-w-3xl bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur-md text-center shadow-2xl relative overflow-hidden flex flex-col gap-6"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl animate-pulse"></div>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
               
-              <div className="inline-flex p-4 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-400 mb-4 shadow-lg">
-                <Trophy className="w-12 h-12" />
+              <div>
+                <div className="inline-flex p-4 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-400 mb-3 shadow-lg">
+                  <Trophy className="w-10 h-10 sm:w-12 sm:h-12" />
+                </div>
+                
+                <h2 className="text-3xl font-black text-white mb-2">
+                  Évaluation finale de l'Escape Game
+                </h2>
+                
+                <p className="text-slate-300 text-sm font-normal max-w-md mx-auto">
+                  Tu as réagi à l'ensemble des 5 scénarios de crise opérationnels. Découvre ton bilan QVT global et le récapitulatif des réponses.
+                </p>
               </div>
-              
-              <h2 className="text-3xl font-black text-white mb-2">
-                Évaluation finale de l'Escape Game
-              </h2>
-              
-              <p className="text-slate-400 text-xs md:text-sm font-light mb-6">
-                Tu as réagi à l'ensemble des scénarios de crise opérationnels. Découvre ton bilan QVT global.
-              </p>
 
               {/* Score Display */}
-              <div className="flex justify-center mb-8">
-                <div className="px-8 py-4 rounded-2xl bg-slate-950/60 border border-slate-800">
-                  <span className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Score Final QVT</span>
-                  <span className="text-4xl font-black text-purple-400 block mt-1">{score} / {maxScenarios * 2}</span>
+              <div className="flex justify-center">
+                <div className="px-8 py-4 rounded-2xl bg-slate-950/80 border border-slate-800 shadow-inner">
+                  <span className="text-xs text-slate-400 uppercase font-bold tracking-wider">Score Final QVT</span>
+                  <span className="text-4xl sm:text-5xl font-black text-purple-400 block mt-1">{score} / {maxScenarios * 2}</span>
                 </div>
               </div>
 
               {/* Evaluation Paragraph */}
-              <div className={`p-6 rounded-2xl border ${getResultsFeedback().color} ${getResultsFeedback().bg} text-left mb-8 relative overflow-hidden`}>
+              <div className={`p-6 rounded-2xl border ${getResultsFeedback().color} ${getResultsFeedback().bg} text-left relative overflow-hidden`}>
                 <div className="flex items-center gap-2 mb-2">
-                  <TrendingUp className="w-4.5 h-4.5" />
-                  <span className="text-xs uppercase font-bold tracking-wider opacity-80">Profil statutaire :</span>
+                  <TrendingUp className="w-5 h-5" />
+                  <span className="text-xs uppercase font-bold tracking-wider opacity-90">Profil statutaire :</span>
                 </div>
-                <h4 className="text-xl font-extrabold text-white mb-2">
+                <h4 className="text-xl sm:text-2xl font-extrabold text-white mb-2">
                   {getResultsFeedback().level}
                 </h4>
-                <p className="text-slate-300 text-xs md:text-sm leading-relaxed font-light">
+                <p className="text-slate-200 text-sm sm:text-base leading-relaxed font-normal">
                   {getResultsFeedback().description}
                 </p>
               </div>
 
+              {/* RECAP OF RESPONSES AND FEEDBACK */}
+              <div className="border border-slate-800 bg-slate-950/70 rounded-2xl p-5 text-left">
+                <h4 className="text-sm font-bold text-purple-300 uppercase tracking-wider mb-4 flex items-center gap-2 border-b border-slate-800 pb-3">
+                  <BookOpen className="w-4 h-4 text-purple-400" />
+                  Récapitulatif détaillé de vos réponses & explications RH :
+                </h4>
+
+                <div className="space-y-4">
+                  {SCENARIOS.map((scenario, sIndex) => {
+                    const chosenIndex = userChoices[sIndex];
+                    const chosenChoice = scenario.choices[chosenIndex];
+                    const bestChoice = scenario.choices.find((c) => c.type === "bon");
+
+                    return (
+                      <div key={scenario.id} className="bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-3">
+                        <div className="flex items-start justify-between gap-3 flex-wrap">
+                          <span className="text-xs font-bold text-purple-400 bg-purple-950/60 px-2.5 py-1 rounded-md border border-purple-500/30">
+                            Scénario {sIndex + 1} : {scenario.title}
+                          </span>
+                          <span className="text-xs font-semibold text-slate-400">
+                            {scenario.theme}
+                          </span>
+                        </div>
+
+                        <p className="text-xs text-slate-300 font-normal italic bg-slate-950/40 p-2.5 rounded-lg border border-slate-800/60">
+                          "{scenario.description}"
+                        </p>
+
+                        {chosenChoice && (
+                          <div className={`p-3 rounded-lg border text-xs sm:text-sm font-normal space-y-2 ${
+                            chosenChoice.type === "bon" 
+                              ? "bg-emerald-950/30 border-emerald-500/40 text-emerald-200" 
+                              : chosenChoice.type === "risque" 
+                              ? "bg-amber-950/30 border-amber-500/40 text-amber-200" 
+                              : "bg-rose-950/30 border-rose-500/40 text-rose-200"
+                          }`}>
+                            <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-xs">
+                              {chosenChoice.type === "bon" && <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />}
+                              {chosenChoice.type === "risque" && <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />}
+                              {chosenChoice.type === "interdit" && <XCircle className="w-4 h-4 text-rose-400 shrink-0" />}
+                              <span>Votre choix ({chosenChoice.score} pt{chosenChoice.score > 1 ? "s" : ""}) :</span>
+                            </div>
+                            <p className="text-slate-100 font-medium">
+                              {chosenChoice.label}
+                            </p>
+                            <p className="text-slate-300 text-xs leading-relaxed pt-1 border-t border-slate-800">
+                              <strong className="text-purple-300 font-semibold">Explication : </strong>
+                              {chosenChoice.feedback}
+                            </p>
+                          </div>
+                        )}
+
+                        {chosenChoice && chosenChoice.type !== "bon" && bestChoice && (
+                          <div className="bg-emerald-950/20 border border-emerald-500/30 p-3 rounded-lg text-xs space-y-1">
+                            <div className="flex items-center gap-1.5 text-emerald-400 font-bold uppercase tracking-wider text-[11px]">
+                              <CheckCircle2 className="w-3.5 h-3.5" />
+                              Le réflexe RH recommandé (2 pts) :
+                            </div>
+                            <p className="text-emerald-100 font-medium">{bestChoice.label}</p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
               {/* Pédagogical Ressources Box */}
-              <div className="border border-slate-800/80 bg-slate-950/50 rounded-2xl p-5 text-left mb-8">
+              <div className="border border-slate-800 bg-slate-950/50 rounded-2xl p-5 text-left">
                 <h5 className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3 flex items-center gap-1.5">
                   <BookOpen className="w-4 h-4 text-purple-400" />
                   Ressources et Guides statutaires :
@@ -513,18 +623,18 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
                     href="https://www.fonction-publique.gouv.fr" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="p-3 bg-slate-900/60 hover:bg-slate-800 border border-slate-800 rounded-xl flex items-center gap-2 text-slate-300 hover:text-purple-300 transition-colors"
+                    className="p-3 bg-slate-900/60 hover:bg-slate-800 border border-slate-800 rounded-xl flex items-center gap-2 text-slate-300 hover:text-purple-300 transition-colors font-medium"
                   >
-                    <FileText className="w-4 h-4 text-purple-400" />
+                    <FileText className="w-4 h-4 text-purple-400 shrink-0" />
                     Guide d'évaluation QVT FPT
                   </a>
                   <a 
                     href="https://www.fonction-publique.gouv.fr" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="p-3 bg-slate-900/60 hover:bg-slate-800 border border-slate-800 rounded-xl flex items-center gap-2 text-slate-300 hover:text-purple-300 transition-colors"
+                    className="p-3 bg-slate-900/60 hover:bg-slate-800 border border-slate-800 rounded-xl flex items-center gap-2 text-slate-300 hover:text-purple-300 transition-colors font-medium"
                   >
-                    <ShieldAlert className="w-4 h-4 text-purple-400" />
+                    <ShieldAlert className="w-4 h-4 text-purple-400 shrink-0" />
                     Procédure Droit de Retrait
                   </a>
                 </div>
@@ -534,14 +644,14 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
               <div className="flex flex-col sm:flex-row justify-center gap-3">
                 <button
                   onClick={handleStart}
-                  className="px-6 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-full font-bold text-xs shadow-md transition-all flex items-center justify-center gap-1.5"
+                  className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-full font-bold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2"
                 >
-                  <RotateCcw className="w-3.5 h-3.5" />
+                  <RotateCcw className="w-4 h-4" />
                   Recommencer le jeu
                 </button>
                 <button
                   onClick={onClose}
-                  className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-full font-bold text-xs border border-slate-700 hover:border-slate-600 transition-all"
+                  className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-full font-bold text-xs sm:text-sm border border-slate-700 hover:border-slate-600 transition-all"
                 >
                   Retour aux autres jeux
                 </button>
@@ -555,7 +665,7 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
 
       {/* FOOTER */}
       <div className="text-center border-t border-slate-900/60 pt-6">
-        <p className="text-[10px] text-slate-500 font-light">
+        <p className="text-[11px] text-slate-400 font-normal">
           Escape Game RH • Serious game d'évaluation et de formation QVT / Statuts dans la Fonction Publique Territoriale.
         </p>
       </div>
@@ -565,3 +675,4 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
 };
 
 export default EscapeGameRH;
+

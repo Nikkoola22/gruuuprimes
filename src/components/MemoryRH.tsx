@@ -185,9 +185,9 @@ const VictoryConfetti: React.FC = () => {
 };
 
 const getTextSizeClass = (text: string) => {
-  if (text.length > 55) return "text-[10px] sm:text-[11px] md:text-xs lg:text-sm leading-tight";
-  if (text.length > 30) return "text-xs sm:text-xs md:text-sm lg:text-base leading-snug";
-  return "text-sm sm:text-base md:text-base lg:text-lg font-bold leading-snug";
+  if (text.length > 55) return "text-xs sm:text-xs md:text-sm leading-snug font-medium";
+  if (text.length > 30) return "text-xs sm:text-sm md:text-base leading-snug font-semibold";
+  return "text-sm sm:text-base md:text-lg font-bold leading-snug";
 };
 
 // ─── Composant Principal MemoryRH ─────────────────────────────────────────────
@@ -266,61 +266,61 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
     setVictory(false);
   };
   return (
-    <div className="relative z-30 isolate min-h-screen flex flex-col pt-3 sm:pt-5 pb-3 overflow-x-hidden bg-slate-50 dark:bg-slate-900 px-4 sm:px-6 lg:px-8 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-500">
+    <div className="relative z-30 isolate min-h-screen flex flex-col pt-3 sm:pt-5 pb-3 overflow-x-hidden bg-slate-950 px-4 sm:px-6 lg:px-8 font-sans text-slate-100 transition-colors duration-500">
       {/* Soft background glow */}
       <div style={{
         position: 'fixed', top: '50%', left: '50%',
         transform: 'translate(-50%,-50%)',
         width: 800, height: 800, borderRadius: '50%',
-        background: 'radial-gradient(ellipse at center, rgba(148,163,184,0.1) 0%, transparent 70%)',
+        background: 'radial-gradient(ellipse at center, rgba(168,85,247,0.15) 0%, transparent 70%)',
         filter: 'blur(40px)', pointerEvents: 'none', zIndex: 0,
       }} />
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10 w-full">
         
         {/* Header */}
-        <div className="w-full flex justify-between items-center mb-6 z-20">
+        <div className="w-full flex justify-between items-center mb-6 z-20 flex-wrap gap-3">
           <button
             onClick={onClose}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-full font-bold transition-all text-sm shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 active:scale-95"
+            className="flex items-center gap-2 px-4 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 rounded-full font-bold transition-all text-xs sm:text-sm shadow-md hover:scale-105 active:scale-95"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4 text-purple-400" />
             Retour
           </button>
 
-          <div className="flex gap-4">
-            <span className="bg-slate-900/90 backdrop-blur-md px-4 py-1.5 rounded-2xl border border-slate-800 text-slate-200 text-xs font-mono font-bold flex items-center gap-2 shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+          <div className="flex gap-3 items-center">
+            <span className="bg-slate-900/90 backdrop-blur-md px-4 py-2 rounded-2xl border border-slate-800 text-slate-200 text-xs font-mono font-bold flex items-center gap-2 shadow-md">
               Coups : <span className="text-purple-400 font-black text-sm">{moves}</span>
             </span>
-            <span className="bg-slate-900/90 backdrop-blur-md px-4 py-1.5 rounded-2xl border border-slate-800 text-slate-200 text-xs font-mono font-bold flex items-center gap-2 shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+            <span className="bg-slate-900/90 backdrop-blur-md px-4 py-2 rounded-2xl border border-slate-800 text-slate-200 text-xs font-mono font-bold flex items-center gap-2 shadow-md">
               Paires : <span className="text-emerald-400 font-black text-sm">{matches} / 6</span>
             </span>
             <button
               onClick={handleRestart}
-              className="px-4 py-1.5 bg-slate-900/90 hover:bg-slate-800 text-slate-200 font-bold rounded-2xl transition-all text-xs border border-slate-800 backdrop-blur-md flex items-center gap-1.5 shadow-md active:scale-95"
+              className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-2xl transition-all text-xs border border-purple-500 backdrop-blur-md flex items-center gap-1.5 shadow-lg active:scale-95"
             >
-              <RotateCcw className="w-3.5 h-3.5 text-purple-400" />
+              <RotateCcw className="w-3.5 h-3.5" />
               Reset
             </button>
           </div>
         </div>
 
         {/* Card Grid */}
-        <div className="max-w-6xl mx-auto bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-3xl p-4 sm:p-6 shadow-xl border border-white/40 dark:border-slate-700/50 relative">
+        <div className="max-w-6xl mx-auto bg-slate-900/80 backdrop-blur-xl rounded-3xl p-4 sm:p-6 shadow-2xl border border-purple-500/20 relative">
           {victory && <VictoryConfetti />}
 
           {victory ? (
             // Victory Screen
-            <div className="text-center  relative z-10 animate-scale-up py-8">
-              <Trophy className="w-16 h-16 text-yellow-500 mx-auto mb-4 animate-bounce" />
-              <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">Félicitations ! 🎉</h2>
-              <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-6 text-sm">
-                Vous avez associé toutes les paires RH avec brio en seulement <span className="font-bold text-blue-500">{moves} coups</span> !
+            <div className="text-center relative z-10 animate-scale-up py-8">
+              <Trophy className="w-16 h-16 text-yellow-400 mx-auto mb-4 animate-bounce" />
+              <h2 className="text-3xl font-black text-white mb-2">Félicitations ! 🎉</h2>
+              <p className="text-slate-300 max-w-sm mx-auto mb-6 text-sm sm:text-base font-normal">
+                Vous avez associé toutes les paires RH avec brio en seulement <span className="font-bold text-purple-400">{moves} coups</span> !
               </p>
 
               <button
                 onClick={handleRestart}
-                className="mx-auto px-6 py-2.5 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white font-bold rounded-2xl shadow-lg hover:opacity-95 transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 btn-shine text-sm"
+                className="mx-auto px-7 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-full shadow-xl hover:opacity-95 transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 text-sm sm:text-base uppercase tracking-wider"
               >
                 <RotateCcw className="w-4 h-4" />
                 <span>Recommencer une partie</span>
@@ -329,7 +329,7 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
           ) : (
             // Cards game board
             <div>
-              <div className="grid grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 justify-center items-stretch">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 justify-center items-stretch">
                 {cards.map((card, idx) => {
                   const isFlipped = card.isFlipped || card.isMatched;
                   const isTerm = card.type === "term";
@@ -338,7 +338,7 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
                     <div 
                       key={card.id}
                       onClick={() => handleCardClick(idx)}
-                      className="h-24 sm:h-28 md:h-32 lg:h-36 w-full perspective cursor-pointer select-none"
+                      className="h-32 sm:h-36 md:h-40 w-full perspective cursor-pointer select-none"
                     >
                       <div 
                         className={`w-full h-full relative duration-500 transform-style-3d ${
@@ -346,28 +346,42 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
                         }`}
                       >
                         {/* Card Back (Face cachée) */}
-                        <div className="absolute inset-0 bg-[#040009] border-[3px] border-cyan-500/80 shadow-[0_0_15px_rgba(6,182,212,0.5)] hover:shadow-[0_0_25px_rgba(6,182,212,0.8)] rounded-2xl flex flex-col items-center justify-center text-blue-500 backface-hidden transition-all duration-300">
-                          <HelpCircle className="w-8 h-8 text-blue-500 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] animate-pulse" />
+                        <div className="absolute inset-0 bg-slate-950 border-2 border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.25)] hover:border-purple-400 hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] rounded-2xl flex flex-col items-center justify-center text-purple-400 backface-hidden transition-all duration-300">
+                          <HelpCircle className="w-8 h-8 text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.8)] animate-pulse" />
+                          <span className="text-[10px] uppercase tracking-widest font-extrabold text-purple-300/80 mt-2 font-mono">DÉFI MÉMOIRE</span>
                         </div>
 
                         {/* Card Front (Face visible) */}
-                        <div className={`absolute inset-0 border rounded-2xl p-2 sm:p-2.5 flex flex-col items-center justify-center text-center backface-hidden rotate-y-180 transition-all duration-300 ${
+                        <div className={`absolute inset-0 border-2 rounded-2xl p-3 flex flex-col items-center justify-between text-center backface-hidden rotate-y-180 transition-all duration-300 shadow-2xl ${
                           card.isMatched
-                            ? "bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 shadow-sm"
+                            ? "bg-slate-900/95 border-emerald-400 shadow-[0_0_25px_rgba(52,211,153,0.5)] ring-2 ring-emerald-400/50 scale-[1.02] animate-pulse"
                             : isTerm
-                              ? "bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 shadow-sm"
-                              : "bg-purple-50 dark:bg-purple-900/30 border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-300 shadow-sm"
+                              ? "bg-slate-900/95 border-cyan-400/90 shadow-[0_0_20px_rgba(34,211,238,0.35)] hover:border-cyan-300"
+                              : "bg-slate-900/95 border-purple-400/90 shadow-[0_0_20px_rgba(192,132,252,0.35)] hover:border-purple-300"
                         }`}>
-                          {card.isMatched && (
-                            <span className="absolute top-1.5 right-1.5 bg-green-500 text-white p-0.5 rounded-full shadow">
-                              <Check className="w-2.5 h-2.5" />
-                            </span>
-                          )}
-                          <p className={`break-words max-w-full ${
-                            isTerm ? "font-bold" : "font-medium"
-                          } ${getTextSizeClass(card.content)}`}>
-                            {card.content}
-                          </p>
+                          {/* Type Badge */}
+                          <div className="w-full flex justify-center">
+                            {card.isMatched ? (
+                              <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-500/30 border border-emerald-400 text-emerald-300 shadow-[0_0_10px_rgba(52,211,153,0.4)]">
+                                <Check className="w-3 h-3 text-emerald-300" /> Pairé ! <Sparkles className="w-3 h-3 text-yellow-300 animate-spin" />
+                              </span>
+                            ) : isTerm ? (
+                              <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider font-extrabold px-2.5 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-400/60 text-cyan-300">
+                                Terme RH
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider font-extrabold px-2.5 py-0.5 rounded-full bg-purple-500/20 border border-purple-400/60 text-purple-300">
+                                Définition
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Content Text */}
+                          <div className="flex-1 flex items-center justify-center my-1 w-full">
+                            <p className={`break-words max-w-full text-slate-100 ${getTextSizeClass(card.content)}`}>
+                              {card.content}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -414,3 +428,5 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
 };
 
 export default MemoryRH;
+
+

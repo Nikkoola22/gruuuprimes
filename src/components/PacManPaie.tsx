@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { ArrowLeft, Play, Activity, RotateCcw, Trophy, Heart, Shield, Ghost, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Play, Activity, RotateCcw, Trophy, Heart, Shield, Ghost, AlertTriangle, ArrowUp, ArrowDown, ArrowLeft as ArrowLeftIcon, ArrowRight } from 'lucide-react';
 
 interface PacManProps {
   onClose: () => void;
@@ -51,9 +51,36 @@ interface Ghost extends Entity {
   startX: number;
   startY: number;
   name: string;
-  lastTileX?: number;
-  lastTileY?: number;
 }
+
+interface BonusItem {
+  id: number;
+  row: number;
+  col: number;
+  type: "SEGUR" | "MEDAILLE" | "CAFE" | "DELIBERATION";
+  label: string;
+  symbol: string;
+  color: string;
+  points: number;
+  life: number;
+  maxLife: number;
+}
+
+interface FloatingText {
+  id: number;
+  x: number;
+  y: number;
+  text: string;
+  color: string;
+  life: number;
+}
+
+const BONUS_TYPES = [
+  { type: "SEGUR", label: "PRIME SÉGUR", symbol: "🪙", color: "#f59e0b", points: 300 },
+  { type: "MEDAILLE", label: "MÉDAILLE QVT", symbol: "🏆", color: "#10b981", points: 500 },
+  { type: "CAFE", label: "PAUSE CAFÉ", symbol: "☕", color: "#38bdf8", points: 200 },
+  { type: "DELIBERATION", label: "DÉLIBÉRATION", symbol: "📜", color: "#a855f7", points: 400 }
+];
 
 const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -64,23 +91,40 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
   const [message, setMessage] = useState("");
 
   const mazeRef = useRef<number[][]>([]);
-  const playerRef = useRef<Entity>({ x: 10 * TILE_SIZE, y: 16 * TILE_SIZE, vx: 0, vy: 0, nextVx: 0, nextVy: 0, speed: 2 });
+  const playerRef = useRef<Entity>({ x: 10 * TILE_SIZE, y: 16 * TILE_SIZE, vx: -2, vy: 0, nextVx: -2, nextVy: 0, speed: 2 });
   const ghostsRef = useRef<Ghost[]>([]);
+  const activeBonusRef = useRef<BonusItem | null>(null);
+  const bonusTimerRef = useRef<number>(0);
+  const speedBoostTimerRef = useRef<number>(0);
+  const floatingTextsRef = useRef<FloatingText[]>([]);
   const powerModeTimerRef = useRef<number>(0);
-  const keysRef = useRef<{ [key: string]: boolean }>({});
+  const frameCountRef = useRef(0);
+
+  const changeDirection = useCallback((dir: "left" | "right" | "up" | "down") => {
+    const p = playerRef.current;
+    const speed = speedBoostTimerRef.current > 0 ? 3 : 2;
+    if (dir === "left") { p.nextVx = -speed; p.nextVy = 0; }
+    if (dir === "right") { p.nextVx = speed; p.nextVy = 0; }
+    if (dir === "up") { p.nextVx = 0; p.nextVy = -speed; }
+    if (dir === "down") { p.nextVx = 0; p.nextVy = speed; }
+  }, []);
   
   const initGame = useCallback(() => {
     mazeRef.current = INITIAL_MAZE.map(row => [...row]);
-    playerRef.current = { x: 10 * TILE_SIZE, y: 16 * TILE_SIZE, vx: 0, vy: 0, nextVx: 0, nextVy: 0, speed: 2 };
+    playerRef.current = { x: 10 * TILE_SIZE, y: 16 * TILE_SIZE, vx: -2, vy: 0, nextVx: -2, nextVy: 0, speed: 2 };
     
     ghostsRef.current = [
-      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#ef4444", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Indu", lastTileX: 10, lastTileY: 10 },
-      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#3b82f6", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Absence", lastTileX: 10, lastTileY: 10 },
-      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#f59e0b", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Erreur CM", lastTileX: 10, lastTileY: 10 },
-      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#ec4899", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Surcharge", lastTileX: 10, lastTileY: 10 },
-      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#10b981", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Retard", lastTileX: 10, lastTileY: 10 },
+      { x: 10 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#ef4444", isVulnerable: false, startX: 10 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Indu" },
+      { x: 9 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#3b82f6", isVulnerable: false, startX: 9 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Absence" },
+      { x: 11 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#f59e0b", isVulnerable: false, startX: 11 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Erreur CM" },
+      { x: 9 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#ec4899", isVulnerable: false, startX: 9 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Surcharge" },
+      { x: 11 * TILE_SIZE, y: 10 * TILE_SIZE, vx: 0, vy: -1.5, nextVx: 0, nextVy: 0, speed: 1.5, color: "#10b981", isVulnerable: false, startX: 11 * TILE_SIZE, startY: 10 * TILE_SIZE, name: "Retard" },
     ];
     
+    activeBonusRef.current = null;
+    bonusTimerRef.current = 0;
+    speedBoostTimerRef.current = 0;
+    floatingTextsRef.current = [];
     setScore(0);
     setLives(3);
     setGameState("playing");
@@ -88,44 +132,54 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
   }, []);
 
   const resetPositions = () => {
-    playerRef.current = { x: 10 * TILE_SIZE, y: 16 * TILE_SIZE, vx: 0, vy: 0, nextVx: 0, nextVy: 0, speed: 2 };
+    playerRef.current = { x: 10 * TILE_SIZE, y: 16 * TILE_SIZE, vx: -2, vy: 0, nextVx: -2, nextVy: 0, speed: 2 };
     ghostsRef.current.forEach(g => {
       g.x = g.startX;
       g.y = g.startY;
       g.isVulnerable = false;
       g.vx = 0;
-      g.vy = -g.speed;
-      g.lastTileX = 10;
-      g.lastTileY = 10;
+      g.vy = -1.5;
     });
   };
 
+  const addFloatingText = (text: string, x: number, y: number, color: string) => {
+    floatingTextsRef.current.push({
+      id: Date.now() + Math.random(),
+      x,
+      y,
+      text,
+      color,
+      life: 30
+    });
+  };
+
+  // Événements Clavier
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+      const key = e.key;
+      const code = e.code;
+
+      if (
+        key === "ArrowLeft" || key === "ArrowRight" || key === "ArrowUp" || key === "ArrowDown" ||
+        code === "ArrowLeft" || code === "ArrowRight" || code === "ArrowUp" || code === "ArrowDown"
+      ) {
         e.preventDefault();
       }
-      keysRef.current[e.key] = true;
-      
-      const p = playerRef.current;
-      if (e.key === "ArrowLeft") { p.nextVx = -p.speed; p.nextVy = 0; }
-      if (e.key === "ArrowRight") { p.nextVx = p.speed; p.nextVy = 0; }
-      if (e.key === "ArrowUp") { p.nextVx = 0; p.nextVy = -p.speed; }
-      if (e.key === "ArrowDown") { p.nextVx = 0; p.nextVy = p.speed; }
-    };
-    
-    const handleKeyUp = (e: KeyboardEvent) => {
-      keysRef.current[e.key] = false;
+
+      if (key === "ArrowLeft" || code === "ArrowLeft" || key === "q" || key === "Q" || key === "a" || key === "A" || code === "KeyA" || code === "KeyQ") {
+        changeDirection("left");
+      } else if (key === "ArrowRight" || code === "ArrowRight" || key === "d" || key === "D" || code === "KeyD") {
+        changeDirection("right");
+      } else if (key === "ArrowUp" || code === "ArrowUp" || key === "z" || key === "Z" || key === "w" || key === "W" || code === "KeyW" || code === "KeyZ") {
+        changeDirection("up");
+      } else if (key === "ArrowDown" || code === "ArrowDown" || key === "s" || key === "S" || code === "KeyS") {
+        changeDirection("down");
+      }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
-    };
-  }, []);
+    window.addEventListener("keydown", handleKeyDown, { capture: true });
+    return () => window.removeEventListener("keydown", handleKeyDown, { capture: true });
+  }, [changeDirection]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -139,12 +193,11 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
       const topRow = Math.floor(y / TILE_SIZE);
       const bottomRow = Math.floor((y + TILE_SIZE - 1) / TILE_SIZE);
 
-      // Allow wrapping ONLY in the tunnel rows (8 and 12)
       if (x < 0 || x + TILE_SIZE > CANVAS_WIDTH) {
         if ((topRow === 8 && bottomRow === 8) || (topRow === 12 && bottomRow === 12)) {
           return false;
         }
-        return true; // Wall everywhere else outside
+        return true;
       }
       
       const leftCol = Math.floor(x / TILE_SIZE);
@@ -160,67 +213,136 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
       );
     };
 
+    const spawnRandomBonus = () => {
+      if (activeBonusRef.current !== null) return;
+
+      const validCells: { r: number; c: number }[] = [];
+      const maze = mazeRef.current;
+      for (let r = 2; r < ROWS - 2; r++) {
+        for (let c = 2; c < COLS - 2; c++) {
+          if (maze[r][c] === 0 || maze[r][c] === 2) {
+            if (!(r >= 8 && r <= 12 && c >= 8 && c <= 12)) {
+              validCells.push({ r, c });
+            }
+          }
+        }
+      }
+
+      if (validCells.length > 0) {
+        const cell = validCells[Math.floor(Math.random() * validCells.length)];
+        const bonusDef = BONUS_TYPES[Math.floor(Math.random() * BONUS_TYPES.length)];
+
+        activeBonusRef.current = {
+          id: Date.now(),
+          row: cell.r,
+          col: cell.c,
+          type: bonusDef.type as any,
+          label: bonusDef.label,
+          symbol: bonusDef.symbol,
+          color: bonusDef.color,
+          points: bonusDef.points,
+          life: 480,
+          maxLife: 480
+        };
+
+        setMessage(`BONUS RH EN APPROCHE : ${bonusDef.label} !`);
+        setTimeout(() => setMessage(""), 2000);
+      }
+    };
+
     const updateGame = () => {
       if (gameState !== "playing") return;
+      frameCountRef.current++;
 
       const p = playerRef.current;
       const maze = mazeRef.current;
 
-      // Les fantômes accélèrent au fur et à mesure (vitesse de base de 1.4, augmente jusqu'à 2.8 avec le score)
-      const currentBaseSpeed = Math.min(2.8, 1.4 + (score / 1500) * 1.4);
-      ghostsRef.current.forEach(g => {
-        g.speed = currentBaseSpeed;
-        const speed = g.isVulnerable ? currentBaseSpeed * 0.6 : currentBaseSpeed;
-        if (g.vx !== 0) g.vx = Math.sign(g.vx) * speed;
-        if (g.vy !== 0) g.vy = Math.sign(g.vy) * speed;
-      });
+      const pSpeed = speedBoostTimerRef.current > 0 ? 3 : 2;
+      if (speedBoostTimerRef.current > 0) {
+        speedBoostTimerRef.current--;
+      }
+      p.speed = pSpeed;
 
-      // Try applying next direction if centered roughly
-      if (
-        (p.x % TILE_SIZE < p.speed || p.x % TILE_SIZE > TILE_SIZE - p.speed) &&
-        (p.y % TILE_SIZE < p.speed || p.y % TILE_SIZE > TILE_SIZE - p.speed)
-      ) {
-        // Snap to grid slightly to turn cleanly
-        const snappedX = Math.round(p.x / TILE_SIZE) * TILE_SIZE;
-        const snappedY = Math.round(p.y / TILE_SIZE) * TILE_SIZE;
-        
-        if (!checkCollisionWithWall(snappedX + Math.sign(p.nextVx) * TILE_SIZE, snappedY + Math.sign(p.nextVy) * TILE_SIZE)) {
-          p.x = snappedX;
-          p.y = snappedY;
-          p.vx = p.nextVx;
-          p.vy = p.nextVy;
+      // Virage Arcade Tampon
+      const isReverse = (Math.sign(p.nextVx) === -Math.sign(p.vx) && p.vx !== 0) ||
+                        (Math.sign(p.nextVy) === -Math.sign(p.vy) && p.vy !== 0);
+
+      if (isReverse) {
+        p.vx = Math.sign(p.nextVx) * pSpeed;
+        p.vy = Math.sign(p.nextVy) * pSpeed;
+      } else if (p.nextVx !== 0 || p.nextVy !== 0) {
+        const TURN_BUFFER = 10;
+
+        if (p.nextVx !== 0) {
+          const targetRow = Math.round(p.y / TILE_SIZE);
+          const distY = Math.abs(p.y - targetRow * TILE_SIZE);
+
+          if (distY <= TURN_BUFFER) {
+            const targetY = targetRow * TILE_SIZE;
+            const targetCol = Math.floor((p.x + TILE_SIZE / 2) / TILE_SIZE) + Math.sign(p.nextVx);
+            
+            if (targetCol >= 0 && targetCol < COLS && targetRow >= 0 && targetRow < ROWS) {
+              if (maze[targetRow][targetCol] !== 1) {
+                p.y = targetY;
+                p.vx = Math.sign(p.nextVx) * pSpeed;
+                p.vy = 0;
+              }
+            }
+          }
+        } else if (p.nextVy !== 0) {
+          const targetCol = Math.round(p.x / TILE_SIZE);
+          const distX = Math.abs(p.x - targetCol * TILE_SIZE);
+
+          if (distX <= TURN_BUFFER) {
+            const targetX = targetCol * TILE_SIZE;
+            const targetRow = Math.floor((p.y + TILE_SIZE / 2) / TILE_SIZE) + Math.sign(p.nextVy);
+
+            if (targetRow >= 0 && targetRow < ROWS && targetCol >= 0 && targetCol < COLS) {
+              if (maze[targetRow][targetCol] !== 1) {
+                p.x = targetX;
+                p.vx = 0;
+                p.vy = Math.sign(p.nextVy) * pSpeed;
+              }
+            }
+          }
         }
       }
 
-      // Move player
+      if (p.vx !== 0) p.vx = Math.sign(p.vx) * pSpeed;
+      if (p.vy !== 0) p.vy = Math.sign(p.vy) * pSpeed;
+
+      // Déplacement du Joueur
       if (!checkCollisionWithWall(p.x + p.vx, p.y + p.vy)) {
         p.x += p.vx;
         p.y += p.vy;
+      } else {
+        p.vx = 0;
+        p.vy = 0;
       }
 
       // Tunnel wrapping
       if (p.x < -TILE_SIZE) p.x = CANVAS_WIDTH;
       if (p.x > CANVAS_WIDTH) p.x = -TILE_SIZE;
 
-      // Eat dots
+      // Manger les pastilles & Délibérations
       const centerCol = Math.floor((p.x + TILE_SIZE / 2) / TILE_SIZE);
       const centerRow = Math.floor((p.y + TILE_SIZE / 2) / TILE_SIZE);
       
       if (centerRow >= 0 && centerRow < ROWS && centerCol >= 0 && centerCol < COLS) {
         if (maze[centerRow][centerCol] === 2) {
-          maze[centerRow][centerCol] = 0; // Dot eaten
+          maze[centerRow][centerCol] = 0;
           setScore(s => s + 10);
         } else if (maze[centerRow][centerCol] === 3) {
-          maze[centerRow][centerCol] = 0; // Power pellet eaten
+          maze[centerRow][centerCol] = 0;
           setScore(s => s + 50);
           setMessage("DÉLIBÉRATION VALIDÉE !");
           setTimeout(() => setMessage(""), 2000);
-          powerModeTimerRef.current = 400; // ~6-7 seconds at 60fps
+          powerModeTimerRef.current = 400;
           ghostsRef.current.forEach(g => { g.isVulnerable = true; });
         }
       }
 
-      // Decrement power mode
+      // Timer Mode Vulnérable
       if (powerModeTimerRef.current > 0) {
         powerModeTimerRef.current--;
         if (powerModeTimerRef.current === 0) {
@@ -228,95 +350,136 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
         }
       }
 
-      // Update Ghosts
+      // Spawn périodique des bonus éphémères (toutes les 12s)
+      bonusTimerRef.current++;
+      if (bonusTimerRef.current >= 720) {
+        bonusTimerRef.current = 0;
+        spawnRandomBonus();
+      }
+
+      // Mise à jour du Bonus Actif
+      if (activeBonusRef.current) {
+        const bonus = activeBonusRef.current;
+        bonus.life--;
+
+        const bonusX = bonus.col * TILE_SIZE;
+        const bonusY = bonus.row * TILE_SIZE;
+        const distToBonus = Math.hypot(p.x - bonusX, p.y - bonusY);
+
+        if (distToBonus < TILE_SIZE * 0.85) {
+          setScore(s => s + bonus.points);
+          addFloatingText(`+${bonus.points} PTS`, bonusX + 12, bonusY, bonus.color);
+
+          if (bonus.type === "CAFE") {
+            speedBoostTimerRef.current = 360;
+            setMessage("BOOST DE VITESSE : PAUSE CAFÉ ☕ !");
+          } else if (bonus.type === "DELIBERATION") {
+            powerModeTimerRef.current = 350;
+            ghostsRef.current.forEach(g => { g.isVulnerable = true; });
+            setMessage("DÉLIBÉRATION EXPRESS 📜 !");
+          } else {
+            setMessage(`RÉCOLTE : ${bonus.label} (${bonus.symbol}) !`);
+          }
+
+          setTimeout(() => setMessage(""), 2000);
+          activeBonusRef.current = null;
+        } else if (bonus.life <= 0) {
+          activeBonusRef.current = null;
+        }
+      }
+
+      // === DEPLACEMENT DES FANTOMES GARANTI SANS AUCUN IMMOBILISME (SNAP AUTO ET AUTO-UNBLOCK) ===
       ghostsRef.current.forEach(g => {
-        // Tunnel wrapping
         if (g.x < -TILE_SIZE) g.x = CANVAS_WIDTH;
         if (g.x > CANVAS_WIDTH) g.x = -TILE_SIZE;
 
-        const actualSpeed = g.isVulnerable ? g.speed * 0.6 : g.speed;
+        const currentSpeed = g.isVulnerable ? 1 : 1.5;
+        g.speed = currentSpeed;
 
-        const currentTileX = Math.round(g.x / TILE_SIZE);
-        const currentTileY = Math.round(g.y / TILE_SIZE);
-        const hasMovedTile = g.lastTileX === undefined || g.lastTileY === undefined || currentTileX !== g.lastTileX || currentTileY !== g.lastTileY;
+        const gridX = Math.round(g.x / TILE_SIZE) * TILE_SIZE;
+        const gridY = Math.round(g.y / TILE_SIZE) * TILE_SIZE;
 
-        // Si le fantôme est dans la maison de départ (avec une marge de sécurité), on le guide vers la sortie
-        const inHouse = g.y >= 9 * TILE_SIZE && g.y <= 11 * TILE_SIZE && g.x >= 9 * TILE_SIZE && g.x <= 12 * TILE_SIZE;
+        // Détecte la proximité du centre de case OU si le fantôme est à l'arrêt
+        const isNearCenter = (Math.abs(g.x - gridX) < currentSpeed && Math.abs(g.y - gridY) < currentSpeed) || (g.vx === 0 && g.vy === 0);
 
-        if (hasMovedTile) {
-          g.x = currentTileX * TILE_SIZE;
-          g.y = currentTileY * TILE_SIZE;
-          g.lastTileX = currentTileX;
-          g.lastTileY = currentTileY;
+        if (isNearCenter) {
+          // Snap exact pour éliminer les décalages de sous-pixels
+          g.x = gridX;
+          g.y = gridY;
+
+          const col = Math.round(gridX / TILE_SIZE);
+          const row = Math.round(gridY / TILE_SIZE);
+
+          const inHouse = row >= 9 && row <= 10 && col >= 9 && col <= 11;
 
           if (inHouse) {
-            if (currentTileX < 10) {
-              g.vx = actualSpeed;
-              g.vy = 0;
-            } else if (currentTileX > 10) {
-              g.vx = -actualSpeed;
-              g.vy = 0;
-            } else {
-              g.vx = 0;
-              g.vy = -actualSpeed; // Se déplacer vers le haut pour sortir
-            }
+            if (col < 10) { g.vx = currentSpeed; g.vy = 0; }
+            else if (col > 10) { g.vx = -currentSpeed; g.vy = 0; }
+            else { g.vx = 0; g.vy = -currentSpeed; }
           } else {
-            // Decide new direction at intersections
-            const possibleMoves = [];
-            const directions = [
-              { vx: 0, vy: -actualSpeed }, // Up
-              { vx: 0, vy: actualSpeed },  // Down
-              { vx: -actualSpeed, vy: 0 }, // Left
-              { vx: actualSpeed, vy: 0 },  // Right
+            const possibleMoves: { vx: number; vy: number }[] = [];
+            const dirs = [
+              { vx: 0, vy: -currentSpeed },
+              { vx: 0, vy: currentSpeed },
+              { vx: -currentSpeed, vy: 0 },
+              { vx: currentSpeed, vy: 0 }
             ];
 
-            directions.forEach(dir => {
-              // Don't reverse direction immediately unless trapped
-              if (Math.sign(dir.vx) === -Math.sign(g.vx) && Math.sign(dir.vy) === -Math.sign(g.vy) && (g.vx !== 0 || g.vy !== 0)) return;
-              if (!checkCollisionWithWall(g.x + Math.sign(dir.vx) * TILE_SIZE, g.y + Math.sign(dir.vy) * TILE_SIZE)) {
-                possibleMoves.push(dir);
+            dirs.forEach(d => {
+              const isReverse = Math.sign(d.vx) === -Math.sign(g.vx) && Math.sign(d.vy) === -Math.sign(g.vy) && (g.vx !== 0 || g.vy !== 0);
+              const testX = gridX + Math.sign(d.vx) * TILE_SIZE;
+              const testY = gridY + Math.sign(d.vy) * TILE_SIZE;
+
+              if (!isReverse && !checkCollisionWithWall(testX, testY)) {
+                possibleMoves.push(d);
               }
             });
 
+            if (possibleMoves.length === 0) {
+              dirs.forEach(d => {
+                const testX = gridX + Math.sign(d.vx) * TILE_SIZE;
+                const testY = gridY + Math.sign(d.vy) * TILE_SIZE;
+                if (!checkCollisionWithWall(testX, testY)) {
+                  possibleMoves.push(d);
+                }
+              });
+            }
+
             if (possibleMoves.length > 0) {
-              const move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-              g.vx = move.vx;
-              g.vy = move.vy;
-            } else {
-              // Reverse if trapped
-              g.vx = -g.vx;
-              g.vy = -g.vy;
+              const chosen = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+              g.vx = chosen.vx;
+              g.vy = chosen.vy;
             }
           }
         }
 
-        if (!checkCollisionWithWall(g.x + g.vx, g.y + g.vy)) {
-          g.x += Math.sign(g.vx) * actualSpeed;
-          g.y += Math.sign(g.vy) * actualSpeed;
+        // Déplacement effectif avec déblocage automatique immédiat
+        if (!checkCollisionWithWall(g.x + Math.sign(g.vx) * currentSpeed, g.y + Math.sign(g.vy) * currentSpeed)) {
+          g.x += Math.sign(g.vx) * currentSpeed;
+          g.y += Math.sign(g.vy) * currentSpeed;
         } else {
-          g.lastTileX = undefined; // Force re-evaluation on next frame if blocked
+          // Si bloqué, forcer le réalignement et le choix de direction immédiat à la trame suivante
+          g.vx = 0;
+          g.vy = 0;
         }
 
-        // Collision with player
+        // Collision Joueur - Fantôme
         const dx = (p.x + TILE_SIZE / 2) - (g.x + TILE_SIZE / 2);
         const dy = (p.y + TILE_SIZE / 2) - (g.y + TILE_SIZE / 2);
-        const dist = Math.sqrt(dx * dx + dy * dy);
+        const dist = Math.hypot(dx, dy);
         
         if (dist < TILE_SIZE * 0.8) {
           if (g.isVulnerable) {
-            // Eat ghost
             setScore(s => s + 200);
+            addFloatingText("+200 PTS", g.x + 12, g.y, "#38bdf8");
             g.x = g.startX;
             g.y = g.startY;
             g.isVulnerable = false;
-            g.lastTileX = 10;
-            g.lastTileY = 10;
             g.vx = 0;
-            g.vy = -g.speed;
+            g.vy = -1.5;
             setMessage("ANOMALIE RÉSOLUE !");
             setTimeout(() => setMessage(""), 1000);
           } else {
-            // Lose life
             setLives(l => {
               const nextL = l - 1;
               if (nextL <= 0) {
@@ -330,7 +493,14 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
         }
       });
 
-      // Check victory
+      // Mettre à jour les textes flottants
+      floatingTextsRef.current.forEach(ft => {
+        ft.y -= 1.2;
+        ft.life--;
+      });
+      floatingTextsRef.current = floatingTextsRef.current.filter(ft => ft.life > 0);
+
+      // Victoire
       let dotsLeft = 0;
       for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
@@ -345,126 +515,194 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
     const drawGame = () => {
       ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // Draw Maze
+      // Fond Labyrinthe Cyber
+      ctx.fillStyle = "#030712";
+      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+      // Dessiner les murs & pastilles
       const maze = mazeRef.current;
       for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
-          const tile = maze[r][c];
-          if (tile === 1) {
-            // Wall
-            ctx.fillStyle = "rgba(59, 130, 246, 0.4)"; // Neon blue walls
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = "#3b82f6";
-            ctx.fillRect(c * TILE_SIZE + 2, r * TILE_SIZE + 2, TILE_SIZE - 4, TILE_SIZE - 4);
-            ctx.shadowBlur = 0;
-          } else if (tile === 2) {
-            // Dot (Bonus Dollar)
-            ctx.fillStyle = "#fbbf24"; // Gold
-            ctx.font = "bold 14px sans-serif";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText("$", c * TILE_SIZE + TILE_SIZE / 2, r * TILE_SIZE + TILE_SIZE / 2);
-          } else if (tile === 3) {
-            // Power Pellet (Billet de paie / Grosse Prime)
-            ctx.fillStyle = "#10b981"; // Green
+          const x = c * TILE_SIZE;
+          const y = r * TILE_SIZE;
+          const val = maze[r][c];
+
+          if (val === 1) {
+            // Murs Néon Bleu Cyber
+            ctx.fillStyle = "#1e1b4b";
+            ctx.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+            ctx.strokeStyle = "#38bdf8";
+            ctx.lineWidth = 1.5;
             ctx.shadowBlur = 8;
-            ctx.shadowColor = "#10b981";
-            
-            // Draw a small paycheck bill
-            const x = c * TILE_SIZE + 4;
-            const y = r * TILE_SIZE + 5;
-            const w = TILE_SIZE - 8;
-            const h = TILE_SIZE - 10;
-            ctx.fillRect(x, y, w, h);
-            
-            // Draw tiny details on bill
-            ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 9px sans-serif";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText("$", c * TILE_SIZE + TILE_SIZE / 2, r * TILE_SIZE + TILE_SIZE / 2);
+            ctx.shadowColor = "#38bdf8";
+            ctx.strokeRect(x + 1, y + 1, TILE_SIZE - 2, TILE_SIZE - 2);
+            ctx.shadowBlur = 0;
+          } else if (val === 2) {
+            // Pastille Paie Standard
+            ctx.fillStyle = "#fbbf24";
+            ctx.shadowBlur = 6;
+            ctx.shadowColor = "#fbbf24";
+            ctx.beginPath();
+            ctx.arc(x + TILE_SIZE / 2, y + TILE_SIZE / 2, 3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          } else if (val === 3) {
+            // Super Délibération (Power Pellet)
+            const pulse = 6 + Math.sin(frameCountRef.current * 0.15) * 2;
+            ctx.fillStyle = "#a855f7";
+            ctx.shadowBlur = 14;
+            ctx.shadowColor = "#a855f7";
+            ctx.beginPath();
+            ctx.arc(x + TILE_SIZE / 2, y + TILE_SIZE / 2, pulse, 0, Math.PI * 2);
+            ctx.fill();
             ctx.shadowBlur = 0;
           }
         }
       }
- 
-      // Draw Player (Bulletin de Salaire)
+
+      // === DESSINER LE BONUS ÉPHÉMÈRE ACTIF ===
+      if (activeBonusRef.current) {
+        const bonus = activeBonusRef.current;
+        const bx = bonus.col * TILE_SIZE + TILE_SIZE / 2;
+        const by = bonus.row * TILE_SIZE + TILE_SIZE / 2;
+
+        ctx.save();
+        const pulseSize = 13 + Math.sin(frameCountRef.current * 0.2) * 3;
+        ctx.fillStyle = `${bonus.color}33`;
+        ctx.strokeStyle = bonus.color;
+        ctx.lineWidth = 2;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = bonus.color;
+
+        ctx.beginPath();
+        ctx.arc(bx, by, pulseSize, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        const lifeRatio = bonus.life / bonus.maxLife;
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.arc(bx, by, 15, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * lifeRatio);
+        ctx.stroke();
+
+        ctx.font = "14px sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.shadowBlur = 0;
+        ctx.fillText(bonus.symbol, bx, by + 1);
+        ctx.restore();
+      }
+
+      // === DESSINER LE JOUEUR (Gestionnaire RH Paie) ===
       const p = playerRef.current;
       ctx.save();
       ctx.translate(p.x + TILE_SIZE / 2, p.y + TILE_SIZE / 2);
-      
-      // Draw a document sheet representing the Paycheck
-      ctx.fillStyle = "#a855f7"; // Neon purple document
-      ctx.shadowBlur = 15;
-      ctx.shadowColor = "#a855f7";
-      
-      // Main sheet shape
+
+      let angle = 0;
+      if (p.vx > 0) angle = 0;
+      if (p.vx < 0) angle = Math.PI;
+      if (p.vy > 0) angle = Math.PI / 2;
+      if (p.vy < 0) angle = -Math.PI / 2;
+      ctx.rotate(angle);
+
+      // Traînée du Boost Café
+      if (speedBoostTimerRef.current > 0) {
+        ctx.fillStyle = "#38bdf8";
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = "#38bdf8";
+        ctx.beginPath();
+        ctx.arc(-8, 0, 8, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Pac-Man Paie Jaune Doré
+      const mouthAngle = (p.vx === 0 && p.vy === 0) ? 0.05 : 0.2 + Math.abs(Math.sin(frameCountRef.current * 0.2)) * 0.25;
+      ctx.fillStyle = speedBoostTimerRef.current > 0 ? "#38bdf8" : "#fbbf24";
+      ctx.shadowBlur = 14;
+      ctx.shadowColor = ctx.fillStyle;
       ctx.beginPath();
-      // Draw a rounded rectangle for a document
-      ctx.roundRect(-TILE_SIZE / 2 + 3, -TILE_SIZE / 2 + 2, TILE_SIZE - 6, TILE_SIZE - 4, 3);
+      ctx.arc(0, 0, TILE_SIZE / 2 - 2, mouthAngle, Math.PI * 2 - mouthAngle);
+      ctx.lineTo(0, 0);
       ctx.fill();
-
-      // Lines of text on the paycheck
-      ctx.strokeStyle = "#ffffff";
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      // Line 1
-      ctx.moveTo(-TILE_SIZE / 2 + 6, -TILE_SIZE / 2 + 6);
-      ctx.lineTo(TILE_SIZE / 2 - 6, -TILE_SIZE / 2 + 6);
-      // Line 2
-      ctx.moveTo(-TILE_SIZE / 2 + 6, -TILE_SIZE / 2 + 10);
-      ctx.lineTo(TILE_SIZE / 2 - 6, -TILE_SIZE / 2 + 10);
-      // Line 3
-      ctx.moveTo(-TILE_SIZE / 2 + 6, -TILE_SIZE / 2 + 14);
-      ctx.lineTo(TILE_SIZE / 2 - 10, -TILE_SIZE / 2 + 14);
-      ctx.stroke();
-
-      // Gold seal badge
-      ctx.fillStyle = "#fbbf24";
-      ctx.beginPath();
-      ctx.arc(TILE_SIZE / 2 - 7, TILE_SIZE / 2 - 6, 2.5, 0, Math.PI * 2);
-      ctx.fill();
-
       ctx.restore();
 
-      // Draw Ghosts
+      // === DESSINER LES FANTÔMES D'ANOMALIES ===
       ghostsRef.current.forEach(g => {
         ctx.save();
         ctx.translate(g.x + TILE_SIZE / 2, g.y + TILE_SIZE / 2);
-        
-        ctx.fillStyle = g.isVulnerable ? (powerModeTimerRef.current < 100 && Math.floor(Date.now() / 200) % 2 === 0 ? "#ffffff" : "#60a5fa") : g.color;
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = ctx.fillStyle;
-        
+
+        const gColor = g.isVulnerable ? (powerModeTimerRef.current < 100 && frameCountRef.current % 10 < 5 ? "#ffffff" : "#3b82f6") : g.color;
+
+        ctx.fillStyle = gColor;
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = gColor;
+
+        // Corps du Fantôme
         ctx.beginPath();
-        // Ghost body
-        ctx.arc(0, -2, TILE_SIZE / 2 - 2, Math.PI, 0);
+        ctx.arc(0, -2, TILE_SIZE / 2 - 2, Math.PI, 0, false);
         ctx.lineTo(TILE_SIZE / 2 - 2, TILE_SIZE / 2 - 2);
-        // Wavy bottom
-        ctx.lineTo(TILE_SIZE / 4, TILE_SIZE / 2 - 4);
+
+        const wave = Math.sin(frameCountRef.current * 0.3) * 2;
+        ctx.lineTo(TILE_SIZE / 4, TILE_SIZE / 2 - 4 + wave);
         ctx.lineTo(0, TILE_SIZE / 2 - 2);
-        ctx.lineTo(-TILE_SIZE / 4, TILE_SIZE / 2 - 4);
+        ctx.lineTo(-TILE_SIZE / 4, TILE_SIZE / 2 - 4 - wave);
         ctx.lineTo(-TILE_SIZE / 2 + 2, TILE_SIZE / 2 - 2);
+        ctx.closePath();
         ctx.fill();
 
-        // Eyes
-        ctx.fillStyle = "#ffffff";
-        ctx.beginPath();
-        ctx.arc(-4, -4, 3, 0, Math.PI * 2);
-        ctx.arc(4, -4, 3, 0, Math.PI * 2);
-        ctx.fill();
+        // Yeux
+        if (!g.isVulnerable) {
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath();
+          ctx.arc(-4, -4, 3, 0, Math.PI * 2);
+          ctx.arc(4, -4, 3, 0, Math.PI * 2);
+          ctx.fill();
 
-        // Pupils
-        ctx.fillStyle = g.isVulnerable ? "#ef4444" : "#1e293b";
-        const pupilDx = g.isVulnerable ? 0 : Math.sign(g.vx);
-        const pupilDy = g.isVulnerable ? 0 : Math.sign(g.vy);
-        ctx.beginPath();
-        ctx.arc(-4 + pupilDx, -4 + pupilDy, 1.5, 0, Math.PI * 2);
-        ctx.arc(4 + pupilDx, -4 + pupilDy, 1.5, 0, Math.PI * 2);
-        ctx.fill();
-        
+          ctx.fillStyle = "#0f172a";
+          ctx.beginPath();
+          ctx.arc(-4 + Math.sign(g.vx), -4 + Math.sign(g.vy), 1.5, 0, Math.PI * 2);
+          ctx.arc(4 + Math.sign(g.vx), -4 + Math.sign(g.vy), 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(-5, -4, 3, 3);
+          ctx.fillRect(2, -4, 3, 3);
+        }
+
         ctx.restore();
       });
+
+      // === DESSINER LES TEXTES FLOTTANTS ===
+      floatingTextsRef.current.forEach(ft => {
+        ctx.save();
+        ctx.globalAlpha = ft.life / 30;
+        ctx.fillStyle = ft.color;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = ft.color;
+        ctx.font = "bold 12px monospace";
+        ctx.textAlign = "center";
+        ctx.fillText(ft.text, ft.x, ft.y);
+        ctx.restore();
+      });
+
+      // Message Toast
+      if (message) {
+        ctx.save();
+        ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
+        ctx.strokeStyle = "#38bdf8";
+        ctx.lineWidth = 1.5;
+        ctx.roundRect(CANVAS_WIDTH / 2 - 130, CANVAS_HEIGHT / 2 - 20, 260, 40, 12);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = "#38bdf8";
+        ctx.font = "bold 12px sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(message, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+        ctx.restore();
+      }
     };
 
     const loop = () => {
@@ -473,167 +711,161 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
       animationId = requestAnimationFrame(loop);
     };
 
-    loop();
+    animationId = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(animationId);
-  }, [gameState]);
+  }, [gameState, score, message, changeDirection]);
 
   return (
-    <div className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 overflow-x-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-500  sm: px-4 sm:px-6 lg:px-8 font-sans text-slate-800 dark:text-slate-100">
-      
-      <div style={{
-        position: 'fixed', top: '50%', left: '50%',
-        transform: 'translate(-50%,-50%)',
-        width: 800, height: 800, borderRadius: '50%',
-        background: 'radial-gradient(ellipse at center, rgba(59,130,246,0.1) 0%, transparent 70%)',
-        filter: 'blur(40px)', pointerEvents: 'none', zIndex: 0,
-      }} />
+    <div className="relative z-30 isolate min-h-screen flex flex-col pt-4 sm:pt-6 pb-6 overflow-x-hidden bg-slate-950 px-4 font-sans text-slate-100 select-none">
+      {/* Background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-yellow-500/10 via-amber-500/10 to-blue-500/10 rounded-full blur-3xl pointer-events-none z-0" />
 
-      <div className="max-w-4xl mx-auto relative z-10">
-        
-        {/* Retour button */}
-        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-50">
+      <div className="max-w-4xl mx-auto relative z-10 w-full flex flex-col items-center">
+        {/* Header */}
+        <div className="w-full flex justify-between items-center mb-4 flex-wrap gap-2">
           <button
-            type="button"
             onClick={onClose}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black rounded-full transition-all text-sm shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:scale-105 active:scale-95"
+            className="flex items-center gap-2 px-4 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 rounded-full font-bold transition-all text-xs sm:text-sm shadow-md hover:scale-105 active:scale-95"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4 text-amber-400" />
             Retour
           </button>
-        </div>
 
-        {/* Title & Stats */}
-        <div className="text-center mb-6 animate-fade-in">
-          <h1 className="text-3xl sm:text-5xl font-black tracking-widest mb-2 uppercase" style={{fontFamily: 'monospace', color: '#eab308', textShadow: '0 0 25px rgba(234,179,8,0.6), 0 0 60px rgba(234,179,8,0.3)'}}>
-            PAC-MAN <span style={{color: '#38bdf8', textShadow: '0 0 25px rgba(56,189,248,0.7)'}}>PAIE</span>
-          </h1>
-          
-          <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-6 text-sm font-bold mt-4">
-            <span className="px-4 py-2 rounded-xl font-mono text-xs shadow-[0_4px_12px_rgba(0,0,0,0.5)]" style={{background: 'rgba(15,23,42,0.85)', border: '1px solid rgba(234,179,8,0.5)', color: '#fef08a', letterSpacing: '0.1em'}}>
-              SCORE <span className="text-amber-400 text-base font-black ml-1">{score}</span>
-            </span>
-            <span className="px-4 py-2 rounded-xl font-mono text-xs flex items-center gap-2 shadow-[0_4px_12px_rgba(0,0,0,0.5)]" style={{background: 'rgba(15,23,42,0.85)', border: '1px solid rgba(239,68,68,0.5)', color: '#fca5a5', letterSpacing: '0.1em'}}>
-              VIES
-              <span className="flex gap-1">
-                {Array.from({ length: Math.max(0, lives) }).map((_, idx) => (
-                  <Heart key={idx} className="w-4 h-4 text-rose-500 fill-rose-500 drop-shadow-[0_0_8px_rgba(244,63,94,0.8)]" />
-                ))}
-              </span>
-            </span>
-            {message && (
-              <span className="bg-emerald-500/20 text-emerald-300 px-4 py-2 rounded-xl border border-emerald-500/50 font-mono text-xs animate-pulse shadow-[0_0_15px_rgba(16,185,129,0.4)]">
-                {message}
-              </span>
-            )}
+          <div className="flex items-center gap-2">
+            <Activity className="w-6 h-6 text-amber-400 animate-pulse" />
+            <h1 className="text-xl sm:text-3xl font-black uppercase tracking-wider bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">
+              Labyrinthe Paie
+            </h1>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1 bg-slate-900/90 px-3 py-1.5 rounded-full border border-slate-800">
+              {[...Array(3)].map((_, i) => (
+                <Heart
+                  key={i}
+                  className={`w-4 h-4 transition-all ${
+                    i < lives ? "text-rose-500 fill-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]" : "text-slate-700"
+                  }`}
+                />
+              ))}
+            </div>
+            <div className="bg-slate-900/90 px-4 py-1.5 rounded-full border border-slate-800 text-xs font-mono font-bold text-slate-300">
+              Score : <span className="text-amber-400 font-black">{score}</span>
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-center max-w-2xl mx-auto bg-slate-950/80 backdrop-blur-2xl rounded-3xl p-4 sm:p-6 shadow-[0_0_50px_rgba(0,0,0,0.6)] border border-slate-800 relative overflow-hidden min-h-[480px]">
-          
+        {/* Canvas Area */}
+        <div className="relative bg-slate-900/90 border-2 border-amber-500/30 rounded-3xl p-3 shadow-[0_0_50px_rgba(245,158,11,0.25)]">
+          <canvas
+            ref={canvasRef}
+            width={CANVAS_WIDTH}
+            height={CANVAS_HEIGHT}
+            className="rounded-2xl border border-slate-800 block shadow-inner tab-index-0 focus:outline-none"
+            tabIndex={0}
+          />
+
+          {/* Overlay Start */}
           {gameState === "ready" && (
-            <div className="text-center self-center relative z-10 w-full animate-fade-in py-10">
-              <div className="w-20 h-20 bg-yellow-500/20 border border-yellow-500/40 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_35px_rgba(234,179,8,0.4)] transform -rotate-3 hover:rotate-0 transition-transform">
-                <Ghost className="w-10 h-10 text-yellow-400 drop-shadow-[0_0_10px_rgba(234,179,8,0.8)] animate-bounce" />
+            <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center p-6 text-center z-20">
+              <div className="w-16 h-16 bg-amber-500/20 border border-amber-400 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+                <Activity className="w-8 h-8 text-amber-400 animate-pulse" />
               </div>
-              <h2 className="text-3xl font-black mb-3 text-white tracking-wide uppercase" style={{fontFamily: 'monospace'}}>PRÊT À GÉRER LA PAIE ?</h2>
-              <p className="text-slate-300 max-w-sm mx-auto mb-8 text-sm font-medium leading-relaxed">
-                Mangez les <span className="text-yellow-400 font-bold">Crédits</span> et attrapez les <span className="text-rose-400 font-bold">Délibérations</span> pour pouvoir chasser les Erreurs RH (Fantômes) !
+              <h2 className="text-2xl font-black text-white mb-2">Sécurisez la Paie</h2>
+              <p className="text-slate-300 text-xs sm:text-sm max-w-xs mb-6 leading-relaxed">
+                Utilisez les <strong>flèches du clavier</strong> ou les <strong>boutons à l'écran</strong> pour vous déplacer. Récoltez les pastilles et débloquez les bonus !
               </p>
-              <button 
-                onClick={initGame} 
-                className="mx-auto px-8 py-3.5 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-black rounded-full shadow-[0_0_30px_rgba(234,179,8,0.5)] border border-yellow-300 transition-all hover:scale-105 active:scale-95 flex items-center gap-3 uppercase tracking-wider text-base"
+              <button
+                onClick={initGame}
+                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 text-sm uppercase tracking-wider"
               >
-                <Play className="w-6 h-6 fill-current" /> Jouer
+                <Play className="w-5 h-5 fill-current" />
+                Lancer la Paie
               </button>
             </div>
           )}
 
-          {(gameState === "gameover" || gameState === "victory") && (
-            <div className="text-center self-center relative z-10 w-full animate-scale-up py-10">
-              {gameState === "victory" ? (
-                <div className="w-20 h-20 bg-amber-500/20 border border-amber-500/50 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_40px_rgba(245,158,11,0.5)]">
-                  <Trophy className="w-10 h-10 text-amber-400 drop-shadow-[0_0_15px_rgba(245,158,11,0.8)]" />
-                </div>
-              ) : (
-                <div className="w-20 h-20 bg-rose-500/20 border border-rose-500/50 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_40px_rgba(244,63,94,0.5)]">
-                  <AlertTriangle className="w-10 h-10 text-rose-400 drop-shadow-[0_0_15px_rgba(244,63,94,0.8)]" />
-                </div>
-              )}
-              <h2 className="text-3xl sm:text-4xl font-black mb-3 text-white tracking-wide uppercase" style={{fontFamily: 'monospace'}}>
-                {gameState === "victory" ? "PAIE VALIDÉE ! 🎉" : "CATASTROPHE RH ! 😢"}
-              </h2>
-              <div className="bg-slate-900/90 border border-slate-800 p-4 rounded-xl max-w-xs mx-auto mb-8">
-                <p className="text-slate-400 text-xs font-mono uppercase mb-1">Score Final</p>
-                <p className="text-5xl font-black text-amber-400 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]">{score}</p>
+          {/* Overlay Game Over */}
+          {gameState === "gameover" && (
+            <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center p-6 text-center z-20">
+              <AlertTriangle className="w-12 h-12 text-rose-500 mb-2 animate-bounce" />
+              <h2 className="text-3xl font-black text-rose-500 mb-1">ANOMALIES CRITIQUES !</h2>
+              <p className="text-slate-300 text-xs mb-4">Les erreurs de paie ont submergé le service.</p>
+
+              <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl mb-6 w-48 shadow-lg">
+                <span className="text-[10px] uppercase font-bold text-slate-400">Score Obtenu</span>
+                <p className="text-4xl font-black text-amber-400">{score}</p>
               </div>
-              <button 
-                onClick={initGame} 
-                className="mx-auto px-8 py-3.5 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black rounded-full shadow-[0_0_25px_rgba(245,158,11,0.4)] flex items-center gap-3 transition-all hover:scale-105 active:scale-95 uppercase tracking-wider text-base"
+
+              <button
+                onClick={initGame}
+                className="flex items-center gap-2 px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 text-xs uppercase"
               >
-                <RotateCcw className="w-5 h-5" /> Rejouer
+                <RotateCcw className="w-4 h-4" />
+                Relancer la Paie
               </button>
             </div>
           )}
 
-          {gameState === "playing" && (
-            <div className="flex justify-center">
-              <canvas
-                ref={canvasRef}
-                width={CANVAS_WIDTH}
-                height={CANVAS_HEIGHT}
-                className="bg-slate-950 rounded-2xl shadow-[inset_0_0_30px_rgba(0,0,0,0.9)] border border-slate-800 max-w-full h-auto block"
-              />
+          {/* Overlay Victory */}
+          {gameState === "victory" && (
+            <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center p-6 text-center z-20">
+              <Trophy className="w-14 h-14 text-yellow-400 mb-2 animate-bounce" />
+              <h2 className="text-3xl font-black text-emerald-400 mb-1">PAIE CLÔTURÉE AVEC SUCCÈS !</h2>
+              <p className="text-slate-300 text-xs mb-4">Toutes les paies de la collectivité ont été sécurisées !</p>
+
+              <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl mb-6 w-48 shadow-lg">
+                <span className="text-[10px] uppercase font-bold text-slate-400">Score Total</span>
+                <p className="text-4xl font-black text-emerald-400">{score}</p>
+              </div>
+
+              <button
+                onClick={initGame}
+                className="flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 text-xs uppercase"
+              >
+                <RotateCcw className="w-4 h-4" />
+                Recommencer
+              </button>
             </div>
           )}
+        </div>
 
-          {/* D-pad mobile — visible uniquement sur écran tactile */}
-          {gameState === "playing" && (
-            <div className="mt-4 flex flex-col items-center gap-1 md:hidden select-none">
+        {/* Virtuels Controls / On-screen D-Pad */}
+        {gameState === "playing" && (
+          <div className="mt-6 flex flex-col items-center gap-2">
+            <button
+              onClick={() => changeDirection("up")}
+              className="w-14 h-14 bg-slate-900 hover:bg-amber-500/20 active:bg-amber-500 border-2 border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-90"
+              aria-label="Haut"
+            >
+              <ArrowUp className="w-7 h-7" />
+            </button>
+            <div className="flex items-center gap-3">
               <button
-                onTouchStart={(e) => { e.preventDefault(); const p = playerRef.current; p.nextVx = 0; p.nextVy = -p.speed; }}
-                className="w-16 h-16 bg-slate-800/90 border border-slate-600 rounded-2xl flex items-center justify-center text-white text-2xl active:bg-slate-600 shadow-lg"
-                aria-label="Haut"
-              >▲</button>
-              <div className="flex gap-1">
-                <button
-                  onTouchStart={(e) => { e.preventDefault(); const p = playerRef.current; p.nextVx = -p.speed; p.nextVy = 0; }}
-                  className="w-16 h-16 bg-slate-800/90 border border-slate-600 rounded-2xl flex items-center justify-center text-white text-2xl active:bg-slate-600 shadow-lg"
-                  aria-label="Gauche"
-                >◀</button>
-                <div className="w-16 h-16" />
-                <button
-                  onTouchStart={(e) => { e.preventDefault(); const p = playerRef.current; p.nextVx = p.speed; p.nextVy = 0; }}
-                  className="w-16 h-16 bg-slate-800/90 border border-slate-600 rounded-2xl flex items-center justify-center text-white text-2xl active:bg-slate-600 shadow-lg"
-                  aria-label="Droite"
-                >▶</button>
-              </div>
+                onClick={() => changeDirection("left")}
+                className="w-14 h-14 bg-slate-900 hover:bg-amber-500/20 active:bg-amber-500 border-2 border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-90"
+                aria-label="Gauche"
+              >
+                <ArrowLeftIcon className="w-7 h-7" />
+              </button>
               <button
-                onTouchStart={(e) => { e.preventDefault(); const p = playerRef.current; p.nextVx = 0; p.nextVy = p.speed; }}
-                className="w-16 h-16 bg-slate-800/90 border border-slate-600 rounded-2xl flex items-center justify-center text-white text-2xl active:bg-slate-600 shadow-lg"
+                onClick={() => changeDirection("down")}
+                className="w-14 h-14 bg-slate-900 hover:bg-amber-500/20 active:bg-amber-500 border-2 border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-90"
                 aria-label="Bas"
-              >▼</button>
+              >
+                <ArrowDown className="w-7 h-7" />
+              </button>
+              <button
+                onClick={() => changeDirection("right")}
+                className="w-14 h-14 bg-slate-900 hover:bg-amber-500/20 active:bg-amber-500 border-2 border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-90"
+                aria-label="Droite"
+              >
+                <ArrowRight className="w-7 h-7" />
+              </button>
             </div>
-          )}
-
-        </div>
-        
-        {/* Instructions */}
-        <div className="mt-6 p-4 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-xs sm:text-sm font-light max-w-2xl mx-auto w-full flex items-start gap-3">
-          <Shield className="w-5 h-5 text-blue-400 shrink-0" />
-          <div>
-            <strong className="block mb-1 font-semibold">Conseil RH :</strong>
-            Utilisez les flèches directionnelles du clavier pour vous déplacer. Mangez une <b>Délibération Modificative</b> (les gros points rouges) pour rendre les erreurs (Indus, Absences) vulnérables et les corriger en leur fonçant dessus !
           </div>
-        </div>
-
+        )}
       </div>
-
-      <style>{`
-        @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes scale-up { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        .animate-fade-in { animation: fade-in 0.6s ease-out forwards; }
-        .animate-scale-up { animation: scale-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-      `}</style>
     </div>
   );
 };

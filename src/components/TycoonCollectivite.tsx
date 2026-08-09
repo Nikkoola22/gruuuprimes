@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
+import {
   ArrowLeft, Building2, Users, Landmark, HeartHandshake,
   TrendingUp, TrendingDown, Play, AlertTriangle, Trophy,
-  FileText, CheckCircle2, XCircle, RotateCcw, Briefcase, Gavel, Newspaper, Megaphone, Clock, Droplets, Bug
+  FileText, CheckCircle2, XCircle, RotateCcw, Briefcase, Gavel, Newspaper, Megaphone, Clock, Droplets, Bug, Sparkles, ShieldAlert
 } from 'lucide-react';
 
 interface TycoonProps {
@@ -18,6 +18,7 @@ interface Action {
     service: number;// in %
   };
 }
+
 interface GameEvent {
   id: string;
   title: string;
@@ -25,14 +26,12 @@ interface GameEvent {
   icon: React.ElementType;
   image?: string;
   actions: Action[];
-}
-
-const ALL_EVENTS: GameEvent[] = [
+}const ALL_EVENTS: GameEvent[] = [
   {
     id: "police_municipale",
     title: "Crise Sécuritaire",
     description: "Le Maire exige le recrutement immédiat de 5 agents de Police Municipale suite à des incivilités, mais le budget n'était pas prévu.",
-    icon: AlertTriangle,
+    icon: ShieldAlert,
     image: "/images/tycoon/tycoon_police.png",
     actions: [
       { text: "Recruter des contractuels (Rapide)", impact: { budget: -150, agents: -5, elus: +15, service: +10 } },
@@ -219,143 +218,23 @@ const ALL_EVENTS: GameEvent[] = [
       { text: "Concertation longue (Ateliers)", impact: { budget: -20, agents: +10, elus: -15, service: 0 } },
       { text: "Reculer et maintenir l'ancien système", impact: { budget: 0, agents: +20, elus: -25, service: +5 } }
     ]
-  },
-  {
-    id: "bad_buzz_presse",
-    title: "Bad Buzz dans la Presse Locale",
-    description: "Un article dénonce les conditions de travail au Centre Technique Municipal. Le Maire est furieux et exige des sanctions ou une communication.",
-    icon: Newspaper,
-    image: "/images/tycoon/tycoon_media.png",
-    actions: [
-      { text: "Sanctionner les agents identifiés", impact: { budget: 0, agents: -30, elus: +15, service: -10 } },
-      { text: "Plan d'action Qualité de Vie", impact: { budget: -200, agents: +25, elus: -10, service: +15 } },
-      { text: "Démenti officiel du Cabinet", impact: { budget: -50, agents: -15, elus: +20, service: 0 } }
-    ]
-  },
-  {
-    id: "nouveau_logiciel",
-    title: "Déploiement du Nouveau Logiciel",
-    description: "Le nouveau SIRH est en panne le jour de la clôture de la paie. Panique dans les services !",
-    icon: Bug,
-    image: "/images/tycoon/tycoon_hack.png",
-    actions: [
-      { text: "Intervention du prestataire (Urgence)", impact: { budget: -150, agents: -5, elus: +5, service: +10 } },
-      { text: "Saisie manuelle nocturne (Heures supp)", impact: { budget: -80, agents: -20, elus: +10, service: 0 } },
-      { text: "Repousser la paie d'une semaine", impact: { budget: 0, agents: -35, elus: -20, service: -15 } }
-    ]
-  },
-  {
-    id: "fete_personnel",
-    title: "Fête Annuelle du Personnel",
-    description: "C'est l'heure de la fête du personnel. L'amicale réclame une subvention exceptionnelle pour inviter un groupe de musique.",
-    icon: HeartHandshake,
-    image: "/images/tycoon/tycoon_celebration.png",
-    actions: [
-      { text: "Accorder la super subvention", impact: { budget: -100, agents: +25, elus: -5, service: 0 } },
-      { text: "Budget standard (Buffet froid)", impact: { budget: -30, agents: +5, elus: +5, service: 0 } },
-      { text: "Annuler pour raisons budgétaires", impact: { budget: +50, agents: -30, elus: +15, service: -5 } }
-    ]
-  },
-  {
-    id: "harcelement",
-    title: "Plainte pour Harcèlement",
-    description: "Un agent accuse un cadre très apprécié du Maire de harcèlement moral. L'ambiance est délétère.",
-    icon: Gavel,
-    image: "/images/tycoon/tycoon_hrcrisis.png",
-    actions: [
-      { text: "Enquête administrative externe", impact: { budget: -80, agents: +15, elus: -15, service: 0 } },
-      { text: "Changer l'agent de service", impact: { budget: -20, agents: -20, elus: +10, service: -5 } },
-      { text: "Médiation interne (Rapide)", impact: { budget: 0, agents: -5, elus: +5, service: 0 } }
-    ]
-  },
-  {
-    id: "elections_pro",
-    title: "Élections Professionnelles (CST)",
-    description: "La tension monte avec la campagne électorale syndicale. Les demandes de dispenses d'activité pleuvent.",
-    icon: Users,
-    image: "/images/tycoon/tycoon_politics.png",
-    actions: [
-      { text: "Accorder plus d'heures syndicales", impact: { budget: -50, agents: +20, elus: -10, service: -15 } },
-      { text: "Strict respect de la loi (Tensions)", impact: { budget: 0, agents: -15, elus: +15, service: +5 } },
-      { text: "Débats organisés sur le temps de travail", impact: { budget: -20, agents: +10, elus: -5, service: -10 } }
-    ]
-  },
-  {
-    id: "inspection_travail",
-    title: "Visite de l'Inspection du Travail",
-    description: "Des manquements graves à la sécurité ont été constatés dans les ateliers municipaux (EPI manquants, machines vétustes).",
-    icon: AlertTriangle,
-    image: "/images/tycoon/tycoon_hrcrisis.png",
-    actions: [
-      { text: "Achat massif d'EPI et rénovation", impact: { budget: -250, agents: +15, elus: -10, service: +10 } },
-      { text: "Fermeture partielle de l'atelier", impact: { budget: 0, agents: -10, elus: -15, service: -25 } },
-      { text: "Plan de conformité étalé sur 2 ans", impact: { budget: -80, agents: 0, elus: +5, service: -5 } }
-    ]
-  },
-  {
-    id: "fusion_services",
-    title: "Fusion de Services",
-    description: "Le DGS décide de fusionner le service Culture et le service Sport. Les équipes refusent de travailler ensemble.",
-    icon: Briefcase,
-    image: "/images/tycoon/tycoon_retirement.png",
-    actions: [
-      { text: "Séminaire de cohésion (Coûteux)", impact: { budget: -120, agents: +15, elus: -5, service: +10 } },
-      { text: "Imposer la nouvelle hiérarchie", impact: { budget: 0, agents: -25, elus: +15, service: -10 } },
-      { text: "Accorder des primes de réorganisation", impact: { budget: -150, agents: +20, elus: -10, service: +5 } }
-    ]
-  },
-  {
-    id: "prime_inflation",
-    title: "Prime de Pouvoir d'Achat",
-    description: "Avec l'inflation, les syndicats réclament le versement de la prime exceptionnelle de pouvoir d'achat.",
-    icon: Landmark,
-    image: "/images/tycoon/tycoon_finance.png",
-    actions: [
-      { text: "Verser le montant maximum à tous", impact: { budget: -350, agents: +35, elus: -15, service: +5 } },
-      { text: "Verser un montant modulé (Minima)", impact: { budget: -150, agents: +10, elus: +10, service: 0 } },
-      { text: "Refuser (Pas d'obligation légale)", impact: { budget: 0, agents: -35, elus: +20, service: -5 } }
-    ]
-  },
-  {
-    id: "sobriete_energetique",
-    title: "Plan de Sobriété Énergétique",
-    description: "Chauffage baissé à 19°C dans les bureaux. Les agents viennent avec des plaids et se plaignent d'être malades.",
-    icon: Droplets,
-    image: "/images/tycoon/tycoon_weather.png",
-    actions: [
-      { text: "Acheter des polaires logotées", impact: { budget: -60, agents: +15, elus: +10, service: 0 } },
-      { text: "Tolérer les radiateurs d'appoint", impact: { budget: -40, agents: +20, elus: -15, service: 0 } },
-      { text: "Rappel à l'ordre strict", impact: { budget: 0, agents: -20, elus: +5, service: -5 } }
-    ]
-  },
-  {
-    id: "jo_2024",
-    title: "Préparation des Jeux Olympiques",
-    description: "La ville accueille des épreuves. Les congés d'été sont interdits pour la police municipale et les techniques.",
-    icon: Trophy,
-    image: "/images/tycoon/tycoon_celebration.png",
-    actions: [
-      { text: "Prime JO très généreuse", impact: { budget: -300, agents: +25, elus: +10, service: +20 } },
-      { text: "Compensation en repos (CET)", impact: { budget: -50, agents: -5, elus: +15, service: +10 } },
-      { text: "Refuser toute compensation", impact: { budget: 0, agents: -40, elus: -20, service: -20 } }
-    ]
   }
 ];
 
 const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
   // Game State
   const [gameState, setGameState] = useState<"menu" | "playing" | "gameover" | "victory">("menu");
-  
+
   // Gauges
   const [budget, setBudget] = useState(1000); // k€
   const [agentsSat, setAgentsSat] = useState(60); // %
   const [elusSat, setElusSat] = useState(60); // %
   const [servicePub, setServicePub] = useState(70); // %
-  
+
   const [month, setMonth] = useState(1);
   const [currentEvent, setCurrentEvent] = useState<GameEvent | null>(null);
   const [eventPool, setEventPool] = useState<GameEvent[]>([]);
-  const [log, setLog] = useState<{month: number, text: string, type: "good" | "bad" | "neutral"}[]>([]);
+  const [log, setLog] = useState<{ month: number, text: string, type: "good" | "bad" | "neutral" }[]>([]);
   const [failReason, setFailReason] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -372,12 +251,11 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
     setServicePub(70);
     setMonth(1);
     setLog([]);
-    
-    // Shuffle and pick 12 events (we duplicate if not enough)
+
     let pool = [...ALL_EVENTS].sort(() => Math.random() - 0.5).slice(0, 24);
     setEventPool(pool);
     setCurrentEvent(pool[0]);
-    
+
     setGameState("playing");
   };
 
@@ -402,7 +280,7 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
     // Logging
     const impactText = `Mois ${month} : Action choisie - "${action.text}"`;
     const logType = (multipliedAgents > 0 || multipliedService > 0) ? "good" : (multipliedAgents < 0 || multipliedService < 0) ? "bad" : "neutral";
-    setLog(prev => [{month, text: impactText, type: logType}, ...prev]);
+    setLog(prev => [{ month, text: impactText, type: logType }, ...prev]);
 
     // Check Game Over Conditions
     if (newBudget < 0) {
@@ -411,17 +289,17 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
       return;
     }
     if (newAgents <= 0) {
-      setFailReason("Grève générale illimitée. Le service RH est assiégé.");
+      setFailReason("Grève générale illimitée. Le service RH est assiégé par les agents.");
       setGameState("gameover");
       return;
     }
     if (newElus <= 0) {
-      setFailReason("Désaveu total du Maire. Vous êtes révoqué de votre poste.");
+      setFailReason("Désaveu politique total du Conseil Municipal. Vous êtes révoqué(e) de vos fonctions.");
       setGameState("gameover");
       return;
     }
     if (newService <= 0) {
-      setFailReason("Rupture totale du service public. Les administrés se révoltent.");
+      setFailReason("Rupture totale du service public. Les administrés manifestent sous les fenêtres de la Mairie.");
       setGameState("gameover");
       return;
     }
@@ -430,29 +308,61 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
     if (month >= 24) {
       setGameState("victory");
     } else {
-      setMonth(m => m + 1);
-      setCurrentEvent(eventPool[month]); // month is 1-indexed for display, but 0-indexed array. month 1 -> index 1.
+      const nextM = month + 1;
+      setMonth(nextM);
+      if (nextM === 13) {
+        setBudget(b => b + 500);
+        setLog(prev => [{ month: 12, text: "🎁 Dotation Globale de Fonctionnement Annuelle : +500 k€ injectés dans le budget !", type: "good" }, ...prev]);
+      }
+      setCurrentEvent(eventPool[month]);
     }
   };
 
-  const GaugeCard = ({ title, value, icon: Icon, colorClass, type }: { title: string, value: number, icon: any, colorClass: string, type: "currency" | "percent" }) => {
+  const GaugeCard = ({ title, value, icon: Icon, colorClass, borderGlow, type }: { title: string, value: number, icon: any, colorClass: string, borderGlow: string, type: "currency" | "percent" }) => {
     const isCritical = type === "percent" ? value <= 20 : value <= 200;
-    
+
+    const getStatusBadge = () => {
+      if (type === "percent") {
+        if (value >= 75) return { label: "EXCELLENT 🌟", bg: "bg-emerald-500/20 border-emerald-500/40 text-emerald-300" };
+        if (value >= 40) return { label: "ÉQUILIBRÉ ⚖️", bg: "bg-blue-500/20 border-blue-500/40 text-blue-300" };
+        if (value > 20) return { label: "ATTENTION ⚠️", bg: "bg-amber-500/20 border-amber-500/40 text-amber-300" };
+        return { label: "CRITIQUE 🚨", bg: "bg-rose-500/30 border-rose-500/60 text-rose-300 animate-pulse" };
+      } else {
+        if (value >= 600) return { label: "ROBUSTE 💰", bg: "bg-emerald-500/20 border-emerald-500/40 text-emerald-300" };
+        if (value >= 250) return { label: "STABLE 📊", bg: "bg-blue-500/20 border-blue-500/40 text-blue-300" };
+        if (value > 0) return { label: "TENDU ⚠️", bg: "bg-amber-500/20 border-amber-500/40 text-amber-300" };
+        return { label: "FAILLITE 🚨", bg: "bg-rose-500/30 border-rose-500/60 text-rose-300 animate-pulse" };
+      }
+    };
+
+    const status = getStatusBadge();
+
     return (
-      <div className={`bg-slate-800/60 backdrop-blur-xl border ${isCritical ? 'border-red-500/50 animate-pulse' : 'border-slate-700'} rounded-2xl p-4 flex flex-col items-center shadow-lg transition-all`}>
-        <div className={`p-3 rounded-full mb-2 bg-slate-900 shadow-inner`}>
-          <Icon className={`w-6 h-6 ${colorClass}`} />
+      <div className={`bg-slate-900/80 backdrop-blur-xl border-2 ${isCritical ? 'border-rose-500 shadow-[0_0_25px_rgba(244,63,94,0.4)] animate-pulse' : `border-slate-800 ${borderGlow}`} rounded-3xl p-4 sm:p-5 flex flex-col justify-between shadow-2xl transition-all duration-300`}>
+        <div className="flex items-center justify-between w-full mb-3">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-2xl bg-slate-950/80 border border-slate-800 shadow-inner">
+              <Icon className={`w-5 h-5 ${colorClass}`} />
+            </div>
+            <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">{title}</span>
+          </div>
+
+          <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full border ${status.bg}`}>
+            {status.label}
+          </span>
         </div>
-        <span className="text-xs text-slate-400 font-medium uppercase tracking-wider mb-1">{title}</span>
-        <span className={`text-2xl font-bold ${colorClass}`}>
-          {value}{type === "percent" ? "%" : " k€"}
-        </span>
-        
+
+        <div className="flex items-baseline justify-between w-full mb-2">
+          <span className={`text-3xl font-black tracking-tight ${colorClass}`}>
+            {value}{type === "percent" ? "%" : " k€"}
+          </span>
+        </div>
+
         {type === "percent" && (
-          <div className="w-full bg-slate-700 h-2 mt-3 rounded-full overflow-hidden">
-            <div 
-              className={`h-full ${value > 50 ? 'bg-emerald-500' : value > 20 ? 'bg-amber-500' : 'bg-red-500'} transition-all duration-1000 ease-out`} 
-              style={{ width: `${value}%` }} 
+          <div className="w-full bg-slate-950/90 h-2.5 rounded-full overflow-hidden border border-slate-800 p-0.5 shadow-inner">
+            <div
+              className={`h-full rounded-full ${value > 50 ? 'bg-gradient-to-r from-emerald-500 to-teal-400 shadow-[0_0_10px_rgba(16,185,129,0.5)]' : value > 20 ? 'bg-gradient-to-r from-amber-500 to-yellow-400 shadow-[0_0_10px_rgba(245,158,11,0.5)]' : 'bg-gradient-to-r from-rose-600 to-red-500 shadow-[0_0_10px_rgba(244,63,94,0.5)]'} transition-all duration-700 ease-out`}
+              style={{ width: `${value}%` }}
             />
           </div>
         )}
@@ -461,55 +371,68 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
   };
 
   return (
-    <div ref={containerRef} className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 bg-slate-950 transition-colors duration-500  px-4 font-sans text-slate-100">
-      
+    <div ref={containerRef} className="relative z-30 isolate min-h-screen flex flex-col pt-4 sm:pt-6 pb-8 bg-slate-950 font-sans text-slate-100 select-none">
+
       {/* Background Ornaments */}
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-900/20 blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-purple-900/20 blur-[150px]" />
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-600/10 blur-[140px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-purple-600/10 blur-[160px]" />
       </div>
 
-      <div className="max-w-5xl mx-auto relative z-10 flex flex-col h-full">
-        
-        {/* Header */}
-        <div className="w-full flex justify-between items-center mb-8 z-20">
+      <div className="max-w-6xl mx-auto relative z-10 w-full px-4 flex flex-col h-full">
+
+        {/* Header Bar */}
+        <div className="w-full flex justify-between items-center mb-6 z-20 flex-wrap gap-3">
           <button
             onClick={onClose}
-            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-full font-bold transition-all text-sm shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:scale-105 active:scale-95"
+            className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 rounded-full font-bold transition-all text-xs sm:text-sm shadow-md hover:scale-105 active:scale-95"
           >
-            <ArrowLeft className="w-4 h-4" /> Quitter
+            <ArrowLeft className="w-4 h-4 text-blue-400" /> Quitter
           </button>
-          
+
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-500/20 border border-blue-500/40 rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.4)]">
-              <Building2 className="w-6 h-6 text-blue-400" />
+            <div className="w-10 h-10 bg-amber-500/20 border border-amber-400/40 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(245,158,11,0.3)]">
+              <Building2 className="w-6 h-6 text-amber-400" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black tracking-widest uppercase bg-gradient-to-r from-blue-400 via-sky-300 to-purple-400 bg-clip-text text-transparent drop-shadow-sm" style={{fontFamily: 'monospace'}}>
-              GENNEVILLIERS CITY
-            </h1>
+            <div>
+              <h1 className="text-xl sm:text-3xl font-black uppercase tracking-wider bg-gradient-to-r from-amber-400 via-amber-200 to-yellow-400 bg-clip-text text-transparent">
+                Gennevilliers City
+              </h1>
+              <p className="text-[11px] font-semibold text-slate-400 font-mono tracking-widest uppercase">
+                Ma Collectivité • Directrice Générale des Services
+              </p>
+            </div>
           </div>
-          
-          <div className="px-5 py-2 bg-slate-900/90 border border-slate-800 rounded-full font-mono font-black text-amber-400 text-sm shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
-            {gameState === "playing" ? `MOIS ${month} / 24` : "BILAN"}
+
+          <div className="px-5 py-2 bg-slate-900/90 border border-amber-500/30 rounded-full font-mono font-black text-amber-400 text-xs sm:text-sm shadow-lg flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-amber-400 animate-spin" />
+            {gameState === "playing" ? `MOIS ${month} / 24` : "BILAN MANDAT"}
           </div>
         </div>
 
         {/* Menu Screen */}
         {gameState === "menu" && (
-          <div className="flex-1 flex items-center justify-center min-h-[60vh]">
-            <div className="bg-slate-950/80 backdrop-blur-2xl border border-slate-800 p-8 sm:p-12 rounded-3xl text-center max-w-2xl shadow-[0_0_50px_rgba(0,0,0,0.7)] animate-fade-in">
-              <div className="w-24 h-24 bg-blue-500/20 border border-blue-500/40 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_35px_rgba(59,130,246,0.4)] transform -rotate-3 hover:rotate-0 transition-transform">
-                <Landmark className="w-12 h-12 text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]" />
+          <div className="flex-1 flex items-center justify-center min-h-[65vh]">
+            <div className="bg-slate-900/90 backdrop-blur-2xl border-2 border-amber-500/30 p-8 sm:p-12 rounded-3xl text-center max-w-2xl shadow-[0_0_60px_rgba(245,158,11,0.2)] animate-fade-in relative overflow-hidden">
+              <div className="w-24 h-24 bg-amber-500/20 border border-amber-400/50 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_40px_rgba(245,158,11,0.4)] transform -rotate-3 hover:rotate-0 transition-transform">
+                <Landmark className="w-12 h-12 text-amber-400 drop-shadow-[0_0_10px_rgba(245,158,11,0.8)]" />
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black mb-4 text-white uppercase tracking-wider" style={{fontFamily: 'monospace'}}>
-                DIRECTRICE GÉNÉRALE DES SERVICES
+
+              <span className="inline-block bg-amber-500/20 border border-amber-400/40 text-amber-300 font-mono text-xs uppercase px-4 py-1.5 rounded-full font-bold mb-4">
+                SIMULATION DE GESTION MUNICIPALE 🏛️
+              </span>
+
+              <h2 className="text-3xl sm:text-5xl font-black mb-4 text-white uppercase tracking-tight">
+                Prenez les commandes de la Ville
               </h2>
-              <p className="text-slate-300 text-sm sm:text-base mb-8 font-medium leading-relaxed">
-                Bienvenue dans votre nouvelle collectivité territoriale. Vous avez 2 ans (24 tours) pour gérer le budget, arbitrer les demandes syndicales, satisfaire les élus et maintenir la continuité du service public !
+
+              <p className="text-slate-300 text-sm sm:text-base mb-8 font-medium leading-relaxed max-w-xl mx-auto">
+                Vous disposez de <strong>24 mois (2 ans)</strong> pour équilibrer les finances publiques, apaiser les revendications syndicales, satisfaire l'équipe municipale et maintenir la continuité du service public !
               </p>
-              <button 
+
+              <button
                 onClick={initGame}
-                className="px-10 py-4 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400 text-white font-black rounded-full text-lg shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-all hover:scale-105 active:scale-95 flex items-center gap-3 mx-auto uppercase tracking-wider"
+                className="px-10 py-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black rounded-full text-base sm:text-lg shadow-[0_0_35px_rgba(245,158,11,0.5)] transition-all hover:scale-105 active:scale-95 flex items-center gap-3 mx-auto uppercase tracking-wider"
               >
                 <Play className="w-6 h-6 fill-current" /> Prendre ses fonctions
               </button>
@@ -520,62 +443,58 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
         {/* End Screens */}
         {(gameState === "gameover" || gameState === "victory") && (
           <div className="flex-1 flex flex-col items-center justify-center min-h-[60vh]">
-            <div className={`bg-slate-800/80 backdrop-blur-xl border ${gameState === 'victory' ? 'border-emerald-500/50' : 'border-red-500/50'} p-10 rounded-3xl text-center max-w-lg shadow-2xl animate-fade-in`}>
+            <div className={`bg-slate-900/90 backdrop-blur-2xl border-2 ${gameState === 'victory' ? 'border-emerald-500/50 shadow-[0_0_50px_rgba(16,185,129,0.3)]' : 'border-rose-500/50 shadow-[0_0_50px_rgba(244,63,94,0.3)]'} p-8 sm:p-12 rounded-3xl text-center max-w-xl shadow-2xl animate-fade-in`}>
               {gameState === "victory" ? (
-                <Trophy className="w-20 h-20 text-yellow-400 mx-auto mb-4" />
+                <Trophy className="w-20 h-20 text-yellow-400 mx-auto mb-4 animate-bounce" />
               ) : (
-                <XCircle className="w-20 h-20 text-red-500 mx-auto mb-4" />
+                <XCircle className="w-20 h-20 text-rose-500 mx-auto mb-4" />
               )}
-              <h2 className="text-3xl font-bold mb-2">
-                {gameState === "victory" ? "Année Clôturée avec Succès !" : "Révocation Immédiate !"}
+
+              <h2 className="text-3xl sm:text-4xl font-black mb-2 uppercase tracking-wide">
+                {gameState === "victory" ? "Année Clôturée avec Succès !" : "Révocation de Poste !"}
               </h2>
-              <p className="text-slate-300 mb-6">
-                {gameState === "victory" ? "Félicitations, vous avez survécu à 24 mois de gestion RH dans la fonction publique sans vous faire lyncher !" : failReason}
+
+              <p className="text-slate-300 text-sm sm:text-base mb-6 font-medium">
+                {gameState === "victory" ? "Félicitations ! Vous avez traversé 24 mois de crise RH, de négociations et d'arbitrages statutaires en conservant la confiance de tous !" : failReason}
               </p>
-              
-              <div className="bg-slate-900/40 p-5 rounded-2xl border border-slate-700/60 mb-6 text-left">
-                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3 text-center border-b border-slate-700/50 pb-2">
-                  Bilan de Fin de Mandat
+
+              <div className="bg-slate-950/80 p-5 rounded-2xl border border-slate-800 mb-8 text-left">
+                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 text-center border-b border-slate-800 pb-2 font-mono">
+                  Bilan Officiel du Mandat
                 </h3>
-                
+
                 <div className="grid grid-cols-2 gap-3 mb-4">
-                  <div className={`p-3 rounded-xl border ${budget <= 0 ? 'bg-red-500/10 border-red-500/30' : 'bg-slate-900/60 border-slate-800'}`}>
-                    <span className="text-xs text-slate-400 block mb-0.5">Budget</span>
-                    <span className={`font-bold text-lg ${budget <= 0 ? 'text-red-400 animate-pulse font-extrabold' : 'text-emerald-400'}`}>{budget} k€</span>
+                  <div className={`p-3 rounded-xl border ${budget <= 0 ? 'bg-rose-500/10 border-rose-500/40' : 'bg-slate-900 border-slate-800'}`}>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Budget Restant</span>
+                    <span className={`font-black text-xl ${budget <= 0 ? 'text-rose-400 font-mono' : 'text-emerald-400 font-mono'}`}>{budget} k€</span>
                   </div>
-                  <div className={`p-3 rounded-xl border ${agentsSat <= 0 ? 'bg-red-500/10 border-red-500/30' : 'bg-slate-900/60 border-slate-800'}`}>
-                    <span className="text-xs text-slate-400 block mb-0.5">Satisfaction Agents</span>
-                    <span className={`font-bold text-lg ${agentsSat <= 0 ? 'text-red-400 animate-pulse font-extrabold' : 'text-blue-400'}`}>{agentsSat}%</span>
+                  <div className={`p-3 rounded-xl border ${agentsSat <= 0 ? 'bg-rose-500/10 border-rose-500/40' : 'bg-slate-900 border-slate-800'}`}>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Agents</span>
+                    <span className={`font-black text-xl ${agentsSat <= 0 ? 'text-rose-400 font-mono' : 'text-blue-400 font-mono'}`}>{agentsSat}%</span>
                   </div>
-                  <div className={`p-3 rounded-xl border ${elusSat <= 0 ? 'bg-red-500/10 border-red-500/30' : 'bg-slate-900/60 border-slate-800'}`}>
-                    <span className="text-xs text-slate-400 block mb-0.5">Satisfaction Élus</span>
-                    <span className={`font-bold text-lg ${elusSat <= 0 ? 'text-red-400 animate-pulse font-extrabold' : 'text-purple-400'}`}>{elusSat}%</span>
+                  <div className={`p-3 rounded-xl border ${elusSat <= 0 ? 'bg-rose-500/10 border-rose-500/40' : 'bg-slate-900 border-slate-800'}`}>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Élus</span>
+                    <span className={`font-black text-xl ${elusSat <= 0 ? 'text-rose-400 font-mono' : 'text-purple-400 font-mono'}`}>{elusSat}%</span>
                   </div>
-                  <div className={`p-3 rounded-xl border ${servicePub <= 0 ? 'bg-red-500/10 border-red-500/30' : 'bg-slate-900/60 border-slate-800'}`}>
-                    <span className="text-xs text-slate-400 block mb-0.5">Service Public</span>
-                    <span className={`font-bold text-lg ${servicePub <= 0 ? 'text-red-400 animate-pulse font-extrabold' : 'text-rose-400'}`}>{servicePub}%</span>
+                  <div className={`p-3 rounded-xl border ${servicePub <= 0 ? 'bg-rose-500/10 border-rose-500/40' : 'bg-slate-900 border-slate-800'}`}>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Service Public</span>
+                    <span className={`font-black text-xl ${servicePub <= 0 ? 'text-rose-400 font-mono' : 'text-rose-400 font-mono'}`}>{servicePub}%</span>
                   </div>
                 </div>
 
                 {gameState === "gameover" && (
-                  <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-3 text-red-300 text-sm">
-                    <span className="font-bold block mb-1">🔴 Motif de la révocation :</span>
-                    <p className="leading-relaxed">
-                      {failReason} 
-                      {budget <= 0 && " Sans budget, la commune ne peut plus payer ses charges et est placée sous tutelle administrative de la préfecture."}
-                      {agentsSat <= 0 && " Les agents, épuisés ou mécontents, ont bloqué tous les services municipaux."}
-                      {elusSat <= 0 && " Vous avez perdu la confiance politique indispensable pour gouverner."}
-                      {servicePub <= 0 && " Le service public n'est plus assuré, déclenchant la colère des habitants."}
-                    </p>
+                  <div className="bg-rose-500/10 border border-rose-500/30 rounded-xl p-3 text-rose-300 text-xs leading-relaxed">
+                    <span className="font-bold block mb-1">🔴 Motif de la décision :</span>
+                    {failReason}
                   </div>
                 )}
               </div>
 
-              <button 
+              <button
                 onClick={initGame}
-                className="px-8  bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl shadow-lg transition-all flex items-center gap-2 mx-auto"
+                className="px-8 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-full shadow-xl transition-all flex items-center gap-2 mx-auto uppercase text-xs tracking-wider"
               >
-                <RotateCcw className="w-5 h-5" /> Recommencer une année
+                <RotateCcw className="w-4 h-4" /> Solliciter un nouveau mandat
               </button>
             </div>
           </div>
@@ -584,106 +503,111 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
         {/* Playing Screen */}
         {gameState === "playing" && currentEvent && (
           <div className="flex flex-col gap-6 w-full animate-fade-in">
-            
-            
-        {/* Top Progression Bar */}
-        {gameState === "playing" && (
-          <div className="w-full mb-6 animate-fade-in">
-            <div className="flex justify-between text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest px-1">
-              <span>Début du Mandat</span>
-              <span className="text-blue-400">Mois {month} / 24</span>
-              <span>Bilan Annuel</span>
-            </div>
-            <div className="w-full h-3 bg-slate-800 rounded-full overflow-hidden shadow-inner flex">
-              {[...Array(24)].map((_, i) => (
-                <div key={i} className={`h-full flex-1 border-r border-slate-900/50 last:border-0 transition-all duration-500 ${i < month ? 'bg-gradient-to-r from-blue-500 to-purple-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]' : 'bg-transparent'}`} />
-              ))}
-            </div>
-          </div>
-        )}
 
-
+            {/* Top Timeline Progression Bar */}
+            <div className="w-full bg-slate-900/80 backdrop-blur-md border border-slate-800 p-4 rounded-3xl shadow-lg">
+              <div className="flex justify-between text-xs font-bold text-slate-400 mb-2 uppercase tracking-widest px-1 font-mono">
+                <span>Prise de poste</span>
+                <span className="text-amber-400 font-black">Mois {month} / 24</span>
+                <span>Bilan Annuel</span>
+              </div>
+              <div className="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-slate-800 p-0.5 shadow-inner flex">
+                {[...Array(24)].map((_, i) => (
+                  <div
+                    key={i}
+                    className={`h-full flex-1 border-r border-slate-950 last:border-0 transition-all duration-500 ${i < month ? 'bg-gradient-to-r from-amber-500 to-yellow-400 shadow-[0_0_10px_rgba(245,158,11,0.5)]' : 'bg-transparent'
+                      }`}
+                  />
+                ))}
+              </div>
+            </div>
 
             {/* Main Area */}
-            <div className="flex flex-col lg:flex-row items-start gap-6 mt-4">
-              
+            <div className="flex flex-col lg:flex-row items-start gap-6">
+
               {/* Event Card */}
-              <div className="flex-[2] bg-slate-800/50 backdrop-blur-xl border border-slate-700 rounded-3xl p-8 shadow-xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-8 opacity-10">
-                  <currentEvent.icon className="w-64 h-64" />
-                </div>
-                
+              <div className="flex-[2] bg-slate-900/80 backdrop-blur-2xl border-2 border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden w-full">
                 <div className="relative z-10">
+
+                  {/* Event Title Header */}
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="p-3 bg-rose-500/20 rounded-xl text-rose-400">
-                      <FileText className="w-8 h-8" />
+                    <div className="p-3 bg-amber-500/20 border border-amber-400/40 rounded-2xl text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.3)]">
+                      <FileText className="w-7 h-7" />
                     </div>
-                    <h2 className="text-3xl font-bold text-white tracking-tight">Dossier du Mois : <span className="text-rose-300">{currentEvent.title}</span></h2>
+                    <div>
+                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-amber-400 font-mono">Dossier Arbitrage RH</span>
+                      <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">{currentEvent.title}</h2>
+                    </div>
                   </div>
-                  
+
+                  {/* Event Banner Image */}
                   {currentEvent.image && (
-                    <div className="w-full h-48 sm:h-64 mb-6 rounded-2xl overflow-hidden border border-slate-700/50 relative shadow-inner">
-                      <img 
-                        src={currentEvent.image} 
-                        alt={currentEvent.title} 
+                    <div className="w-full h-48 sm:h-56 mb-6 rounded-2xl overflow-hidden border border-slate-800 relative shadow-2xl">
+                      <img
+                        src={currentEvent.image}
+                        alt={currentEvent.title}
                         className="w-full h-full object-cover object-center"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+                      <div className="absolute bottom-3 left-4 right-4 flex justify-between items-center text-xs font-bold text-amber-300 bg-slate-950/80 backdrop-blur-md px-4 py-2 rounded-xl border border-amber-500/30">
+                        <span>🏛️ Ville de Gennevilliers</span>
+                        <span>Mois {month}</span>
+                      </div>
                     </div>
                   )}
-                  
-                  <p className="text-lg text-slate-300 leading-relaxed mb-8 max-w-2xl bg-slate-900/40 p-6 rounded-2xl border border-slate-700/50">
+
+                  {/* Event Description */}
+                  <p className="text-sm sm:text-base text-slate-200 leading-relaxed mb-6 bg-slate-950/70 p-5 rounded-2xl border border-slate-800 shadow-inner">
                     {currentEvent.description}
                   </p>
 
-                  <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Actions Possibles</h3>
-                  <div className="grid grid-cols-1 gap-4 mt-2">
+                  {/* Actions List */}
+                  <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3 font-mono">Options de Décision</h3>
+                  <div className="grid grid-cols-1 gap-3">
                     {currentEvent.actions.map((action, idx) => (
                       <button
                         key={idx}
                         onClick={() => handleAction(action)}
-                        className="group flex flex-col justify-between w-full p-5 bg-gradient-to-br from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 border-2 border-slate-700/50 hover:border-blue-500/50 rounded-2xl transition-all text-left shadow-lg relative overflow-hidden"
+                        className="group flex flex-col justify-between w-full p-4 sm:p-5 bg-slate-950/90 hover:bg-slate-800/90 border-2 border-slate-800 hover:border-amber-400/60 rounded-2xl transition-all text-left shadow-lg relative overflow-hidden active:scale-[0.99]"
                       >
-                        {/* Interactive hover background */}
-                        <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        
-                        <div className="flex items-center gap-3 mb-4 relative z-10">
-                          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center font-bold text-slate-300 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                        <div className="flex items-center gap-3 mb-3 relative z-10">
+                          <div className="flex-shrink-0 w-7 h-7 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center font-black text-amber-300 text-xs shadow-inner">
                             {idx + 1}
                           </div>
-                          <span className="font-bold text-white text-lg group-hover:text-blue-100 transition-colors">
+                          <span className="font-bold text-white text-sm sm:text-base group-hover:text-amber-300 transition-colors">
                             {action.text}
                           </span>
                         </div>
-                        
+
+                        {/* Impact Badges */}
                         {(() => {
                           const multBudget = Math.round(action.impact.budget * IMPACT_MULTIPLIER);
                           const multAgents = Math.round(action.impact.agents * IMPACT_MULTIPLIER);
                           const multElus = Math.round(action.impact.elus * IMPACT_MULTIPLIER);
                           const multService = Math.round(action.impact.service * IMPACT_MULTIPLIER);
-                          
+
                           return (
-                            <div className="flex flex-wrap gap-2 text-sm font-bold relative z-10 w-full bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/80">
+                            <div className="flex flex-wrap gap-2 text-xs font-bold relative z-10 w-full bg-slate-900/90 p-2 rounded-xl border border-slate-800">
                               {multBudget !== 0 && (
-                                <div className={`flex-1 min-w-[90px] flex justify-center items-center px-3 py-1.5 rounded-lg border ${multBudget > 0 ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400 shadow-[0_2px_10px_rgba(16,185,129,0.1)]' : 'bg-red-500/15 border-red-500/30 text-red-400 shadow-[0_2px_10px_rgba(239,68,68,0.1)]'} transition-all`}>
+                                <div className={`flex-1 min-w-[85px] flex justify-center items-center px-2.5 py-1 rounded-lg border ${multBudget > 0 ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300' : 'bg-rose-500/20 border-rose-500/40 text-rose-300'}`}>
                                   {multBudget > 0 ? '+' : ''}{multBudget}k€
                                 </div>
                               )}
                               {multAgents !== 0 && (
-                                <div className={`flex-1 min-w-[95px] flex justify-center items-center px-3 py-1.5 rounded-lg border ${multAgents > 0 ? 'bg-blue-500/15 border-blue-500/30 text-blue-400 shadow-[0_2px_10px_rgba(59,130,246,0.1)]' : 'bg-red-500/15 border-red-500/30 text-red-400 shadow-[0_2px_10px_rgba(239,68,68,0.1)]'} flex items-center gap-1.5 transition-all`}>
-                                  {multAgents > 0 ? <TrendingUp className="w-3.5 h-3.5"/> : <TrendingDown className="w-3.5 h-3.5"/>}
+                                <div className={`flex-1 min-w-[85px] flex justify-center items-center px-2.5 py-1 rounded-lg border ${multAgents > 0 ? 'bg-blue-500/20 border-blue-500/40 text-blue-300' : 'bg-rose-500/20 border-rose-500/40 text-rose-300'} flex items-center gap-1`}>
+                                  {multAgents > 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                                   <span>Agents</span>
                                 </div>
                               )}
                               {multElus !== 0 && (
-                                <div className={`flex-1 min-w-[95px] flex justify-center items-center px-3 py-1.5 rounded-lg border ${multElus > 0 ? 'bg-purple-500/15 border-purple-500/30 text-purple-400 shadow-[0_2px_10px_rgba(168,85,247,0.1)]' : 'bg-red-500/15 border-red-500/30 text-red-400 shadow-[0_2px_10px_rgba(239,68,68,0.1)]'} flex items-center gap-1.5 transition-all`}>
-                                  {multElus > 0 ? <TrendingUp className="w-3.5 h-3.5"/> : <TrendingDown className="w-3.5 h-3.5"/>}
+                                <div className={`flex-1 min-w-[85px] flex justify-center items-center px-2.5 py-1 rounded-lg border ${multElus > 0 ? 'bg-purple-500/20 border-purple-500/40 text-purple-300' : 'bg-rose-500/20 border-rose-500/40 text-rose-300'} flex items-center gap-1`}>
+                                  {multElus > 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                                   <span>Élus</span>
                                 </div>
                               )}
                               {multService !== 0 && (
-                                <div className={`flex-1 min-w-[95px] flex justify-center items-center px-3 py-1.5 rounded-lg border ${multService > 0 ? 'bg-rose-500/15 border-rose-500/30 text-rose-400 shadow-[0_2px_10px_rgba(244,63,94,0.1)]' : 'bg-red-500/15 border-red-500/30 text-red-400 shadow-[0_2px_10px_rgba(239,68,68,0.1)]'} flex items-center gap-1.5 transition-all`}>
-                                  {multService > 0 ? <TrendingUp className="w-3.5 h-3.5"/> : <TrendingDown className="w-3.5 h-3.5"/>}
+                                <div className={`flex-1 min-w-[85px] flex justify-center items-center px-2.5 py-1 rounded-lg border ${multService > 0 ? 'bg-amber-500/20 border-amber-500/40 text-amber-300' : 'bg-rose-500/20 border-rose-500/40 text-rose-300'} flex items-center gap-1`}>
+                                  {multService > 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                                   <span>Service</span>
                                 </div>
                               )}
@@ -696,27 +620,19 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
                 </div>
               </div>
 
-              {/* Right Side Gauges */}
-              <div className="flex-1 flex flex-col gap-4 lg:sticky lg:top-24 h-fit">
-                <GaugeCard title="Budget Restant" value={budget} icon={Landmark} colorClass="text-emerald-400" type="currency" />
-                <GaugeCard title="Satisfaction des Agents" value={agentsSat} icon={Users} colorClass="text-blue-400" type="percent" />
-                <GaugeCard title="Satisfaction des Élus" value={elusSat} icon={Building2} colorClass="text-purple-400" type="percent" />
-                <GaugeCard title="Qualité du Service Public" value={servicePub} icon={HeartHandshake} colorClass="text-rose-400" type="percent" />
+              {/* Sidebar Gauges */}
+              <div className="flex-1 flex flex-col gap-3.5 w-full lg:sticky lg:top-20">
+                <GaugeCard title="Budget Restant" value={budget} icon={Landmark} colorClass="text-emerald-400" borderGlow="shadow-[0_0_20px_rgba(16,185,129,0.15)]" type="currency" />
+                <GaugeCard title="Agents municipaux" value={agentsSat} icon={Users} colorClass="text-blue-400" borderGlow="shadow-[0_0_20px_rgba(59,130,246,0.15)]" type="percent" />
+                <GaugeCard title="Conseil Municipal" value={elusSat} icon={Building2} colorClass="text-purple-400" borderGlow="shadow-[0_0_20px_rgba(168,85,247,0.15)]" type="percent" />
+                <GaugeCard title="Qualité du Service" value={servicePub} icon={HeartHandshake} colorClass="text-amber-400" borderGlow="shadow-[0_0_20px_rgba(245,158,11,0.15)]" type="percent" />
               </div>
-              
+
             </div>
           </div>
         )}
 
       </div>
-
-      <style>{`
-        @keyframes fade-in { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fade-in 0.15s ease-out forwards; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(30, 41, 59, 0.5); border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(71, 85, 105, 0.8); border-radius: 4px; }
-      `}</style>
     </div>
   );
 };
