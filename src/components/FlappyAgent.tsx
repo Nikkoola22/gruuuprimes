@@ -365,13 +365,12 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
 
         const agent = agentRef.current;
 
-        // Auto-pilot Turbo mode elevation
-        if (turboTimer > 0) {
-          agent.velocity = -0.8;
-        } else {
-          agent.velocity += agent.gravity;
-        }
+        // Progressive Game Speed Acceleration based on score
+        const currentPipeSpeed = 2.2 + Math.min(2.8, score * 0.08);
+        const spawnInterval = Math.max(70, Math.floor(125 - Math.min(50, score * 1.5)));
 
+        // Agent Gravity Physics (Always 100% controllable by player jumps!)
+        agent.velocity += agent.gravity;
         agent.y += agent.velocity;
         agent.rotation = Math.min(Math.PI / 4, Math.max(-Math.PI / 4, agent.velocity * 0.07));
 
@@ -418,8 +417,8 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
           }
         }
 
-        // Spawn Obstacles & Collectibles
-        if (frameCountRef.current % 120 === 0) {
+        // Spawn Obstacles & Collectibles with dynamic interval
+        if (frameCountRef.current % spawnInterval === 0) {
           const gap = 220; // Generous 220px gap
           const minHeight = 70;
           const maxHeight = CANVAS_HEIGHT - gap - minHeight - 60;
@@ -476,10 +475,9 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
           });
         }
 
-        // Move Pipes & Check Collision
-        const pipeSpeed = 2.3;
+        // Move Pipes & Check Collision with current Pipe Speed
         pipesRef.current.forEach(p => {
-          p.x -= pipeSpeed;
+          p.x -= currentPipeSpeed;
 
           // Score Pass
           if (!p.passed && p.x < agent.x) {
@@ -490,6 +488,9 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
             playAudioSound("coin", isMuted);
             setScore(s => {
               const newS = s + ptsGained;
+              if (newS % 10 === 0) {
+                addFloatingText("VITESSE AUGMENTÉE ! 🚀", agent.x + 30, agent.y - 40, "#f59e0b");
+              }
               setHighScore(h => Math.max(h, newS));
               return newS;
             });
@@ -527,15 +528,15 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
 
         // Move & Collect Bonus Items
         bonusesRef.current.forEach(b => {
-          b.x -= pipeSpeed;
+          b.x -= currentPipeSpeed;
           b.rotation += 0.06;
 
           // Turbo Magnet Effect
           if (turboTimer > 0 && !b.collected) {
             const dx = agent.x - b.x;
             const dy = agent.y - b.y;
-            b.x += dx * 0.08;
-            b.y += dy * 0.08;
+            b.x += dx * 0.1;
+            b.y += dy * 0.1;
           }
 
           if (!b.collected) {
