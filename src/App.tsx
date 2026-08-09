@@ -1793,79 +1793,133 @@ ${indicesFactuels}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full mt-8 mb-12">
 
                 {/* Colonne 1 : À connaître (Docs de référence) */}
-                <div className="w-full bg-gradient-to-br from-white/90 via-rose-50/40 to-white/90 backdrop-blur-xl rounded-3xl p-4 border border-rose-200 shadow-xl shadow-rose-100/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-rose-300 relative z-10 flex flex-col justify-start group">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-2.5 bg-rose-100/50 rounded-xl border border-rose-200 shadow-sm flex items-center justify-center">
-                      <FileText className="w-6 h-6 text-rose-500" />
+                <div className="w-full bg-gradient-to-br from-white/95 via-rose-50/50 to-pink-50/30 backdrop-blur-2xl rounded-3xl p-6 border-2 border-rose-200/80 shadow-2xl shadow-rose-500/10 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-rose-500/20 hover:border-rose-300 relative z-10 flex flex-col justify-between group">
+                  <div>
+                    {/* Header de la carte */}
+                    <div className="flex items-center justify-between mb-5 pb-4 border-b border-rose-100/80">
+                      <div className="flex items-center gap-3.5">
+                        <div className="p-3 bg-gradient-to-br from-rose-500 to-pink-500 text-white rounded-2xl shadow-lg shadow-rose-500/30 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                          <FileText className="w-6 h-6" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-2xl font-black text-slate-900 tracking-tight">À connaître</h3>
+                            <span className="bg-rose-500/10 border border-rose-400/30 text-rose-600 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
+                              Docs Officiels
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-500 font-medium">Règlements & chartes de la collectivité</p>
+                        </div>
+                      </div>
                     </div>
-                    <h3 className="text-2xl font-bold text-slate-800 tracking-wide">
-                      <span className="relative inline-block z-10">
-                        <span className="relative z-20 text-slate-800 font-black tracking-tight">À connaître</span>
-                        <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-rose-300 via-pink-200 to-rose-300 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-                      </span>
-                    </h3>
+
+                    {/* Liste des documents sous forme de micro-cartes premium */}
+                    <div className="flex flex-col gap-3.5">
+                      {/* Document 1 : Temps de travail */}
+                      <a
+                        href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail_conges_absences/reglement_temps_de_travail/reglement_du_temps_du_travail.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/item relative bg-white/90 hover:bg-white border border-rose-100 hover:border-rose-300 rounded-2xl p-3.5 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4 overflow-hidden"
+                      >
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-rose-500 to-orange-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                        <div className="w-14 h-14 flex-shrink-0 rounded-2xl bg-gradient-to-br from-rose-50 to-orange-50 p-1 flex items-center justify-center shadow-inner border border-rose-100/60 relative group-hover/item:scale-105 transition-transform duration-300">
+                          <img src="/images/temps_travail.png" alt="Temps de travail" className="w-full h-full object-contain rounded-xl" />
+                          <div className="absolute -bottom-1 -right-1 bg-amber-500 text-white p-1 rounded-lg shadow-md">
+                            <Clock className="w-3 h-3" />
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200/50">
+                              1607H & Congés
+                            </span>
+                          </div>
+                          <h4 className="font-black text-slate-900 text-base leading-snug group-hover/item:text-rose-600 transition-colors truncate">
+                            Temps de travail
+                          </h4>
+                          <p className="text-xs text-slate-500 line-clamp-1 font-medium">
+                            Règlement complet sur le temps de travail et congés.
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 p-2 rounded-xl bg-rose-50 group-hover/item:bg-rose-500 text-rose-500 group-hover/item:text-white transition-all shadow-sm">
+                          <ExternalLinkIcon className="w-4 h-4" />
+                        </div>
+                      </a>
+
+                      {/* Document 2 : Formation */}
+                      <a
+                        href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/formation/reglement_interieur_de_formation_juin_2025.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/item relative bg-white/90 hover:bg-white border border-teal-100 hover:border-teal-300 rounded-2xl p-3.5 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4 overflow-hidden"
+                      >
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-teal-500 to-emerald-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                        <div className="w-14 h-14 flex-shrink-0 rounded-2xl bg-gradient-to-br from-teal-50 to-emerald-50 p-1 flex items-center justify-center shadow-inner border border-teal-100/60 relative group-hover/item:scale-105 transition-transform duration-300">
+                          <img src="/images/formation.png" alt="Formation" className="w-full h-full object-contain rounded-xl" />
+                          <div className="absolute -bottom-1 -right-1 bg-teal-600 text-white p-1 rounded-lg shadow-md">
+                            <GraduationCap className="w-3 h-3" />
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-teal-700 bg-teal-50 px-2 py-0.5 rounded-md border border-teal-200/50">
+                              Mise à jour Juin 2025
+                            </span>
+                          </div>
+                          <h4 className="font-black text-slate-900 text-base leading-snug group-hover/item:text-teal-600 transition-colors truncate">
+                            Règlement Formation
+                          </h4>
+                          <p className="text-xs text-slate-500 line-clamp-1 font-medium">
+                            Règlement intérieur des formations & CPF.
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 p-2 rounded-xl bg-teal-50 group-hover/item:bg-teal-600 text-teal-600 group-hover/item:text-white transition-all shadow-sm">
+                          <ExternalLinkIcon className="w-4 h-4" />
+                        </div>
+                      </a>
+
+                      {/* Document 3 : Télétravail */}
+                      <a
+                        href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/teletravail/circulaire_evolution_du_teletravail_juin_2023.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/item relative bg-white/90 hover:bg-white border border-blue-100 hover:border-blue-300 rounded-2xl p-3.5 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4 overflow-hidden"
+                      >
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-blue-500 to-indigo-500 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                        <div className="w-14 h-14 flex-shrink-0 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 p-1 flex items-center justify-center shadow-inner border border-blue-100/60 relative group-hover/item:scale-105 transition-transform duration-300">
+                          <img src="/images/teletravail.png" alt="Télétravail" className="w-full h-full object-contain rounded-xl" />
+                          <div className="absolute -bottom-1 -right-1 bg-blue-600 text-white p-1 rounded-lg shadow-md">
+                            <Laptop className="w-3 h-3" />
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200/50">
+                              Charte & Accords
+                            </span>
+                          </div>
+                          <h4 className="font-black text-slate-900 text-base leading-snug group-hover/item:text-blue-600 transition-colors truncate">
+                            Charte Télétravail
+                          </h4>
+                          <p className="text-xs text-slate-500 line-clamp-1 font-medium">
+                            Circulaire et évolutions du travail à distance.
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 p-2 rounded-xl bg-blue-50 group-hover/item:bg-blue-600 text-blue-600 group-hover/item:text-white transition-all shadow-sm">
+                          <ExternalLinkIcon className="w-4 h-4" />
+                        </div>
+                      </a>
+                    </div>
                   </div>
 
-                  <div className="flex flex-col gap-2">
-                    {/* Document 1 */}
-                    <a
-                      href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail_conges_absences/reglement_temps_de_travail/reglement_du_temps_du_travail.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
-                    >
-                      <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
-                        <img src="/images/temps_travail.png" alt="Temps de travail" className="w-full h-full object-cover" />
-                      </div>
-                      <div className="flex-1 flex flex-col justify-center py-1">
-                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-orange-500 transition-colors mb-1">
-                          Temps de travail
-                        </span>
-                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
-                          Règlement complet sur le temps de travail, congés et absences.
-                        </span>
-                      </div>
-                    </a>
-
-                    {/* Document 2 */}
-                    <a
-                      href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/formation/reglement_interieur_de_formation_juin_2025.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
-                    >
-                      <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
-                        <img src="/images/formation.png" alt="Formation" className="w-full h-full object-cover" />
-                      </div>
-                      <div className="flex-1 flex flex-col justify-center py-1">
-                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-teal-600 transition-colors mb-1">
-                          Formation
-                        </span>
-                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
-                          Règlement intérieur de formation (Mise à jour Juin 2025).
-                        </span>
-                      </div>
-                    </a>
-
-                    {/* Document 3 */}
-                    <a
-                      href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/teletravail/circulaire_evolution_du_teletravail_juin_2023.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex w-full items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 p-1.5 rounded-2xl transition-all"
-                    >
-                      <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-white flex items-center justify-center overflow-hidden relative shadow-sm border border-slate-100 dark:border-slate-700 group-hover:scale-[1.02] transition-transform">
-                        <img src="/images/teletravail.png" alt="Télétravail" className="w-full h-full object-cover" />
-                      </div>
-                      <div className="flex-1 flex flex-col justify-center py-1">
-                        <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xl leading-tight group-hover:text-blue-600 transition-colors mb-1">
-                          Télétravail
-                        </span>
-                        <span className="text-xs leading-snug text-slate-600 dark:text-slate-400">
-                          Circulaire et charte d'évolution du télétravail.
-                        </span>
-                      </div>
-                    </a>
+                  {/* Pied de carte d'accès rapide */}
+                  <div className="mt-4 pt-3 border-t border-rose-100/60 flex items-center justify-between text-xs text-rose-700 font-extrabold">
+                    <span className="flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-rose-500" />
+                      Documents PDF certifiés RH
+                    </span>
+                    <span className="text-[11px] text-slate-400 font-normal">Intranet Ville</span>
                   </div>
                 </div>
 
