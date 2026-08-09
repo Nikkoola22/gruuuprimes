@@ -535,13 +535,13 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
           if (turboTimer > 0 && !b.collected) {
             const dx = agent.x - b.x;
             const dy = agent.y - b.y;
-            b.x += dx * 0.1;
-            b.y += dy * 0.1;
+            b.x += dx * 0.12;
+            b.y += dy * 0.12;
           }
 
           if (!b.collected) {
             const dist = Math.hypot(agent.x - b.x, agent.y - b.y);
-            if (dist < agent.radius + 16) {
+            if (dist < agent.radius + 26) { // Enlarged grab radius
               b.collected = true;
               const multiplier = doubleScoreTimer > 0 ? 2 : 1;
               const earnedPts = b.points * multiplier;
@@ -563,16 +563,16 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
               }
 
               // Sparkle Burst
-              for (let i = 0; i < 16; i++) {
+              for (let i = 0; i < 20; i++) {
                 particlesRef.current.push({
                   x: b.x,
                   y: b.y,
-                  vx: (Math.random() - 0.5) * 8,
-                  vy: (Math.random() - 0.5) * 8,
+                  vx: (Math.random() - 0.5) * 10,
+                  vy: (Math.random() - 0.5) * 10,
                   color: b.color,
-                  size: Math.random() * 4 + 2,
-                  life: 22,
-                  maxLife: 22
+                  size: Math.random() * 5 + 3,
+                  life: 25,
+                  maxLife: 25
                 });
               }
             }
@@ -581,7 +581,7 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
 
         // Cleanup
         pipesRef.current = pipesRef.current.filter(p => p.x > -80);
-        bonusesRef.current = bonusesRef.current.filter(b => b.x > -40);
+        bonusesRef.current = bonusesRef.current.filter(b => b.x > -50);
 
         particlesRef.current.forEach(pt => {
           pt.x += pt.vx;
@@ -670,57 +670,67 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
       });
 
 
-      // === 4. RENDER COLLECTIBLES & POWERUPS ===
+      // === 4. RENDER COLLECTIBLES & POWERUPS (ENLARGED HIGH-VISIBILITY DESIGN) ===
       bonusesRef.current.forEach(b => {
         if (b.collected) return;
         ctx.save();
         ctx.translate(b.x, b.y);
 
         const scaleX = Math.abs(Math.cos(b.rotation));
+        const pulse = Math.sin(frameCountRef.current * 0.1) * 3;
+
+        // Outer Pulsing Energy Ring
+        ctx.strokeStyle = b.color;
+        ctx.lineWidth = 2;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = b.color;
+        ctx.beginPath();
+        ctx.arc(0, 0, 24 + pulse, 0, Math.PI * 2);
+        ctx.stroke();
 
         if (b.type === "shield") {
           // Shield Blue Orb
-          ctx.fillStyle = "#3b82f6"; ctx.shadowBlur = 18; ctx.shadowColor = "#60a5fa";
-          ctx.beginPath(); ctx.arc(0, 0, 14, 0, Math.PI * 2); ctx.fill();
-          ctx.fillStyle = "#ffffff"; ctx.font = "bold 11px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+          ctx.fillStyle = "#3b82f6"; ctx.shadowBlur = 22; ctx.shadowColor = "#60a5fa";
+          ctx.beginPath(); ctx.arc(0, 0, 22, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#ffffff"; ctx.font = "bold 18px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
           ctx.fillText("🛡️", 0, 0);
         } else if (b.type === "turbo") {
           // Lightning Turbo Bolt
-          ctx.fillStyle = "#f59e0b"; ctx.shadowBlur = 20; ctx.shadowColor = "#fbbf24";
-          ctx.beginPath(); ctx.arc(0, 0, 14, 0, Math.PI * 2); ctx.fill();
-          ctx.fillStyle = "#ffffff"; ctx.font = "bold 11px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+          ctx.fillStyle = "#f59e0b"; ctx.shadowBlur = 24; ctx.shadowColor = "#fbbf24";
+          ctx.beginPath(); ctx.arc(0, 0, 22, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#ffffff"; ctx.font = "bold 18px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
           ctx.fillText("⚡", 0, 0);
         } else if (b.type === "star") {
           // Double Points Star
-          ctx.fillStyle = "#f43f5e"; ctx.shadowBlur = 20; ctx.shadowColor = "#fb7185";
-          ctx.beginPath(); ctx.arc(0, 0, 14, 0, Math.PI * 2); ctx.fill();
-          ctx.fillStyle = "#ffffff"; ctx.font = "bold 11px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+          ctx.fillStyle = "#f43f5e"; ctx.shadowBlur = 24; ctx.shadowColor = "#fb7185";
+          ctx.beginPath(); ctx.arc(0, 0, 22, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#ffffff"; ctx.font = "bold 18px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
           ctx.fillText("🌟", 0, 0);
         } else if (b.type === "ticket") {
           // Titre Resto Ticket
-          ctx.fillStyle = "#10b981"; ctx.shadowBlur = 14; ctx.shadowColor = "#34d399";
-          ctx.fillRect(-12 * scaleX, -8, 24 * scaleX, 16);
-          ctx.fillStyle = "#ffffff"; ctx.font = "bold 10px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+          ctx.fillStyle = "#10b981"; ctx.shadowBlur = 20; ctx.shadowColor = "#34d399";
+          ctx.fillRect(-20 * scaleX, -13, 40 * scaleX, 26);
+          ctx.fillStyle = "#ffffff"; ctx.font = "bold 16px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
           ctx.fillText("🎫", 0, 0);
         } else if (b.type === "vacances") {
           // Chèques Vacances
-          ctx.fillStyle = "#0284c7"; ctx.shadowBlur = 14; ctx.shadowColor = "#38bdf8";
-          ctx.fillRect(-12 * scaleX, -8, 24 * scaleX, 16);
-          ctx.fillStyle = "#ffffff"; ctx.font = "bold 10px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+          ctx.fillStyle = "#0284c7"; ctx.shadowBlur = 20; ctx.shadowColor = "#38bdf8";
+          ctx.fillRect(-20 * scaleX, -13, 40 * scaleX, 26);
+          ctx.fillStyle = "#ffffff"; ctx.font = "bold 16px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
           ctx.fillText("🏖️", 0, 0);
         } else if (b.type === "cafe") {
           // Pause Café
-          ctx.fillStyle = "#14b8a6"; ctx.shadowBlur = 14; ctx.shadowColor = "#2dd4bf";
-          ctx.beginPath(); ctx.arc(0, 0, 13, 0, Math.PI * 2); ctx.fill();
-          ctx.fillStyle = "#ffffff"; ctx.font = "bold 11px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+          ctx.fillStyle = "#14b8a6"; ctx.shadowBlur = 20; ctx.shadowColor = "#2dd4bf";
+          ctx.beginPath(); ctx.arc(0, 0, 22, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#ffffff"; ctx.font = "bold 18px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
           ctx.fillText("☕", 0, 0);
         } else {
           // Gold Prime Coin
-          ctx.fillStyle = "#fbbf24"; ctx.shadowBlur = 16; ctx.shadowColor = "#f59e0b";
-          ctx.beginPath(); ctx.ellipse(0, 0, 13 * scaleX, 13, 0, 0, Math.PI * 2); ctx.fill();
-          ctx.fillStyle = "#ffffff"; ctx.beginPath(); ctx.ellipse(-3 * scaleX, -3, 4 * scaleX, 4, 0, 0, Math.PI * 2); ctx.fill();
-          ctx.fillStyle = "#78350f"; ctx.font = "bold 12px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-          ctx.fillText("€", 0, 1);
+          ctx.fillStyle = "#fbbf24"; ctx.shadowBlur = 22; ctx.shadowColor = "#f59e0b";
+          ctx.beginPath(); ctx.ellipse(0, 0, 22 * scaleX, 22, 0, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#ffffff"; ctx.beginPath(); ctx.ellipse(-5 * scaleX, -5, 6 * scaleX, 6, 0, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#78350f"; ctx.font = "bold 19px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+          ctx.fillText("€", 0, 1.5);
         }
 
         ctx.restore();
