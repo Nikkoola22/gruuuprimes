@@ -57,11 +57,11 @@ interface FloatingText {
 }
 
 const LABELS_TOP = [
-  "CERFA 1607", "ARRÊTÉ RH", "DECRET 2026", "CIRCULAIRE QVT", "NORME CST", 
+  "CERFA 1607", "ARRÊTÉ RH", "DECRET 2026", "CIRCULAIRE QVT", "NORME CST",
   "COFFRE RIFSEEP", "DOSSIER TITULARISATION", "AUDIT FINANCIER"
 ];
 const LABELS_BOTTOM = [
-  "REFORME 80%", "AUDIT CIG", "INSTANCE CST", "PROMOTION GRADE", "CONTRAT CDI", 
+  "REFORME 80%", "AUDIT CIG", "INSTANCE CST", "PROMOTION GRADE", "CONTRAT CDI",
   "PRIME EXCEPTIONNELLE", "FICHE DE PAIE", "CONGÉ BONIFIÉ"
 ];
 
@@ -868,9 +868,8 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
               {[...Array(3)].map((_, i) => (
                 <Heart
                   key={i}
-                  className={`w-4 h-4 transition-all ${
-                    i < lives ? "text-rose-500 fill-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]" : "text-slate-700"
-                  }`}
+                  className={`w-4 h-4 transition-all ${i < lives ? "text-rose-500 fill-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]" : "text-slate-700"
+                    }`}
                 />
               ))}
             </div>
@@ -902,7 +901,7 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
         )}
 
         {/* Canvas Area */}
-        <div 
+        <div
           className="relative bg-slate-900/90 border-2 border-cyan-500/30 rounded-3xl p-3 shadow-[0_0_50px_rgba(6,182,212,0.25)] cursor-pointer"
           onClick={handleJump}
         >

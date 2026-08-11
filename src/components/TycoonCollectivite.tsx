@@ -259,7 +259,8 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
     setGameState("playing");
   };
 
-  const IMPACT_MULTIPLIER = 1.5;
+  // Réduction de 10% des conséquences des actions pour faciliter le jeu (1.5 -> 1.35)
+  const IMPACT_MULTIPLIER = 1.35;
 
   const handleAction = (action: Action) => {
     const multipliedBudget = Math.round(action.impact.budget * IMPACT_MULTIPLIER);
