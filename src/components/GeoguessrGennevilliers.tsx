@@ -113,8 +113,8 @@ const locations: LocationDef[] = [
     title: "Hôtel de Ville (Mairie)",
     description: "Le centre administratif principal et politique de Gennevilliers.",
     image: "mairie.png",
-    lat: 48.9295,
-    lng: 2.2965,
+    lat: 48.9258,
+    lng: 2.29437,
     info: "L'Hôtel de Ville de Gennevilliers culmine avec ses façades géométriques modernes et abrite l'ensemble des services publics municipaux près des Agnettes."
   },
   {
@@ -122,17 +122,17 @@ const locations: LocationDef[] = [
     title: "Le Tamanoir",
     description: "Scène mythique de musiques actuelles et de jazz au cœur du quartier du Luth.",
     image: "tamanoir.png",
-    lat: 48.9372,
-    lng: 2.2986,
-    info: "Inauguré pour porter les musiques urbaines et du monde, Le Tamanoir est un acteur culturel majeur de Gennevilliers promouvant la diversité artistique."
+    lat: 48.93417,
+    lng: 2.28667,
+    info: "Inauguré pour porter les musiques urbaines et du monde, Le Tamanoir est un actor culturel majeur de Gennevilliers promouvant la diversité artistique."
   },
   {
     id: 3,
     title: "Parc des Chanteraines",
     description: "Le grand poumon vert partagé avec Villeneuve-la-Garenne.",
     image: "chanteraines.png",
-    lat: 48.9328,
-    lng: 2.3130,
+    lat: 48.9360,
+    lng: 2.3124,
     info: "Avec ses 82 hectares, son lac artificiel, sa ferme pédagogique et son petit train à vapeur historique, c'est le lieu de détente favori des habitants."
   },
   {
@@ -140,8 +140,8 @@ const locations: LocationDef[] = [
     title: "Port de Gennevilliers",
     description: "Le plus important port fluvial de France et plateforme logistique majeure.",
     image: "port.png",
-    lat: 48.9405,
-    lng: 2.2855,
+    lat: 48.94226,
+    lng: 2.28111,
     info: "Véritable carrefour industriel s'étendant le long de la Seine, il gère plus de 20 millions de tonnes de marchandises par an et relie la région à l'Europe."
   },
   {
@@ -149,8 +149,8 @@ const locations: LocationDef[] = [
     title: "Conservatoire Edgar Varèse",
     description: "Un temple architectural dédié à la musique et à la danse près du Village.",
     image: "conservatoire.png",
-    lat: 48.9250,
-    lng: 2.2892,
+    lat: 48.926468,
+    lng: 2.293444,
     info: "Reconnu pour ses lignes architecturales suspendues ultra-modernes, le conservatoire municipal Edgar Varèse forme des centaines d'artistes locaux chaque année."
   }
 ];
