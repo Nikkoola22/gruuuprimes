@@ -1,19 +1,18 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { 
   ArrowLeft, 
   MapPin, 
   Trophy, 
-  HelpCircle, 
   Volume2, 
   VolumeX, 
   Clock, 
   Compass, 
   Award, 
-  Zap, 
   RefreshCw, 
-  Play,
   ArrowRight
 } from "lucide-react";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 // Web Audio API Retro Synth Sound generator
 const playSynthSound = (type: "click" | "pin" | "perfect" | "good" | "poor" | "gameover", isMuted: boolean) => {
@@ -44,8 +43,7 @@ const playSynthSound = (type: "click" | "pin" | "perfect" | "good" | "poor" | "g
       osc.connect(gain); gain.connect(ctx.destination);
       osc.start(); osc.stop(ctx.currentTime + 0.15);
     } else if (type === "perfect") {
-      // Arpeggio
-      const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+      const notes = [523.25, 659.25, 783.99, 1046.50];
       notes.forEach((freq, idx) => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
@@ -58,7 +56,7 @@ const playSynthSound = (type: "click" | "pin" | "perfect" | "good" | "poor" | "g
         osc.stop(ctx.currentTime + idx * 0.08 + 0.2);
       });
     } else if (type === "good") {
-      const notes = [587.33, 880.00]; // D5, A5
+      const notes = [587.33, 880.00];
       notes.forEach((freq, idx) => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
@@ -104,8 +102,8 @@ interface LocationDef {
   title: string;
   description: string;
   image: string;
-  x: number; // % coordinates on map SVG
-  y: number;
+  lat: number;
+  lng: number;
   info: string;
 }
 
@@ -115,8 +113,8 @@ const locations: LocationDef[] = [
     title: "Hôtel de Ville (Mairie)",
     description: "Le centre administratif principal et politique de Gennevilliers.",
     image: "mairie.png",
-    x: 52,
-    y: 54,
+    lat: 48.9295,
+    lng: 2.2965,
     info: "L'Hôtel de Ville de Gennevilliers culmine avec ses façades géométriques modernes et abrite l'ensemble des services publics municipaux près des Agnettes."
   },
   {
@@ -124,8 +122,8 @@ const locations: LocationDef[] = [
     title: "Le Tamanoir",
     description: "Scène mythique de musiques actuelles et de jazz au cœur du quartier du Luth.",
     image: "tamanoir.png",
-    x: 72,
-    y: 28,
+    lat: 48.9372,
+    lng: 2.2986,
     info: "Inauguré pour porter les musiques urbaines et du monde, Le Tamanoir est un acteur culturel majeur de Gennevilliers promouvant la diversité artistique."
   },
   {
@@ -133,8 +131,8 @@ const locations: LocationDef[] = [
     title: "Parc des Chanteraines",
     description: "Le grand poumon vert partagé avec Villeneuve-la-Garenne.",
     image: "chanteraines.png",
-    x: 78,
-    y: 48,
+    lat: 48.9328,
+    lng: 2.3130,
     info: "Avec ses 82 hectares, son lac artificiel, sa ferme pédagogique et son petit train à vapeur historique, c'est le lieu de détente favori des habitants."
   },
   {
@@ -142,8 +140,8 @@ const locations: LocationDef[] = [
     title: "Port de Gennevilliers",
     description: "Le plus important port fluvial de France et plateforme logistique majeure.",
     image: "port.png",
-    x: 35,
-    y: 18,
+    lat: 48.9405,
+    lng: 2.2855,
     info: "Véritable carrefour industriel s'étendant le long de la Seine, il gère plus de 20 millions de tonnes de marchandises par an et relie la région à l'Europe."
   },
   {
@@ -151,48 +149,9 @@ const locations: LocationDef[] = [
     title: "Conservatoire Edgar Varèse",
     description: "Un temple architectural dédié à la musique et à la danse près du Village.",
     image: "conservatoire.png",
-    x: 36,
-    y: 64,
+    lat: 48.9250,
+    lng: 2.2892,
     info: "Reconnu pour ses lignes architecturales suspendues ultra-modernes, le conservatoire municipal Edgar Varèse forme des centaines d'artistes locaux chaque année."
-  }
-];
-
-interface DistrictDef {
-  name: string;
-  points: string; // SVG coordinates polygon
-  color: string;
-}
-
-const districts: DistrictDef[] = [
-  {
-    name: "Port de Gennevilliers",
-    points: "20,10 60,10 50,35 15,35",
-    color: "rgba(56, 189, 248, 0.15)"
-  },
-  {
-    name: "Quartier du Luth",
-    points: "60,10 90,10 90,38 65,38",
-    color: "rgba(168, 85, 247, 0.15)"
-  },
-  {
-    name: "Les Agnettes",
-    points: "45,45 68,45 62,65 42,65",
-    color: "rgba(236, 72, 153, 0.15)"
-  },
-  {
-    name: "Le Village / Chandon",
-    points: "15,35 45,45 42,65 15,65",
-    color: "rgba(245, 158, 11, 0.15)"
-  },
-  {
-    name: "Les Grésillons",
-    points: "62,65 90,52 90,90 55,90",
-    color: "rgba(16, 185, 129, 0.15)"
-  },
-  {
-    name: "Parc des Chanteraines (Est)",
-    points: "90,38 95,38 95,65 85,65",
-    color: "rgba(34, 197, 94, 0.15)"
   }
 ];
 
@@ -209,7 +168,7 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
   const [timeLeft, setTimeLeft] = useState(30);
 
   // Guess tracking
-  const [guess, setGuess] = useState<{ x: number; y: number } | null>(null);
+  const [guess, setGuess] = useState<{ lat: number; lng: number } | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
   const [roundStats, setRoundStats] = useState<{
     distance: number;
@@ -220,12 +179,18 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
   // History track for summary screen
   const [history, setHistory] = useState<{
     location: LocationDef;
-    guess: { x: number; y: number } | null;
+    guess: { lat: number; lng: number } | null;
     distance: number;
     score: number;
   }[]>([]);
 
-  const mapRef = useRef<SVGSVGElement | null>(null);
+  // Leaflet Map Refs
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<L.Map | null>(null);
+  const guessMarkerRef = useRef<L.Marker | null>(null);
+  const actualMarkerRef = useRef<L.Marker | null>(null);
+  const polylineRef = useRef<L.Polyline | null>(null);
+
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const baseScorePerDifficulty = { novice: 1000, urbanist: 1500, cartographer: 2000 };
 
@@ -268,17 +233,116 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
     };
   }, [gameState, showAnswer]);
 
-  const handleMapClick = (e: React.MouseEvent<SVGSVGElement>) => {
-    if (showAnswer) return;
-    if (!mapRef.current) return;
+  // Leaflet Map Initialization
+  useEffect(() => {
+    if (gameState !== "playing" && gameState !== "results") {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+        guessMarkerRef.current = null;
+        actualMarkerRef.current = null;
+        polylineRef.current = null;
+      }
+      return;
+    }
 
-    playSynthSound("click", isMuted);
-    const rect = mapRef.current.getBoundingClientRect();
-    const clickX = ((e.clientX - rect.left) / rect.width) * 100;
-    const clickY = ((e.clientY - rect.top) / rect.height) * 100;
+    if (!mapContainerRef.current) return;
 
-    setGuess({ x: clickX, y: clickY });
-  };
+    if (!mapRef.current) {
+      const map = L.map(mapContainerRef.current, {
+        center: [48.933, 2.298], // Center of Gennevilliers
+        zoom: 13,
+        zoomControl: true,
+        attributionControl: false
+      });
+
+      // Dark style tile layer (using CartoDB Dark Matter to keep the premium dark theme of the application!)
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19
+      }).addTo(map);
+
+      map.on("click", (e: L.LeafletMouseEvent) => {
+        if (showAnswer) return;
+        const { lat, lng } = e.latlng;
+
+        playSynthSound("click", isMuted);
+
+        if (guessMarkerRef.current) {
+          map.removeLayer(guessMarkerRef.current);
+        }
+
+        // Custom cyber orange map pin
+        guessMarkerRef.current = L.marker([lat, lng], {
+          icon: L.divIcon({
+            className: 'custom-pin-icon-div',
+            html: `<div class="w-6 h-6 bg-rose-500 rounded-full border-2 border-white flex items-center justify-center text-[11px] shadow-lg shadow-rose-500/50">📍</div>`,
+            iconSize: [24, 24],
+            iconAnchor: [12, 12]
+          })
+        }).addTo(map);
+
+        setGuess({ lat, lng });
+      });
+
+      mapRef.current = map;
+    }
+  }, [gameState]);
+
+  // Leaflet Map Updates for answers
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    // Clear previous actual marker and line
+    if (actualMarkerRef.current) {
+      map.removeLayer(actualMarkerRef.current);
+      actualMarkerRef.current = null;
+    }
+    if (polylineRef.current) {
+      map.removeLayer(polylineRef.current);
+      polylineRef.current = null;
+    }
+
+    if (showAnswer) {
+      const currentLocation = locations[round];
+      
+      // Actual location marker (emerald green)
+      actualMarkerRef.current = L.marker([currentLocation.lat, currentLocation.lng], {
+        icon: L.divIcon({
+          className: 'custom-pin-icon-actual',
+          html: `<div class="w-8 h-8 bg-emerald-500 rounded-full border-2 border-white flex items-center justify-center text-[13px] shadow-lg shadow-emerald-500/50 animate-bounce">🎯</div>`,
+          iconSize: [32, 32],
+          iconAnchor: [16, 16]
+        })
+      }).addTo(map);
+
+      if (guess) {
+        // Draw dashed connecting polyline
+        polylineRef.current = L.polyline([
+          [guess.lat, guess.lng],
+          [currentLocation.lat, currentLocation.lng]
+        ], {
+          color: '#fbbf24',
+          weight: 3,
+          dashArray: '5, 10'
+        }).addTo(map);
+
+        // Fit map bounds to show both pins
+        const bounds = L.latLngBounds([
+          [guess.lat, guess.lng],
+          [currentLocation.lat, currentLocation.lng]
+        ]);
+        map.fitBounds(bounds, { padding: [50, 50] });
+      }
+    } else {
+      // Reset map view for next round
+      if (guessMarkerRef.current) {
+        map.removeLayer(guessMarkerRef.current);
+        guessMarkerRef.current = null;
+      }
+      map.setView([48.933, 2.298], 13);
+    }
+  }, [showAnswer, round, guess]);
 
   const handleValidateGuess = (isTimeout = false) => {
     if (showAnswer) return;
@@ -292,17 +356,21 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
     const timeSpent = initialTime - timeLeft;
 
     if (guess && !isTimeout) {
-      // Calculate pixel/geometric 2D distance
-      const dx = guess.x - currentLocation.x;
-      const dy = guess.y - currentLocation.y;
-      const pixelsDistance = Math.sqrt(dx * dx + dy * dy);
-      
-      // Assume 1% coordinates ~ 45 meters in real life scale across Gennevilliers (approx 3.5km wide)
-      computedDistance = Math.round(pixelsDistance * 45);
+      // Calculate real geodesic distance using Leaflet map distance helper
+      if (mapRef.current) {
+        computedDistance = Math.round(mapRef.current.distance(
+          [guess.lat, guess.lng],
+          [currentLocation.lat, currentLocation.lng]
+        ));
+      } else {
+        const dx = guess.lat - currentLocation.lat;
+        const dy = guess.lng - currentLocation.lng;
+        computedDistance = Math.round(Math.sqrt(dx * dx + dy * dy) * 111000);
+      }
 
       // Score logic: exponential drop as distance increases
       const maxPossibleScore = baseScorePerDifficulty[difficulty];
-      const distanceFactor = Math.exp(-computedDistance / 250); // decay constant 250m
+      const distanceFactor = Math.exp(-computedDistance / 350); // decay constant 350m
       const timeFactor = Math.max(0.4, (timeLeft / initialTime)); // speed bonus
 
       computedScore = Math.round(maxPossibleScore * distanceFactor * timeFactor);
@@ -540,7 +608,7 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
               )}
             </div>
 
-            {/* Map Right Card */}
+            {/* Map Right Card - Now using REAL Leaflet interactive map */}
             <div className="flex-1 bg-slate-900/60 border border-slate-800 rounded-3xl p-4 sm:p-6 flex flex-col shadow-2xl backdrop-blur-xl min-h-[450px]">
               <div className="flex justify-between items-center mb-3">
                 <span className="text-xs font-black text-sky-400 uppercase tracking-widest">
@@ -549,134 +617,14 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
                 
                 {difficulty === "novice" && (
                   <span className="text-[10px] bg-sky-500/10 border border-sky-400/20 px-2 py-0.5 rounded text-sky-300">
-                    Mode Novice : Aide Active
+                    Mode Novice : Zoom & repères actifs
                   </span>
                 )}
               </div>
 
-              {/* SVG Vector Map of Gennevilliers */}
-              <div className="relative flex-1 bg-slate-950 border border-slate-850 rounded-2xl overflow-hidden shadow-inner flex items-center justify-center">
-                <svg
-                  ref={mapRef}
-                  viewBox="0 0 100 100"
-                  className="w-full h-full cursor-crosshair select-none"
-                  onClick={handleMapClick}
-                >
-                  {/* Cyber Grid Lines */}
-                  <defs>
-                    <pattern id="map-grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                      <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5" />
-                    </pattern>
-                  </defs>
-                  <rect width="100" height="100" fill="url(#map-grid)" />
-
-                  {/* Seine River vector ribbon winding north-west to east */}
-                  <path
-                    d="M 5,30 Q 15,35 25,25 T 45,15 T 60,5 T 75,10 T 90,25 T 95,50 T 88,75"
-                    fill="none"
-                    stroke="#1e3a8a"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    opacity="0.75"
-                  />
-                  <path
-                    d="M 5,30 Q 15,35 25,25 T 45,15 T 60,5 T 75,10 T 90,25 T 95,50 T 88,75"
-                    fill="none"
-                    stroke="#38bdf8"
-                    strokeWidth="1"
-                    strokeLinecap="round"
-                    opacity="0.9"
-                  />
-
-                  {/* Neighborhood districts SVG polygons */}
-                  {districts.map((dist, idx) => (
-                    <polygon
-                      key={idx}
-                      points={dist.points}
-                      fill={dist.color}
-                      stroke="rgba(255,255,255,0.06)"
-                      strokeWidth="0.4"
-                      className="transition-colors hover:fill-sky-400/20"
-                    >
-                      <title>{dist.name}</title>
-                    </polygon>
-                  ))}
-
-                  {/* Road networks representing major axes (e.g. A86) */}
-                  <path
-                    d="M 15,50 Q 50,45 90,45"
-                    fill="none"
-                    stroke="rgba(168, 85, 247, 0.2)"
-                    strokeWidth="1.5"
-                  />
-                  <path
-                    d="M 50,10 L 52,90"
-                    fill="none"
-                    stroke="rgba(236, 72, 153, 0.2)"
-                    strokeWidth="1"
-                  />
-
-                  {/* District text tags (Only for Novice or Urbanist difficulties) */}
-                  {difficulty !== "cartographer" && (
-                    <>
-                      <text x="32" y="24" fill="rgba(255,255,255,0.25)" fontSize="3.5" fontWeight="bold" textAnchor="middle">PORT</text>
-                      <text x="75" y="22" fill="rgba(255,255,255,0.25)" fontSize="3.5" fontWeight="bold" textAnchor="middle">LE LUTH</text>
-                      <text x="30" y="52" fill="rgba(255,255,255,0.25)" fontSize="3.5" fontWeight="bold" textAnchor="middle">VILLAGE</text>
-                      <text x="56" y="58" fill="rgba(255,255,255,0.25)" fontSize="3.5" fontWeight="bold" textAnchor="middle">AGNETTES</text>
-                      <text x="72" y="76" fill="rgba(255,255,255,0.25)" fontSize="3.5" fontWeight="bold" textAnchor="middle">GRÉSILLONS</text>
-                      <text x="82" y="44" fill="rgba(34, 197, 94, 0.25)" fontSize="2.8" fontWeight="bold" textAnchor="middle">Parc Chanteraines</text>
-                    </>
-                  )}
-
-                  {/* Dotted connecting line if answer is revealed */}
-                  {showAnswer && guess && (
-                    <line
-                      x1={guess.x}
-                      y1={guess.y}
-                      x2={locations[round].x}
-                      y2={locations[round].y}
-                      stroke="#fbbf24"
-                      strokeWidth="0.8"
-                      strokeDasharray="2,2"
-                      className="animate-pulse"
-                    />
-                  )}
-
-                  {/* USER GUESSED PIN */}
-                  {guess && (
-                    <g transform={`translate(${guess.x}, ${guess.y})`}>
-                      <circle r="2.5" fill="rgba(239, 68, 68, 0.3)" />
-                      <path
-                        d="M0,-3.5 C-1.2,-3.5 -2.2,-2.5 -2.2,-1.2 C-2.2,0.8 0,3.5 0,3.5 C0,3.5 2.2,0.8 2.2,-1.2 C2.2,-2.5 1.2,-3.5 0,-3.5 Z"
-                        fill="#ef4444"
-                        stroke="#ffffff"
-                        strokeWidth="0.4"
-                      />
-                      <circle cy="-1.2" r="0.8" fill="#ffffff" />
-                    </g>
-                  )}
-
-                  {/* ACTUAL ANSWER PIN (Revealed on validation) */}
-                  {showAnswer && (
-                    <g transform={`translate(${locations[round].x}, ${locations[round].y})`}>
-                      <circle r="3.5" fill="rgba(34, 197, 94, 0.4)" className="animate-ping" />
-                      <path
-                        d="M0,-3.5 C-1.2,-3.5 -2.2,-2.5 -2.2,-1.2 C-2.2,0.8 0,3.5 0,3.5 C0,3.5 2.2,0.8 2.2,-1.2 C2.2,-2.5 1.2,-3.5 0,-3.5 Z"
-                        fill="#10b981"
-                        stroke="#ffffff"
-                        strokeWidth="0.4"
-                      />
-                      <circle cy="-1.2" r="0.8" fill="#ffffff" />
-                    </g>
-                  )}
-                </svg>
-                
-                {/* Distance overlay text on map */}
-                {showAnswer && roundStats && roundStats.distance !== 9999 && (
-                  <div className="absolute bottom-4 left-4 bg-slate-900/90 border border-amber-500/30 px-3 py-1.5 rounded-full text-xs font-mono font-bold text-amber-300 shadow-xl backdrop-blur-md">
-                    Écart : {roundStats.distance} m
-                  </div>
-                )}
+              {/* Leaflet container */}
+              <div className="relative flex-1 bg-slate-950 border border-slate-850 rounded-2xl overflow-hidden shadow-inner min-h-[400px]">
+                <div ref={mapContainerRef} className="w-full h-full min-h-[400px] z-10" />
               </div>
             </div>
 
