@@ -1711,218 +1711,362 @@ ${indicesFactuels}
 
               </div>
 
-              {/* --- SECTION HARMONISÉE : ACTUALITÉS SYNDICALES & VEILLE JURIDIQUE CÔTE À CÔTE --- */}
-              <div className="mt-12 mb-12">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-
-                  {/* FENÊTRE GAUCHE : Actualités Syndicales & Statutaires */}
-                  <div className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 overflow-hidden flex flex-col justify-between h-full">
-                    <div>
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6 justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2.5 bg-blue-50 dark:bg-blue-900/40 rounded-xl border border-blue-200 dark:border-blue-800 shadow-xs">
-                            <Newspaper className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              {/* --- FENÊTRE UNIQUE COMBINÉE : ACTUALITÉS SYNDICALES & VEILLE JURIDIQUE CÔTE À CÔTE --- */}
+              <div className="mt-8 mb-8">
+                <div className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 dark:divide-slate-800">
+                    
+                    {/* CÔTÉ GAUCHE : Actualités Syndicales & Statutaires */}
+                    <div className="lg:pr-8 flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center justify-between gap-4 mb-6">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2.5 bg-blue-50 dark:bg-blue-900/40 rounded-xl border border-blue-200 dark:border-blue-800 shadow-xs">
+                              <Newspaper className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                            </div>
+                            <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-wide">
+                              Actualités <span className="text-blue-600 dark:text-blue-400">Syndicales & Statutaires</span>
+                            </h3>
                           </div>
-                          <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-wide">
-                            Actualités <span className="text-blue-600 dark:text-blue-400">Syndicales & Statutaires</span>
-                          </h3>
-                        </div>
-                        <a
-                          href="https://www.cig929394.fr/actualites/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 transition-colors font-bold underline underline-offset-2 shrink-0"
-                        >
-                          Voir les actus →
-                        </a>
-                      </div>
-
-                      {/* --- ACTUALITÉ STATUTAIRE CIG --- */}
-                      <div className="flex flex-col sm:flex-row gap-5 mb-6 border-b border-slate-200 dark:border-slate-800 pb-6 group/card">
-                        <div className="relative w-full sm:w-48 h-32 overflow-hidden rounded-xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
-                          <img src="https://www.cig929394.fr/wp-content/uploads/2026/07/FOCUS-BIP_Actu-juillet26-480x252.png" alt="Autorisations d'absence" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
-                          <span className="absolute top-2 left-2 inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/90 dark:bg-slate-900/90 text-red-600 dark:text-red-400 border border-red-200 shadow-xs">
-                            Statutaire CIG
-                          </span>
-                        </div>
-                        <div className="flex flex-col justify-between flex-1">
-                          <div>
-                            <h4 className="text-sm font-bold text-slate-900 dark:text-white hover:text-blue-600 transition-colors leading-snug mb-2 line-clamp-2">
-                              <a href="https://www.cig929394.fr/actualites/les-modalites-doctroi-des-autorisations-dabsence-liees-a-la-famille-fixees-par-decret/" target="_blank" rel="noopener noreferrer">
-                                Les modalités d’octroi des autorisations d’absence liées à la famille fixées par décret
-                              </a>
-                            </h4>
-                            <p className="text-xs text-slate-600 dark:text-slate-400 font-medium leading-relaxed line-clamp-2">
-                              Les autorisations spéciales d’absence (ASA) parentalité/famille sont fixées par le décret n°2026-604 du 6 juillet 2026.
-                            </p>
-                          </div>
-                          <div className="mt-2 flex items-center justify-between text-xs text-slate-500">
-                            <span className="font-semibold text-blue-700 dark:text-blue-400 text-[10px]">CIG Petite Couronne</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* --- ACTUALITÉS CFDT INTERCO --- */}
-                      <h4 className="text-base font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
-                        <Rss className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                        En direct de la CFDT Interco
-                      </h4>
-
-                      {intercoLoading ? (
-                        <div className="flex gap-4 overflow-hidden">
-                          {[...Array(2)].map((_, i) => (
-                            <div key={i} className="flex-none w-48 h-32 bg-slate-100 dark:bg-slate-800 rounded-xl animate-pulse border border-slate-200" />
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="relative group/carousel mb-2">
-                          <button
-                            type="button"
-                            aria-label="Défiler vers la gauche"
-                            onClick={() => {
-                              if (intercoCarouselRef.current) {
-                                intercoCarouselRef.current.scrollBy({ left: -220, behavior: 'smooth' })
-                              }
-                            }}
-                            className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
+                          <a
+                            href="https://www.cig929394.fr/actualites/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 transition-colors font-bold underline underline-offset-2 shrink-0"
                           >
-                            <ChevronLeft className="w-4 h-4" />
-                          </button>
-
-                          <button
-                            type="button"
-                            aria-label="Défiler vers la droite"
-                            onClick={() => {
-                              if (intercoCarouselRef.current) {
-                                intercoCarouselRef.current.scrollBy({ left: 220, behavior: 'smooth' })
-                              }
-                            }}
-                            className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
-                          >
-                            <ChevronRight className="w-4 h-4" />
-                          </button>
-
-                          <div
-                            ref={intercoCarouselRef}
-                            className="flex gap-3 overflow-x-auto pb-2 scroll-smooth interco-carousel-track cursor-grab active:cursor-grabbing select-none"
-                            style={{ scrollbarWidth: 'none' }}
-                          >
-                            {intercoNews.map((article, i) => {
-                              const date = article.pubDate ? new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : ''
-                              return (
-                                <a
-                                  key={i}
-                                  href={article.link}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="group/card flex-none w-44 sm:w-48 flex flex-col bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl overflow-hidden hover:border-blue-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-xs"
-                                >
-                                  <div className="relative w-full h-20 overflow-hidden bg-slate-50 dark:bg-slate-900 flex-shrink-0 border-b border-slate-100 dark:border-slate-800">
-                                    <img
-                                      src={article.imageUrl || `${BASE_URL}logo-cfdt.jpg`}
-                                      alt={article.title}
-                                      className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300"
-                                      onError={(e) => {
-                                        const target = e.target as HTMLImageElement;
-                                        target.onerror = null;
-                                        target.src = `${BASE_URL}logo-cfdt.jpg`;
-                                      }}
-                                    />
-                                    {article.category && (
-                                      <span className="absolute top-1 left-1 inline-block text-[8px] font-bold px-1.5 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 backdrop-blur text-blue-700 dark:text-blue-300 border border-blue-200 shadow-xs">
-                                        {article.category}
-                                      </span>
-                                    )}
-                                  </div>
-
-                                  <div className="p-2.5 flex flex-col justify-between flex-grow bg-white dark:bg-slate-800">
-                                    <p className="text-slate-900 dark:text-white font-bold text-[11px] leading-tight group-hover/card:text-blue-600 transition-colors duration-150 line-clamp-2">
-                                      {article.title}
-                                    </p>
-                                    <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-slate-100 dark:border-slate-700/60">
-                                      <span className="text-[9px] text-slate-500 font-medium">{date}</span>
-                                      <span className="text-[9px] text-blue-600 dark:text-blue-400 font-bold flex items-center gap-0.5">
-                                        Lire <ArrowRight className="w-2 h-2" />
-                                      </span>
-                                    </div>
-                                  </div>
-                                </a>
-                              )
-                            })}
-                          </div>
+                            Toutes les actus CIG →
+                          </a>
                         </div>
-                      )}
-                    </div>
-                  </div>
 
-                  {/* FENÊTRE DROITE : Veille Juridique & Statutaire */}
-                  <div
-                    onClick={() => setChatState({ ...chatState, currentView: 'veille' })}
-                    className="w-full bg-gradient-to-br from-white/95 via-purple-50/30 to-white/95 dark:from-slate-900/95 dark:via-purple-950/30 dark:to-slate-900/95 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-purple-200/60 dark:border-purple-800/40 shadow-xl shadow-purple-500/5 hover:border-purple-400 transition-all duration-300 cursor-pointer relative z-10 flex flex-col justify-between h-full"
-                  >
-                    <div>
-                      <div className="flex items-center gap-3 mb-6">
-                        <div className="p-2.5 bg-purple-100/60 dark:bg-purple-900/40 rounded-xl border border-purple-200 dark:border-purple-800/60 shadow-sm flex items-center justify-center">
-                          <Scale className="w-6 h-6 text-purple-600 dark:text-purple-400" />
-                        </div>
-                        <h3 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white tracking-wide">
-                          Veille <span className="text-purple-600 dark:text-purple-400">Juridique & Statutaire</span>
-                        </h3>
-                      </div>
-
-                      <div className="flex flex-col sm:flex-row gap-5 mb-6 group/card">
-                        <div className="relative w-full sm:w-48 h-32 overflow-hidden rounded-xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-900/50">
-                          <img src="/images/legal_news_illustration.png" alt="Veille Juridique" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
-                          <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur text-purple-300 border border-purple-500/30">
-                            Juridique
-                          </span>
-                        </div>
-                        <div className="flex flex-col justify-between flex-1">
-                          <div>
-                            <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100 hover:text-purple-600 dark:hover:text-purple-400 transition-colors leading-snug mb-2 line-clamp-2">
-                              Veille Juridique & Statutaire (« Vu cette semaine »)
-                            </h4>
-                            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-medium line-clamp-3">
-                              Explorez les dernières décisions des tribunaux administratifs et du Conseil d'État expliquées simplement, ou testez vos connaissances dans notre Mode Défi Quiz !
-                            </p>
-                          </div>
-                          <div className="mt-2 flex items-center justify-between text-xs text-slate-550">
-                            <span className="font-semibold bg-purple-100/70 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 px-2.5 py-0.5 rounded-full text-[10px]">
-                              Veille CFDT Interactive
+                        {/* Article principal Statutaire CIG */}
+                        <div className="flex flex-col sm:flex-row gap-5 group/card">
+                          <div className="relative w-full sm:w-48 h-36 overflow-hidden rounded-xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
+                            <img src="https://www.cig929394.fr/wp-content/uploads/2026/07/FOCUS-BIP_Actu-juillet26-480x252.png" alt="Autorisations d'absence" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
+                            <span className="absolute top-2 left-2 inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/90 dark:bg-slate-900/90 text-red-600 dark:text-red-400 border border-red-200 shadow-xs">
+                              Statutaire CIG
                             </span>
                           </div>
+                          <div className="flex flex-col justify-between flex-1">
+                            <div>
+                              <h4 className="text-base font-bold text-slate-900 dark:text-white hover:text-blue-600 transition-colors leading-snug mb-2">
+                                <a href="https://www.cig929394.fr/actualites/les-modalites-doctroi-des-autorisations-dabsence-liees-a-la-famille-fixees-par-decret/" target="_blank" rel="noopener noreferrer">
+                                  Les modalités d’octroi des autorisations d’absence liées à la famille fixées par décret
+                                </a>
+                              </h4>
+                              <p className="text-xs text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
+                                Les autorisations spéciales d’absence (ASA) liées à la parentalité et aux événements familiaux, prévues par le CGFP, sont désormais fixées par le décret n°2026-604 du 6 juillet 2026.
+                              </p>
+                            </div>
+                            <div className="mt-3 flex items-center justify-between text-xs text-slate-500">
+                              <span className="font-semibold text-blue-700 dark:text-blue-400 text-[11px]">CIG Petite Couronne</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* CÔTÉ DROIT : Veille Juridique */}
+                    <div
+                      onClick={() => setChatState({ ...chatState, currentView: 'veille' })}
+                      className="lg:pl-8 pt-6 lg:pt-0 flex flex-col justify-between cursor-pointer group/veille"
+                    >
+                      <div>
+                        <div className="flex items-center gap-3 mb-6">
+                          <div className="p-2.5 bg-purple-100/60 dark:bg-purple-900/40 rounded-xl border border-purple-200 dark:border-purple-800/60 shadow-sm flex items-center justify-center">
+                            <Scale className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                          </div>
+                          <h3 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white tracking-wide">
+                            Veille <span className="text-purple-600 dark:text-purple-400">Juridique & Statutaire</span>
+                          </h3>
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row gap-5 mb-4 group/card">
+                          <div className="relative w-full sm:w-48 h-36 overflow-hidden rounded-xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-900/50">
+                            <img src="/images/legal_news_illustration.png" alt="Veille Juridique" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
+                            <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur text-purple-300 border border-purple-500/30">
+                              Juridique
+                            </span>
+                          </div>
+                          <div className="flex flex-col justify-between flex-1">
+                            <div>
+                              <h4 className="text-base font-bold text-slate-800 dark:text-slate-100 group-hover/veille:text-purple-600 dark:group-hover/veille:text-purple-400 transition-colors leading-snug mb-2">
+                                Veille Juridique & Statutaire (« Vu cette semaine »)
+                              </h4>
+                              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+                                Découvrez notre veille juridique interactive. Explorez les dernières décisions des tribunaux administratifs et du Conseil d'État, ou testez vos connaissances dans notre Mode Défi Quiz !
+                              </p>
+                            </div>
+                            <div className="mt-3 flex items-center justify-between text-xs text-slate-500">
+                              <span className="font-semibold bg-purple-100/70 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 px-2.5 py-0.5 rounded-full text-[10px]">
+                                Veille CFDT Interactive
+                              </span>
+                            </div>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="p-4 bg-purple-50/60 dark:bg-purple-950/40 rounded-2xl border border-purple-200/50 dark:border-purple-800/40 mb-4">
-                        <h5 className="text-xs font-bold text-purple-900 dark:text-purple-200 mb-1 flex items-center gap-1.5">
-                          <Sparkles className="w-3.5 h-3.5 text-purple-500" /> Jurisprudence & Cas Pratiques
-                        </h5>
-                        <p className="text-[11px] text-purple-700/90 dark:text-purple-300/90 leading-relaxed font-medium">
-                          Accédez aux derniers arrêtés du CGFP, modèles de recours administratifs et fiches de prévention des risques statutaires.
-                        </p>
+                      <div className="pt-4 border-t border-purple-100 dark:border-purple-900/40 flex items-center justify-between text-xs mt-4">
+                        <a
+                          href="https://www.cigversailles.fr/actualites-juridiques"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="font-semibold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:underline"
+                        >
+                          Source CIG →
+                        </a>
+                        <span className="font-bold text-purple-600 dark:text-purple-400 group-hover/veille:text-purple-500 flex items-center gap-1 bg-purple-50 dark:bg-purple-900/30 px-3.5 py-1.5 rounded-full transition-colors shadow-xs">
+                          Accéder à la veille interactive →
+                        </span>
                       </div>
                     </div>
 
-                    <div className="pt-4 border-t border-purple-100 dark:border-purple-900/40 flex items-center justify-between text-xs">
-                      <a
-                        href="https://www.cigversailles.fr/actualites-juridiques"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="font-semibold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:underline"
-                      >
-                        Source CIG →
-                      </a>
-                      <span
-                        className="font-bold text-purple-600 dark:text-purple-400 hover:text-purple-500 flex items-center gap-1 bg-purple-50 dark:bg-purple-900/30 px-3.5 py-1.5 rounded-full transition-colors shadow-xs"
-                      >
-                        Accéder à la veille interactive →
-                      </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* --- SECTION SECONDAIRE : CARROUSELS DÉTACHÉS ET JOURNAL --- */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+
+                {/* COLONNE CARROUSELS (2/3 largeur) */}
+                <div className="lg:col-span-2 space-y-8">
+
+                  {/* CARROUSEL 1 DÉTACHÉ : En direct de la CFDT Interco */}
+                  <div className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10">
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                        <Rss className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                        En direct de la <span className="text-blue-600 dark:text-blue-400">CFDT Interco</span>
+                      </h4>
                     </div>
+
+                    {intercoLoading ? (
+                      <div className="flex gap-4 overflow-hidden">
+                        {[...Array(3)].map((_, i) => (
+                          <div key={i} className="flex-none w-48 h-32 bg-slate-100 dark:bg-slate-800 rounded-xl animate-pulse border border-slate-200" />
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="relative group/carousel">
+                        <button
+                          type="button"
+                          aria-label="Défiler vers la gauche"
+                          onClick={() => {
+                            if (intercoCarouselRef.current) {
+                              intercoCarouselRef.current.scrollBy({ left: -220, behavior: 'smooth' })
+                            }
+                          }}
+                          className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
+                        >
+                          <ChevronLeft className="w-4 h-4" />
+                        </button>
+
+                        <button
+                          type="button"
+                          aria-label="Défiler vers la droite"
+                          onClick={() => {
+                            if (intercoCarouselRef.current) {
+                              intercoCarouselRef.current.scrollBy({ left: 220, behavior: 'smooth' })
+                            }
+                          }}
+                          className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
+                        >
+                          <ChevronRight className="w-4 h-4" />
+                        </button>
+
+                        <div
+                          ref={intercoCarouselRef}
+                          className="flex gap-3 overflow-x-auto pb-2 scroll-smooth interco-carousel-track cursor-grab active:cursor-grabbing select-none"
+                          style={{ scrollbarWidth: 'none' }}
+                        >
+                          {intercoNews.map((article, i) => {
+                            const date = article.pubDate ? new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : ''
+                            return (
+                              <a
+                                key={i}
+                                href={article.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group/card flex-none w-48 sm:w-52 flex flex-col bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl overflow-hidden hover:border-blue-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-xs"
+                              >
+                                <div className="relative w-full h-24 overflow-hidden bg-slate-50 dark:bg-slate-900 flex-shrink-0 border-b border-slate-100 dark:border-slate-800">
+                                  <img
+                                    src={article.imageUrl || `${BASE_URL}logo-cfdt.jpg`}
+                                    alt={article.title}
+                                    className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300"
+                                    onError={(e) => {
+                                      const target = e.target as HTMLImageElement;
+                                      target.onerror = null;
+                                      target.src = `${BASE_URL}logo-cfdt.jpg`;
+                                    }}
+                                  />
+                                  {article.category && (
+                                    <span className="absolute top-1.5 left-1.5 inline-block text-[9px] font-bold px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 backdrop-blur text-blue-700 dark:text-blue-300 border border-blue-200 shadow-xs">
+                                      {article.category}
+                                    </span>
+                                  )}
+                                </div>
+
+                                <div className="p-3 flex flex-col justify-between flex-grow bg-white dark:bg-slate-800">
+                                  <p className="text-slate-900 dark:text-white font-bold text-xs leading-snug group-hover/card:text-blue-600 transition-colors duration-150 line-clamp-2">
+                                    {article.title}
+                                  </p>
+                                  <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100 dark:border-slate-700/60">
+                                    <span className="text-[10px] text-slate-500 font-medium">{date}</span>
+                                    <span className="text-[10px] text-blue-600 dark:text-blue-400 font-bold flex items-center gap-0.5 opacity-90 group-hover/card:opacity-100 transition-opacity duration-150">
+                                      Lire <ArrowRight className="w-2.5 h-2.5" />
+                                    </span>
+                                  </div>
+                                </div>
+                              </a>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* CARROUSEL 2 : Actualités de la Fonction Publique */}
+                  <div className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/40 rounded-xl border border-emerald-200 dark:border-emerald-800 flex items-center justify-center">
+                        <Landmark className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                      </div>
+                      <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-wide">
+                        Actualités de la <span className="text-emerald-600 dark:text-emerald-400">Fonction Publique</span>
+                      </h3>
+                    </div>
+
+                    {fpLoading ? (
+                      <div className="flex gap-4 overflow-hidden">
+                        {[...Array(3)].map((_, i) => (
+                          <div key={i} className="flex-none w-48 h-32 bg-slate-100 dark:bg-slate-800 rounded-xl animate-pulse border border-slate-200" />
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="relative group/carousel-fp">
+                        <button
+                          type="button"
+                          aria-label="Défiler vers la gauche"
+                          onClick={() => {
+                            if (fpCarouselRef.current) {
+                              fpCarouselRef.current.scrollBy({ left: -220, behavior: 'smooth' })
+                            }
+                          }}
+                          className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel-fp:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
+                        >
+                          <ChevronLeft className="w-4 h-4" />
+                        </button>
+
+                        <button
+                          type="button"
+                          aria-label="Défiler vers la droite"
+                          onClick={() => {
+                            if (fpCarouselRef.current) {
+                              fpCarouselRef.current.scrollBy({ left: 220, behavior: 'smooth' })
+                            }
+                          }}
+                          className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel-fp:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
+                        >
+                          <ChevronRight className="w-4 h-4" />
+                        </button>
+
+                        <div
+                          ref={fpCarouselRef}
+                          className="flex gap-3 overflow-x-auto pb-2 scroll-smooth interco-carousel-track cursor-grab active:cursor-grabbing select-none"
+                          style={{ scrollbarWidth: 'none' }}
+                        >
+                          {fpNews.map((article, i) => (
+                            <a
+                              key={i}
+                              href={article.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="group/card flex-none w-48 sm:w-52 flex flex-col bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl overflow-hidden hover:border-emerald-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-xs"
+                            >
+                              <div className="relative w-full h-24 overflow-hidden bg-slate-50 dark:bg-slate-900 flex-shrink-0 border-b border-slate-100 dark:border-slate-800 p-2 flex items-center justify-center">
+                                {article.imageUrl ? (
+                                  <img
+                                    src={article.imageUrl}
+                                    alt={article.title}
+                                    className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300 absolute inset-0"
+                                  />
+                                ) : (
+                                  <div className="text-emerald-500 opacity-50">
+                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
+                                  </div>
+                                )}
+                                <span className="absolute top-1.5 left-1.5 inline-block text-[9px] font-bold px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 backdrop-blur text-emerald-700 dark:text-emerald-300 border border-emerald-200 shadow-xs z-10 max-w-[90%] truncate">
+                                  {article.category || 'Actualité'}
+                                </span>
+                              </div>
+
+                              <div className="p-3 flex flex-col justify-between flex-grow bg-white dark:bg-slate-800">
+                                <p className="text-slate-900 dark:text-white font-bold text-xs leading-snug group-hover/card:text-emerald-600 transition-colors duration-150 line-clamp-2">
+                                  {article.title}
+                                </p>
+                                <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100 dark:border-slate-700/60">
+                                  <span className="text-[10px] text-slate-500 font-medium truncate pr-2">
+                                    {new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
+                                  </span>
+                                  <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-0.5">
+                                    Lire <ArrowRight className="w-2.5 h-2.5" />
+                                  </span>
+                                </div>
+                              </div>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                 </div>
+
+                {/* COLONNE DROITE (1/3 largeur) : LE JOURNAL CFDT (À LIRE) */}
+                <div className="lg:col-span-1 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 flex flex-col justify-between h-full">
+                  <div>
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="p-2.5 bg-indigo-50 dark:bg-indigo-900/40 rounded-xl border border-indigo-200 dark:border-indigo-800 flex items-center justify-center">
+                        <BookOpen className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                      </div>
+                      <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-wide">
+                        À lire
+                      </h3>
+                    </div>
+
+                    <div className="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-md hover:border-orange-400 transition-all duration-300 flex flex-col">
+                      <a
+                        href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/journal-gennevilliers-printemps-2026.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex flex-col h-full"
+                      >
+                        <div className="overflow-hidden rounded-xl shadow-sm mb-4 relative min-h-[12rem] max-h-[14rem] border border-slate-100 dark:border-slate-700 flex items-center justify-center bg-slate-50 dark:bg-slate-900">
+                          <img
+                            src={`${BASE_URL}journal-2026.png`}
+                            alt="Journal CFDT Printemps 2026"
+                            className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
+                        <div className="flex flex-col shrink-0">
+                          <h4 className="text-slate-900 dark:text-white text-base font-bold mb-1 flex items-center gap-1.5">
+                            <FileText className="w-4 h-4 text-orange-500 shrink-0" />
+                            Journal — Printemps 2026
+                          </h4>
+                          <p className="text-slate-600 dark:text-slate-400 text-xs mb-4 leading-relaxed font-medium">
+                            Découvrez la dernière édition de l'Écho de la CFDT.
+                          </p>
+                          <div className="flex items-center justify-center gap-2 w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 px-4 rounded-xl shadow-md transition-all text-xs">
+                            Télécharger (PDF)
+                            <ArrowRight className="w-4 h-4" />
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
               </div>
 
             </div>
