@@ -1787,7 +1787,15 @@ ${indicesFactuels}
                               </p>
                             </div>
                             <div className="mt-3 flex items-center justify-between text-xs text-slate-500">
-                              <span className="font-semibold text-blue-700 dark:text-blue-400 text-[11px]">CIG Petite Couronne</span>
+                              <a
+                                href="https://www.cig929394.fr/actualites/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-[11px] bg-blue-50 dark:bg-blue-950/50 hover:bg-blue-100 dark:hover:bg-blue-900/60 px-3 py-1 rounded-full border border-blue-200/80 dark:border-blue-800/80 transition-all duration-200 shadow-2xs hover:scale-105 active:scale-95 group/cig"
+                              >
+                                CIG Petite Couronne
+                                <ArrowRight className="w-3 h-3 text-blue-500 group-hover/cig:translate-x-0.5 transition-transform" />
+                              </a>
                             </div>
                           </div>
                         </div>
