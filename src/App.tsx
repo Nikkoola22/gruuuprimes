@@ -29,6 +29,7 @@ const EspaceJeux = lazy(() => import("./components/EspaceJeux.tsx"))
 const Actualites = lazy(() => import("./components/Actualites.tsx"))
 const VeilleJuridique = lazy(() => import("./components/VeilleJuridique.tsx"))
 import MacMenuBar from "./components/MacMenuBar.tsx"
+import CarouselScrollbar from "./components/CarouselScrollbar.tsx"
 
 // --- CONFIGURATION BASE URL POUR GITHUB PAGES ---
 const BASE_URL = import.meta.env.BASE_URL
@@ -1706,7 +1707,6 @@ ${indicesFactuels}
                           <div
                             ref={intercoCarouselRef}
                             className="flex gap-4 overflow-x-auto pb-2 interco-carousel-track"
-                            style={{ scrollbarWidth: 'none' }}
                           >
                             {intercoNews.map((article, i) => {
                               const date = article.pubDate ? new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }) : ''
@@ -1751,6 +1751,7 @@ ${indicesFactuels}
                               )
                             })}
                           </div>
+                          <CarouselScrollbar carouselRef={intercoCarouselRef} color="blue" />
                         </div>
                       )}
                     </div>
@@ -2201,7 +2202,6 @@ ${indicesFactuels}
                     <div
                       ref={fpCarouselRef}
                       className="flex gap-4 overflow-x-auto pb-2 interco-carousel-track"
-                      style={{ scrollbarWidth: 'none' }}
                     >
                       {fpNews.map((article, i) => (
                         <a
@@ -2244,6 +2244,7 @@ ${indicesFactuels}
                         </a>
                       ))}
                     </div>
+                    <CarouselScrollbar carouselRef={fpCarouselRef} color="emerald" />
                   </div>
                 )}
 
