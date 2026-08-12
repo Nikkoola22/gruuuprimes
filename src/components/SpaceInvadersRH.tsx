@@ -25,6 +25,7 @@ interface Invader {
 interface Laser {
   x: number;
   y: number;
+  vx?: number;
   vy: number;
   isEnemy: boolean;
   color: string;
@@ -214,7 +215,12 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
     const startX = (CANVAS_WIDTH - (cols * (invW + gapX) - gapX)) / 2;
     const startY = 70;
 
-    const typeDefs = [
+    const typeDefs = currentWave > 1 ? [
+      { color: "#f43f5e", glowColor: "#fda4af", label: "BLOCAGE", pts: 80 },
+      { color: "#e11d48", glowColor: "#fb7185", label: "GREVE", pts: 60 },
+      { color: "#ec4899", glowColor: "#f472b6", label: "ANARCHIE", pts: 40 },
+      { color: "#d946ef", glowColor: "#e879f9", label: "SABOTAGE", pts: 20 },
+    ] : [
       { color: "#ef4444", glowColor: "#f87171", label: "BUG PAIE", pts: 40 },
       { color: "#f59e0b", glowColor: "#fbbf24", label: "RETARD", pts: 30 },
       { color: "#a855f7", glowColor: "#c084fc", label: "CERFA 404", pts: 20 },
@@ -473,7 +479,8 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
          const aliveInvaders = invadersRef.current.filter(i => i.alive);
          const aliveCount = aliveInvaders.length;
          const speedRatio = Math.max(0.06, aliveCount / 32);
-         const baseInterval = Math.max(8, 40 - wave * 4);
+         const waveSpeedBonus = wave > 1 ? 12 : 0;
+         const baseInterval = Math.max(4, 40 - wave * 4 - waveSpeedBonus);
          const timeAcceleration = Math.min(6, Math.floor(frameCountRef.current / 350));
          const moveInterval = Math.max(2, Math.floor(baseInterval * speedRatio) - timeAcceleration);
  
@@ -505,23 +512,73 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
             });
           }
 
-          // Tirs ennemis périodiques
-          if (aliveInvaders.length > 0 && Math.random() < 0.4) {
+          // Tirs ennemis périodiques (Plus fréquents et différents en vague 2+)
+          const shootProb = wave > 1 ? 0.62 : 0.4;
+          if (aliveInvaders.length > 0 && Math.random() < shootProb) {
             const shooter = aliveInvaders[Math.floor(Math.random() * aliveInvaders.length)];
-            lasersRef.current.push({
-              x: shooter.x + shooter.width / 2 - 2,
-              y: shooter.y + shooter.height,
-              vy: 5 + wave * 0.8,
-              isEnemy: true,
-              color: "#ef4444",
-              width: 5
-            });
+            
+            if (wave > 1) {
+              const shotType = Math.random();
+              if (shotType < 0.4) {
+                // Tir diagonal vert émeraude
+                lasersRef.current.push({
+                  x: shooter.x + shooter.width / 2 - 2,
+                  y: shooter.y + shooter.height,
+                  vx: (Math.random() - 0.5) * 4,
+                  vy: 4.5 + wave * 0.8,
+                  isEnemy: true,
+                  color: "#10b981",
+                  width: 5
+                });
+              } else if (shotType < 0.7) {
+                // Tir double fuchsia
+                lasersRef.current.push({
+                  x: shooter.x + 4,
+                  y: shooter.y + shooter.height,
+                  vy: 5 + wave * 0.8,
+                  isEnemy: true,
+                  color: "#d946ef",
+                  width: 3
+                });
+                lasersRef.current.push({
+                  x: shooter.x + shooter.width - 8,
+                  y: shooter.y + shooter.height,
+                  vy: 5 + wave * 0.8,
+                  isEnemy: true,
+                  color: "#d946ef",
+                  width: 3
+                });
+              } else {
+                // Tir rapide jaune
+                lasersRef.current.push({
+                  x: shooter.x + shooter.width / 2 - 1.5,
+                  y: shooter.y + shooter.height,
+                  vy: 7.5 + wave * 0.8,
+                  isEnemy: true,
+                  color: "#fbbf24",
+                  width: 3
+                });
+              }
+            } else {
+              // Tir classique vague 1
+              lasersRef.current.push({
+                x: shooter.x + shooter.width / 2 - 2,
+                y: shooter.y + shooter.height,
+                vy: 5 + wave * 0.8,
+                isEnemy: true,
+                color: "#ef4444",
+                width: 5
+              });
+            }
           }
         }
 
         // Mise à jour des Lasers
         lasersRef.current.forEach(laser => {
           laser.y += laser.vy;
+          if (laser.vx) {
+            laser.x += laser.vx;
+          }
 
           if (!laser.isEnemy) {
             // Collision Laser Joueur -> Envahisseurs
@@ -727,61 +784,124 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
         ctx.shadowBlur = 16;
         ctx.shadowColor = inv.glowColor;
 
-        if (inv.type === 0) {
-          // TYPE 0 : Cyber Skull Bug Paie (Rouge)
-          ctx.beginPath();
-          ctx.arc(0, -2, 12 + pulse * 0.5, Math.PI, 0);
-          ctx.lineTo(10, 8);
-          ctx.lineTo(-10, 8);
-          ctx.closePath();
-          ctx.fill();
+        if (wave > 1) {
+          // --- VAGUE 2+ : FORMES MUTÉES D'ENVAHISSEURS ---
+          if (inv.type === 0) {
+            // Hexagone piquant agressif (BLOCAGE)
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+              const angle = (i * Math.PI) / 3;
+              const r = (i % 2 === 0 ? 15 : 8) + pulse * 0.5;
+              ctx.lineTo(Math.cos(angle) * r, Math.sin(angle) * r);
+            }
+            ctx.closePath();
+            ctx.fill();
 
-          // Yeux lumineux
-          ctx.fillStyle = "#ffffff";
-          ctx.fillRect(-6, -4, 4, 4);
-          ctx.fillRect(2, -4, 4, 4);
-        } else if (inv.type === 1) {
-          // TYPE 1 : Mecha Chrono Retard (Doré)
-          ctx.beginPath();
-          ctx.moveTo(0, -14);
-          ctx.lineTo(14, 0);
-          ctx.lineTo(0, 14);
-          ctx.lineTo(-14, 0);
-          ctx.closePath();
-          ctx.fill();
+            // Point énergétique central
+            ctx.fillStyle = "#ffffff";
+            ctx.beginPath();
+            ctx.arc(0, 0, 3.5, 0, Math.PI * 2);
+            ctx.fill();
+          } else if (inv.type === 1) {
+            // Chasseur avec ailes triangulaires (GREVE)
+            ctx.beginPath();
+            ctx.moveTo(0, -14 - pulse * 0.5);
+            ctx.lineTo(16, 8);
+            ctx.lineTo(6, 4);
+            ctx.lineTo(-6, 4);
+            ctx.lineTo(-16, 8);
+            ctx.closePath();
+            ctx.fill();
 
-          // Noyau d'énergie
-          ctx.fillStyle = "#ffffff";
-          ctx.beginPath();
-          ctx.arc(0, 0, 4 + pulse * 0.5, 0, Math.PI * 2);
-          ctx.fill();
-        } else if (inv.type === 2) {
-          // TYPE 2 : Portails Cerfa 404 (Violet)
-          ctx.beginPath();
-          ctx.roundRect(-14, -10, 28, 20, 6);
-          ctx.fill();
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(-5, 4, 2, 3);
+            ctx.fillRect(3, 4, 2, 3);
+          } else if (inv.type === 2) {
+            // Spore blindée ovale avec fente lumineuse (ANARCHIE)
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 10 + pulse * 0.4, 14 + pulse * 0.5, 0, 0, Math.PI * 2);
+            ctx.fill();
 
-          // Anneaux de distorsion
-          ctx.strokeStyle = "#ffffff";
-          ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          ctx.arc(0, 0, 6 + pulse, 0, Math.PI * 2);
-          ctx.stroke();
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(-1.5, -6, 3, 12);
+          } else {
+            // Croix techno / Viseur laser (SABOTAGE)
+            ctx.beginPath();
+            ctx.moveTo(0, -14);
+            ctx.lineTo(4, -4);
+            ctx.lineTo(14, 0);
+            ctx.lineTo(4, 4);
+            ctx.lineTo(0, 14);
+            ctx.lineTo(-4, 4);
+            ctx.lineTo(-14, 0);
+            ctx.lineTo(-4, -4);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.arc(0, 0, 5 + pulse, 0, Math.PI * 2);
+            ctx.stroke();
+          }
         } else {
-          // TYPE 3 : Plasma Orb Refus (Cyan)
-          ctx.beginPath();
-          ctx.arc(0, 0, 11 + pulse * 0.5, 0, Math.PI * 2);
-          ctx.fill();
+          // --- VAGUE 1 : FORMES DE BASE ---
+          if (inv.type === 0) {
+            // TYPE 0 : Cyber Skull Bug Paie (Rouge)
+            ctx.beginPath();
+            ctx.arc(0, -2, 12 + pulse * 0.5, Math.PI, 0);
+            ctx.lineTo(10, 8);
+            ctx.lineTo(-10, 8);
+            ctx.closePath();
+            ctx.fill();
 
-          // Satellites tournants
-          const angle = inv.animFrame * 0.08;
-          const satX = Math.cos(angle) * 16;
-          const satY = Math.sin(angle) * 16;
-          ctx.fillStyle = "#ffffff";
-          ctx.beginPath();
-          ctx.arc(satX, satY, 3, 0, Math.PI * 2);
-          ctx.arc(-satX, -satY, 3, 0, Math.PI * 2);
-          ctx.fill();
+            // Yeux lumineux
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(-6, -4, 4, 4);
+            ctx.fillRect(2, -4, 4, 4);
+          } else if (inv.type === 1) {
+            // TYPE 1 : Mecha Chrono Retard (Doré)
+            ctx.beginPath();
+            ctx.moveTo(0, -14);
+            ctx.lineTo(14, 0);
+            ctx.lineTo(0, 14);
+            ctx.lineTo(-14, 0);
+            ctx.closePath();
+            ctx.fill();
+
+            // Noyau d'énergie
+            ctx.fillStyle = "#ffffff";
+            ctx.beginPath();
+            ctx.arc(0, 0, 4 + pulse * 0.5, 0, Math.PI * 2);
+            ctx.fill();
+          } else if (inv.type === 2) {
+            // TYPE 2 : Portails Cerfa 404 (Violet)
+            ctx.beginPath();
+            ctx.roundRect(-14, -10, 28, 20, 6);
+            ctx.fill();
+
+            // Anneaux de distorsion
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.arc(0, 0, 6 + pulse, 0, Math.PI * 2);
+            ctx.stroke();
+          } else {
+            // TYPE 3 : Plasma Orb Refus (Cyan)
+            ctx.beginPath();
+            ctx.arc(0, 0, 11 + pulse * 0.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Satellites tournants
+            const angle = inv.animFrame * 0.08;
+            const satX = Math.cos(angle) * 16;
+            const satY = Math.sin(angle) * 16;
+            ctx.fillStyle = "#ffffff";
+            ctx.beginPath();
+            ctx.arc(satX, satY, 3, 0, Math.PI * 2);
+            ctx.arc(-satX, -satY, 3, 0, Math.PI * 2);
+            ctx.fill();
+          }
         }
 
         // Libellé de texte
