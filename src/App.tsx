@@ -2019,7 +2019,7 @@ ${indicesFactuels}
                         rel="noopener noreferrer"
                         className="flex flex-col h-full"
                       >
-                        <div className="overflow-hidden rounded-xl shadow-sm mb-4 relative min-h-[12rem] max-h-[14rem] border border-slate-100 dark:border-slate-700 flex items-center justify-center bg-slate-50 dark:bg-slate-900">
+                        <div className="overflow-hidden rounded-xl shadow-sm mb-4 relative h-80 sm:h-[22rem] border border-slate-100 dark:border-slate-700 flex items-center justify-center bg-slate-50 dark:bg-slate-900">
                           <img
                             src={`${BASE_URL}journal-2026.png`}
                             alt="Journal CFDT Printemps 2026"
