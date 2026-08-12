@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { ArrowLeft, RotateCcw, Play, Trophy, Rocket, Sparkles, Shield, ArrowLeft as LeftIcon, ArrowRight as RightIcon, Crosshair, Zap } from "lucide-react";
+import { ArrowLeft, RotateCcw, Play, Trophy, Rocket, Sparkles, Shield, ArrowLeft as LeftIcon, ArrowRight as RightIcon, Crosshair, Zap, Volume2, VolumeX } from "lucide-react";
 
 interface SpaceInvadersRHProps {
   onClose: () => void;
@@ -51,14 +51,106 @@ interface FloatingText {
   life: number;
 }
 
+interface BunkerBrick {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  alive: boolean;
+}
+
 interface Bunker {
   x: number;
   y: number;
   width: number;
   height: number;
-  health: number;
-  maxHealth: number;
+  bricks: BunkerBrick[];
 }
+
+// Web Audio API Sound Synthesizer
+const playAudioSound = (type: "shoot" | "explosion" | "hit" | "gameover" | "victory" | "shield", isMuted: boolean) => {
+  if (isMuted) return;
+  try {
+    const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+
+    if (type === "shoot") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(147, ctx.currentTime + 0.12);
+      gain.gain.setValueAtTime(0.12, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.12);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(); osc.stop(ctx.currentTime + 0.12);
+    } else if (type === "hit") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(150, ctx.currentTime);
+      osc.frequency.linearRampToValueAtTime(40, ctx.currentTime + 0.15);
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(); osc.stop(ctx.currentTime + 0.15);
+    } else if (type === "explosion") {
+      const bufferSize = ctx.sampleRate * 0.25;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1;
+      }
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+      const filter = ctx.createBiquadFilter();
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(800, ctx.currentTime);
+      filter.frequency.exponentialRampToValueAtTime(10, ctx.currentTime + 0.25);
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.2, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+      noise.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+      noise.start(); noise.stop(ctx.currentTime + 0.25);
+    } else if (type === "shield") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(880, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.1, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(); osc.stop(ctx.currentTime + 0.08);
+    } else if (type === "gameover") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(320, ctx.currentTime);
+      osc.frequency.linearRampToValueAtTime(80, ctx.currentTime + 0.6);
+      gain.gain.setValueAtTime(0.2, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.6);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(); osc.stop(ctx.currentTime + 0.6);
+    } else if (type === "victory") {
+      const notes = [261.63, 329.63, 392.00, 523.25];
+      notes.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.1);
+        gain.gain.setValueAtTime(0.12, ctx.currentTime + idx * 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + idx * 0.1 + 0.25);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(ctx.currentTime + idx * 0.1);
+        osc.stop(ctx.currentTime + idx * 0.1 + 0.25);
+      });
+    }
+  } catch {
+    // Ignore audio context errors
+  }
+};
 
 const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -67,6 +159,11 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
   const [wave, setWave] = useState(1);
+  const [isMuted, setIsMuted] = useState(false);
+  const isMutedRef = useRef(isMuted);
+  useEffect(() => {
+    isMutedRef.current = isMuted;
+  }, [isMuted]);
 
   // Player Ship
   const playerRef = useRef({
@@ -127,20 +224,45 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
     }
     invadersRef.current = invaders;
 
-    // Bunkers Hexagonaux de protection (Dialogue Social)
+    // Dialogue Social Bunkers with destructible block grid
     const bunkers: Bunker[] = [];
     const numBunkers = 3;
-    const bunkW = 80;
+    const bunkW = 96; // Slightly wider for better protection
+    const bunkH = 28;
     const bunkGap = (CANVAS_WIDTH - (numBunkers * bunkW)) / (numBunkers + 1);
 
+    const brickCols = 8;
+    const brickRows = 4;
+    const brickW = bunkW / brickCols;
+    const brickH = bunkH / brickRows;
+
     for (let i = 0; i < numBunkers; i++) {
+      const startX = bunkGap + i * (bunkW + bunkGap);
+      const startY = CANVAS_HEIGHT - 140;
+      const bricks: BunkerBrick[] = [];
+
+      for (let r = 0; r < brickRows; r++) {
+        for (let c = 0; c < brickCols; c++) {
+          // Hollow arch at bottom-middle of each bunker
+          const isArch = r >= 2 && c >= 2 && c <= 5;
+          if (!isArch) {
+            bricks.push({
+              x: startX + c * brickW,
+              y: startY + r * brickH,
+              width: brickW,
+              height: brickH,
+              alive: true
+            });
+          }
+        }
+      }
+
       bunkers.push({
-        x: bunkGap + i * (bunkW + bunkGap),
-        y: CANVAS_HEIGHT - 130,
+        x: startX,
+        y: startY,
         width: bunkW,
-        height: 28,
-        health: 16,
-        maxHealth: 16
+        height: bunkH,
+        bricks
       });
     }
     bunkersRef.current = bunkers;
@@ -193,6 +315,7 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
       color: "#38bdf8",
       width: 4
     });
+    playAudioSound("shoot", isMutedRef.current);
   }, [gameState]);
 
   // Clavier
@@ -373,6 +496,7 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
                 setScore(s => s + inv.points);
                 addFloatingText(`+${inv.points}`, inv.x + inv.width / 2, inv.y, inv.glowColor);
                 shakeRef.current = Math.max(shakeRef.current, 6);
+                playAudioSound("explosion", isMutedRef.current);
 
                 // Explosions lumineuses
                 for (let i = 0; i < 18; i++) {
@@ -394,9 +518,11 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
             if (laser.y >= player.y && laser.y <= player.y + player.height && laser.x >= player.x && laser.x <= player.x + player.width) {
               laser.y = 999;
               shakeRef.current = 14;
+              playAudioSound("hit", isMutedRef.current);
               setLives(l => {
                 const nextL = l - 1;
                 if (nextL <= 0) {
+                  playAudioSound("gameover", isMutedRef.current);
                   setGameState("gameover");
                 }
                 return nextL;
@@ -418,26 +544,29 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
             }
           }
 
-          // Collision Lasers -> Boucliers Bunkers
+          // Collision Lasers -> Briques de Dialogue Social (Destructible)
           bunkersRef.current.forEach(b => {
-            if (b.health > 0 && laser.x >= b.x && laser.x <= b.x + b.width && laser.y >= b.y && laser.y <= b.y + b.height) {
-              b.health--;
-              laser.y = laser.isEnemy ? 999 : -999;
+            b.bricks.forEach(brick => {
+              if (brick.alive && laser.x >= brick.x && laser.x <= brick.x + brick.width && laser.y >= brick.y && laser.y <= brick.y + brick.height) {
+                brick.alive = false;
+                laser.y = laser.isEnemy ? 999 : -999;
+                playAudioSound("shield", isMutedRef.current);
 
-              // Étincelles du bouclier
-              for (let i = 0; i < 6; i++) {
-                particlesRef.current.push({
-                  x: laser.x,
-                  y: b.y + (laser.isEnemy ? 0 : b.height),
-                  vx: (Math.random() - 0.5) * 5,
-                  vy: (Math.random() - 0.5) * 5,
-                  color: "#22c55e",
-                  size: 3,
-                  life: 15,
-                  maxLife: 15
-                });
+                // Étincelles du bouclier
+                for (let i = 0; i < 6; i++) {
+                  particlesRef.current.push({
+                    x: laser.x,
+                    y: brick.y + (laser.isEnemy ? 0 : brick.height),
+                    vx: (Math.random() - 0.5) * 5,
+                    vy: (Math.random() - 0.5) * 5,
+                    color: "#22c55e",
+                    size: 3,
+                    life: 15,
+                    maxLife: 15
+                  });
+                }
               }
-            }
+            });
           });
         });
 
@@ -458,6 +587,7 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
 
         // Passage à la vague suivante
         if (invadersRef.current.every(i => !i.alive)) {
+          playAudioSound("victory", isMutedRef.current);
           setWave(w => {
             const nextW = w + 1;
             initWave(nextW);
@@ -466,39 +596,38 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
         }
       }
 
-      // === DESSINER LES BOUCLIERS (Dialogue Social Hexagonal) ===
+      // === DESSINER LES BOUCLIERS (Dialogue Social Hexagonal & Destructible) ===
       bunkersRef.current.forEach(b => {
-        if (b.health <= 0) return;
-        ctx.save();
-        const alpha = b.health / b.maxHealth;
-        ctx.fillStyle = `rgba(34, 197, 94, ${alpha * 0.3})`;
-        ctx.strokeStyle = `rgba(74, 222, 128, ${alpha})`;
-        ctx.shadowBlur = 12;
-        ctx.shadowColor = "#22c55e";
-        ctx.lineWidth = 2;
+        b.bricks.forEach(brick => {
+          if (!brick.alive) return;
+          ctx.save();
+          ctx.fillStyle = "rgba(34, 197, 94, 0.85)";
+          ctx.strokeStyle = "rgba(74, 222, 128, 1)";
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = "#22c55e";
+          ctx.lineWidth = 1;
 
-        // Forme de dôme de bouclier
-        ctx.beginPath();
-        ctx.roundRect(b.x, b.y, b.width, b.height, 8);
-        ctx.fill();
-        ctx.stroke();
-
-        // Motif nid d'abeille
-        ctx.strokeStyle = `rgba(255, 255, 255, ${alpha * 0.25})`;
-        ctx.lineWidth = 1;
-        for (let bx = b.x + 10; bx < b.x + b.width; bx += 16) {
+          // Draw individual brick block
           ctx.beginPath();
-          ctx.moveTo(bx, b.y);
-          ctx.lineTo(bx, b.y + b.height);
+          ctx.rect(brick.x, brick.y, brick.width - 1, brick.height - 1);
+          ctx.fill();
           ctx.stroke();
-        }
+          ctx.restore();
+        });
 
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "bold 9px sans-serif";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText("DIALOGUE SOCIAL", b.x + b.width / 2, b.y + b.height / 2);
-        ctx.restore();
+        // Overlay text "DIALOGUE SOCIAL" in center if the bunker is still standing (at least some bricks alive)
+        const aliveCount = b.bricks.filter(brick => brick.alive).length;
+        if (aliveCount > 4) {
+          ctx.save();
+          ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+          ctx.font = "bold 9px sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.shadowBlur = 4;
+          ctx.shadowColor = "#000000";
+          ctx.fillText("DIALOGUE SOCIAL", b.x + b.width / 2, b.y + b.height / 2);
+          ctx.restore();
+        }
       });
 
       // === DESSINER LES ENVAHISSEURS CYBER ===
@@ -693,6 +822,13 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
             <span className="bg-slate-900/90 px-4 py-1.5 rounded-full border border-slate-800 text-xs font-mono font-bold text-slate-300">
               Vies : <span className="text-rose-400 font-black">{lives}</span>
             </span>
+            <button
+              onClick={() => setIsMuted(!isMuted)}
+              className="p-2 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-full transition-all text-slate-300 hover:text-white"
+              aria-label="Toggle sound"
+            >
+              {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+            </button>
           </div>
         </div>
 
