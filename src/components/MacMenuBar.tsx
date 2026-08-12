@@ -12,7 +12,7 @@ interface Props {
   theme: 'light' | 'dark';
   toggleTheme: () => void;
   currentView: string;
-  setView: (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille") => void;
+  setView: (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "podcasts") => void;
   openCalculator: (calc: 'primes' | 'cia' | '13eme') => void;
   onClose: () => void;
 }
@@ -258,6 +258,7 @@ export default function MacMenuBar({
                   <button onClick={() => selectView('faq')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Questions Fréquentes</button>
                   <button onClick={() => selectView('actualites')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Actualités Syndicales</button>
                   <button onClick={() => selectView('veille')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Veille Juridique</button>
+                  <button onClick={() => selectView('podcasts')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-amber-500 font-bold">Podcasts RH 🎧</button>
                 </motion.div>
               )}
             </AnimatePresence>

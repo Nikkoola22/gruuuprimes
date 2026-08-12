@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo, lazy, Suspense } from "react"
-import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye, Users, MessageCircleQuestion, HeartHandshake, Briefcase, Shield, CircleUser, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop } from "lucide-react"
+import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Radio, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye, Users, MessageCircleQuestion, HeartHandshake, Briefcase, Shield, CircleUser, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 
 // --- IMPORTATIONS DES DONNÉES ---
@@ -27,6 +27,7 @@ const LandingPage = lazy(() => import("./components/LandingPage.tsx"))
 const EspaceJeux = lazy(() => import("./components/EspaceJeux.tsx"))
 const Actualites = lazy(() => import("./components/Actualites.tsx"))
 const VeilleJuridique = lazy(() => import("./components/VeilleJuridique.tsx"))
+const EspacePodcastsFigurines = lazy(() => import("./components/EspacePodcastsFigurines.tsx"))
 import MacMenuBar from "./components/MacMenuBar.tsx"
 
 // --- CONFIGURATION BASE URL POUR GITHUB PAGES ---
@@ -176,7 +177,7 @@ interface InfoItem {
   content: string
 }
 interface ChatbotState {
-  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille"
+  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "podcasts"
   selectedDomain: number | null
   messages: ChatMessage[]
   isProcessing: boolean
@@ -413,6 +414,84 @@ function App() {
     const interval = setInterval(fetchFpNews, 30 * 60 * 1000)
     return () => clearInterval(interval)
   }, [])
+
+  // --- COMPATIBILITÉ FIREFOX WINDOWS : MOLETTE VERTICALE -> SCROLL HORIZONTAL & MOUSE DRAG ---
+  useEffect(() => {
+    const setupCarouselScroll = (ref: React.RefObject<HTMLDivElement | null>) => {
+      const el = ref.current
+      if (!el) return () => {}
+
+      let isDown = false
+      let startX = 0
+      let scrollLeft = 0
+      let isDragging = false
+
+      const handleWheel = (e: WheelEvent) => {
+        if (e.deltaY !== 0 && Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
+          e.preventDefault()
+          el.scrollLeft += e.deltaY * 1.2
+        }
+      }
+
+      const handleMouseDown = (e: MouseEvent) => {
+        if (e.button !== 0) return
+        isDown = true
+        isDragging = false
+        startX = e.pageX - el.offsetLeft
+        scrollLeft = el.scrollLeft
+      }
+
+      const handleMouseLeave = () => {
+        isDown = false
+      }
+
+      const handleMouseUp = () => {
+        isDown = false
+      }
+
+      const handleMouseMove = (e: MouseEvent) => {
+        if (!isDown) return
+        const x = e.pageX - el.offsetLeft
+        const walk = (x - startX) * 1.5
+        if (Math.abs(walk) > 4) {
+          isDragging = true
+          e.preventDefault()
+          el.scrollLeft = scrollLeft - walk
+        }
+      }
+
+      const handleClick = (e: MouseEvent) => {
+        if (isDragging) {
+          e.preventDefault()
+          e.stopPropagation()
+        }
+      }
+
+      el.addEventListener('wheel', handleWheel, { passive: false })
+      el.addEventListener('mousedown', handleMouseDown)
+      el.addEventListener('mouseleave', handleMouseLeave)
+      el.addEventListener('mouseup', handleMouseUp)
+      el.addEventListener('mousemove', handleMouseMove)
+      el.addEventListener('click', handleClick, true)
+
+      return () => {
+        el.removeEventListener('wheel', handleWheel)
+        el.removeEventListener('mousedown', handleMouseDown)
+        el.removeEventListener('mouseleave', handleMouseLeave)
+        el.removeEventListener('mouseup', handleMouseUp)
+        el.removeEventListener('mousemove', handleMouseMove)
+        el.removeEventListener('click', handleClick, true)
+      }
+    }
+
+    const cleanupInterco = setupCarouselScroll(intercoCarouselRef)
+    const cleanupFp = setupCarouselScroll(fpCarouselRef)
+
+    return () => {
+      cleanupInterco()
+      cleanupFp()
+    }
+  }, [intercoNews, fpNews, intercoLoading, fpLoading])
 
   // --- FONCTIONS DE GESTION ---
   const handleInfoClick = (info: InfoItem) => setSelectedInfo(info)
@@ -1572,6 +1651,30 @@ ${indicesFactuels}
                       <span className="relative z-10 text-sm font-bold text-center">Questions<br />Fréquentes</span>
                     </button>
 
+                    {/* Spotlight Podcasts Button */}
+                    <button
+                      onClick={() => setChatState({ ...chatState, currentView: 'podcasts' })}
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group min-w-[120px] p-3 rounded-2xl"
+                      onMouseEnter={() => setHoveredQuickAccessIndex(99)}
+                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
+                    >
+                      <AnimatePresence>
+                        {hoveredQuickAccessIndex === 99 && (
+                          <motion.span
+                            className="absolute inset-0 h-full w-full bg-slate-100 dark:bg-slate-700/60 block rounded-2xl z-0 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
+                            layoutId="quickAccessHover"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1, transition: { duration: 0.15 } }}
+                            exit={{ opacity: 0, transition: { duration: 0.15, delay: 0.1 } }}
+                          />
+                        )}
+                      </AnimatePresence>
+                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-purple-100 dark:group-hover:bg-purple-900/50 transition-colors">
+                        <Radio className="w-16 h-16 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
+                      </div>
+                      <span className="relative z-10 text-sm font-bold text-center">Podcasts RH</span>
+                    </button>
+
                     {/* Spotlight Bourse Emploi Anchor Link */}
                     <a
                       href="https://www.emploi-territorial.fr/emploi-mobilite/?search-col=99599"
@@ -1678,23 +1781,27 @@ ${indicesFactuels}
                       ) : (
                         <div className="relative group/carousel">
                           <button
+                            type="button"
+                            aria-label="Défiler vers la gauche"
                             onClick={() => {
                               if (intercoCarouselRef.current) {
-                                intercoCarouselRef.current.scrollBy({ left: -280, behavior: 'smooth' })
+                                intercoCarouselRef.current.scrollBy({ left: -300, behavior: 'smooth' })
                               }
                             }}
-                            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-700 shadow-md opacity-0 group-hover/carousel:opacity-100 hover:bg-slate-50 transition-all duration-150"
+                            className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
                           >
                             <ChevronLeft className="w-5 h-5" />
                           </button>
 
                           <button
+                            type="button"
+                            aria-label="Défiler vers la droite"
                             onClick={() => {
                               if (intercoCarouselRef.current) {
-                                intercoCarouselRef.current.scrollBy({ left: 280, behavior: 'smooth' })
+                                intercoCarouselRef.current.scrollBy({ left: 300, behavior: 'smooth' })
                               }
                             }}
-                            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-700 shadow-md opacity-0 group-hover/carousel:opacity-100 hover:bg-slate-50 transition-all duration-150"
+                            className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
                           >
                             <ChevronRight className="w-5 h-5" />
                           </button>
@@ -1704,7 +1811,7 @@ ${indicesFactuels}
 
                           <div
                             ref={intercoCarouselRef}
-                            className="flex gap-4 overflow-x-auto pb-2 scroll-smooth interco-carousel-track"
+                            className="flex gap-4 overflow-x-auto pb-2 scroll-smooth interco-carousel-track cursor-grab active:cursor-grabbing select-none"
                             style={{ scrollbarWidth: 'none' }}
                           >
                             {intercoNews.map((article, i) => {
@@ -2173,23 +2280,27 @@ ${indicesFactuels}
                 ) : (
                   <div className="relative group/carousel-fp mb-8">
                     <button
+                      type="button"
+                      aria-label="Défiler vers la gauche"
                       onClick={() => {
                         if (fpCarouselRef.current) {
-                          fpCarouselRef.current.scrollBy({ left: -280, behavior: 'smooth' })
+                          fpCarouselRef.current.scrollBy({ left: -300, behavior: 'smooth' })
                         }
                       }}
-                      className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-700 shadow-md opacity-0 group-hover/carousel-fp:opacity-100 hover:bg-slate-50 transition-all duration-150"
+                      className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel-fp:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
                     >
                       <ChevronLeft className="w-5 h-5" />
                     </button>
 
                     <button
+                      type="button"
+                      aria-label="Défiler vers la droite"
                       onClick={() => {
                         if (fpCarouselRef.current) {
-                          fpCarouselRef.current.scrollBy({ left: 280, behavior: 'smooth' })
+                          fpCarouselRef.current.scrollBy({ left: 300, behavior: 'smooth' })
                         }
                       }}
-                      className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-700 shadow-md opacity-0 group-hover/carousel-fp:opacity-100 hover:bg-slate-50 transition-all duration-150"
+                      className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel-fp:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
                     >
                       <ChevronRight className="w-5 h-5" />
                     </button>
@@ -2199,7 +2310,7 @@ ${indicesFactuels}
 
                     <div
                       ref={fpCarouselRef}
-                      className="flex gap-4 overflow-x-auto pb-2 scroll-smooth interco-carousel-track"
+                      className="flex gap-4 overflow-x-auto pb-2 scroll-smooth interco-carousel-track cursor-grab active:cursor-grabbing select-none"
                       style={{ scrollbarWidth: 'none' }}
                     >
                       {fpNews.map((article, i) => (
@@ -2348,6 +2459,12 @@ ${indicesFactuels}
       {chatState.currentView === 'veille' && (
         <Suspense fallback={<ViewLoader />}>
           <VeilleJuridique onClose={() => setChatState({ ...chatState, currentView: 'menu' })} />
+        </Suspense>
+      )}
+
+      {chatState.currentView === 'podcasts' && (
+        <Suspense fallback={<ViewLoader />}>
+          <EspacePodcastsFigurines onClose={() => setChatState({ ...chatState, currentView: 'menu' })} theme={theme} />
         </Suspense>
       )}
 

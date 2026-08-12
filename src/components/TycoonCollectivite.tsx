@@ -218,6 +218,126 @@ interface GameEvent {
       { text: "Concertation longue (Ateliers)", impact: { budget: -20, agents: +10, elus: -15, service: 0 } },
       { text: "Reculer et maintenir l'ancien système", impact: { budget: 0, agents: +20, elus: -25, service: +5 } }
     ]
+  },
+  {
+    id: "panne_chauffage",
+    title: "Panne de Chauffage Écoles & Crèches",
+    description: "En plein hiver, le système de chauffage central des écoles du Luth et des crèches s'effondre. Température : 12°C dans les classes !",
+    icon: AlertTriangle,
+    image: "/images/tycoon/tycoon_weather.png",
+    actions: [
+      { text: "Intervention d'urgence & Radiateurs d'appoint", impact: { budget: -140, agents: +15, elus: +10, service: +10 } },
+      { text: "Fermeture administrative 48h & Accueil dégradé", impact: { budget: -30, agents: +5, elus: -15, service: -25 } },
+      { text: "Réquisition des agents techniques sans moyens", impact: { budget: 0, agents: -30, elus: -5, service: -10 } }
+    ]
+  },
+  {
+    id: "jo_passage",
+    title: "Grand Événement Métropolitain",
+    description: "Gennevilliers accueille une étape majeure du parcours sportif départemental. Sécurité, logistique et accueil du public nécessitent une mobilisation éclair.",
+    icon: Trophy,
+    image: "/images/tycoon/tycoon_politics.png",
+    actions: [
+      { text: "Plan de mobilisation générale et primes d'événement", impact: { budget: -180, agents: +15, elus: +25, service: +15 } },
+      { text: "Partenariat associatif et bénévoles encadrés", impact: { budget: -60, agents: +5, elus: +10, service: +5 } },
+      { text: "Service minimum par manque de budget", impact: { budget: 0, agents: -10, elus: -25, service: -20 } }
+    ]
+  },
+  {
+    id: "creche_petite_enfance",
+    title: "Pénurie d'Auxiliaires de Puériculture",
+    description: "Le secteur de la Petite Enfance peine à recruter. 3 sections de crèches risquent de fermer faute de personnel diplômé.",
+    icon: HeartHandshake,
+    image: "/images/tycoon/tycoon_hrcrisis.png",
+    actions: [
+      { text: "Revalorisation RIFSEEP filière Petite Enfance", impact: { budget: -160, agents: +25, elus: +15, service: +20 } },
+      { text: "Recrutement d'intérimaires qualifiés", impact: { budget: -110, agents: -5, elus: +5, service: +10 } },
+      { text: "Réduire les capacités d'accueil", impact: { budget: 0, agents: -15, elus: -25, service: -30 } }
+    ]
+  },
+  {
+    id: "amiante_mediatheque",
+    title: "Diagnostic Amiante Positif",
+    description: "Des traces d'amiante sont détectées lors de travaux à la Médiathèque. Le personnel et le public doivent être évacués en urgence.",
+    icon: ShieldAlert,
+    image: "/images/tycoon/tycoon_pest.png",
+    actions: [
+      { text: "Désamiantage immédiat & Relocalisation provisoire", impact: { budget: -220, agents: +15, elus: +5, service: +5 } },
+      { text: "Fermeture prolongée & Médiathèque hors-les-murs", impact: { budget: -70, agents: +10, elus: -10, service: -15 } },
+      { text: "Confinement partiel sans fermeture", impact: { budget: 0, agents: -35, elus: -20, service: -10 } }
+    ]
+  },
+  {
+    id: "budget_participatif",
+    title: "Engouement du Budget Participatif",
+    description: "Les habitants de Gennevilliers ont voté massivement pour des projets citoyens (jardins partagés, mobilier urbain). Mais la mise en œuvre surcharge les services techniques.",
+    icon: Sparkles,
+    image: "/images/tycoon/tycoon_politics.png",
+    actions: [
+      { text: "Renforcer les équipes techniques (Renforts 6 mois)", impact: { budget: -130, agents: +15, elus: +20, service: +20 } },
+      { text: "Étalement des projets sur 2 ans", impact: { budget: -40, agents: +5, elus: -10, service: 0 } },
+      { text: "Demander aux agents d'absorber la charge", impact: { budget: 0, agents: -25, elus: +10, service: -15 } }
+    ]
+  },
+  {
+    id: "flotte_electrique",
+    title: "Transition Écologique de la Flotte",
+    description: "La ZFE (Zone à Faibles Émissions) impose le renouvellement des véhicules municipaux thermiques par des véhicules électriques.",
+    icon: Landmark,
+    image: "/images/tycoon/tycoon_finance.png",
+    actions: [
+      { text: "Achat groupé de véhicules électriques & Bornes", impact: { budget: -280, agents: +10, elus: +20, service: +10 } },
+      { text: "Passage au Car-sharing / Autopartage municipal", impact: { budget: -120, agents: -5, elus: +10, service: +5 } },
+      { text: "Demander une dérogation exceptionnelle (Report)", impact: { budget: 0, agents: 0, elus: -15, service: -10 } }
+    ]
+  },
+  {
+    id: "manifestation_logement",
+    title: "Tensions autour du Logement Social",
+    description: "Des associations d'habitants occupent le parvis de la Mairie pour demander l'attribution accélérée de logements sociaux et la rénovation des résidences.",
+    icon: Users,
+    image: "/images/tycoon/tycoon_strike.png",
+    actions: [
+      { text: "Table ronde & Plan Urgence Réhabilitation", impact: { budget: -190, agents: +10, elus: +20, service: +15 } },
+      { text: "Médiation sociale & Permanences renforcées", impact: { budget: -50, agents: -5, elus: +5, service: +5 } },
+      { text: "Fermeture des guichets d'accueil du public", impact: { budget: 0, agents: -20, elus: -30, service: -25 } }
+    ]
+  },
+  {
+    id: "festival_culturel",
+    title: "Festival des Cultures Urbaines",
+    description: "La Ville prépare son grand festival annuel. L'équipe culturelle souhaite inviter des artistes renommés, mais le budget prévisionnel est dépassé.",
+    icon: Sparkles,
+    image: "/images/tycoon/tycoon_politics.png",
+    actions: [
+      { text: "Accorder la rallonge budgétaire", impact: { budget: -160, agents: +20, elus: +25, service: +15 } },
+      { text: "Rechercher des mécènes & Sponsors privés", impact: { budget: -50, agents: +5, elus: +10, service: +10 } },
+      { text: "Réduire le programme à la scène locale", impact: { budget: +30, agents: -10, elus: -15, service: -10 } }
+    ]
+  },
+  {
+    id: "audit_egalite_pro",
+    title: "Index Égalité Professionnelle RH",
+    description: "Un diagnostic RH révèle des écarts de rémunération et de promotion entre femmes et hommes au sein de la collectivité.",
+    icon: FileText,
+    image: "/images/tycoon/tycoon_hrcrisis.png",
+    actions: [
+      { text: "Plan d'action & Rattrapage salarial ciblé", impact: { budget: -150, agents: +30, elus: +15, service: +10 } },
+      { text: "Formation obligatoire des managers aux discriminations", impact: { budget: -40, agents: +10, elus: +5, service: +5 } },
+      { text: "Simple déclaration d'intention sans budget", impact: { budget: 0, agents: -25, elus: -20, service: 0 } }
+    ]
+  },
+  {
+    id: "pietonnisation_ecoles",
+    title: "Sécurisation des Abords d'Écoles",
+    description: "Des parents d'élèves réclament des rues aux écoles piétonnes et la présence d'ASVP aux heures de pointe pour éviter les accidents.",
+    icon: ShieldAlert,
+    image: "/images/tycoon/tycoon_police.png",
+    actions: [
+      { text: "Aménagements urbains définitifs & Agent dédié", impact: { budget: -170, agents: +10, elus: +20, service: +20 } },
+      { text: "Recours aux volontaires du Service Civique", impact: { budget: -40, agents: +5, elus: +5, service: +10 } },
+      { text: "Laisser la situation en l'état", impact: { budget: 0, agents: -15, elus: -25, service: -20 } }
+    ]
   }
 ];
 
@@ -252,7 +372,12 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
     setMonth(1);
     setLog([]);
 
-    let pool = [...ALL_EVENTS].sort(() => Math.random() - 0.5).slice(0, 24);
+    let pool: GameEvent[] = [];
+    while (pool.length < 24) {
+      const shuffled = [...ALL_EVENTS].sort(() => Math.random() - 0.5);
+      pool = [...pool, ...shuffled];
+    }
+    pool = pool.slice(0, 24);
     setEventPool(pool);
     setCurrentEvent(pool[0]);
 

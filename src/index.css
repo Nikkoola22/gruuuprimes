@@ -213,6 +213,9 @@ body::before {
 .interco-carousel-track {
   -ms-overflow-style: none;
   scrollbar-width: none;
+  touch-action: pan-x pan-y;
+  overscroll-behavior-x: contain;
+  overflow-x: auto;
 }
 
 /* Scrollbar locale pour les listes interactives du calculateur */

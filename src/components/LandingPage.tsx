@@ -259,10 +259,117 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
         .lp-launch-btn:hover { box-shadow: 0 0 34px rgba(255,28,116,0.58); transform: translateY(-1px); }
         .lp-buy-btn:hover    { transform: translateY(-2px); box-shadow: 0 0 0 1px rgba(255,28,116,0.42), 0 12px 40px rgba(204,0,85,0.58), inset 0 1px 0 rgba(255,255,255,0.18); }
         .lp-nav-link:hover   { color: #F2EAF6; }
+
+        /* Animated Badge: Fait par vos collègues de Gennevilliers */
+        @keyframes lpShimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+        @keyframes lpFloatBanner {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-7px); }
+        }
+        @keyframes lpGlowRing {
+          0%, 100% {
+            box-shadow: 0 0 20px rgba(255, 149, 0, 0.4), 0 0 45px rgba(255, 28, 116, 0.25), inset 0 0 15px rgba(255, 255, 255, 0.15);
+          }
+          50% {
+            box-shadow: 0 0 35px rgba(255, 149, 0, 0.75), 0 0 70px rgba(255, 28, 116, 0.6), inset 0 0 25px rgba(255, 255, 255, 0.3);
+          }
+        }
+        @keyframes lpDotPulse {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.5); opacity: 0.5; }
+        }
+
+        .lp-collegues-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          padding: 10px 22px;
+          border-radius: 100px;
+          background: ${isLight
+            ? 'rgba(255, 255, 255, 0.88)'
+            : 'rgba(12, 2, 22, 0.82)'};
+          backdrop-filter: blur(20px) saturate(180%);
+          border: 1.5px solid ${isLight
+            ? 'rgba(245, 158, 11, 0.6)'
+            : 'rgba(255, 149, 0, 0.7)'};
+          animation: lpFloatBanner 4.5s ease-in-out infinite, lpGlowRing 3s ease-in-out infinite;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          user-select: none;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .lp-collegues-badge:hover {
+          transform: scale(1.06) translateY(-4px) !important;
+          border-color: #ff1c74;
+        }
+
+        .lp-badge-dot-live {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #ff1c74;
+          box-shadow: 0 0 10px #ff1c74;
+          animation: lpDotPulse 1.8s infinite ease-in-out;
+        }
+
+        .lp-badge-icon, .lp-badge-sparkle {
+          font-size: 16px;
+          filter: drop-shadow(0 0 6px rgba(255, 149, 0, 0.6));
+        }
+
+        .lp-badge-text {
+          font-family: 'Syne', sans-serif;
+          font-weight: 800;
+          font-size: clamp(11px, 2.5vw, 15px);
+          letter-spacing: 0.05em;
+          background: linear-gradient(
+            90deg,
+            #ff9500 0%,
+            #ff1c74 25%,
+            #ffaa00 50%,
+            #ff1c74 75%,
+            #ff9500 100%
+          );
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: lpShimmer 3.5s linear infinite;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
       `}</style>
 
-      {/* Canvas */}
+      {/* Canvas Three.js */}
       <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} />
+
+      {/* Edge line */}
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0, height: 1,
+        background: isLight
+          ? 'linear-gradient(90deg, transparent, rgba(244,114,182,0.3) 30%, rgba(244,114,182,0.3) 70%, transparent)'
+          : 'linear-gradient(90deg, transparent, rgba(255,28,116,0.22) 30%, rgba(255,28,116,0.22) 70%, transparent)',
+        zIndex: 100, pointerEvents: 'none',
+      }} />
+
+      {/* Bottom Center Animated Badge: Fait par vos collègues de Gennevilliers */}
+      <div style={{
+        position: 'absolute',
+        bottom: 'clamp(18px, 4vh, 32px)',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 50,
+        pointerEvents: 'auto',
+      }}>
+        <div className="lp-collegues-badge">
+          <span className="lp-badge-dot-live" />
+          <span className="lp-badge-icon">🏛️</span>
+          <span className="lp-badge-text">Fait par vos collègues de Gennevilliers</span>
+          <span className="lp-badge-sparkle">✨</span>
+        </div>
+      </div>
 
       {/* Glow orb */}
       <div style={{
