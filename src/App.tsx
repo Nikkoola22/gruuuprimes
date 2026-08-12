@@ -1697,89 +1697,71 @@ ${indicesFactuels}
                             exit={{
                               opacity: 0,
                               transition: { duration: 0.15, delay: 0.1 },
-                            }}
-                          />
-                        )}
-                      </AnimatePresence>
-                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-orange-100 dark:group-hover:bg-orange-900/50 transition-colors">
-                        <Briefcase className="w-16 h-16 text-orange-600 dark:text-orange-400 group-hover:scale-110 transition-transform" />
-                      </div>
-                      <span className="relative z-10 text-sm font-bold text-center">Bourse<br />Emploi</span>
-                    </a>
-                  </div>
-                </div>
+{/* --- SECTION HARMONISÉE : ACTUALITÉS SYNDICALES & VEILLE JURIDIQUE CÔTE À CÔTE --- */}
+              <div className="mt-12 mb-12">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
 
-              </div>
-
-
-              {/* --- SECTION ACTUALITÉS & À LIRE --- */}
-              <div className="mt-12 mb-8">
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-
-                  {/* Colonne Gauche : Actualités */}
-                  <div className="lg:col-span-3 h-full">
-                    <div className="w-full h-full bg-white/95 backdrop-blur-xl rounded-3xl p-8 border border-slate-200 shadow-xl shadow-slate-200/50 relative z-10 overflow-hidden">
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-8 justify-between">
+                  {/* FENÊTRE GAUCHE : Actualités Syndicales & Statutaires */}
+                  <div className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 overflow-hidden flex flex-col justify-between h-full">
+                    <div>
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6 justify-between">
                         <div className="flex items-center gap-3">
-                          <div className="p-2.5 bg-blue-50 rounded-xl border border-blue-200 shadow-xs">
-                            <Newspaper className="w-6 h-6 text-blue-600" />
+                          <div className="p-2.5 bg-blue-50 dark:bg-blue-900/40 rounded-xl border border-blue-200 dark:border-blue-800 shadow-xs">
+                            <Newspaper className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                           </div>
-                          <h3 className="text-2xl font-extrabold text-slate-900 tracking-wide">
-                            Actualités <span className="text-blue-600">Syndicales & Statutaires</span>
+                          <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-wide">
+                            Actualités <span className="text-blue-600 dark:text-blue-400">Syndicales & Statutaires</span>
                           </h3>
                         </div>
                         <a
                           href="https://www.cig929394.fr/actualites/"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="ml-auto text-xs text-blue-600 hover:text-blue-700 transition-colors font-bold underline underline-offset-2"
+                          className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 transition-colors font-bold underline underline-offset-2 shrink-0"
                         >
-                          Voir toutes les actualités →
+                          Voir les actus →
                         </a>
                       </div>
 
                       {/* --- ACTUALITÉ STATUTAIRE CIG --- */}
-                      <div className="flex flex-col md:flex-row gap-6 mb-8 border-b border-slate-200 pb-8 group/card">
-                        <div className="relative w-full md:w-64 h-40 overflow-hidden rounded-xl shrink-0 border border-slate-200 bg-slate-50">
+                      <div className="flex flex-col sm:flex-row gap-5 mb-6 border-b border-slate-200 dark:border-slate-800 pb-6 group/card">
+                        <div className="relative w-full sm:w-48 h-32 overflow-hidden rounded-xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
                           <img src="https://www.cig929394.fr/wp-content/uploads/2026/07/FOCUS-BIP_Actu-juillet26-480x252.png" alt="Autorisations d'absence" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
-                          <span className="absolute top-2 left-2 inline-block text-[10px] font-bold px-2.5 py-1 rounded-full bg-white/90 backdrop-blur text-red-600 border border-red-200 shadow-sm">
+                          <span className="absolute top-2 left-2 inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/90 dark:bg-slate-900/90 text-red-600 dark:text-red-400 border border-red-200 shadow-xs">
                             Statutaire CIG
                           </span>
                         </div>
-                        <div className="flex flex-col justify-between">
+                        <div className="flex flex-col justify-between flex-1">
                           <div>
-                            <h4 className="text-xl font-bold text-slate-900 mt-1 hover:text-blue-600 transition-colors leading-snug mb-3">
+                            <h4 className="text-sm font-bold text-slate-900 dark:text-white hover:text-blue-600 transition-colors leading-snug mb-2 line-clamp-2">
                               <a href="https://www.cig929394.fr/actualites/les-modalites-doctroi-des-autorisations-dabsence-liees-a-la-famille-fixees-par-decret/" target="_blank" rel="noopener noreferrer">
                                 Les modalités d’octroi des autorisations d’absence liées à la famille fixées par décret
                               </a>
                             </h4>
-                            <p className="text-sm text-slate-600 font-medium leading-relaxed">
-                              Les autorisations spéciales d’absence (ASA) liées à la parentalité et aux événements familiaux, prévues par le CGFP, sont désormais fixées par le décret n°2026-604 du 6 juillet 2026, applicable au 1er janvier 2027.
+                            <p className="text-xs text-slate-600 dark:text-slate-400 font-medium leading-relaxed line-clamp-2">
+                              Les autorisations spéciales d’absence (ASA) parentalité/famille sont fixées par le décret n°2026-604 du 6 juillet 2026.
                             </p>
                           </div>
-                          <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
-                            <span className="font-semibold text-blue-700">CIG Petite Couronne</span>
-                            <a href="https://www.cig929394.fr/actualites/" target="_blank" rel="noopener noreferrer" className="font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1">
-                              Toutes les actus CIG
-                            </a>
+                          <div className="mt-2 flex items-center justify-between text-xs text-slate-500">
+                            <span className="font-semibold text-blue-700 dark:text-blue-400 text-[10px]">CIG Petite Couronne</span>
                           </div>
                         </div>
                       </div>
 
                       {/* --- ACTUALITÉS CFDT INTERCO --- */}
-                      <h4 className="text-xl font-bold text-slate-900 mb-4 mt-2 flex items-center gap-2">
-                        <Rss className="w-5 h-5 text-blue-600" />
+                      <h4 className="text-base font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                        <Rss className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                         En direct de la CFDT Interco
                       </h4>
 
                       {intercoLoading ? (
                         <div className="flex gap-4 overflow-hidden">
-                          {[...Array(3)].map((_, i) => (
-                            <div key={i} className="flex-none w-64 h-44 bg-slate-100 rounded-2xl animate-pulse border border-slate-200" />
+                          {[...Array(2)].map((_, i) => (
+                            <div key={i} className="flex-none w-48 h-32 bg-slate-100 dark:bg-slate-800 rounded-xl animate-pulse border border-slate-200" />
                           ))}
                         </div>
                       ) : (
-                        <div className="relative group/carousel">
+                        <div className="relative group/carousel mb-2">
                           <button
                             type="button"
                             aria-label="Défiler vers la gauche"
@@ -1806,9 +1788,6 @@ ${indicesFactuels}
                             <ChevronRight className="w-4 h-4" />
                           </button>
 
-                          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-[1] pointer-events-none rounded-l-2xl" />
-                          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-[1] pointer-events-none rounded-r-2xl" />
-
                           <div
                             ref={intercoCarouselRef}
                             className="flex gap-3 overflow-x-auto pb-2 scroll-smooth interco-carousel-track cursor-grab active:cursor-grabbing select-none"
@@ -1822,9 +1801,9 @@ ${indicesFactuels}
                                   href={article.link}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="group/card flex-none w-48 sm:w-52 flex flex-col bg-white border border-slate-200/90 rounded-xl overflow-hidden hover:border-blue-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-sm"
+                                  className="group/card flex-none w-44 sm:w-48 flex flex-col bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl overflow-hidden hover:border-blue-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-xs"
                                 >
-                                  <div className="relative w-full h-24 overflow-hidden bg-slate-50 flex-shrink-0 border-b border-slate-100">
+                                  <div className="relative w-full h-20 overflow-hidden bg-slate-50 dark:bg-slate-900 flex-shrink-0 border-b border-slate-100 dark:border-slate-800">
                                     <img
                                       src={article.imageUrl || `${BASE_URL}logo-cfdt.jpg`}
                                       alt={article.title}
@@ -1836,20 +1815,20 @@ ${indicesFactuels}
                                       }}
                                     />
                                     {article.category && (
-                                      <span className="absolute top-1.5 left-1.5 inline-block text-[9px] font-bold px-2 py-0.5 rounded-full bg-white/95 backdrop-blur text-blue-700 border border-blue-200 shadow-xs">
+                                      <span className="absolute top-1 left-1 inline-block text-[8px] font-bold px-1.5 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 backdrop-blur text-blue-700 dark:text-blue-300 border border-blue-200 shadow-xs">
                                         {article.category}
                                       </span>
                                     )}
                                   </div>
 
-                                  <div className="p-3 flex flex-col justify-between flex-grow bg-white">
-                                    <p className="text-slate-900 font-bold text-xs leading-snug group-hover/card:text-blue-600 transition-colors duration-150 line-clamp-2">
+                                  <div className="p-2.5 flex flex-col justify-between flex-grow bg-white dark:bg-slate-800">
+                                    <p className="text-slate-900 dark:text-white font-bold text-[11px] leading-tight group-hover/card:text-blue-600 transition-colors duration-150 line-clamp-2">
                                       {article.title}
                                     </p>
-                                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100">
-                                      <span className="text-[10px] text-slate-500 font-medium">{date}</span>
-                                      <span className="text-[10px] text-blue-600 font-bold flex items-center gap-0.5 opacity-90 group-hover/card:opacity-100 transition-opacity duration-150">
-                                        Lire <ArrowRight className="w-2.5 h-2.5" />
+                                    <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-slate-100 dark:border-slate-700/60">
+                                      <span className="text-[9px] text-slate-500 font-medium">{date}</span>
+                                      <span className="text-[9px] text-blue-600 dark:text-blue-400 font-bold flex items-center gap-0.5">
+                                        Lire <ArrowRight className="w-2 h-2" />
                                       </span>
                                     </div>
                                   </div>
@@ -1862,85 +1841,6 @@ ${indicesFactuels}
                     </div>
                   </div>
 
-                  {/* Colonne Droite : À Lire (Journal) */}
-                  <div className="lg:col-span-1 bg-white/95 backdrop-blur-xl rounded-3xl p-8 border border-slate-200 shadow-xl shadow-slate-200/50 relative z-10 flex flex-col h-full">
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="p-2.5 bg-indigo-50 rounded-xl border border-indigo-200 flex items-center justify-center">
-                        <BookOpen className="w-6 h-6 text-indigo-600" />
-                      </div>
-                      <h3 className="text-2xl font-extrabold text-slate-900 tracking-wide">
-                        À lire
-                      </h3>
-                    </div>
-
-                    <div className="flex flex-col gap-6 flex-grow mt-4">
-                      {/* Carte: Le Journal CFDT (Printemps 2026) */}
-                      <div className="group bg-white border border-slate-200 rounded-2xl p-5 shadow-md hover:border-orange-400 transition-all duration-300 flex flex-col">
-                        <a
-                          href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/journal-gennevilliers-printemps-2026.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex flex-col h-full"
-                        >
-                          <div className="overflow-hidden rounded-xl shadow-sm mb-4 relative min-h-[12rem] max-h-[14rem] border border-slate-100 flex items-center justify-center bg-slate-50">
-                            <img
-                              src={`${BASE_URL}journal-2026.png`}
-                              alt="Journal CFDT Printemps 2026"
-                              className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500"
-                            />
-                          </div>
-                          <div className="flex flex-col shrink-0">
-                            <h4 className="text-slate-900 text-base font-bold mb-1 flex items-center gap-1.5">
-                              <FileText className="w-4 h-4 text-orange-500 shrink-0" />
-                              Journal - Printemps 2026
-                            </h4>
-                            <p className="text-slate-600 text-xs mb-4 leading-relaxed font-medium">
-                              Découvrez la dernière édition de l'Écho de la CFDT.
-                            </p>
-                            <div className="flex items-center justify-center gap-2 w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 px-4 rounded-xl shadow-md transition-all text-xs">
-                              Télécharger (PDF)
-                              <ArrowRight className="w-4 h-4" />
-                            </div>
-                          </div>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* --- NOUVELLE SECTION : DOCUMENTS DE RÉFÉRENCE & LIENS UTILES --- */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full mt-8 mb-12">
-
-                {/* Colonne 1 : À connaître (Docs de référence) */}
-                <div className="w-full bg-gradient-to-br from-white/95 via-rose-50/50 to-pink-50/30 backdrop-blur-2xl rounded-3xl p-6 border-2 border-rose-200/80 shadow-2xl shadow-rose-500/10 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-rose-500/20 hover:border-rose-300 relative z-10 flex flex-col justify-between group">
-                  <div>
-                    {/* Header de la carte */}
-                    <div className="flex items-center justify-between mb-5 pb-4 border-b border-rose-100/80">
-                      <div className="flex items-center gap-3.5">
-                        <div className="p-3 bg-gradient-to-br from-rose-500 to-pink-500 text-white rounded-2xl shadow-lg shadow-rose-500/30 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
-                          <FileText className="w-6 h-6" />
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h3 className="text-2xl font-black text-slate-900 tracking-tight">À connaître</h3>
-                            <span className="bg-rose-500/10 border border-rose-400/30 text-rose-600 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
-                              Docs Officiels
-                            </span>
-                          </div>
-                          <p className="text-xs text-slate-500 font-medium">Règlements & chartes de la collectivité</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Liste des documents sous forme de micro-cartes premium */}
-                    <div className="flex flex-col gap-3.5">
-                      {/* Document 1 : Temps de travail */}
-                      <a
-                        href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail_conges_absences/reglement_temps_de_travail/reglement_du_temps_du_travail.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group/item relative bg-white/90 hover:bg-white border border-rose-100 hover:border-rose-300 rounded-2xl p-3.5 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4 overflow-hidden"
                       >
                         <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-rose-500 to-orange-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
                         <div className="w-14 h-14 flex-shrink-0 rounded-2xl bg-gradient-to-br from-rose-50 to-orange-50 p-1 flex items-center justify-center shadow-inner border border-rose-100/60 relative group-hover/item:scale-105 transition-transform duration-300">
@@ -2360,65 +2260,6 @@ ${indicesFactuels}
 
               </div>
 
-              {/* --- ACTUALITÉ JURIDIQUE CIG VERSAILLES (DÉPLACÉE EN DESSOUS DES 3 FENÊTRES) --- */}
-              <div className="w-full mb-12 cursor-pointer">
-                <div
-                  className="w-full rounded-3xl shadow-xl shadow-purple-100/30 dark:shadow-none bg-gradient-to-br from-white/95 via-purple-50/20 to-white/95 dark:from-slate-900/95 dark:via-purple-950/20 dark:to-slate-900/95 backdrop-blur-xl p-8 border border-purple-200/50 dark:border-purple-800/40 transition-all duration-300"
-                >
-                  <div onClick={() => setChatState({ ...chatState, currentView: 'veille' })} className="flex flex-col gap-6">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2.5 bg-purple-100/50 dark:bg-purple-900/40 rounded-xl border border-purple-200 dark:border-purple-800/60 shadow-sm flex items-center justify-center">
-                        <Scale className="w-6 h-6 text-purple-500" />
-                      </div>
-                      <h3 className="text-2xl font-bold text-slate-800 dark:text-white tracking-wide">
-                        <span className="relative inline-block z-10">
-                          <span className="relative z-20 text-slate-800 dark:text-white font-black tracking-tight">Veille Juridique</span>
-                          <span className="absolute bottom-1 left-[-2%] w-[104%] h-3.5 bg-gradient-to-r from-purple-300 via-fuchsia-200 to-purple-300 dark:from-purple-800 dark:via-fuchsia-900 dark:to-purple-800 opacity-60 -skew-x-12 -rotate-2 z-0 rounded-sm"></span>
-                        </span>
-                      </h3>
-                    </div>
-                    <div className="flex flex-col md:flex-row gap-6 group/card">
-                      <div className="relative w-full md:w-64 h-40 overflow-hidden rounded-xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-900/50">
-                        <img src="/images/legal_news_illustration.png" alt="Veille Juridique" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
-                        <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur text-purple-300 border border-purple-500/30">
-                          Juridique
-                        </span>
-                      </div>
-                      <div className="flex flex-col justify-between flex-1">
-                        <div>
-                          <h4 className="text-xl font-bold text-slate-800 dark:text-slate-100 mt-1 hover:text-purple-600 dark:hover:text-purple-400 transition-colors leading-snug">
-                            Veille Juridique & Statutaire (« Vu cette semaine »)
-                          </h4>
-                          <p className="text-sm text-slate-650 dark:text-slate-400 mt-3 leading-relaxed">
-                            Découvrez notre veille juridique interactive. Explorez les dernières décisions marquantes des tribunaux administratifs et du Conseil d'État expliquées simplement, ou testez vos connaissances dans notre nouveau Mode Défi Quiz !
-                          </p>
-                        </div>
-                        <div className="mt-4 flex items-center justify-between text-xs text-slate-550">
-                          <span className="font-medium bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">Veille CFDT Interactive</span>
-                          <div className="flex items-center gap-3">
-                            <a
-                              href="https://www.cigversailles.fr/actualites-juridiques"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                              className="font-semibold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:underline"
-                            >
-                              Source CIG →
-                            </a>
-                            <span
-                              className="font-semibold text-purple-600 dark:text-purple-400 hover:text-purple-500 flex items-center gap-1 bg-purple-50 dark:bg-purple-900/30 px-3 py-1 rounded-full transition-colors font-bold"
-                            >
-                              Accéder à la veille interactive →
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
           </>
         )}
       </main>
