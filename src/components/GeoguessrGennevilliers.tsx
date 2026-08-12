@@ -374,19 +374,23 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
     const timeSpent = initialTime - timeLeft;
 
     if (guess && !isTimeout) {
+      let realDistance = 9999;
       // Calculate real geodesic distance using Leaflet map distance helper
       if (mapRef.current) {
-        computedDistance = Math.round(mapRef.current.distance(
+        realDistance = Math.round(mapRef.current.distance(
           [guess.lat, guess.lng],
           [currentLocation.lat, currentLocation.lng]
         ));
       } else {
         const dx = guess.lat - currentLocation.lat;
         const dy = guess.lng - currentLocation.lng;
-        computedDistance = Math.round(Math.sqrt(dx * dx + dy * dy) * 111000);
+        realDistance = Math.round(Math.sqrt(dx * dx + dy * dy) * 111000);
       }
 
-      // Score logic: exponential drop as distance increases
+      // Apply 100-meter tolerance before counting the gap (l'écart)
+      computedDistance = Math.max(0, realDistance - 100);
+
+      // Score logic: exponential drop as distance increases (after 100m tolerance)
       const maxPossibleScore = baseScorePerDifficulty[difficulty];
       const distanceFactor = Math.exp(-computedDistance / 350); // decay constant 350m
       const timeFactor = Math.max(0.4, (timeLeft / initialTime)); // speed bonus
@@ -582,8 +586,8 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
                     <div className="grid grid-cols-3 gap-2 py-3 border-t border-slate-900 text-center bg-slate-900/30 rounded-xl px-2">
                       <div className="flex flex-col">
                         <span className="text-[9px] uppercase text-slate-400 font-bold">Erreur</span>
-                        <span className="text-base font-black text-rose-400 font-mono">
-                          {roundStats.distance === 9999 ? "Temps écoulé" : `${roundStats.distance} m`}
+                        <span className={`text-base font-black font-mono ${roundStats.distance === 0 ? "text-emerald-400" : "text-rose-400"}`}>
+                          {roundStats.distance === 9999 ? "Temps écoulé" : roundStats.distance === 0 ? "0 m (Zone)" : `${roundStats.distance} m`}
                         </span>
                       </div>
                       <div className="flex flex-col">
@@ -689,8 +693,8 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
                     </div>
 
                     <div className="flex gap-4 font-mono font-bold">
-                      <span className="text-rose-400">
-                        {hist.distance === 9999 ? "Non placé" : `${hist.distance}m`}
+                      <span className={hist.distance === 0 ? "text-emerald-400" : "text-rose-400"}>
+                        {hist.distance === 9999 ? "Non placé" : hist.distance === 0 ? "0m" : `${hist.distance}m`}
                       </span>
                       <span className="text-emerald-400">
                         +{hist.score} pts
