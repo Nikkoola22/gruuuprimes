@@ -365,9 +365,10 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
 
         const agent = agentRef.current;
 
-        // Progressive Game Speed Acceleration based on score
-        const currentPipeSpeed = 2.2 + Math.min(2.8, score * 0.08);
-        const spawnInterval = Math.max(70, Math.floor(125 - Math.min(50, score * 1.5)));
+        // Progressive Game Speed Acceleration (Increases noticeably at each 100 points milestone)
+        const hundredTier = Math.floor(score / 100);
+        const currentPipeSpeed = 2.6 + hundredTier * 1.35 + Math.min(1.2, (score % 100) * 0.01);
+        const spawnInterval = Math.max(65, Math.floor(125 - Math.min(55, hundredTier * 12 + (score % 100) * 0.2)));
 
         // Agent Gravity Physics (Always 100% controllable by player jumps!)
         agent.velocity += agent.gravity;
@@ -488,8 +489,9 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
             playAudioSound("coin", isMuted);
             setScore(s => {
               const newS = s + ptsGained;
-              if (newS % 10 === 0) {
-                addFloatingText("VITESSE AUGMENTÉE ! 🚀", agent.x + 30, agent.y - 40, "#f59e0b");
+              if (Math.floor(newS / 100) > Math.floor(s / 100)) {
+                addFloatingText(`⚡ PALIER ${Math.floor(newS / 100) * 100} PTS : VITESSE TURBO ! 🚀`, agent.x + 10, agent.y - 45, "#f59e0b");
+                playAudioSound("powerup", isMuted);
               }
               setHighScore(h => Math.max(h, newS));
               return newS;
@@ -759,7 +761,7 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
       });
 
 
-      // === 6. RENDER AGENT (CYBER JETPACK AVIATOR 2.5D) ===
+      // === 6. RENDER AGENT (REALISTIC AVIAN BIRD 2.5D) ===
       const agent = agentRef.current;
       const isBlinking = invincibleFramesRef.current > 0 && Math.floor(invincibleFramesRef.current / 5) % 2 === 0;
 
@@ -768,49 +770,182 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
         ctx.translate(agent.x, agent.y);
         ctx.rotate(agent.rotation);
 
-        // Shield Energy Bubble
+        // Dynamic Wing Flap Phase
+        const wingFlap = Math.sin(frameCountRef.current * 0.35 + agent.velocity * 0.1);
+
+        // 1. Shield Energy Bubble
         if (hasShield) {
-          ctx.fillStyle = "rgba(59, 130, 246, 0.25)";
+          ctx.fillStyle = "rgba(59, 130, 246, 0.2)";
           ctx.strokeStyle = "#60a5fa";
           ctx.lineWidth = 2.5;
-          ctx.shadowBlur = 18; ctx.shadowColor = "#3b82f6";
-          ctx.beginPath(); ctx.arc(0, 0, agent.radius + 8, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+          ctx.shadowBlur = 20; ctx.shadowColor = "#3b82f6";
+          ctx.beginPath(); ctx.arc(0, 0, agent.radius + 12, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
         }
 
-        // Turbo Golden Glow
+        // 2. Turbo Golden Energy Glow
         if (turboTimer > 0) {
           ctx.fillStyle = "rgba(245, 158, 11, 0.3)";
-          ctx.shadowBlur = 25; ctx.shadowColor = "#f59e0b";
-          ctx.beginPath(); ctx.arc(0, 0, agent.radius + 12, 0, Math.PI * 2); ctx.fill();
+          ctx.shadowBlur = 30; ctx.shadowColor = "#f59e0b";
+          ctx.beginPath(); ctx.arc(0, 0, agent.radius + 16, 0, Math.PI * 2); ctx.fill();
         }
 
-        // Jetpack Backpack
-        ctx.fillStyle = "#475569";
-        ctx.fillRect(-17, -10, 8, 20);
-        ctx.fillStyle = turboTimer > 0 ? "#f59e0b" : "#38bdf8";
-        ctx.shadowBlur = 10; ctx.shadowColor = turboTimer > 0 ? "#f59e0b" : "#38bdf8";
-        ctx.fillRect(-19, -6, 4, 12);
-
-        // Suit Body
-        ctx.fillStyle = "#0284c7";
-        ctx.shadowBlur = 16; ctx.shadowColor = "#38bdf8";
-        ctx.beginPath(); ctx.arc(0, 0, agent.radius, 0, Math.PI * 2); ctx.fill();
-
-        // Flying Necktie
-        const tieAngle = Math.sin(frameCountRef.current * 0.25) * 0.35 + 0.35;
+        // 3. Tail Feathers (Fanned out behind)
         ctx.save();
-        ctx.rotate(tieAngle);
-        ctx.fillStyle = "#ef4444";
-        ctx.fillRect(-2, 4, 4, 15);
+        ctx.translate(-14, 2);
+        for (let i = -2; i <= 2; i++) {
+          const angle = (i * 0.18) + Math.sin(frameCountRef.current * 0.2 + i) * 0.08;
+          ctx.save();
+          ctx.rotate(angle);
+          const tailGrad = ctx.createLinearGradient(-16, 0, 0, 0);
+          tailGrad.addColorStop(0, "#0284c7");
+          tailGrad.addColorStop(0.6, "#0369a1");
+          tailGrad.addColorStop(1, "#075985");
+          ctx.fillStyle = tailGrad;
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.quadraticCurveTo(-12, -4, -18, -1);
+          ctx.quadraticCurveTo(-14, 3, 0, 1);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        }
         ctx.restore();
 
-        // Aviator Goggles
-        ctx.fillStyle = "#0f172a";
-        ctx.beginPath(); ctx.roundRect(-4, -8, 18, 9, 3); ctx.fill();
+        // 4. Realistic Bird Body (Teardrop/Avian contours)
+        const bodyGrad = ctx.createRadialGradient(-4, -6, 2, 0, 0, agent.radius + 4);
+        bodyGrad.addColorStop(0, "#38bdf8"); // Bright sky blue top highlight
+        bodyGrad.addColorStop(0.4, "#0284c7"); // Rich cobalt body
+        bodyGrad.addColorStop(0.85, "#0369a1"); // Deep blue shading
+        bodyGrad.addColorStop(1, "#075985"); // Dark underside
+        ctx.fillStyle = bodyGrad;
+        ctx.shadowBlur = 14; ctx.shadowColor = "#0284c7";
+        ctx.beginPath();
+        // Avian teardrop body shape
+        ctx.moveTo(18, -2);
+        ctx.bezierCurveTo(12, -18, -10, -18, -18, -6);
+        ctx.bezierCurveTo(-24, 4, -14, 18, 2, 18);
+        ctx.bezierCurveTo(14, 18, 22, 10, 18, -2);
+        ctx.closePath();
+        ctx.fill();
 
-        ctx.fillStyle = turboTimer > 0 ? "#fbbf24" : "#38bdf8";
-        ctx.shadowBlur = 8; ctx.shadowColor = turboTimer > 0 ? "#fbbf24" : "#38bdf8";
-        ctx.fillRect(-2, -6, 14, 5);
+        // Golden Chest/Belly Feather Layer
+        const bellyGrad = ctx.createLinearGradient(0, 4, 12, 16);
+        bellyGrad.addColorStop(0, "#fef08a");
+        bellyGrad.addColorStop(0.6, "#f59e0b");
+        bellyGrad.addColorStop(1, "#d97706");
+        ctx.fillStyle = bellyGrad;
+        ctx.beginPath();
+        ctx.moveTo(8, 2);
+        ctx.bezierCurveTo(12, 6, 10, 14, 0, 16);
+        ctx.bezierCurveTo(-8, 14, -10, 8, -4, 4);
+        ctx.bezierCurveTo(2, 0, 6, 0, 8, 2);
+        ctx.closePath();
+        ctx.fill();
+
+        // 5. Crown / Crest Feathers on top of head
+        ctx.fillStyle = "#38bdf8";
+        ctx.beginPath();
+        ctx.moveTo(2, -14);
+        ctx.quadraticCurveTo(-4, -22, -10, -20);
+        ctx.quadraticCurveTo(-4, -14, 0, -12);
+        ctx.fill();
+
+        ctx.fillStyle = "#7dd3fc";
+        ctx.beginPath();
+        ctx.moveTo(6, -14);
+        ctx.quadraticCurveTo(0, -24, -6, -22);
+        ctx.quadraticCurveTo(0, -15, 4, -12);
+        ctx.fill();
+
+        // 6. Realistic Anatomical Wing (Layered with Flapping Motion)
+        ctx.save();
+        ctx.translate(-4, 0);
+        ctx.rotate(wingFlap * 0.45);
+
+        // Under-wing shadow
+        ctx.fillStyle = "rgba(2, 132, 199, 0.4)";
+        ctx.beginPath();
+        ctx.ellipse(-2, 2, 12, 8, 0.3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Outer Primary Wing Feathers
+        const wingGrad = ctx.createLinearGradient(0, -10, 0, 12);
+        wingGrad.addColorStop(0, "#e0f2fe");
+        wingGrad.addColorStop(0.3, "#38bdf8");
+        wingGrad.addColorStop(0.8, "#0284c7");
+        wingGrad.addColorStop(1, "#0369a1");
+        ctx.fillStyle = wingGrad;
+        ctx.shadowBlur = 8; ctx.shadowColor = "#38bdf8";
+
+        ctx.beginPath();
+        ctx.moveTo(6, -4);
+        ctx.bezierCurveTo(10, -14, -6, -18, -14, -6);
+        ctx.bezierCurveTo(-18, 4, -10, 12, 2, 8);
+        ctx.bezierCurveTo(8, 6, 4, -2, 6, -4);
+        ctx.closePath();
+        ctx.fill();
+
+        // Individual Feather Details on Wing
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(0, -8); ctx.quadraticCurveTo(-6, -2, -10, 4);
+        ctx.moveTo(3, -5); ctx.quadraticCurveTo(-3, 0, -6, 6);
+        ctx.stroke();
+        ctx.restore();
+
+        // 7. Realistic Beak (Upper & Lower Mandibles)
+        // Upper Beak
+        const beakGrad = ctx.createLinearGradient(14, -4, 26, 4);
+        beakGrad.addColorStop(0, "#fbbf24");
+        beakGrad.addColorStop(0.7, "#f59e0b");
+        beakGrad.addColorStop(1, "#b45309");
+        ctx.fillStyle = beakGrad;
+        ctx.beginPath();
+        ctx.moveTo(14, -6);
+        ctx.quadraticCurveTo(22, -4, 26, 1);
+        ctx.quadraticCurveTo(20, 3, 14, 2);
+        ctx.closePath();
+        ctx.fill();
+
+        // Lower Beak
+        ctx.fillStyle = "#d97706";
+        ctx.beginPath();
+        ctx.moveTo(14, 2);
+        ctx.quadraticCurveTo(20, 3, 24, 2);
+        ctx.quadraticCurveTo(18, 7, 14, 5);
+        ctx.closePath();
+        ctx.fill();
+
+        // Beak Separation Line
+        ctx.strokeStyle = "#78350f";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(14, 2);
+        ctx.lineTo(25, 1.5);
+        ctx.stroke();
+
+        // 8. Realistic Avian Eye (Iris, Pupil, Catchlight)
+        // Eye Ring / Eyelid
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(8, -6, 5.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Dark Iris
+        ctx.fillStyle = "#0f172a";
+        ctx.beginPath();
+        ctx.arc(9, -6, 3.2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // White Pupil Reflection / Glint
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(10.2, -7.2, 1.3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(7.8, -4.8, 0.7, 0, Math.PI * 2);
+        ctx.fill();
 
         ctx.restore();
       }
