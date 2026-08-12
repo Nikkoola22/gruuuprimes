@@ -1802,28 +1802,13 @@ ${indicesFactuels}
                               </span>
                             </div>
                           </div>
-                        </div>
-                      </div>
-
-                      <div className="pt-4 border-t border-purple-100 dark:border-purple-900/40 flex items-center justify-between text-xs mt-4">
-                        <a
-                          href="https://www.cigversailles.fr/actualites-juridiques"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="font-semibold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:underline"
-                        >
-                          Source CIG →
-                        </a>
-                        <span className="font-bold text-purple-600 dark:text-purple-400 group-hover/veille:text-purple-500 flex items-center gap-1 bg-purple-50 dark:bg-purple-900/30 px-3.5 py-1.5 rounded-full transition-colors shadow-xs">
-                          Accéder à la veille interactive →
-                        </span>
                       </div>
                     </div>
 
                   </div>
                 </div>
               </div>
+            </div>
 
               {/* --- SECTION SECONDAIRE : CARROUSELS DÉTACHÉS ET JOURNAL --- */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
