@@ -1697,7 +1697,21 @@ ${indicesFactuels}
                             exit={{
                               opacity: 0,
                               transition: { duration: 0.15, delay: 0.1 },
-{/* --- SECTION HARMONISÉE : ACTUALITÉS SYNDICALES & VEILLE JURIDIQUE CÔTE À CÔTE --- */}
+                            }}
+                          />
+                        )}
+                      </AnimatePresence>
+                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-orange-100 dark:group-hover:bg-orange-900/50 transition-colors">
+                        <Briefcase className="w-16 h-16 text-orange-600 dark:text-orange-400 group-hover:scale-110 transition-transform" />
+                      </div>
+                      <span className="relative z-10 text-sm font-bold text-center">Bourse<br />Emploi</span>
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* --- SECTION HARMONISÉE : ACTUALITÉS SYNDICALES & VEILLE JURIDIQUE CÔTE À CÔTE --- */}
               <div className="mt-12 mb-12">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
 
