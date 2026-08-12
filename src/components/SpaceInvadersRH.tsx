@@ -435,15 +435,18 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
           maxLife: 12
         });
 
-        // Déplacement de la horde d'envahisseurs
-        invaderMoveTimerRef.current++;
-        const moveInterval = Math.max(8, 35 - wave * 4);
-
-        if (invaderMoveTimerRef.current > moveInterval) {
+         // Déplacement de la horde d'envahisseurs (S'accélère au fur et à mesure)
+         invaderMoveTimerRef.current++;
+         const aliveInvaders = invadersRef.current.filter(i => i.alive);
+         const aliveCount = aliveInvaders.length;
+         const speedRatio = Math.max(0.06, aliveCount / 32);
+         const baseInterval = Math.max(8, 40 - wave * 4);
+         const timeAcceleration = Math.min(6, Math.floor(frameCountRef.current / 350));
+         const moveInterval = Math.max(2, Math.floor(baseInterval * speedRatio) - timeAcceleration);
+ 
+         if (invaderMoveTimerRef.current > moveInterval) {
           invaderMoveTimerRef.current = 0;
           let shiftDown = false;
-
-          const aliveInvaders = invadersRef.current.filter(i => i.alive);
 
           for (let inv of aliveInvaders) {
             if (
