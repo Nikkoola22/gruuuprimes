@@ -365,10 +365,11 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
 
         const agent = agentRef.current;
 
-        // Progressive Game Speed Acceleration (Increases noticeably at each 100 points milestone)
+        // Progressive Game Speed Acceleration (compounds and goes faster and faster!)
         const hundredTier = Math.floor(score / 100);
-        const currentPipeSpeed = 2.6 + hundredTier * 1.35 + Math.min(1.2, (score % 100) * 0.01);
-        const spawnInterval = Math.max(65, Math.floor(125 - Math.min(55, hundredTier * 12 + (score % 100) * 0.2)));
+        const currentPipeSpeed = 2.6 * Math.pow(1.045, score / 5) + hundredTier * 0.8;
+        // Dynamic spawn interval to maintain a fair, playable horizontal distance between pipes
+        const spawnInterval = Math.max(26, Math.floor(260 / currentPipeSpeed));
 
         // Agent Gravity Physics (Always 100% controllable by player jumps!)
         agent.velocity += agent.gravity;
