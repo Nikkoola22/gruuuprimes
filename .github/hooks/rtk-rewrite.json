@@ -5,7 +5,8 @@
         "type": "command",
         "command": "rtk hook copilot",
         "cwd": ".",
-        "timeout": 5
+        "timeout": 5,
+        "check": false
       }
     ]
   }
