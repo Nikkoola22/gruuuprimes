@@ -1728,14 +1728,6 @@ ${indicesFactuels}
                               Actualités <span className="text-blue-600 dark:text-blue-400">Syndicales & Statutaires</span>
                             </h3>
                           </div>
-                          <a
-                            href="https://www.cig929394.fr/actualites/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 transition-colors font-bold underline underline-offset-2 shrink-0"
-                          >
-                            Toutes les actus CIG →
-                          </a>
                         </div>
 
                         {/* Article principal Statutaire CIG */}
