@@ -1444,17 +1444,22 @@ ${indicesFactuels}
             {/* Ville & Description (Centre) */}
             <div className="hidden md:flex flex-col items-center justify-center flex-grow">
               <div className="relative group/badge inline-flex items-center justify-center">
-                <div className="absolute inset-0 bg-blue-400/10 rounded-full blur-lg opacity-0 group-hover/badge:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative flex items-center gap-2.5 px-5 py-1.5 rounded-full bg-slate-50/50 dark:bg-slate-900/50 border border-slate-200/40 dark:border-slate-800/40 backdrop-blur-md shadow-sm transition-all duration-300 hover:border-blue-500/30">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
-                  <h2 className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.25em]">
+                {/* Halo lumineux dégradé au survol */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-indigo-500 to-orange-500 rounded-full blur-md opacity-25 group-hover/badge:opacity-60 transition-opacity duration-500 animate-pulse"></div>
+                
+                <div className="relative flex items-center gap-3 px-6 py-2 rounded-full bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-700/80 backdrop-blur-xl shadow-lg shadow-blue-500/5 transition-all duration-300 hover:scale-[1.02] hover:border-blue-400/50">
+                  <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-xs">
+                    <Landmark className="w-3.5 h-3.5" />
+                  </div>
+                  <h2 className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-[0.25em] bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-950 to-slate-800 dark:from-white dark:via-blue-100 dark:to-white">
                     Mairie de Gennevilliers
                   </h2>
-                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse" title="Portail en ligne"></span>
                 </div>
               </div>
-              <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1.5 font-medium tracking-wide">
-                Chatbot d'assistance pour les agents municipaux
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 font-semibold tracking-wide flex items-center gap-1.5">
+                <span className="w-1 h-1 rounded-full bg-orange-500"></span>
+                Portail d'assistance RH & Statutaire — Agents Municipaux
               </p>
             </div>
 
