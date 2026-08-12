@@ -1843,20 +1843,89 @@ ${indicesFactuels}
                                       <span className="text-[9px] text-slate-500 font-medium">{date}</span>
                                       <span className="text-[9px] text-blue-600 dark:text-blue-400 font-bold flex items-center gap-0.5">
                                         Lire <ArrowRight className="w-2 h-2" />
-                </div>er gap-0.5 opacity-90 group-hover/card:opacity-100 transition-opacity duration-150 shrink-0">
-                                Lire <ArrowRight className="w-2.5 h-2.5" />
-                              </span>
-                            </div>
+                                      </span>
+                                    </div>
+                                  </div>
+                                </a>
+                              )
+                            })}
                           </div>
-                        </a>
-                      ))}
+                        </div>
+                      )}
                     </div>
                   </div>
-                )}
 
+                  {/* FENÊTRE DROITE : Veille Juridique & Statutaire */}
+                  <div
+                    onClick={() => setChatState({ ...chatState, currentView: 'veille' })}
+                    className="w-full bg-gradient-to-br from-white/95 via-purple-50/30 to-white/95 dark:from-slate-900/95 dark:via-purple-950/30 dark:to-slate-900/95 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-purple-200/60 dark:border-purple-800/40 shadow-xl shadow-purple-500/5 hover:border-purple-400 transition-all duration-300 cursor-pointer relative z-10 flex flex-col justify-between h-full"
+                  >
+                    <div>
+                      <div className="flex items-center gap-3 mb-6">
+                        <div className="p-2.5 bg-purple-100/60 dark:bg-purple-900/40 rounded-xl border border-purple-200 dark:border-purple-800/60 shadow-sm flex items-center justify-center">
+                          <Scale className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                        </div>
+                        <h3 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white tracking-wide">
+                          Veille <span className="text-purple-600 dark:text-purple-400">Juridique & Statutaire</span>
+                        </h3>
+                      </div>
 
+                      <div className="flex flex-col sm:flex-row gap-5 mb-6 group/card">
+                        <div className="relative w-full sm:w-48 h-32 overflow-hidden rounded-xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-900/50">
+                          <img src="/images/legal_news_illustration.png" alt="Veille Juridique" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
+                          <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur text-purple-300 border border-purple-500/30">
+                            Juridique
+                          </span>
+                        </div>
+                        <div className="flex flex-col justify-between flex-1">
+                          <div>
+                            <h4 className="text-sm font-bold text-slate-800 dark:text-slate-100 hover:text-purple-600 dark:hover:text-purple-400 transition-colors leading-snug mb-2 line-clamp-2">
+                              Veille Juridique & Statutaire (« Vu cette semaine »)
+                            </h4>
+                            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-medium line-clamp-3">
+                              Explorez les dernières décisions des tribunaux administratifs et du Conseil d'État expliquées simplement, ou testez vos connaissances dans notre Mode Défi Quiz !
+                            </p>
+                          </div>
+                          <div className="mt-2 flex items-center justify-between text-xs text-slate-550">
+                            <span className="font-semibold bg-purple-100/70 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 px-2.5 py-0.5 rounded-full text-[10px]">
+                              Veille CFDT Interactive
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="p-4 bg-purple-50/60 dark:bg-purple-950/40 rounded-2xl border border-purple-200/50 dark:border-purple-800/40 mb-4">
+                        <h5 className="text-xs font-bold text-purple-900 dark:text-purple-200 mb-1 flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5 text-purple-500" /> Jurisprudence & Cas Pratiques
+                        </h5>
+                        <p className="text-[11px] text-purple-700/90 dark:text-purple-300/90 leading-relaxed font-medium">
+                          Accédez aux derniers arrêtés du CGFP, modèles de recours administratifs et fiches de prévention des risques statutaires.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="pt-4 border-t border-purple-100 dark:border-purple-900/40 flex items-center justify-between text-xs">
+                      <a
+                        href="https://www.cigversailles.fr/actualites-juridiques"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="font-semibold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:underline"
+                      >
+                        Source CIG →
+                      </a>
+                      <span
+                        className="font-bold text-purple-600 dark:text-purple-400 hover:text-purple-500 flex items-center gap-1 bg-purple-50 dark:bg-purple-900/30 px-3.5 py-1.5 rounded-full transition-colors shadow-xs"
+                      >
+                        Accéder à la veille interactive →
+                      </span>
+                    </div>
+                  </div>
+
+                </div>
               </div>
 
+            </div>
           </>
         )}
       </main>
