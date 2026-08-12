@@ -1785,12 +1785,12 @@ ${indicesFactuels}
                             aria-label="Défiler vers la gauche"
                             onClick={() => {
                               if (intercoCarouselRef.current) {
-                                intercoCarouselRef.current.scrollBy({ left: -300, behavior: 'smooth' })
+                                intercoCarouselRef.current.scrollBy({ left: -220, behavior: 'smooth' })
                               }
                             }}
-                            className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
+                            className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
                           >
-                            <ChevronLeft className="w-5 h-5" />
+                            <ChevronLeft className="w-4 h-4" />
                           </button>
 
                           <button
@@ -1798,12 +1798,12 @@ ${indicesFactuels}
                             aria-label="Défiler vers la droite"
                             onClick={() => {
                               if (intercoCarouselRef.current) {
-                                intercoCarouselRef.current.scrollBy({ left: 300, behavior: 'smooth' })
+                                intercoCarouselRef.current.scrollBy({ left: 220, behavior: 'smooth' })
                               }
                             }}
-                            className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
+                            className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
                           >
-                            <ChevronRight className="w-5 h-5" />
+                            <ChevronRight className="w-4 h-4" />
                           </button>
 
                           <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-[1] pointer-events-none rounded-l-2xl" />
@@ -1811,20 +1811,20 @@ ${indicesFactuels}
 
                           <div
                             ref={intercoCarouselRef}
-                            className="flex gap-4 overflow-x-auto pb-2 scroll-smooth interco-carousel-track cursor-grab active:cursor-grabbing select-none"
+                            className="flex gap-3 overflow-x-auto pb-2 scroll-smooth interco-carousel-track cursor-grab active:cursor-grabbing select-none"
                             style={{ scrollbarWidth: 'none' }}
                           >
                             {intercoNews.map((article, i) => {
-                              const date = article.pubDate ? new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }) : ''
+                              const date = article.pubDate ? new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : ''
                               return (
                                 <a
                                   key={i}
                                   href={article.link}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="group/card flex-none w-64 flex flex-col bg-white border border-slate-200/90 rounded-2xl overflow-hidden hover:border-blue-500 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 shadow-md"
+                                  className="group/card flex-none w-48 sm:w-52 flex flex-col bg-white border border-slate-200/90 rounded-xl overflow-hidden hover:border-blue-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-sm"
                                 >
-                                  <div className="relative w-full h-32 overflow-hidden bg-slate-50 flex-shrink-0 border-b border-slate-100">
+                                  <div className="relative w-full h-24 overflow-hidden bg-slate-50 flex-shrink-0 border-b border-slate-100">
                                     <img
                                       src={article.imageUrl || `${BASE_URL}logo-cfdt.jpg`}
                                       alt={article.title}
@@ -1836,20 +1836,20 @@ ${indicesFactuels}
                                       }}
                                     />
                                     {article.category && (
-                                      <span className="absolute top-2 left-2 inline-block text-[10px] font-bold px-2.5 py-1 rounded-full bg-white/95 backdrop-blur text-blue-700 border border-blue-200 shadow-sm">
+                                      <span className="absolute top-1.5 left-1.5 inline-block text-[9px] font-bold px-2 py-0.5 rounded-full bg-white/95 backdrop-blur text-blue-700 border border-blue-200 shadow-xs">
                                         {article.category}
                                       </span>
                                     )}
                                   </div>
 
-                                  <div className="p-4 flex flex-col justify-between flex-grow bg-white">
-                                    <p className="text-slate-900 font-bold text-sm leading-snug group-hover/card:text-blue-600 transition-colors duration-150 line-clamp-3">
+                                  <div className="p-3 flex flex-col justify-between flex-grow bg-white">
+                                    <p className="text-slate-900 font-bold text-xs leading-snug group-hover/card:text-blue-600 transition-colors duration-150 line-clamp-2">
                                       {article.title}
                                     </p>
-                                    <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
-                                      <span className="text-xs text-slate-500 font-medium">{date}</span>
-                                      <span className="text-xs text-blue-600 font-bold flex items-center gap-1 opacity-90 group-hover/card:opacity-100 transition-opacity duration-150">
-                                        Lire <ArrowRight className="w-3 h-3" />
+                                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100">
+                                      <span className="text-[10px] text-slate-500 font-medium">{date}</span>
+                                      <span className="text-[10px] text-blue-600 font-bold flex items-center gap-0.5 opacity-90 group-hover/card:opacity-100 transition-opacity duration-150">
+                                        Lire <ArrowRight className="w-2.5 h-2.5" />
                                       </span>
                                     </div>
                                   </div>
@@ -2284,12 +2284,12 @@ ${indicesFactuels}
                       aria-label="Défiler vers la gauche"
                       onClick={() => {
                         if (fpCarouselRef.current) {
-                          fpCarouselRef.current.scrollBy({ left: -300, behavior: 'smooth' })
+                          fpCarouselRef.current.scrollBy({ left: -220, behavior: 'smooth' })
                         }
                       }}
-                      className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel-fp:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
+                      className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel-fp:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
                     >
-                      <ChevronLeft className="w-5 h-5" />
+                      <ChevronLeft className="w-4 h-4" />
                     </button>
 
                     <button
@@ -2297,12 +2297,12 @@ ${indicesFactuels}
                       aria-label="Défiler vers la droite"
                       onClick={() => {
                         if (fpCarouselRef.current) {
-                          fpCarouselRef.current.scrollBy({ left: 300, behavior: 'smooth' })
+                          fpCarouselRef.current.scrollBy({ left: 220, behavior: 'smooth' })
                         }
                       }}
-                      className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel-fp:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
+                      className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel-fp:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
                     >
-                      <ChevronRight className="w-5 h-5" />
+                      <ChevronRight className="w-4 h-4" />
                     </button>
 
                     <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-[1] pointer-events-none rounded-l-2xl" />
@@ -2310,7 +2310,7 @@ ${indicesFactuels}
 
                     <div
                       ref={fpCarouselRef}
-                      className="flex gap-4 overflow-x-auto pb-2 scroll-smooth interco-carousel-track cursor-grab active:cursor-grabbing select-none"
+                      className="flex gap-3 overflow-x-auto pb-2 scroll-smooth interco-carousel-track cursor-grab active:cursor-grabbing select-none"
                       style={{ scrollbarWidth: 'none' }}
                     >
                       {fpNews.map((article, i) => (
@@ -2319,9 +2319,9 @@ ${indicesFactuels}
                           href={article.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group/card flex-none w-64 flex flex-col bg-white border border-slate-200/90 rounded-2xl overflow-hidden hover:border-emerald-500 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 shadow-md"
+                          className="group/card flex-none w-48 sm:w-52 flex flex-col bg-white border border-slate-200/90 rounded-xl overflow-hidden hover:border-emerald-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-sm"
                         >
-                          <div className="relative w-full h-32 overflow-hidden bg-slate-50 flex-shrink-0 border-b border-slate-100 p-4 flex items-center justify-center">
+                          <div className="relative w-full h-24 overflow-hidden bg-slate-50 flex-shrink-0 border-b border-slate-100 p-2 flex items-center justify-center">
                             {article.imageUrl ? (
                               <img
                                 src={article.imageUrl}
@@ -2330,24 +2330,24 @@ ${indicesFactuels}
                               />
                             ) : (
                               <div className="text-emerald-500 opacity-50">
-                                <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
+                                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
                               </div>
                             )}
-                            <span className="absolute top-2 left-2 inline-block text-[10px] font-bold px-2.5 py-1 rounded-full bg-white/95 backdrop-blur text-emerald-700 border border-emerald-200 shadow-sm z-10 max-w-[90%] truncate">
+                            <span className="absolute top-1.5 left-1.5 inline-block text-[9px] font-bold px-2 py-0.5 rounded-full bg-white/95 backdrop-blur text-emerald-700 border border-emerald-200 shadow-xs z-10 max-w-[90%] truncate">
                               {article.category || 'Actualité'}
                             </span>
                           </div>
 
-                          <div className="p-4 flex flex-col justify-between flex-grow bg-white">
-                            <p className="text-slate-900 font-bold text-sm leading-snug group-hover/card:text-emerald-600 transition-colors duration-150 line-clamp-3">
+                          <div className="p-3 flex flex-col justify-between flex-grow bg-white">
+                            <p className="text-slate-900 font-bold text-xs leading-snug group-hover/card:text-emerald-600 transition-colors duration-150 line-clamp-2">
                               {article.title}
                             </p>
-                            <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
+                            <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100">
                               <span className="text-[10px] text-slate-500 font-medium truncate pr-2">
                                 {new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
                               </span>
-                              <span className="text-xs text-emerald-600 font-bold flex items-center gap-1 opacity-90 group-hover/card:opacity-100 transition-opacity duration-150 shrink-0">
-                                Lire <ArrowRight className="w-3 h-3" />
+                              <span className="text-[10px] text-emerald-600 font-bold flex items-center gap-0.5 opacity-90 group-hover/card:opacity-100 transition-opacity duration-150 shrink-0">
+                                Lire <ArrowRight className="w-2.5 h-2.5" />
                               </span>
                             </div>
                           </div>
