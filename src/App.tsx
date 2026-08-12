@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo, lazy, Suspense } from "react"
+import { smoothScrollBy } from "./utils/smoothScroll"
 import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye, Users, MessageCircleQuestion, HeartHandshake, Briefcase, Shield, CircleUser, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 
@@ -1680,7 +1681,7 @@ ${indicesFactuels}
                           <button
                             onClick={() => {
                               if (intercoCarouselRef.current) {
-                                intercoCarouselRef.current.scrollBy({ left: -280, behavior: 'smooth' })
+                                smoothScrollBy(intercoCarouselRef.current, -280)
                               }
                             }}
                             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-700 shadow-md opacity-0 group-hover/carousel:opacity-100 hover:bg-slate-50 transition-all duration-150"
@@ -1691,7 +1692,7 @@ ${indicesFactuels}
                           <button
                             onClick={() => {
                               if (intercoCarouselRef.current) {
-                                intercoCarouselRef.current.scrollBy({ left: 280, behavior: 'smooth' })
+                                smoothScrollBy(intercoCarouselRef.current, 280)
                               }
                             }}
                             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-700 shadow-md opacity-0 group-hover/carousel:opacity-100 hover:bg-slate-50 transition-all duration-150"
@@ -1704,7 +1705,7 @@ ${indicesFactuels}
 
                           <div
                             ref={intercoCarouselRef}
-                            className="flex gap-4 overflow-x-auto pb-2 scroll-smooth interco-carousel-track"
+                            className="flex gap-4 overflow-x-auto pb-2 interco-carousel-track"
                             style={{ scrollbarWidth: 'none' }}
                           >
                             {intercoNews.map((article, i) => {
@@ -2175,7 +2176,7 @@ ${indicesFactuels}
                     <button
                       onClick={() => {
                         if (fpCarouselRef.current) {
-                          fpCarouselRef.current.scrollBy({ left: -280, behavior: 'smooth' })
+                          smoothScrollBy(fpCarouselRef.current, -280)
                         }
                       }}
                       className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-700 shadow-md opacity-0 group-hover/carousel-fp:opacity-100 hover:bg-slate-50 transition-all duration-150"
@@ -2186,7 +2187,7 @@ ${indicesFactuels}
                     <button
                       onClick={() => {
                         if (fpCarouselRef.current) {
-                          fpCarouselRef.current.scrollBy({ left: 280, behavior: 'smooth' })
+                          smoothScrollBy(fpCarouselRef.current, 280)
                         }
                       }}
                       className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-700 shadow-md opacity-0 group-hover/carousel-fp:opacity-100 hover:bg-slate-50 transition-all duration-150"
@@ -2199,7 +2200,7 @@ ${indicesFactuels}
 
                     <div
                       ref={fpCarouselRef}
-                      className="flex gap-4 overflow-x-auto pb-2 scroll-smooth interco-carousel-track"
+                      className="flex gap-4 overflow-x-auto pb-2 interco-carousel-track"
                       style={{ scrollbarWidth: 'none' }}
                     >
                       {fpNews.map((article, i) => (

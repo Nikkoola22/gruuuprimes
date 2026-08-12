@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { ChevronLeft, ChevronRight, Rss, ExternalLink } from 'lucide-react'
+import { smoothScrollBy } from '../utils/smoothScroll'
 
 interface IntercoArticle {
   title: string
@@ -49,15 +50,7 @@ export default function IntercoCarousel() {
 
   const scroll = (direction: 'left' | 'right') => {
     if (!scrollContainerRef.current) return
-
-    const scrollAmount = 400
-    const newScrollPosition =
-      scrollContainerRef.current.scrollLeft + (direction === 'left' ? -scrollAmount : scrollAmount)
-
-    scrollContainerRef.current.scrollTo({
-      left: newScrollPosition,
-      behavior: 'smooth'
-    })
+    smoothScrollBy(scrollContainerRef.current, direction === 'left' ? -400 : 400)
   }
 
   const handleScroll = () => {
@@ -126,7 +119,7 @@ export default function IntercoCarousel() {
           {/* Conteneur de défilement */}
           <div
             ref={scrollContainerRef}
-            className="interco-carousel-track flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2"
+            className="interco-carousel-track flex gap-4 overflow-x-auto pb-2"
           >
             {articles.map((article, index) => (
               <a
@@ -134,7 +127,7 @@ export default function IntercoCarousel() {
                 href={article.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group snap-start flex-shrink-0 w-full sm:w-96 flex flex-col rounded-xl bg-gradient-to-br from-slate-800/50 via-indigo-900/40 to-slate-800/50 border border-indigo-500/30 hover:border-indigo-400/60 overflow-hidden transition-all duration-200 hover:shadow-2xl hover:shadow-indigo-500/20 hover:-translate-y-2 backdrop-blur glass-card"
+                className="group flex-shrink-0 w-full sm:w-96 flex flex-col rounded-xl bg-gradient-to-br from-slate-800/50 via-indigo-900/40 to-slate-800/50 border border-indigo-500/30 hover:border-indigo-400/60 overflow-hidden transition-all duration-200 hover:shadow-2xl hover:shadow-indigo-500/20 hover:-translate-y-2 backdrop-blur glass-card"
               >
                 {/* Image de l'article avec zoom au survol et fallback sur logo CFDT */}
                 <div className="relative w-full h-44 overflow-hidden bg-gradient-to-br from-indigo-950 via-slate-950 to-purple-950 border-b border-indigo-500/30 flex-shrink-0">
