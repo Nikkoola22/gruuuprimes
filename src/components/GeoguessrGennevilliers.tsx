@@ -256,8 +256,8 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
         attributionControl: false
       });
 
-      // Dark style tile layer (using CartoDB Dark Matter to keep the premium dark theme of the application!)
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      // Standard colored OpenStreetMap tile layer
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19
       }).addTo(map);
 
@@ -271,13 +271,22 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
           map.removeLayer(guessMarkerRef.current);
         }
 
-        // Custom cyber orange map pin
+        // Custom pulsing rose colored pin
         guessMarkerRef.current = L.marker([lat, lng], {
           icon: L.divIcon({
-            className: 'custom-pin-icon-div',
-            html: `<div class="w-6 h-6 bg-rose-500 rounded-full border-2 border-white flex items-center justify-center text-[11px] shadow-lg shadow-rose-500/50">📍</div>`,
-            iconSize: [24, 24],
-            iconAnchor: [12, 12]
+            className: 'bg-transparent border-none',
+            html: `
+              <div class="relative flex items-center justify-center -translate-y-2">
+                <div class="absolute w-8 h-8 bg-rose-500/40 rounded-full animate-ping"></div>
+                <div class="relative w-8 h-8 bg-rose-600 rounded-full border-2 border-white flex items-center justify-center shadow-lg shadow-rose-500/50">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-white">
+                    <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+            `,
+            iconSize: [32, 32],
+            iconAnchor: [16, 24]
           })
         }).addTo(map);
 
@@ -306,13 +315,22 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
     if (showAnswer) {
       const currentLocation = locations[round];
       
-      // Actual location marker (emerald green)
+      // Actual location marker (emerald green with pulse animation)
       actualMarkerRef.current = L.marker([currentLocation.lat, currentLocation.lng], {
         icon: L.divIcon({
-          className: 'custom-pin-icon-actual',
-          html: `<div class="w-8 h-8 bg-emerald-500 rounded-full border-2 border-white flex items-center justify-center text-[13px] shadow-lg shadow-emerald-500/50 animate-bounce">🎯</div>`,
-          iconSize: [32, 32],
-          iconAnchor: [16, 16]
+          className: 'bg-transparent border-none',
+          html: `
+            <div class="relative flex items-center justify-center -translate-y-2">
+              <div class="absolute w-10 h-10 bg-emerald-500/40 rounded-full animate-ping"></div>
+              <div class="relative w-9 h-9 bg-emerald-600 rounded-full border-2 border-white flex items-center justify-center shadow-lg shadow-emerald-500/50">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+                  <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
+                </svg>
+              </div>
+            </div>
+          `,
+          iconSize: [36, 36],
+          iconAnchor: [18, 26]
         })
       }).addTo(map);
 
