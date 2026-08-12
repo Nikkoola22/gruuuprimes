@@ -967,9 +967,10 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
             {onClose && (
               <button
                 onClick={onClose}
-                className="p-2.5 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-white hover:bg-slate-800 transition-all border border-slate-200 dark:border-slate-700 shadow-sm"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
               >
-                <ArrowLeft className="w-5 h-5" />
+                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                <span>Retour</span>
               </button>
             )}
             <div>

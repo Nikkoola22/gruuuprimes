@@ -60,10 +60,10 @@ const Metiers: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 event.stopPropagation();
                 onClose();
               }}
-              className="relative z-50 pointer-events-auto flex items-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-full font-medium transition-all text-sm"
+              className="relative z-50 pointer-events-auto inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
             >
-              <ArrowLeft className="w-4 h-4" />
-              Retour
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              <span>Retour</span>
             </button>
           </div>
           <p className="text-slate-600 dark:text-slate-300 text-lg leading-relaxed font-medium">

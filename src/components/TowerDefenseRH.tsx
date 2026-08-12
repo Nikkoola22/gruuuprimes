@@ -1348,10 +1348,10 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
           <div className="flex items-center gap-3">
             <button
               onClick={onClose}
-              className="flex items-center gap-2 px-4 py-2 bg-slate-800/90 hover:bg-slate-700 text-slate-200 hover:text-white rounded-2xl font-bold transition-all text-xs border border-slate-700 hover:scale-105 active:scale-95 shadow-md"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
             >
-              <ArrowLeft className="w-4 h-4" />
-              Retour
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              <span>Retour</span>
             </button>
 
             <h1 className="hidden md:flex items-center gap-2 font-mono font-black text-sm tracking-wider uppercase text-emerald-400">

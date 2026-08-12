@@ -329,13 +329,10 @@ export default function EspacePodcastsFigurines({ onClose, theme = 'dark' }: Pro
         <div className={`flex justify-between items-center mb-8 flex-wrap gap-4 border-b ${isDark ? 'border-slate-800/80' : 'border-slate-200'} pb-5`}>
           <button
             onClick={onClose}
-            className={`flex items-center gap-2 px-5 py-2.5 ${
-              isDark 
-                ? 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-slate-200' 
-                : 'bg-white hover:bg-slate-100 border-slate-200 text-slate-700 shadow-sm'
-            } border rounded-full font-bold transition-all text-xs sm:text-sm shadow-md hover:scale-105 active:scale-95`}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
           >
-            <ArrowLeft className="w-4 h-4 text-purple-600 dark:text-purple-400" /> Quitter l'Espace
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            <span>Quitter l'Espace</span>
           </button>
 
           <div className="flex items-center gap-3">

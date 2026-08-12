@@ -2495,9 +2495,9 @@ ${indicesFactuels}
                       setChatState({ ...chatState, currentView: 'menu' })
                     }
                   }}
-                  className="flex items-center gap-2 bg-red-50 dark:bg-red-600/10 hover:bg-red-100 dark:hover:bg-red-600/20 text-red-700 dark:text-red-400 px-4 py-2 rounded-lg transition-colors duration-100 font-medium border border-red-200 dark:border-red-500/20"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
                 >
-                  <ArrowLeft className="w-4 h-4" />
+                  <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                   <span>{activeCalculator ? 'Retour aux calculateurs' : 'Retour au menu'}</span>
                 </button>
                 <h2 className="text-xl font-bold text-slate-800 dark:text-white">Calculateurs CFDT</h2>
@@ -2612,10 +2612,10 @@ ${indicesFactuels}
                 </div>
                 <button
                   onClick={returnToMenu}
-                  className="flex w-full items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-all duration-200 backdrop-blur-sm font-light glass-pill sm:w-auto"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
                 >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span className="text-sm">Retour au menu</span>
+                  <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                  <span>Retour au menu</span>
                 </button>
               </div>
             </div>

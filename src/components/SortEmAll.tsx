@@ -160,10 +160,10 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
         <div className="w-full flex justify-between items-center mb-8 relative z-20">
           <button
             onClick={onClose}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-full font-bold transition-all text-sm shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:scale-105 active:scale-95"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
           >
-            <ArrowLeft className="w-4 h-4" />
-            Retour
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            <span>Retour</span>
           </button>
 
           <div className="flex gap-4 sm:gap-6">

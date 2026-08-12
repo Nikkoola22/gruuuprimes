@@ -247,10 +247,10 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
           <button
             type="button"
             onClick={onClose}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white rounded-full font-bold transition-all text-sm shadow-[0_0_20px_rgba(225,29,72,0.4)] hover:scale-105 active:scale-95"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
           >
-            <ArrowLeft className="w-4 h-4" />
-            Retour
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            <span>Retour</span>
           </button>
         </div>
 
