@@ -2069,6 +2069,345 @@ ${indicesFactuels}
 
               </div>
 
+              {/* --- SECTION DES 3 FENÊTRES : À CONNAÎTRE, LIENS UTILES, À VOIR --- */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full mb-12">
+
+                {/* Colonne 1 : À connaître (Docs de référence) */}
+                <div className="w-full bg-gradient-to-br from-white/95 via-rose-50/50 to-pink-50/30 dark:from-slate-900/95 dark:via-rose-950/20 dark:to-slate-900/95 backdrop-blur-2xl rounded-3xl p-6 border-2 border-rose-200/80 dark:border-rose-800/40 shadow-2xl shadow-rose-500/10 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-rose-500/20 hover:border-rose-300 relative z-10 flex flex-col justify-between group">
+                  <div>
+                    {/* Header de la carte */}
+                    <div className="flex items-center justify-between mb-5 pb-4 border-b border-rose-100/80 dark:border-rose-900/40">
+                      <div className="flex items-center gap-3.5">
+                        <div className="p-3 bg-gradient-to-br from-rose-500 to-pink-500 text-white rounded-2xl shadow-lg shadow-rose-500/30 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                          <FileText className="w-6 h-6" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">À connaître</h3>
+                            <span className="bg-rose-500/10 border border-rose-400/30 text-rose-600 dark:text-rose-400 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
+                              Docs Officiels
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Règlements & chartes de la collectivité</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Liste des documents */}
+                    <div className="flex flex-col gap-3.5">
+                      {/* Document 1 : Temps de travail */}
+                      <a
+                        href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail_conges_absences/reglement_temps_de_travail/reglement_du_temps_du_travail.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/item relative bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border border-rose-100 dark:border-slate-700 hover:border-rose-300 rounded-2xl p-3.5 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4 overflow-hidden"
+                      >
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-rose-500 to-orange-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                        <div className="w-12 h-12 flex-shrink-0 rounded-2xl bg-gradient-to-br from-rose-50 to-orange-50 dark:from-slate-900 dark:to-slate-800 p-2 flex items-center justify-center shadow-inner border border-rose-100/60 dark:border-slate-700 relative group-hover/item:scale-105 transition-transform duration-300">
+                          <Clock className="w-6 h-6 text-rose-500" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/40 px-2 py-0.5 rounded-md border border-rose-200/50 dark:border-rose-800/50">
+                              1607H & Congés
+                            </span>
+                          </div>
+                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-rose-600 transition-colors truncate">
+                            Temps de travail
+                          </h4>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                            Règlement complet sur le temps de travail.
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 p-2 rounded-xl bg-rose-50 dark:bg-rose-900/40 group-hover/item:bg-rose-500 text-rose-500 group-hover/item:text-white transition-all shadow-sm">
+                          <ExternalLinkIcon className="w-4 h-4" />
+                        </div>
+                      </a>
+
+                      {/* Document 2 : Formation */}
+                      <a
+                        href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/formation/reglement_interieur_de_formation_juin_2025.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/item relative bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border border-teal-100 dark:border-slate-700 hover:border-teal-300 rounded-2xl p-3.5 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4 overflow-hidden"
+                      >
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-teal-500 to-emerald-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                        <div className="w-12 h-12 flex-shrink-0 rounded-2xl bg-gradient-to-br from-teal-50 to-emerald-50 dark:from-slate-900 dark:to-slate-800 p-2 flex items-center justify-center shadow-inner border border-teal-100/60 dark:border-slate-700 relative group-hover/item:scale-105 transition-transform duration-300">
+                          <GraduationCap className="w-6 h-6 text-teal-600 dark:text-teal-400" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-900/40 px-2 py-0.5 rounded-md border border-teal-200/50 dark:border-teal-800/50">
+                              Mise à jour Juin 2025
+                            </span>
+                          </div>
+                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-teal-600 transition-colors truncate">
+                            Règlement Formation
+                          </h4>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                            Règlement intérieur des formations & CPF.
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 p-2 rounded-xl bg-teal-50 dark:bg-teal-900/40 group-hover/item:bg-teal-600 text-teal-600 group-hover/item:text-white transition-all shadow-sm">
+                          <ExternalLinkIcon className="w-4 h-4" />
+                        </div>
+                      </a>
+
+                      {/* Document 3 : Télétravail */}
+                      <a
+                        href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/teletravail/circulaire_evolution_du_teletravail_juin_2023.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/item relative bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border border-blue-100 dark:border-slate-700 hover:border-blue-300 rounded-2xl p-3.5 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4 overflow-hidden"
+                      >
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-blue-500 to-indigo-500 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                        <div className="w-12 h-12 flex-shrink-0 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-900 dark:to-slate-800 p-2 flex items-center justify-center shadow-inner border border-blue-100/60 dark:border-slate-700 relative group-hover/item:scale-105 transition-transform duration-300">
+                          <Laptop className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/40 px-2 py-0.5 rounded-md border border-blue-200/50 dark:border-blue-800/50">
+                              Charte & Accords
+                            </span>
+                          </div>
+                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-blue-600 transition-colors truncate">
+                            Charte Télétravail
+                          </h4>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                            Circulaire et évolutions du travail à distance.
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 p-2 rounded-xl bg-blue-50 dark:bg-blue-900/40 group-hover/item:bg-blue-600 text-blue-600 group-hover/item:text-white transition-all shadow-sm">
+                          <ExternalLinkIcon className="w-4 h-4" />
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Pied de carte */}
+                  <div className="mt-4 pt-3 border-t border-rose-100/60 dark:border-rose-900/40 flex items-center justify-between text-xs text-rose-700 dark:text-rose-400 font-extrabold">
+                    <span className="flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-rose-500" />
+                      Documents PDF certifiés RH
+                    </span>
+                    <span className="text-[11px] text-slate-400 font-normal">Intranet Ville</span>
+                  </div>
+                </div>
+
+                {/* Colonne 2 : Liens utiles */}
+                <div className="w-full bg-gradient-to-br from-white/95 via-cyan-50/50 to-sky-50/30 dark:from-slate-900/95 dark:via-cyan-950/20 dark:to-slate-900/95 backdrop-blur-2xl rounded-3xl p-6 border-2 border-cyan-200/80 dark:border-cyan-800/40 shadow-2xl shadow-cyan-500/10 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-cyan-500/20 hover:border-cyan-300 relative z-10 flex flex-col justify-between group overflow-hidden">
+                  <BorderBeam size={160} duration={8} delay={0} colorFrom="#06b6d4" colorTo="#3b82f6" />
+                  <div>
+                    {/* Header de la carte */}
+                    <div className="flex items-center justify-between mb-5 pb-4 border-b border-cyan-100/80 dark:border-cyan-900/40">
+                      <div className="flex items-center gap-3.5">
+                        <div className="p-3 bg-gradient-to-br from-cyan-500 to-blue-500 text-white rounded-2xl shadow-lg shadow-cyan-500/30 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                          <Link2 className="w-6 h-6" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Liens Utiles</h3>
+                            <span className="bg-cyan-500/10 border border-cyan-400/30 text-cyan-700 dark:text-cyan-400 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
+                              Portails RH
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Bases de données & sites institutionnels</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Liste des liens utiles */}
+                    <div className="flex flex-col gap-3">
+                      {usefulLinks.map(({ label, href, imageSrc }, idx) => {
+                        const linkDetails = [
+                          { tag: "DÉCISIONS & JURISPRUDENCE", desc: "Décisions et arrêts du Conseil d'État" },
+                          { tag: "TEXTES & CODES DE LOI", desc: "Code Général de la Fonction Publique (CGFP)" },
+                          { tag: "CATALOGUE RÉGIONAL", desc: "Offre complète de formation CNFPT" },
+                          { tag: "RÉGIME INDEMNITAIRE", desc: "Guide récapitulatif des primes 2025" }
+                        ][idx] || { tag: "PORTAIL OFFICIEL", desc: "Site institutionnel de référence" };
+
+                        return (
+                          <a
+                            key={label}
+                            href={href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group/item relative bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border border-cyan-100 dark:border-slate-700 hover:border-cyan-300 rounded-2xl p-3 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
+                          >
+                            <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-cyan-500 to-blue-500 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                            <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 p-1 flex items-center justify-center shadow-inner border border-cyan-100/60 dark:border-slate-700 relative group-hover/item:scale-105 transition-transform duration-300">
+                              <img src={imageSrc} alt={label} className="w-full h-full object-contain rounded-lg" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-1.5 mb-0.5">
+                                <span className="text-[9px] font-black uppercase tracking-wider text-cyan-700 dark:text-cyan-300 bg-cyan-50 dark:bg-cyan-900/40 px-2 py-0.5 rounded-md border border-cyan-200/50 dark:border-cyan-800/50">
+                                  {linkDetails.tag}
+                                </span>
+                              </div>
+                              <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-cyan-600 transition-colors truncate">
+                                {label}
+                              </h4>
+                              <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                                {linkDetails.desc}
+                              </p>
+                            </div>
+                            <div className="flex-shrink-0 p-2 rounded-xl bg-cyan-50 dark:bg-cyan-900/40 group-hover/item:bg-cyan-600 text-cyan-600 group-hover/item:text-white transition-all shadow-sm">
+                              <ExternalLinkIcon className="w-4 h-4" />
+                            </div>
+                          </a>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Pied de carte */}
+                  <div className="mt-4 pt-3 border-t border-cyan-100/60 dark:border-cyan-900/40 flex items-center justify-between text-xs text-cyan-800 dark:text-cyan-300 font-extrabold">
+                    <span className="flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-cyan-500" />
+                      Accès direct sécurisé
+                    </span>
+                    <span className="text-[11px] text-slate-400 font-normal">Sites externes certifiés</span>
+                  </div>
+                </div>
+
+                {/* Colonne 3 : À voir (YouTube RH) */}
+                <div className="w-full bg-gradient-to-br from-white/95 via-amber-50/50 to-yellow-50/30 dark:from-slate-900/95 dark:via-amber-950/20 dark:to-slate-900/95 backdrop-blur-2xl rounded-3xl p-6 border-2 border-amber-200/80 dark:border-amber-800/40 shadow-2xl shadow-amber-500/10 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-amber-500/20 hover:border-amber-300 relative z-10 flex flex-col justify-between group">
+                  <div>
+                    {/* Header de la carte */}
+                    <div className="flex items-center justify-between mb-5 pb-4 border-b border-amber-100/80 dark:border-amber-900/40">
+                      <div className="flex items-center gap-3.5">
+                        <div className="p-3 bg-gradient-to-br from-amber-500 to-yellow-500 text-slate-950 rounded-2xl shadow-lg shadow-amber-500/30 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                          <PlayCircle className="w-6 h-6 fill-current" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">À voir</h3>
+                            <span className="bg-amber-500/10 border border-amber-400/30 text-amber-700 dark:text-amber-300 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
+                              YouTube RH
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Vidéos & préparation aux concours FPT</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Liste des vidéos */}
+                    <div className="flex flex-col gap-3.5">
+                      {/* Vidéo 1 */}
+                      <a
+                        href="https://youtu.be/7clMZoElV9o?si=tFlkNao1VyFKrDzC"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/item relative bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border border-amber-100 dark:border-slate-700 hover:border-amber-300 rounded-2xl p-3 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
+                      >
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-amber-500 to-yellow-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                        <div className="w-16 h-12 flex-shrink-0 rounded-xl bg-slate-900 overflow-hidden relative shadow-md border border-slate-200 dark:border-slate-700 group-hover/item:scale-105 transition-transform duration-300">
+                          <img src="https://img.youtube.com/vi/7clMZoElV9o/hqdefault.jpg" alt="Les 50 acronymes indispensables" className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover/item:bg-black/20 transition-colors">
+                            <PlayCircle className="w-5 h-5 text-white drop-shadow-lg group-hover/item:scale-110 transition-transform" />
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-200/50 dark:border-amber-800/50">
+                              Sigles & Concours
+                            </span>
+                          </div>
+                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-amber-600 transition-colors truncate">
+                            Les 50 acronymes
+                          </h4>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                            Décoder les sigles clés des concours.
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 p-2 rounded-xl bg-amber-50 dark:bg-amber-900/40 group-hover/item:bg-amber-500 text-amber-600 group-hover/item:text-slate-950 transition-all shadow-sm">
+                          <ExternalLinkIcon className="w-4 h-4" />
+                        </div>
+                      </a>
+
+                      {/* Vidéo 2 */}
+                      <a
+                        href="https://www.youtube.com/watch?v=z0mVMJHO8GA"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/item relative bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border border-amber-100 dark:border-slate-700 hover:border-amber-300 rounded-2xl p-3 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
+                      >
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-amber-500 to-yellow-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                        <div className="w-16 h-12 flex-shrink-0 rounded-xl bg-slate-900 overflow-hidden relative shadow-md border border-slate-200 dark:border-slate-700 group-hover/item:scale-105 transition-transform duration-300">
+                          <img src="https://img.youtube.com/vi/z0mVMJHO8GA/hqdefault.jpg" alt="150 Questions-Réponses Oral" className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover/item:bg-black/20 transition-colors">
+                            <PlayCircle className="w-5 h-5 text-white drop-shadow-lg group-hover/item:scale-110 transition-transform" />
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-200/50 dark:border-amber-800/50">
+                              Préparation Jury
+                            </span>
+                          </div>
+                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-amber-600 transition-colors truncate">
+                            150 Questions Oral
+                          </h4>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                            Entraînement complet aux entretiens.
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 p-2 rounded-xl bg-amber-50 dark:bg-amber-900/40 group-hover/item:bg-amber-500 text-amber-600 group-hover/item:text-slate-950 transition-all shadow-sm">
+                          <ExternalLinkIcon className="w-4 h-4" />
+                        </div>
+                      </a>
+
+                      {/* Vidéo 3 */}
+                      <a
+                        href="https://www.youtube.com/watch?v=m9Nirxu_wFk"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/item relative bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border border-amber-100 dark:border-slate-700 hover:border-amber-300 rounded-2xl p-3 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
+                      >
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-amber-500 to-yellow-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                        <div className="w-16 h-12 flex-shrink-0 rounded-xl bg-slate-900 overflow-hidden relative shadow-md border border-slate-200 dark:border-slate-700 group-hover/item:scale-105 transition-transform duration-300">
+                          <img src="https://img.youtube.com/vi/m9Nirxu_wFk/hqdefault.jpg" alt="30 Situations Oral" className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover/item:bg-black/20 transition-colors">
+                            <PlayCircle className="w-5 h-5 text-white drop-shadow-lg group-hover/item:scale-110 transition-transform" />
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-200/50 dark:border-amber-800/50">
+                              Cas Pratiques
+                            </span>
+                          </div>
+                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-amber-600 transition-colors truncate">
+                            30 Mises en situation
+                          </h4>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                            Cas pratiques et mises en situation.
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 p-2 rounded-xl bg-amber-50 dark:bg-amber-900/40 group-hover/item:bg-amber-500 text-amber-600 group-hover/item:text-slate-950 transition-all shadow-sm">
+                          <ExternalLinkIcon className="w-4 h-4" />
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Pied de carte */}
+                  <div className="mt-4 pt-3 border-t border-amber-100/60 dark:border-amber-900/40 flex items-center justify-between text-xs text-amber-800 dark:text-amber-300 font-extrabold">
+                    <a
+                      href="https://www.youtube.com/results?search_query=fonction+publique+territoriale"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-amber-700 dark:text-amber-300 hover:text-amber-900 transition-colors"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                      Voir plus sur YouTube
+                    </a>
+                    <ExternalLinkIcon className="w-3.5 h-3.5 text-amber-500" />
+                  </div>
+                </div>
+
+              </div>
+
             </div>
           </>
         )}
