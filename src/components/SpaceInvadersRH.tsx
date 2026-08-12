@@ -59,6 +59,16 @@ interface BunkerBrick {
   alive: boolean;
 }
 
+interface PowerUpItem {
+  id: number;
+  x: number;
+  y: number;
+  vy: number;
+  width: number;
+  height: number;
+  alive: boolean;
+}
+
 interface Bunker {
   x: number;
   y: number;
@@ -159,11 +169,16 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
   const [wave, setWave] = useState(1);
+  const [doubleShootTimer, setDoubleShootTimer] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
   const isMutedRef = useRef(isMuted);
+  const doubleShootTimerRef = useRef(doubleShootTimer);
   useEffect(() => {
     isMutedRef.current = isMuted;
   }, [isMuted]);
+  useEffect(() => {
+    doubleShootTimerRef.current = doubleShootTimer;
+  }, [doubleShootTimer]);
 
   // Player Ship
   const playerRef = useRef({
@@ -179,6 +194,7 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
   const particlesRef = useRef<Particle[]>([]);
   const floatingTextsRef = useRef<FloatingText[]>([]);
   const bunkersRef = useRef<Bunker[]>([]);
+  const powerUpsRef = useRef<PowerUpItem[]>([]);
   const keysRef = useRef<{ [key: string]: boolean }>({});
 
   const invaderDirRef = useRef<number>(1);
@@ -272,9 +288,11 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
     setScore(0);
     setLives(3);
     setWave(1);
+    setDoubleShootTimer(0);
     lasersRef.current = [];
     particlesRef.current = [];
     floatingTextsRef.current = [];
+    powerUpsRef.current = [];
     playerRef.current.x = CANVAS_WIDTH / 2 - 25;
     initWave(1);
     setGameState("playing");
@@ -296,25 +314,40 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
     const player = playerRef.current;
 
     const playerLasers = lasersRef.current.filter(l => !l.isEnemy);
-    if (playerLasers.length >= 3) return;
+    
+    // Allow up to 3 active lasers on screen (if double tir, allow up to 4 to ensure clean pairs)
+    const limit = doubleShootTimerRef.current > 0 ? 4 : 3;
+    if (playerLasers.length >= limit) return;
 
-    // Double tir laser plasma
-    lasersRef.current.push({
-      x: player.x + 8,
-      y: player.y - 4,
-      vy: -12,
-      isEnemy: false,
-      color: "#38bdf8",
-      width: 4
-    });
-    lasersRef.current.push({
-      x: player.x + player.width - 12,
-      y: player.y - 4,
-      vy: -12,
-      isEnemy: false,
-      color: "#38bdf8",
-      width: 4
-    });
+    if (doubleShootTimerRef.current > 0) {
+      // Double tir laser plasma
+      lasersRef.current.push({
+        x: player.x + 8,
+        y: player.y - 4,
+        vy: -12,
+        isEnemy: false,
+        color: "#38bdf8",
+        width: 4
+      });
+      lasersRef.current.push({
+        x: player.x + player.width - 12,
+        y: player.y - 4,
+        vy: -12,
+        isEnemy: false,
+        color: "#38bdf8",
+        width: 4
+      });
+    } else {
+      // Tir simple
+      lasersRef.current.push({
+        x: player.x + player.width / 2 - 2,
+        y: player.y - 4,
+        vy: -12,
+        isEnemy: false,
+        color: "#f43f5e",
+        width: 4
+      });
+    }
     playAudioSound("shoot", isMutedRef.current);
   }, [gameState]);
 
@@ -501,6 +534,19 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
                 shakeRef.current = Math.max(shakeRef.current, 6);
                 playAudioSound("explosion", isMutedRef.current);
 
+                // Spawn falling bonus (22% chance)
+                if (Math.random() < 0.22) {
+                  powerUpsRef.current.push({
+                    id: Date.now() + Math.random(),
+                    x: inv.x + inv.width / 2 - 10,
+                    y: inv.y + inv.height,
+                    vy: 2.2,
+                    width: 20,
+                    height: 20,
+                    alive: true
+                  });
+                }
+
                 // Explosions lumineuses
                 for (let i = 0; i < 18; i++) {
                   particlesRef.current.push({
@@ -572,6 +618,41 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
             });
           });
         });
+
+        // Decrement double shoot powerup timer
+        if (doubleShootTimerRef.current > 0) {
+          setDoubleShootTimer(t => Math.max(0, t - 1));
+        }
+
+        // Update Falling PowerUps
+        powerUpsRef.current.forEach(pu => {
+          pu.y += pu.vy;
+
+          // Check collision with player ship
+          if (pu.alive && pu.y + pu.height >= player.y && pu.y <= player.y + player.height && pu.x + pu.width >= player.x && pu.x <= player.x + player.width) {
+            pu.alive = false;
+            setDoubleShootTimer(600); // 600 frames = 10 seconds @ 60fps
+            playAudioSound("shield", isMutedRef.current);
+            addFloatingText("TIR DOUBLE ! ⚡", player.x + player.width / 2, player.y - 20, "#38bdf8");
+
+            // Sparkle effects
+            for (let i = 0; i < 15; i++) {
+              particlesRef.current.push({
+                x: pu.x + pu.width / 2,
+                y: pu.y + pu.height / 2,
+                vx: (Math.random() - 0.5) * 6,
+                vy: (Math.random() - 0.5) * 6,
+                color: "#38bdf8",
+                size: Math.random() * 4 + 2,
+                life: 20,
+                maxLife: 20
+              });
+            }
+          }
+        });
+
+        // Cleanup out-of-screen or dead powerups
+        powerUpsRef.current = powerUpsRef.current.filter(pu => pu.alive && pu.y < CANVAS_HEIGHT + 20);
 
         // Nettoyer objets
         lasersRef.current = lasersRef.current.filter(l => l.y > -20 && l.y < CANVAS_HEIGHT + 20);
@@ -738,6 +819,36 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
         ctx.restore();
       });
 
+      // === DESSINER LES BONUS TOMBANTS ===
+      powerUpsRef.current.forEach(pu => {
+        if (!pu.alive) return;
+        ctx.save();
+        ctx.translate(pu.x + pu.width / 2, pu.y + pu.height / 2);
+        
+        const angle = (frameCountRef.current * 0.08) % (Math.PI * 2);
+        ctx.rotate(angle);
+
+        ctx.fillStyle = "#38bdf8";
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 1.5;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = "#38bdf8";
+
+        ctx.beginPath();
+        ctx.roundRect(-pu.width / 2, -pu.height / 2, pu.width, pu.height, 6);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 11px sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.shadowBlur = 0;
+        ctx.fillText("⚡", 0, 0);
+
+        ctx.restore();
+      });
+
       // === DESSINER LES TEXTES FLOTTANTS ===
       floatingTextsRef.current.forEach(ft => {
         ctx.save();
@@ -846,8 +957,16 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
 
           {/* HUD Score */}
           {gameState === "playing" && (
-            <div className="absolute top-6 left-6 bg-slate-950/70 border border-purple-500/30 px-4 py-1.5 rounded-full backdrop-blur-md text-sm font-mono font-bold text-purple-300 shadow-xl pointer-events-none">
-              Score : {score}
+            <div className="absolute top-6 left-6 flex flex-col gap-2 pointer-events-none">
+              <div className="bg-slate-950/70 border border-purple-500/30 px-4 py-1.5 rounded-full backdrop-blur-md text-sm font-mono font-bold text-purple-300 shadow-xl">
+                Score : {score}
+              </div>
+              {doubleShootTimer > 0 && (
+                <div className="flex items-center gap-2 bg-cyan-950/80 border border-cyan-400/50 px-3 py-1 rounded-full backdrop-blur-md text-[10px] font-bold text-cyan-300 shadow-xl animate-pulse">
+                  <Zap className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>TIR DOUBLE : {(doubleShootTimer / 60).toFixed(1)}s</span>
+                </div>
+              )}
             </div>
           )}
 
