@@ -1711,6 +1711,38 @@ ${indicesFactuels}
                       </div>
                       <span className="relative z-10 text-sm font-bold text-center">Bourse<br />Emploi</span>
                     </a>
+
+                    {/* Spotlight Concours Anchor Link */}
+                    <a
+                      href="https://www.concours-territorial.fr/Index.aspx"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors group min-w-[120px] p-3 rounded-2xl"
+                      onMouseEnter={() => setHoveredQuickAccessIndex(6)}
+                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
+                    >
+                      <AnimatePresence>
+                        {hoveredQuickAccessIndex === 6 && (
+                          <motion.span
+                            className="absolute inset-0 h-full w-full bg-slate-100 dark:bg-slate-700/60 block rounded-2xl z-0 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
+                            layoutId="quickAccessHover"
+                            initial={{ opacity: 0 }}
+                            animate={{
+                              opacity: 1,
+                              transition: { duration: 0.15 },
+                            }}
+                            exit={{
+                              opacity: 0,
+                              transition: { duration: 0.15, delay: 0.1 },
+                            }}
+                          />
+                        )}
+                      </AnimatePresence>
+                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-cyan-100 dark:group-hover:bg-cyan-900/50 transition-colors">
+                        <GraduationCap className="w-16 h-16 text-cyan-600 dark:text-cyan-400 group-hover:scale-110 transition-transform" />
+                      </div>
+                      <span className="relative z-10 text-sm font-bold text-center">Concours</span>
+                    </a>
                   </div>
                 </div>
 
