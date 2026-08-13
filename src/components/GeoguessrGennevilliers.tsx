@@ -152,8 +152,53 @@ const locations: LocationDef[] = [
     lat: 48.926468,
     lng: 2.293444,
     info: "Reconnu pour ses lignes architecturales suspendues ultra-modernes, le conservatoire municipal Edgar Varèse forme des centaines d'artistes locaux chaque année."
+  },
+  {
+    id: 6,
+    title: "École Édouard Manet",
+    description: "L'école municipale des beaux-arts et galerie d'art de Gennevilliers.",
+    image: "ecole_manet.jpg",
+    lat: 48.932781,
+    lng: 2.296822,
+    info: "Située place Jean-Grandel, l'école Édouard Manet est un haut lieu de création artistique proposant ateliers, expositions et une classe préparatoire aux écoles supérieures d'art."
+  },
+  {
+    id: 7,
+    title: "Centre Culturel des Grésillons",
+    description: "Le centre culturel et social au cœur du quartier des Grésillons.",
+    image: "centre_gresillons.png",
+    lat: 48.9174,
+    lng: 2.3015,
+    info: "Situé au 28 rue Paul-Vaillant-Couturier, l'Espace Grésillons est un centre culturel et social dynamique proposant activités, animations et lien social pour les habitants du quartier."
+  },
+  {
+    id: 8,
+    title: "CMS Étienne Gatineau-Saillant",
+    description: "Le centre municipal de santé moderne de Gennevilliers.",
+    image: "cms_gatineau.png",
+    lat: 48.934486,
+    lng: 2.296974,
+    info: "Situé au 3 rue de la Paix, le CMS Étienne Gatineau-Saillant offre un accès aux soins pour tous avec médecins, spécialistes et services de prévention dans un bâtiment contemporain reconnaissable à ses parapluies roses."
+  },
+  {
+    id: 9,
+    title: "Théâtre T2G",
+    description: "Le Théâtre de Gennevilliers, Centre Dramatique National.",
+    image: "theatre_t2g.jpg",
+    lat: 48.9143,
+    lng: 2.2997,
+    info: "Situé au 41 avenue des Grésillons, le T2G est un Centre Dramatique National proposant une programmation exigeante de théâtre contemporain, à deux pas du métro Gabriel Péri."
   }
 ];
+
+const GeoguessrStyles = () => (
+  <style dangerouslySetInnerHTML={{ __html: `
+    .leaflet-div-icon {
+      background: transparent !important;
+      border: none !important;
+    }
+  `}} />
+);
 
 interface GeoguessrGennevilliersProps {
   onClose: () => void;
@@ -190,6 +235,7 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
   const guessMarkerRef = useRef<L.Marker | null>(null);
   const actualMarkerRef = useRef<L.Marker | null>(null);
   const polylineRef = useRef<L.Polyline | null>(null);
+  const clickMarkerRef = useRef<L.Marker | null>(null);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const baseScorePerDifficulty = { novice: 1000, urbanist: 1500, cartographer: 2000 };
@@ -242,6 +288,7 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
         guessMarkerRef.current = null;
         actualMarkerRef.current = null;
         polylineRef.current = null;
+        clickMarkerRef.current = null;
       }
       return;
     }
@@ -261,38 +308,68 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
         maxZoom: 19
       }).addTo(map);
 
-      map.on("click", (e: L.LeafletMouseEvent) => {
-        if (showAnswer) return;
-        const { lat, lng } = e.latlng;
-
-        playSynthSound("click", isMuted);
-
-        if (guessMarkerRef.current) {
-          map.removeLayer(guessMarkerRef.current);
-        }
-
-        // Custom pulsing rose colored pin
-        guessMarkerRef.current = L.marker([lat, lng], {
-          icon: L.divIcon({
-            className: 'bg-transparent border-none',
-            html: `
-              <div class="relative flex items-center justify-center -translate-y-2">
-                <div class="absolute w-8 h-8 bg-rose-500/40 rounded-full animate-ping"></div>
-                <div class="relative w-8 h-8 bg-rose-600 rounded-full border-2 border-white flex items-center justify-center shadow-lg shadow-rose-500/50">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-white">
-                    <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
-                  </svg>
-                </div>
-              </div>
-            `,
-            iconSize: [32, 32],
-            iconAnchor: [16, 24]
-          })
-        }).addTo(map);
-
-        setGuess({ lat, lng });
+      // Initialize hidden guess marker (will be shown on first click)
+      const guessIcon = L.divIcon({
+        className: 'bg-transparent border-none',
+        html: `
+          <div class="relative flex items-center justify-center -translate-y-2">
+            <div class="absolute w-8 h-8 bg-rose-500/40 rounded-full animate-ping"></div>
+            <div class="relative w-8 h-8 bg-rose-600 rounded-full border-2 border-white flex items-center justify-center shadow-lg shadow-rose-500/50">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-white">
+                <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          </div>
+        `,
+        iconSize: [32, 32],
+        iconAnchor: [16, 24]
       });
 
+      // Hidden marker placed at map center (will be moved on click)
+      guessMarkerRef.current = L.marker([48.933, 2.298], {
+        icon: guessIcon,
+        opacity: 0
+      }).addTo(map);
+
+      map.on("click", (e: L.LeafletMouseEvent) => {
+          if (showAnswer) return;
+          const { lat, lng } = e.latlng;
+
+          playSynthSound("click", isMuted);
+
+          // Update main guess marker position and make it visible
+          if (guessMarkerRef.current) {
+            guessMarkerRef.current.setLatLng([lat, lng]);
+            guessMarkerRef.current.setOpacity(1);
+            guessMarkerRef.current.setZIndexOffset(1000);
+          }
+          // Create or update dedicated click repere marker
+          if (!clickMarkerRef.current) {
+            const clickIcon = L.divIcon({
+              className: 'bg-transparent border-none',
+              html: `
+                <div class="relative flex items-center justify-center -translate-y-2">
+                  <div class="absolute w-8 h-8 bg-blue-500/40 rounded-full animate-ping"></div>
+                  <div class="relative w-8 h-8 bg-blue-600 rounded-full border-2 border-white flex items-center justify-center shadow-lg shadow-blue-500/50">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-white">
+                      <path fill-rule="evenodd" d="M12 2a9 9 0 011.5 17.79V22h-3v-2.21A9 9 0 0112 2z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                </div>`,
+              iconSize: [32, 32],
+              iconAnchor: [16, 24]
+            });
+            clickMarkerRef.current = L.marker([lat, lng], { icon: clickIcon }).addTo(map);
+          } else {
+            clickMarkerRef.current.setLatLng([lat, lng]);
+            clickMarkerRef.current.setZIndexOffset(1000);
+          }
+
+          // Pan the map to the chosen point without changing zoom
+          map.panTo([lat, lng]);
+
+          setGuess({ lat, lng });
+        });
       mapRef.current = map;
     }
   }, [gameState]);
@@ -353,12 +430,14 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
         map.fitBounds(bounds, { padding: [50, 50] });
       }
     } else {
-      // Reset map view for next round
-      if (guessMarkerRef.current) {
-        map.removeLayer(guessMarkerRef.current);
-        guessMarkerRef.current = null;
-      }
-      map.setView([48.933, 2.298], 13);
+        // Reset map view only when there is no guess (i.e., start of round)
+        if (!guess) {
+          if (guessMarkerRef.current) {
+            map.removeLayer(guessMarkerRef.current);
+            guessMarkerRef.current = null;
+          }
+          map.setView([48.933, 2.298], 13);
+        }
     }
   }, [showAnswer, round, guess]);
 

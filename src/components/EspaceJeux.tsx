@@ -14,7 +14,8 @@ import {
   Building2,
   Feather,
   Rocket,
-  MapPin
+  MapPin,
+  Crown
 } from "lucide-react";
 import { SpotlightCard } from "./ui/SpotlightCard.tsx";
 import { ShinyText } from "./ui/ShinyText.tsx";
@@ -36,6 +37,7 @@ const EscapeGameRH = lazy(() => import("./EscapeGameRH.tsx"));
 const FlappyAgent = lazy(() => import("./FlappyAgent.tsx"));
 const SpaceInvadersRH = lazy(() => import("./SpaceInvadersRH.tsx"));
 const GeoguessrGennevilliers = lazy(() => import("./GeoguessrGennevilliers.tsx"));
+const DirectRH = lazy(() => import("./DirectRH.tsx"));
 
 interface EspaceJeuxProps {
   onClose: () => void;
@@ -68,7 +70,7 @@ const EspaceJeuxStyles = () => (
 );
 
 interface GameDef {
-  id: "roulette" | "memory" | "quiz" | "cassebrique" | "frogger" | "tapetaupe" | "sortemall" | "pacman" | "towerdefense" | "tycoon" | "escapegame" | "flappy" | "spaceinvaders" | "geoguessr";
+  id: "roulette" | "memory" | "quiz" | "cassebrique" | "frogger" | "tapetaupe" | "sortemall" | "pacman" | "towerdefense" | "tycoon" | "escapegame" | "flappy" | "spaceinvaders" | "geoguessr" | "directrh";
   title: string;
   description: string;
   actionText: string;
@@ -93,20 +95,27 @@ const themeStyles: Record<string, { bg: string, text: string, border: string, sh
 };
 
 const games: GameDef[] = [
-  { id: "geoguessr", title: "Geoguessr Gennevilliers", description: "Point & Click / Exploration interactive : situez sur le plan de la commune les photos d'équipements de la ville.", actionText: "Explorer le plan", icon: MapPin, iconTheme: "sky", bgImage: "geoguessr.png", spanClass: "md:col-span-2 lg:col-span-2 lg:row-span-2", iconSizeClass: "w-8 h-8 sm:w-12 sm:h-12", titleSizeClass: "text-3xl sm:text-5xl" },
-  { id: "tycoon", title: "Gennevilliers City", description: "\"Ma Collectivité\" : Un jeu de gestion au tour par tour. Gérez le budget, calmez les syndicats, et survivez aux crises !", actionText: "Prendre ses fonctions", icon: Building2, iconTheme: "amber", bgImage: "tycoon.png", spanClass: "md:col-span-2 lg:col-span-2", iconSizeClass: "w-8 h-8 sm:w-12 sm:h-12", titleSizeClass: "text-3xl sm:text-5xl" },
+  // Row 1: Featured large card + small cards
+  { id: "tycoon", title: "Gennevilliers City", description: "\"Ma Collectivité\" : Un jeu de gestion au tour par tour. Gérez le budget, calmez les syndicats, et survivez aux crises !", actionText: "Prendre ses fonctions", icon: Building2, iconTheme: "amber", bgImage: "tycoon.png", spanClass: "md:col-span-2 lg:col-span-2 lg:row-span-2", iconSizeClass: "w-8 h-8 sm:w-12 sm:h-12", titleSizeClass: "text-3xl sm:text-5xl" },
+  { id: "directrh", title: "Le Direct'RH", description: "Incarnez un responsable de service : swipez pour trancher et maintenez vos 4 jauges en équilibre. Style Reigns !", actionText: "Prendre ses fonctions", icon: Crown, iconTheme: "amber", bgImage: "directrh.png", spanClass: "col-span-1" },
+  // Row 2: Two small + one large
   { id: "flappy", title: "Flappy Agent", description: "Envolez-vous au-dessus des obstacles administratifs et récoltez des primes bonus.", actionText: "Décoller", icon: Feather, iconTheme: "emerald", bgImage: "flappy.png", spanClass: "col-span-1" },
   { id: "quiz", title: "Quiz FAQ", description: "10 questions sur les droits de la fonction publique.", actionText: "Lancer", icon: HelpCircle, iconTheme: "orange", bgImage: "quiz.png", spanClass: "col-span-1" },
+  { id: "geoguessr", title: "Chasse au Trésor", description: "Point & Click / Exploration interactive : situez sur le plan de la commune les photos d'équipements de la ville.", actionText: "Explorer le plan", icon: MapPin, iconTheme: "sky", bgImage: "geoguessr.png", spanClass: "col-span-1" },
+  // Row 3: Large + two small
   { id: "spaceinvaders", title: "Space Invaders RH", description: "Détruisez les vagues d'anomalies et d'erreurs statutaires à coup de tirs laser néon.", actionText: "Tirer", icon: Rocket, iconTheme: "purple", bgImage: "spaceinvaders.png", spanClass: "md:col-span-2 lg:col-span-2" },
   { id: "escapegame", title: "Escape Game RH", description: "S'échapper des mauvaises situations au travail en adoptant les bons réflexes statutaires et QVT.", actionText: "S'échapper", icon: Sparkles, iconTheme: "purple", bgImage: "escapegame.png", spanClass: "col-span-1" },
-  { id: "pacman", title: "Labyrinthe Paie", description: "Incarnez un gestionnaire, fuyez les fantômes et sécurisez les dossiers de paie.", actionText: "Lancer le jeu", icon: Activity, iconTheme: "blue", bgImage: "pacman.png", spanClass: "md:col-span-2 lg:col-span-2" },
   { id: "towerdefense", title: "Tower Defense", description: "Gérez les effectifs face aux demandes RH.", actionText: "Défendre", icon: Shield, iconTheme: "emerald", bgImage: "towerdefense.png", spanClass: "col-span-1" },
+  // Row 4: Two small + one large
   { id: "cassebrique", title: "Casse-brique", description: "Un casse-brique rétro ! Libérez les acquis sociaux.", actionText: "Jouer", icon: Zap, iconTheme: "red", bgImage: "cassebrique.png", spanClass: "col-span-1" },
-  { id: "sortemall", title: "Sort'em All", description: "Triez les dossiers RH dans les bonnes instances sous pression.", actionText: "Trier", icon: Inbox, iconTheme: "sky", bgImage: "sortemall.png", spanClass: "md:col-span-2 lg:col-span-2" },
   { id: "frogger", title: "Chasse au CDI", description: "Évitez les pièges et visez la titularisation.", actionText: "Jouer", icon: Activity, iconTheme: "green", bgImage: "frogger.png", spanClass: "col-span-1" },
+  { id: "pacman", title: "Labyrinthe Paie", description: "Incarnez un gestionnaire, fuyez les fantômes et sécurisez les dossiers de paie.", actionText: "Lancer le jeu", icon: Activity, iconTheme: "blue", bgImage: "pacman.png", spanClass: "md:col-span-2 lg:col-span-2" },
+  // Row 5: Large + two small
+  { id: "sortemall", title: "Sort'em All", description: "Triez les dossiers RH dans les bonnes instances sous pression.", actionText: "Trier", icon: Inbox, iconTheme: "sky", bgImage: "sortemall.png", spanClass: "md:col-span-2 lg:col-span-2" },
   { id: "tapetaupe", title: "Tape-Taupe", description: "Tapez sur les risques professionnels avant l'accident.", actionText: "Prévention", icon: AlertTriangle, iconTheme: "yellow", bgImage: "tapetaupe.png", spanClass: "col-span-1" },
-  { id: "roulette", title: "Roulette QVT", description: "Obtenez des idées concrètes pour votre bien-être au bureau.", actionText: "Lancer", icon: Sparkles, iconTheme: "blue", bgImage: "roulette.png", spanClass: "md:col-span-2 lg:col-span-2" },
-  { id: "memory", title: "Défis ta mémoire", description: "Testez votre mémoire en associant chaque terme RH.", actionText: "Jouer", icon: Brain, iconTheme: "purple", bgImage: "memory.png", spanClass: "col-span-1" }
+  { id: "memory", title: "Défis ta mémoire", description: "Testez votre mémoire en associant chaque terme RH.", actionText: "Jouer", icon: Brain, iconTheme: "purple", bgImage: "memory.png", spanClass: "col-span-1" },
+  // Row 6: One large
+  { id: "roulette", title: "Roulette QVT", description: "Obtenez des idées concrètes pour votre bien-être au bureau.", actionText: "Lancer", icon: Sparkles, iconTheme: "blue", bgImage: "roulette.png", spanClass: "md:col-span-2 lg:col-span-2" }
 ];
 
 const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
@@ -152,6 +161,7 @@ const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
   if (activeGame === "flappy") return wrapGame(<FlappyAgent onClose={() => setActiveGame("none")} />);
   if (activeGame === "spaceinvaders") return wrapGame(<SpaceInvadersRH onClose={() => setActiveGame("none")} />);
   if (activeGame === "geoguessr") return wrapGame(<GeoguessrGennevilliers onClose={() => setActiveGame("none")} />);
+  if (activeGame === "directrh") return wrapGame(<DirectRH onClose={() => setActiveGame("none")} />);
 
   return (
     <div className="dark bg-black text-white min-h-screen EspaceJeux-root-container">

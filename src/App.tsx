@@ -419,7 +419,7 @@ function App() {
   useEffect(() => {
     const setupCarouselScroll = (ref: React.RefObject<HTMLDivElement | null>) => {
       const el = ref.current
-      if (!el) return () => {}
+      if (!el) return () => { }
 
       let isDown = false
       let startX = 0
@@ -1155,7 +1155,7 @@ PROTOCOLE TÉLÉTRAVAIL :\n${typeof teletravailData === 'string' ? teletravailDa
     if (pisteResults && pisteResults.length > 0) {
       pisteContexte = `\n\n=== RÉSULTATS DIRECTS API PISTE LÉGIFRANCE (DILA - TEMPS RÉEL) ===\n` +
         pisteResults.map((item, idx) => `${idx + 1}. [${item.title}] ${item.num || ''} (${item.nature || 'Texte'}) - État: ${item.etat || 'VIGUEUR'}\nLien: ${item.link || 'https://www.legifrance.gouv.fr'}`).join('\n')
-      
+
       contenuCible += pisteContexte
     }
 
@@ -1406,7 +1406,7 @@ ${indicesFactuels}
             }}
           />
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 relative z-10">
           <div className="flex items-center justify-between gap-4 sm:gap-6">
             {/* Logo et titre (Gauche) */}
@@ -1427,7 +1427,7 @@ ${indicesFactuels}
                   />
                 )}
               </div>
-              
+
               <div className="flex flex-col justify-center">
                 <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 dark:from-white dark:via-blue-100 dark:to-white drop-shadow-sm transition-colors duration-300">
                   ATLAS
@@ -1446,7 +1446,7 @@ ${indicesFactuels}
               <div className="relative group/badge inline-flex items-center justify-center">
                 {/* Halo lumineux dégradé au survol */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-indigo-500 to-orange-500 rounded-full blur-md opacity-25 group-hover/badge:opacity-60 transition-opacity duration-500 animate-pulse"></div>
-                
+
                 <div className="relative flex items-center gap-3 px-6 py-2 rounded-full bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-700/80 backdrop-blur-xl shadow-lg shadow-blue-500/5 transition-all duration-300 hover:scale-[1.02] hover:border-blue-400/50">
                   <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-xs">
                     <Landmark className="w-3.5 h-3.5" />
@@ -1467,16 +1467,15 @@ ${indicesFactuels}
             <div className="flex items-center gap-2.5">
               <button
                 onClick={() => setShowMacMenuBar(prev => !prev)}
-                className={`p-2.5 rounded-xl border shadow-sm transition-all duration-300 hover:scale-105 active:scale-95 ${
-                  showMacMenuBar
+                className={`p-2.5 rounded-xl border shadow-sm transition-all duration-300 hover:scale-105 active:scale-95 ${showMacMenuBar
                     ? 'bg-blue-600 border-blue-600 text-white shadow-blue-500/20'
                     : 'bg-white/80 dark:bg-slate-900/80 border-slate-200/50 dark:border-slate-800/50 text-slate-700 dark:text-slate-250 hover:bg-slate-50 dark:hover:bg-slate-800/90'
-                }`}
+                  }`}
                 title={showMacMenuBar ? "Désactiver la barre de menus macOS" : "Activer la barre de menus macOS"}
               >
                 <Laptop className="w-5 h-5" />
               </button>
-              
+
               <button
                 onClick={toggleTheme}
                 className="p-2.5 rounded-xl bg-white/85 dark:bg-slate-900/85 border border-slate-200/50 dark:border-slate-800/50 text-slate-700 dark:text-slate-250 hover:bg-slate-50 dark:hover:bg-slate-800/90 shadow-sm transition-all duration-300 hover:scale-105 active:scale-95 hover:rotate-12"
@@ -1752,7 +1751,7 @@ ${indicesFactuels}
               <div className="mt-8 mb-8">
                 <div className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 dark:divide-slate-800">
-                    
+
                     {/* CÔTÉ GAUCHE : Actualités Syndicales & Statutaires */}
                     <div className="lg:pr-8 flex flex-col justify-between">
                       <div>
@@ -1839,13 +1838,13 @@ ${indicesFactuels}
                               </span>
                             </div>
                           </div>
+                        </div>
                       </div>
-                    </div>
 
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
               {/* --- SECTION SECONDAIRE : CARROUSELS DÉTACHÉS ET JOURNAL --- */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
