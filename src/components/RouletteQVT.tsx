@@ -95,15 +95,81 @@ const IDEAS: Record<string, Idea[]> = {
 
 
 const SECTORS = [
-  { name: "QVT 🧘", color: "#60a5fa", category: "qvt" },         // Soft Blue
-  { name: "MANAGEMENT 🤝", color: "#f472b6", category: "management" }, // Soft Pink
-  { name: "CARRIÈRE 🚀", color: "#a78bfa", category: "carriere" },   // Soft Purple
-  { name: "DÉTENTE ☕", color: "#34d399", category: "detente" },     // Soft Green
-  { name: "QVT 🧘", color: "#93c5fd", category: "qvt" },         
-  { name: "MANAGEMENT 🤝", color: "#fbcfe8", category: "management" }, 
-  { name: "CARRIÈRE 🚀", color: "#c4b5fd", category: "carriere" },   
-  { name: "DÉTENTE ☕", color: "#6ee7b7", category: "detente" }      
+  { name: "QVT 🧘", color: "#ec4899", category: "qvt" },         // Pink
+  { name: "MANAGEMENT 🤝", color: "#eab308", category: "management" }, // Yellow
+  { name: "CARRIÈRE 🚀", color: "#f97316", category: "carriere" },   // Orange
+  { name: "DÉTENTE ☕", color: "#22c55e", category: "detente" },     // Green
+  { name: "QVT 🧘", color: "#3b82f6", category: "qvt" },         // Blue
+  { name: "MANAGEMENT 🤝", color: "#a855f7", category: "management" }, // Purple
+  { name: "CARRIÈRE 🚀", color: "#06b6d4", category: "carriere" },   // Cyan
+  { name: "DÉTENTE ☕", color: "#f43f5e", category: "detente" }      // Rose
 ];
+
+let globalAudioCtx: AudioContext | null = null;
+
+const getAudioContext = () => {
+  if (!globalAudioCtx) {
+    globalAudioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+  }
+  if (globalAudioCtx.state === 'suspended') {
+    globalAudioCtx.resume();
+  }
+  return globalAudioCtx;
+};
+
+const playTick = () => {
+  try {
+    const ctx = getAudioContext();
+    if (ctx.state === 'suspended') ctx.resume();
+    
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(800, ctx.currentTime);
+    
+    gain.gain.setValueAtTime(0.5, ctx.currentTime);
+    // setTargetAtTime est beaucoup plus robuste entre les différents navigateurs
+    gain.gain.setTargetAtTime(0, ctx.currentTime, 0.02);
+    
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.1);
+  } catch (e) {
+    console.warn("Audio Context error", e);
+  }
+};
+
+const playTada = () => {
+  try {
+    const ctx = getAudioContext();
+    if (ctx.state === 'suspended') ctx.resume();
+    
+    const notes = [523.25, 659.25, 783.99, 1046.50]; // C Major
+    
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.15);
+      
+      gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.15);
+      gain.gain.setTargetAtTime(0.5, ctx.currentTime + i * 0.15, 0.02);
+      gain.gain.setTargetAtTime(0, ctx.currentTime + i * 0.15 + 0.1, 0.2);
+      
+      osc.start(ctx.currentTime + i * 0.15);
+      osc.stop(ctx.currentTime + i * 0.15 + 1.0);
+    });
+  } catch (e) {
+    console.warn("Audio Context error", e);
+  }
+};
 
 const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
   const [isSpinning, setIsSpinning] = useState(false);
@@ -116,24 +182,27 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
 
   // Génération des secteurs SVG
   const renderSectors = () => {
-    return SECTORS.map((sector, i) => {
+    const center = 160;
+    const radius = 140;
+
+    const sectors = SECTORS.map((sector, i) => {
       const a1 = -90 + i * 45;
       const a2 = -90 + (i + 1) * 45;
       const a1Rad = (a1 * Math.PI) / 180;
       const a2Rad = (a2 * Math.PI) / 180;
       
-      const x1 = 150 + 140 * Math.cos(a1Rad);
-      const y1 = 150 + 140 * Math.sin(a1Rad);
-      const x2 = 150 + 140 * Math.cos(a2Rad);
-      const y2 = 150 + 140 * Math.sin(a2Rad);
+      const x1 = center + radius * Math.cos(a1Rad);
+      const y1 = center + radius * Math.sin(a1Rad);
+      const x2 = center + radius * Math.cos(a2Rad);
+      const y2 = center + radius * Math.sin(a2Rad);
 
-      const pathData = `M 150 150 L ${x1} ${y1} A 140 140 0 0 1 ${x2} ${y2} Z`;
+      const pathData = `M ${center} ${center} L ${x1} ${y1} A ${radius} ${radius} 0 0 1 ${x2} ${y2} Z`;
 
       // Position de l'icône emoji
       const textAngle = -90 + i * 45 + 22.5;
       const textRad = (textAngle * Math.PI) / 180;
-      const tx = 150 + 90 * Math.cos(textRad);
-      const ty = 150 + 90 * Math.sin(textRad);
+      const tx = center + (radius * 0.7) * Math.cos(textRad);
+      const ty = center + (radius * 0.7) * Math.sin(textRad);
       const textRotation = textAngle + 90;
 
       // Déterminer l'icône emoji basée sur la catégorie
@@ -142,32 +211,68 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
       else if (sector.category === "carriere") icon = "🚀";
       else if (sector.category === "detente") icon = "☕";
 
+      // Ligne de séparation blanche
+      const lineX = center + radius * Math.cos(a2Rad);
+      const lineY = center + radius * Math.sin(a2Rad);
+
       return (
         <g key={i} className="select-none pointer-events-none">
           <path 
             d={pathData} 
             fill={sector.color} 
-            stroke="rgba(255,255,255,0.25)" 
-            strokeWidth="2.5"
-            className="transition-colors duration-200"
+            stroke="none"
           />
+          <line x1={center} y1={center} x2={lineX} y2={lineY} stroke="white" strokeWidth="3" />
           <text
             x={tx}
             y={ty}
             transform={`rotate(${textRotation}, ${tx}, ${ty})`}
             textAnchor="middle"
             dominantBaseline="middle"
-            fontSize="36"
+            fontSize="32"
+            filter="drop-shadow(0px 2px 2px rgba(0,0,0,0.3))"
           >
             {icon}
           </text>
         </g>
       );
     });
+
+    // Outer Orange Rim
+    const rim = (
+      <circle cx={center} cy={center} r="150" fill="url(#orangeGradient)" stroke="#c2410c" strokeWidth="2" />
+    );
+
+    // Silver Pegs
+    const pegs = [];
+    for (let i = 0; i < 16; i++) {
+      const angle = (i * 22.5 * Math.PI) / 180;
+      const px = center + 145 * Math.cos(angle);
+      const py = center + 145 * Math.sin(angle);
+      pegs.push(
+        <g key={`peg-${i}`}>
+          <circle cx={px} cy={py} r="4.5" fill="#e2e8f0" stroke="#64748b" strokeWidth="1" />
+          <circle cx={px - 1} cy={py - 1} r="2" fill="white" opacity="0.8" />
+        </g>
+      );
+    }
+
+    return (
+      <>
+        {rim}
+        <circle cx={center} cy={center} r={radius} fill="white" />
+        {sectors}
+        <circle cx={center} cy={center} r={radius} fill="url(#glossGradient)" pointerEvents="none" />
+        {pegs}
+      </>
+    );
   };
 
   const spinWheel = useCallback(() => {
     if (isSpinning) return;
+    
+    // Initialise l'audio (nécessite une interaction utilisateur préalable)
+    getAudioContext();
 
     setIsSpinning(true);
     setSelectedIdea(null);
@@ -196,8 +301,29 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
 
     setRotation(finalRotation);
 
+    // Simulation sonore des crans (ticks) de la roulette
+    let isSimulating = true;
+    let ticks = 0;
+    const maxTicks = 40;
+    
+    const loopTicks = () => {
+      if (!isSimulating) return;
+      playTick();
+      ticks++;
+      if (ticks < maxTicks) {
+        const progress = ticks / maxTicks;
+        // La roulette ralentit progressivement (cubic ease out)
+        const delay = 30 + Math.pow(progress, 3) * 400;
+        setTimeout(loopTicks, delay);
+      }
+    };
+    loopTicks();
+
     setTimeout(() => {
+      isSimulating = false;
       setIsSpinning(false);
+      playTada();
+      
       const categoryIdeas = IDEAS[targetCategory];
       const randomIdea = categoryIdeas[Math.floor(Math.random() * categoryIdeas.length)];
       setSelectedIdea(randomIdea);
@@ -331,50 +457,70 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-gradient-to-br from-slate-800/80 via-purple-900/40 to-slate-800/80 backdrop-blur border border-purple-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl">
           
           {/* Wheel Container */}
-          <div className="flex flex-col items-center justify-center relative ">
-            {/* Enlarged and glowing responsive container */}
-            <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] md:w-[410px] md:h-[410px] mx-auto select-none">
+          <div className="flex flex-col items-center justify-center relative pb-10 pt-4">
+            
+            {/* Wooden Base Stand */}
+            <div className="absolute -bottom-2 w-[220px] h-[30px] bg-gradient-to-r from-[#b47a46] via-[#e3aa74] to-[#b47a46] rounded-full shadow-[0_10px_20px_rgba(0,0,0,0.5)] border-b-4 border-[#8c5a2c] z-0" style={{ clipPath: 'polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%)' }} />
+            <div className="absolute -bottom-4 flex justify-between w-[180px] z-0">
+              <div className="w-8 h-4 bg-gray-900 rounded-b-xl shadow-lg" />
+              <div className="w-8 h-4 bg-gray-900 rounded-b-xl shadow-lg" />
+            </div>
+
+            <div className="relative w-[300px] h-[300px] sm:w-[380px] sm:h-[380px] md:w-[410px] md:h-[410px] mx-auto select-none z-10">
               
-              {/* Multi-layered futuristic glow behind the wheel */}
-              <div className="absolute -inset-6 bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-500 rounded-full opacity-80 blur-2xl animate-pulse" style={{ animationDuration: "6s" }} />
-              <div className="absolute -inset-2 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-full opacity-30 blur-md" />
-              
-              {/* Outer dark metal-neon framed border overlay */}
-              <div className="absolute inset-[-10px] rounded-full border-[10px] border-[#040009] shadow-[0_0_50px_rgba(14,165,233,0.5)] z-20 pointer-events-none ring-4 ring-cyan-500/50" />
-              
-              {/* Top pointer indicator - neon arrowhead */}
-              <div className="absolute top-[-18px] left-1/2 transform -translate-x-1/2 z-30 filter drop-shadow-[0_0_8px_rgba(239,68,68,0.85)] animate-bounce-slow">
-                <div className="w-0 h-0 border-l-[14px] border-l-transparent border-r-[14px] border-r-transparent border-t-[22px] border-t-red-500" />
-                <div className="w-2 h-3 bg-red-500 mx-auto -mt-0.5 rounded-b shadow-[0_2px_4px_rgba(0,0,0,0.5)]" />
+              {/* Top pointer indicator - metal peg with red arrow */}
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-40 filter drop-shadow-[0_4px_6px_rgba(0,0,0,0.6)] animate-bounce-slow flex flex-col items-center">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-slate-100 to-slate-400 border-2 border-slate-500 shadow-inner flex items-center justify-center relative z-10">
+                  <div className="w-2 h-2 rounded-full bg-slate-200 shadow-sm" />
+                </div>
+                <div className="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[20px] border-t-red-600 -mt-2 relative z-0" />
               </div>
               
               {/* SVG Wheel element */}
               <svg
                 ref={wheelRef}
-                viewBox="0 0 300 300"
-                className="w-full h-full relative z-10 select-none drop-shadow-[0_10px_15px_rgba(0,0,0,0.6)]"
+                viewBox="0 0 320 320"
+                className="w-full h-full relative z-10 select-none drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)]"
                 style={{
                   transform: `rotate(${rotation}deg)`,
                   transition: isSpinning ? "transform 4s cubic-bezier(0.1, 0.8, 0.1, 1)" : "none",
                   willChange: "transform",
                 }}
               >
+                <defs>
+                  <linearGradient id="orangeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#fb923c" />
+                    <stop offset="50%" stopColor="#ea580c" />
+                    <stop offset="100%" stopColor="#c2410c" />
+                  </linearGradient>
+                  <radialGradient id="glossGradient" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+                    <stop offset="0%" stopColor="rgba(255,255,255,0.4)" />
+                    <stop offset="60%" stopColor="rgba(255,255,255,0)" />
+                    <stop offset="100%" stopColor="rgba(0,0,0,0.2)" />
+                  </radialGradient>
+                </defs>
                 {renderSectors()}
               </svg>
 
-              {/* Center pointer hub button - styled like a premium starting reactor button */}
+              {/* Center pointer hub button - 3D Metallic Hub with Orange Dome */}
               <button
                 onClick={spinWheel}
                 disabled={isSpinning}
-                className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-slate-950 flex flex-col items-center justify-center font-bold transition-all duration-300 ${
-                  isSpinning 
-                    ? "bg-gradient-to-br from-slate-800 to-slate-900 cursor-not-allowed scale-95 shadow-[inset_0_2px_6px_rgba(0,0,0,0.8)] border-slate-800 text-slate-500" 
-                    : "bg-gradient-to-br from-[#040009] via-slate-900 to-[#040009] hover:scale-105 active:scale-95 cursor-pointer ring-4 ring-pink-500/40 hover:ring-cyan-500/60 shadow-[0_0_20px_rgba(219,39,119,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] text-white"
-                }`}
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-slate-100 via-slate-300 to-slate-500 border border-slate-400 shadow-[0_10px_20px_rgba(0,0,0,0.5),inset_0_2px_5px_rgba(255,255,255,0.8)] flex flex-col items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 group cursor-pointer"
               >
-                <span className={`tracking-widest text-[10px] sm:text-[11px] font-bold ${isSpinning ? 'text-slate-500' : 'text-pink-400 group-hover:text-cyan-300 animate-pulse'}`}>
-                  {isSpinning ? "SPIN..." : "LANCER"}
-                </span>
+                {/* 4 small screws on the hub */}
+                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-slate-400 shadow-inner" />
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-slate-400 shadow-inner" />
+                <div className="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-slate-400 shadow-inner" />
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-slate-400 shadow-inner" />
+
+                {/* Orange Dome */}
+                <div className={`w-12 h-12 rounded-full shadow-[0_5px_10px_rgba(0,0,0,0.4),inset_0_4px_6px_rgba(255,255,255,0.6)] flex items-center justify-center ${
+                  isSpinning ? 'bg-gradient-to-b from-orange-600 to-red-700' : 'bg-gradient-to-b from-orange-400 to-red-600 group-hover:from-orange-300 group-hover:to-red-500'
+                }`}>
+                   {/* Reflection on dome */}
+                   <div className="absolute top-2.5 w-6 h-3 bg-white/40 rounded-full blur-[1px]" style={{ clipPath: 'ellipse(50% 50% at 50% 20%)' }} />
+                </div>
               </button>
             </div>
 

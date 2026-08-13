@@ -266,70 +266,103 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
     setVictory(false);
   };
   return (
-    <div className="relative z-30 isolate min-h-screen flex flex-col pt-3 sm:pt-5 pb-3 overflow-x-hidden bg-slate-950 px-4 sm:px-6 lg:px-8 font-sans text-slate-100 transition-colors duration-500">
-      {/* Soft background glow */}
-      <div style={{
-        position: 'fixed', top: '50%', left: '50%',
-        transform: 'translate(-50%,-50%)',
-        width: 800, height: 800, borderRadius: '50%',
-        background: 'radial-gradient(ellipse at center, rgba(168,85,247,0.15) 0%, transparent 70%)',
-        filter: 'blur(40px)', pointerEvents: 'none', zIndex: 0,
-      }} />
+    <div className="relative z-30 isolate min-h-screen flex flex-col overflow-x-hidden bg-[#1e133c] text-white touch-none select-none font-sans">
+      
+      {/* --- Serene Night Landscape Background --- */}
+      {/* Sky Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1b103c] via-[#2b1f5c] to-[#1e1b4b] z-0" />
+      
+      {/* Stars */}
+      <div className="absolute top-10 left-[20%] w-1 h-1 bg-white rounded-full opacity-50 z-0" />
+      <div className="absolute top-32 left-[10%] w-1 h-1 bg-white rounded-full opacity-30 z-0" />
+      <div className="absolute top-20 right-[30%] w-1.5 h-1.5 bg-white rounded-full opacity-70 blur-[1px] z-0" />
+      <div className="absolute top-40 right-[15%] w-1 h-1 bg-white rounded-full opacity-40 z-0" />
+      <div className="absolute top-64 left-[40%] w-1 h-1 bg-white rounded-full opacity-60 z-0" />
 
-      <div className="max-w-6xl mx-auto relative z-10 w-full">
+      {/* Back Mountains (Lighter Purple) */}
+      <div className="absolute bottom-[30%] w-full h-[40%] bg-[#362663] z-0" 
+           style={{ clipPath: 'polygon(0% 100%, 0% 60%, 15% 40%, 30% 70%, 45% 20%, 65% 50%, 80% 30%, 100% 60%, 100% 100%)' }} />
+      
+      {/* Mid Mountains (Mid Purple) */}
+      <div className="absolute bottom-[15%] w-full h-[35%] bg-[#2a1a52] z-0" 
+           style={{ clipPath: 'polygon(0% 100%, 0% 40%, 25% 10%, 45% 50%, 75% 15%, 100% 45%, 100% 100%)' }} />
+
+      {/* Lake Reflection (Darker) */}
+      <div className="absolute bottom-0 w-full h-[25%] bg-gradient-to-b from-[#1c123b] to-[#0f0a24] z-0" />
+      <div className="absolute bottom-[15%] w-full h-2 bg-[#2a1a52] opacity-30 blur-sm z-0" />
+
+      {/* Foreground Trees (Silhouettes) */}
+      <div className="absolute bottom-0 left-0 w-full h-[25%] bg-[#0e091a] z-0" 
+           style={{ clipPath: 'polygon(0% 100%, 0% 30%, 5% 20%, 10% 40%, 15% 10%, 20% 40%, 25% 25%, 30% 50%, 40% 50%, 50% 60%, 60% 60%, 70% 30%, 75% 10%, 80% 40%, 85% 20%, 90% 40%, 95% 15%, 100% 35%, 100% 100%)' }} />
+      <div className="absolute bottom-0 right-[20%] w-12 h-32 bg-[#0e091a] z-0" style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' }} />
+      <div className="absolute bottom-0 left-[25%] w-16 h-40 bg-[#0e091a] z-0" style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' }} />
+
+
+      {/* --- Main Content --- */}
+      <div className="max-w-4xl mx-auto relative z-10 w-full h-full flex flex-col">
         
-        {/* Header */}
-        <div className="w-full flex justify-between items-center mb-6 z-20 flex-wrap gap-3">
-          <button
-            onClick={onClose}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
-          >
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            <span>Retour</span>
+        {/* Top UI Bar */}
+        <div className="w-full flex justify-between items-center px-4 sm:px-8 py-4 sm:py-6">
+          
+          {/* Hamburger Menu (Retour) */}
+          <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-lg transition-colors cursor-pointer group">
+            <div className="w-8 h-1 bg-white mb-1.5 rounded-full group-hover:-translate-x-1 transition-transform" />
+            <div className="w-8 h-1 bg-white mb-1.5 rounded-full" />
+            <div className="w-8 h-1 bg-white rounded-full group-hover:translate-x-1 transition-transform" />
           </button>
 
-          <div className="flex gap-3 items-center">
-            <span className="bg-slate-900/90 backdrop-blur-md px-4 py-2 rounded-2xl border border-slate-800 text-slate-200 text-xs font-mono font-bold flex items-center gap-2 shadow-md">
-              Coups : <span className="text-purple-400 font-black text-sm">{moves}</span>
-            </span>
-            <span className="bg-slate-900/90 backdrop-blur-md px-4 py-2 rounded-2xl border border-slate-800 text-slate-200 text-xs font-mono font-bold flex items-center gap-2 shadow-md">
-              Paires : <span className="text-emerald-400 font-black text-sm">{matches} / 6</span>
-            </span>
-            <button
-              onClick={handleRestart}
-              className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-2xl transition-all text-xs border border-purple-500 backdrop-blur-md flex items-center gap-1.5 shadow-lg active:scale-95"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              Reset
+          {/* Energy/Coups Bar */}
+          <div className="flex items-center gap-3">
+            <div className="relative flex items-center">
+              <div className="absolute -left-4 z-10 text-yellow-400 text-3xl font-black drop-shadow-[0_0_10px_rgba(250,204,21,0.8)] animate-pulse">
+                ⚡
+              </div>
+              <div className="w-32 sm:w-40 h-6 sm:h-8 bg-blue-900/50 rounded-r-full border-2 border-blue-400/30 overflow-hidden pl-4 shadow-inner relative backdrop-blur-sm">
+                {/* Fill bar representing moves left / progress */}
+                <div className="h-full bg-gradient-to-r from-purple-500 to-pink-400 w-[60%] rounded-r-full shadow-[0_0_10px_#a855f7]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent pointer-events-none" />
+              </div>
+            </div>
+            <span className="text-xl sm:text-2xl font-black drop-shadow-md">{moves}</span>
+          </div>
+
+          {/* Score & Multiplier */}
+          <div className="flex items-center gap-3">
+            <span className="text-2xl sm:text-3xl font-black drop-shadow-md">{matches * 100}</span>
+            <button onClick={handleRestart} className="relative w-12 h-14 sm:w-14 sm:h-16 flex items-center justify-center cursor-pointer hover:scale-105 active:scale-95 transition-transform" title="Recommencer">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-purple-700 opacity-90 shadow-[0_0_15px_rgba(168,85,247,0.6)]" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }} />
+              <div className="absolute inset-1 bg-gradient-to-br from-purple-300 to-purple-600 opacity-90" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }} />
+              <div className="absolute -top-1 -right-1 text-yellow-300 animate-pulse">✨</div>
+              <span className="relative z-10 text-white font-black text-sm sm:text-base">1X</span>
             </button>
           </div>
+
         </div>
 
-        {/* Card Grid */}
-        <div className="max-w-6xl mx-auto bg-slate-900/80 backdrop-blur-xl rounded-3xl p-4 sm:p-6 shadow-2xl border border-purple-500/20 relative">
+        {/* Card Grid Area */}
+        <div className="flex-1 flex items-center justify-center py-4 relative">
           {victory && <VictoryConfetti />}
 
           {victory ? (
             // Victory Screen
-            <div className="text-center relative z-10 animate-scale-up py-8">
-              <Trophy className="w-16 h-16 text-yellow-400 mx-auto mb-4 animate-bounce" />
-              <h2 className="text-3xl font-black text-white mb-2">Félicitations ! 🎉</h2>
-              <p className="text-slate-300 max-w-sm mx-auto mb-6 text-sm sm:text-base font-normal">
-                Vous avez associé toutes les paires RH avec brio en seulement <span className="font-bold text-purple-400">{moves} coups</span> !
+            <div className="text-center relative z-10 animate-scale-up py-8 bg-black/40 backdrop-blur-md px-10 rounded-3xl border border-white/10 shadow-2xl">
+              <Trophy className="w-20 h-20 text-yellow-400 mx-auto mb-4 animate-bounce drop-shadow-[0_0_20px_rgba(250,204,21,0.6)]" />
+              <h2 className="text-4xl font-black text-white mb-2 uppercase tracking-widest drop-shadow-lg">Victoire !</h2>
+              <p className="text-slate-200 max-w-sm mx-auto mb-8 text-lg font-medium drop-shadow-md">
+                Toutes les paires ont été trouvées en <span className="font-black text-yellow-400">{moves} coups</span> !
               </p>
 
               <button
                 onClick={handleRestart}
-                className="mx-auto px-7 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-full shadow-xl hover:opacity-95 transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 text-sm sm:text-base uppercase tracking-wider"
+                className="mx-auto px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-slate-900 font-black rounded-full shadow-[0_0_20px_rgba(250,204,21,0.5)] hover:scale-105 active:scale-95 transition-all uppercase tracking-widest text-lg"
               >
-                <RotateCcw className="w-4 h-4" />
-                <span>Recommencer une partie</span>
+                Rejouer
               </button>
             </div>
           ) : (
-            // Cards game board
-            <div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 justify-center items-stretch">
+            // Cards game board (Diamond-like centering if possible, else nice grid)
+            <div className="w-full max-w-3xl px-4 flex justify-center">
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 sm:gap-5 justify-center items-center">
                 {cards.map((card, idx) => {
                   const isFlipped = card.isFlipped || card.isMatched;
                   const isTerm = card.type === "term";
@@ -338,47 +371,38 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
                     <div 
                       key={card.id}
                       onClick={() => handleCardClick(idx)}
-                      className="h-32 sm:h-36 md:h-40 w-full perspective cursor-pointer select-none"
+                      className="h-28 sm:h-36 md:h-40 aspect-square mx-auto perspective cursor-pointer select-none group"
                     >
                       <div 
                         className={`w-full h-full relative duration-500 transform-style-3d ${
                           isFlipped ? "rotate-y-180" : ""
                         }`}
                       >
-                        {/* Card Back (Face cachée) */}
-                        <div className="absolute inset-0 bg-slate-950 border-2 border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.25)] hover:border-purple-400 hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] rounded-2xl flex flex-col items-center justify-center text-purple-400 backface-hidden transition-all duration-300">
-                          <HelpCircle className="w-8 h-8 text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.8)] animate-pulse" />
-                          <span className="text-[10px] uppercase tracking-widest font-extrabold text-purple-300/80 mt-2 font-mono">DÉFI MÉMOIRE</span>
+                        {/* Card Back (Face cachée - GOLD Trophies) */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#ffd86a] to-[#e49b29] rounded-xl shadow-[0_6px_15px_rgba(0,0,0,0.5)] flex items-center justify-center backface-hidden group-hover:scale-105 group-active:scale-95 transition-transform border border-yellow-200/50">
+                          {/* Inner white outline border */}
+                          <div className="absolute inset-[6px] border border-white/40 rounded-lg flex items-center justify-center pointer-events-none">
+                            <Trophy className="w-10 h-10 sm:w-14 sm:h-14 text-white opacity-90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]" strokeWidth={1.5} />
+                          </div>
                         </div>
 
-                        {/* Card Front (Face visible) */}
-                        <div className={`absolute inset-0 border-2 rounded-2xl p-3 flex flex-col items-center justify-between text-center backface-hidden rotate-y-180 transition-all duration-300 shadow-2xl ${
+                        {/* Card Front (Face visible - WHITE with black/gold text) */}
+                        <div className={`absolute inset-0 rounded-xl bg-gradient-to-br from-white to-gray-100 flex flex-col items-center justify-center text-center backface-hidden rotate-y-180 transition-all duration-300 shadow-[0_6px_20px_rgba(0,0,0,0.6)] border-2 ${
                           card.isMatched
-                            ? "bg-slate-900/95 border-emerald-400 shadow-[0_0_25px_rgba(52,211,153,0.5)] ring-2 ring-emerald-400/50 scale-[1.02] animate-pulse"
-                            : isTerm
-                              ? "bg-slate-900/95 border-cyan-400/90 shadow-[0_0_20px_rgba(34,211,238,0.35)] hover:border-cyan-300"
-                              : "bg-slate-900/95 border-purple-400/90 shadow-[0_0_20px_rgba(192,132,252,0.35)] hover:border-purple-300"
+                            ? "border-yellow-400 shadow-[0_0_30px_rgba(250,204,21,0.8)] scale-110 z-20"
+                            : "border-gray-200"
                         }`}>
-                          {/* Type Badge */}
-                          <div className="w-full flex justify-center">
-                            {card.isMatched ? (
-                              <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-500/30 border border-emerald-400 text-emerald-300 shadow-[0_0_10px_rgba(52,211,153,0.4)]">
-                                <Check className="w-3 h-3 text-emerald-300" /> Pairé ! <Sparkles className="w-3 h-3 text-yellow-300 animate-spin" />
-                              </span>
-                            ) : isTerm ? (
-                              <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider font-extrabold px-2.5 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-400/60 text-cyan-300">
-                                Terme RH
-                              </span>
-                            ) : (
-                              <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider font-extrabold px-2.5 py-0.5 rounded-full bg-purple-500/20 border border-purple-400/60 text-purple-300">
-                                Définition
-                              </span>
-                            )}
-                          </div>
+                          {/* Sparkles if matched */}
+                          {card.isMatched && (
+                            <>
+                              <div className="absolute -top-3 -right-3 text-yellow-400 animate-spin" style={{ animationDuration: '3s' }}>✨</div>
+                              <div className="absolute -bottom-2 -left-2 text-yellow-400 animate-pulse text-sm">✨</div>
+                              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-yellow-400/20 rounded-xl blur-md pointer-events-none" />
+                            </>
+                          )}
 
-                          {/* Content Text */}
-                          <div className="flex-1 flex items-center justify-center my-1 w-full">
-                            <p className={`break-words max-w-full text-slate-100 ${getTextSizeClass(card.content)}`}>
+                          <div className="p-2 w-full h-full flex flex-col justify-center items-center">
+                            <p className={`break-words max-w-full font-black drop-shadow-sm ${getTextSizeClass(card.content)} ${isTerm ? 'text-[#e49b29]' : 'text-slate-800'}`}>
                               {card.content}
                             </p>
                           </div>
@@ -392,11 +416,23 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
           )}
         </div>
 
+        {/* Bottom Glowing Banner */}
+        <div className="w-full flex justify-center pb-8 sm:pb-12 z-20">
+          <div className="relative">
+            <h3 className="text-lg sm:text-2xl font-medium tracking-wide text-white drop-shadow-[0_0_15px_rgba(168,85,247,1)] relative z-10 px-6 py-2">
+              Associez les Termes RH avec leurs Définitions
+            </h3>
+            {/* Glowing line underneath */}
+            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-400 to-transparent blur-[2px]" />
+            <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white to-transparent" />
+          </div>
+        </div>
+
       </div>
 
       <style>{`
         .perspective {
-          perspective: 1000px;
+          perspective: 1200px;
         }
         .transform-style-3d {
           transform-style: preserve-3d;
@@ -413,14 +449,14 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
           to { opacity: 1; }
         }
         @keyframes scale-up {
-          from { opacity: 0; transform: scale(0.9); }
+          from { opacity: 0; transform: scale(0.8); }
           to { opacity: 1; transform: scale(1); }
         }
         .animate-fade-in {
           animation: fade-in 0.6s ease-out forwards;
         }
         .animate-scale-up {
-          animation: scale-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation: scale-up 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
       `}</style>
     </div>

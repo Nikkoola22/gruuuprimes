@@ -79,7 +79,7 @@ const BRICK_WORDS = [
   ["SÉCURITÉ", "SANTÉ", "CST", "PRÉVOYANCE", "DROITS", "ACCORD", "CFDT", "F3SCT", "CAP", "CCP", "ÉGALITÉ"]
 ];
 
-const BRICK_COLORS = ["#f472b6", "#38bdf8", "#a78bfa", "#fb923c"];
+const BRICK_COLORS = ["#ff0000", "#ffff00", "#00ffff", "#00ff00"];
 
 const LEVEL_LAYOUTS = [
   // Niveau 1 : Grille complète (4 lignes x 11 colonnes)
@@ -635,211 +635,177 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
 
       ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // === FOND SPATIAL ===
-      // Dégradé espace profond
-      const spaceGrad = ctx.createLinearGradient(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-      spaceGrad.addColorStop(0, '#000510');
-      spaceGrad.addColorStop(0.4, '#020020');
-      spaceGrad.addColorStop(0.8, '#050005');
-      spaceGrad.addColorStop(1, '#000008');
-      ctx.fillStyle = spaceGrad;
+      // === FOND RETRO ARCANOID ===
+      ctx.fillStyle = "#000044";
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-      // Nébuleuse violette
-      const nebula1 = ctx.createRadialGradient(520, 140, 0, 520, 140, 240);
-      nebula1.addColorStop(0, 'rgba(130,0,200,0.09)');
-      nebula1.addColorStop(1, 'transparent');
-      ctx.fillStyle = nebula1;
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-      // Nébuleuse bleue
-      const nebula2 = ctx.createRadialGradient(140, 420, 0, 140, 420, 180);
-      nebula2.addColorStop(0, 'rgba(0,60,180,0.07)');
-      nebula2.addColorStop(1, 'transparent');
-      ctx.fillStyle = nebula2;
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-      // Nébuleuse rose
-      const nebula3 = ctx.createRadialGradient(680, 480, 0, 680, 480, 160);
-      nebula3.addColorStop(0, 'rgba(200,0,100,0.06)');
-      nebula3.addColorStop(1, 'transparent');
-      ctx.fillStyle = nebula3;
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-      // Étoiles scintillantes
-      starsRef.current.forEach(star => {
-        star.alpha += star.speed;
-        if (star.alpha > 1) { star.alpha = 1; star.speed = -star.speed; }
-        if (star.alpha < 0.08) { star.alpha = 0.08; star.speed = -star.speed; }
-        ctx.save();
-        ctx.globalAlpha = star.alpha;
-        ctx.fillStyle = '#ffffff';
-        ctx.shadowBlur = star.size > 1.2 ? 6 : 2;
-        ctx.shadowColor = star.size > 1.2 ? '#aaccff' : '#ffffff';
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      });
-
-      // Bordure néon violette (murs arcade)
+      
+      // Grille diagonale (losanges) subtile
       ctx.save();
-      ctx.shadowBlur = 22;
-      ctx.shadowColor = '#cc00ff';
-      ctx.strokeStyle = 'rgba(180,0,255,0.55)';
-      ctx.lineWidth = 3;
-      ctx.strokeRect(1.5, 1.5, CANVAS_WIDTH - 3, CANVAS_HEIGHT - 3);
+      ctx.strokeStyle = "#000066";
+      ctx.lineWidth = 1;
+      for (let i = -CANVAS_HEIGHT; i < CANVAS_WIDTH + CANVAS_HEIGHT; i += 40) {
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i - CANVAS_HEIGHT, CANVAS_HEIGHT);
+        ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i + CANVAS_HEIGHT, CANVAS_HEIGHT);
+        ctx.stroke();
+      }
       ctx.restore();
+
+      // Bordure métallique retro
+      ctx.fillStyle = "#9ca3af"; // silver
+      ctx.fillRect(0, 0, 16, CANVAS_HEIGHT); // left
+      ctx.fillRect(CANVAS_WIDTH - 16, 0, 16, CANVAS_HEIGHT); // right
+      ctx.fillRect(0, 0, CANVAS_WIDTH, 16); // top
+      
+      ctx.fillStyle = "#4b5563"; // dark silver for 3D effect
+      ctx.fillRect(12, 16, 4, CANVAS_HEIGHT - 16); // left inner
+      ctx.fillRect(CANVAS_WIDTH - 16, 16, 4, CANVAS_HEIGHT - 16); // right inner
+      ctx.fillRect(16, 12, CANVAS_WIDTH - 32, 4); // top inner
+      
+      // Joints métalliques
+      ctx.fillStyle = "#374151";
+      for (let y = 40; y < CANVAS_HEIGHT; y += 80) {
+        ctx.fillRect(0, y, 16, 4);
+        ctx.fillRect(CANVAS_WIDTH - 16, y, 16, 4);
+      }
+      for (let x = 40; x < CANVAS_WIDTH; x += 120) {
+        ctx.fillRect(x, 0, 4, 16);
+      }
 
       bricksRef.current.forEach((brick) => {
         if (brick.isHit) return;
 
-        ctx.save();
-        // Gradient arcade (style Arkanoid)
-        const bGrad = ctx.createLinearGradient(brick.x, brick.y, brick.x, brick.y + brick.height);
-        bGrad.addColorStop(0, brick.color);
-        bGrad.addColorStop(1, brick.color + '99');
-        ctx.fillStyle = bGrad;
-        ctx.shadowBlur = 16;
-        ctx.shadowColor = brick.color;
+        // Brick body
+        ctx.fillStyle = brick.color;
+        ctx.fillRect(brick.x, brick.y, brick.width, brick.height);
+
+        // Top and Left bevel (light)
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
         ctx.beginPath();
-        ctx.roundRect(brick.x + 1, brick.y + 1, brick.width - 2, brick.height - 2, 2);
+        ctx.moveTo(brick.x, brick.y);
+        ctx.lineTo(brick.x + brick.width, brick.y);
+        ctx.lineTo(brick.x + brick.width - 4, brick.y + 4);
+        ctx.lineTo(brick.x + 4, brick.y + 4);
+        ctx.lineTo(brick.x + 4, brick.y + brick.height - 4);
+        ctx.lineTo(brick.x, brick.y + brick.height);
         ctx.fill();
 
-        // Reflet haut (3D arcade)
-        ctx.fillStyle = 'rgba(255,255,255,0.40)';
-        ctx.fillRect(brick.x + 2, brick.y + 2, brick.width - 4, 2);
+        // Bottom and Right bevel (dark)
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
+        ctx.beginPath();
+        ctx.moveTo(brick.x + brick.width, brick.y + brick.height);
+        ctx.lineTo(brick.x, brick.y + brick.height);
+        ctx.lineTo(brick.x + 4, brick.y + brick.height - 4);
+        ctx.lineTo(brick.x + brick.width - 4, brick.y + brick.height - 4);
+        ctx.lineTo(brick.x + brick.width - 4, brick.y + 4);
+        ctx.lineTo(brick.x + brick.width, brick.y);
+        ctx.fill();
 
-        // Ombre bas
-        ctx.fillStyle = 'rgba(0,0,0,0.45)';
-        ctx.fillRect(brick.x + 2, brick.y + brick.height - 4, brick.width - 4, 2);
-        ctx.restore();
-
-        // Texte monospace arcade
+        // Texte monospace discret (sans ombre)
         ctx.save();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = 'rgba(0,0,0,0.6)';
         ctx.font = 'bold 8px monospace';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.shadowBlur = 6;
-        ctx.shadowColor = '#fff';
         ctx.fillText(brick.text, brick.x + brick.width / 2, brick.y + brick.height / 2 + 1);
         ctx.restore();
       });
 
-      // Raquette style arcade néon orange
+      // Raquette style capsule métallique (Arkanoid)
       const pad = paddleRef.current;
       ctx.save();
+      
+      // Corps central gris métallique
       const padGrad = ctx.createLinearGradient(pad.x, pad.y, pad.x, pad.y + pad.height);
-      padGrad.addColorStop(0, '#ffffff');
-      padGrad.addColorStop(0.3, '#ffaa33');
-      padGrad.addColorStop(1, '#cc5500');
+      padGrad.addColorStop(0, '#f3f4f6');
+      padGrad.addColorStop(0.3, '#9ca3af');
+      padGrad.addColorStop(1, '#4b5563');
       ctx.fillStyle = padGrad;
-      ctx.shadowBlur = 28;
-      ctx.shadowColor = '#ff7900';
+      ctx.fillRect(pad.x + pad.height / 2, pad.y, pad.width - pad.height, pad.height);
+      
+      // Embouts ronds orange/rouge
+      const endGrad = ctx.createLinearGradient(pad.x, pad.y, pad.x, pad.y + pad.height);
+      endGrad.addColorStop(0, '#fca5a5');
+      endGrad.addColorStop(0.3, '#ef4444');
+      endGrad.addColorStop(1, '#7f1d1d');
+      ctx.fillStyle = endGrad;
+      
+      // Embout gauche
       ctx.beginPath();
-      ctx.roundRect(pad.x, pad.y, pad.width, pad.height, 5);
+      ctx.arc(pad.x + pad.height / 2, pad.y + pad.height / 2, pad.height / 2, Math.PI / 2, Math.PI * 1.5);
+      ctx.fill();
+      
+      // Embout droit
+      ctx.beginPath();
+      ctx.arc(pad.x + pad.width - pad.height / 2, pad.y + pad.height / 2, pad.height / 2, Math.PI * 1.5, Math.PI / 2);
       ctx.fill();
 
-      // Reflet haut
-      ctx.fillStyle = 'rgba(255,255,255,0.55)';
-      ctx.fillRect(pad.x + 3, pad.y + 1, pad.width - 6, 2);
-
-      // Texte CFDT
-      ctx.shadowBlur = 0;
-      ctx.font = '900 8px monospace';
-      ctx.fillStyle = '#551500';
+      // Text CFDT en noir discret
+      ctx.font = 'bold 10px sans-serif';
+      ctx.fillStyle = 'rgba(0,0,0,0.5)';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText('CFDT', pad.x + pad.width / 2, pad.y + pad.height / 2 + 0.5);
       ctx.restore();
 
-      // Dessiner les balles (Orbes lumineuses dont la couleur s'adapte aux bonus actifs)
+      // Dessiner les balles (Style retro solide)
       ballsRef.current.forEach((ball) => {
         if (!ball.active) return;
-
-        // Choix de la couleur selon le bonus actif
-        let ballGlowColor = "#ff7900"; // Orange par défaut
-        let ballCoreColor = "#ff9a3c";
-        let trailColor = "#ffaa44";
-
-        if (activePowerUp === "Raquette Large") {
-          ballGlowColor = "#3b82f6"; // Bleu
-          ballCoreColor = "#60a5fa";
-          trailColor = "#93c5fd";
-        } else if (activePowerUp === "Balle Ralentie") {
-          ballGlowColor = "#10b981"; // Vert
-          ballCoreColor = "#34d399";
-          trailColor = "#6ee7b7";
-        } else if (activePowerUp === "Multi-Balles") {
-          ballGlowColor = "#a855f7"; // Violet
-          ballCoreColor = "#c084fc";
-          trailColor = "#d8b4fe";
-        }
         
-        // Trainée de la balle
-        const trail = ball.trail || [];
-        trail.forEach((pos, index) => {
-          const alpha = (index + 1) / trail.length * 0.4;
-          const radius = ball.radius * (0.3 + (0.7 * (index + 1) / trail.length));
-          ctx.save();
-          ctx.globalAlpha = alpha;
-          ctx.fillStyle = trailColor;
-          ctx.shadowBlur = 6;
-          ctx.shadowColor = ballGlowColor;
-          ctx.beginPath();
-          ctx.arc(pos.x, pos.y, radius, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
-        });
+        // Balle principale (Cyan solide avec ombre)
+        ctx.fillStyle = "rgba(0,0,0,0.4)";
+        ctx.beginPath();
+        ctx.arc(ball.x + 3, ball.y + 3, ball.radius, 0, Math.PI * 2);
+        ctx.fill();
 
-        // Balle principale
-        ctx.save();
-        ctx.shadowBlur = 14;
-        ctx.shadowColor = ballGlowColor;
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = "#22d3ee"; // Cyan
         ctx.beginPath();
         ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
         ctx.fill();
         
-        ctx.fillStyle = ballCoreColor;
+        // Reflet blanc en haut à gauche
+        ctx.fillStyle = "#ffffff";
         ctx.beginPath();
-        ctx.arc(ball.x, ball.y, ball.radius - 2, 0, Math.PI * 2);
+        ctx.arc(ball.x - ball.radius * 0.3, ball.y - ball.radius * 0.3, ball.radius * 0.3, 0, Math.PI * 2);
         ctx.fill();
-        ctx.restore();
       });
 
-      
       // Dessiner les tirs (bullets)
       bulletsRef.current.forEach(b => {
         if (!b.active) return;
-        ctx.save();
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = b.color;
-        ctx.fillStyle = b.color;
-        ctx.beginPath();
-        ctx.roundRect(b.x, b.y, b.width, b.height, 2);
-        ctx.fill();
-        ctx.restore();
+        ctx.fillStyle = "#ef4444";
+        ctx.fillRect(b.x, b.y, b.width, b.height);
       });
 
-      // Dessiner les power-ups
+      // Dessiner les power-ups (Capsule retro)
       powerupsRef.current.forEach((pup) => {
-        ctx.save();
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = pup.color;
-        ctx.fillStyle = pup.color;
-        
+        // Ombre
+        ctx.fillStyle = "rgba(0,0,0,0.5)";
         ctx.beginPath();
-        ctx.arc(pup.x, pup.y, pup.size, 0, Math.PI * 2);
+        ctx.roundRect(pup.x - pup.size + 4, pup.y - pup.size / 2 + 4, pup.size * 2, pup.size, pup.size / 2);
         ctx.fill();
 
+        // Capsule (gauche colorée, droite blanche)
+        ctx.fillStyle = pup.color;
+        ctx.beginPath();
+        ctx.roundRect(pup.x - pup.size, pup.y - pup.size / 2, pup.size, pup.size, {tl: pup.size/2, bl: pup.size/2, tr: 0, br: 0});
+        ctx.fill();
+        
         ctx.fillStyle = "#ffffff";
-        ctx.font = "10px sans-serif";
+        ctx.beginPath();
+        ctx.roundRect(pup.x, pup.y - pup.size / 2, pup.size, pup.size, {tl: 0, bl: 0, tr: pup.size/2, br: pup.size/2});
+        ctx.fill();
+
+        ctx.fillStyle = "#000000";
+        ctx.font = "bold 9px sans-serif";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText(pup.label, pup.x, pup.y + 0.5);
-        ctx.restore();
       });
 
       // Dessiner les particules

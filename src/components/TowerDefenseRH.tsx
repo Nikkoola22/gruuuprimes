@@ -562,33 +562,36 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
     const drawGame = () => {
       const time = Date.now();
 
-      // --- 1. Realistic Natural Grass & Soil Terrain ---
-      ctx.fillStyle = "#1e4630"; // Base lush green
+      // --- 1. Vibrant Cartoon Grass Terrain ---
+      ctx.fillStyle = "#84cc16"; // Bright lime green base
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // Realistic Grass Texture Pattern
+      // Cartoonish Grass Texture Pattern
       for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
           const isPath = PATH_TILES.some(pt => pt.c === c && pt.r === r);
           if (!isPath) {
-            ctx.fillStyle = (r + c) % 2 === 0 ? "#163f2a" : "#1a4931";
+            ctx.fillStyle = (r + c) % 2 === 0 ? "#65a30d" : "#84cc16";
             ctx.fillRect(c * TILE_SIZE, r * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 
-            // Subtle Grass Blades Accent
+            // Small bright grass blades / flowers
             if ((r * 7 + c * 13) % 5 === 0) {
-              ctx.fillStyle = "rgba(52, 211, 153, 0.15)";
-              ctx.fillRect(c * TILE_SIZE + 8, r * TILE_SIZE + 12, 2, 5);
-              ctx.fillRect(c * TILE_SIZE + 11, r * TILE_SIZE + 10, 2, 7);
+              ctx.fillStyle = "#a3e635";
+              ctx.fillRect(c * TILE_SIZE + 8, r * TILE_SIZE + 12, 4, 6);
+              ctx.fillRect(c * TILE_SIZE + 14, r * TILE_SIZE + 10, 4, 8);
+              // tiny white flower
+              ctx.fillStyle = "#ffffff";
+              ctx.beginPath(); ctx.arc(c * TILE_SIZE + 24, r * TILE_SIZE + 24, 2, 0, Math.PI * 2); ctx.fill();
             }
           }
         }
       }
 
-      // --- 2. Realistic Paved Road Path (Drawn under buildings & scenery) ---
+      // --- 2. Bright Stone Paved Road Path (Bloons Style) ---
 
       // 1. Dirt / Sand Foundation Border
-      ctx.strokeStyle = "#78350f";
-      ctx.lineWidth = TILE_SIZE + 6;
+      ctx.strokeStyle = "#84cc16"; // Blend with grass
+      ctx.lineWidth = TILE_SIZE + 12;
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
       ctx.beginPath();
@@ -598,22 +601,21 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
       }
       ctx.stroke();
 
-      // 2. Asphalt Road Bed
-      ctx.strokeStyle = "#334155";
+      // 2. Light Stone Path Border
+      ctx.strokeStyle = "#94a3b8"; // Darker slate for stone border
+      ctx.lineWidth = TILE_SIZE + 4;
+      ctx.stroke();
+
+      // 3. Light Stone Path Bed
+      ctx.strokeStyle = "#cbd5e1"; // Light slate for path
       ctx.lineWidth = TILE_SIZE;
       ctx.stroke();
 
-      // 3. Cobblestone Curbs
-      ctx.strokeStyle = "#475569";
-      ctx.lineWidth = TILE_SIZE - 6;
-      ctx.stroke();
-
-      // 4. Center Dashed Road Line
+      // 4. Cobblestone segments (cross lines)
       ctx.save();
-      ctx.strokeStyle = "#fef08a";
-      ctx.lineWidth = 2;
-      ctx.setLineDash([8, 12]);
-      ctx.lineDashOffset = -(time / 30) % 20;
+      ctx.strokeStyle = "#94a3b8";
+      ctx.lineWidth = 3;
+      ctx.setLineDash([TILE_SIZE, TILE_SIZE]);
       ctx.beginPath();
       ctx.moveTo(WAYPOINTS[0].x, WAYPOINTS[0].y);
       for (let i = 1; i < WAYPOINTS.length; i++) {
@@ -990,41 +992,53 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
       }
 
 
-      // --- 6. Draw High-Tech Towers (Bureaux RH) ---
+      // --- 6. Draw 3D Cartoon Towers (Bureaux RH) ---
       towersRef.current.forEach(t => {
         const tType = TOWER_TYPES[t.type as keyof typeof TOWER_TYPES];
 
         ctx.save();
         ctx.translate(t.x, t.y);
 
-        // 1. Concentric Tech Pedestal Base
-        ctx.shadowColor = tType.glowColor;
-        ctx.shadowBlur = 16;
-        ctx.fillStyle = "#0f172a";
+        // --- 3D Base (Shadow & Pedestal) ---
+        // Drop shadow
+        ctx.fillStyle = "rgba(0,0,0,0.4)";
         ctx.beginPath();
-        ctx.arc(0, 0, 18, 0, Math.PI * 2);
+        ctx.ellipse(0, 10, 20, 14, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Pedestal Cylinder (Base)
+        const pedestalColor = "#334155";
+        const pedestalTopColor = "#475569";
+        const pedestalHeight = 8;
+        
+        // Cylinder body
+        ctx.fillStyle = pedestalColor;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 18, 12, 0, 0, Math.PI); // Bottom curve
+        ctx.lineTo(18, -pedestalHeight);
+        ctx.ellipse(0, -pedestalHeight, 18, 12, 0, 0, Math.PI, true); // Top curve
+        ctx.lineTo(-18, 0);
+        ctx.fill();
+        
+        // Cylinder top
+        ctx.fillStyle = pedestalTopColor;
+        ctx.beginPath();
+        ctx.ellipse(0, -pedestalHeight, 18, 12, 0, 0, Math.PI * 2);
         ctx.fill();
         ctx.strokeStyle = tType.color;
-        ctx.lineWidth = 2.5;
+        ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Inner Rotating Power Ring
+        // Inner Power Ring
         const ringAngle = time / 600;
         ctx.save();
+        ctx.translate(0, -pedestalHeight);
+        ctx.scale(1, 0.6); // isometric squash for ring
         ctx.rotate(ringAngle);
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
-        ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.arc(0, 0, 13, 0, Math.PI * 1.5); ctx.stroke();
+        ctx.strokeStyle = tType.glowColor;
+        ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.arc(0, 0, 12, 0, Math.PI * 1.5); ctx.stroke();
         ctx.restore();
-
-        // 4 Glowing Corner LED Lights
-        for (let i = 0; i < 4; i++) {
-          const a = (Math.PI / 2) * i;
-          ctx.fillStyle = tType.color;
-          ctx.beginPath();
-          ctx.arc(Math.cos(a) * 15, Math.sin(a) * 15, 2.5, 0, Math.PI * 2);
-          ctx.fill();
-        }
 
         // Find Target Angle
         let angle = -Math.PI / 2;
@@ -1044,99 +1058,120 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
         }
 
         if (target) {
+          // Angle includes a slight perspective tweak, but simple 2D angle works for top-down turret
           angle = Math.atan2(target.y - t.y, target.x - t.x);
-
-          // Laser Target Line for Type 1
-          if (t.type === 1) {
-            ctx.save();
-            ctx.strokeStyle = "rgba(59, 130, 246, 0.6)";
-            ctx.lineWidth = 1.5;
-            ctx.setLineDash([4, 4]);
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(target.x - t.x, target.y - t.y);
-            ctx.stroke();
-
-            // Reticle Target Ring on Enemy
-            ctx.strokeStyle = "#60a5fa";
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.arc(target.x - t.x, target.y - t.y, target.radius + 4, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.restore();
-          }
         }
 
-        // --- Tower Specific Graphics ---
+        // Move up to draw turret body
+        ctx.translate(0, -pedestalHeight - 4);
 
         if (t.type === 1) {
-          // TYPE 1: Chargé de Recrutement (Dual Plasma Turret)
+          // TYPE 1: Chargé de Recrutement (Dual Plasma Turret in 3D)
           ctx.rotate(angle);
 
-          // Turret Armor Body
-          ctx.fillStyle = "#1e3a8a";
-          ctx.fillRect(-10, -10, 20, 20);
-          ctx.strokeStyle = "#60a5fa";
-          ctx.lineWidth = 2;
-          ctx.strokeRect(-10, -10, 20, 20);
+          // Turret Body (Rounded Box with 3D depth)
+          ctx.fillStyle = "#1d4ed8"; // dark blue side
+          ctx.fillRect(-10, -6, 20, 18);
+          
+          ctx.fillStyle = "#3b82f6"; // light blue top
+          ctx.beginPath();
+          ctx.roundRect(-12, -12, 24, 20, 6);
+          ctx.fill();
+          
+          // Dual Barrels (Cylinders)
+          ctx.fillStyle = "#1e40af"; // dark blue
+          ctx.fillRect(8, -8, 16, 4);
+          ctx.fillRect(8, 4, 16, 4);
+          ctx.fillStyle = "#60a5fa"; // light blue highlight
+          ctx.fillRect(8, -9, 16, 2);
+          ctx.fillRect(8, 3, 16, 2);
+          
+          // Muzzle glow
+          ctx.fillStyle = "#93c5fd";
+          ctx.beginPath(); ctx.ellipse(24, -7, 2, 4, 0, 0, Math.PI*2); ctx.fill();
+          ctx.beginPath(); ctx.ellipse(24, 5, 2, 4, 0, 0, Math.PI*2); ctx.fill();
 
-          // Dual Barrels
-          ctx.fillStyle = "#3b82f6";
-          ctx.fillRect(4, -6, 12, 3);
-          ctx.fillRect(4, 3, 12, 3);
-
-          // Rotating Radar Dome
-          ctx.fillStyle = "#60a5fa";
-          ctx.beginPath(); ctx.arc(0, 0, 5, 0, Math.PI * 2); ctx.fill();
+          // Radar Dome
+          ctx.fillStyle = "#93c5fd";
+          ctx.beginPath(); ctx.arc(0, 0, 6, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath(); ctx.arc(-2, -2, 2, 0, Math.PI * 2); ctx.fill(); // specular highlight
 
         } else if (t.type === 2) {
-          // TYPE 2: Budget Contractuel (Heavy Gold/Red Cannon)
+          // TYPE 2: Budget Contractuel (Heavy Red Cannon in 3D)
           ctx.rotate(angle);
 
-          // Cannon Body
-          ctx.fillStyle = "#450a0a";
-          ctx.fillRect(-12, -12, 24, 24);
-          ctx.strokeStyle = "#ef4444";
-          ctx.lineWidth = 2;
-          ctx.strokeRect(-12, -12, 24, 24);
+          // Massive Cannon Base
+          ctx.fillStyle = "#7f1d1d"; // dark red side
+          ctx.beginPath(); ctx.roundRect(-14, -8, 28, 24, 4); ctx.fill();
+          
+          ctx.fillStyle = "#ef4444"; // bright red top
+          ctx.beginPath(); ctx.roundRect(-16, -14, 32, 24, 4); ctx.fill();
 
-          // Heavy Quad Cannon Barrels
-          ctx.fillStyle = "#dc2626";
-          ctx.fillRect(0, -8, 16, 16);
+          // Heavy Barrel
+          ctx.fillStyle = "#450a0a";
+          ctx.fillRect(8, -6, 18, 12);
+          ctx.fillStyle = "#b91c1c";
+          ctx.fillRect(8, -7, 18, 5); // highlight
+
+          // Gold Blast Tip
+          ctx.fillStyle = "#b45309";
+          ctx.fillRect(26, -8, 8, 16);
           ctx.fillStyle = "#fbbf24";
-          ctx.fillRect(12, -6, 5, 12); // Gold Blast Tip
+          ctx.fillRect(26, -9, 8, 6); // gold highlight
 
           // Power Core Pulse
-          ctx.fillStyle = "#fbbf24";
-          ctx.beginPath(); ctx.arc(0, 0, 4, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#fef08a";
+          ctx.beginPath(); ctx.arc(0, -2, 5, 0, Math.PI * 2); ctx.fill();
 
         } else if (t.type === 3) {
-          // TYPE 3: Redéploiement (Quantum EMP Spire)
-          const pulse = Math.abs(Math.sin(time / 200)) * 8 + 12;
+          // TYPE 3: Redéploiement (Quantum EMP Spire in 3D)
+          const pulse = Math.abs(Math.sin(time / 200)) * 12 + 16;
 
-          // Expanding EMP Ring
-          ctx.strokeStyle = "rgba(168, 85, 247, 0.4)";
-          ctx.lineWidth = 2;
+          // Expanding EMP Ring (squashed for isometric perspective)
+          ctx.save();
+          ctx.scale(1, 0.6);
+          ctx.strokeStyle = "rgba(216, 180, 254, 0.6)";
+          ctx.lineWidth = 3;
           ctx.beginPath(); ctx.arc(0, 0, pulse, 0, Math.PI * 2); ctx.stroke();
+          ctx.restore();
 
-          // Rotating Crystal Spire
-          const spin = time / 300;
+          // Floating Crystal Spire
+          const floatY = Math.sin(time / 300) * 4;
+          ctx.translate(0, floatY - 8);
+          
+          const spin = time / 400;
           ctx.rotate(spin);
-          ctx.fillStyle = "#c084fc";
-          ctx.shadowColor = "#c084fc";
-          ctx.shadowBlur = 12;
-
-          // Star Spire Shape
+          
+          // 3D Crystal (Two overlapping polygons)
+          ctx.shadowColor = "#d8b4fe";
+          ctx.shadowBlur = 15;
+          
+          // Back/Darker facet
+          ctx.fillStyle = "#7e22ce";
           ctx.beginPath();
-          ctx.moveTo(0, -14);
-          ctx.lineTo(5, -5);
-          ctx.lineTo(14, 0);
-          ctx.lineTo(5, 5);
-          ctx.lineTo(0, 14);
-          ctx.lineTo(-5, 5);
-          ctx.lineTo(-14, 0);
-          ctx.lineTo(-5, -5);
-          ctx.closePath();
+          ctx.moveTo(0, -18);
+          ctx.lineTo(10, 0);
+          ctx.lineTo(0, 18);
+          ctx.lineTo(-10, 0);
+          ctx.fill();
+
+          // Front/Lighter facet
+          ctx.fillStyle = "#c084fc";
+          ctx.beginPath();
+          ctx.moveTo(0, -18);
+          ctx.lineTo(6, 4);
+          ctx.lineTo(0, 18);
+          ctx.lineTo(-6, 4);
+          ctx.fill();
+          
+          // Core bright highlight
+          ctx.fillStyle = "#f3e8ff";
+          ctx.beginPath();
+          ctx.moveTo(0, -10);
+          ctx.lineTo(2, 2);
+          ctx.lineTo(0, 10);
+          ctx.lineTo(-2, 2);
           ctx.fill();
         }
 

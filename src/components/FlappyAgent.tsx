@@ -149,8 +149,8 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
     x: 110,
     y: 310,
     velocity: 0,
-    gravity: 0.35,
-    jump: -7.8,
+    gravity: 0.2,
+    jump: -5.5,
     radius: 20,
     rotation: 0
   });
@@ -198,8 +198,8 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
       x: 110,
       y: 310,
       velocity: 0,
-      gravity: 0.35,
-      jump: -7.8,
+      gravity: 0.2,
+      jump: -5.5,
       radius: 20,
       rotation: 0
     };
@@ -367,7 +367,7 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
 
         // Progressive Game Speed Acceleration (compounds and goes faster and faster!)
         const hundredTier = Math.floor(score / 100);
-        const currentPipeSpeed = 2.6 * Math.pow(1.045, score / 5) + hundredTier * 0.8;
+        const currentPipeSpeed = 2.2 * Math.pow(1.02, score / 10) + hundredTier * 0.4;
         // Dynamic spawn interval to maintain a fair, playable horizontal distance between pipes
         const spawnInterval = Math.max(26, Math.floor(260 / currentPipeSpeed));
 
@@ -973,10 +973,10 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
 
       <div className="max-w-4xl mx-auto relative z-10 w-full flex flex-col items-center">
         {/* Header Bar */}
-        <div className="w-full flex justify-between items-center mb-4 flex-wrap gap-2">
+        <div className="w-full flex justify-between items-center mb-4 flex-wrap gap-2 z-50 relative">
           <button
             onClick={onClose}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0 cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             <span>Retour</span>
@@ -992,8 +992,8 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
           <div className="flex items-center gap-3">
             {/* Audio Mute Button */}
             <button
-              onClick={() => setIsMuted(!isMuted)}
-              className="p-2 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-full text-slate-300 transition-all"
+              onClick={(e) => { e.stopPropagation(); setIsMuted(!isMuted); }}
+              className="p-2 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-full text-slate-300 transition-all hover:scale-110 active:scale-95 cursor-pointer"
               title={isMuted ? "Activer le son" : "Couper le son"}
             >
               {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-cyan-400" />}
@@ -1079,7 +1079,7 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
 
               <button
                 onClick={(e) => { e.stopPropagation(); startNewGame(); }}
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 text-sm uppercase tracking-wider"
+                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 text-sm uppercase tracking-wider cursor-pointer"
               >
                 <Play className="w-5 h-5 fill-current" />
                 Décoller au Jetpack
@@ -1101,7 +1101,7 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
 
               <button
                 onClick={(e) => { e.stopPropagation(); startNewGame(); }}
-                className="flex items-center gap-2 px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 text-xs uppercase"
+                className="flex items-center gap-2 px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 text-xs uppercase cursor-pointer"
               >
                 <RotateCcw className="w-4 h-4" />
                 Recommencer l'envol

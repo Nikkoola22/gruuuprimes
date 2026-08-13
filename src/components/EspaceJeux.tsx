@@ -97,7 +97,7 @@ const themeStyles: Record<string, { bg: string, text: string, border: string, sh
 const games: GameDef[] = [
   // Row 1: Featured large card + small cards
   { id: "tycoon", title: "Gennevilliers City", description: "\"Ma Collectivité\" : Un jeu de gestion au tour par tour. Gérez le budget, calmez les syndicats, et survivez aux crises !", actionText: "Prendre ses fonctions", icon: Building2, iconTheme: "amber", bgImage: "tycoon.png", spanClass: "md:col-span-2 lg:col-span-2 lg:row-span-2", iconSizeClass: "w-8 h-8 sm:w-12 sm:h-12", titleSizeClass: "text-3xl sm:text-5xl" },
-  { id: "directrh", title: "Le Direct'RH", description: "Incarnez un responsable de service : swipez pour trancher et maintenez vos 4 jauges en équilibre. Style Reigns !", actionText: "Prendre ses fonctions", icon: Crown, iconTheme: "amber", bgImage: "directrh.png", spanClass: "col-span-1" },
+  { id: "directrh", title: "Défi du Responsable", description: "Incarnez un responsable de service : swipez pour trancher et maintenez vos 4 jauges en équilibre. Style Reigns !", actionText: "Prendre ses fonctions", icon: Crown, iconTheme: "amber", bgImage: "directrh.png", spanClass: "col-span-1" },
   // Row 2: Two small + one large
   { id: "flappy", title: "Flappy Agent", description: "Envolez-vous au-dessus des obstacles administratifs et récoltez des primes bonus.", actionText: "Décoller", icon: Feather, iconTheme: "emerald", bgImage: "flappy.png", spanClass: "col-span-1" },
   { id: "quiz", title: "Quiz FAQ", description: "10 questions sur les droits de la fonction publique.", actionText: "Lancer", icon: HelpCircle, iconTheme: "orange", bgImage: "quiz.png", spanClass: "col-span-1" },

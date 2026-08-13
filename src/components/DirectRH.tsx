@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
-import { ArrowLeft, ChevronLeft, ChevronRight, RotateCcw, Users, Heart, Wallet, Scale, Crown, Skull, Volume2, VolumeX } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, RotateCcw, Users, Heart, Wallet, Scale, Crown, Skull, Volume2, VolumeX, Undo2, Redo2 } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface CardDef {
@@ -283,9 +283,20 @@ const imageMap: Record<number, string> = {
   3: '/scenarios/scenario_3.png',
   4: '/scenarios/scenario_4.png',
   5: '/scenarios/scenario_5.png',
+  6: '/scenarios/scenario_6.jpg',
   7: '/scenarios/scenario_7.png',
+  8: '/scenarios/scenario_8.jpg',
+  9: '/scenarios/scenario_9.jpg',
   10: '/scenarios/scenario_10.png',
+  11: '/scenarios/scenario_11.jpg',
+  12: '/scenarios/scenario_12.jpg',
+  13: '/scenarios/scenario_13.jpg',
+  14: '/scenarios/scenario_14.jpg',
   15: '/scenarios/scenario_15.png',
+  16: '/scenarios/scenario_16.jpg',
+  17: '/scenarios/scenario_17.jpg',
+  18: '/scenarios/scenario_18.jpg',
+  19: '/scenarios/scenario_19.jpg',
   20: '/scenarios/scenario_20.png',
 };
 
@@ -524,18 +535,22 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-600 rounded-full blur-[150px]" />
         </div>
 
-        <button onClick={onClose} className="absolute top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 rounded-xl border border-slate-700/50 backdrop-blur-sm transition-all duration-200">
-          <ArrowLeft className="w-4 h-4" /> Retour
+        <button
+          onClick={onClose}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0 cursor-pointer absolute top-6 left-6 z-50"
+        >
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <span>Retour</span>
         </button>
 
-        <button onClick={() => setIsMuted(!isMuted)} className="absolute top-6 right-6 z-50 p-3 bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 rounded-xl border border-slate-700/50 backdrop-blur-sm transition-all">
+        <button onClick={() => setIsMuted(!isMuted)} className="absolute top-6 right-6 z-50 p-3 bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 rounded-xl border border-slate-700/50 backdrop-blur-sm transition-all hover:scale-105 active:scale-95 cursor-pointer">
           {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
         </button>
 
         <div className="relative z-10 text-center max-w-lg">
           <div className="text-7xl mb-6 animate-bounce">👔</div>
           <h1 className="text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 mb-4 tracking-tight">
-            Le Direct'RH
+            Défi du Responsable
           </h1>
           <p className="text-slate-400 text-lg mb-2">Jeu de choix narratif — Style Reigns</p>
           <p className="text-slate-500 text-sm mb-8 max-w-md mx-auto leading-relaxed">
@@ -596,7 +611,7 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
             <button onClick={startGame} className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-xl shadow-lg transition-all transform hover:scale-105 active:scale-95">
               <RotateCcw className="w-4 h-4 inline mr-2" /> Rejouer
             </button>
-            <button onClick={onClose} className="px-8 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl border border-slate-700/50 transition-all">
+            <button onClick={onClose} className="px-8 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl border border-slate-700/50 transition-all active:scale-95 cursor-pointer">
               Quitter
             </button>
           </div>
@@ -619,15 +634,19 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
 
       {/* Top bar */}
       <div className="relative z-20 flex items-center justify-between px-4 py-3 bg-slate-900/80 backdrop-blur-md border-b border-slate-800/50">
-        <button onClick={onClose} className="flex items-center gap-1.5 text-slate-400 hover:text-white text-sm transition-colors">
-          <ArrowLeft className="w-4 h-4" /> Retour
+        <button
+          onClick={onClose}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0 cursor-pointer"
+        >
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <span>Retour</span>
         </button>
         <div className="flex items-center gap-2">
           <span className="text-xs text-slate-500 font-mono">Décision #{cardsPlayed + 1}</span>
           <span className="text-xs text-slate-600">|</span>
-          <span className="text-sm font-bold text-indigo-300">👔 Direct'RH</span>
+          <span className="text-sm font-bold text-indigo-300">👔 Défi du Responsable</span>
         </div>
-        <button onClick={() => setIsMuted(!isMuted)} className="p-2 text-slate-400 hover:text-white transition-colors">
+        <button onClick={() => setIsMuted(!isMuted)} className="p-2 text-slate-400 hover:text-white transition-colors hover:scale-110 active:scale-95 cursor-pointer">
           {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
         </button>
       </div>
@@ -653,14 +672,14 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
         {/* Center: card + choices */}
         <div className="flex flex-col items-center flex-1 max-w-sm relative">
           {/* Direction hints */}
-          <div className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 transition-all duration-300 ${previewDir === "left" ? "opacity-100 scale-110" : "opacity-0"}`}>
-            <div className="px-2 py-2 bg-red-500/20 border border-red-500/40 rounded-xl">
-              <ChevronLeft className="w-5 h-5 text-red-400" />
+          <div className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-8 transition-all duration-300 pointer-events-none z-20 ${previewDir === "left" ? "opacity-100 scale-125" : "opacity-80 animate-[bounce_2s_infinite]"}`}>
+            <div className="px-2 py-2 bg-indigo-500/30 border border-indigo-400/60 rounded-full shadow-lg shadow-indigo-500/40">
+              <Undo2 className="w-5 h-5 text-indigo-300" />
             </div>
           </div>
-          <div className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 transition-all duration-300 ${previewDir === "right" ? "opacity-100 scale-110" : "opacity-0"}`}>
-            <div className="px-2 py-2 bg-emerald-500/20 border border-emerald-500/40 rounded-xl">
-              <ChevronRight className="w-5 h-5 text-emerald-400" />
+          <div className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-8 transition-all duration-300 pointer-events-none z-20 ${previewDir === "right" ? "opacity-100 scale-125" : "opacity-80 animate-[bounce_2s_infinite_0.5s]"}`}>
+            <div className="px-2 py-2 bg-emerald-500/30 border border-emerald-400/60 rounded-full shadow-lg shadow-emerald-500/40">
+              <Redo2 className="w-5 h-5 text-emerald-300" />
             </div>
           </div>
 

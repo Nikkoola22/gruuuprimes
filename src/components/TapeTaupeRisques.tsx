@@ -236,123 +236,157 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="relative z-30 isolate min-h-screen flex flex-col pt-6 sm:pt-10 overflow-x-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-500  sm: px-4 font-sans text-slate-800 dark:text-slate-100 touch-none select-none">
-      {/* Background glow effects */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-amber-500/10 via-purple-500/10 to-rose-500/10 rounded-full blur-3xl pointer-events-none z-0" />
-
-      <div className="max-w-4xl mx-auto relative z-10 flex flex-col items-center h-full">
+    <div className="relative min-h-screen flex flex-col pt-4 overflow-x-hidden bg-sky-200 text-slate-800 touch-none select-none font-sans">
+      
+      {/* Sky Clouds (Background) */}
+      <div className="absolute top-10 left-10 w-32 h-12 bg-white rounded-full opacity-80 pointer-events-none" style={{ boxShadow: '40px -10px 0 10px white, 80px 0 0 0 white' }}></div>
+      <div className="absolute top-24 right-20 w-24 h-8 bg-white rounded-full opacity-70 pointer-events-none" style={{ boxShadow: '30px -15px 0 5px white, 60px 0 0 -5px white' }}></div>
+      
+      <div className="max-w-2xl mx-auto relative z-10 flex flex-col items-center h-full w-full px-2">
         
         {/* Retour button */}
-        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-50">
+        <div className="absolute top-0 left-2 sm:top-2 sm:left-4 z-50">
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:scale-105 active:scale-95 transition-all"
           >
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            <ArrowLeft className="w-4 h-4" />
             <span>Retour</span>
           </button>
         </div>
 
-        {/* Header */}
-        <div className="text-center mb-6 w-full">
-          <h1 className="text-3xl sm:text-5xl font-black tracking-wider uppercase bg-gradient-to-r from-orange-400 via-amber-300 to-rose-400 bg-clip-text text-transparent drop-shadow-sm mb-3">
-            Tape-Taupe des Risques
-          </h1>
+        {/* Header - Cartoon Style UI */}
+        <div className="text-center mb-4 w-full mt-10">
           
-          <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-4 text-xs sm:text-sm font-bold">
-            <span className="bg-slate-900/80 backdrop-blur-md px-4 py-1.5 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.3)] border border-purple-500/30 text-slate-200 flex items-center gap-2">
-              Niveau : <span className="text-purple-400 font-black text-base">{level}</span>
-            </span>
-            <span className="bg-slate-900/80 backdrop-blur-md px-4 py-1.5 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.3)] border border-emerald-500/30 text-slate-200 flex items-center gap-2">
-              Dossiers traités : <span className="text-emerald-400 font-black text-base">{score}</span>
-            </span>
-            <span className="bg-slate-900/80 backdrop-blur-md px-4 py-1.5 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.3)] border border-rose-500/30 text-slate-200 flex items-center gap-2">
-              Alerte : 
-              <div className="flex gap-1.5">
+          <div className="flex justify-center gap-4 text-xs sm:text-sm font-bold mt-2">
+            
+            {/* Vies / Alerte (Red Cross style in image) */}
+            <div className="bg-[#4e2d1d] border-4 border-[#8c5a35] rounded-full px-4 py-1.5 flex items-center justify-center min-w-[120px] text-white shadow-lg relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-8 bg-red-500 rounded-full border-2 border-white flex items-center justify-center shadow-md">
+                <div className="w-4 h-4 bg-white" style={{ clipPath: 'polygon(33% 0, 66% 0, 66% 33%, 100% 33%, 100% 66%, 66% 66%, 66% 100%, 33% 100%, 33% 66%, 0 66%, 0 33%, 33% 33%)' }}></div>
+              </div>
+              <div className="flex gap-1.5 mt-2">
                 {[...Array(MAX_ERRORS)].map((_, i) => (
                   <div 
                     key={i} 
-                    className={`w-3.5 h-3.5 rounded-full transition-all duration-300 ${i < errors ? 'bg-rose-500 shadow-[0_0_12px_rgba(244,63,94,1)] scale-110' : 'bg-slate-800 border border-slate-700'}`}
+                    className={`w-3.5 h-3.5 rounded-full transition-all duration-300 ${i < errors ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,1)] scale-110' : 'bg-slate-700 border border-slate-900'}`}
                   />
                 ))}
               </div>
-            </span>
+            </div>
+
+            {/* Score */}
+            <div className="bg-[#4e2d1d] border-4 border-[#8c5a35] rounded-full px-6 py-2 flex items-center text-white shadow-lg">
+              <span className="text-amber-400 mr-2 text-lg">★</span>
+              <span className="text-[10px] mr-2 opacity-80 uppercase">Score</span>
+              <span className="text-2xl font-black">{score * 100}</span>
+            </div>
+            
           </div>
         </div>
 
-        {/* Game Grid Area */}
-        <div className="relative w-full max-w-2xl bg-slate-950/70 backdrop-blur-2xl rounded-3xl p-3 sm:p-5 shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-slate-800/80 overflow-hidden">
+        {/* Game Field Container */}
+        <div className="relative w-full max-w-[500px] flex-1 mt-4 rounded-t-3xl border-4 border-amber-600/50 shadow-2xl overflow-hidden bg-[#593d2b] flex flex-col items-center">
           
-          {/* Grille css 3x3 */}
-          <div className="grid grid-cols-3 grid-rows-3 gap-3 sm:gap-4 w-full aspect-square relative z-10">
+          {/* Trees Background (Dark Green Zigzags) */}
+          <div className="absolute top-0 left-0 w-full h-12 bg-[#2d4b24]" 
+               style={{ clipPath: 'polygon(0% 100%, 5% 0%, 10% 100%, 15% 0%, 20% 100%, 25% 0%, 30% 100%, 35% 0%, 40% 100%, 45% 0%, 50% 100%, 55% 0%, 60% 100%, 65% 0%, 70% 100%, 75% 0%, 80% 100%, 85% 0%, 90% 100%, 95% 0%, 100% 100%, 0% 100%)' }} />
+          
+          {/* Grass Strip */}
+          <div className="absolute top-10 left-0 w-full h-8 bg-[#65a30d] border-b-4 border-[#4d7c0f] z-10" />
+
+          {/* Dirt Area (with scattered rocks) */}
+          <div className="relative w-full h-full mt-20 p-2 sm:p-4 grid grid-cols-3 grid-rows-3 gap-x-2 gap-y-6 sm:gap-y-8 z-10 pb-8">
+            
+            {/* Random rocks */}
+            <div className="absolute top-32 left-8 w-6 h-3 bg-[#78716c] rounded-[100%] opacity-80 pointer-events-none" />
+            <div className="absolute top-48 right-12 w-4 h-2 bg-[#78716c] rounded-[100%] opacity-80 pointer-events-none" />
+            <div className="absolute bottom-20 left-1/3 w-7 h-4 bg-[#57534e] rounded-[100%] opacity-80 pointer-events-none" />
+            <div className="absolute bottom-8 right-1/4 w-5 h-2 bg-[#a8a29e] rounded-[100%] opacity-80 pointer-events-none" />
+
             {holes.map((mole, i) => (
               <div 
                 key={i} 
-                className="relative bg-slate-900/90 rounded-2xl border border-slate-800 flex items-center justify-center overflow-hidden shadow-[inset_0_4px_12px_rgba(0,0,0,0.8)] cursor-pointer group hover:border-amber-500/40 transition-all duration-200"
+                className="relative w-full aspect-[5/4] flex items-end justify-center cursor-pointer group"
                 onPointerDown={(e) => handleHoleClick(i, e)}
               >
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40 pointer-events-none" />
+                {/* The Hole (Dark Ellipse on ground) */}
+                <div className="absolute bottom-0 w-[85%] h-[40%] bg-[#2a1b12] rounded-[100%] shadow-[inset_0_5px_8px_rgba(0,0,0,0.8)] border border-[#3e271a]" />
                 
-                {/* La Taupe (Carte) */}
-                {mole && !mole.hit && (
-                  <div 
-                    className={`absolute inset-1.5 bg-gradient-to-t ${mole.def.color} rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.6)] flex flex-col items-center justify-center animate-slide-up border border-white/30 z-10 cursor-pointer active:scale-95 transition-transform`}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent rounded-xl pointer-events-none" />
-                    <span className="relative z-10 text-4xl sm:text-6xl drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] transform hover:scale-110 transition-transform">
-                      {mole.def.emoji}
-                    </span>
-                    <span className="relative z-10 text-[11px] sm:text-[13px] font-extrabold uppercase tracking-wide mt-1.5 text-center leading-tight px-1 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] line-clamp-2">
-                      {mole.def.label}
-                    </span>
-                  </div>
-                )}
+                {/* Hole number (for styling debug/look) */}
+                <div className="absolute -bottom-5 text-[#8b6145] text-xs font-bold">{i}</div>
+
+                {/* The Mole (Masked to look like it's coming out of the hole) */}
+                <div className="absolute bottom-[20%] w-full h-[150%] overflow-hidden pointer-events-none flex flex-col items-center justify-end pb-4">
+                  {mole && !mole.hit && (
+                    <div className="relative flex flex-col items-center animate-slide-up origin-bottom">
+                      
+                      {/* Aura/Glow */}
+                      <div className="absolute inset-0 bg-orange-400 rounded-full opacity-30 blur-md" />
+                      
+                      {/* Mole Body (Flame shape/Character) */}
+                      <div className={`relative flex flex-col items-center justify-center p-2 rounded-t-full rounded-b-[2rem] shadow-lg w-20 h-24 ${mole.def.isDanger ? 'bg-gradient-to-t from-red-600 to-orange-400 border-2 border-orange-300' : 'bg-gradient-to-t from-blue-500 to-cyan-400 border-2 border-cyan-200'}`}>
+                        
+                        {/* Eyes */}
+                        <div className="absolute top-8 flex gap-3 w-full justify-center">
+                          <div className="w-2.5 h-3.5 bg-black rounded-full" />
+                          <div className="w-2.5 h-3.5 bg-black rounded-full" />
+                        </div>
+                        
+                        {/* Emoji inside */}
+                        <div className="text-3xl mt-1 drop-shadow-md z-10">{mole.def.emoji}</div>
+                        
+                        {/* Label Badge */}
+                        <div className="absolute -bottom-3 z-20 bg-black/80 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full whitespace-nowrap border border-white/30 shadow-md">
+                          {mole.def.label}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
           </div>
 
           {/* Overlays */}
           {gameState === "ready" && (
-            <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center z-20 animate-fade-in">
-              <div className="w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_35px_rgba(245,158,11,0.5)] transform -rotate-3 hover:rotate-0 transition-transform">
-                <AlertTriangle className="w-10 h-10 text-white drop-shadow-md" />
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-20">
+              <div className="w-24 h-24 bg-gradient-to-br from-amber-400 to-orange-500 rounded-3xl border-4 border-white flex items-center justify-center mb-4 shadow-xl transform rotate-3">
+                <AlertTriangle className="w-12 h-12 text-white" />
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-white mb-3 uppercase tracking-wide">Prévention des Risques</h2>
-              <p className="text-slate-300 max-w-md mx-auto mb-8 font-medium text-sm leading-relaxed">
-                Tapez sur les situations dangereuses (<span className="text-amber-400 font-bold">RPS</span>, <span className="text-rose-400 font-bold">Non-respect des horaires</span>, <span className="text-orange-400 font-bold">Chutes</span>) avant qu'il ne soit trop tard ! <br/><br/>
-                <span className="inline-block bg-slate-900/90 border border-amber-500/30 px-3 py-1.5 rounded-lg text-amber-300 text-xs">
-                  ⚠️ <strong>ATTENTION :</strong> Ne tapez pas sur le Délégué 🛡️ ni sur les équipements conformes 🦺 !
-                </span>
+              <h2 className="text-3xl font-black text-white mb-2 uppercase drop-shadow-md">TAPE-TAUPE DES RISQUES</h2>
+              <p className="text-white max-w-sm font-medium text-sm mb-6 bg-black/50 p-4 rounded-xl border border-white/20">
+                Tapez sur les situations dangereuses (<span className="text-orange-400 font-bold">flammes oranges</span>) avant qu'il ne soit trop tard ! <br/><br/>
+                Ne tapez pas sur les bonnes pratiques (<span className="text-cyan-400 font-bold">flammes bleues</span>).
               </p>
               <button
                 onClick={startGame}
-                className="flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black rounded-full text-lg transition-all shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:scale-105 active:scale-95 uppercase tracking-wider"
+                className="flex items-center gap-3 px-8 py-4 bg-gradient-to-b from-green-400 to-green-600 hover:from-green-300 hover:to-green-500 text-white font-black rounded-full text-xl shadow-[0_6px_0_#166534] hover:translate-y-[2px] hover:shadow-[0_4px_0_#166534] active:translate-y-[6px] active:shadow-none transition-all uppercase"
               >
                 <Play className="w-6 h-6 fill-current" />
-                Démarrer la partie
+                JOUER !
               </button>
             </div>
           )}
 
           {gameState === "gameover" && (
-            <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center z-20 animate-fade-in">
-              <h2 className="text-4xl sm:text-6xl font-black bg-gradient-to-r from-rose-500 to-red-600 bg-clip-text text-transparent mb-2 leading-tight uppercase tracking-wider drop-shadow-[0_0_20px_rgba(225,29,72,0.5)]">
-                ALERTE DÉCLENCHÉE !
+            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-20">
+              <h2 className="text-5xl font-black text-red-500 mb-2 uppercase drop-shadow-[0_2px_4px_#000]">
+                TERMINÉ !
               </h2>
-              <p className="text-slate-300 text-base mb-6 max-w-md">Trop d'accidents ou de non-conformités ont été signalés sur votre site.</p>
               
-              <div className="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl mb-8 flex flex-col items-center min-w-[220px] shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-                <p className="text-slate-400 text-xs uppercase tracking-widest font-bold mb-1">Dossiers traités</p>
-                <p className="text-6xl font-black text-amber-400 drop-shadow-[0_0_15px_rgba(245,158,11,0.4)]">{score}</p>
+              <div className="bg-[#4e2d1d] border-4 border-[#8c5a35] p-5 rounded-2xl mb-8 flex flex-col items-center min-w-[200px] shadow-xl mt-4">
+                <p className="text-amber-200 text-xs font-bold mb-1">SCORE FINAL</p>
+                <p className="text-5xl font-black text-white">{score * 100}</p>
               </div>
               
               <button
                 onClick={startGame}
-                className="flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black rounded-full text-base transition-all shadow-[0_0_25px_rgba(225,29,72,0.5)] hover:scale-105 active:scale-95 uppercase tracking-wider"
+                className="flex items-center gap-3 px-6 py-4 bg-gradient-to-b from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 text-white font-black rounded-full text-lg shadow-[0_6px_0_#1e3a8a] hover:translate-y-[2px] hover:shadow-[0_4px_0_#1e3a8a] active:translate-y-[6px] active:shadow-none transition-all uppercase"
               >
                 <ArrowLeft className="w-5 h-5" />
-                Reprendre le service
+                REJOUER
               </button>
             </div>
           )}
@@ -363,8 +397,12 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
         {feedback.map(f => (
           <div 
             key={f.id}
-            className={`fixed font-black text-2xl drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] pointer-events-none animate-float-up z-50 ${f.color}`}
-            style={{ left: f.x - 20, top: f.y - 20 }}
+            className={`fixed font-black text-3xl pointer-events-none animate-float-up z-50 ${f.color}`}
+            style={{ 
+              left: f.x - 20, 
+              top: f.y - 20,
+              textShadow: '2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000'
+            }}
           >
             {f.text}
           </div>
@@ -374,19 +412,18 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
 
       <style>{`
         @keyframes slideUp {
-          from { transform: translateY(100%) scale(0.8); opacity: 0; }
-          to { transform: translateY(0) scale(1); opacity: 1; }
+          from { transform: translateY(100%); }
+          to { transform: translateY(0%); }
         }
         .animate-slide-up {
-          animation: slideUp 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+          animation: slideUp 0.15s ease-out forwards;
         }
         @keyframes floatUp {
-          0% { transform: translateY(0) scale(0.8); opacity: 1; }
-          50% { transform: translateY(-30px) scale(1.3); opacity: 1; }
-          100% { transform: translateY(-60px) scale(1.5); opacity: 0; }
+          0% { transform: translateY(0) scale(1); opacity: 1; }
+          100% { transform: translateY(-50px) scale(1.5); opacity: 0; }
         }
         .animate-float-up {
-          animation: floatUp 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+          animation: floatUp 0.6s ease-out forwards;
         }
       `}</style>
     </div>
