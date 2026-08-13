@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo, lazy, Suspense } from "react"
-import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Radio, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye, Users, MessageCircleQuestion, HeartHandshake, Briefcase, Shield, CircleUser, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop } from "lucide-react"
+import { Phone, Bot, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Radio, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye, Users, MessageCircleQuestion, HeartHandshake, Briefcase, Shield, CircleUser, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 
 // --- IMPORTATIONS DES DONNÉES ---
@@ -66,7 +66,7 @@ const updateMarqueeDuration = (el: HTMLDivElement | null) => {
 
 const ViewLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-950 to-slate-900">
-    <div className="px-4 py-3 rounded-xl border border-purple-400/30 bg-slate-900/60 text-purple-100/90 backdrop-blur-md">
+    <div className="px-4 py-3 rounded-xl border border-purple-400/30 bg-slate-900/60 text-purple-100/90 ">
       Chargement en cours...
     </div>
   </div>
@@ -141,10 +141,10 @@ const RssBandeau = React.memo(({ rssItems, rssLoading, marqueeRef }: { rssItems:
   }
 
   return (
-    <section className="relative bg-gradient-to-r from-orange-600/60 via-amber-500/60 to-orange-600/60 backdrop-blur-md text-orange-950 overflow-hidden w-full shadow-lg border-b border-orange-500/30 z-50 glass-banner marquee-pausable">
+    <section className="relative bg-gradient-to-r from-orange-600/60 via-amber-500/60 to-orange-600/60 text-orange-950 overflow-hidden w-full shadow-lg border-b border-orange-500/30 z-50 glass-banner marquee-pausable">
       <div className="relative h-16 flex items-center overflow-hidden">
         {/* Label ACTU fixe à gauche */}
-        <div className="absolute left-0 top-0 h-full w-40 flex items-center justify-center bg-gradient-to-r from-amber-400 to-orange-300 backdrop-blur z-20 shadow-lg glass-pill actu-pill-glow">
+        <div className="absolute left-0 top-0 h-full w-40 flex items-center justify-center bg-gradient-to-r from-amber-400 to-orange-300 z-20 shadow-lg glass-pill actu-pill-glow">
           <div className="flex items-center gap-2">
             <Rss className="w-4 h-4 text-orange-950 animate-pulse" />
             <span className="text-base font-bold tracking-wide text-orange-950">ACTU:</span>
@@ -1394,7 +1394,7 @@ ${indicesFactuels}
       )}
 
       {/* HEADER PROFESSIONNEL MODERNE & DYNAMIQUE */}
-      <header className={`relative bg-white/75 dark:bg-slate-950/75 backdrop-blur-xl border-b border-slate-200/30 dark:border-slate-800/30 shadow-sm dark:shadow-blue-950/10 z-30 transition-all duration-300 ${showMacMenuBar ? 'mt-7' : ''}`}>
+      <header className={`relative bg-white/75 dark:bg-slate-950/75 border-b border-slate-200/30 dark:border-slate-800/30 shadow-sm dark:shadow-blue-950/10 z-30 transition-all duration-300 ${showMacMenuBar ? 'mt-7' : ''}`}>
         {/* Shimmer effect / Ligne brillante animée */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
           <div
@@ -1429,7 +1429,7 @@ ${indicesFactuels}
               </div>
 
               <div className="flex flex-col justify-center">
-                <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 dark:from-white dark:via-blue-100 dark:to-white drop-shadow-sm transition-colors duration-300">
+                <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 dark:from-white dark:via-blue-100 dark:to-white transition-colors duration-300">
                   ATLAS
                 </h1>
                 <div className="flex items-center gap-1.5 mt-0.5">
@@ -1447,7 +1447,7 @@ ${indicesFactuels}
                 {/* Halo lumineux dégradé au survol */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-indigo-500 to-orange-500 rounded-full blur-md opacity-25 group-hover/badge:opacity-60 transition-opacity duration-500 animate-pulse"></div>
 
-                <div className="relative flex items-center gap-3 px-6 py-2 rounded-full bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-700/80 backdrop-blur-xl shadow-lg shadow-blue-500/5 transition-all duration-300 hover:scale-[1.02] hover:border-blue-400/50">
+                <div className="relative flex items-center gap-3 px-6 py-2 rounded-full bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-700/80 shadow-lg shadow-blue-500/5 transition-all duration-300 hover:scale-[1.02] hover:border-blue-400/50">
                   <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-xs">
                     <Landmark className="w-3.5 h-3.5" />
                   </div>
@@ -1499,7 +1499,7 @@ ${indicesFactuels}
               <div className="lg:col-span-1">
 
                 {/* Barre d'accès rapide */}
-                <div className="max-w-7xl mx-auto mt-8 mb-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
+                <div className="max-w-7xl mx-auto mt-8 mb-4 bg-white/90 dark:bg-slate-800/90 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
 
 
 
@@ -1530,7 +1530,7 @@ ${indicesFactuels}
                         )}
                       </AnimatePresence>
                       <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-purple-100 dark:group-hover:bg-purple-900/50 transition-colors">
-                        <Search className="w-16 h-16 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
+                        <Bot className="w-16 h-16 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
                       </div>
                       <span className="relative z-10 text-sm font-bold text-center">J'ai une<br />question</span>
                     </button>
@@ -1749,7 +1749,7 @@ ${indicesFactuels}
 
               {/* --- FENÊTRE UNIQUE COMBINÉE : ACTUALITÉS SYNDICALES & VEILLE JURIDIQUE CÔTE À CÔTE --- */}
               <div className="mt-8 mb-8">
-                <div className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10">
+                <div className="w-full bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 dark:divide-slate-800">
 
                     {/* CÔTÉ GAUCHE : Actualités Syndicales & Statutaires */}
@@ -1769,7 +1769,7 @@ ${indicesFactuels}
                         {/* Article principal Statutaire CIG */}
                         <div className="flex flex-col sm:flex-row gap-5 group/card">
                           <div className="relative w-full sm:w-48 h-36 overflow-hidden rounded-xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
-                            <img src="https://www.cig929394.fr/wp-content/uploads/2026/07/FOCUS-BIP_Actu-juillet26-480x252.png" alt="Autorisations d'absence" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
+                            <img loading="lazy" src="https://www.cig929394.fr/wp-content/uploads/2026/07/FOCUS-BIP_Actu-juillet26-480x252.png" alt="Autorisations d'absence" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
                             <span className="absolute top-2 left-2 inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/90 dark:bg-slate-900/90 text-red-600 dark:text-red-400 border border-red-200 shadow-xs">
                               Statutaire CIG
                             </span>
@@ -1818,8 +1818,8 @@ ${indicesFactuels}
 
                         <div className="flex flex-col sm:flex-row gap-5 mb-4 group/card">
                           <div className="relative w-full sm:w-48 h-36 overflow-hidden rounded-xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-900/50">
-                            <img src="/images/legal_news_illustration.png" alt="Veille Juridique" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
-                            <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur text-purple-300 border border-purple-500/30">
+                            <img loading="lazy" src="/images/legal_news_illustration.png" alt="Veille Juridique" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
+                            <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-900/80 text-purple-300 border border-purple-500/30">
                               Juridique
                             </span>
                           </div>
@@ -1847,13 +1847,13 @@ ${indicesFactuels}
               </div>
 
               {/* --- SECTION SECONDAIRE : CARROUSELS DÉTACHÉS ET JOURNAL --- */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-12">
 
-                {/* COLONNE CARROUSELS (2/3 largeur) */}
-                <div className="lg:col-span-2 space-y-8">
+                {/* COLONNE CARROUSELS (3/4 largeur) */}
+                <div className="lg:col-span-3 space-y-8">
 
                   {/* CARROUSEL 1 DÉTACHÉ : En direct de la CFDT Interco */}
-                  <div className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10">
+                  <div className="w-full bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10">
                     <div className="flex items-center justify-between mb-4">
                       <h4 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
                         <Rss className="w-5 h-5 text-blue-600 dark:text-blue-400" />
@@ -1922,7 +1922,7 @@ ${indicesFactuels}
                                     }}
                                   />
                                   {article.category && (
-                                    <span className="absolute top-1.5 left-1.5 inline-block text-[9px] font-bold px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 backdrop-blur text-blue-700 dark:text-blue-300 border border-blue-200 shadow-xs">
+                                    <span className="absolute top-1.5 left-1.5 inline-block text-[9px] font-bold px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 text-blue-700 dark:text-blue-300 border border-blue-200 shadow-xs">
                                       {article.category}
                                     </span>
                                   )}
@@ -1948,7 +1948,7 @@ ${indicesFactuels}
                   </div>
 
                   {/* CARROUSEL 2 : Actualités de la Fonction Publique */}
-                  <div className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10">
+                  <div className="w-full bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/40 rounded-xl border border-emerald-200 dark:border-emerald-800 flex items-center justify-center">
                         <Landmark className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
@@ -2017,7 +2017,7 @@ ${indicesFactuels}
                                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
                                   </div>
                                 )}
-                                <span className="absolute top-1.5 left-1.5 inline-block text-[9px] font-bold px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 backdrop-blur text-emerald-700 dark:text-emerald-300 border border-emerald-200 shadow-xs z-10 max-w-[90%] truncate">
+                                <span className="absolute top-1.5 left-1.5 inline-block text-[9px] font-bold px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 text-emerald-700 dark:text-emerald-300 border border-emerald-200 shadow-xs z-10 max-w-[90%] truncate">
                                   {article.category || 'Actualité'}
                                 </span>
                               </div>
@@ -2044,8 +2044,8 @@ ${indicesFactuels}
 
                 </div>
 
-                {/* COLONNE DROITE (1/3 largeur) : LE JOURNAL CFDT (À LIRE) */}
-                <div className="lg:col-span-1 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 flex flex-col justify-between h-full">
+                {/* COLONNE DROITE (1/4 largeur) : LE JOURNAL CFDT (À LIRE) */}
+                <div className="lg:col-span-1 bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 flex flex-col justify-between h-full">
                   <div>
                     <div className="flex items-center gap-3 mb-6">
                       <div className="p-2.5 bg-indigo-50 dark:bg-indigo-900/40 rounded-xl border border-indigo-200 dark:border-indigo-800 flex items-center justify-center">
@@ -2073,7 +2073,6 @@ ${indicesFactuels}
                         <div className="flex flex-col shrink-0">
                           <h4 className="text-slate-900 dark:text-white text-base font-bold mb-1 flex items-center gap-1.5">
                             <FileText className="w-4 h-4 text-orange-500 shrink-0" />
-                            Journal — Printemps 2026
                           </h4>
                           <p className="text-slate-600 dark:text-slate-400 text-xs mb-4 leading-relaxed font-medium">
                             Découvrez la dernière édition de l'Écho de la CFDT.
@@ -2094,7 +2093,7 @@ ${indicesFactuels}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full mb-12">
 
                 {/* Colonne 1 : À connaître (Docs de référence) */}
-                <div className="w-full bg-gradient-to-br from-white/95 via-rose-50/50 to-pink-50/30 dark:from-slate-900/95 dark:via-rose-950/20 dark:to-slate-900/95 backdrop-blur-2xl rounded-3xl p-6 border-2 border-rose-200/80 dark:border-rose-800/40 shadow-2xl shadow-rose-500/10 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-rose-500/20 hover:border-rose-300 relative z-10 flex flex-col justify-between group">
+                <div className="w-full bg-gradient-to-br from-white/95 via-rose-50/50 to-pink-50/30 dark:from-slate-900/95 dark:via-rose-950/20 dark:to-slate-900/95 rounded-3xl p-6 border-2 border-rose-200/80 dark:border-rose-800/40 shadow-2xl shadow-rose-500/10 transition-transform duration-300 hover:-translate-y-1.5 hover:shadow-rose-500/20 hover:border-rose-300 relative z-10 flex flex-col justify-between group">
                   <div>
                     {/* Header de la carte */}
                     <div className="flex items-center justify-between mb-5 pb-4 border-b border-rose-100/80 dark:border-rose-900/40">
@@ -2215,8 +2214,144 @@ ${indicesFactuels}
                   </div>
                 </div>
 
-                {/* Colonne 2 : Liens utiles */}
-                <div className="w-full bg-gradient-to-br from-white/95 via-cyan-50/50 to-sky-50/30 dark:from-slate-900/95 dark:via-cyan-950/20 dark:to-slate-900/95 backdrop-blur-2xl rounded-3xl p-6 border-2 border-cyan-200/80 dark:border-cyan-800/40 shadow-2xl shadow-cyan-500/10 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-cyan-500/20 hover:border-cyan-300 relative z-10 flex flex-col justify-between group overflow-hidden">
+                {/* Colonne 3 : À voir (YouTube RH) */}
+                <div className="w-full bg-gradient-to-br from-white/95 via-amber-50/50 to-yellow-50/30 dark:from-slate-900/95 dark:via-amber-950/20 dark:to-slate-900/95 rounded-3xl p-6 border-2 border-amber-200/80 dark:border-amber-800/40 shadow-2xl shadow-amber-500/10 transition-transform duration-300 hover:-translate-y-1.5 hover:shadow-amber-500/20 hover:border-amber-300 relative z-10 flex flex-col justify-between group">
+                  <div>
+                    {/* Header de la carte */}
+                    <div className="flex items-center justify-between mb-5 pb-4 border-b border-amber-100/80 dark:border-amber-900/40">
+                      <div className="flex items-center gap-3.5">
+                        <div className="p-3 bg-gradient-to-br from-amber-500 to-yellow-500 text-slate-950 rounded-2xl shadow-lg shadow-amber-500/30 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                          <PlayCircle className="w-6 h-6 fill-current" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">À voir</h3>
+                            <span className="bg-amber-500/10 border border-amber-400/30 text-amber-700 dark:text-amber-300 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
+                              YouTube RH
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Vidéos & préparation aux concours FPT</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Liste des vidéos */}
+                    <div className="flex flex-col gap-3.5">
+                      {/* Vidéo 1 */}
+                      <a
+                        href="https://youtu.be/7clMZoElV9o?si=tFlkNao1VyFKrDzC"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/item relative bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border border-amber-100 dark:border-slate-700 hover:border-amber-300 rounded-2xl p-3 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
+                      >
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-amber-500 to-yellow-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                        <div className="w-16 h-12 flex-shrink-0 rounded-xl bg-slate-900 overflow-hidden relative shadow-md border border-slate-200 dark:border-slate-700 group-hover/item:scale-105 transition-transform duration-300">
+                          <img loading="lazy" src="https://img.youtube.com/vi/7clMZoElV9o/hqdefault.jpg" alt="Les 50 acronymes indispensables" className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover/item:bg-black/20 transition-colors">
+                            <PlayCircle className="w-5 h-5 text-white drop-shadow-lg group-hover/item:scale-110 transition-transform" />
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-200/50 dark:border-amber-800/50">
+                              Sigles & Concours
+                            </span>
+                          </div>
+                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-amber-600 transition-colors truncate">
+                            Les 50 acronymes
+                          </h4>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                            Décoder les sigles clés des concours.
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 p-2 rounded-xl bg-amber-50 dark:bg-amber-900/40 group-hover/item:bg-amber-500 text-amber-600 group-hover/item:text-slate-950 transition-all shadow-sm">
+                          <ExternalLinkIcon className="w-4 h-4" />
+                        </div>
+                      </a>
+
+                      {/* Vidéo 2 */}
+                      <a
+                        href="https://www.youtube.com/watch?v=z0mVMJHO8GA"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/item relative bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border border-amber-100 dark:border-slate-700 hover:border-amber-300 rounded-2xl p-3 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
+                      >
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-amber-500 to-yellow-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                        <div className="w-16 h-12 flex-shrink-0 rounded-xl bg-slate-900 overflow-hidden relative shadow-md border border-slate-200 dark:border-slate-700 group-hover/item:scale-105 transition-transform duration-300">
+                          <img loading="lazy" src="https://img.youtube.com/vi/z0mVMJHO8GA/hqdefault.jpg" alt="150 Questions-Réponses Oral" className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover/item:bg-black/20 transition-colors">
+                            <PlayCircle className="w-5 h-5 text-white drop-shadow-lg group-hover/item:scale-110 transition-transform" />
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-200/50 dark:border-amber-800/50">
+                              Préparation Jury
+                            </span>
+                          </div>
+                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-amber-600 transition-colors truncate">
+                            150 Questions Oral
+                          </h4>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                            Entraînement complet aux entretiens.
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 p-2 rounded-xl bg-amber-50 dark:bg-amber-900/40 group-hover/item:bg-amber-500 text-amber-600 group-hover/item:text-slate-950 transition-all shadow-sm">
+                          <ExternalLinkIcon className="w-4 h-4" />
+                        </div>
+                      </a>
+
+                      {/* Vidéo 3 */}
+                      <a
+                        href="https://www.youtube.com/watch?v=m9Nirxu_wFk"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/item relative bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border border-amber-100 dark:border-slate-700 hover:border-amber-300 rounded-2xl p-3 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
+                      >
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-amber-500 to-yellow-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
+                        <div className="w-16 h-12 flex-shrink-0 rounded-xl bg-slate-900 overflow-hidden relative shadow-md border border-slate-200 dark:border-slate-700 group-hover/item:scale-105 transition-transform duration-300">
+                          <img loading="lazy" src="https://img.youtube.com/vi/m9Nirxu_wFk/hqdefault.jpg" alt="30 Situations Oral" className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover/item:bg-black/20 transition-colors">
+                            <PlayCircle className="w-5 h-5 text-white drop-shadow-lg group-hover/item:scale-110 transition-transform" />
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-200/50 dark:border-amber-800/50">
+                              Cas Pratiques
+                            </span>
+                          </div>
+                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-amber-600 transition-colors truncate">
+                            30 Mises en situation
+                          </h4>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                            Cas pratiques et mises en situation.
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 p-2 rounded-xl bg-amber-50 dark:bg-amber-900/40 group-hover/item:bg-amber-500 text-amber-600 group-hover/item:text-slate-950 transition-all shadow-sm">
+                          <ExternalLinkIcon className="w-4 h-4" />
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Pied de carte */}
+                  <div className="mt-4 pt-3 border-t border-amber-100/60 dark:border-amber-900/40 flex items-center justify-between text-xs text-amber-800 dark:text-amber-300 font-extrabold">
+                    <a
+                      href="https://www.youtube.com/results?search_query=fonction+publique+territoriale"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-amber-700 dark:text-amber-300 hover:text-amber-900 transition-colors"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                      Voir plus sur YouTube
+                    </a>
+                    <ExternalLinkIcon className="w-3.5 h-3.5 text-amber-500" />
+                  </div>
+                </div>
+
+{/* Colonne 2 : Liens utiles */}
+                <div className="w-full bg-gradient-to-br from-white/95 via-cyan-50/50 to-sky-50/30 dark:from-slate-900/95 dark:via-cyan-950/20 dark:to-slate-900/95 rounded-3xl p-6 border-2 border-cyan-200/80 dark:border-cyan-800/40 shadow-2xl shadow-cyan-500/10 transition-transform duration-300 hover:-translate-y-1.5 hover:shadow-cyan-500/20 hover:border-cyan-300 relative z-10 flex flex-col justify-between group overflow-hidden">
                   <BorderBeam size={160} duration={8} delay={0} colorFrom="#06b6d4" colorTo="#3b82f6" />
                   <div>
                     {/* Header de la carte */}
@@ -2257,7 +2392,7 @@ ${indicesFactuels}
                           >
                             <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-cyan-500 to-blue-500 opacity-80 group-hover/item:opacity-100 transition-opacity" />
                             <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 p-1 flex items-center justify-center shadow-inner border border-cyan-100/60 dark:border-slate-700 relative group-hover/item:scale-105 transition-transform duration-300">
-                              <img src={imageSrc} alt={label} className="w-full h-full object-contain rounded-lg" />
+                              <img loading="lazy" src={imageSrc} alt={label} className="w-full h-full object-contain rounded-lg" />
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-1.5 mb-0.5">
@@ -2291,143 +2426,7 @@ ${indicesFactuels}
                   </div>
                 </div>
 
-                {/* Colonne 3 : À voir (YouTube RH) */}
-                <div className="w-full bg-gradient-to-br from-white/95 via-amber-50/50 to-yellow-50/30 dark:from-slate-900/95 dark:via-amber-950/20 dark:to-slate-900/95 backdrop-blur-2xl rounded-3xl p-6 border-2 border-amber-200/80 dark:border-amber-800/40 shadow-2xl shadow-amber-500/10 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-amber-500/20 hover:border-amber-300 relative z-10 flex flex-col justify-between group">
-                  <div>
-                    {/* Header de la carte */}
-                    <div className="flex items-center justify-between mb-5 pb-4 border-b border-amber-100/80 dark:border-amber-900/40">
-                      <div className="flex items-center gap-3.5">
-                        <div className="p-3 bg-gradient-to-br from-amber-500 to-yellow-500 text-slate-950 rounded-2xl shadow-lg shadow-amber-500/30 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
-                          <PlayCircle className="w-6 h-6 fill-current" />
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">À voir</h3>
-                            <span className="bg-amber-500/10 border border-amber-400/30 text-amber-700 dark:text-amber-300 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
-                              YouTube RH
-                            </span>
-                          </div>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Vidéos & préparation aux concours FPT</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Liste des vidéos */}
-                    <div className="flex flex-col gap-3.5">
-                      {/* Vidéo 1 */}
-                      <a
-                        href="https://youtu.be/7clMZoElV9o?si=tFlkNao1VyFKrDzC"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group/item relative bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border border-amber-100 dark:border-slate-700 hover:border-amber-300 rounded-2xl p-3 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
-                      >
-                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-amber-500 to-yellow-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
-                        <div className="w-16 h-12 flex-shrink-0 rounded-xl bg-slate-900 overflow-hidden relative shadow-md border border-slate-200 dark:border-slate-700 group-hover/item:scale-105 transition-transform duration-300">
-                          <img src="https://img.youtube.com/vi/7clMZoElV9o/hqdefault.jpg" alt="Les 50 acronymes indispensables" className="w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover/item:bg-black/20 transition-colors">
-                            <PlayCircle className="w-5 h-5 text-white drop-shadow-lg group-hover/item:scale-110 transition-transform" />
-                          </div>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-1.5 mb-0.5">
-                            <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-200/50 dark:border-amber-800/50">
-                              Sigles & Concours
-                            </span>
-                          </div>
-                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-amber-600 transition-colors truncate">
-                            Les 50 acronymes
-                          </h4>
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
-                            Décoder les sigles clés des concours.
-                          </p>
-                        </div>
-                        <div className="flex-shrink-0 p-2 rounded-xl bg-amber-50 dark:bg-amber-900/40 group-hover/item:bg-amber-500 text-amber-600 group-hover/item:text-slate-950 transition-all shadow-sm">
-                          <ExternalLinkIcon className="w-4 h-4" />
-                        </div>
-                      </a>
-
-                      {/* Vidéo 2 */}
-                      <a
-                        href="https://www.youtube.com/watch?v=z0mVMJHO8GA"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group/item relative bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border border-amber-100 dark:border-slate-700 hover:border-amber-300 rounded-2xl p-3 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
-                      >
-                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-amber-500 to-yellow-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
-                        <div className="w-16 h-12 flex-shrink-0 rounded-xl bg-slate-900 overflow-hidden relative shadow-md border border-slate-200 dark:border-slate-700 group-hover/item:scale-105 transition-transform duration-300">
-                          <img src="https://img.youtube.com/vi/z0mVMJHO8GA/hqdefault.jpg" alt="150 Questions-Réponses Oral" className="w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover/item:bg-black/20 transition-colors">
-                            <PlayCircle className="w-5 h-5 text-white drop-shadow-lg group-hover/item:scale-110 transition-transform" />
-                          </div>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-1.5 mb-0.5">
-                            <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-200/50 dark:border-amber-800/50">
-                              Préparation Jury
-                            </span>
-                          </div>
-                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-amber-600 transition-colors truncate">
-                            150 Questions Oral
-                          </h4>
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
-                            Entraînement complet aux entretiens.
-                          </p>
-                        </div>
-                        <div className="flex-shrink-0 p-2 rounded-xl bg-amber-50 dark:bg-amber-900/40 group-hover/item:bg-amber-500 text-amber-600 group-hover/item:text-slate-950 transition-all shadow-sm">
-                          <ExternalLinkIcon className="w-4 h-4" />
-                        </div>
-                      </a>
-
-                      {/* Vidéo 3 */}
-                      <a
-                        href="https://www.youtube.com/watch?v=m9Nirxu_wFk"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group/item relative bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border border-amber-100 dark:border-slate-700 hover:border-amber-300 rounded-2xl p-3 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
-                      >
-                        <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-amber-500 to-yellow-400 opacity-80 group-hover/item:opacity-100 transition-opacity" />
-                        <div className="w-16 h-12 flex-shrink-0 rounded-xl bg-slate-900 overflow-hidden relative shadow-md border border-slate-200 dark:border-slate-700 group-hover/item:scale-105 transition-transform duration-300">
-                          <img src="https://img.youtube.com/vi/m9Nirxu_wFk/hqdefault.jpg" alt="30 Situations Oral" className="w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover/item:bg-black/20 transition-colors">
-                            <PlayCircle className="w-5 h-5 text-white drop-shadow-lg group-hover/item:scale-110 transition-transform" />
-                          </div>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-1.5 mb-0.5">
-                            <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-200/50 dark:border-amber-800/50">
-                              Cas Pratiques
-                            </span>
-                          </div>
-                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-amber-600 transition-colors truncate">
-                            30 Mises en situation
-                          </h4>
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
-                            Cas pratiques et mises en situation.
-                          </p>
-                        </div>
-                        <div className="flex-shrink-0 p-2 rounded-xl bg-amber-50 dark:bg-amber-900/40 group-hover/item:bg-amber-500 text-amber-600 group-hover/item:text-slate-950 transition-all shadow-sm">
-                          <ExternalLinkIcon className="w-4 h-4" />
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Pied de carte */}
-                  <div className="mt-4 pt-3 border-t border-amber-100/60 dark:border-amber-900/40 flex items-center justify-between text-xs text-amber-800 dark:text-amber-300 font-extrabold">
-                    <a
-                      href="https://www.youtube.com/results?search_query=fonction+publique+territoriale"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 text-amber-700 dark:text-amber-300 hover:text-amber-900 transition-colors"
-                    >
-                      <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                      Voir plus sur YouTube
-                    </a>
-                    <ExternalLinkIcon className="w-3.5 h-3.5 text-amber-500" />
-                  </div>
-                </div>
-
-              </div>
+                              </div>
 
             </div>
           </>
@@ -2483,7 +2482,7 @@ ${indicesFactuels}
       {chatState.currentView === 'calculators' && (
         <section className="fixed inset-0 z-[60] overflow-y-auto overflow-x-hidden overscroll-contain bg-slate-50 dark:bg-gradient-to-br dark:from-slate-900 dark:via-blue-950 dark:to-slate-900">
           {/* Header */}
-          <div className="sticky top-0 bg-white/95 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700/50 shadow-sm z-30 glass-banner">
+          <div className="sticky top-0 bg-white/95 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-700/50 shadow-sm z-30 glass-banner">
             <div className="max-w-6xl mx-auto px-4 py-4">
               <div className="flex items-center justify-between">
                 <button
@@ -2515,7 +2514,7 @@ ${indicesFactuels}
                 {/* Carte CIA */}
                 <button
                   onClick={() => openCalculator('cia')}
-                  className="group relative bg-white dark:bg-slate-800/80 backdrop-blur-md border border-orange-200 dark:border-orange-500/20 rounded-2xl p-8 shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg dark:hover:shadow-orange-500/10 hover:border-orange-300 dark:hover:border-orange-500/40"
+                  className="group relative bg-white dark:bg-slate-800/80 border border-orange-200 dark:border-orange-500/20 rounded-2xl p-8 shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg dark:hover:shadow-orange-500/10 hover:border-orange-300 dark:hover:border-orange-500/40"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 dark:from-orange-500/5 via-transparent to-amber-50/50 dark:to-amber-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <div className="relative z-10 flex flex-col items-center gap-6">
@@ -2533,7 +2532,7 @@ ${indicesFactuels}
                 {/* Carte 13ème Mois */}
                 <button
                   onClick={() => openCalculator('13eme')}
-                  className="group relative bg-white dark:bg-slate-800/80 backdrop-blur-md border border-emerald-200 dark:border-emerald-500/20 rounded-2xl p-8 shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg dark:hover:shadow-emerald-500/10 hover:border-emerald-300 dark:hover:border-emerald-500/40"
+                  className="group relative bg-white dark:bg-slate-800/80 border border-emerald-200 dark:border-emerald-500/20 rounded-2xl p-8 shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg dark:hover:shadow-emerald-500/10 hover:border-emerald-300 dark:hover:border-emerald-500/40"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/50 dark:from-emerald-500/5 via-transparent to-green-50/50 dark:to-green-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <div className="relative z-10 flex flex-col items-center gap-6">
@@ -2551,7 +2550,7 @@ ${indicesFactuels}
                 {/* Carte Primes IFSE */}
                 <button
                   onClick={() => openCalculator('primes')}
-                  className="group relative bg-white dark:bg-slate-800/80 backdrop-blur-md border border-cyan-200 dark:border-cyan-500/20 rounded-2xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-cyan-500/10 hover:border-cyan-300 dark:hover:border-cyan-500/40 hover:scale-105 hover:-translate-y-2 transition-transform duration-150"
+                  className="group relative bg-white dark:bg-slate-800/80 border border-cyan-200 dark:border-cyan-500/20 rounded-2xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-cyan-500/10 hover:border-cyan-300 dark:hover:border-cyan-500/40 hover:scale-105 hover:-translate-y-2 transition-transform duration-150"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-cyan-50/50 dark:from-cyan-500/5 via-transparent to-blue-50/50 dark:to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
                   <div className="relative z-10 flex flex-col items-center gap-6">
@@ -2596,9 +2595,9 @@ ${indicesFactuels}
         {chatState.currentView === "chat" && (
           <div
             ref={chatContainerRef}
-            className="bg-gradient-to-br from-slate-800/80 via-purple-900/80 to-slate-800/80 backdrop-blur-md border border-purple-500/30 rounded-2xl shadow-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 glass-card animate-chat-enter"
+            className="bg-gradient-to-br from-slate-800/80 via-purple-900/80 to-slate-800/80 border border-purple-500/30 rounded-2xl shadow-2xl overflow-hidden hover:shadow-xl transition-all duration-300 glass-card animate-chat-enter"
           >
-            <div className="bg-gradient-to-r from-purple-600/70 via-pink-600/70 to-purple-600/70 backdrop-blur text-white p-6 glass-banner">
+            <div className="bg-gradient-to-r from-purple-600/70 via-pink-600/70 to-purple-600/70 text-white p-6 glass-banner">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-3 min-w-0">
                   <Search className="w-7 h-7 text-pink-200" />
@@ -2622,7 +2621,7 @@ ${indicesFactuels}
               {chatState.messages.map((message, index) => (
                 <div key={index} className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}>
                   <div
-                    className={`max-w-xs lg:max-w-md px-4 py-3 rounded-xl backdrop-blur-sm font-light glass-card ${message.type === "user" ? "bg-gradient-to-r from-purple-600/70 to-pink-600/70 text-white shadow-lg" : "bg-slate-700/70 text-slate-100 border border-purple-500/30"}`}
+                    className={`max-w-xs lg:max-w-md px-4 py-3 rounded-xl font-light glass-card ${message.type === "user" ? "bg-gradient-to-r from-purple-600/70 to-pink-600/70 text-white shadow-lg" : "bg-slate-700/70 text-slate-100 border border-purple-500/30"}`}
                   >
                     <div className="whitespace-pre-wrap break-words text-sm">{message.content}</div>
                     <div className={`text-xs mt-2 ${message.type === "user" ? "text-purple-100" : "text-slate-400"}`}>
@@ -2633,7 +2632,7 @@ ${indicesFactuels}
               ))}
               {chatState.isProcessing && (
                 <div className="flex justify-start">
-                  <div className="bg-slate-700/70 backdrop-blur-sm border border-purple-500/30 px-4 py-3 rounded-xl glass-card">
+                  <div className="bg-slate-700/70 border border-purple-500/30 px-4 py-3 rounded-xl glass-card">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-purple-400 rounded-full typing-dot-1"></div>
                       <div className="w-2 h-2 bg-purple-400 rounded-full typing-dot-2"></div>
@@ -2662,7 +2661,7 @@ ${indicesFactuels}
               )}
               <div ref={messagesEndRef} />
             </div>
-            <div className="border-t border-purple-500/30 bg-gradient-to-r from-slate-800/80 to-purple-900/80 backdrop-blur-md p-4 glass-banner">
+            <div className="border-t border-purple-500/30 bg-gradient-to-r from-slate-800/80 to-purple-900/80 p-4 glass-banner">
               <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                 <input
                   ref={inputRef}
@@ -2671,7 +2670,7 @@ ${indicesFactuels}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Ex: Combien de jours de congés ? Comment utiliser mon CPF ? Télétravail possible ?"
-                  className="flex-1 min-w-0 px-3 sm:px-4 py-3 border border-purple-500/30 rounded-lg focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 outline-none transition-all duration-200 bg-slate-700/70 backdrop-blur-sm text-base sm:text-sm font-normal text-white placeholder-slate-300"
+                  className="flex-1 min-w-0 px-3 sm:px-4 py-3 border border-purple-500/30 rounded-lg focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 outline-none transition-all duration-200 bg-slate-700/70 text-base sm:text-sm font-normal text-white placeholder-slate-300"
                   disabled={chatState.isProcessing}
                 />
                 <button
@@ -2692,7 +2691,7 @@ ${indicesFactuels}
       {chatState.currentView === "menu" && selectedInfo && (
         <section className="relative z-10 px-4 sm:px-6 lg:px-8 pb-6">
           <div className="max-w-full mx-auto">
-            <section className="info-detail bg-gradient-to-br from-slate-800/80 via-purple-900/80 to-slate-800/80 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-purple-500/30 max-w-4xl mx-auto hover:shadow-2xl transition-shadow glass-card">
+            <section className="info-detail bg-gradient-to-br from-slate-800/80 via-purple-900/80 to-slate-800/80 p-8 rounded-2xl shadow-xl border border-purple-500/30 max-w-4xl mx-auto hover:shadow-xl transition-shadow glass-card">
               <h3 className="text-3xl font-light bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent mb-4">{selectedInfo.title}</h3>
               <p className="text-slate-200 leading-relaxed">{selectedInfo.content}</p>
               <button

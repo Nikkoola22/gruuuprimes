@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 export const OrangeGeometricBackground = () => {
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      {/* 1. Large soft glowing blue blobs */}
+      {/* 1. Large soft glowing blue blobs (Optimized: using radial gradient instead of blur-3xl) */}
       <motion.div
         animate={{
           x: [0, 30, 0],
@@ -15,7 +15,8 @@ export const OrangeGeometricBackground = () => {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute top-1/4 left-1/4 w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] rounded-full bg-gradient-to-tr from-blue-500/10 to-indigo-500/5 dark:from-blue-500/5 dark:to-transparent blur-3xl"
+        className="absolute top-1/4 left-1/4 w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] bg-[radial-gradient(circle_at_center,_rgba(59,130,246,0.15)_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(59,130,246,0.08)_0%,_transparent_70%)]"
+        style={{ willChange: "transform" }}
       />
 
       <motion.div
@@ -28,7 +29,8 @@ export const OrangeGeometricBackground = () => {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] rounded-full bg-gradient-to-br from-cyan-500/10 to-blue-600/5 dark:from-blue-600/5 dark:to-transparent blur-3xl"
+        className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] bg-[radial-gradient(circle_at_center,_rgba(6,182,212,0.15)_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(6,182,212,0.08)_0%,_transparent_70%)]"
+        style={{ willChange: "transform" }}
       />
 
       {/* 2. Dotted Geometric Grids */}

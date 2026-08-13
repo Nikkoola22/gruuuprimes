@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { 
-  ArrowLeft, 
+  Key, Lock, LockKeyhole, LogOut, ArrowLeft, 
   RotateCcw, 
   BookOpen, 
   FileText, 
@@ -237,443 +237,404 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 text-slate-100 font-sans min-h-screen flex flex-col justify-between">
+    <div className="max-w-6xl mx-auto px-4 py-8 font-sans min-h-screen flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-indigo-950 via-purple-900 to-indigo-950">
       
-      {/* HEADER BAR */}
-      <div>
-        <div className="flex justify-between items-center mb-8">
-          <button
-            onClick={onClose}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
-          >
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            <span>Retour à l'Espace Jeux</span>
-          </button>
-          
-          <div className="flex items-center gap-2 bg-purple-950/40 border border-purple-500/30 px-3 py-1.5 rounded-full">
-            <span className="text-xs sm:text-sm text-purple-300 font-bold">Escape Game RH</span>
-            <div className="w-2.5 h-2.5 rounded-full bg-purple-400 animate-pulse"></div>
-          </div>
-        </div>
-
-        {/* TITLE BLOCK */}
-        <div className="text-center mb-8">
-          <div className="inline-flex p-3.5 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-purple-400 mb-3 shadow-lg">
-            <Building2 className="w-8 h-8" />
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-black tracking-tight mb-3 bg-gradient-to-r from-purple-300 via-pink-200 to-purple-400 bg-clip-text text-transparent">
-            Escape Game RH
-          </h1>
-          <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto font-normal leading-relaxed">
-            S'échapper des mauvaises situations de travail en adoptant les bons réflexes statutaires et QVT dans la fonction publique.
-          </p>
-        </div>
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-40 mix-blend-screen">
+        <div className="absolute top-0 right-10 w-96 h-96 bg-pink-500 rounded-full blur-[100px] animate-[pulse_4s_infinite]"></div>
+        <div className="absolute bottom-10 left-10 w-80 h-80 bg-cyan-400 rounded-full blur-[90px] animate-[pulse_5s_infinite]"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500 rounded-full blur-[150px] animate-[pulse_3s_infinite]"></div>
       </div>
 
-      {/* WORKSPACE */}
-      <div className="flex-grow flex items-center justify-center my-4">
-        <AnimatePresence mode="wait">
+      {/* HEADER BAR */}
+      <div className="relative z-10 w-full max-w-4xl mx-auto">
+        <div className="flex justify-between items-center mb-8 bg-white/10 backdrop-blur-md border-4 border-slate-900 p-4 rounded-3xl shadow-[6px_6px_0px_#1e1b4b]">
+          <div className="flex items-center gap-3">
+            <div className="p-3 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 text-white shadow-inner border-2 border-slate-900 rotate-[-5deg]">
+              <LockKeyhole className="w-6 h-6" />
+            </div>
+            <div>
+              <h1 className="text-xl sm:text-2xl font-black text-white uppercase tracking-wider" style={{ fontFamily: 'Impact, sans-serif' }}>
+                Escape Game <span className="text-pink-400">RH</span>
+              </h1>
+              <p className="text-indigo-200 text-xs font-bold uppercase tracking-widest">Dossiers Confidentiels</p>
+            </div>
+          </div>
           
-          {/* WELCOME VIEW */}
-          {gameState === "welcome" && (
-            <motion.div 
-              key="welcome"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="w-full max-w-2xl bg-slate-950/90 border border-purple-500/30 rounded-3xl p-8 backdrop-blur-2xl relative overflow-hidden shadow-[0_0_50px_rgba(168,85,247,0.2)]"
-            >
-              <div className="absolute -top-10 -right-10 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
-              
-              <h2 className="text-2xl sm:text-3xl font-black text-white mb-4 text-center tracking-wide uppercase font-mono">
-                ES-TU PRÊT À RELEVER LE DÉFI RH ?
-              </h2>
-              
-              <p className="text-slate-200 text-sm sm:text-base leading-relaxed mb-6 font-normal text-center">
-                Chaque jour, les agents et managers territoriaux font face à des choix complexes : surcharge d'activité, conflits d'usagers, respect du droit d'alerte, déconnexion en télétravail...
-              </p>
-              
-              <div className="border border-slate-800 bg-slate-900/90 rounded-2xl p-6 mb-8 text-sm text-slate-200 leading-relaxed font-normal shadow-inner">
-                <strong className="text-purple-300 block mb-3 font-bold uppercase tracking-wider text-xs font-mono">🔍 Concept du jeu :</strong>
-                Vous allez être confronté à <span className="text-purple-300 font-bold">5 scénarios de crise réalistes</span>. Pour chacun, choisissez la meilleure réponse :
-                <ul className="mt-3 space-y-2.5">
-                  <li className="flex items-start gap-2.5">
-                    <span className="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold text-xs shrink-0 mt-0.5">2 pts</span>
-                    <span><strong className="text-emerald-300 font-semibold">Le Bon Réflexe</strong> : préserve la QVT et s'appuie sur les bons dispositifs légaux.</span>
-                  </li>
-                  <li className="flex items-start gap-2.5">
-                    <span className="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold text-xs shrink-0 mt-0.5">1 pt</span>
-                    <span><strong className="text-amber-300 font-semibold">Le Choix Risqué</strong> : solution temporaire improvisée qui masque le problème.</span>
-                  </li>
-                  <li className="flex items-start gap-2.5">
-                    <span className="px-2 py-0.5 rounded bg-rose-500/20 border border-rose-500/40 text-rose-300 font-bold text-xs shrink-0 mt-0.5">0 pt</span>
-                    <span><strong className="text-rose-300 font-semibold">Le Choix Contre-Productif</strong> : nuit au collectif et aggrave la crise.</span>
-                  </li>
-                </ul>
-              </div>
+          <button
+            onClick={onClose}
+            className="p-3 bg-rose-500 hover:bg-rose-400 border-4 border-slate-900 text-white rounded-xl shadow-[4px_4px_0px_#000] active:shadow-none active:translate-y-1 active:translate-x-1 transition-all"
+            title="Quitter la mission"
+          >
+            <LogOut className="w-5 h-5" />
+          </button>
+        </div>
 
-              <div className="flex justify-center">
-                <button
-                  onClick={handleStart}
-                  className="px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white rounded-full font-black text-base shadow-[0_0_30px_rgba(168,85,247,0.5)] transform hover:scale-105 active:scale-95 transition-all flex items-center gap-3 uppercase tracking-wider"
-                >
-                  Commencer l'escape game
-                  <ArrowRight className="w-5 h-5" />
-                </button>
-              </div>
-            </motion.div>
-          )}
+        <div className="flex-1 flex flex-col items-center justify-center min-h-[60vh]">
+          <AnimatePresence mode="wait">
 
-          {/* PLAYING VIEW */}
-          {gameState === "playing" && (
-            <motion.div 
-              key="playing"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              className="w-full max-w-3xl flex flex-col gap-6"
-            >
-              {/* PROGRESS BAR & STAGE COUNTER */}
-              <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-5 backdrop-blur-md flex flex-col gap-3 shadow-lg">
-                <div className="flex justify-between items-center text-xs sm:text-sm">
-                  <span className="text-slate-300 font-medium">Scénario de crise <strong className="text-purple-300">{currentScenarioIndex + 1}</strong> sur <strong>{maxScenarios}</strong></span>
-                  <span className="font-bold text-purple-300 bg-purple-950/60 px-3 py-1 rounded-full border border-purple-500/30 uppercase tracking-wider text-[11px] sm:text-xs">
-                    {currentScenario.theme}
-                  </span>
+            {/* MENU VIEW */}
+            {gameState === "welcome" && (
+              <motion.div 
+                key="welcome"
+                initial={{ opacity: 0, scale: 0.8, rotate: -2 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 1.1, rotate: 2 }}
+                transition={{ type: "spring", bounce: 0.5 }}
+                className="w-full bg-white border-4 border-slate-900 rounded-[2.5rem] p-8 shadow-[12px_12px_0px_#4c1d95] relative overflow-hidden text-slate-900"
+              >
+                {/* Top Secret Badge */}
+                <div className="absolute -top-6 -right-6 bg-yellow-400 font-black text-xs uppercase px-10 py-3 rotate-45 border-b-4 border-slate-900 shadow-sm z-20">
+                  Top Secret
                 </div>
-                {/* Visual bar */}
-                <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
-                  <div 
-                    className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-purple-400 transition-all duration-500 rounded-full"
-                    style={{ width: `${((currentScenarioIndex + (selectedChoiceIndex !== null ? 1 : 0)) / maxScenarios) * 100}%` }}
-                  ></div>
+                
+                <div className="text-center mb-6 relative">
+                  <div className="inline-flex p-4 rounded-full bg-indigo-100 border-4 border-slate-900 shadow-[6px_6px_0px_#000] text-indigo-600 mb-6 animate-bounce">
+                    <Key className="w-12 h-12" />
+                  </div>
+                  <h2 className="text-4xl sm:text-6xl font-black mb-2 uppercase tracking-tighter" style={{ fontFamily: 'Impact, sans-serif' }}>
+                    MISSION : <span className="text-indigo-600">CRISES RH</span>
+                  </h2>
+                  <div className="inline-block px-5 py-2 bg-pink-500 text-white font-black text-sm uppercase rounded-full border-2 border-slate-900 shadow-[4px_4px_0px_#000] -rotate-2 mt-2">
+                    Votre objectif : Sauver la collectivité !
+                  </div>
                 </div>
-              </div>
-
-              {/* SITUATION CARD */}
-              <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-purple-950/40 border border-purple-500/30 rounded-3xl p-7 relative overflow-hidden shadow-xl">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl"></div>
-                <div className="flex items-center gap-2 mb-2 text-xs font-bold uppercase tracking-wider text-purple-400">
-                  <ShieldAlert className="w-4 h-4 text-purple-400" />
-                  Mise en situation #{currentScenario.id}
-                </div>
-                <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-3 tracking-tight">
-                  {currentScenario.title}
-                </h3>
-                <p className="text-slate-200 text-sm sm:text-base leading-relaxed font-normal bg-slate-950/50 p-4 rounded-2xl border border-slate-800/80">
-                  {currentScenario.description}
+                
+                <p className="text-slate-700 text-base sm:text-lg leading-relaxed mb-8 font-bold text-center">
+                  Attention Agent ! Des dossiers épineux vous attendent (surcharge, conflits...). À vous de trouver LA bonne solution pour débloquer la situation.
                 </p>
-              </div>
-
-              {/* OPTIONS LIST */}
-              <div className="flex flex-col gap-4">
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider px-1">
-                  Sélectionnez la meilleure réponse :
+                
+                <div className="border-4 border-slate-900 bg-cyan-100 rounded-3xl p-6 mb-8 shadow-[inset_4px_4px_0px_rgba(0,0,0,0.1)] relative">
+                  <div className="absolute -left-4 -top-4 bg-purple-500 w-10 h-10 rounded-full border-4 border-slate-900 shadow-[2px_2px_0px_#000] flex items-center justify-center rotate-[-10deg]">
+                    <Sparkles className="w-5 h-5 text-yellow-300" />
+                  </div>
+                  <strong className="block mb-4 font-black uppercase tracking-wider text-lg text-slate-900 border-b-4 border-slate-900/10 pb-2">Règles d'évaluation :</strong>
+                  <ul className="space-y-4">
+                    <li className="flex items-center gap-4 bg-white p-3 rounded-2xl border-4 border-slate-900 shadow-[4px_4px_0px_#10b981]">
+                      <span className="px-3 py-1 rounded bg-emerald-400 font-black text-sm border-2 border-slate-900">2 pts</span>
+                      <span className="font-bold text-slate-800">Le Bon Réflexe (Bingo !)</span>
+                    </li>
+                    <li className="flex items-center gap-4 bg-white p-3 rounded-2xl border-4 border-slate-900 shadow-[4px_4px_0px_#f59e0b]">
+                      <span className="px-3 py-1 rounded bg-amber-400 font-black text-sm border-2 border-slate-900">1 pt</span>
+                      <span className="font-bold text-slate-800">Le Choix Risqué (Oups...)</span>
+                    </li>
+                    <li className="flex items-center gap-4 bg-white p-3 rounded-2xl border-4 border-slate-900 shadow-[4px_4px_0px_#f43f5e]">
+                      <span className="px-3 py-1 rounded bg-rose-400 font-black text-sm border-2 border-slate-900">0 pt</span>
+                      <span className="font-bold text-slate-800">Le Choix Contre-Productif (Game Over !)</span>
+                    </li>
+                  </ul>
                 </div>
-                {currentScenario.choices.map((choice, index) => {
-                  const isSelected = selectedChoiceIndex === index;
-                  const hasAnswered = selectedChoiceIndex !== null;
 
-                  let borderStyle = "border-slate-800/80 hover:border-purple-500/50 bg-slate-900/60 hover:bg-slate-800/80";
-                  let badgeStyle = "bg-slate-800 text-slate-300 border-slate-700";
-                  let textStyle = "text-slate-100 font-normal";
+                <div className="flex justify-center">
+                  <button
+                    onClick={handleStart}
+                    className="px-10 py-5 bg-indigo-500 text-white rounded-full font-black text-xl border-4 border-slate-900 shadow-[6px_6px_0px_#000] active:shadow-none active:translate-y-1.5 active:translate-x-1.5 transition-all flex items-center gap-3 uppercase hover:bg-indigo-400 group"
+                  >
+                    Démarrer l'enquête
+                    <ArrowRight className="w-7 h-7 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+              </motion.div>
+            )}
 
-                  if (hasAnswered) {
-                    if (isSelected) {
-                      if (choice.type === "bon") {
-                        borderStyle = "border-emerald-500 bg-emerald-950/40 shadow-[0_0_20px_rgba(16,185,129,0.2)] ring-1 ring-emerald-500/50";
-                        badgeStyle = "bg-emerald-500 text-slate-950 font-bold border-emerald-400";
-                        textStyle = "text-emerald-100 font-medium";
-                      } else if (choice.type === "risque") {
-                        borderStyle = "border-amber-500 bg-amber-950/40 shadow-[0_0_20px_rgba(245,158,11,0.2)] ring-1 ring-amber-500/50";
-                        badgeStyle = "bg-amber-500 text-slate-950 font-bold border-amber-400";
-                        textStyle = "text-amber-100 font-medium";
+            {/* PLAYING VIEW */}
+            {gameState === "playing" && (
+              <motion.div 
+                key="playing"
+                initial={{ opacity: 0, scale: 0.9, y: 50 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 1.1, y: -50 }}
+                transition={{ type: "spring", bounce: 0.4 }}
+                className="w-full flex flex-col gap-6"
+              >
+                {/* PROGRESS BAR */}
+                <div className="bg-white border-4 border-slate-900 rounded-2xl p-4 shadow-[6px_6px_0px_#000] flex flex-col gap-3">
+                  <div className="flex justify-between items-center text-sm font-black text-slate-800 uppercase">
+                    <span>Dossier <span className="text-indigo-600 text-xl">#{currentScenarioIndex + 1}</span> / {maxScenarios}</span>
+                    <span className="bg-yellow-300 px-3 py-1 rounded-xl border-2 border-slate-900 shadow-[2px_2px_0px_#000]">
+                      {currentScenario.theme}
+                    </span>
+                  </div>
+                  <div className="w-full h-5 bg-slate-100 rounded-full border-4 border-slate-900 overflow-hidden relative">
+                    <div 
+                      className="absolute top-0 left-0 h-full bg-gradient-to-r from-pink-500 to-indigo-500 transition-all duration-500 ease-out"
+                      style={{ width: `${((currentScenarioIndex + (selectedChoiceIndex !== null ? 1 : 0)) / maxScenarios) * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
+
+                {/* SCENARIO CARD */}
+                <div className="bg-white border-4 border-slate-900 rounded-3xl p-6 sm:p-8 shadow-[8px_8px_0px_#4c1d95] relative overflow-hidden text-slate-900">
+                  <h3 className="text-2xl sm:text-3xl font-black mb-5 tracking-tight leading-tight uppercase">
+                    {currentScenario.title}
+                  </h3>
+                  
+                  <div className="bg-indigo-50 p-6 rounded-2xl border-4 border-slate-900 shadow-[inset_4px_4px_0px_rgba(0,0,0,0.05)] text-slate-800 font-bold text-base leading-relaxed relative">
+                    <div className="absolute -top-5 -left-5 text-5xl transform -rotate-12 bg-white rounded-full p-2 border-4 border-slate-900 shadow-[2px_2px_0px_#000]">🕵️</div>
+                    {currentScenario.description}
+                  </div>
+                </div>
+
+                {/* CHOICES */}
+                <div className="space-y-4">
+                  {currentScenario.choices.map((choice, index) => {
+                    const isSelected = selectedChoiceIndex === index;
+                    const hasAnswered = selectedChoiceIndex !== null;
+                    
+                    let borderStyle = "border-slate-900 bg-white hover:bg-slate-50 text-slate-800 shadow-[6px_6px_0px_#000]";
+                    let badgeStyle = "bg-slate-200 text-slate-800 border-slate-900";
+                    
+                    if (hasAnswered) {
+                      if (isSelected) {
+                        if (choice.type === "bon") {
+                          borderStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 shadow-none translate-y-1.5 translate-x-1.5";
+                          badgeStyle = "bg-emerald-400 text-slate-900 border-slate-900 shadow-[2px_2px_0px_#000]";
+                        } else if (choice.type === "risque") {
+                          borderStyle = "border-amber-500 bg-amber-50 text-amber-900 shadow-none translate-y-1.5 translate-x-1.5";
+                          badgeStyle = "bg-amber-400 text-slate-900 border-slate-900 shadow-[2px_2px_0px_#000]";
+                        } else {
+                          borderStyle = "border-rose-500 bg-rose-50 text-rose-900 shadow-none translate-y-1.5 translate-x-1.5";
+                          badgeStyle = "bg-rose-400 text-slate-900 border-slate-900 shadow-[2px_2px_0px_#000]";
+                        }
                       } else {
-                        borderStyle = "border-rose-500 bg-rose-950/40 shadow-[0_0_20px_rgba(244,63,94,0.2)] ring-1 ring-rose-500/50";
-                        badgeStyle = "bg-rose-500 text-white font-bold border-rose-400";
-                        textStyle = "text-rose-100 font-medium";
+                        borderStyle = "border-slate-300 bg-slate-100 text-slate-400 shadow-none opacity-60";
+                        badgeStyle = "bg-slate-200 border-slate-300 text-slate-400";
                       }
                     } else {
-                      borderStyle = "border-slate-800/50 bg-slate-950/30 opacity-60 cursor-default";
-                      textStyle = "text-slate-300 font-normal";
+                      borderStyle += " active:shadow-none active:translate-y-1.5 active:translate-x-1.5 cursor-pointer";
                     }
-                  }
-
-                  return (
-                    <button
-                      key={index}
-                      disabled={hasAnswered}
-                      onClick={() => handleChoiceSelect(index)}
-                      className={`w-full p-5 rounded-2xl border transition-all text-left flex items-start gap-4 group ${borderStyle}`}
-                    >
-                      <div className={`w-8 h-8 rounded-xl border flex items-center justify-center text-xs shrink-0 font-bold transition-transform group-hover:scale-105 ${badgeStyle}`}>
-                        {hasAnswered && isSelected ? (
-                          choice.type === "bon" ? <CheckCircle2 className="w-5 h-5" /> :
-                          choice.type === "risque" ? <AlertTriangle className="w-5 h-5" /> :
-                          <XCircle className="w-5 h-5" />
-                        ) : (
-                          String.fromCharCode(65 + index)
-                        )}
-                      </div>
-                      <div className="flex-1">
-                        {isSelected && (
-                          <span className={`text-[10px] uppercase tracking-wider font-extrabold px-2.5 py-0.5 rounded-full mb-1.5 inline-block ${
-                            choice.type === "bon" ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40" :
-                            choice.type === "risque" ? "bg-amber-500/20 text-amber-300 border border-amber-500/40" :
-                            "bg-rose-500/20 text-rose-300 border border-rose-500/40"
-                          }`}>
-                            Votre choix
-                          </span>
-                        )}
-                        <p className={`text-sm sm:text-base leading-relaxed ${textStyle}`}>
-                          {choice.label}
-                        </p>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* FEEDBACK EXPLANATION PANEL */}
-              <AnimatePresence>
-                {selectedChoiceIndex !== null && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -15 }}
-                    className={`rounded-3xl p-6 sm:p-7 border text-left shadow-2xl relative overflow-hidden ${
-                      currentScenario.choices[selectedChoiceIndex].type === "bon"
-                        ? "bg-gradient-to-br from-emerald-950/80 via-slate-900 to-slate-950 border-emerald-500/50 shadow-emerald-900/20"
-                        : currentScenario.choices[selectedChoiceIndex].type === "risque"
-                        ? "bg-gradient-to-br from-amber-950/80 via-slate-900 to-slate-950 border-amber-500/50 shadow-amber-900/20"
-                        : "bg-gradient-to-br from-rose-950/80 via-slate-900 to-slate-950 border-rose-500/50 shadow-rose-900/20"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between gap-3 mb-4 flex-wrap border-b border-slate-800 pb-3">
-                      <div className="flex items-center gap-2.5">
-                        {currentScenario.choices[selectedChoiceIndex].type === "bon" && (
-                          <div className="px-3.5 py-1.5 bg-emerald-500/20 border border-emerald-500/40 rounded-full flex items-center gap-2">
-                            <CheckCircle2 className="w-4.5 h-4.5 text-emerald-400" />
-                            <span className="font-extrabold text-emerald-300 text-xs sm:text-sm uppercase tracking-wider">Excellent Réflexe (+2 pts)</span>
-                          </div>
-                        )}
-                        {currentScenario.choices[selectedChoiceIndex].type === "risque" && (
-                          <div className="px-3.5 py-1.5 bg-amber-500/20 border border-amber-500/40 rounded-full flex items-center gap-2">
-                            <AlertTriangle className="w-4.5 h-4.5 text-amber-400" />
-                            <span className="font-extrabold text-amber-300 text-xs sm:text-sm uppercase tracking-wider">Comportement Risqué (+1 pt)</span>
-                          </div>
-                        )}
-                        {currentScenario.choices[selectedChoiceIndex].type === "interdit" && (
-                          <div className="px-3.5 py-1.5 bg-rose-500/20 border border-rose-500/40 rounded-full flex items-center gap-2">
-                            <XCircle className="w-4.5 h-4.5 text-rose-400" />
-                            <span className="font-extrabold text-rose-300 text-xs sm:text-sm uppercase tracking-wider">À Éviter Absolument (+0 pt)</span>
-                          </div>
-                        )}
-                      </div>
-                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Analyse & Explication</span>
-                    </div>
-
-                    <div className="bg-slate-950/70 rounded-2xl p-5 border border-slate-800 mb-6">
-                      <h4 className="text-xs font-bold text-purple-300 uppercase tracking-wider mb-2 flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-purple-400" />
-                        Pourquoi cette évaluation ?
-                      </h4>
-                      <p className="text-slate-100 text-sm sm:text-base leading-relaxed font-normal">
-                        {currentScenario.choices[selectedChoiceIndex].feedback}
-                      </p>
-                    </div>
-
-                    <div className="flex justify-end">
-                      <button
-                        onClick={handleNext}
-                        className="px-7 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-full font-bold text-sm shadow-xl transition-all flex items-center gap-2 transform hover:scale-105 active:scale-95"
-                      >
-                        <span>{currentScenarioIndex + 1 >= maxScenarios ? "Voir le Bilan Final" : "Scénario Suivant"}</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-            </motion.div>
-          )}
-
-          {/* RESULTS VIEW */}
-          {gameState === "results" && (
-            <motion.div 
-              key="results"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="w-full max-w-3xl bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur-md text-center shadow-2xl relative overflow-hidden flex flex-col gap-6"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
-              
-              <div>
-                <div className="inline-flex p-4 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-400 mb-3 shadow-lg">
-                  <Trophy className="w-10 h-10 sm:w-12 sm:h-12" />
-                </div>
-                
-                <h2 className="text-3xl font-black text-white mb-2">
-                  Évaluation finale de l'Escape Game
-                </h2>
-                
-                <p className="text-slate-300 text-sm font-normal max-w-md mx-auto">
-                  Tu as réagi à l'ensemble des 5 scénarios de crise opérationnels. Découvre ton bilan QVT global et le récapitulatif des réponses.
-                </p>
-              </div>
-
-              {/* Score Display */}
-              <div className="flex justify-center">
-                <div className="px-8 py-4 rounded-2xl bg-slate-950/80 border border-slate-800 shadow-inner">
-                  <span className="text-xs text-slate-400 uppercase font-bold tracking-wider">Score Final QVT</span>
-                  <span className="text-4xl sm:text-5xl font-black text-purple-400 block mt-1">{score} / {maxScenarios * 2}</span>
-                </div>
-              </div>
-
-              {/* Evaluation Paragraph */}
-              <div className={`p-6 rounded-2xl border ${getResultsFeedback().color} ${getResultsFeedback().bg} text-left relative overflow-hidden`}>
-                <div className="flex items-center gap-2 mb-2">
-                  <TrendingUp className="w-5 h-5" />
-                  <span className="text-xs uppercase font-bold tracking-wider opacity-90">Profil statutaire :</span>
-                </div>
-                <h4 className="text-xl sm:text-2xl font-extrabold text-white mb-2">
-                  {getResultsFeedback().level}
-                </h4>
-                <p className="text-slate-200 text-sm sm:text-base leading-relaxed font-normal">
-                  {getResultsFeedback().description}
-                </p>
-              </div>
-
-              {/* RECAP OF RESPONSES AND FEEDBACK */}
-              <div className="border border-slate-800 bg-slate-950/70 rounded-2xl p-5 text-left">
-                <h4 className="text-sm font-bold text-purple-300 uppercase tracking-wider mb-4 flex items-center gap-2 border-b border-slate-800 pb-3">
-                  <BookOpen className="w-4 h-4 text-purple-400" />
-                  Récapitulatif détaillé de vos réponses & explications RH :
-                </h4>
-
-                <div className="space-y-4">
-                  {SCENARIOS.map((scenario, sIndex) => {
-                    const chosenIndex = userChoices[sIndex];
-                    const chosenChoice = scenario.choices[chosenIndex];
-                    const bestChoice = scenario.choices.find((c) => c.type === "bon");
 
                     return (
-                      <div key={scenario.id} className="bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-3">
-                        <div className="flex items-start justify-between gap-3 flex-wrap">
-                          <span className="text-xs font-bold text-purple-400 bg-purple-950/60 px-2.5 py-1 rounded-md border border-purple-500/30">
-                            Scénario {sIndex + 1} : {scenario.title}
-                          </span>
-                          <span className="text-xs font-semibold text-slate-400">
-                            {scenario.theme}
-                          </span>
+                      <button
+                        key={index}
+                        disabled={hasAnswered}
+                        onClick={() => handleChoiceSelect(index)}
+                        className={`w-full p-4 sm:p-5 rounded-2xl border-4 transition-all text-left flex items-start gap-4 ${borderStyle}`}
+                      >
+                        <div className={`w-12 h-12 rounded-xl border-4 flex items-center justify-center text-lg shrink-0 font-black ${badgeStyle}`}>
+                          {hasAnswered && isSelected ? (
+                            choice.type === "bon" ? <CheckCircle2 className="w-7 h-7" /> :
+                            choice.type === "risque" ? <AlertTriangle className="w-7 h-7" /> :
+                            <XCircle className="w-7 h-7" />
+                          ) : (
+                            String.fromCharCode(65 + index)
+                          )}
                         </div>
-
-                        <p className="text-xs text-slate-300 font-normal italic bg-slate-950/40 p-2.5 rounded-lg border border-slate-800/60">
-                          "{scenario.description}"
-                        </p>
-
-                        {chosenChoice && (
-                          <div className={`p-3 rounded-lg border text-xs sm:text-sm font-normal space-y-2 ${
-                            chosenChoice.type === "bon" 
-                              ? "bg-emerald-950/30 border-emerald-500/40 text-emerald-200" 
-                              : chosenChoice.type === "risque" 
-                              ? "bg-amber-950/30 border-amber-500/40 text-amber-200" 
-                              : "bg-rose-950/30 border-rose-500/40 text-rose-200"
-                          }`}>
-                            <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-xs">
-                              {chosenChoice.type === "bon" && <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />}
-                              {chosenChoice.type === "risque" && <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />}
-                              {chosenChoice.type === "interdit" && <XCircle className="w-4 h-4 text-rose-400 shrink-0" />}
-                              <span>Votre choix ({chosenChoice.score} pt{chosenChoice.score > 1 ? "s" : ""}) :</span>
-                            </div>
-                            <p className="text-slate-100 font-medium">
-                              {chosenChoice.label}
-                            </p>
-                            <p className="text-slate-300 text-xs leading-relaxed pt-1 border-t border-slate-800">
-                              <strong className="text-purple-300 font-semibold">Explication : </strong>
-                              {chosenChoice.feedback}
-                            </p>
-                          </div>
-                        )}
-
-                        {chosenChoice && chosenChoice.type !== "bon" && bestChoice && (
-                          <div className="bg-emerald-950/20 border border-emerald-500/30 p-3 rounded-lg text-xs space-y-1">
-                            <div className="flex items-center gap-1.5 text-emerald-400 font-bold uppercase tracking-wider text-[11px]">
-                              <CheckCircle2 className="w-3.5 h-3.5" />
-                              Le réflexe RH recommandé (2 pts) :
-                            </div>
-                            <p className="text-emerald-100 font-medium">{bestChoice.label}</p>
-                          </div>
-                        )}
-                      </div>
+                        <div className="flex-1 mt-1">
+                          {isSelected && (
+                            <span className={`text-xs uppercase tracking-widest font-black px-3 py-1 rounded-lg mb-2 inline-block border-4 ${
+                              choice.type === "bon" ? "bg-emerald-400 text-slate-900 border-slate-900 shadow-[2px_2px_0px_#000]" :
+                              choice.type === "risque" ? "bg-amber-300 text-slate-900 border-slate-900 shadow-[2px_2px_0px_#000]" :
+                              "bg-rose-400 text-white border-slate-900 shadow-[2px_2px_0px_#000]"
+                            }`}>
+                              Ta décision
+                            </span>
+                          )}
+                          <p className="text-base sm:text-lg font-black leading-relaxed">
+                            {choice.label}
+                          </p>
+                        </div>
+                      </button>
                     );
                   })}
                 </div>
-              </div>
 
-              {/* Pédagogical Ressources Box */}
-              <div className="border border-slate-800 bg-slate-950/50 rounded-2xl p-5 text-left">
-                <h5 className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3 flex items-center gap-1.5">
-                  <BookOpen className="w-4 h-4 text-purple-400" />
-                  Ressources et Guides statutaires :
-                </h5>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                  <a 
-                    href="https://www.fonction-publique.gouv.fr" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="p-3 bg-slate-900/60 hover:bg-slate-800 border border-slate-800 rounded-xl flex items-center gap-2 text-slate-300 hover:text-purple-300 transition-colors font-medium"
-                  >
-                    <FileText className="w-4 h-4 text-purple-400 shrink-0" />
-                    Guide d'évaluation QVT FPT
-                  </a>
-                  <a 
-                    href="https://www.fonction-publique.gouv.fr" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="p-3 bg-slate-900/60 hover:bg-slate-800 border border-slate-800 rounded-xl flex items-center gap-2 text-slate-300 hover:text-purple-300 transition-colors font-medium"
-                  >
-                    <ShieldAlert className="w-4 h-4 text-purple-400 shrink-0" />
-                    Procédure Droit de Retrait
-                  </a>
+                {/* FEEDBACK EXPLANATION PANEL */}
+                <AnimatePresence>
+                  {selectedChoiceIndex !== null && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.5, y: 20 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.5 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                      className={`rounded-3xl p-6 sm:p-8 border-4 border-slate-900 text-left shadow-[8px_8px_0px_rgba(0,0,0,1)] relative overflow-hidden ${
+                        currentScenario.choices[selectedChoiceIndex].type === "bon"
+                          ? "bg-emerald-100"
+                          : currentScenario.choices[selectedChoiceIndex].type === "risque"
+                          ? "bg-amber-100"
+                          : "bg-rose-100"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-3 mb-6 flex-wrap border-b-4 border-slate-900/10 pb-4">
+                        <div className="flex items-center gap-3">
+                          {currentScenario.choices[selectedChoiceIndex].type === "bon" && (
+                            <div className="px-5 py-2 bg-emerald-400 border-4 border-slate-900 rounded-xl flex items-center gap-2 shadow-[4px_4px_0px_#000] rotate-[-2deg]">
+                              <CheckCircle2 className="w-6 h-6 text-slate-900" />
+                              <span className="font-black text-slate-900 text-sm uppercase tracking-wider">C'est gagné ! (+2 pts)</span>
+                            </div>
+                          )}
+                          {currentScenario.choices[selectedChoiceIndex].type === "risque" && (
+                            <div className="px-5 py-2 bg-amber-400 border-4 border-slate-900 rounded-xl flex items-center gap-2 shadow-[4px_4px_0px_#000] rotate-[2deg]">
+                              <AlertTriangle className="w-6 h-6 text-slate-900" />
+                              <span className="font-black text-slate-900 text-sm uppercase tracking-wider">Limite Limite... (+1 pt)</span>
+                            </div>
+                          )}
+                          {currentScenario.choices[selectedChoiceIndex].type === "interdit" && (
+                            <div className="px-5 py-2 bg-rose-400 border-4 border-slate-900 rounded-xl flex items-center gap-2 shadow-[4px_4px_0px_#000] rotate-[-2deg]">
+                              <XCircle className="w-6 h-6 text-slate-900" />
+                              <span className="font-black text-slate-900 text-sm uppercase tracking-wider">Erreur Fatale ! (+0 pt)</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="bg-white rounded-2xl p-6 border-4 border-slate-900 mb-8 shadow-inner text-slate-900">
+                        <h4 className="text-base font-black text-indigo-600 uppercase tracking-wider mb-3 flex items-center gap-2">
+                          <Sparkles className="w-6 h-6" />
+                          Débrief de l'Expert
+                        </h4>
+                        <p className="text-base leading-relaxed font-bold">
+                          {currentScenario.choices[selectedChoiceIndex].feedback}
+                        </p>
+                      </div>
+
+                      <div className="flex justify-end">
+                        <button
+                          onClick={handleNext}
+                          className="px-8 py-4 bg-indigo-500 text-white rounded-2xl font-black text-lg border-4 border-slate-900 shadow-[6px_6px_0px_#000] active:shadow-none active:translate-y-1.5 active:translate-x-1.5 transition-all flex items-center gap-3 uppercase tracking-wider hover:bg-indigo-400 group"
+                        >
+                          <span>{currentScenarioIndex + 1 >= maxScenarios ? "Ouvrir le coffre final" : "Dossier Suivant"}</span>
+                          <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+              </motion.div>
+            )}
+
+            {/* RESULTS VIEW */}
+            {gameState === "results" && (
+              <motion.div 
+                key="results"
+                initial={{ opacity: 0, scale: 0.8, rotate: 2 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                className="w-full bg-white border-4 border-slate-900 rounded-[3rem] p-8 sm:p-10 text-center shadow-[12px_12px_0px_#0ea5e9] relative overflow-hidden flex flex-col gap-8 text-slate-900"
+              >
+                <div>
+                  <div className="inline-flex p-6 rounded-full bg-yellow-300 border-4 border-slate-900 mb-6 shadow-[6px_6px_0px_#000] animate-[bounce_2s_infinite]">
+                    <Trophy className="w-16 h-16 text-slate-900" />
+                  </div>
+                  
+                  <h2 className="text-4xl sm:text-6xl font-black mb-4 uppercase tracking-tighter" style={{ fontFamily: 'Impact, sans-serif' }}>
+                    MISSION ACCOMPLIE !
+                  </h2>
+                  
+                  <p className="text-slate-600 font-bold text-base max-w-md mx-auto">
+                    Le dossier est clos. Voici ton bilan de super-détective RH.
+                  </p>
                 </div>
-              </div>
 
-              {/* Action buttons */}
-              <div className="flex flex-col sm:flex-row justify-center gap-3">
-                <button
-                  onClick={handleStart}
-                  className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-full font-bold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                  Recommencer le jeu
-                </button>
-                <button
-                  onClick={onClose}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
-                >
-                  <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                  <span>Retour aux autres jeux</span>
-                </button>
-              </div>
+                {/* Score Display */}
+                <div className="flex justify-center">
+                  <div className="px-12 py-8 rounded-3xl bg-slate-900 border-4 border-slate-900 shadow-[8px_8px_0px_#db2777] transform -rotate-2 hover:rotate-0 transition-transform">
+                    <span className="text-sm text-slate-300 uppercase font-black tracking-widest block mb-2">Score Final</span>
+                    <span className="text-6xl sm:text-7xl font-black text-yellow-400 block drop-shadow-[0_4px_0px_rgba(0,0,0,0.8)]">
+                      {score} <span className="text-4xl text-slate-400">/ {maxScenarios * 2}</span>
+                    </span>
+                  </div>
+                </div>
 
-            </motion.div>
-          )}
+                {/* Evaluation Paragraph */}
+                <div className={`p-8 rounded-3xl border-4 border-slate-900 shadow-[6px_6px_0px_#000] text-left relative overflow-hidden ${getResultsFeedback().bg}`}>
+                  <div className="flex items-center gap-3 mb-4">
+                    <TrendingUp className="w-7 h-7 text-slate-900" />
+                    <span className="text-sm uppercase font-black tracking-wider text-slate-900 opacity-80">Profil Débloqué :</span>
+                  </div>
+                  <h4 className="text-3xl sm:text-4xl font-black text-slate-900 mb-3 uppercase tracking-tighter" style={{ fontFamily: 'Impact, sans-serif' }}>
+                    {getResultsFeedback().level}
+                  </h4>
+                  <p className="text-slate-800 text-base sm:text-lg leading-relaxed font-bold">
+                    {getResultsFeedback().description}
+                  </p>
+                </div>
 
-        </AnimatePresence>
+                {/* RECAP OF RESPONSES AND FEEDBACK */}
+                <div className="border-4 border-slate-900 bg-slate-100 rounded-3xl p-6 text-left shadow-inner">
+                  <h4 className="text-base font-black text-slate-900 uppercase tracking-wider mb-6 flex items-center gap-3 border-b-4 border-slate-900/10 pb-4">
+                    <BookOpen className="w-6 h-6 text-indigo-600" />
+                    Dossiers Résolus (Historique) :
+                  </h4>
+
+                  <div className="space-y-6">
+                    {SCENARIOS.map((scenario, sIndex) => {
+                      const chosenIndex = userChoices[sIndex];
+                      const chosenChoice = scenario.choices[chosenIndex];
+                      const bestChoice = scenario.choices.find((c) => c.type === "bon");
+
+                      return (
+                        <div key={scenario.id} className="bg-white border-4 border-slate-900 rounded-2xl p-6 space-y-5 shadow-[4px_4px_0px_#94a3b8]">
+                          <div className="flex items-start justify-between gap-3 flex-wrap">
+                            <span className="text-sm font-black text-slate-900 bg-cyan-300 px-4 py-2 rounded-xl border-4 border-slate-900 uppercase shadow-[2px_2px_0px_#000]">
+                              Dossier {sIndex + 1} : {scenario.title}
+                            </span>
+                            <span className="text-sm font-bold text-slate-500 uppercase bg-slate-200 px-3 py-1 rounded-lg">
+                              {scenario.theme}
+                            </span>
+                          </div>
+
+                          {chosenChoice && (
+                            <div className={`p-5 rounded-xl border-4 font-bold space-y-3 ${
+                              chosenChoice.type === "bon" 
+                                ? "bg-emerald-100 border-emerald-500 text-slate-900" 
+                                : chosenChoice.type === "risque" 
+                                ? "bg-amber-100 border-amber-500 text-slate-900" 
+                                : "bg-rose-100 border-rose-500 text-slate-900"
+                            }`}>
+                              <div className="flex items-center gap-3 font-black uppercase tracking-wider text-sm">
+                                {chosenChoice.type === "bon" && <CheckCircle2 className="w-6 h-6 text-emerald-600" />}
+                                {chosenChoice.type === "risque" && <AlertTriangle className="w-6 h-6 text-amber-600" />}
+                                {chosenChoice.type === "interdit" && <XCircle className="w-6 h-6 text-rose-600" />}
+                                <span>Ta décision ({chosenChoice.score} pt{chosenChoice.score > 1 ? "s" : ""}) :</span>
+                              </div>
+                              <p className="text-slate-800 text-base">
+                                {chosenChoice.label}
+                              </p>
+                            </div>
+                          )}
+
+                          {chosenChoice && chosenChoice.type !== "bon" && bestChoice && (
+                            <div className="bg-slate-50 border-4 border-slate-300 p-5 rounded-xl space-y-2 border-dashed">
+                              <div className="flex items-center gap-2 text-indigo-600 font-black uppercase tracking-wider text-sm">
+                                <CheckCircle2 className="w-5 h-5" />
+                                La solution parfaite (2 pts) :
+                              </div>
+                              <p className="text-slate-700 font-bold text-base">{bestChoice.label}</p>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Action buttons */}
+                <div className="flex flex-col sm:flex-row justify-center gap-5 mt-6">
+                  <button
+                    onClick={handleStart}
+                    className="px-8 py-5 bg-yellow-400 text-slate-900 rounded-2xl font-black text-base uppercase shadow-[6px_6px_0px_#000] active:shadow-none active:translate-y-1.5 active:translate-x-1.5 border-4 border-slate-900 transition-all flex items-center justify-center gap-3"
+                  >
+                    <RotateCcw className="w-6 h-6" />
+                    Rejouer la mission
+                  </button>
+                  <button
+                    onClick={onClose}
+                    className="px-8 py-5 bg-rose-500 text-white rounded-2xl font-black text-base uppercase shadow-[6px_6px_0px_#000] active:shadow-none active:translate-y-1.5 active:translate-x-1.5 border-4 border-slate-900 transition-all flex items-center justify-center gap-3"
+                  >
+                    <ArrowLeft className="w-6 h-6" />
+                    Retour aux jeux
+                  </button>
+                </div>
+
+              </motion.div>
+            )}
+
+          </AnimatePresence>
+        </div>
       </div>
-
-      {/* FOOTER */}
-      <div className="text-center border-t border-slate-900/60 pt-6">
-        <p className="text-[11px] text-slate-400 font-normal">
-          Escape Game RH • Serious game d'évaluation et de formation QVT / Statuts dans la Fonction Publique Territoriale.
-        </p>
-      </div>
-
     </div>
   );
 };
 
 export default EscapeGameRH;
-

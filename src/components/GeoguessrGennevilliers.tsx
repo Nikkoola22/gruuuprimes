@@ -188,6 +188,24 @@ const locations: LocationDef[] = [
     lat: 48.9143,
     lng: 2.2997,
     info: "Situé au 41 avenue des Grésillons, le T2G est un Centre Dramatique National proposant une programmation exigeante de théâtre contemporain, à deux pas du métro Gabriel Péri."
+  },
+  {
+    id: 10,
+    title: "Presse Bliss",
+    description: "Monument industriel historique situé avenue de la République.",
+    image: "presse_bliss.png",
+    lat: 48.9204547,
+    lng: 2.2965343,
+    info: "L'ancienne Presse Bliss est un vestige du passé industriel de la ville, fièrement exposée avenue de la République en tant que patrimoine local."
+  },
+  {
+    id: 11,
+    title: "Halle des Grésillons (Marché du Village)",
+    description: "La halle de marché au charme industriel caractéristique.",
+    image: "marche_village.png",
+    lat: 48.9337436,
+    lng: 2.2967716,
+    info: "Véritable lieu de vie, ce marché couvert à l'architecture métallique et brique rouge accueille les commerçants et rassemble les habitants chaque semaine."
   }
 ];
 
@@ -608,7 +626,7 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
               <div>
                 <div className="flex justify-between items-center mb-4">
                   <span className="px-3 py-1 bg-slate-950 text-sky-400 border border-slate-850 rounded-full text-xs font-bold font-mono">
-                    Manche {round + 1} / 5
+                    Manche {round + 1} / {locations.length}
                   </span>
                   
                   <div className="flex items-center gap-3">
@@ -751,7 +769,7 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
               <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Score Final</span>
               <p className="text-5xl font-black text-sky-400 mt-1 font-mono tracking-tight">{score}</p>
               <span className="text-[9px] text-slate-500 block mt-2">
-                Score maximum théorique : {baseScorePerDifficulty[difficulty] * 5} pts
+                Score maximum théorique : {baseScorePerDifficulty[difficulty] * locations.length} pts
               </span>
             </div>
 

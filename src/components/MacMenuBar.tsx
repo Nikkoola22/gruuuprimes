@@ -168,7 +168,7 @@ export default function MacMenuBar({
       {/* 1. THE MENUBAR BASE */}
       <div 
         ref={menuBarRef}
-        className="fixed top-0 left-0 w-full h-7 bg-white/75 dark:bg-slate-900/75 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-800/80 z-[100] flex justify-between items-center px-4 select-none font-sans text-xs text-slate-800 dark:text-slate-200 shadow-sm"
+        className="fixed top-0 left-0 w-full h-7 bg-white/95 dark:bg-slate-900/95 border-b border-slate-200/50 dark:border-slate-800/80 z-[100] flex justify-between items-center px-4 select-none font-sans text-xs text-slate-800 dark:text-slate-200 shadow-sm"
       >
         {/* Left Side: Native menus */}
         <div className="flex items-center gap-4">
@@ -188,7 +188,7 @@ export default function MacMenuBar({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
                   transition={{ duration: 0.1 }}
-                  className="absolute left-0 mt-1 w-52 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110] text-slate-800 dark:text-slate-200"
+                  className="absolute left-0 mt-1 w-52 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110] text-slate-800 dark:text-slate-200"
                 >
                   <button 
                     onClick={() => { setShowAbout(true); setActiveDropdown(null); }}
@@ -250,7 +250,7 @@ export default function MacMenuBar({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
                   transition={{ duration: 0.1 }}
-                  className="absolute left-0 mt-1 w-48 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110]"
+                  className="absolute left-0 mt-1 w-48 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110]"
                 >
                   <button onClick={() => selectView('menu')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Tableau de Bord</button>
                   <button onClick={() => selectView('chat')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Chatbot ATLAS</button>
@@ -280,7 +280,7 @@ export default function MacMenuBar({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
                   transition={{ duration: 0.1 }}
-                  className="absolute left-0 mt-1 w-56 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110]"
+                  className="absolute left-0 mt-1 w-56 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110]"
                 >
                   <button onClick={() => selectCalculator('primes')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex justify-between items-center">
                     <span>Calculateur RIFSEEP (Primes)</span>
@@ -315,7 +315,7 @@ export default function MacMenuBar({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
                   transition={{ duration: 0.1 }}
-                  className="absolute left-0 mt-1 w-56 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110]"
+                  className="absolute left-0 mt-1 w-56 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110]"
                 >
                   <button onClick={() => selectView('jeux')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex items-center gap-2">
                     <Gamepad2 className="w-3.5 h-3.5 text-pink-500" />
@@ -359,7 +359,7 @@ export default function MacMenuBar({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
                   transition={{ duration: 0.1 }}
-                  className="absolute right-0 mt-1 w-64 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-3 z-[110]"
+                  className="absolute right-0 mt-1 w-64 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-3 z-[110]"
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-bold">Wi-Fi</span>
@@ -401,7 +401,7 @@ export default function MacMenuBar({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
                   transition={{ duration: 0.1 }}
-                  className="absolute right-0 mt-1 w-60 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-3 z-[110]"
+                  className="absolute right-0 mt-1 w-60 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-3 z-[110]"
                 >
                   <div className="font-bold mb-1">Qualité de Vie au Travail (QVT)</div>
                   <div className="text-[11px] text-slate-500 mb-2">Simulateur d'indicateur social</div>
@@ -440,7 +440,7 @@ export default function MacMenuBar({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
                   transition={{ duration: 0.1 }}
-                  className="absolute right-0 mt-1 w-80 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/85 dark:border-slate-800/85 rounded-2xl shadow-2xl p-4 z-[110] text-slate-800 dark:text-slate-200 grid grid-cols-2 gap-3"
+                  className="absolute right-0 mt-1 w-80 bg-white/95 dark:bg-slate-900/95 border border-slate-200/85 dark:border-slate-800/85 rounded-2xl shadow-2xl p-4 z-[110] text-slate-800 dark:text-slate-200 grid grid-cols-2 gap-3"
                 >
                   {/* Left Column: Quick Toggles (Wi-Fi, AirDrop, DND) */}
                   <div className="bg-slate-100/50 dark:bg-slate-800/50 p-2.5 rounded-2xl col-span-2 flex justify-around gap-2 border border-slate-200/30 dark:border-slate-700/30">
@@ -565,7 +565,7 @@ export default function MacMenuBar({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
                   transition={{ duration: 0.1 }}
-                  className="absolute right-0 mt-1 w-72 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-3 z-[110] text-slate-800 dark:text-slate-200"
+                  className="absolute right-0 mt-1 w-72 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-3 z-[110] text-slate-800 dark:text-slate-200"
                 >
                   <div className="font-bold border-b border-slate-200/50 dark:border-slate-800 pb-1.5 mb-2 flex items-center justify-between">
                     <span>Notifications ATLAS</span>
@@ -607,7 +607,7 @@ export default function MacMenuBar({
       {/* 2. THE SPOTLIGHT OVERLAY */}
       <AnimatePresence>
         {showSpotlight && (
-          <div className="fixed inset-0 bg-slate-900/30 dark:bg-black/50 backdrop-blur-sm z-[200] flex justify-center pt-24 px-4">
+          <div className="fixed inset-0 bg-slate-900/30 dark:bg-black/50 z-[200] flex justify-center pt-24 px-4">
             {/* Click backdrop to close */}
             <div className="absolute inset-0 z-0" onClick={() => setShowSpotlight(false)} />
             
@@ -616,7 +616,7 @@ export default function MacMenuBar({
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="w-full max-w-xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl border border-slate-200 dark:border-slate-800 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.3)] overflow-hidden relative z-10 h-fit"
+              className="w-full max-w-xl bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.3)] overflow-hidden relative z-10 h-fit"
             >
               {/* Search Bar Input */}
               <div className="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800">
@@ -727,13 +727,13 @@ export default function MacMenuBar({
       {/* 3. ABOUT MODAL */}
       <AnimatePresence>
         {showAbout && (
-          <div className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-[210] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-slate-950/40 z-[210] flex items-center justify-center p-4">
             <div className="absolute inset-0 z-0" onClick={() => setShowAbout(false)} />
             <motion.div 
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="w-80 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl p-6 text-center text-slate-800 dark:text-slate-200 relative z-10"
+              className="w-80 bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl p-6 text-center text-slate-800 dark:text-slate-200 relative z-10"
             >
               <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg mx-auto mb-4 logo-glow-ambient">
                 CFDT
@@ -765,13 +765,13 @@ export default function MacMenuBar({
       {/* 4. PREFERENCES MODAL */}
       <AnimatePresence>
         {showPreferences && (
-          <div className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-[210] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-slate-950/40 z-[210] flex items-center justify-center p-4">
             <div className="absolute inset-0 z-0" onClick={() => setShowPreferences(false)} />
             <motion.div 
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="w-[450px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl p-6 text-slate-800 dark:text-slate-200 relative z-10"
+              className="w-[450px] bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl p-6 text-slate-800 dark:text-slate-200 relative z-10"
             >
               <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 mb-4">
                 <h3 className="font-extrabold text-base flex items-center gap-2">
