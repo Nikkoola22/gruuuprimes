@@ -1364,9 +1364,6 @@ ${indicesFactuels}
       }}
     >
       <Toaster richColors position="bottom-right" closeButton theme={theme} />
-      {/* Orange geometric background shapes */}
-      <OrangeGeometricBackground />
-
       {/* Dark mode background gradient */}
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-blue-950 to-slate-950 opacity-0 dark:opacity-100 pointer-events-none z-0 transition-opacity duration-300"></div>
 
@@ -1378,6 +1375,9 @@ ${indicesFactuels}
 
       {/* Subtle overlay for better text readability */}
       <div className="fixed inset-0 bg-white/40 dark:bg-transparent z-0 pointer-events-none transition-colors duration-300"></div>
+
+      {/* Orange geometric background shapes */}
+      <OrangeGeometricBackground />
 
       {/* Couches de fond supplémentaires — supprimées (GPU layers plein écran) */}
 
