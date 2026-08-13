@@ -1395,34 +1395,21 @@ ${indicesFactuels}
 
       {/* HEADER PROFESSIONNEL MODERNE & DYNAMIQUE */}
       <header className={`relative bg-white/75 dark:bg-slate-950/75 border-b border-slate-200/30 dark:border-slate-800/30 shadow-sm dark:shadow-blue-950/10 z-30 transition-all duration-300 ${showMacMenuBar ? 'mt-7' : ''}`}>
-        {/* Shimmer effect / Ligne brillante animée */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
-          <div
-            className="absolute top-0 left-0 h-full w-[150px]"
-            style={{
-              background: 'linear-gradient(90deg, transparent, rgba(59,130,246,0.12), transparent)',
-              animation: 'header-scan 8s cubic-bezier(0.4, 0, 0.2, 1) infinite',
-              willChange: 'transform',
-            }}
-          />
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 relative z-10">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 relative z-10">
           <div className="flex items-center justify-between gap-4 sm:gap-6">
             {/* Logo et titre (Gauche) */}
             <div className="flex items-center gap-3.5 group cursor-pointer" onClick={() => setShowLanding(true)}>
               <div className="relative">
-                {/* Glow effect on hover */}
-                <div className="absolute inset-0 bg-blue-500/20 rounded-2xl blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 scale-110"></div>
+                {/* Glow effect on hover (supprimé) */}
                 {logoLoadError ? (
                   <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-650 border border-white/20 shadow-md flex items-center justify-center relative transition-all duration-300 group-hover:scale-105 group-hover:rotate-3">
                     <span className="text-white font-black tracking-wider text-xs sm:text-lg">CFDT</span>
                   </div>
                 ) : (
                   <img
-                    src={`${BASE_URL}logo-cfdt.jpg`}
-                    alt="Logo CFDT"
-                    className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-contain relative transition-all duration-300 group-hover:scale-105 group-hover:rotate-3 shadow-sm"
+                    src={`${BASE_URL}images/cfdt_logo_texte.png`}
+                    alt="Logo CFDT S'engager pour chacun, Agir pour tous"
+                    className="h-24 sm:h-32 w-auto object-contain relative"
                     onError={() => setLogoLoadError(true)}
                   />
                 )}
