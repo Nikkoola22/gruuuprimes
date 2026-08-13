@@ -452,7 +452,7 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
       setPreviewDir(null);
       setShowEffect(null);
       setDragOffset(0);
-    }, 350);
+    }, 750);
   }, [deck, cardIndex, gauges, checkGameOver, playSound]);
 
   // ─── Touch / Mouse drag ─────────────────────────────────────────────────────
@@ -501,84 +501,89 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
 
   const currentCard = deck[cardIndex];
 
-  // ─── Gauge bar component ────────────────────────────────────────────────────
-  const GaugeBarVertical = ({ label, color, textColor, emoji, value, delta }: { label: string; color: string; textColor: string; emoji: string; value: number; delta: number | null }) => {
-    const isWarning = value <= 15 || value >= 85;
-    const isDanger = value <= 5 || value >= 95;
-    return (
-      <div className="flex flex-col items-center gap-1.5 w-14">
-        <span className="text-lg">{emoji}</span>
-        <div className={`relative w-5 h-28 rounded-full overflow-hidden bg-slate-800/80 border ${isDanger ? "border-red-500 animate-pulse" : isWarning ? "border-amber-500/60" : "border-slate-700/50"}`}>
-          <div
-            className={`absolute inset-x-0 bottom-0 rounded-full bg-gradient-to-t ${color} transition-all duration-500 ease-out`}
-            style={{ height: `${Math.max(2, value)}%` }}
-          />
-          {delta !== null && delta !== 0 && (
-            <div className={`absolute inset-0 flex items-center justify-center text-[9px] font-black ${delta > 0 ? "text-emerald-300" : "text-red-300"} drop-shadow-lg animate-bounce`}>
-              {delta > 0 ? `+${delta}` : delta}
+  // ─── Gauge Header Component ──────────────────────────────────────────────────
+  const GaugeHeader = () => (
+    <div className="flex justify-center items-center gap-2 sm:gap-6 w-full max-w-2xl mx-auto px-2">
+      {gaugeConfig.map(g => {
+        const val = gauges[g.key];
+        const isWarning = val <= 15 || val >= 85;
+        const isDanger = val <= 5 || val >= 95;
+        const delta = showEffect ? showEffect[g.key] : null;
+        return (
+          <div key={g.key} className="flex flex-col items-center relative group">
+            <div className={`relative flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-sm rounded-full border-2 ${isDanger ? "border-red-500 animate-pulse" : isWarning ? "border-amber-400" : "border-white/40"} shadow-lg`}>
+              <span className="text-lg sm:text-xl drop-shadow-md">{g.emoji}</span>
+              {/* Circular progress overlay could go here, but simple fill is fine */}
+              <div className="absolute -bottom-1 -right-1 bg-teal-900 text-white text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-teal-500/50">
+                {val}%
+              </div>
+              {delta !== null && delta !== 0 && (
+                <div className={`absolute -top-4 font-black text-[12px] sm:text-xs drop-shadow-lg animate-[bounce_1s_infinite] ${delta > 0 ? "text-emerald-300" : "text-red-300"}`}>
+                  {delta > 0 ? `+${delta}` : delta}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        <span className={`text-[10px] font-mono font-bold ${textColor}`}>{value}%</span>
-        <span className="text-[9px] text-slate-500 font-semibold uppercase tracking-wide leading-tight text-center">{label}</span>
-      </div>
-    );
-  };
+            <span className="text-[9px] text-teal-100 font-bold uppercase tracking-wider mt-1.5 hidden sm:block drop-shadow-md">{g.label}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
 
   // ─── MENU ───────────────────────────────────────────────────────────────────
   if (gameState === "menu") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-950 flex flex-col items-center justify-center px-4 relative overflow-hidden">
-        {/* Decorative background */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-600 rounded-full blur-[120px]" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-600 rounded-full blur-[150px]" />
+      <div className="min-h-screen bg-gradient-to-b from-teal-400 via-teal-500 to-teal-700 flex flex-col items-center justify-center px-4 relative overflow-hidden">
+        {/* Underwater/Xmas background elements */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {/* Bubbles / snow */}
+          {[...Array(15)].map((_, i) => (
+            <div key={i} className="absolute bg-white/20 rounded-full" style={{
+              width: Math.random() * 8 + 4 + 'px',
+              height: Math.random() * 8 + 4 + 'px',
+              left: Math.random() * 100 + '%',
+              top: Math.random() * 100 + '%',
+              animation: `float-up ${Math.random() * 5 + 5}s infinite linear`
+            }} />
+          ))}
+          {/* Seaweed / Coral bottom silhouettes */}
+          <div className="absolute bottom-0 inset-x-0 h-48 opacity-20 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-teal-900 to-transparent" />
         </div>
 
         <button
           onClick={onClose}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0 cursor-pointer absolute top-6 left-6 z-50"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm shadow-md hover:scale-105 active:scale-95 border border-white/30 backdrop-blur-md transition-all duration-200 absolute top-6 left-6 z-50"
         >
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          <span>Retour</span>
+          <ArrowLeft className="w-4 h-4" />
+          <span>Quitter</span>
         </button>
 
-        <button onClick={() => setIsMuted(!isMuted)} className="absolute top-6 right-6 z-50 p-3 bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 rounded-xl border border-slate-700/50 backdrop-blur-sm transition-all hover:scale-105 active:scale-95 cursor-pointer">
+        <button onClick={() => setIsMuted(!isMuted)} className="absolute top-6 right-6 z-50 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/30 backdrop-blur-md transition-all hover:scale-105 active:scale-95">
           {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
         </button>
 
         <div className="relative z-10 text-center max-w-lg">
-          <div className="text-7xl mb-6 animate-bounce">👔</div>
-          <h1 className="text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 mb-4 tracking-tight">
-            Défi du Responsable
-          </h1>
-          <p className="text-slate-400 text-lg mb-2">Jeu de choix narratif — Style Reigns</p>
-          <p className="text-slate-500 text-sm mb-8 max-w-md mx-auto leading-relaxed">
-            Incarnez un responsable de service dans une collectivité. Des situations concrètes défilent : swipez à gauche ou à droite pour décider. Maintenez vos 4 jauges en équilibre ou c'est la fin !
-          </p>
-
-          <div className="grid grid-cols-2 gap-3 mb-8 max-w-sm mx-auto">
-            {gaugeConfig.map(g => (
-              <div key={g.key} className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/50 border border-slate-700/30">
-                <span className="text-lg">{g.emoji}</span>
-                <span className="text-xs text-slate-400 font-medium">{g.label}</span>
-              </div>
-            ))}
+          <div className="inline-block px-4 py-1.5 mb-6 border-2 border-dashed border-teal-200/50 rounded-lg transform -rotate-2 bg-teal-800/30 backdrop-blur-sm">
+            <span className="text-teal-100 font-bold tracking-widest text-sm uppercase">Caledonian Style</span>
           </div>
+          
+          <h1 className="text-5xl sm:text-7xl font-black text-white mb-2 tracking-tight drop-shadow-xl" style={{ fontFamily: 'Impact, sans-serif' }}>
+            DÉFI DU
+          </h1>
+          <h1 className="text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-100 to-white mb-6 drop-shadow-lg" style={{ fontFamily: 'Impact, sans-serif', WebkitTextStroke: '1px rgba(255,255,255,0.2)' }}>
+            RESPONSABLE
+          </h1>
+          
+          <p className="text-teal-100 text-lg mb-8 max-w-md mx-auto font-medium drop-shadow-md">
+            Découvrez les défis du management RH !<br/>Swipez à droite si vous acceptez, ou à gauche pour refuser.
+          </p>
 
           <button
             onClick={startGame}
-            className="px-10 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-lg rounded-2xl shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all duration-300 transform hover:scale-105 active:scale-95"
+            className="px-10 py-4 bg-teal-600 hover:bg-teal-500 text-white font-black text-xl rounded-full shadow-[0_8px_0_rgba(13,148,136,1)] hover:shadow-[0_4px_0_rgba(13,148,136,1)] hover:translate-y-1 transition-all duration-200 uppercase tracking-wider border-2 border-white/20"
           >
-            <Crown className="w-5 h-5 inline mr-2" />
-            Prendre ses fonctions
+            Jouer maintenant
           </button>
-
-          <div className="mt-6 flex items-center justify-center gap-4 text-xs text-slate-600">
-            <span>← Gauche pour refuser</span>
-            <span className="w-1 h-1 bg-slate-700 rounded-full" />
-            <span>Droite pour accepter →</span>
-          </div>
         </div>
       </div>
     );
@@ -587,31 +592,17 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
   // ─── GAME OVER ──────────────────────────────────────────────────────────────
   if (gameState === "gameover") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-red-950/30 to-slate-950 flex flex-col items-center justify-center px-4 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-900 rounded-full blur-[200px]" />
-        </div>
-
-        <div className="relative z-10 text-center max-w-lg">
-          <div className="text-8xl mb-6"><Skull className="w-24 h-24 mx-auto text-red-400 animate-pulse" /></div>
-          <h2 className="text-4xl sm:text-5xl font-black text-red-300 mb-3">Vous êtes convoqué par votre directeur.</h2>
-          <p className="text-slate-500 mb-8">Vous avez survécu <span className="text-white font-bold">{cardsPlayed}</span> décision{cardsPlayed > 1 ? "s" : ""}.</p>
-
-          <div className="grid grid-cols-2 gap-3 mb-8 max-w-sm mx-auto">
-            {gaugeConfig.map(g => (
-              <div key={g.key} className={`flex items-center gap-2 px-3 py-2 rounded-xl border ${gauges[g.key] <= 0 || gauges[g.key] >= 100 ? "bg-red-900/30 border-red-500/50" : "bg-slate-800/50 border-slate-700/30"}`}>
-                <span className="text-lg">{g.emoji}</span>
-                <span className="text-xs text-slate-400 font-medium">{g.label}</span>
-                <span className={`ml-auto text-sm font-bold ${gauges[g.key] <= 0 || gauges[g.key] >= 100 ? "text-red-400" : "text-slate-300"}`}>{gauges[g.key]}%</span>
-              </div>
-            ))}
-          </div>
+      <div className="min-h-screen bg-gradient-to-b from-slate-900 to-teal-950 flex flex-col items-center justify-center px-4 relative overflow-hidden">
+        <div className="relative z-10 text-center max-w-lg bg-white/10 p-8 rounded-3xl backdrop-blur-md border border-white/20 shadow-2xl">
+          <div className="text-8xl mb-6"><Skull className="w-24 h-24 mx-auto text-red-400 drop-shadow-lg" /></div>
+          <h2 className="text-3xl sm:text-4xl font-black text-white mb-3">Fin de mandat.</h2>
+          <p className="text-teal-200 mb-8 font-medium">Vous avez tenu <span className="text-white font-black text-xl">{cardsPlayed}</span> décision{cardsPlayed > 1 ? "s" : ""}.</p>
 
           <div className="flex gap-4 justify-center">
-            <button onClick={startGame} className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-xl shadow-lg transition-all transform hover:scale-105 active:scale-95">
+            <button onClick={startGame} className="px-6 py-3 bg-teal-500 hover:bg-teal-400 text-white font-bold rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 uppercase tracking-wide">
               <RotateCcw className="w-4 h-4 inline mr-2" /> Rejouer
             </button>
-            <button onClick={onClose} className="px-8 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl border border-slate-700/50 transition-all active:scale-95 cursor-pointer">
+            <button onClick={onClose} className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-full border border-white/30 transition-all active:scale-95">
               Quitter
             </button>
           </div>
@@ -625,171 +616,186 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
   const opacity = Math.max(0.3, 1 - Math.abs(dragOffset) / 400);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950/50 to-slate-950 flex flex-col relative overflow-hidden select-none">
+    <div className="min-h-screen bg-gradient-to-b from-teal-400 via-teal-500 to-teal-700 flex flex-col relative overflow-hidden select-none">
       {/* Background decor */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-64 h-64 bg-indigo-800/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-purple-800/10 rounded-full blur-[100px]" />
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {[...Array(15)].map((_, i) => (
+          <div key={i} className="absolute bg-white/20 rounded-full" style={{
+            width: Math.random() * 8 + 4 + 'px',
+            height: Math.random() * 8 + 4 + 'px',
+            left: Math.random() * 100 + '%',
+            top: Math.random() * 100 + '%',
+            animation: `float-up ${Math.random() * 5 + 5}s infinite linear`
+          }} />
+        ))}
       </div>
+
+      <style dangerouslySetInnerHTML={{__html:`
+        @keyframes float-up {
+          0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+          50% { opacity: 1; }
+          100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+      `}} />
 
       {/* Top bar */}
-      <div className="relative z-20 flex items-center justify-between px-4 py-3 bg-slate-900/80 backdrop-blur-md border-b border-slate-800/50">
-        <button
-          onClick={onClose}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0 cursor-pointer"
-        >
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          <span>Retour</span>
-        </button>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-500 font-mono">Décision #{cardsPlayed + 1}</span>
-          <span className="text-xs text-slate-600">|</span>
-          <span className="text-sm font-bold text-indigo-300">👔 Défi du Responsable</span>
+      <div className="relative z-20 flex flex-col items-center pt-6 pb-2 w-full">
+        <div className="flex justify-between items-center w-full px-4 mb-4">
+          <button
+            onClick={onClose}
+            className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white shadow-md hover:scale-105 active:scale-95 border border-white/30 backdrop-blur-md transition-all"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          
+          <div className="text-center">
+            <span className="bg-white/20 text-white text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-white/30 shadow-sm backdrop-blur-md">
+              Score: {cardsPlayed}
+            </span>
+          </div>
+
+          <button onClick={() => setIsMuted(!isMuted)} className="w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/30 backdrop-blur-md transition-all hover:scale-105 active:scale-95">
+            {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+          </button>
         </div>
-        <button onClick={() => setIsMuted(!isMuted)} className="p-2 text-slate-400 hover:text-white transition-colors hover:scale-110 active:scale-95 cursor-pointer">
-          {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-        </button>
+
+        {/* Gauges Header */}
+        <GaugeHeader />
       </div>
 
-      {/* Main play area: gauges flanking card */}
-      <div className="flex-1 flex items-center justify-center px-2 py-4 relative z-10">
-
-        {/* Left gauges (Usagers + Bien-être) */}
-        <div className="flex flex-col items-center gap-6 mr-2 sm:mr-4">
-          {gaugeConfig.slice(0, 2).map(g => (
-            <GaugeBarVertical
-              key={g.key}
-              label={g.label}
-              color={g.color}
-              textColor={g.textColor}
-              emoji={g.emoji}
-              value={gauges[g.key]}
-              delta={showEffect ? showEffect[g.key] : null}
-            />
-          ))}
-        </div>
-
-        {/* Center: card + choices */}
-        <div className="flex flex-col items-center flex-1 max-w-sm relative">
-          {/* Direction hints */}
-          <div className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-8 transition-all duration-300 pointer-events-none z-20 ${previewDir === "left" ? "opacity-100 scale-125" : "opacity-80 animate-[bounce_2s_infinite]"}`}>
-            <div className="px-2 py-2 bg-indigo-500/30 border border-indigo-400/60 rounded-full shadow-lg shadow-indigo-500/40">
-              <Undo2 className="w-5 h-5 text-indigo-300" />
-            </div>
-          </div>
-          <div className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-8 transition-all duration-300 pointer-events-none z-20 ${previewDir === "right" ? "opacity-100 scale-125" : "opacity-80 animate-[bounce_2s_infinite_0.5s]"}`}>
-            <div className="px-2 py-2 bg-emerald-500/30 border border-emerald-400/60 rounded-full shadow-lg shadow-emerald-500/40">
-              <Redo2 className="w-5 h-5 text-emerald-300" />
-            </div>
-          </div>
-
-          {currentCard && (
-            <div
-              ref={cardRef}
-              onPointerDown={handlePointerDown}
-              onPointerMove={handlePointerMove}
-              onPointerUp={handlePointerUp}
-              className={`relative w-full cursor-grab active:cursor-grabbing touch-none transition-transform ${swipeDir ? "duration-300" : "duration-0"}`}
-              style={{
-                transform: swipeDir
-                  ? `translateX(${swipeDir === "left" ? -600 : 600}px) rotate(${swipeDir === "left" ? -30 : 30}deg)`
-                  : `translateX(${dragOffset}px) rotate(${rotation}deg)`,
-                opacity: swipeDir ? 0 : opacity,
-              }}
+      {/* Main play area */}
+      <div className="flex-1 flex flex-col items-center justify-center px-2 py-4 relative z-10 w-full max-w-4xl mx-auto">
+        
+        {/* The Card & Side Buttons Container */}
+        <div className="flex items-center justify-center w-full gap-4 sm:gap-12">
+          
+          {/* Left Button (Refuser) */}
+          <div className="hidden sm:flex flex-col items-center gap-2">
+            <button 
+              onClick={() => !swipeDir && applyChoice("left")}
+              className={`w-16 h-16 rounded-full bg-teal-900 border-4 border-teal-800 flex items-center justify-center shadow-lg transition-transform hover:scale-110 active:scale-95 ${previewDir === 'left' ? 'scale-110 bg-teal-800' : ''}`}
             >
-              {/* Card */}
-              <div className="bg-gradient-to-br from-slate-800/90 to-slate-900/95 rounded-3xl border border-slate-700/50 shadow-2xl shadow-black/40 backdrop-blur-md overflow-hidden relative">
+              <div className="text-white text-3xl font-black">✕</div>
+            </button>
+            <div className="flex items-center gap-2">
+              <Undo2 className="w-6 h-6 text-teal-800" />
+              <span className="text-teal-900 font-black text-sm text-center w-24 leading-tight uppercase drop-shadow-[0_1px_1px_rgba(255,255,255,0.5)]">
+                {currentCard?.choiceLeft}
+              </span>
+            </div>
+          </div>
 
-                {/* ── Swipe overlay stamps ── */}
-                {currentCard && (
-                  <>
-                    {/* LEFT swipe stamp */}
+          {/* Center Card */}
+          <div className="relative w-full max-w-xs sm:max-w-sm">
+            {currentCard && (
+              <div
+                ref={cardRef}
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                onPointerUp={handlePointerUp}
+                className={`relative w-full cursor-grab active:cursor-grabbing touch-none transition-all ${swipeDir ? "duration-700 ease-in-out" : "duration-0"}`}
+                style={{
+                  transform: swipeDir
+                    ? `translateX(${swipeDir === "left" ? -600 : 600}px) rotate(${swipeDir === "left" ? -30 : 30}deg)`
+                    : `translateX(${dragOffset}px) rotate(${rotation}deg)`,
+                  opacity: swipeDir ? 0 : opacity,
+                }}
+              >
+                {/* Polaroid styling */}
+                <div className="bg-white p-4 pb-6 rounded-sm shadow-2xl shadow-teal-900/50 relative">
+                  
+                  {/* Image Area */}
+                  <div className="aspect-[4/5] bg-slate-100 mb-4 overflow-hidden relative border border-slate-200">
+                    {imageMap[currentCard.id] ? (
+                      <img src={imageMap[currentCard.id]} alt="Scenario" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-teal-50 to-emerald-50">
+                        <span className="text-6xl mb-2">{currentCard.characterEmoji}</span>
+                        <span className="text-slate-400 font-medium">Image non disponible</span>
+                      </div>
+                    )}
+                    
+                    {/* Stamps overlay */}
                     <div
                       className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none transition-opacity duration-150"
-                      style={{ opacity: previewDir === "left" ? Math.min(1, Math.abs(dragOffset) / 120) : 0 }}
+                      style={{ opacity: previewDir === "left" ? Math.min(1, Math.abs(dragOffset) / 120) : (swipeDir === "left" ? 1 : 0) }}
                     >
-                      <div className="bg-indigo-500/90 backdrop-blur-sm rounded-2xl px-5 py-3 -rotate-12 border-2 border-indigo-300 shadow-2xl shadow-indigo-500/40 max-w-[80%]">
-                        <p className="text-white font-black text-sm sm:text-base text-center leading-snug">{currentCard.choiceLeft}</p>
+                      <div className="border-4 border-red-500 rounded-lg px-4 py-2 -rotate-12 bg-white/80 backdrop-blur-sm shadow-lg">
+                        <p className="text-red-500 font-black text-2xl uppercase tracking-wider">Refusé</p>
                       </div>
                     </div>
-                    {/* RIGHT swipe stamp */}
                     <div
                       className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none transition-opacity duration-150"
-                      style={{ opacity: previewDir === "right" ? Math.min(1, Math.abs(dragOffset) / 120) : 0 }}
+                      style={{ opacity: previewDir === "right" ? Math.min(1, Math.abs(dragOffset) / 120) : (swipeDir === "right" ? 1 : 0) }}
                     >
-                      <div className="bg-emerald-500/90 backdrop-blur-sm rounded-2xl px-5 py-3 rotate-12 border-2 border-emerald-300 shadow-2xl shadow-emerald-500/40 max-w-[80%]">
-                        <p className="text-white font-black text-sm sm:text-base text-center leading-snug">{currentCard.choiceRight}</p>
+                      <div className="border-4 border-emerald-500 rounded-lg px-4 py-2 rotate-12 bg-white/80 backdrop-blur-sm shadow-lg">
+                        <p className="text-emerald-500 font-black text-2xl uppercase tracking-wider">Accepté</p>
                       </div>
-                    </div>
-                  </>
-                )}
-
-                {/* Character header */}
-                <div className="px-5 pt-5 pb-3 border-b border-slate-700/30 bg-gradient-to-r from-indigo-900/20 to-purple-900/20">
-                  <div className="flex items-center gap-3">
-                    <span className="text-4xl">{currentCard.characterEmoji}</span>
-                    <div>
-                      <p className="text-white font-bold text-sm">{currentCard.character}</p>
-                      <p className="text-indigo-400/70 text-xs">vous interpelle...</p>
                     </div>
                   </div>
-                </div>
 
-                {/* Situation */}
-                <div className="px-5 py-4">
-                  <p className="text-slate-200 text-sm sm:text-base leading-relaxed">{currentCard.situation}</p>
-                  {imageMap[currentCard.id] && (
-                    <img src={imageMap[currentCard.id]} alt={`Scenario ${currentCard.id}`} className="mt-3 rounded-lg max-w-full" />
-                  )}
-                </div>
-
-                {/* Choices — side by side */}
-                <div className="px-3 pb-4 flex gap-2">
-                  <button
-                    onClick={() => !swipeDir && applyChoice("left")}
-                    disabled={!!swipeDir}
-                    className={`flex-1 px-3 py-3 rounded-2xl text-xs sm:text-sm font-semibold text-center leading-snug transition-all duration-200 disabled:opacity-40 active:scale-[0.97]
-                      ${previewDir === "left"
-                        ? "bg-indigo-500/25 border-2 border-indigo-400/60 text-indigo-200 shadow-lg shadow-indigo-500/10 scale-[1.03]"
-                        : "bg-slate-800/60 border-2 border-slate-700/40 text-slate-300 hover:bg-indigo-500/10 hover:border-indigo-500/30 hover:text-indigo-200"}`}
-                  >
-                    <ChevronLeft className="w-4 h-4 mx-auto mb-1 opacity-60" />
-                    {currentCard.choiceLeft}
-                  </button>
-                  <button
-                    onClick={() => !swipeDir && applyChoice("right")}
-                    disabled={!!swipeDir}
-                    className={`flex-1 px-3 py-3 rounded-2xl text-xs sm:text-sm font-semibold text-center leading-snug transition-all duration-200 disabled:opacity-40 active:scale-[0.97]
-                      ${previewDir === "right"
-                        ? "bg-emerald-500/25 border-2 border-emerald-400/60 text-emerald-200 shadow-lg shadow-emerald-500/10 scale-[1.03]"
-                        : "bg-slate-800/60 border-2 border-slate-700/40 text-slate-300 hover:bg-emerald-500/10 hover:border-emerald-500/30 hover:text-emerald-200"}`}
-                  >
-                    <ChevronRight className="w-4 h-4 mx-auto mb-1 opacity-60" />
-                    {currentCard.choiceRight}
-                  </button>
+                  {/* Text content under image (Polaroid bottom area) */}
+                  <div className="text-center">
+                    <p className="font-bold text-slate-800 text-sm mb-1 uppercase tracking-wide border-b border-slate-200 pb-2">
+                      {currentCard.character}
+                    </p>
+                    <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mt-2" style={{ fontFamily: "'Caveat', cursive, sans-serif" }}>
+                      "{currentCard.situation}"
+                    </p>
+                  </div>
                 </div>
               </div>
+            )}
+          </div>
+
+          {/* Right Button (Accepter) */}
+          <div className="hidden sm:flex flex-col items-center gap-2">
+            <button 
+              onClick={() => !swipeDir && applyChoice("right")}
+              className={`w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 active:scale-95 ${previewDir === 'right' ? 'scale-110 shadow-xl' : ''}`}
+            >
+              <Heart className="w-8 h-8 text-red-500 fill-red-500" />
+            </button>
+            <div className="flex items-center gap-2">
+              <span className="text-teal-900 font-black text-sm text-center w-24 leading-tight uppercase drop-shadow-[0_1px_1px_rgba(255,255,255,0.5)]">
+                {currentCard?.choiceRight}
+              </span>
+              <Redo2 className="w-6 h-6 text-teal-800" />
             </div>
-          )}
-
-          <p className="text-slate-600 text-xs mt-4">Swipez la carte ou cliquez un choix</p>
+          </div>
         </div>
 
-        {/* Right gauges (Budget + Conformité) */}
-        <div className="flex flex-col items-center gap-6 ml-2 sm:ml-4">
-          {gaugeConfig.slice(2, 4).map(g => (
-            <GaugeBarVertical
-              key={g.key}
-              label={g.label}
-              color={g.color}
-              textColor={g.textColor}
-              emoji={g.emoji}
-              value={gauges[g.key]}
-              delta={showEffect ? showEffect[g.key] : null}
-            />
-          ))}
+        {/* Mobile buttons (visible only on small screens) */}
+        <div className="flex sm:hidden items-center justify-center gap-12 mt-8">
+          <button 
+            onClick={() => !swipeDir && applyChoice("left")}
+            className="w-14 h-14 rounded-full bg-teal-900 border-4 border-teal-800 flex items-center justify-center shadow-lg active:scale-95"
+          >
+            <div className="text-white text-2xl font-black">✕</div>
+          </button>
+          <button 
+            onClick={() => !swipeDir && applyChoice("right")}
+            className="w-14 h-14 rounded-full bg-white flex items-center justify-center shadow-lg active:scale-95"
+          >
+            <Heart className="w-7 h-7 text-red-500 fill-red-500" />
+          </button>
         </div>
 
+        {/* Superlike Button */}
+        <div className="mt-8 sm:mt-12 text-center">
+          <p className="text-white font-bold text-sm mb-2 drop-shadow-md">
+            IS IT A FAVOURITE?<br/>Click on the super like!
+          </p>
+          <button 
+            onClick={() => !swipeDir && applyChoice("right")} // just mapped to right choice for now
+            className="px-6 py-2 bg-gradient-to-r from-amber-400 to-orange-400 text-white font-black rounded-full shadow-lg border border-white/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 mx-auto"
+          >
+            <span className="text-lg">★</span>
+            SUPERLIKE
+            <span className="text-lg">★</span>
+          </button>
+        </div>
+        
       </div>
     </div>
   );
