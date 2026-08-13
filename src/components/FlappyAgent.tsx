@@ -149,8 +149,8 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
     x: 110,
     y: 310,
     velocity: 0,
-    gravity: 0.2,
-    jump: -5.5,
+    gravity: 0.12,
+    jump: -4.0,
     radius: 20,
     rotation: 0
   });
@@ -198,8 +198,8 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
       x: 110,
       y: 310,
       velocity: 0,
-      gravity: 0.2,
-      jump: -5.5,
+      gravity: 0.12,
+      jump: -4.0,
       radius: 20,
       rotation: 0
     };
@@ -367,9 +367,9 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
 
         // Progressive Game Speed Acceleration (compounds and goes faster and faster!)
         const hundredTier = Math.floor(score / 100);
-        const currentPipeSpeed = 2.2 * Math.pow(1.02, score / 10) + hundredTier * 0.4;
+        const currentPipeSpeed = 2.0 * Math.pow(1.01, score / 20) + hundredTier * 0.2;
         // Dynamic spawn interval to maintain a fair, playable horizontal distance between pipes
-        const spawnInterval = Math.max(26, Math.floor(260 / currentPipeSpeed));
+        const spawnInterval = Math.max(35, Math.floor(260 / currentPipeSpeed));
 
         // Agent Gravity Physics (Always 100% controllable by player jumps!)
         agent.velocity += agent.gravity;
@@ -400,7 +400,7 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
             if (hasShield) {
               setHasShield(false);
               invincibleFramesRef.current = 60;
-              agent.velocity = -6;
+              agent.velocity = 0;
               addFloatingText("BOUCLIER BRISÉ !", agent.x, agent.y - 20, "#38bdf8");
             } else {
               setLives(l => {
@@ -411,7 +411,7 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
                 } else {
                   invincibleFramesRef.current = 60;
                   agent.y = 310;
-                  agent.velocity = -5;
+                  agent.velocity = 0;
                 }
                 return nextL;
               });
@@ -510,7 +510,7 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
               if (hasShield) {
                 setHasShield(false);
                 invincibleFramesRef.current = 60;
-                agent.velocity = -6;
+                agent.velocity = 0;
                 addFloatingText("BOUCLIER PROTECTEUR !", agent.x, agent.y - 20, "#38bdf8");
               } else {
                 setLives(l => {
@@ -520,7 +520,7 @@ const FlappyAgent: React.FC<FlappyAgentProps> = ({ onClose }) => {
                     setGameState("gameover");
                   } else {
                     invincibleFramesRef.current = 60;
-                    agent.velocity = -6;
+                    agent.velocity = 0;
                   }
                   return nextL;
                 });

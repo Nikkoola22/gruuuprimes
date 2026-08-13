@@ -464,213 +464,196 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
       }
     };
 
+    const drawPixelSprite = (ctx: CanvasRenderingContext2D, x: number, y: number, sprite: string[], color: string, pSize: number) => {
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      for (let r = 0; r < sprite.length; r++) {
+        for (let c = 0; c < sprite[r].length; c++) {
+          if (sprite[r][c] !== ' ' && sprite[r][c] !== '0') {
+             if (sprite[r][c] === '2') {
+                 // Alternate color (e.g. white for eyes/details)
+                 ctx.fillStyle = "#ffffff";
+                 ctx.fillRect(x + c * pSize, y + r * pSize, pSize, pSize);
+                 ctx.fillStyle = color;
+             } else if (sprite[r][c] === '3') {
+                 // Black for tires/eyes
+                 ctx.fillStyle = "#000000";
+                 ctx.fillRect(x + c * pSize, y + r * pSize, pSize, pSize);
+                 ctx.fillStyle = color;
+             } else {
+                 ctx.rect(x + c * pSize, y + r * pSize, pSize, pSize);
+             }
+          }
+        }
+      }
+      ctx.fill();
+    };
+
     const draw = () => {
       ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // Fond de base (Trottoir bas)
-      ctx.fillStyle = "#1e293b"; // slate-800
+      // Fond de base (Trottoir bas) - Herbe verte
+      ctx.fillStyle = "#166534"; // dark green grass
       ctx.fillRect(0, 12 * GRID, CANVAS_WIDTH, 2 * GRID);
-      // Texture trottoir
-      ctx.fillStyle = "#334155";
-      for(let i=0; i<CANVAS_WIDTH; i+=GRID) {
-        ctx.fillRect(i, 12*GRID, 2, 2*GRID);
-        ctx.fillRect(i, 12*GRID + GRID, GRID, 2);
-      }
-
-      // Route
-      ctx.fillStyle = "#0f172a"; // slate-900
-      ctx.fillRect(0, 7 * GRID, CANVAS_WIDTH, 5 * GRID);
-      // Lignes de route
-      ctx.fillStyle = "#475569";
-      for (let i = 8; i <= 11; i++) {
-        for (let j = 0; j < CANVAS_WIDTH; j += 80) {
-          ctx.fillRect(j, i * GRID - 2, 40, 4);
-        }
-      }
-
-      // Trottoir intermédiaire
-      ctx.fillStyle = "#1e293b";
-      ctx.fillRect(0, 6 * GRID, CANVAS_WIDTH, GRID);
-      ctx.fillStyle = "#334155";
-      for(let i=0; i<CANVAS_WIDTH; i+=GRID) {
-        ctx.fillRect(i, 6*GRID, 2, GRID);
-      }
-
-      // Rivière
-      ctx.fillStyle = "#1e3a8a"; // blue-900
-      ctx.fillRect(0, 1 * GRID, CANVAS_WIDTH, 5 * GRID);
       
-      // Rivière animée (vagues sinus rétro)
-      ctx.strokeStyle = "rgba(147, 197, 253, 0.25)"; // blue-300
-      ctx.lineWidth = 3;
-      const waveSpeed = performance.now() * 0.003;
-      for (let r = 1; r <= 5; r++) {
-        ctx.beginPath();
-        const y = r * GRID + GRID / 2;
-        for (let x = 0; x <= CANVAS_WIDTH; x += 15) {
-          const waveY = y + Math.sin(x * 0.03 + waveSpeed + r) * 6;
-          if (x === 0) ctx.moveTo(x, waveY);
-          else ctx.lineTo(x, waveY);
+      // Route (Asphalte)
+      ctx.fillStyle = "#1e293b"; // dark slate for road
+      ctx.fillRect(0, 7 * GRID, CANVAS_WIDTH, 5 * GRID);
+      
+      // Lignes de route pointillées blanches
+      ctx.fillStyle = "#cbd5e1";
+      for (let i = 8; i <= 11; i++) {
+        for (let j = 0; j < CANVAS_WIDTH; j += 60) {
+          ctx.fillRect(j, i * GRID - 2, 30, 4);
         }
-        ctx.stroke();
       }
 
-      // Zone des buts (Titularisation)
-      ctx.fillStyle = "#022c22"; // emerald-950
+      // Trottoir intermédiaire - Herbe
+      ctx.fillStyle = "#166534";
+      ctx.fillRect(0, 6 * GRID, CANVAS_WIDTH, GRID);
+
+      // Rivière - Eau bleue avec un peu de texture
+      ctx.fillStyle = "#1e3a8a"; // deep blue
+      ctx.fillRect(0, 1 * GRID, CANVAS_WIDTH, 5 * GRID);
+      ctx.fillStyle = "#2563eb"; // lighter blue
+      for(let r = 1; r < 6; r++) {
+         for(let c = 0; c < CANVAS_WIDTH; c+=40) {
+             ctx.fillRect(c + (r%2)*20, r * GRID + 20, 15, 4);
+         }
+      }
+
+      // Zone des buts (Buissons et Criques d'eau)
+      ctx.fillStyle = "#14532d"; // very dark green bushes
       ctx.fillRect(0, 0, CANVAS_WIDTH, GRID);
-      ctx.fillStyle = "#064e3b"; // emerald-900
+      
       goalsRef.current.forEach(g => {
+        // Crique d'eau (trou dans les buissons)
+        ctx.fillStyle = "#1e3a8a"; 
         ctx.fillRect(g.x, g.y, g.width, g.height);
+        
         if (g.isFilled) {
-          ctx.fillStyle = "#22c55e"; // emerald-500
-          ctx.fillRect(g.x + 4, g.y + 4, g.width - 8, g.height - 8);
-          // Logo CDI
-          ctx.fillStyle = "white";
-          ctx.font = "bold 16px sans-serif";
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.fillText("CDI", g.x + g.width / 2, g.y + g.height / 2);
-        } else {
-          // Indiquer l'objectif CDI dans les cases vides
-          ctx.fillStyle = "rgba(16, 185, 129, 0.35)"; // Vert émeraude translucide
-          ctx.font = "bold 13px sans-serif";
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.fillText("CDI", g.x + g.width / 2, g.y + g.height / 2);
+          // Grenouille arrivée
+          const frogSprite = [
+            "  11   11  ",
+            " 111111111 ",
+            " 123111321 ",
+            " 111111111 ",
+            " 111111111 ",
+            " 1 11111 1 ",
+            " 111   111 ",
+            "111     111"
+          ];
+          drawPixelSprite(ctx, g.x + 10, g.y + 10, frogSprite, "#22c55e", 4);
         }
       });
 
-      // Entities
+      // Entities (Voitures, Camions, Rondins, Tortues)
       entitiesRef.current.forEach(ent => {
-        ctx.save();
-        ctx.fillStyle = ent.color;
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = ent.color;
-        const pad = 6;
-        
         if (ent.type === "car") {
-          // Chassis
-          ctx.roundRect(ent.x + pad, ent.y + pad + 4, ent.width - pad*2, ent.height - pad*2 - 8, 8);
-          ctx.fill();
-          
-          // Toit
-          ctx.fillStyle = "rgba(255,255,255,0.2)";
-          ctx.roundRect(ent.x + pad + 12, ent.y + pad, ent.width - pad*2 - 24, ent.height - pad*2, 4);
-          ctx.fill();
-
-          // Roues
-          ctx.fillStyle = "#020617";
-          ctx.shadowBlur = 0;
-          ctx.beginPath(); ctx.arc(ent.x + pad + 14, ent.y + pad + 2, 6, 0, Math.PI*2); ctx.fill();
-          ctx.beginPath(); ctx.arc(ent.x + ent.width - pad - 14, ent.y + pad + 2, 6, 0, Math.PI*2); ctx.fill();
-          ctx.beginPath(); ctx.arc(ent.x + pad + 14, ent.y + ent.height - pad - 2, 6, 0, Math.PI*2); ctx.fill();
-          ctx.beginPath(); ctx.arc(ent.x + ent.width - pad - 14, ent.y + ent.height - pad - 2, 6, 0, Math.PI*2); ctx.fill();
-
-          // Phares
-          ctx.shadowBlur = 10;
-          ctx.fillStyle = ent.speed > 0 ? "#fef08a" : "#f87171";
-          ctx.shadowColor = ctx.fillStyle;
-          const headlightX = ent.speed > 0 ? ent.x + ent.width - pad - 6 : ent.x + pad;
-          ctx.fillRect(headlightX, ent.y + pad + 8, 6, 8);
-          ctx.fillRect(headlightX, ent.y + ent.height - pad - 16, 6, 8);
-          
-          ctx.fillStyle = ent.speed > 0 ? "#f87171" : "#fef08a";
-          ctx.shadowColor = ctx.fillStyle;
-          const taillightX = ent.speed > 0 ? ent.x + pad : ent.x + ent.width - pad - 6;
-          ctx.fillRect(taillightX, ent.y + pad + 8, 6, 8);
-          ctx.fillRect(taillightX, ent.y + ent.height - pad - 16, 6, 8);
-
-          // Fenêtre centrale
-          ctx.shadowBlur = 0;
-          ctx.fillStyle = "rgba(0,0,0,0.65)";
-          ctx.fillRect(ent.x + ent.width/2 - 12, ent.y + pad + 4, 24, ent.height - pad*2 - 8);
-
+            // Draw pixel art car
+            const carSpriteRight = [
+              "  33    33  ",
+              " 1111111112 ",
+              " 1111111112 ",
+              " 1111111112 ",
+              "  33    33  "
+            ];
+            const carSpriteLeft = [
+              "  33    33  ",
+              " 2111111111 ",
+              " 2111111111 ",
+              " 2111111111 ",
+              "  33    33  "
+            ];
+            const pSize = ent.height / 5;
+            const sprite = ent.speed > 0 ? carSpriteRight : carSpriteLeft;
+            drawPixelSprite(ctx, ent.x, ent.y, sprite, ent.color, pSize);
+            
+            // Draw length for trucks (stretch middle)
+            if (ent.width > GRID * 1.5) {
+               ctx.fillStyle = ent.color;
+               ctx.fillRect(ent.x + pSize*4, ent.y + pSize, ent.width - pSize*8, pSize*3);
+               // White stripe removed for better text readability
+            }
         } else {
-          // Plateforme (Log)
-          // Bois foncé pour l'écorce
-          ctx.fillStyle = "#78350f"; 
-          ctx.roundRect(ent.x, ent.y + pad, ent.width, ent.height - pad*2, 8);
-          ctx.fill();
-          
-          // Cernes clairs aux bouts
-          ctx.fillStyle = "#f59e0b";
-          ctx.beginPath();
-          ctx.ellipse(ent.x + 8, ent.y + ent.height/2, 4, (ent.height - pad*2)/2 - 2, 0, 0, Math.PI*2);
-          ctx.fill();
-          ctx.beginPath();
-          ctx.ellipse(ent.x + ent.width - 8, ent.y + ent.height/2, 4, (ent.height - pad*2)/2 - 2, 0, 0, Math.PI*2);
-          ctx.fill();
-
-          // Veines de bois
-          ctx.strokeStyle = "rgba(0,0,0,0.3)";
-          ctx.lineWidth = 2.5;
-          ctx.shadowBlur = 0;
-          ctx.beginPath();
-          ctx.moveTo(ent.x + 16, ent.y + ent.height/2 - 3); ctx.lineTo(ent.x + ent.width - 16, ent.y + ent.height/2 - 3);
-          ctx.moveTo(ent.x + 24, ent.y + ent.height/2 + 4); ctx.lineTo(ent.x + ent.width - 24, ent.y + ent.height/2 + 4);
-          ctx.stroke();
+            // Log or Turtle
+            if (ent.label.includes("1 an") || ent.label.includes("2 ans")) {
+                // Draw Turtle
+                const turtleSprite = [
+                  "  11  ",
+                  " 1111 ",
+                  "311113",
+                  " 1111 ",
+                  "  11  "
+                ];
+                // Draw multiple turtles to fill the length
+                const tSize = ent.height / 5;
+                for(let tx = ent.x; tx < ent.x + ent.width - tSize*4; tx += tSize*7) {
+                    drawPixelSprite(ctx, tx, ent.y, turtleSprite, "#166534", tSize); // dark green shell
+                    // Turtle head
+                    ctx.fillStyle = "#65a30d"; // light green head
+                    ctx.fillRect(tx + (ent.speed > 0 ? tSize*6 : -tSize*2), ent.y + tSize*2, tSize*2, tSize);
+                }
+            } else {
+                // Draw Log
+                ctx.fillStyle = "#78350f"; // brown
+                ctx.fillRect(ent.x, ent.y + 10, ent.width, ent.height - 20);
+                // Mossy ends
+                ctx.fillStyle = "#4d7c0f";
+                ctx.fillRect(ent.x, ent.y + 10, 15, ent.height - 20);
+                ctx.fillRect(ent.x + ent.width - 15, ent.y + 10, 15, ent.height - 20);
+                
+                // Wood grains
+                ctx.fillStyle = "#451a03";
+                ctx.fillRect(ent.x + 20, ent.y + 15, ent.width - 40, 2);
+                ctx.fillRect(ent.x + 30, ent.y + 30, ent.width - 60, 2);
+            }
         }
-        ctx.restore();
-
-        // Texte
+        
+        // Texte RH demandé
         ctx.fillStyle = "white";
-        ctx.font = "bold 13px sans-serif";
+        ctx.font = "bold 12px sans-serif";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText(ent.label, ent.x + ent.width / 2, ent.y + ent.height / 2);
+        ctx.shadowColor = "black";
+        ctx.shadowBlur = 4;
+        let text = "";
+        let textX = ent.x + ent.width / 2;
+        
+        if (ent.type === "car") {
+            const pSize = ent.height / 5;
+            // The car sprite is 12 pixels wide, we center relative to the drawn sprite width
+            textX = ent.x + (12 * pSize) / 2;
+            
+            if (ent.width > GRID * 1.5) {
+                text = "Fin de contrat";
+                textX = ent.x + ent.width / 2; // Trucks stretch to full ent.width
+            } else {
+                // Use a static property (ent.label) so it doesn't flicker while moving!
+                text = (ent.label.length % 2 === 0) ? "ARE" : "Précarité";
+            }
+        } else {
+            text = "CDD";
+        }
+        ctx.fillText(text, textX, ent.y + ent.height / 2 + 1);
+        ctx.shadowBlur = 0;
       });
 
       // Player (Agent Grenouille)
       const p = playerRef.current;
       if (!p.isDead) {
-        ctx.save();
-        const cx = p.x + GRID/2;
-        const cy = p.y + GRID/2;
-        
-        // Corps vert de grenouille
-        ctx.fillStyle = "#22c55e"; // Vert brillant
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = "#22c55e";
-        ctx.beginPath();
-        ctx.ellipse(cx, cy, p.width/2, p.height/2.6, 0, 0, Math.PI*2);
-        ctx.fill();
-        
-        // Yeux globuleux
-        ctx.fillStyle = "#bef264"; // Lime
-        ctx.shadowBlur = 0;
-        ctx.beginPath();
-        ctx.arc(cx - 8, cy - p.height/3, 5, 0, Math.PI*2);
-        ctx.arc(cx + 8, cy - p.height/3, 5, 0, Math.PI*2);
-        ctx.fill();
-        
-        // Pupilles noires
-        ctx.fillStyle = "#000000";
-        ctx.beginPath();
-        ctx.arc(cx - 8, cy - p.height/3, 2, 0, Math.PI*2);
-        ctx.arc(cx + 8, cy - p.height/3, 2, 0, Math.PI*2);
-        ctx.fill();
-        
-        // Pattes arrière pliées
-        ctx.strokeStyle = "#16a34a"; // Vert plus foncé
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(cx - p.width/2, cy + 2);
-        ctx.quadraticCurveTo(cx - p.width/2 - 6, cy + 10, cx - 6, cy + p.height/2);
-        ctx.moveTo(cx + p.width/2, cy + 2);
-        ctx.quadraticCurveTo(cx + p.width/2 + 6, cy + 10, cx + 6, cy + p.height/2);
-        ctx.stroke();
-
-        // Petite sacoche CFDT / Porte-documents
-        ctx.fillStyle = "#ea580c"; // Orange CFDT
-        ctx.beginPath();
-        ctx.roundRect(cx - 4, cy - 2, 8, 8, 2);
-        ctx.fill();
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(cx - 2, cy - 3, 4, 1); // Anse
-
-        ctx.restore();
+        const frogSprite = [
+          "  11   11  ",
+          " 111111111 ",
+          " 123111321 ",
+          " 111111111 ",
+          " 111111111 ",
+          " 1 11111 1 ",
+          " 111   111 ",
+          "111     111"
+        ];
+        drawPixelSprite(ctx, p.x + 4, p.y + 8, frogSprite, p.color, 4);
       }
-
 
       // Particules (Morts / Victoire)
       particlesRef.current.forEach(part => {
@@ -686,7 +669,6 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
       });
 
     };
-
     const loop = () => {
       update();
       draw();

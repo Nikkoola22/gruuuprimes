@@ -56,6 +56,7 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
   const [score, setScore] = useState(0);
   const [errors, setErrors] = useState(0);
   const [level, setLevel] = useState(1);
+  const [difficulty, setDifficulty] = useState<"easy" | "hard">("easy");
   
   // Grille de 9 emplacements (0 à 8)
   const [holes, setHoles] = useState<(ActiveMole | null)[]>(Array(9).fill(null));
@@ -326,7 +327,7 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
                       <div className="absolute inset-0 bg-orange-400 rounded-full opacity-30 blur-md" />
                       
                       {/* Mole Body (Flame shape/Character) */}
-                      <div className={`relative flex flex-col items-center justify-center p-2 rounded-t-full rounded-b-[2rem] shadow-lg w-20 h-24 ${mole.def.isDanger ? 'bg-gradient-to-t from-red-600 to-orange-400 border-2 border-orange-300' : 'bg-gradient-to-t from-blue-500 to-cyan-400 border-2 border-cyan-200'}`}>
+                      <div className={`relative flex flex-col items-center justify-center p-2 rounded-t-full rounded-b-[2rem] shadow-lg w-20 h-24 ${difficulty === 'hard' || mole.def.isDanger ? 'bg-gradient-to-t from-red-600 to-orange-400 border-2 border-orange-300' : 'bg-gradient-to-t from-blue-500 to-cyan-400 border-2 border-cyan-200'}`}>
                         
                         {/* Eyes */}
                         <div className="absolute top-8 flex gap-3 w-full justify-center">
@@ -356,9 +357,28 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
                 <AlertTriangle className="w-12 h-12 text-white" />
               </div>
               <h2 className="text-3xl font-black text-white mb-2 uppercase drop-shadow-md">TAPE-TAUPE DES RISQUES</h2>
+              
+              <div className="flex gap-4 mb-6">
+                <button 
+                  onClick={() => setDifficulty("easy")}
+                  className={`px-4 py-2 rounded-xl font-bold border-2 transition-all ${difficulty === "easy" ? "bg-cyan-500 border-cyan-300 text-white shadow-[0_0_15px_rgba(6,182,212,0.6)]" : "bg-slate-800 border-slate-600 text-slate-400 hover:bg-slate-700"}`}
+                >
+                  Mode Facile
+                </button>
+                <button 
+                  onClick={() => setDifficulty("hard")}
+                  className={`px-4 py-2 rounded-xl font-bold border-2 transition-all ${difficulty === "hard" ? "bg-red-500 border-red-300 text-white shadow-[0_0_15px_rgba(239,68,68,0.6)]" : "bg-slate-800 border-slate-600 text-slate-400 hover:bg-slate-700"}`}
+                >
+                  Mode Difficile
+                </button>
+              </div>
+
               <p className="text-white max-w-sm font-medium text-sm mb-6 bg-black/50 p-4 rounded-xl border border-white/20">
                 Tapez sur les situations dangereuses (<span className="text-orange-400 font-bold">flammes oranges</span>) avant qu'il ne soit trop tard ! <br/><br/>
-                Ne tapez pas sur les bonnes pratiques (<span className="text-cyan-400 font-bold">flammes bleues</span>).
+                {difficulty === "easy" 
+                  ? <span>Ne tapez pas sur les bonnes pratiques (<span className="text-cyan-400 font-bold">flammes bleues</span>).</span>
+                  : <span className="text-red-400 font-bold">En mode difficile, toutes les flammes sont identiques. Lisez bien les étiquettes !</span>
+                }
               </p>
               <button
                 onClick={startGame}

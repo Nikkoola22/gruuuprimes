@@ -2746,6 +2746,13 @@ ${indicesFactuels}
         }}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col justify-center items-center gap-2 mb-4 mt-2">
+            <img 
+              src={`${BASE_URL}images/votez_cfdt.png`} 
+              alt="Votre Voix Notre Action - Votez CFDT" 
+              className="h-24 sm:h-32 w-auto object-contain drop-shadow-lg"
+            />
+          </div>
           <div className="flex justify-center items-center gap-2 mb-3">
             <span className="text-orange-300 font-semibold text-base tracking-wide">CFDT Gennevilliers</span>
           </div>

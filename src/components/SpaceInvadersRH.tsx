@@ -204,7 +204,7 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
   const shakeRef = useRef<number>(0);
 
   // Initialiser les envahisseurs et boucliers
-  const initWave = useCallback((currentWave: number) => {
+  const initWave = useCallback((_currentWave: number) => {
     const invaders: Invader[] = [];
     const rows = 4;
     const cols = 8;
@@ -215,16 +215,12 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
     const startX = (CANVAS_WIDTH - (cols * (invW + gapX) - gapX)) / 2;
     const startY = 70;
 
-    const typeDefs = currentWave > 1 ? [
-      { color: "#f43f5e", glowColor: "#fda4af", label: "BLOCAGE", pts: 80 },
-      { color: "#e11d48", glowColor: "#fb7185", label: "GREVE", pts: 60 },
-      { color: "#ec4899", glowColor: "#f472b6", label: "ANARCHIE", pts: 40 },
-      { color: "#d946ef", glowColor: "#e879f9", label: "SABOTAGE", pts: 20 },
-    ] : [
-      { color: "#ef4444", glowColor: "#f87171", label: "BUG PAIE", pts: 40 },
-      { color: "#f59e0b", glowColor: "#fbbf24", label: "RETARD", pts: 30 },
-      { color: "#a855f7", glowColor: "#c084fc", label: "CERFA 404", pts: 20 },
-      { color: "#06b6d4", glowColor: "#22d3ee", label: "REFUS", pts: 10 },
+    
+    const typeDefs = [
+      { color: "#e11d48", glowColor: "#fb7185", pts: 40 }, // Red
+      { color: "#f59e0b", glowColor: "#fbbf24", pts: 30 }, // Orange
+      { color: "#a855f7", glowColor: "#c084fc", pts: 20 }, // Purple
+      { color: "#a855f7", glowColor: "#c084fc", pts: 10 }, // Purple
     ];
 
     for (let r = 0; r < rows; r++) {
@@ -237,40 +233,51 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
           type: r,
           color: typeDefs[r].color,
           glowColor: typeDefs[r].glowColor,
-          label: typeDefs[r].label,
+          label: "",
           points: typeDefs[r].pts,
           alive: true,
           animFrame: Math.floor(Math.random() * 60)
         });
       }
     }
+
     invadersRef.current = invaders;
 
-    // Dialogue Social Bunkers with destructible block grid
+    // Bunkers CFDT en briques
     const bunkers: Bunker[] = [];
     const numBunkers = 3;
-    const bunkW = 96; // Slightly wider for better protection
-    const bunkH = 28;
-    const bunkGap = (CANVAS_WIDTH - (numBunkers * bunkW)) / (numBunkers + 1);
-
-    const brickCols = 8;
-    const brickRows = 4;
-    const brickW = bunkW / brickCols;
-    const brickH = bunkH / brickRows;
-
+    const bunkerMatrix = [
+      "  11111111111111111111111111111111  ",
+      " 1111111111111111111111111111111111 ",
+      "111111111111111111111111111111111111",
+      "111111111111111111111111111111111111",
+      "11    1111   111111   11111  1111111",
+      "11   11  11  11       11  11   11   ",
+      "11   11      11111    11  11   11   ",
+      "11   11  11  11       11  11   11   ",
+      "11    1111   11       11111    11   "
+    ];
+    
+    const brickW = 4;
+    const brickH = 4;
+    const bCols = bunkerMatrix[0].length;
+    const bRows = bunkerMatrix.length;
+    const bunkW = bCols * brickW;
+    const bunkH = bRows * brickH;
+    
+    const spacing = (CANVAS_WIDTH - (numBunkers * bunkW)) / (numBunkers + 1);
+    
     for (let i = 0; i < numBunkers; i++) {
-      const startX = bunkGap + i * (bunkW + bunkGap);
-      const startY = CANVAS_HEIGHT - 140;
-      const bricks: BunkerBrick[] = [];
-
-      for (let r = 0; r < brickRows; r++) {
-        for (let c = 0; c < brickCols; c++) {
-          // Hollow arch at bottom-middle of each bunker
-          const isArch = r >= 2 && c >= 2 && c <= 5;
-          if (!isArch) {
+      const bx = spacing + i * (bunkW + spacing);
+      const by = CANVAS_HEIGHT - 120;
+      const bricks: Brick[] = [];
+      
+      for (let r = 0; r < bRows; r++) {
+        for (let c = 0; c < bCols; c++) {
+          if (bunkerMatrix[r][c] === '1') {
             bricks.push({
-              x: startX + c * brickW,
-              y: startY + r * brickH,
+              x: bx + c * brickW,
+              y: by + r * brickH,
               width: brickW,
               height: brickH,
               alive: true
@@ -278,15 +285,16 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
           }
         }
       }
-
+      
       bunkers.push({
-        x: startX,
-        y: startY,
+        x: bx,
+        y: by,
         width: bunkW,
         height: bunkH,
         bricks
       });
     }
+
     bunkersRef.current = bunkers;
   }, []);
 
@@ -402,43 +410,8 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
       ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
       // === FOND PARALLAX CYBERSPACE & NÉBULEUSE ===
-      const spaceGrad = ctx.createLinearGradient(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-      spaceGrad.addColorStop(0, "#03040c");
-      spaceGrad.addColorStop(0.5, "#0b061e");
-      spaceGrad.addColorStop(1, "#020108");
-      ctx.fillStyle = spaceGrad;
+      ctx.fillStyle = "#020108";
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-      // Halo nébuleuse violette
-      const nebula1 = ctx.createRadialGradient(CANVAS_WIDTH * 0.3, CANVAS_HEIGHT * 0.4, 10, CANVAS_WIDTH * 0.3, CANVAS_HEIGHT * 0.4, 280);
-      nebula1.addColorStop(0, "rgba(168,85,247,0.12)");
-      nebula1.addColorStop(1, "transparent");
-      ctx.fillStyle = nebula1;
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-      // Halo nébuleuse bleue
-      const nebula2 = ctx.createRadialGradient(CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.7, 10, CANVAS_WIDTH * 0.75, CANVAS_HEIGHT * 0.7, 240);
-      nebula2.addColorStop(0, "rgba(56,189,248,0.10)");
-      nebula2.addColorStop(1, "transparent");
-      ctx.fillStyle = nebula2;
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-      // Grille cyber perspective (Lignes de sol)
-      ctx.strokeStyle = "rgba(168, 85, 247, 0.08)";
-      ctx.lineWidth = 1;
-      const gridOffset = (frameCountRef.current * 0.5) % 40;
-      for (let y = 0; y < CANVAS_HEIGHT; y += 40) {
-        ctx.beginPath();
-        ctx.moveTo(0, y + gridOffset);
-        ctx.lineTo(CANVAS_WIDTH, y + gridOffset);
-        ctx.stroke();
-      }
-      for (let x = 0; x < CANVAS_WIDTH; x += 40) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, CANVAS_HEIGHT);
-        ctx.stroke();
-      }
 
       // Étoiles scintillantes
       ctx.fillStyle = "#ffffff";
@@ -488,7 +461,7 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
           invaderMoveTimerRef.current = 0;
           let shiftDown = false;
 
-          for (let inv of aliveInvaders) {
+          for (const inv of aliveInvaders) {
             if (
               (invaderDirRef.current === 1 && inv.x + inv.width >= CANVAS_WIDTH - 20) ||
               (invaderDirRef.current === -1 && inv.x <= 20)
@@ -737,178 +710,170 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
         }
       }
 
-      // === DESSINER LES BOUCLIERS (Dialogue Social Hexagonal & Destructible) ===
+      // === DESSINER LES BOUCLIERS ===
       bunkersRef.current.forEach(b => {
+        ctx.save();
+        ctx.shadowBlur = 0; // Disable shadow for bricks for performance
+        ctx.lineWidth = 1;
+        
+        // Draw all bases
+        ctx.beginPath();
         b.bricks.forEach(brick => {
-          if (!brick.alive) return;
-          ctx.save();
-          ctx.fillStyle = "rgba(34, 197, 94, 0.85)";
-          ctx.strokeStyle = "rgba(74, 222, 128, 1)";
-          ctx.shadowBlur = 8;
-          ctx.shadowColor = "#22c55e";
-          ctx.lineWidth = 1;
-
-          // Draw individual brick block
-          ctx.beginPath();
-          ctx.rect(brick.x, brick.y, brick.width - 1, brick.height - 1);
-          ctx.fill();
-          ctx.stroke();
-          ctx.restore();
+          if (brick.alive) ctx.rect(brick.x, brick.y, brick.width - 1, brick.height - 1);
         });
-
-        // Overlay text "DIALOGUE SOCIAL" in center if the bunker is still standing (at least some bricks alive)
-        const aliveCount = b.bricks.filter(brick => brick.alive).length;
-        if (aliveCount > 4) {
-          ctx.save();
-          ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
-          ctx.font = "bold 9px sans-serif";
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.shadowBlur = 4;
-          ctx.shadowColor = "#000000";
-          ctx.fillText("DIALOGUE SOCIAL", b.x + b.width / 2, b.y + b.height / 2);
-          ctx.restore();
-        }
+        ctx.fillStyle = "#dbb831";
+        ctx.fill();
+        ctx.strokeStyle = "#b3911b";
+        ctx.stroke();
+        
+        // Draw all textures
+        ctx.beginPath();
+        b.bricks.forEach(brick => {
+          if (brick.alive) ctx.rect(brick.x + 2, brick.y + 2, brick.width - 4, brick.height - 4);
+        });
+        ctx.fillStyle = "#e5c54d";
+        ctx.fill();
+        
+        ctx.restore();
       });
 
       // === DESSINER LES ENVAHISSEURS CYBER ===
+      const drawPixelSprite = (ctx, x, y, width, height, sprite, color) => {
+        const rows = sprite.length;
+        const cols = sprite[0].length;
+        const pixelW = width / cols;
+        const pixelH = height / rows;
+        
+        ctx.beginPath();
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            if (sprite[r][c]) {
+              ctx.rect(x + c * pixelW, y + r * pixelH, pixelW, pixelH);
+            }
+          }
+        }
+        ctx.fillStyle = color;
+        ctx.fill();
+        
+        // Highlights
+        ctx.beginPath();
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            if (sprite[r][c]) {
+              ctx.rect(x + c * pixelW, y + r * pixelH, pixelW, Math.max(1, pixelH * 0.2));
+            }
+          }
+        }
+        ctx.fillStyle = "rgba(255,255,255,0.2)";
+        ctx.fill();
+        
+        // Shadows
+        ctx.beginPath();
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            if (sprite[r][c]) {
+              ctx.rect(x + c * pixelW, y + r * pixelH + pixelH * 0.8, pixelW, Math.max(1, pixelH * 0.2));
+            }
+          }
+        }
+        ctx.fillStyle = "rgba(0,0,0,0.2)";
+        ctx.fill();
+      };
+
+      const squidSprite = [
+        [0,0,0,1,1,0,0,0],
+        [0,0,1,1,1,1,0,0],
+        [0,1,1,1,1,1,1,0],
+        [1,1,0,1,1,0,1,1],
+        [1,1,1,1,1,1,1,1],
+        [0,0,1,0,0,1,0,0],
+        [0,1,0,1,1,0,1,0],
+        [1,0,1,0,0,1,0,1]
+      ];
+      
+      const squidSprite2 = [
+        [0,0,0,1,1,0,0,0],
+        [0,0,1,1,1,1,0,0],
+        [0,1,1,1,1,1,1,0],
+        [1,1,0,1,1,0,1,1],
+        [1,1,1,1,1,1,1,1],
+        [0,0,1,0,0,1,0,0],
+        [0,1,0,0,0,0,1,0],
+        [0,0,1,0,0,1,0,0]
+      ];
+
+      const crabSprite = [
+        [0,0,1,0,0,0,0,0,1,0,0],
+        [0,0,0,1,0,0,0,1,0,0,0],
+        [0,0,1,1,1,1,1,1,1,0,0],
+        [0,1,1,0,1,1,1,0,1,1,0],
+        [1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,1,1,1,1,1,1,1,0,1],
+        [1,0,1,0,0,0,0,0,1,0,1],
+        [0,0,0,1,1,0,1,1,0,0,0]
+      ];
+      const crabSprite2 = [
+        [0,0,1,0,0,0,0,0,1,0,0],
+        [1,0,0,1,0,0,0,1,0,0,1],
+        [1,0,1,1,1,1,1,1,1,0,1],
+        [1,1,1,0,1,1,1,0,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1,1],
+        [0,1,1,1,1,1,1,1,1,1,0],
+        [0,0,1,0,0,0,0,0,1,0,0],
+        [0,1,0,0,0,0,0,0,0,1,0]
+      ];
+
+      const octopusSprite = [
+        [0,0,0,0,1,1,1,1,0,0,0,0],
+        [0,1,1,1,1,1,1,1,1,1,1,0],
+        [1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,0,0,1,1,0,0,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1],
+        [0,0,1,1,1,0,0,1,1,1,0,0],
+        [0,1,1,0,0,1,1,0,0,1,1,0],
+        [0,0,1,1,0,0,0,0,1,1,0,0]
+      ];
+      const octopusSprite2 = [
+        [0,0,0,0,1,1,1,1,0,0,0,0],
+        [0,1,1,1,1,1,1,1,1,1,1,0],
+        [1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,0,0,1,1,0,0,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1],
+        [0,0,0,1,1,0,0,1,1,0,0,0],
+        [0,0,1,1,0,1,1,0,1,1,0,0],
+        [1,1,0,0,0,0,0,0,0,0,1,1]
+      ];
+
       invadersRef.current.forEach(inv => {
         if (!inv.alive) return;
         inv.animFrame++;
         ctx.save();
-        ctx.translate(inv.x + inv.width / 2, inv.y + inv.height / 2);
-
-        const pulse = Math.sin(inv.animFrame * 0.1) * 2;
-
-        ctx.fillStyle = inv.color;
-        ctx.shadowBlur = 16;
+        
+        ctx.shadowBlur = 8;
         ctx.shadowColor = inv.glowColor;
-
-        if (wave > 1) {
-          // --- VAGUE 2+ : FORMES MUTÉES D'ENVAHISSEURS ---
-          if (inv.type === 0) {
-            // Hexagone piquant agressif (BLOCAGE)
-            ctx.beginPath();
-            for (let i = 0; i < 6; i++) {
-              const angle = (i * Math.PI) / 3;
-              const r = (i % 2 === 0 ? 15 : 8) + pulse * 0.5;
-              ctx.lineTo(Math.cos(angle) * r, Math.sin(angle) * r);
-            }
-            ctx.closePath();
-            ctx.fill();
-
-            // Point énergétique central
-            ctx.fillStyle = "#ffffff";
-            ctx.beginPath();
-            ctx.arc(0, 0, 3.5, 0, Math.PI * 2);
-            ctx.fill();
-          } else if (inv.type === 1) {
-            // Chasseur avec ailes triangulaires (GREVE)
-            ctx.beginPath();
-            ctx.moveTo(0, -14 - pulse * 0.5);
-            ctx.lineTo(16, 8);
-            ctx.lineTo(6, 4);
-            ctx.lineTo(-6, 4);
-            ctx.lineTo(-16, 8);
-            ctx.closePath();
-            ctx.fill();
-
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(-5, 4, 2, 3);
-            ctx.fillRect(3, 4, 2, 3);
-          } else if (inv.type === 2) {
-            // Spore blindée ovale avec fente lumineuse (ANARCHIE)
-            ctx.beginPath();
-            ctx.ellipse(0, 0, 10 + pulse * 0.4, 14 + pulse * 0.5, 0, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(-1.5, -6, 3, 12);
-          } else {
-            // Croix techno / Viseur laser (SABOTAGE)
-            ctx.beginPath();
-            ctx.moveTo(0, -14);
-            ctx.lineTo(4, -4);
-            ctx.lineTo(14, 0);
-            ctx.lineTo(4, 4);
-            ctx.lineTo(0, 14);
-            ctx.lineTo(-4, 4);
-            ctx.lineTo(-14, 0);
-            ctx.lineTo(-4, -4);
-            ctx.closePath();
-            ctx.fill();
-
-            ctx.strokeStyle = "#ffffff";
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.arc(0, 0, 5 + pulse, 0, Math.PI * 2);
-            ctx.stroke();
-          }
+        
+        const isFrame2 = Math.floor(inv.animFrame / 15) % 2 === 0;
+        
+        let spriteToDraw;
+        if (inv.type === 0) {
+          spriteToDraw = isFrame2 ? squidSprite2 : squidSprite;
+        } else if (inv.type === 1) {
+          spriteToDraw = isFrame2 ? crabSprite2 : crabSprite;
         } else {
-          // --- VAGUE 1 : FORMES DE BASE ---
-          if (inv.type === 0) {
-            // TYPE 0 : Cyber Skull Bug Paie (Rouge)
-            ctx.beginPath();
-            ctx.arc(0, -2, 12 + pulse * 0.5, Math.PI, 0);
-            ctx.lineTo(10, 8);
-            ctx.lineTo(-10, 8);
-            ctx.closePath();
-            ctx.fill();
-
-            // Yeux lumineux
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(-6, -4, 4, 4);
-            ctx.fillRect(2, -4, 4, 4);
-          } else if (inv.type === 1) {
-            // TYPE 1 : Mecha Chrono Retard (Doré)
-            ctx.beginPath();
-            ctx.moveTo(0, -14);
-            ctx.lineTo(14, 0);
-            ctx.lineTo(0, 14);
-            ctx.lineTo(-14, 0);
-            ctx.closePath();
-            ctx.fill();
-
-            // Noyau d'énergie
-            ctx.fillStyle = "#ffffff";
-            ctx.beginPath();
-            ctx.arc(0, 0, 4 + pulse * 0.5, 0, Math.PI * 2);
-            ctx.fill();
-          } else if (inv.type === 2) {
-            // TYPE 2 : Portails Cerfa 404 (Violet)
-            ctx.beginPath();
-            ctx.roundRect(-14, -10, 28, 20, 6);
-            ctx.fill();
-
-            // Anneaux de distorsion
-            ctx.strokeStyle = "#ffffff";
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.arc(0, 0, 6 + pulse, 0, Math.PI * 2);
-            ctx.stroke();
-          } else {
-            // TYPE 3 : Plasma Orb Refus (Cyan)
-            ctx.beginPath();
-            ctx.arc(0, 0, 11 + pulse * 0.5, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Satellites tournants
-            const angle = inv.animFrame * 0.08;
-            const satX = Math.cos(angle) * 16;
-            const satY = Math.sin(angle) * 16;
-            ctx.fillStyle = "#ffffff";
-            ctx.beginPath();
-            ctx.arc(satX, satY, 3, 0, Math.PI * 2);
-            ctx.arc(-satX, -satY, 3, 0, Math.PI * 2);
-            ctx.fill();
-          }
+          spriteToDraw = isFrame2 ? octopusSprite2 : octopusSprite;
         }
 
-        // Libellé de texte
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "bold 8px monospace";
+        drawPixelSprite(ctx, inv.x, inv.y, inv.width, inv.height, spriteToDraw, inv.color);
+        
+        // Ecrire RH dans l'ennemi
+        ctx.fillStyle = "rgba(0, 0, 0, 0.6)"; // Semi-transparent black for contrast
+        ctx.font = "bold 10px monospace";
         ctx.textAlign = "center";
-        ctx.fillText(inv.label, 0, 12);
+        ctx.textBaseline = "middle";
+        ctx.fillText("RH", inv.x + inv.width / 2, inv.y + inv.height / 2 + 1);
+
+        
+
         ctx.restore();
       });
 
