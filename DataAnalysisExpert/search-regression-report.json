@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-14T07:20:18.629Z",
+  "generatedAt": "2026-08-14T07:57:32.474Z",
   "sources": {
     "sommairePath": "/Users/nikkoola/Downloads/gruuuprimes-main/src/data/sommaireUnifie.ts",
     "bipIndexPath": "/Users/nikkoola/Downloads/gruuuprimes-main/src/data/bip-index.ts"
   },
   "parsed": {
-    "sommaireEntries": 71,
+    "sommaireEntries": 74,
     "bipEntries": 0
   },
   "summary": {
@@ -38,6 +38,13 @@
           "score": 26
         },
         {
+          "id": "conges_sante_plafond_2026",
+          "titre": "Congés pour raisons de santé & Contrôle (Nouveaux plafonds 2026)",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 19
+        },
+        {
           "id": "temps_ch2_art3",
           "titre": "Les jours d’ARTT",
           "source": "temps",
@@ -50,13 +57,6 @@
           "source": "temps",
           "chapitre": 2,
           "score": 15
-        },
-        {
-          "id": "temps_ch2_art2",
-          "titre": "Le congé bonifié (outre-mer)",
-          "source": "temps",
-          "chapitre": 2,
-          "score": 12
         }
       ],
       "bipMatches": [],
@@ -143,18 +143,18 @@
           "score": 37
         },
         {
+          "id": "conges_sante_plafond_2026",
+          "titre": "Congés pour raisons de santé & Contrôle (Nouveaux plafonds 2026)",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 22
+        },
+        {
           "id": "temps_ch4_clm_details",
           "titre": "Congé de longue maladie (CLM) - Durée et rémunération",
           "source": "temps",
           "chapitre": 4,
           "score": 21
-        },
-        {
-          "id": "temps_ch2_art6",
-          "titre": "Les congés liés aux naissances",
-          "source": "temps",
-          "chapitre": 2,
-          "score": 20
         }
       ],
       "bipMatches": [],
@@ -314,6 +314,13 @@
           "score": 20
         },
         {
+          "id": "temps_partiel_therapeutique_2026",
+          "titre": "Temps Partiel Thérapeutique (TPT - Nouveaux droits 2026)",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 14
+        },
+        {
           "id": "temps_ch2_art5",
           "titre": "Le compte épargne temps (CET)",
           "source": "temps",
@@ -323,13 +330,6 @@
         {
           "id": "temps_ch2_art3",
           "titre": "Les jours d’ARTT",
-          "source": "temps",
-          "chapitre": 2,
-          "score": 7
-        },
-        {
-          "id": "temps_ch2_cet",
-          "titre": "Compte Épargne Temps (CET)",
           "source": "temps",
           "chapitre": 2,
           "score": 7
@@ -491,6 +491,13 @@
         {
           "id": "temps_ch4_remuneration",
           "titre": "Rémunération en congé maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 5
+        },
+        {
+          "id": "temps_partiel_therapeutique_2026",
+          "titre": "Temps Partiel Thérapeutique (TPT - Nouveaux droits 2026)",
           "source": "temps",
           "chapitre": 4,
           "score": 5
@@ -704,11 +711,11 @@
           "score": 14
         },
         {
-          "id": "temps_ch3_proche_aidant",
-          "titre": "Congé proche aidant (fin de vie)",
+          "id": "conges_sante_plafond_2026",
+          "titre": "Congés pour raisons de santé & Contrôle (Nouveaux plafonds 2026)",
           "source": "temps",
-          "chapitre": 3,
-          "score": 11
+          "chapitre": 4,
+          "score": 12
         }
       ],
       "bipMatches": [],
@@ -837,10 +844,10 @@
           "score": 12
         },
         {
-          "id": "teletravail_situations_particulieres",
-          "titre": "Situations particulières (grossesse, aidants, handicap)",
-          "source": "teletravail",
-          "chapitre": null,
+          "id": "conges_sante_plafond_2026",
+          "titre": "Congés pour raisons de santé & Contrôle (Nouveaux plafonds 2026)",
+          "source": "temps",
+          "chapitre": 4,
           "score": 12
         }
       ],

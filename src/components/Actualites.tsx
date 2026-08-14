@@ -70,27 +70,27 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl }) => {
               <div className="p-6 flex flex-col md:flex-row gap-6 items-center bg-white rounded-2xl">
                 <div className="relative w-full md:w-72 h-48 overflow-hidden rounded-xl shrink-0 border border-slate-200 bg-slate-50">
                   <img
-                    src="https://www.cig929394.fr/wp-content/uploads/2026/07/FOCUS-BIP_Actu-juillet26-480x252.png"
-                    alt="Autorisations d'absence"
+                    src="https://www.cig929394.fr/wp-content/uploads/2026/08/FOCUS-BIP_Actu-aout2026.png"
+                    alt="Retraites, congés de maladie et temps partiel thérapeutique"
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   />
                   <span className="absolute top-3 left-3 inline-block text-xs font-bold px-3 py-1 rounded-full bg-white/90 backdrop-blur text-red-600 border border-red-200 shadow-md">
-                    Statutaire CIG
+                    Statutaire CIG (Août 2026)
                   </span>
                 </div>
                 <div className="flex flex-col justify-between h-full">
                   <div>
                     <h4 className="text-xl font-bold text-slate-900 hover:text-blue-600 transition-colors leading-snug mb-3">
                       <a
-                        href="https://www.cig929394.fr/actualites/les-modalites-doctroi-des-autorisations-dabsence-liees-a-la-famille-fixees-par-decret/"
+                        href="https://www.cig929394.fr/actualites/retraites-conges-de-maladie-et-temps-partiel-therapeutique-de-nouvelles-regles/"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Les modalités d’octroi des autorisations d’absence liées à la famille fixées par décret
+                        Retraites, congés de maladie et temps partiel thérapeutique : de nouvelles règles
                       </a>
                     </h4>
                     <p className="text-sm text-slate-600 leading-relaxed font-medium">
-                      Les autorisations spéciales d’absence (ASA) liées à la parentalité et aux événements familiaux, prévues par le CGFP, sont désormais fixées par décret applicable au 1er janvier 2027.
+                      Plusieurs mesures entrant en vigueur en août et septembre 2026 modifient le temps partiel thérapeutique (délai 30j, refus motivé), les congés maladie (plafond 31j initial / 62j prolongation, contrôle à domicile) et la retraite (bonification 1 trimestre accouchement).
                     </p>
                   </div>
                   <div className="mt-4 flex items-center justify-between text-xs text-slate-500 font-medium">

@@ -1799,20 +1799,20 @@ ${indicesFactuels}
                         {/* Article principal Statutaire CIG */}
                         <div className="flex flex-col sm:flex-row gap-5 group/card">
                           <div className="relative w-full sm:w-48 h-36 overflow-hidden rounded-xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
-                            <img loading="lazy" src="https://www.cig929394.fr/wp-content/uploads/2026/07/FOCUS-BIP_Actu-juillet26-480x252.png" alt="Autorisations d'absence" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
+                            <img loading="lazy" src="https://www.cig929394.fr/wp-content/uploads/2026/08/FOCUS-BIP_Actu-aout2026.png" alt="Retraites, congés de maladie et temps partiel thérapeutique" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
                             <span className="absolute top-2 left-2 inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/90 dark:bg-slate-900/90 text-red-600 dark:text-red-400 border border-red-200 shadow-xs">
-                              Statutaire CIG
+                              Statutaire CIG (Août 2026)
                             </span>
                           </div>
                           <div className="flex flex-col justify-between flex-1">
                             <div>
                               <h4 className="text-base font-bold text-slate-900 dark:text-white hover:text-blue-600 transition-colors leading-snug mb-2">
-                                <a href="https://www.cig929394.fr/actualites/les-modalites-doctroi-des-autorisations-dabsence-liees-a-la-famille-fixees-par-decret/" target="_blank" rel="noopener noreferrer">
-                                  Les modalités d’octroi des autorisations d’absence liées à la famille fixées par décret
+                                <a href="https://www.cig929394.fr/actualites/retraites-conges-de-maladie-et-temps-partiel-therapeutique-de-nouvelles-regles/" target="_blank" rel="noopener noreferrer">
+                                  Retraites, congés de maladie et temps partiel thérapeutique : de nouvelles règles
                                 </a>
                               </h4>
                               <p className="text-xs text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
-                                Les autorisations spéciales d’absence (ASA) liées à la parentalité et aux événements familiaux, prévues par le CGFP, sont désormais fixées par le décret n°2026-604 du 6 juillet 2026.
+                                Nouvelles règles d'août et septembre 2026 : encadrement du temps partiel thérapeutique (réponse sous 30j, refus motivé), plafonnement des arrêts maladie (31j initial / 62j prolongation) et bonification retraite (1 trimestre/enfant).
                               </p>
                             </div>
                             <div className="mt-3 flex items-center justify-between text-xs text-slate-500">

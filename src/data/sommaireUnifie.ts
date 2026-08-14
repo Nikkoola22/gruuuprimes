@@ -479,6 +479,30 @@ export const sommaireUnifie: SectionIndex[] = [
     resume: 'Max 1 an, formations ≥120h, frais pris en charge jusqu\'à 6000€'
   },
   {
+    id: 'temps_partiel_therapeutique_2026',
+    titre: 'Temps Partiel Thérapeutique (TPT - Nouveaux droits 2026)',
+    motsCles: ['TPT', 'temps partiel thérapeutique', 'maladie', 'reprise', 'médecin agréé', '30 jours', 'refus motivé', 'décret 1987'],
+    source: 'temps',
+    chapitre: 4,
+    resume: 'TPT accordé jusqu\'à 1 an. Réponse employeur sous 30j (sauf CLM/CLD/CITIS le jour de reprise). Refus motivé obligatoire (entretien si service, médecin agréé si médical).'
+  },
+  {
+    id: 'conges_sante_plafond_2026',
+    titre: 'Congés pour raisons de santé & Contrôle (Nouveaux plafonds 2026)',
+    motsCles: ['congé maladie', 'arrêt maladie', 'plafond 31 jours', 'prolongation 62 jours', 'contrôle à domicile', 'médecin traitant', 'formation pendant arrêt'],
+    source: 'temps',
+    chapitre: 4,
+    resume: '1er arrêt plafonné à 31j, prolongation max 62j. Maintien de traitement en prolongation uniquement si prescrit par le médecin traitant. Contrôle de présence à domicile par l\'employeur.'
+  },
+  {
+    id: 'retraite_bonification_enfants_2026',
+    titre: 'Retraite FPT - Bonifications enfants & Carrières longues (Sept. 2026)',
+    motsCles: ['retraite', 'pension', 'bonification enfant', 'trimestre', 'carrière longue', 'CPCMR', 'décret 2003-1306'],
+    source: 'temps',
+    chapitre: 2,
+    resume: 'Bonification d\'1 trimestre par enfant né après recrutement depuis le 01/01/2004 pour les femmes fonctionnaires. Prise en compte des majorations enfants dans la période réputée cotisée (carrières longues).'
+  },
+  {
     id: 'formation_immersion',
     titre: 'Période d\'immersion professionnelle',
     motsCles: ['immersion', 'découverte métier', 'mobilité', '2 à 10 jours'],

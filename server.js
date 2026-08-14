@@ -215,6 +215,21 @@ app.post('/api/completions', async (req, res) => {
         return `### 🩸 Autorisation d'Absence - Don du Sang & Plaquettes\n\nSelon le règlement de la Mairie de Gennevilliers (Chapitre 3) :\n\n• **Autorisation** : Les agents sont autorisés à s'absenter pour le don du sang ou de plaquettes.\n• **Conditions** : Demande préalable auprès du responsable hiérarchique et production d'un justificatif au retour.`;
       }
 
+      // 7. TEMPS PARTIEL THÉRAPEUTIQUE (Réforme 2026)
+      if (promptNorm.includes('temps partiel therapeutique') || promptNorm.includes('tpt') || promptNorm.includes('reprise therapeutique')) {
+        return `### 🩺 Temps Partiel Thérapeutique (TPT) - Nouvelles Règles 2026 (CIG / CGFP)\n\n• **Durée** : Accordé dans la limite d'**1 an**.\n• **Délai de réponse employeur** : L'employeur a **30 jours** pour répondre à la demande (sauf CLM, CLD, CITIS : décision au plus tard le jour de la reprise).\n• **Refus motivé** : Obligation de motiver le refus (entretien obligatoire si motif de service ; avis d'un médecin agréé si motif médical).\n• **Contrôle** : Possibilité pour l'employeur de diligenter un contrôle médical dès le dépôt de la demande.`;
+      }
+
+      // 8. CONGÉS MALADIE & CONTRÔLE A DOMICILE (Réforme 2026)
+      if (promptNorm.includes('arret maladie') || promptNorm.includes('conge maladie') || promptNorm.includes('controle a domicile') || promptNorm.includes('prolongation')) {
+        return `### 🏥 Congés Maladie & Contrôle d'Absence - Règles 2026 (Décrets du 30 juil. 1987 et 15 févr. 1988)\n\n• **Plafonnement** : Durée limitée à **31 jours** pour un premier arrêt et à **62 jours** pour une prolongation.\n• **Prescripteur obligatoire** : Maintien de salaire en prolongation uniquement si l'arrêt est délivré par le médecin traitant ou le prescripteur initial.\n• **Contrôle à domicile** : L'employeur peut diligenter un contrôle administratif pour vérifier la présence au domicile (heures obligatoires / sorties).\n• **Formation** : Possibilité pour l'agent en arrêt d'effectuer une formation ou un bilan de compétences sur avis médical.`;
+      }
+
+      // 9. RETRAITE & BONIFICATION ENFANTS (Réforme 2026)
+      if (promptNorm.includes('retraite') || promptNorm.includes('bonification') || promptNorm.includes('pension') || promptNorm.includes('carriere longue')) {
+        return `### 🌴 Retraite FPT - Bonification Enfants & Carrières Longues (Au 1er sept. 2026)\n\n• **Bonification enfants** : **1 trimestre supplémentaire** accordé aux femmes fonctionnaires pour chaque enfant né à compter du 1er janvier 2004 postérieurement à leur recrutement (Décret n°2003-1306).\n• **Carrières longues** : Prise en compte des bonifications et majorations pour enfants dans la période réputée cotisée (art. D. 16-2 CPCMR).`;
+      }
+
       // 7. SMART TF-IDF EXTRACTION SUR DOCUMENTATION INTERNE
       const STOP_WORDS = new Set([
         'pour', 'mon', 'ma', 'mes', 'du', 'des', 'le', 'la', 'les', 'un', 'une',

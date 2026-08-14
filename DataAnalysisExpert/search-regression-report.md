@@ -1,6 +1,6 @@
 # Search Regression Report
 
-Generated: 2026-08-14T07:20:18.631Z
+Generated: 2026-08-14T07:57:32.477Z
 
 ## Summary
 
@@ -74,7 +74,7 @@ Generated: 2026-08-14T07:20:18.631Z
 
 ### 11. Quels sont les droits en CLM ?
 - Keywords: sont, droits, clm
-- Sommaire matches: 3
+- Sommaire matches: 4
 - BIP matches: 0
 - Top sommaire: [temps_ch4_clm_details] Congé de longue maladie (CLM) - Durée et rémunération (score 10)
 
