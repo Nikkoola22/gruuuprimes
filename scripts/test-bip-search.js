@@ -17,20 +17,23 @@ const firstFiche = bipIndex[0];
 console.log('🔍 Sample Entry (First Fiche)');
 console.log('============================');
 console.log(`Code: ${firstFiche.code}`);
-console.log(`Title: ${firstFiche.title}`);
-console.log(`Section: ${firstFiche.section}`);
-console.log(`Keywords: ${firstFiche.motsCles.join(', ')}`);
-console.log(`Content preview: ${firstFiche.content.substring(0, 100)}...`);
+console.log(`Title: ${firstFiche.titre || firstFiche.title}`);
+console.log(`Section: ${firstFiche.section || firstFiche.categorie}`);
+console.log(`Keywords: ${(firstFiche.motsCles || []).join(', ')}`);
+console.log(`Content preview: ${(firstFiche.content || '').substring(0, 100)}...`);
 console.log(`✓ Structure validated\n`);
 
 // Test 3: Search by keyword
 function searchByKeyword(keyword) {
-  const results = bipIndex.filter(fiche =>
-    fiche.title.toLowerCase().includes(keyword.toLowerCase()) ||
-    fiche.section.toLowerCase().includes(keyword.toLowerCase()) ||
-    fiche.motsCles.some(m => m.toLowerCase().includes(keyword.toLowerCase())) ||
-    fiche.content.toLowerCase().includes(keyword.toLowerCase())
-  );
+  const kw = keyword.toLowerCase();
+  const results = bipIndex.filter(fiche => {
+    const title = (fiche.titre || fiche.title || '').toLowerCase();
+    const sec = (fiche.section || fiche.categorie || '').toLowerCase();
+    const content = (fiche.content || '').toLowerCase();
+    const keywords = (fiche.motsCles || []).map(m => m.toLowerCase());
+
+    return title.includes(kw) || sec.includes(kw) || content.includes(kw) || keywords.some(m => m.includes(kw));
+  });
   return results;
 }
 
@@ -42,8 +45,8 @@ const sanctionResults = searchByKeyword('sanction');
 console.log(`\nQuery: "sanction"`);
 console.log(`Results: ${sanctionResults.length} fiches found`);
 if (sanctionResults.length > 0) {
-  console.log(`Top match: ${sanctionResults[0].title}`);
-  console.log(`Section: ${sanctionResults[0].section}`);
+  console.log(`Top match: ${sanctionResults[0].titre || sanctionResults[0].title}`);
+  console.log(`Section: ${sanctionResults[0].section || sanctionResults[0].categorie}`);
   console.log(`✓ Search works`);
 }
 
@@ -52,8 +55,8 @@ const congeResults = searchByKeyword('congé');
 console.log(`\nQuery: "congé"`);
 console.log(`Results: ${congeResults.length} fiches found`);
 if (congeResults.length > 0) {
-  console.log(`Top match: ${congeResults[0].title}`);
-  console.log(`Section: ${congeResults[0].section}`);
+  console.log(`Top match: ${congeResults[0].titre || congeResults[0].title}`);
+  console.log(`Section: ${congeResults[0].section || congeResults[0].categorie}`);
   console.log(`✓ Search works`);
 }
 

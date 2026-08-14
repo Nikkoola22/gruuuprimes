@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-06-13T06:43:20.801Z",
+  "generatedAt": "2026-08-14T07:15:31.618Z",
   "model": "sonar",
-  "generationEnabled": true,
+  "generationEnabled": false,
   "sources": {
-    "sommairePath": "/Users/nikkoola/Downloads/gruuuprimes/src/data/sommaireUnifie.ts",
-    "bipIndexPath": "/Users/nikkoola/Downloads/gruuuprimes/src/data/bip-index.ts"
+    "sommairePath": "/Users/nikkoola/Downloads/gruuuprimes-main/src/data/sommaireUnifie.ts",
+    "bipIndexPath": "/Users/nikkoola/Downloads/gruuuprimes-main/src/data/bip-index.ts"
   },
   "parsed": {
     "sommaireEntries": 71,
@@ -14,10 +14,10 @@
     "totalQuestions": 10,
     "retrievalCoverage": 10,
     "retrievalCoveragePct": 100,
-    "generationAttempted": 10,
+    "generationAttempted": 0,
     "generationNotFound": 0,
-    "generationNotFoundRate": 0,
-    "avgKeywordRecall": 0.89
+    "generationNotFoundRate": null,
+    "avgKeywordRecall": null
   },
   "results": [
     {
@@ -74,9 +74,9 @@
       ],
       "topBip": [],
       "generation": {
-        "skipped": false,
-        "reason": null,
-        "answer": "En congé de maladie ordinaire (CMO), votre rémunération dépend de la durée de votre arrêt et de votre statut (fonctionnaire ou agent contractuel). Depuis le **1er mars 2025**, les règles ont été modifiées :\n\n### 1. Pour les Fonctionnaires (Titulaires et Stagiaires)\n*   **Les 3 premiers mois (90 jours) :** Vous percevez **90 %** de votre traitement brut (traitement indiciaire + NBI + primes et indemnités maintenues).\n    *   *Note :* L'**indemnité de résidence** et le **supplément familial de traitement (SFT)** sont maintenus à **100 %**.\n*   **Les 9 mois suivants :** Vous percevez **50 %** (demi-traitement) de votre traitement brut.\n    *   *Note :* L'indemnité de résidence et le SFT sont également maintenus à **100 %**.\n*   **Durée maximale :** 1 an pour une maladie ordinaire.\n\n### 2. Pour les Agents Contractuels de Droit Public\nLa rémunération dépend de votre **ancienneté** dans la collectivité :\n*   **Moins de 4 mois d'ancienneté :** 1 mois à 90 %, puis 1 mois à 50 %.\n*   **Entre 4 mois et 2 ans d'ancienneté :** 1 mois à 90 %, puis 1 mois à 50 %.\n*   **Entre 2 ans et 3 ans d'ancienneté :** 2 mois à 90 %, puis 2 mois à 50 %.\n*   **Plus de 3 ans d'ancienneté :** 3 mois à 90 %, puis 3 mois à 50 %.\n*   *Note :* Comme pour les fonctionnaires, l'indemnité de résidence et le SFT sont maintenus à 100 %.\n\n### 3. Point important : Le jour de carence\n*   Le **premier jour** de votre arrêt de travail n'est **pas rémunéré** (c'est le \"jour de carence\").\n*   La rémunération à 90 % (ou 50 %) commence donc à compter du **2ème jour** d'arrêt.\n*   Ce jour de carence ne s'applique pas en cas de maladie professionnelle, d'accident de service, de congé de longue maladie (CLM), de congé de longue durée (CLD) ou de grossesse (si la déclaration a été faite).\n\n**En résumé :**\nVous êtes payé à **90 %** pendant les **3 premiers mois** (hors jour de carence), puis à **50 %** pendant les **9 mois suivants**. Votre indemnité de résidence et votre SFT ne sont jamais réduits."
+        "skipped": true,
+        "reason": "PERPLEXITY_API_KEY missing",
+        "answer": ""
       },
       "generationEval": {
         "isNotFound": false,
@@ -87,14 +87,8 @@
           "9 mois",
           "rémunération"
         ],
-        "matchedExpected": [
-          "90",
-          "demi traitement",
-          "3 mois",
-          "9 mois",
-          "remuneration"
-        ],
-        "keywordRecall": 1
+        "matchedExpected": [],
+        "keywordRecall": 0
       }
     },
     {
@@ -143,9 +137,9 @@
       ],
       "topBip": [],
       "generation": {
-        "skipped": false,
-        "reason": null,
-        "answer": "Le nombre de jours nécessaires pour un déménagement dépend principalement de la **taille du logement**, du **volume de mobilier** et de la **distance** entre l'ancien et le nouveau domicile.\n\nVoici les estimations générales :\n\n### 1. Selon la distance\n*   **Déménagement local (courte distance, < 50 km) :**\n    *   Généralement **1 jour** pour les petits volumes (studio, T1, T2).\n    *   **2 jours** pour les volumes importants (T3, T4, maison) ou si le volume dépasse 40 m³.\n*   **Déménagement longue distance (national ou international) :**\n    *   Au minimum **2 jours**, souvent **3 jours** ou plus selon le volume et la logistique (pauses réglementaires, garde-meubles, trajet).\n\n### 2. Selon la taille du logement (pour un déménagement local complet)\n*   **Studio / T1 :** Environ **3 heures** (moins d'une demi-journée).\n*   **T2 :** Environ **5 heures** (une demi-journée).\n*   **T3 :** Environ **7 heures** (une journée complète).\n*   **T4 :** Environ **9 heures** (une journée complète + un peu).\n*   **T5 / Maison :** Environ **11 heures** ou plus (nécessite souvent **2 jours**).\n\n### 3. Préparation et emballage (avant le jour J)\nSi vous devez emballer vous-même vos biens, cela prend du temps en amont :\n*   **Studio / T1 :** 2 à 3 jours de préparation.\n*   **T2 / T3 (déménagement moyen) :** Jusqu'à **5 jours** pour l'emballage, plus 1 à 2 jours pour le déménagement (total environ **1 semaine** de préparation).\n*   **Maison / Grand appartement :** L'emballage peut s'étendre sur **2 semaines**, avec 2 à 3 jours dédiés au déménagement (total environ **3 semaines**).\n\n**En résumé :**\n*   Pour un petit appartement en ville : **1 jour**.\n*   Pour une maison ou un grand appartement en ville : **2 jours**.\n*   Pour un déménagement longue distance : **2 à 3 jours minimum**.\n\n*Note : Si vous choisissez une formule \"confort\" avec emballage par les déménageurs, une journée supplémentaire est souvent prévue en amont pour la préparation.*"
+        "skipped": true,
+        "reason": "PERPLEXITY_API_KEY missing",
+        "answer": ""
       },
       "generationEval": {
         "isNotFound": false,
@@ -154,12 +148,8 @@
           "déménagement",
           "semaine"
         ],
-        "matchedExpected": [
-          "1 jour",
-          "demenagement",
-          "semaine"
-        ],
-        "keywordRecall": 1
+        "matchedExpected": [],
+        "keywordRecall": 0
       }
     },
     {
@@ -210,9 +200,9 @@
       ],
       "topBip": [],
       "generation": {
-        "skipped": false,
-        "reason": null,
-        "answer": "La durée maximale du **congé de longue maladie (CLM)** est de **3 ans**, quelle que soit l'affection.\n\nCe congé est accordé par **périodes de 3 à 6 mois**, renouvelables dans les mêmes limites de durée, après avis du comité médical (ou du conseil médical selon les textes).\n\n**Rémunération pendant le CLM :**\n*   **1 an** à **plein traitement** (100 % du salaire) ;\n*   **2 ans** suivants à **demi-traitement** (50 % du salaire).\n\n**Renouvellement du droit :**\nUn fonctionnaire peut bénéficier d'un nouveau congé de longue maladie (de 3 ans maximum) pour la même affection ou une autre affection s'il a repris effectivement ses fonctions pendant **au moins 1 an** (à temps plein, temps partiel ou 1/2 temps thérapeutique) entre deux périodes de CLM.\n\n*Note : Si l'affection est imputable au service, le congé peut être accordé pour 3 ans à plein traitement.*\n\nCette durée de 3 ans est distincte du **congé de longue durée (CLD)**, qui est accordé pour une durée maximale de **5 ans** (3 ans à plein traitement + 2 ans à demi-traitement) et réservé à des affections spécifiques (cancer, maladie mentale, tuberculose, poliomyélite, etc.). Le CLD peut être attribué à la fin de la première année de CLM rémunérée à plein traitement."
+        "skipped": true,
+        "reason": "PERPLEXITY_API_KEY missing",
+        "answer": ""
       },
       "generationEval": {
         "isNotFound": false,
@@ -222,13 +212,8 @@
           "plein traitement",
           "demi-traitement"
         ],
-        "matchedExpected": [
-          "3 ans",
-          "longue maladie",
-          "plein traitement",
-          "demi traitement"
-        ],
-        "keywordRecall": 1
+        "matchedExpected": [],
+        "keywordRecall": 0
       }
     },
     {
@@ -279,9 +264,9 @@
       ],
       "topBip": [],
       "generation": {
-        "skipped": false,
-        "reason": null,
-        "answer": "La procédure de déclaration d'un **accident de service** (ou d'un accident de trajet) pour un agent de la fonction publique suit les étapes et délais précis suivants, selon votre statut (fonctionnaire titulaire/stagiaire ou agent contractuel) :\n\n### 1. Informer l'employeur (Délai immédiat)\n*   **Action :** Vous devez informer votre employeur (ou faire informer) de l'accident **dans la journée** de sa survenue ou, au plus tard, **dans les 24 heures**.\n*   **Exception :** Ce délai ne court pas en cas de force majeure, d'impossibilité absolue ou de motif légitime (ex. : hospitalisation).\n\n### 2. Transmettre la déclaration officielle à la DRH\nVous devez transmettre à votre service des ressources humaines (DRH) une **déclaration d'accident de service** (formulaire disponible sur l'Intranet de votre collectivité) accompagnée des pièces justificatives.\n\nLes délais de transmission varient selon votre régime d'affiliation :\n\n| Statut / Régime | Délai de transmission de la déclaration |\n| :--- | :--- |\n| **Agent contractuel** ou **Fonctionnaire** affilié au **régime général** (Sécurité Sociale) | **Dans les 48 heures** suivant la date de l'accident. |\n| **Fonctionnaire titulaire ou stagiaire** affilié au **Régime Spéciale** (CNRACL) | **Dans les 15 jours** suivant la date de l'accident. |\n\n### 3. Pièces obligatoires à joindre\nLa déclaration doit impérativement être accompagnée d :\n*   **Un certificat médical initial** : Établi par le médecin traitant ou le centre hospitalier, il doit indiquer la **nature et le siège des lésions** résultant de l'accident et, s'il y a lieu, la **durée probable de l'incapacité de travail**.\n    *   *Note :* Ce certificat est obligatoire même si l'accident ne entraîne pas d'arrêt de travail.\n*   **Pièces complémentaires (si disponibles)** :\n    *   Rapport de police, de gendarmerie ou des pompiers.\n    *   Constat amiable (surtout pour les accidents de trajet).\n    *   Témoignages écrits.\n    *   Dépôt de plainte.\n    *   Pour les accidents de trajet : un plan indiquant l'itinéraire emprunté (départ, arrivée, parcours habituel, lieu de l'accident).\n\n### 4. Si l'accident entraîne un arrêt de travail\nSi le médecin prescrit un arrêt de travail, vous devez transmettre **l'arrêt de travail** (les volets de l'avis d'arrêt) à la DRH :\n*   **Délai :** Dans les **48 heures** suivant son établissement.\n*   **Volets à transmettre :**\n    *   **Fonctionnaires (CNRACL) :** Volets n°2 et n°3 à la DRH. Le volet n°1 (données médicales) est conservé par l'agent.\n    *   **Agents contractuels :** Volets n°1 et n°2 à la CPAM (pour les indemnités) et volet n°3 à la DRH.\n\n### 5. Rôle de l'employeur\nUne fois la déclaration reçue, l'employeur doit :\n*   Déclarer l'accident à la caisse d'assurance maladie (CPAM) dans les **48 heures**.\n*   Informer le service de médecine préventive dans les plus brefs délais.\n*   Si l'accident est mortel, informer immédiatement l'inspection du travail (dans les 12 heures suivant le décès).\n\n**Résumé des délais clés :**\n*   **Informer l'employeur :** 24 heures.\n*   **Déclaration à la DRH (Contractuel/Régime général) :** 48 heures.\n*   **Déclaration à la DRH (Titulaire/Régime Spéciale) :** 15 jours.\n*   **Transmission de l"
+        "skipped": true,
+        "reason": "PERPLEXITY_API_KEY missing",
+        "answer": ""
       },
       "generationEval": {
         "isNotFound": false,
@@ -291,12 +276,8 @@
           "déclaration",
           "certificat"
         ],
-        "matchedExpected": [
-          "15 jours",
-          "declaration",
-          "certificat"
-        ],
-        "keywordRecall": 0.75
+        "matchedExpected": [],
+        "keywordRecall": 0
       }
     },
     {
@@ -347,9 +328,9 @@
       ],
       "topBip": [],
       "generation": {
-        "skipped": false,
-        "reason": null,
-        "answer": "Les jours de congés annuels dépendent de votre statut (salarié du privé ou agent de la fonction publique) et de votre temps de travail. Voici les règles générales :\n\n### 1. Pour les salariés du privé (Code du travail)\nTout salarié a droit à **5 semaines** de congés payés par an de travail effectif. Le nombre de jours varie selon la méthode de calcul choisie par l'employeur :\n*   **En jours ouvrés** (jours travaillés + samedi, hors dimanche) : **25 jours** par an.\n*   **En jours ouvrables** (tous les jours de la semaine du lundi au dimanche, hors jours fériés) : **30 jours** par an.\n*   *Calcul :* 2,5 jours de congés par mois de travail effectif (2,5 x 12 = 30 jours ouvrables).\n\n### 2. Pour les agents de la fonction publique (Statut général)\nLe droit est calculé sur la base de **5 fois le nombre de jours travaillés par semaine** pour une année complète (du 1er janvier au 31 décembre) :\n*   **Temps plein (5 jours/semaine)** : **25 jours** de congés annuels.\n*   **Temps partiel (4 jours/semaine)** : **20 jours** de congés annuels.\n*   **Temps partiel (3 jours/semaine)** : **15 jours** de congés annuels.\n*   *Note :* Si vous travaillez 5 jours par semaine mais à temps partiel (en réduisant la durée quotidienne), vous avez toujours droit à **25 jours**.\n\n### 3. Période de prise des congés\n*   **Salariés du privé :** La période de prise des congés comprend obligatoirement la période du **1er mai au 31 octobre**. La période d'acquisition est généralement du 1er juin N au 31 mai N+1.\n*   **Fonction publique :** Les congés doivent être pris entre le **1er janvier et le 31 décembre** de l'année civile.\n\n### 4. Cas particuliers\n*   **Travail non annuel complet :** Si vous ne travaillez pas toute l'année civile, le congé est calculé proportionnellement (2 jours ouvrés par mois ou fraction de mois > 15 jours).\n*   **Priorité :** Les agents chargés de famille bénéficient d'une priorité dans le choix des périodes de congés.\n*   **Bonification (Fonction publique) :** Si un agent prend au moins 5 jours de congé en dehors de la période du 1er mai au 31 octobre, il peut bénéficier d'un jour supplémentaire (jusqu'à 2 jours maximum si 8 jours ou plus sont pris).\n\nEn résumé, pour une année complète de travail à temps plein (5 jours/semaine), le standard est de **25 jours** (en jours ouvrés) pour la fonction publique et souvent pour le privé, ou **30 jours** (en jours ouvrables) pour le privé."
+        "skipped": true,
+        "reason": "PERPLEXITY_API_KEY missing",
+        "answer": ""
       },
       "generationEval": {
         "isNotFound": false,
@@ -358,12 +339,8 @@
           "jours",
           "acquisition"
         ],
-        "matchedExpected": [
-          "conges annuels",
-          "jours",
-          "acquisition"
-        ],
-        "keywordRecall": 1
+        "matchedExpected": [],
+        "keywordRecall": 0
       }
     },
     {
@@ -412,9 +389,9 @@
       ],
       "topBip": [],
       "generation": {
-        "skipped": false,
-        "reason": null,
-        "answer": "En télétravail régulier à domicile, **l'employeur est légalement chargé de fournir, d'installer et d'entretenir les équipements nécessaires** au travail du salarié. Cette obligation est prévue par l'article L1222-10 du code du travail et confirmée par le Service Public.\n\n### Ce que l'employeur doit fournir :\n- **Équipements informatiques** : ordinateur (portable ou fixe), écran, clavier, souris, casque avec micro, imprimante si nécessaire.\n- **Logiciels et outils de communication** : abonnements (ex. Slack, Zoom, Teams), accès sécurisés, messageries instantanées, plateformes de visioconférence, clouds collaboratifs.\n- **Mobilier ergonomique** (dans certains cas) : chaise ergonomique, support dorsal, tapis de souris, support pour PC portable.\n- **Accès à Internet** : soit via une connexion mobile professionnelle, soit par remboursement d'une partie des frais réels ou allocation forfaitaire.\n\n### Exception :\nSi le salarié **souhaite utiliser son propre matériel** (BYOD), l'employeur n'est plus obligé de le fournir, mais doit :\n- Vérifier que le matériel personnel est conforme aux exigences de sécurité et de performance.\n- Assurer son adaptation et son entretien si nécessaire.\n- Rembourser les frais liés à l'utilisation du matériel personnel (dans le cadre d'une convention collective ou d'un accord interne).\n\n### À noter :\n- Bien que l'employeur ait cette obligation légale, **il peut décider de ne fournir que le strict minimum**.\n- Le matériel fourni par l'entreprise doit être **assuré par l'employeur**.\n- Le salarié doit prendre soin du matériel et l'utiliser exclusivement pour ses missions professionnelles.\n\nEn résumé : **l'employeur fournit le matériel en télétravail**, sauf si le salarié choisit d'utiliser son propre équipement, sous réserve de validation et de remboursement des frais."
+        "skipped": true,
+        "reason": "PERPLEXITY_API_KEY missing",
+        "answer": ""
       },
       "generationEval": {
         "isNotFound": false,
@@ -424,12 +401,8 @@
           "collectivité",
           "télétravail"
         ],
-        "matchedExpected": [
-          "materiel",
-          "equipement",
-          "teletravail"
-        ],
-        "keywordRecall": 0.75
+        "matchedExpected": [],
+        "keywordRecall": 0
       }
     },
     {
@@ -479,9 +452,9 @@
       ],
       "topBip": [],
       "generation": {
-        "skipped": false,
-        "reason": null,
-        "answer": "Pour demander une formation au **CNFPT** (Centre National de la Fonction Publique Territoriale), la procédure est désormais **uniquement dématérialisée** (en ligne). Voici les étapes à suivre, basées sur les documents officiels du CNFPT et le règlement intérieur de la Ville de Gennevilliers :\n\n### 1. Vérifier l'éligibilité de votre collectivité\nAvant de commencer, assurez-vous que votre collectivité (ex: Ville de Gennevilliers) a **activé la pré-inscription en ligne** sur la plateforme du CNFPT.\n*   *Conseil :* Contactez votre service formation ou la DCRH (Direction des Ressources Humaines) pour confirmer que ce dispositif est actif.\n\n### 2. Créer votre compte agent (si vous n'en avez pas déjà)\nSi vous n'avez pas encore de compte sur la plateforme d'inscription en ligne (IEL) :\n*   Rendez-vous sur : **[https://inscription.cnfpt.fr](https://inscription.cnfpt.fr)**\n*   Cliquez sur **« M'inscrire en tant qu'agent »**.\n*   Sélectionnez votre collectivité en saisissant le nom de la commune.\n*   Complétez les onglets obligatoires : **Identité**, **Coordonnées** (votre adresse email professionnelle est indispensable, elle servira d'identifiant), et **Situation professionnelle**.\n*   Acceptez les conditions d'utilisation et validez.\n*   Vous recevrez un email pour **activer votre compte** et créer votre mot de passe.\n\n### 3. Effectuer la pré-inscription à la formation\nUne fois connecté à votre compte :\n*   Cliquez sur l'onglet **« Les formations »**.\n*   Sélectionnez **« Formation inter-collectivités »**.\n*   Utilisez la recherche libre (code stage, mot-clé, lieu, dates) pour trouver la formation souhaitée.\n*   Sélectionnez la session précise en cochant la case correspondante.\n*   Précisez le **type de formation** (ex: 1er emploi, tout au long de la carrière) et vos **motivations**.\n*   Cliquez sur **« Confirmer la demande d'inscription »**.\n\n### 4. Validation par votre collectivité (Obligatoire)\nVotre demande ne sera pas transmise au CNFPT sans l'accord de votre employeur :\n*   La demande arrive automatiquement dans la boîte mail de votre **responsable hiérarchique**.\n*   Votre responsable valide (ou non) la formation.\n*   Ensuite, le **service formation de votre collectivité** (DCRH à Gennevilliers) valide la demande et la transmet officiellement au CNFPT.\n*   *Note :* Vous pouvez suivre l'état de votre demande dans l'onglet **« Suivre mes inscriptions »**.\n\n### 5. Confirmation et convocation\n*   Une fois votre inscription validée par la collectivité **et** le CNFPT, vous recevrez une **convocation par email** environ **4 à 6 semaines avant** le début de la formation.\n*   Vous devrez alors **confirmer votre inscription** et vos besoins d'hébergement via le coupon-réponse inclus dans cet email.\n\n---\n\n### Points importants à retenir (Règlement Gennevilliers & CNFPT) :\n*   **Inscription uniquement en ligne :** Le bulletin papier n'est plus utilisé pour la transmission au CNFPT, il sert uniquement à la relation interne avec votre employeur si nécessaire.\n*   **Adresse email :** Elle est obligatoire pour créer le compte et recevoir les convocations.\n*   **Délais :** Pour les formations hors CNFPT (autres organismes), la demande doit être soumise **6 à 8 semaines avant** le début de la formation (via le formulaire dédié sur l'Intranet de la Ville).\n*   **Formation d'intégration :** Pour cette formation obligatoire, l'inscription se fait dès la nomination via la plateforme du CNFPT (pas d'objectifs de formation à remplir sur le bulletin).\n\nSi vous rencontrez des difficultés pour créer votre compte ou trouver une formation, les agents du service DCRH de votre collectivité peuvent vous aider à créer votre compte IEL."
+        "skipped": true,
+        "reason": "PERPLEXITY_API_KEY missing",
+        "answer": ""
       },
       "generationEval": {
         "isNotFound": false,
@@ -491,13 +464,8 @@
           "demande",
           "validation"
         ],
-        "matchedExpected": [
-          "formation",
-          "cnfpt",
-          "demande",
-          "validation"
-        ],
-        "keywordRecall": 1
+        "matchedExpected": [],
+        "keywordRecall": 0
       }
     },
     {
@@ -527,9 +495,9 @@
       ],
       "topBip": [],
       "generation": {
-        "skipped": false,
-        "reason": null,
-        "answer": "Le **Complément Indemnitaire Annuel (CIA)** est la part **variable et facultative** du régime indemnitaire **RIFSEEP** (Régime Indemnitaire tenant compte des Fonctions, des Sujétions, de l’Expertise et de l’Engagement Professionnel) dans la fonction publique.\n\nVoici comment il fonctionne concrètement :\n\n### 1. Objectif et Nature\n*   **Objectif :** Il récompense spécifiquement l'**engagement professionnel** de l'agent et sa **manière de servir**.\n*   **Nature :** Il est **facultatif** (l'employeur peut décider de ne pas le verser) et **non reconductible automatiquement** d'une année sur l'autre. Son attribution dépend de l'évaluation annuelle.\n*   **Plafond :** Sa part ne doit pas excéder celle de l'IFSE (Indemnité de Fonctions, de Sujétions et d'Expertise). Il est limité à 12 % de la prime totale (IFSE + CIA).\n\n### 2. Conditions d'éligibilité\nPour être éligible au CIA (versé généralement une fois par an, souvent entre **juin et septembre**), l'agent doit :\n*   Être titulaire ou contractuel.\n*   Avoir été présent sur son poste au moins **2 mois et demi (75 jours)** durant l'année de référence précédente (**N-1**).\n    *   *Exemple :* Pour recevoir le CIA en juin 2026, il faut avoir été présent 75 jours en 2025.\n*   Ne pas avoir d'**insuffisance professionnelle majeure**.\n\n### 3. Modalités de calcul\nLe montant du CIA est calculé sur la base d'un **montant de référence** (ou \"montant pivot\") fixé par arrêté ministériel selon le groupe de fonctions de l'agent (A, B ou C).\n\nLe calcul final est la somme de **deux parts égales (50 % chacune)** :\n\n#### A. Part Évaluation professionnelle (50 % de la base)\nCette part est modulée selon le résultat de l'**entretien professionnel annuel** de l'année N-1 :\n*   Évaluation **\"Très satisfaisant\"** : **100 %** de la part.\n*   Évaluation **\"Satisfaisant\"** : **70 %** de la part.\n*   Évaluation **\"À consolider\"** : **50 %** de la part.\n*   Évaluation **\"Non évalué\"** : **0 %** de la part.\n\n#### B. Part Absences (50 % de la base)\nCette part est impactée par le nombre de jours d'absence (maladie, congés, etc.) accumulés durant l'année N-1 :\n*   **Moins de 6 jours** d'absence : **100 %** de la part (aucune diminution).\n*   **Entre 6 et 11 jours** d'absence : **50 %** de la part.\n*   **Plus de 11 jours** d'absence : **0 %** de la part.\n    *   *Note Sécurité Sociale :* Si l'agent est en arrêt maladie du vendredi matin au mardi soir inclus, le week-end est compté, ce qui fait un total de 5 jours d'absence.\n\n### 4. Attribution et Versement\n*   **Décision :** L'attribution est décidée par le supérieur hiérarchique sur la base du compte rendu de l'entretien professionnel.\n*   **Fréquence :** Il est versé **une ou deux fois par an** (ex. : une fraction en juin, une en décembre dans certains services comme les SDIS).\n*   **Proportionnalité :** Pour les agents à temps partiel ou ayant changé de poste, le montant peut être proratisé selon le temps de présence effectif, bien que cela ne soit pas automatique et doit être justifié individuellement.\n\nEn résumé, le CIA est un outil de rémunération variable qui lie directement le montant perçu à la qualité du travail rendu (évaluation) et à la disponibilité de l'agent (absentéisme)."
+        "skipped": true,
+        "reason": "PERPLEXITY_API_KEY missing",
+        "answer": ""
       },
       "generationEval": {
         "isNotFound": false,
@@ -539,12 +507,8 @@
           "montant",
           "critères"
         ],
-        "matchedExpected": [
-          "cia",
-          "prime",
-          "montant"
-        ],
-        "keywordRecall": 0.75
+        "matchedExpected": [],
+        "keywordRecall": 0
       }
     },
     {
@@ -596,9 +560,9 @@
       ],
       "topBip": [],
       "generation": {
-        "skipped": false,
-        "reason": null,
-        "answer": "Le **jour de carence** dans le cadre du **Congé pour Maladie Ordinaire (CMO)** en fonction publique territoriale (et plus largement dans la fonction publique) suit des règles spécifiques définies par la loi depuis le 1er janvier 2018. Voici les règles principales :\n\n---\n\n### ✅ **1. Définition du jour de carence**\n- Le **premier jour** de chaque arrêt de travail pour **maladie ordinaire** est **non rémunéré**.\n- Ce jour est appelé **jour de carence**.\n- La rémunération (traitement principal, indemnité de résidence, NBI, primes liées à l’exercice des fonctions) ne commence qu’à partir du **2ᵉ jour** d’arrêt.\n\n---\n\n### ✅ **2. Quand s’applique-t-il ?**\n- Il s’applique **à chaque nouvel arrêt de travail** pour maladie ordinaire, **sauf exceptions**.\n- Il ne s’applique **pas** :\n  - En cas de **prolongation** d’un arrêt de travail (même affection, reprise < 48h entre les deux arrêts).\n  - Pour les **maladies professionnelles**, **accidents de service**, **congés de longue maladie**, **longue durée**, **grave maladie**.\n  - Pour les **congés de maternité**, **paternité**, **adoption**, ou **congés liés à un état pathologique de grossesse**.\n  - Pour les **congés d’invalidité temporaire imputable au service**.\n\n---\n\n### ✅ **3. Calcul de la retenue**\n- La retenue correspondante est calculée selon la **règle du trentième** (1/30 du traitement mensuel).\n- Elle est **proratisée** en fonction du **temps de travail** de l’agent (temps complet, partiel, etc.).\n- Elle est déduite de la rémunération du **mois de l’arrêt** ou du **mois suivant**.\n\n---\n\n### ✅ **4. Impact sur la carrière et la retraite**\n- Le jour de carence est **assimilé à du temps de service effectif**.\n- Il **n’a pas d’impact** sur le **déroulement de carrière**.\n- Il est **pris en compte pour la retraite**.\n- Il **ne rompt pas** la position d’activité de l’agent.\n\n---\n\n### ✅ **5. Exceptions importantes**\n- **Pas de jour de carence** si l’agent reprend le travail **moins de 48 heures** entre deux arrêts pour la **même affection**.\n- **Pas de jour de carence** pour les **congés de maternité**, **paternité**, **adoption**, ou **congés liés à la grossesse**.\n- **Pas de jour de carence** pour les **maladies professionnelles**, **accidents de service**, **congés de longue maladie**, etc.\n\n---\n\n### ✅ **6. Interdiction de compensation**\n- Le jour de carence **ne peut être compensé** par l’octroi d’un jour de congé, de RTT ou d’ARTT.\n- Les employeurs **ne peuvent pas déroger** à cette loi en payant cette journée.\n\n---\n\n### 📌 En résumé :\n| Élément | Règle |\n|--------|-------|\n| Jour non rémunéré | 1ᵉʳ jour de chaque arrêt pour maladie ordinaire |\n| Rémunération à partir du | 2ᵉ jour d’arrêt |\n| Calcul de la retenue | 1/30 du traitement, proratisé au temps de travail |\n| Impact carrière/retraite | Aucun impact, assimilé à temps de service effectif |\n| Exceptions | Prolongation, maladies pro, accidents de service, congés maternité/paternité/adoption, etc. |\n| Compensation | Interdite (pas de jour de congé/RTT/ARTT) |\n\n---\n\nSi vous êtes un agent public (titulaire ou contractuel de droit public), ces règles s’appliquent à vous dès que vous êtes en **CMO**. Pour les agents de droit privé ou avec moins de 4 mois d’ancienneté, le délai de carenc"
+        "skipped": true,
+        "reason": "PERPLEXITY_API_KEY missing",
+        "answer": ""
       },
       "generationEval": {
         "isNotFound": false,
@@ -608,13 +572,8 @@
           "jour",
           "maladie"
         ],
-        "matchedExpected": [
-          "carence",
-          "cmo",
-          "jour",
-          "maladie"
-        ],
-        "keywordRecall": 1
+        "matchedExpected": [],
+        "keywordRecall": 0
       }
     },
     {
@@ -666,9 +625,9 @@
       ],
       "topBip": [],
       "generation": {
-        "skipped": false,
-        "reason": null,
-        "answer": "**Non, vous ne pouvez pas cumuler télétravail et arrêt maladie.**\n\nUn arrêt de travail signifie que vous êtes officiellement dans l'incapacité de travailler. Par conséquent :\n\n1.  **Interdiction de travailler :** Si votre médecin a prescrit un arrêt de travail et que cet avis a été transmis à votre employeur, **vous n'êtes pas autorisé à travailler**, ni en présentiel, ni en télétravail. Le télétravail est une forme de travail, donc il est incompatible avec un arrêt.\n2.  **L'alternative du télétravail :** Depuis les réformes discutées (et potentiellement appliquées en 2025/2026 selon les sources), un médecin de ville peut, dans certains cas spécifiques (état de santé permettant le travail, poste éligible, accord du salarié), **prescrire du télétravail en *alternative* à un arrêt de travail total**. Dans ce cas, vous ne serez pas en arrêt maladie, mais vous travaillerez à distance.\n3.  **Reprise anticipée :** Si vous souhaitez reprendre le travail (y compris en télétravail) avant la date de fin de votre arrêt, vous devez informer votre employeur et l'Assurance Maladie pour procéder à une **reprise anticipée**. L'arrêt est alors clôturé et vous redeviez salarié.\n\n**En résumé :**\n*   Vous êtes en **arrêt maladie** = Vous ne travaillez pas (pas de télétravail).\n*   Vous êtes en **télétravail** = Vous travaillez (pas d'arrêt maladie).\n\nCes deux situations sont mutuellement exclusives. Si vous télétravaillez alors que vous êtes en arrêt, vous êtes en infraction avec votre arrêt de travail et cela peut entraîner des sanctions (perte d'indemnités, sanctions disciplinaires).\n\n*Note : Les règles évoluent. Si votre médecin vous propose du télétravail, il le fera en remplacement de l'arrêt, pas en complément.*"
+        "skipped": true,
+        "reason": "PERPLEXITY_API_KEY missing",
+        "answer": ""
       },
       "generationEval": {
         "isNotFound": false,
@@ -677,11 +636,8 @@
           "télétravail",
           "conditions"
         ],
-        "matchedExpected": [
-          "arret maladie",
-          "teletravail"
-        ],
-        "keywordRecall": 0.67
+        "matchedExpected": [],
+        "keywordRecall": 0
       }
     }
   ]

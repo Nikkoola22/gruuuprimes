@@ -1,4 +1,4 @@
-import { bipIndex } from './bip-index';
+import { bipIndex } from './bip-index.ts';
 
 export interface SectionIndex {
   id: string;

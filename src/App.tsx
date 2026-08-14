@@ -693,9 +693,40 @@ Question d'un agent territorial : ${question}
     ).join('\n')
   }
 
+  const extraireBlockArticle = (chapitreText: string, articleNum?: number, title?: string): string => {
+    if (!chapitreText) return ''
+    const lines = chapitreText.split('\n')
+    
+    if (articleNum) {
+      const artHeaderRegex = new RegExp(`^ARTICLE\\s+${articleNum}\\b`, 'i')
+      const startIdx = lines.findIndex(l => artHeaderRegex.test(l.trim()))
+      if (startIdx !== -1) {
+        let endIdx = lines.findIndex((l, idx) => idx > startIdx && /^ARTICLE\s+\d+\b/i.test(l.trim()))
+        if (endIdx === -1) endIdx = Math.min(startIdx + 25, lines.length)
+        return lines.slice(startIdx, endIdx).join('\n')
+      }
+    }
+
+    if (title) {
+      const normTitle = title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      const startIdx = lines.findIndex(l => {
+        const normL = l.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        return normL.includes(normTitle)
+      })
+      if (startIdx !== -1) {
+        const start = Math.max(0, startIdx - 1)
+        const end = Math.min(lines.length, startIdx + 15)
+        return lines.slice(start, end).join('\n')
+      }
+    }
+
+    return ''
+  }
+
   const chargerContenuSections = async (sectionIds: string[]): Promise<string> => {
     const { sommaireUnifie, chapitres, formation, rifseepData, teletravailData } = await loadSearchDeps()
     const chapitresACharger = new Set<number>()
+    const targetBlocks: string[] = []
     let chargerFormation = false
     let chargerRifseep = false
     let chargerTeletravail = false
@@ -703,8 +734,16 @@ Question d'un agent territorial : ${question}
     sectionIds.forEach(id => {
       const section = sommaireUnifie.find(s => s.id === id)
       if (section) {
+        if (section.resume) {
+          targetBlocks.push(`📌 [${section.titre}] ${section.resume}`)
+        }
         if (section.source === 'temps' && section.chapitre) {
           chapitresACharger.add(section.chapitre)
+          const fullText = (chapitres as Record<number, string>)[section.chapitre] || ''
+          const articleExcerpt = extraireBlockArticle(fullText, section.article, section.titre)
+          if (articleExcerpt) {
+            targetBlocks.push(`=== EXTRAIT ARTICLE : ${section.titre} ===\n${articleExcerpt}`)
+          }
         } else if (section.source === 'formation') {
           chargerFormation = true
         } else if (section.source === 'rifseep') {
@@ -716,6 +755,10 @@ Question d'un agent territorial : ${question}
     })
 
     let contenu = ''
+    if (targetBlocks.length > 0) {
+      contenu += `=== DISPOSITIONS CIBLÉES DIRECTES POUR LA QUESTION ===\n${targetBlocks.join('\n\n')}\n\n`
+    }
+
     if (chapitresACharger.size > 0) {
       const titres = ['', 'LE TEMPS DE TRAVAIL', 'LES CONGÉS', "AUTORISATIONS SPÉCIALES D'ABSENCE", 'LES ABSENCES POUR MALADIES ET ACCIDENTS']
       chapitresACharger.forEach(ch => {
