@@ -298,6 +298,10 @@ const imageMap: Record<number, string> = {
   18: '/scenarios/scenario_18.jpg',
   19: '/scenarios/scenario_19.jpg',
   20: '/scenarios/scenario_20.png',
+  21: '/scenarios/scenario_21.jpg',
+  22: '/scenarios/scenario_22.jpg',
+  23: '/scenarios/scenario_23.jpg',
+  24: '/scenarios/scenario_24.jpg',
 };
 
 // ─── Helper: shuffle array ────────────────────────────────────────────────────
@@ -326,6 +330,7 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
   const [isMuted, setIsMuted] = useState(false);
   const [gameOverReason, setGameOverReason] = useState("");
   const [showEffect, setShowEffect] = useState<{ usagers: number; qvt: number; budget: number; conformite: number } | null>(null);
+  const [imgErrorMap, setImgErrorMap] = useState<Record<number, boolean>>({});
 
   // Drag state
   const cardRef = useRef<HTMLDivElement>(null);
@@ -706,12 +711,19 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
                   
                   {/* Image Area */}
                   <div className="aspect-[4/5] bg-slate-100 mb-4 overflow-hidden relative border border-slate-200">
-                    {imageMap[currentCard.id] ? (
-                      <img src={imageMap[currentCard.id]} alt="Scenario" className="w-full h-full object-cover" />
+                    {imageMap[currentCard.id] && !imgErrorMap[currentCard.id] ? (
+                      <img
+                        src={imageMap[currentCard.id]}
+                        alt="Scenario"
+                        className="w-full h-full object-cover"
+                        onError={() => setImgErrorMap(prev => ({ ...prev, [currentCard.id]: true }))}
+                      />
                     ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-teal-50 to-emerald-50">
-                        <span className="text-6xl mb-2">{currentCard.characterEmoji}</span>
-                        <span className="text-slate-400 font-medium">Image non disponible</span>
+                      <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-teal-600 to-emerald-700 p-6 text-center text-white relative shadow-inner">
+                        <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center mb-3 shadow-lg border border-white/30">
+                          <span className="text-5xl drop-shadow-md">{currentCard.characterEmoji}</span>
+                        </div>
+                        <span className="text-base font-extrabold tracking-wide uppercase drop-shadow-md">{currentCard.character}</span>
                       </div>
                     )}
                     
