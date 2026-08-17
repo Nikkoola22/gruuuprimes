@@ -23,13 +23,17 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
     const camera = new THREE.PerspectiveCamera(52, window.innerWidth / window.innerHeight, 0.1, 100)
     camera.position.set(0, 0.15, 6.8)
 
-    let renderer: THREE.WebGLRenderer
-    try {
-      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
-    } catch {
-      // WebGL not available — skip 3D animation gracefully
-      return
+    // Progressive fallback: some Firefox/EGL drivers reject MSAA+alpha configs
+    let renderer: THREE.WebGLRenderer | undefined
+    const rendererConfigs = [
+      { canvas, antialias: true,  alpha: true,  powerPreference: 'low-power' as const, failIfMajorPerformanceCaveat: false },
+      { canvas, antialias: false, alpha: true,  powerPreference: 'low-power' as const, failIfMajorPerformanceCaveat: false },
+      { canvas, antialias: false, alpha: false, powerPreference: 'low-power' as const, failIfMajorPerformanceCaveat: false },
+    ]
+    for (const cfg of rendererConfigs) {
+      try { renderer = new THREE.WebGLRenderer(cfg); break } catch { /* try next */ }
     }
+    if (!renderer) return // WebGL completely unavailable — skip 3D animation gracefully
     renderer.setSize(window.innerWidth, window.innerHeight)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.toneMapping = THREE.ACESFilmicToneMapping
