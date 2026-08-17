@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { FontLoader, Font } from 'three/examples/jsm/loaders/FontLoader.js'
 import { ShapeGeometry } from 'three'
@@ -14,6 +14,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const cardTlRef = useRef<HTMLDivElement>(null)
   const cardBrRef = useRef<HTMLDivElement>(null)
+  const [webglResetKey, setWebglResetKey] = useState(0)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -234,8 +235,8 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
     }
 
     const handleContextRestored = () => {
-      contextLost = false
-      animate()
+      // Re-initialize the entire Three.js scene to re-upload all GPU resources
+      setWebglResetKey(k => k + 1)
     }
 
     canvas.addEventListener('webglcontextlost', handleContextLost)
@@ -261,7 +262,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
       clearTimeout(t2)
       renderer.dispose()
     }
-  }, [theme])
+  }, [theme, webglResetKey])
 
   const isLight = theme === 'light'
 
