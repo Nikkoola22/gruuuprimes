@@ -23,17 +23,50 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
     const camera = new THREE.PerspectiveCamera(52, window.innerWidth / window.innerHeight, 0.1, 100)
     camera.position.set(0, 0.15, 6.8)
 
-    // Progressive fallback: some Firefox/EGL drivers reject MSAA+alpha configs
-    let renderer: THREE.WebGLRenderer | undefined
-    const rendererConfigs = [
-      { canvas, antialias: true,  alpha: true,  powerPreference: 'low-power' as const, failIfMajorPerformanceCaveat: false },
-      { canvas, antialias: false, alpha: true,  powerPreference: 'low-power' as const, failIfMajorPerformanceCaveat: false },
-      { canvas, antialias: false, alpha: false, powerPreference: 'low-power' as const, failIfMajorPerformanceCaveat: false },
-    ]
-    for (const cfg of rendererConfigs) {
-      try { renderer = new THREE.WebGLRenderer(cfg); break } catch { /* try next */ }
+    // Check WebGL availability before attempting to create the renderer.
+    // We use a temporary off-screen canvas so as not to consume one of the
+    // browser's limited WebGL contexts on the real canvas element.
+    const probeCanvas = document.createElement('canvas')
+    const testCtx =
+      probeCanvas.getContext('webgl2') ||
+      probeCanvas.getContext('webgl') ||
+      probeCanvas.getContext('experimental-webgl')
+    if (!testCtx) {
+      // No WebGL support — show a fallback message and skip 3D animation
+      const fallback = canvas.parentElement
+      if (fallback) {
+        const msg = document.createElement('div')
+        msg.style.cssText =
+          'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;text-align:center;padding:1rem;'
+        msg.textContent = "Votre navigateur ne supporte pas WebGL. L'animation 3D est désactivée."
+        fallback.appendChild(msg)
+      }
+      return
     }
-    if (!renderer) return // WebGL completely unavailable — skip 3D animation gracefully
+    // Release the probe context so it does not count against the browser's
+    // concurrent WebGL context limit before the real renderer is created.
+    ;(testCtx as WebGLRenderingContext | WebGL2RenderingContext)
+      .getExtension('WEBGL_lose_context')
+      ?.loseContext()
+
+    let renderer: THREE.WebGLRenderer
+    try {
+      // Use safe, Firefox-compatible renderer options:
+      // - antialias: false avoids driver configurations that trigger EGL_NO_CONFIG in Firefox
+      // - alpha: false reduces context complexity
+      // - powerPreference: 'default' avoids forcing a specific GPU that may be unavailable
+      // - preserveDrawingBuffer: false (already the default) avoids extra memory allocation
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: false,
+        alpha: false,
+        powerPreference: 'default',
+        preserveDrawingBuffer: false,
+      })
+    } catch {
+      // WebGL renderer creation failed — skip 3D animation gracefully
+      return
+    }
     renderer.setSize(window.innerWidth, window.innerHeight)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.toneMapping = THREE.ACESFilmicToneMapping
