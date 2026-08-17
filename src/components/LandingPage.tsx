@@ -213,7 +213,10 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
 
     let t = 0
     let rafId: number
+    let contextLost = false
+
     const animate = () => {
+      if (contextLost) return
       rafId = requestAnimationFrame(animate)
       t += 0.060
       // Interpolation douce vers la cible souris
@@ -223,6 +226,20 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
       renderer.render(scene, camera)
     }
     animate()
+
+    const handleContextLost = (e: Event) => {
+      e.preventDefault()
+      contextLost = true
+      cancelAnimationFrame(rafId)
+    }
+
+    const handleContextRestored = () => {
+      contextLost = false
+      animate()
+    }
+
+    canvas.addEventListener('webglcontextlost', handleContextLost)
+    canvas.addEventListener('webglcontextrestored', handleContextRestored)
 
     const handleResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight
@@ -238,6 +255,8 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
       cancelAnimationFrame(rafId)
       window.removeEventListener('resize', handleResize)
       canvas.removeEventListener('pointermove', handlePointerMove)
+      canvas.removeEventListener('webglcontextlost', handleContextLost)
+      canvas.removeEventListener('webglcontextrestored', handleContextRestored)
       clearTimeout(t1)
       clearTimeout(t2)
       renderer.dispose()
