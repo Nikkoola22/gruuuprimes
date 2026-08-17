@@ -19,46 +19,44 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(52, window.innerWidth / window.innerHeight, 0.1, 100)
-    camera.position.set(0, 0.15, 6.8)
-
-    // Create the WebGL context ourselves on the real canvas so that Three.js
-    // receives a pre-existing context and skips its own multi-attempt probing.
-    // This prevents the repeated "Failed to create WebGL context" console
-    // errors that Firefox emits when Three.js tries webgl2 → webgl →
-    // experimental-webgl in sequence.
-    // failIfMajorPerformanceCaveat:false ensures Firefox uses the software
-    // renderer rather than failing when no hardware GPU config matches.
+    // Probe WebGL availability on a temporary offscreen canvas.
+    // This keeps the main canvas context-free until we know WebGL works,
+    // and concentrates any browser-level "Failed to create WebGL context"
+    // errors on the throwaway element instead of polluting the real canvas.
     const ctxOptions: WebGLContextAttributes = {
       antialias: false,
       alpha: false,
       powerPreference: 'default',
       failIfMajorPerformanceCaveat: false,
     }
-    const webglCtx =
-      (canvas.getContext('webgl2', ctxOptions) as WebGL2RenderingContext | null) ||
-      (canvas.getContext('webgl', ctxOptions) as WebGLRenderingContext | null)
+    const probe = document.createElement('canvas')
+    probe.width = 1
+    probe.height = 1
+    const probeCtx =
+      (probe.getContext('webgl2', ctxOptions) as WebGL2RenderingContext | null) ||
+      (probe.getContext('webgl', ctxOptions) as WebGLRenderingContext | null)
 
-    if (!webglCtx) {
-      // No WebGL support — show a fallback message and skip 3D animation
-      const fallback = canvas.parentElement
-      if (fallback) {
-        const msg = document.createElement('div')
-        msg.style.cssText =
-          'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;text-align:center;padding:1rem;'
-        msg.textContent = "Votre navigateur ne supporte pas WebGL. L'animation 3D est désactivée."
-        fallback.appendChild(msg)
-      }
+    if (!probeCtx) {
+      // No WebGL support — skip 3D animation silently
       return
     }
+    // Lose the probe context immediately so it doesn't count against the
+    // browser's limit of simultaneous WebGL contexts.
+    probeCtx.getExtension('WEBGL_lose_context')?.loseContext()
+
+    const scene = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(52, window.innerWidth / window.innerHeight, 0.1, 100)
+    camera.position.set(0, 0.15, 6.8)
 
     let renderer: THREE.WebGLRenderer
     try {
-      // Pass the pre-created context so Three.js skips its own probing loop.
-      // antialias/alpha/powerPreference are ignored by Three.js when a context
-      // is provided — those attributes are already set on webglCtx via ctxOptions.
-      renderer = new THREE.WebGLRenderer({ canvas, context: webglCtx })
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: false,
+        alpha: false,
+        powerPreference: 'default',
+        failIfMajorPerformanceCaveat: false,
+      })
     } catch {
       // WebGL renderer creation failed — skip 3D animation gracefully
       return
