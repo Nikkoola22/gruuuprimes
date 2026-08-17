@@ -429,7 +429,11 @@ function App() {
       const handleWheel = (e: WheelEvent) => {
         if (e.deltaY !== 0 && Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
           e.preventDefault()
-          el.scrollLeft += e.deltaY * 1.2
+          // Normalize deltaMode: Firefox uses DOM_DELTA_LINE (1) or DOM_DELTA_PAGE (2),
+          // Chrome/Edge use DOM_DELTA_PIXEL (0).
+          const lineHeight = 40
+          const multiplier = e.deltaMode === 1 ? lineHeight : e.deltaMode === 2 ? el.clientWidth : 1
+          el.scrollLeft += e.deltaY * multiplier * 1.2
         }
       }
 
