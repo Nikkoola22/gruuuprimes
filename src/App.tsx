@@ -429,7 +429,11 @@ function App() {
       const handleWheel = (e: WheelEvent) => {
         if (e.deltaY !== 0 && Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
           e.preventDefault()
-          el.scrollLeft += e.deltaY * 1.2
+          // Normalize deltaMode: Firefox uses DOM_DELTA_LINE (1) or DOM_DELTA_PAGE (2),
+          // Chrome/Edge use DOM_DELTA_PIXEL (0).
+          const lineHeight = 40
+          const multiplier = e.deltaMode === 1 ? lineHeight : e.deltaMode === 2 ? el.clientWidth : 1
+          el.scrollLeft += e.deltaY * multiplier * 1.2
         }
       }
 
@@ -439,10 +443,6 @@ function App() {
         isDragging = false
         startX = e.pageX - el.offsetLeft
         scrollLeft = el.scrollLeft
-      }
-
-      const handleMouseLeave = () => {
-        isDown = false
       }
 
       const handleMouseUp = () => {
@@ -469,17 +469,15 @@ function App() {
 
       el.addEventListener('wheel', handleWheel, { passive: false })
       el.addEventListener('mousedown', handleMouseDown)
-      el.addEventListener('mouseleave', handleMouseLeave)
-      el.addEventListener('mouseup', handleMouseUp)
-      el.addEventListener('mousemove', handleMouseMove)
+      document.addEventListener('mouseup', handleMouseUp)
+      document.addEventListener('mousemove', handleMouseMove)
       el.addEventListener('click', handleClick, true)
 
       return () => {
         el.removeEventListener('wheel', handleWheel)
         el.removeEventListener('mousedown', handleMouseDown)
-        el.removeEventListener('mouseleave', handleMouseLeave)
-        el.removeEventListener('mouseup', handleMouseUp)
-        el.removeEventListener('mousemove', handleMouseMove)
+        document.removeEventListener('mouseup', handleMouseUp)
+        document.removeEventListener('mousemove', handleMouseMove)
         el.removeEventListener('click', handleClick, true)
       }
     }
