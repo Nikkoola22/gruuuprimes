@@ -23,7 +23,13 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
     const camera = new THREE.PerspectiveCamera(52, window.innerWidth / window.innerHeight, 0.1, 100)
     camera.position.set(0, 0.15, 6.8)
 
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
+    let renderer: THREE.WebGLRenderer
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
+    } catch {
+      // WebGL not available — skip 3D animation gracefully
+      return
+    }
     renderer.setSize(window.innerWidth, window.innerHeight)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.toneMapping = THREE.ACESFilmicToneMapping
