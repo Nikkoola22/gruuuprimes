@@ -441,10 +441,6 @@ function App() {
         scrollLeft = el.scrollLeft
       }
 
-      const handleMouseLeave = () => {
-        isDown = false
-      }
-
       const handleMouseUp = () => {
         isDown = false
       }
@@ -469,17 +465,15 @@ function App() {
 
       el.addEventListener('wheel', handleWheel, { passive: false })
       el.addEventListener('mousedown', handleMouseDown)
-      el.addEventListener('mouseleave', handleMouseLeave)
-      el.addEventListener('mouseup', handleMouseUp)
-      el.addEventListener('mousemove', handleMouseMove)
+      document.addEventListener('mouseup', handleMouseUp)
+      document.addEventListener('mousemove', handleMouseMove)
       el.addEventListener('click', handleClick, true)
 
       return () => {
         el.removeEventListener('wheel', handleWheel)
         el.removeEventListener('mousedown', handleMouseDown)
-        el.removeEventListener('mouseleave', handleMouseLeave)
-        el.removeEventListener('mouseup', handleMouseUp)
-        el.removeEventListener('mousemove', handleMouseMove)
+        document.removeEventListener('mouseup', handleMouseUp)
+        document.removeEventListener('mousemove', handleMouseMove)
         el.removeEventListener('click', handleClick, true)
       }
     }
