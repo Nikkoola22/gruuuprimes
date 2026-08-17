@@ -1384,23 +1384,23 @@ ${indicesFactuels}
               {/* Colonne principale - pleine largeur */}
               <div className="lg:col-span-1">
 
-                {/* Barre d'accès rapide style GAFAM / Frosted Glass Dock */}
-                <div className="max-w-7xl mx-auto mt-6 mb-6 bg-white/80 dark:bg-[#0E121D]/85 backdrop-blur-2xl rounded-3xl p-4 sm:p-5 border border-slate-200/80 dark:border-white/[0.08] shadow-xl shadow-slate-200/50 dark:shadow-black/50 flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
+                {/* Barre d'accès rapide style GAFAM / Frosted Glass Dock Ajustée avec précision */}
+                <div className="max-w-7xl mx-auto mt-5 mb-7 bg-white/85 dark:bg-[#0E121D]/90 backdrop-blur-2xl rounded-3xl p-3 sm:p-4.5 border border-slate-200/80 dark:border-white/[0.1] shadow-xl shadow-slate-200/50 dark:shadow-black/60 flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
 
-                  {/* Links & Quick Actions */}
-                  <div className="flex flex-1 justify-around items-center gap-3 overflow-x-auto custom-scrollbar pb-2 lg:pb-0 relative">
+                  {/* Links & Quick Actions avec ajustement précis */}
+                  <div className="flex flex-1 justify-around items-center gap-3 sm:gap-4 overflow-x-auto custom-scrollbar py-1 px-1 sm:py-1.5 sm:px-2 relative">
                     
                     {/* 1. Spotlight Search Button */}
                     <button
                       onClick={() => handleDomainSelection(0)}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-200 group min-w-[115px] p-3 rounded-2xl hover:-translate-y-1"
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-200 group min-w-[125px] sm:min-w-[140px] p-3 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0"
                       onMouseEnter={() => setHoveredQuickAccessIndex(0)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
                       <AnimatePresence>
                         {hoveredQuickAccessIndex === 0 && (
                           <motion.span
-                            className="absolute inset-0 h-full w-full bg-purple-500/10 dark:bg-purple-500/15 block rounded-2xl z-0 border border-purple-500/20 shadow-sm"
+                            className="absolute inset-0 h-full w-full bg-purple-500/10 dark:bg-purple-500/15 block rounded-2xl z-0 border border-purple-500/25 shadow-sm pointer-events-none"
                             layoutId="quickAccessHover"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -1408,23 +1408,23 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-3.5 rounded-2xl bg-gradient-to-br from-purple-500/15 to-indigo-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/30 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-purple-500/20 transition-all duration-200">
-                        <Bot className="w-8 h-8" />
+                      <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-purple-500/15 to-indigo-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-purple-500/25 transition-all duration-200">
+                        <Bot className="w-9 h-9 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs font-extrabold text-center tracking-tight leading-tight">J'ai une<br />question</span>
+                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">J'ai une<br />question</span>
                     </button>
 
                     {/* 2. Spotlight Metiers Button */}
                     <button
                       onClick={openMetiersView}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 group min-w-[115px] p-3 rounded-2xl hover:-translate-y-1"
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 group min-w-[125px] sm:min-w-[140px] p-3 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0"
                       onMouseEnter={() => setHoveredQuickAccessIndex(1)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
                       <AnimatePresence>
                         {hoveredQuickAccessIndex === 1 && (
                           <motion.span
-                            className="absolute inset-0 h-full w-full bg-emerald-500/10 dark:bg-emerald-500/15 block rounded-2xl z-0 border border-emerald-500/20 shadow-sm"
+                            className="absolute inset-0 h-full w-full bg-emerald-500/10 dark:bg-emerald-500/15 block rounded-2xl z-0 border border-emerald-500/25 shadow-sm pointer-events-none"
                             layoutId="quickAccessHover"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -1432,23 +1432,23 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-3.5 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-teal-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-emerald-500/20 transition-all duration-200">
-                        <LayoutGrid className="w-8 h-8" />
+                      <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-teal-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-emerald-500/25 transition-all duration-200">
+                        <LayoutGrid className="w-9 h-9 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs font-extrabold text-center tracking-tight leading-tight">Grilles<br />Indiciaires</span>
+                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Grilles<br />Indiciaires</span>
                     </button>
 
                     {/* 3. Spotlight Calculators Button */}
                     <button
                       onClick={openCalculatorsLanding}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[115px] p-3 rounded-2xl hover:-translate-y-1"
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[125px] sm:min-w-[140px] p-3 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0"
                       onMouseEnter={() => setHoveredQuickAccessIndex(2)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
                       <AnimatePresence>
                         {hoveredQuickAccessIndex === 2 && (
                           <motion.span
-                            className="absolute inset-0 h-full w-full bg-orange-500/10 dark:bg-orange-500/15 block rounded-2xl z-0 border border-orange-500/20 shadow-sm"
+                            className="absolute inset-0 h-full w-full bg-orange-500/10 dark:bg-orange-500/15 block rounded-2xl z-0 border border-orange-500/25 shadow-sm pointer-events-none"
                             layoutId="quickAccessHover"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -1456,23 +1456,23 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-3.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-orange-500/20 transition-all duration-200">
-                        <Calculator className="w-8 h-8" />
+                      <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-orange-500/25 transition-all duration-200">
+                        <Calculator className="w-9 h-9 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs font-extrabold text-center tracking-tight leading-tight">Calculateurs<br />Primes</span>
+                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Calculateurs<br />Primes</span>
                     </button>
 
                     {/* 4. Spotlight Espace Jeux Button */}
                     <button
                       onClick={() => setChatState({ ...chatState, currentView: 'jeux' })}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-pink-600 dark:hover:text-pink-400 transition-all duration-200 group min-w-[115px] p-3 rounded-2xl hover:-translate-y-1"
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-pink-600 dark:hover:text-pink-400 transition-all duration-200 group min-w-[125px] sm:min-w-[140px] p-3 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0"
                       onMouseEnter={() => setHoveredQuickAccessIndex(3)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
                       <AnimatePresence>
                         {hoveredQuickAccessIndex === 3 && (
                           <motion.span
-                            className="absolute inset-0 h-full w-full bg-pink-500/10 dark:bg-pink-500/15 block rounded-2xl z-0 border border-pink-500/20 shadow-sm"
+                            className="absolute inset-0 h-full w-full bg-pink-500/10 dark:bg-pink-500/15 block rounded-2xl z-0 border border-pink-500/25 shadow-sm pointer-events-none"
                             layoutId="quickAccessHover"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -1480,23 +1480,23 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-3.5 rounded-2xl bg-gradient-to-br from-pink-500/15 to-rose-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-pink-500/20 transition-all duration-200">
-                        <Gamepad2 className="w-8 h-8" />
+                      <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-pink-500/15 to-rose-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-pink-500/25 transition-all duration-200">
+                        <Gamepad2 className="w-9 h-9 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs font-extrabold text-center tracking-tight leading-tight">Espace<br />Jeux RH</span>
+                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Espace<br />Jeux RH</span>
                     </button>
 
                     {/* 5. Spotlight FAQ Button */}
                     <button
                       onClick={() => setChatState({ ...chatState, currentView: 'faq' })}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200 group min-w-[115px] p-3 rounded-2xl hover:-translate-y-1"
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200 group min-w-[125px] sm:min-w-[140px] p-3 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0"
                       onMouseEnter={() => setHoveredQuickAccessIndex(4)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
                       <AnimatePresence>
                         {hoveredQuickAccessIndex === 4 && (
                           <motion.span
-                            className="absolute inset-0 h-full w-full bg-amber-500/10 dark:bg-amber-500/15 block rounded-2xl z-0 border border-amber-500/20 shadow-sm"
+                            className="absolute inset-0 h-full w-full bg-amber-500/10 dark:bg-amber-500/15 block rounded-2xl z-0 border border-amber-500/25 shadow-sm pointer-events-none"
                             layoutId="quickAccessHover"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -1504,23 +1504,23 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-3.5 rounded-2xl bg-gradient-to-br from-amber-500/15 to-yellow-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-amber-500/20 transition-all duration-200">
-                        <HelpCircle className="w-8 h-8" />
+                      <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-amber-500/15 to-yellow-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-amber-500/25 transition-all duration-200">
+                        <HelpCircle className="w-9 h-9 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs font-extrabold text-center tracking-tight leading-tight">Questions<br />Fréquentes</span>
+                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Questions<br />Fréquentes</span>
                     </button>
 
                     {/* 6. Spotlight Podcasts Button */}
                     <button
                       onClick={() => setChatState({ ...chatState, currentView: 'podcasts' })}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 group min-w-[115px] p-3 rounded-2xl hover:-translate-y-1"
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 group min-w-[125px] sm:min-w-[140px] p-3 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0"
                       onMouseEnter={() => setHoveredQuickAccessIndex(99)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
                       <AnimatePresence>
                         {hoveredQuickAccessIndex === 99 && (
                           <motion.span
-                            className="absolute inset-0 h-full w-full bg-indigo-500/10 dark:bg-indigo-500/15 block rounded-2xl z-0 border border-indigo-500/20 shadow-sm"
+                            className="absolute inset-0 h-full w-full bg-indigo-500/10 dark:bg-indigo-500/15 block rounded-2xl z-0 border border-indigo-500/25 shadow-md pointer-events-none"
                             layoutId="quickAccessHover"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -1528,10 +1528,10 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-3.5 rounded-2xl bg-gradient-to-br from-indigo-500/15 to-purple-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-indigo-500/20 transition-all duration-200">
-                        <Radio className="w-8 h-8" />
+                      <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-indigo-500/15 to-purple-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-indigo-500/25 transition-all duration-200">
+                        <Radio className="w-9 h-9 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs font-extrabold text-center tracking-tight leading-tight">Podcasts<br />RH</span>
+                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Podcasts<br />RH</span>
                     </button>
 
                     {/* 7. Spotlight Bourse Emploi Anchor Link */}
@@ -1539,14 +1539,14 @@ ${indicesFactuels}
                       href="https://www.emploi-territorial.fr/emploi-mobilite/?search-col=99599"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[115px] p-3 rounded-2xl hover:-translate-y-1"
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[125px] sm:min-w-[140px] p-3 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0"
                       onMouseEnter={() => setHoveredQuickAccessIndex(5)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
                       <AnimatePresence>
                         {hoveredQuickAccessIndex === 5 && (
                           <motion.span
-                            className="absolute inset-0 h-full w-full bg-orange-500/10 dark:bg-orange-500/15 block rounded-2xl z-0 border border-orange-500/20 shadow-sm"
+                            className="absolute inset-0 h-full w-full bg-orange-500/10 dark:bg-orange-500/15 block rounded-2xl z-0 border border-orange-500/25 shadow-md pointer-events-none"
                             layoutId="quickAccessHover"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -1554,10 +1554,10 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-3.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-orange-500/20 transition-all duration-200">
-                        <Briefcase className="w-8 h-8" />
+                      <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-orange-500/25 transition-all duration-200">
+                        <Briefcase className="w-9 h-9 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs font-extrabold text-center tracking-tight leading-tight">Bourse<br />Emploi</span>
+                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Bourse<br />Emploi</span>
                     </a>
 
                     {/* 8. Spotlight Concours Anchor Link */}
@@ -1565,14 +1565,14 @@ ${indicesFactuels}
                       href="https://www.concours-territorial.fr/Index.aspx"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200 group min-w-[115px] p-3 rounded-2xl hover:-translate-y-1"
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200 group min-w-[125px] sm:min-w-[140px] p-3 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0"
                       onMouseEnter={() => setHoveredQuickAccessIndex(6)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
                       <AnimatePresence>
                         {hoveredQuickAccessIndex === 6 && (
                           <motion.span
-                            className="absolute inset-0 h-full w-full bg-cyan-500/10 dark:bg-cyan-500/15 block rounded-2xl z-0 border border-cyan-500/20 shadow-sm"
+                            className="absolute inset-0 h-full w-full bg-cyan-500/10 dark:bg-cyan-500/15 block rounded-2xl z-0 border border-cyan-500/25 shadow-md pointer-events-none"
                             layoutId="quickAccessHover"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -1580,10 +1580,10 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-3.5 rounded-2xl bg-gradient-to-br from-cyan-500/15 to-blue-500/15 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-cyan-500/20 transition-all duration-200">
-                        <GraduationCap className="w-8 h-8" />
+                      <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-cyan-500/15 to-blue-500/15 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-cyan-500/25 transition-all duration-200">
+                        <GraduationCap className="w-9 h-9 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs font-extrabold text-center tracking-tight leading-tight">Concours<br />FPT</span>
+                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Concours<br />FPT</span>
                     </a>
 
                   </div>
