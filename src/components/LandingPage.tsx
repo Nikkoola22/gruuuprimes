@@ -54,7 +54,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
       renderer = new THREE.WebGLRenderer({
         canvas,
         antialias: false,
-        alpha: false,
+        alpha: true,
         powerPreference: 'default',
         failIfMajorPerformanceCaveat: false,
       })

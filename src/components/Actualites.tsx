@@ -127,10 +127,10 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl }) => {
                 {news.map((article, i) => {
                   const date = article.pubDate
                     ? new Date(article.pubDate).toLocaleDateString("fr-FR", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })
                     : "";
 
                   return (
