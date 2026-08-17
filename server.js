@@ -11,6 +11,17 @@ dotenv.config({ path: '.env.local', override: true });
 const app = express();
 const PORT = 3001;
 
+// --- SÉCURITÉ : Masquer Express & configurer les en-têtes sécurisés ---
+app.disable('x-powered-by');
+
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  next();
+});
+
 app.use(cors({
   origin: (origin, callback) => {
     if (isAllowedOrigin(origin)) {
@@ -81,20 +92,22 @@ async function getPisteToken() {
 app.post('/api/piste-search', async (req, res) => {
   try {
     const { query } = req.body || {};
-    if (!query || typeof query !== 'string') {
-      return res.status(400).json({ error: 'Query parameter is required' });
+    if (!query || typeof query !== 'string' || query.trim().length === 0) {
+      return res.status(400).json({ error: 'Query parameter is required and must be non-empty' });
     }
+
+    const sanitizedQuery = query.trim().slice(0, 300);
 
     const apiKey = process.env.LEGIFRANCE_API_KEY || "6f3304e9-0093-46c4-8a20-f0dc98c73a01";
     const token = await getPisteToken();
 
     const fetch = (await import('node-fetch')).default;
-    console.log(`⚖️ Recherche PISTE Légifrance pour: "${query}"`);
+    console.log(`⚖️ Recherche PISTE Légifrance pour: "${sanitizedQuery}"`);
 
     const searchPayload = {
       fond: "CODE_DATE",
       recherche: {
-        mots: [{ valeur: query, typeMot: "EXACTE" }],
+        mots: [{ valeur: sanitizedQuery, typeMot: "EXACTE" }],
         pageNumber: 1,
         pageSize: 5
       }

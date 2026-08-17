@@ -119,8 +119,21 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl }) => {
             </div>
 
             {news.length === 0 ? (
-              <div className="text-center text-slate-500 font-medium text-base py-12">
-                Chargement des actualités...
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 animate-pulse">
+                {[1, 2, 3, 4].map((n) => (
+                  <div key={n} className="bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col justify-between h-72">
+                    <div className="w-full h-36 bg-slate-200 rounded-xl mb-4" />
+                    <div className="space-y-2">
+                      <div className="h-4 bg-slate-200 rounded w-5/6" />
+                      <div className="h-3 bg-slate-200 rounded w-full" />
+                      <div className="h-3 bg-slate-200 rounded w-4/6" />
+                    </div>
+                    <div className="pt-3 border-t border-slate-100 flex justify-between">
+                      <div className="h-3 bg-slate-200 rounded w-20" />
+                      <div className="h-3 bg-slate-200 rounded w-24" />
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

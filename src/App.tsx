@@ -16,6 +16,7 @@ import { BorderBeam } from "./components/ui/BorderBeam.tsx"
 import { Toaster, toast } from "sonner"
 import { OrangeGeometricBackground } from "./components/ui/OrangeGeometricBackground.tsx"
 import { queryPisteLegifrance } from "./services/legifrance.ts"
+import { useNewsFeeds, type RssItem, type IntercoNewsItem } from "./hooks/useNewsFeeds.ts"
 
 
 const CalculateurCIAV2 = lazy(() => import("./components/CalculateurCIAV2.tsx"))
@@ -29,6 +30,7 @@ const Actualites = lazy(() => import("./components/Actualites.tsx"))
 const VeilleJuridique = lazy(() => import("./components/VeilleJuridique.tsx"))
 const EspacePodcastsFigurines = lazy(() => import("./components/EspacePodcastsFigurines.tsx"))
 import MacMenuBar from "./components/MacMenuBar.tsx"
+import { LuxuryChat } from "./components/ui/LuxuryChat.tsx"
 
 // --- CONFIGURATION BASE URL POUR GITHUB PAGES ---
 const BASE_URL = import.meta.env.BASE_URL
@@ -226,28 +228,11 @@ function App() {
     setTheme(prev => prev === 'light' ? 'dark' : 'light')
   }
   const [selectedInfo, setSelectedInfo] = useState<InfoItem | null>(null)
-  const [rssItems, setRssItems] = useState<RssItem[]>([])
-  const [rssLoading, setRssLoading] = useState(false)
 
-  // --- ACTUALITÉS INTERCO CFDT ---
-  interface IntercoNewsItem {
-    title: string
-    link: string
-    pubDate: string
-    category: string
-    description: string
-    imageUrl?: string
-  }
-  const [intercoNews, setIntercoNews] = useState<IntercoNewsItem[]>([])
-  const [intercoLoading, setIntercoLoading] = useState(true)
+  // --- FLUX D'ACTUALITÉS (Hook optimisé) ---
+  const { rssItems, rssLoading, intercoNews, intercoLoading, fpNews, fpLoading } = useNewsFeeds()
   const intercoCarouselRef = useRef<HTMLDivElement>(null)
-  const [fpNews, setFpNews] = useState<IntercoNewsItem[]>([])
-  const [fpLoading, setFpLoading] = useState(true)
   const fpCarouselRef = useRef<HTMLDivElement>(null)
-
-
-
-
 
   const [activeCalculator, setActiveCalculator] = useState<'primes' | 'cia' | '13eme' | null>(null)
   const [showAdminPanel, setShowAdminPanel] = useState(false)
@@ -263,6 +248,7 @@ function App() {
   useEffect(() => {
     localStorage.setItem('showMacMenuBar', String(showMacMenuBar));
   }, [showMacMenuBar]);
+
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesListRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -299,121 +285,6 @@ function App() {
       window.removeEventListener("resize", handleResize)
     }
   }, [rssItems.length, rssLoading])
-
-
-  // --- CHARGER LES ARTICLES RSS ---
-  useEffect(() => {
-    const fetchRssFeeds = async () => {
-      try {
-        setRssLoading(true)
-
-        // Sur GitHub Pages, utiliser les données par défaut
-        if (BASE_URL !== '/') {
-          setRssItems(franceInfoRss)
-          setRssLoading(false)
-          return
-        }
-
-        // Construire l'URL de l'API selon l'environnement
-        const apiUrl = getApiEndpoint('rss')
-        const response = await fetch(apiUrl)
-
-        if (!response.ok) {
-          console.warn(`Erreur backend: ${response.status}`)
-          throw new Error(`Erreur serveur: ${response.status}`)
-        }
-
-        const data = await response.json()
-        const items = data.items || []
-
-        if (items.length > 0) {
-          // Formater les articles (sans bullet, ajouté au rendu)
-          const formattedItems = items.slice(0, 5).map((item: { title?: string; link?: string; pubDate?: string }) => ({
-            title: (item.title || '').replace(/^•\s*/, '').trim(),
-            link: item.link || '#',
-            pubDate: item.pubDate || new Date().toISOString()
-          }))
-          setRssItems(formattedItems)
-        } else {
-          throw new Error('Aucun article trouvé')
-        }
-      } catch (error) {
-        console.warn('Impossible de récupérer les flux RSS via le backend, utilisation des données par défaut', error)
-        setRssItems(franceInfoRss)
-      } finally {
-        setRssLoading(false)
-      }
-    }
-
-    fetchRssFeeds()
-
-    // Rafraîchir tous les 30 minutes
-    const interval = setInterval(fetchRssFeeds, 30 * 60 * 1000)
-    return () => clearInterval(interval)
-  }, [])
-
-  // --- ACTUALITÉS STATIQUES CFDT INTERCO (fallback) ---
-  const intercoFallbackNews = useMemo<IntercoNewsItem[]>(() => [
-    { title: "8 mars, Journée internationale des droits des femmes : la France doit s'engager pour l'égalité !", link: "https://interco.cfdt.fr/8-mars-journee-internationale-des-droits-des-femmes-la-france-doit-sengager-pour-legalite/", pubDate: "Sat, 08 Mar 2026 00:00:00 +0000", category: "Actu générale", description: "Communiqué intersyndical pour la Journée internationale des droits des femmes." },
-    { title: "La CFDT réagit à l'annonce de la création de 150 postes en milieu ouvert à la PJJ", link: "https://interco.cfdt.fr/quand-la-protection-judiciaire-de-la-jeunesse-entend-reinventer-le-placement/", pubDate: "Fri, 20 Feb 2026 00:00:00 +0000", category: "Protection judiciaire", description: "Quand la protection judiciaire de la jeunesse entend réinventer le placement." },
-    { title: "Défendre l'autonomie et les moyens du CNFPT", link: "https://interco.cfdt.fr/defendre-lautonomie-et-les-moyens-du-cnfpt/", pubDate: "Thu, 12 Feb 2026 00:00:00 +0000", category: "Territoriale", description: "Déclaration CFDT pour défendre l'autonomie et les moyens du CNFPT." },
-    { title: "Comment valoriser l'implication des agents et des magistrats ?", link: "https://interco.cfdt.fr/comment-valoriser-limplication-des-agents-et-des-magistrats-et-leur-determination-a-rendre-la-meilleure-justice/", pubDate: "Tue, 10 Feb 2026 00:00:00 +0000", category: "Services judiciaires", description: "Déclaration liminaire Formation spécialisée CSA des services judiciaires." },
-    { title: "Se donner l'ambition et les moyens — CSA PJJ du 5 février 2026", link: "https://interco.cfdt.fr/se-donner-lambition-et-les-moyens/", pubDate: "Thu, 05 Feb 2026 00:00:00 +0000", category: "Actu générale", description: "Déclaration préliminaire de la CFDT au CSA PJJ du 5 février 2026." },
-    { title: "Un changement de cap clair et concret est demandé !", link: "https://interco.cfdt.fr/un-changement-de-cap-clair-et-concret-est-demande/", pubDate: "Sun, 26 Jan 2026 00:00:00 +0000", category: "Affaires sociales", description: "Déclaration liminaire de la CFDT lors de la rencontre avec la ministre de la Santé." },
-    { title: "Déclaration liminaire CFDT au CSA services judiciaires du 19 février", link: "https://interco.cfdt.fr/lacte-de-juger-ne-se-reduit-pas-au-rendu-dune-decision/", pubDate: "Wed, 19 Feb 2026 00:00:00 +0000", category: "Services judiciaires", description: "L'absence de réflexion transverse sur le sens des missions de chacun." },
-  ], [])
-
-  // --- CHARGER LES ACTUALITÉS INTERCO CFDT ---
-  useEffect(() => {
-    const fetchIntercoNews = async () => {
-      try {
-        setIntercoLoading(true)
-        const apiUrl = getApiEndpoint('interco-rss')
-        const response = await fetch(apiUrl)
-        if (!response.ok) throw new Error(`Erreur serveur: ${response.status}`)
-        const data = await response.json()
-        const items = (data.items || []).map((item: IntercoNewsItem) => ({
-          ...item,
-          title: item.title.replace(/^•\s*/, '').trim()
-        }))
-        if (items.length > 0) {
-          setIntercoNews(items)
-        } else {
-          setIntercoNews(intercoFallbackNews)
-        }
-      } catch (error) {
-        console.warn('Impossible de récupérer les actualités Interco CFDT, utilisation des données par défaut', error)
-        setIntercoNews(intercoFallbackNews)
-      } finally {
-        setIntercoLoading(false)
-      }
-    }
-    fetchIntercoNews()
-    const interval = setInterval(fetchIntercoNews, 30 * 60 * 1000)
-    return () => clearInterval(interval)
-  }, [intercoFallbackNews])
-
-  // --- CHARGER LES ACTUALITÉS FONCTION PUBLIQUE ---
-  useEffect(() => {
-    const fetchFpNews = async () => {
-      try {
-        setFpLoading(true)
-        const apiUrl = getApiEndpoint('fp-rss')
-        const response = await fetch(apiUrl)
-        if (!response.ok) throw new Error(`Erreur serveur: ${response.status}`)
-        const data = await response.json()
-        const items = data.items || []
-        setFpNews(items)
-      } catch (error) {
-        console.warn('Impossible de récupérer les actualités Fonction Publique', error)
-      } finally {
-        setFpLoading(false)
-      }
-    }
-    fetchFpNews()
-    const interval = setInterval(fetchFpNews, 30 * 60 * 1000)
-    return () => clearInterval(interval)
-  }, [])
 
   // --- COMPATIBILITÉ FIREFOX WINDOWS : MOLETTE VERTICALE -> SCROLL HORIZONTAL & MOUSE DRAG ---
   useEffect(() => {
@@ -532,19 +403,6 @@ function App() {
       ],
       isProcessing: false,
     })
-
-    setTimeout(() => {
-      if (chatContainerRef.current) {
-        const headerHeight = 24
-        const chatPosition = chatContainerRef.current.offsetTop
-        const scrollPosition = Math.max(0, chatPosition - headerHeight)
-
-        window.scrollTo({
-          top: scrollPosition,
-          behavior: "smooth",
-        })
-      }
-    }, 100)
   }
 
   const returnToMenu = () => {
@@ -694,7 +552,7 @@ Question d'un agent territorial : ${question}
   const extraireBlockArticle = (chapitreText: string, articleNum?: number, title?: string): string => {
     if (!chapitreText) return ''
     const lines = chapitreText.split('\n')
-    
+
     if (articleNum) {
       const artHeaderRegex = new RegExp(`^ARTICLE\\s+${articleNum}\\b`, 'i')
       const startIdx = lines.findIndex(l => artHeaderRegex.test(l.trim()))
@@ -1436,7 +1294,7 @@ ${indicesFactuels}
 
       {/* HEADER PROFESSIONNEL MODERNE & DYNAMIQUE */}
       <header className={`relative bg-white/75 dark:bg-slate-950/75 border-b border-slate-200/30 dark:border-slate-800/30 shadow-sm dark:shadow-blue-950/10 z-30 transition-all duration-300 ${showMacMenuBar ? 'mt-7' : ''}`}>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 relative z-10">
           <div className="flex items-center justify-between gap-4 sm:gap-6">
             {/* Logo et titre (Gauche) */}
             <div className="flex items-center gap-3.5 group cursor-pointer" onClick={() => setShowLanding(true)}>
@@ -1496,8 +1354,8 @@ ${indicesFactuels}
               <button
                 onClick={() => setShowMacMenuBar(prev => !prev)}
                 className={`p-2.5 rounded-xl border shadow-sm transition-all duration-300 hover:scale-105 active:scale-95 ${showMacMenuBar
-                    ? 'bg-blue-600 border-blue-600 text-white shadow-blue-500/20'
-                    : 'bg-white/80 dark:bg-slate-900/80 border-slate-200/50 dark:border-slate-800/50 text-slate-700 dark:text-slate-250 hover:bg-slate-50 dark:hover:bg-slate-800/90'
+                  ? 'bg-blue-600 border-blue-600 text-white shadow-blue-500/20'
+                  : 'bg-white/80 dark:bg-slate-900/80 border-slate-200/50 dark:border-slate-800/50 text-slate-700 dark:text-slate-250 hover:bg-slate-50 dark:hover:bg-slate-800/90'
                   }`}
                 title={showMacMenuBar ? "Désactiver la barre de menus macOS" : "Activer la barre de menus macOS"}
               >
@@ -1522,178 +1380,27 @@ ${indicesFactuels}
       <main className="relative max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-1 z-10">
         {chatState.currentView === "menu" && (
           <>
-            <div className="grid grid-cols-1 gap-2">
+            <div className="grid grid-cols-1 gap-4">
               {/* Colonne principale - pleine largeur */}
               <div className="lg:col-span-1">
 
-                {/* Barre d'accès rapide */}
-                <div className="max-w-7xl mx-auto mt-8 mb-4 bg-white/90 dark:bg-slate-800/90 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
+                {/* Barre d'accès rapide style GAFAM / Frosted Glass Dock */}
+                <div className="max-w-7xl mx-auto mt-6 mb-6 bg-white/80 dark:bg-[#0E121D]/85 backdrop-blur-2xl rounded-3xl p-4 sm:p-5 border border-slate-200/80 dark:border-white/[0.08] shadow-xl shadow-slate-200/50 dark:shadow-black/50 flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
 
-
-
-                  {/* Links */}
-                  <div className="flex flex-1 justify-around items-center gap-4 overflow-x-auto custom-scrollbar pb-2 lg:pb-0 relative">
-                    {/* Spotlight Search Button */}
+                  {/* Links & Quick Actions */}
+                  <div className="flex flex-1 justify-around items-center gap-3 overflow-x-auto custom-scrollbar pb-2 lg:pb-0 relative">
+                    
+                    {/* 1. Spotlight Search Button */}
                     <button
                       onClick={() => handleDomainSelection(0)}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group min-w-[120px] p-3 rounded-2xl"
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-200 group min-w-[115px] p-3 rounded-2xl hover:-translate-y-1"
                       onMouseEnter={() => setHoveredQuickAccessIndex(0)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
                       <AnimatePresence>
                         {hoveredQuickAccessIndex === 0 && (
                           <motion.span
-                            className="absolute inset-0 h-full w-full bg-slate-100 dark:bg-slate-700/60 block rounded-2xl z-0 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
-                            layoutId="quickAccessHover"
-                            initial={{ opacity: 0 }}
-                            animate={{
-                              opacity: 1,
-                              transition: { duration: 0.15 },
-                            }}
-                            exit={{
-                              opacity: 0,
-                              transition: { duration: 0.15, delay: 0.1 },
-                            }}
-                          />
-                        )}
-                      </AnimatePresence>
-                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-purple-100 dark:group-hover:bg-purple-900/50 transition-colors">
-                        <Bot className="w-16 h-16 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
-                      </div>
-                      <span className="relative z-10 text-sm font-bold text-center">J'ai une<br />question</span>
-                    </button>
-
-                    {/* Spotlight Metiers Button */}
-                    <button
-                      onClick={openMetiersView}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors group min-w-[120px] p-3 rounded-2xl"
-                      onMouseEnter={() => setHoveredQuickAccessIndex(1)}
-                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
-                    >
-                      <AnimatePresence>
-                        {hoveredQuickAccessIndex === 1 && (
-                          <motion.span
-                            className="absolute inset-0 h-full w-full bg-slate-100 dark:bg-slate-700/60 block rounded-2xl z-0 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
-                            layoutId="quickAccessHover"
-                            initial={{ opacity: 0 }}
-                            animate={{
-                              opacity: 1,
-                              transition: { duration: 0.15 },
-                            }}
-                            exit={{
-                              opacity: 0,
-                              transition: { duration: 0.15, delay: 0.1 },
-                            }}
-                          />
-                        )}
-                      </AnimatePresence>
-                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/50 transition-colors">
-                        <LayoutGrid className="w-16 h-16 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
-                      </div>
-                      <span className="relative z-10 text-sm font-bold text-center">Grilles<br />Indiciaires</span>
-                    </button>
-
-                    {/* Spotlight Calculators Button */}
-                    <button
-                      onClick={openCalculatorsLanding}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group min-w-[120px] p-3 rounded-2xl"
-                      onMouseEnter={() => setHoveredQuickAccessIndex(2)}
-                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
-                    >
-                      <AnimatePresence>
-                        {hoveredQuickAccessIndex === 2 && (
-                          <motion.span
-                            className="absolute inset-0 h-full w-full bg-slate-100 dark:bg-slate-700/60 block rounded-2xl z-0 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
-                            layoutId="quickAccessHover"
-                            initial={{ opacity: 0 }}
-                            animate={{
-                              opacity: 1,
-                              transition: { duration: 0.15 },
-                            }}
-                            exit={{
-                              opacity: 0,
-                              transition: { duration: 0.15, delay: 0.1 },
-                            }}
-                          />
-                        )}
-                      </AnimatePresence>
-                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
-                        <Calculator className="w-16 h-16 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform" />
-                      </div>
-                      <span className="relative z-10 text-sm font-bold text-center">Calculateurs</span>
-                    </button>
-
-                    {/* Spotlight Espace Jeux Button */}
-                    <button
-                      onClick={() => setChatState({ ...chatState, currentView: 'jeux' })}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-pink-600 dark:hover:text-pink-400 transition-colors group min-w-[120px] p-3 rounded-2xl"
-                      onMouseEnter={() => setHoveredQuickAccessIndex(3)}
-                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
-                    >
-                      <AnimatePresence>
-                        {hoveredQuickAccessIndex === 3 && (
-                          <motion.span
-                            className="absolute inset-0 h-full w-full bg-slate-100 dark:bg-slate-700/60 block rounded-2xl z-0 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
-                            layoutId="quickAccessHover"
-                            initial={{ opacity: 0 }}
-                            animate={{
-                              opacity: 1,
-                              transition: { duration: 0.15 },
-                            }}
-                            exit={{
-                              opacity: 0,
-                              transition: { duration: 0.15, delay: 0.1 },
-                            }}
-                          />
-                        )}
-                      </AnimatePresence>
-                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-pink-100 dark:group-hover:bg-pink-900/50 transition-colors">
-                        <Gamepad2 className="w-16 h-16 text-pink-600 dark:text-pink-400 group-hover:scale-110 transition-transform" />
-                      </div>
-                      <span className="relative z-10 text-sm font-bold text-center">Espace Jeux</span>
-                    </button>
-
-                    {/* Spotlight FAQ Button */}
-                    <button
-                      onClick={() => setChatState({ ...chatState, currentView: 'faq' })}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 transition-colors group min-w-[120px] p-3 rounded-2xl"
-                      onMouseEnter={() => setHoveredQuickAccessIndex(4)}
-                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
-                    >
-                      <AnimatePresence>
-                        {hoveredQuickAccessIndex === 4 && (
-                          <motion.span
-                            className="absolute inset-0 h-full w-full bg-slate-100 dark:bg-slate-700/60 block rounded-2xl z-0 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
-                            layoutId="quickAccessHover"
-                            initial={{ opacity: 0 }}
-                            animate={{
-                              opacity: 1,
-                              transition: { duration: 0.15 },
-                            }}
-                            exit={{
-                              opacity: 0,
-                              transition: { duration: 0.15, delay: 0.1 },
-                            }}
-                          />
-                        )}
-                      </AnimatePresence>
-                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-amber-100 dark:group-hover:bg-amber-900/50 transition-colors">
-                        <HelpCircle className="w-16 h-16 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform" />
-                      </div>
-                      <span className="relative z-10 text-sm font-bold text-center">Questions<br />Fréquentes</span>
-                    </button>
-
-                    {/* Spotlight Podcasts Button */}
-                    <button
-                      onClick={() => setChatState({ ...chatState, currentView: 'podcasts' })}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group min-w-[120px] p-3 rounded-2xl"
-                      onMouseEnter={() => setHoveredQuickAccessIndex(99)}
-                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
-                    >
-                      <AnimatePresence>
-                        {hoveredQuickAccessIndex === 99 && (
-                          <motion.span
-                            className="absolute inset-0 h-full w-full bg-slate-100 dark:bg-slate-700/60 block rounded-2xl z-0 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
+                            className="absolute inset-0 h-full w-full bg-purple-500/10 dark:bg-purple-500/15 block rounded-2xl z-0 border border-purple-500/20 shadow-sm"
                             layoutId="quickAccessHover"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -1701,75 +1408,184 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-purple-100 dark:group-hover:bg-purple-900/50 transition-colors">
-                        <Radio className="w-16 h-16 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
+                      <div className="relative z-10 p-3.5 rounded-2xl bg-gradient-to-br from-purple-500/15 to-indigo-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/30 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-purple-500/20 transition-all duration-200">
+                        <Bot className="w-8 h-8" />
                       </div>
-                      <span className="relative z-10 text-sm font-bold text-center">Podcasts RH</span>
+                      <span className="relative z-10 text-xs font-extrabold text-center tracking-tight leading-tight">J'ai une<br />question</span>
                     </button>
 
-                    {/* Spotlight Bourse Emploi Anchor Link */}
+                    {/* 2. Spotlight Metiers Button */}
+                    <button
+                      onClick={openMetiersView}
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 group min-w-[115px] p-3 rounded-2xl hover:-translate-y-1"
+                      onMouseEnter={() => setHoveredQuickAccessIndex(1)}
+                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
+                    >
+                      <AnimatePresence>
+                        {hoveredQuickAccessIndex === 1 && (
+                          <motion.span
+                            className="absolute inset-0 h-full w-full bg-emerald-500/10 dark:bg-emerald-500/15 block rounded-2xl z-0 border border-emerald-500/20 shadow-sm"
+                            layoutId="quickAccessHover"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1, transition: { duration: 0.15 } }}
+                            exit={{ opacity: 0, transition: { duration: 0.15, delay: 0.1 } }}
+                          />
+                        )}
+                      </AnimatePresence>
+                      <div className="relative z-10 p-3.5 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-teal-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-emerald-500/20 transition-all duration-200">
+                        <LayoutGrid className="w-8 h-8" />
+                      </div>
+                      <span className="relative z-10 text-xs font-extrabold text-center tracking-tight leading-tight">Grilles<br />Indiciaires</span>
+                    </button>
+
+                    {/* 3. Spotlight Calculators Button */}
+                    <button
+                      onClick={openCalculatorsLanding}
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[115px] p-3 rounded-2xl hover:-translate-y-1"
+                      onMouseEnter={() => setHoveredQuickAccessIndex(2)}
+                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
+                    >
+                      <AnimatePresence>
+                        {hoveredQuickAccessIndex === 2 && (
+                          <motion.span
+                            className="absolute inset-0 h-full w-full bg-orange-500/10 dark:bg-orange-500/15 block rounded-2xl z-0 border border-orange-500/20 shadow-sm"
+                            layoutId="quickAccessHover"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1, transition: { duration: 0.15 } }}
+                            exit={{ opacity: 0, transition: { duration: 0.15, delay: 0.1 } }}
+                          />
+                        )}
+                      </AnimatePresence>
+                      <div className="relative z-10 p-3.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-orange-500/20 transition-all duration-200">
+                        <Calculator className="w-8 h-8" />
+                      </div>
+                      <span className="relative z-10 text-xs font-extrabold text-center tracking-tight leading-tight">Calculateurs<br />Primes</span>
+                    </button>
+
+                    {/* 4. Spotlight Espace Jeux Button */}
+                    <button
+                      onClick={() => setChatState({ ...chatState, currentView: 'jeux' })}
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-pink-600 dark:hover:text-pink-400 transition-all duration-200 group min-w-[115px] p-3 rounded-2xl hover:-translate-y-1"
+                      onMouseEnter={() => setHoveredQuickAccessIndex(3)}
+                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
+                    >
+                      <AnimatePresence>
+                        {hoveredQuickAccessIndex === 3 && (
+                          <motion.span
+                            className="absolute inset-0 h-full w-full bg-pink-500/10 dark:bg-pink-500/15 block rounded-2xl z-0 border border-pink-500/20 shadow-sm"
+                            layoutId="quickAccessHover"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1, transition: { duration: 0.15 } }}
+                            exit={{ opacity: 0, transition: { duration: 0.15, delay: 0.1 } }}
+                          />
+                        )}
+                      </AnimatePresence>
+                      <div className="relative z-10 p-3.5 rounded-2xl bg-gradient-to-br from-pink-500/15 to-rose-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-pink-500/20 transition-all duration-200">
+                        <Gamepad2 className="w-8 h-8" />
+                      </div>
+                      <span className="relative z-10 text-xs font-extrabold text-center tracking-tight leading-tight">Espace<br />Jeux RH</span>
+                    </button>
+
+                    {/* 5. Spotlight FAQ Button */}
+                    <button
+                      onClick={() => setChatState({ ...chatState, currentView: 'faq' })}
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200 group min-w-[115px] p-3 rounded-2xl hover:-translate-y-1"
+                      onMouseEnter={() => setHoveredQuickAccessIndex(4)}
+                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
+                    >
+                      <AnimatePresence>
+                        {hoveredQuickAccessIndex === 4 && (
+                          <motion.span
+                            className="absolute inset-0 h-full w-full bg-amber-500/10 dark:bg-amber-500/15 block rounded-2xl z-0 border border-amber-500/20 shadow-sm"
+                            layoutId="quickAccessHover"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1, transition: { duration: 0.15 } }}
+                            exit={{ opacity: 0, transition: { duration: 0.15, delay: 0.1 } }}
+                          />
+                        )}
+                      </AnimatePresence>
+                      <div className="relative z-10 p-3.5 rounded-2xl bg-gradient-to-br from-amber-500/15 to-yellow-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-amber-500/20 transition-all duration-200">
+                        <HelpCircle className="w-8 h-8" />
+                      </div>
+                      <span className="relative z-10 text-xs font-extrabold text-center tracking-tight leading-tight">Questions<br />Fréquentes</span>
+                    </button>
+
+                    {/* 6. Spotlight Podcasts Button */}
+                    <button
+                      onClick={() => setChatState({ ...chatState, currentView: 'podcasts' })}
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 group min-w-[115px] p-3 rounded-2xl hover:-translate-y-1"
+                      onMouseEnter={() => setHoveredQuickAccessIndex(99)}
+                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
+                    >
+                      <AnimatePresence>
+                        {hoveredQuickAccessIndex === 99 && (
+                          <motion.span
+                            className="absolute inset-0 h-full w-full bg-indigo-500/10 dark:bg-indigo-500/15 block rounded-2xl z-0 border border-indigo-500/20 shadow-sm"
+                            layoutId="quickAccessHover"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1, transition: { duration: 0.15 } }}
+                            exit={{ opacity: 0, transition: { duration: 0.15, delay: 0.1 } }}
+                          />
+                        )}
+                      </AnimatePresence>
+                      <div className="relative z-10 p-3.5 rounded-2xl bg-gradient-to-br from-indigo-500/15 to-purple-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-indigo-500/20 transition-all duration-200">
+                        <Radio className="w-8 h-8" />
+                      </div>
+                      <span className="relative z-10 text-xs font-extrabold text-center tracking-tight leading-tight">Podcasts<br />RH</span>
+                    </button>
+
+                    {/* 7. Spotlight Bourse Emploi Anchor Link */}
                     <a
                       href="https://www.emploi-territorial.fr/emploi-mobilite/?search-col=99599"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-colors group min-w-[120px] p-3 rounded-2xl"
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[115px] p-3 rounded-2xl hover:-translate-y-1"
                       onMouseEnter={() => setHoveredQuickAccessIndex(5)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
                       <AnimatePresence>
                         {hoveredQuickAccessIndex === 5 && (
                           <motion.span
-                            className="absolute inset-0 h-full w-full bg-slate-100 dark:bg-slate-700/60 block rounded-2xl z-0 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
+                            className="absolute inset-0 h-full w-full bg-orange-500/10 dark:bg-orange-500/15 block rounded-2xl z-0 border border-orange-500/20 shadow-sm"
                             layoutId="quickAccessHover"
                             initial={{ opacity: 0 }}
-                            animate={{
-                              opacity: 1,
-                              transition: { duration: 0.15 },
-                            }}
-                            exit={{
-                              opacity: 0,
-                              transition: { duration: 0.15, delay: 0.1 },
-                            }}
+                            animate={{ opacity: 1, transition: { duration: 0.15 } }}
+                            exit={{ opacity: 0, transition: { duration: 0.15, delay: 0.1 } }}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-orange-100 dark:group-hover:bg-orange-900/50 transition-colors">
-                        <Briefcase className="w-16 h-16 text-orange-600 dark:text-orange-400 group-hover:scale-110 transition-transform" />
+                      <div className="relative z-10 p-3.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-orange-500/20 transition-all duration-200">
+                        <Briefcase className="w-8 h-8" />
                       </div>
-                      <span className="relative z-10 text-sm font-bold text-center">Bourse<br />Emploi</span>
+                      <span className="relative z-10 text-xs font-extrabold text-center tracking-tight leading-tight">Bourse<br />Emploi</span>
                     </a>
 
-                    {/* Spotlight Concours Anchor Link */}
+                    {/* 8. Spotlight Concours Anchor Link */}
                     <a
                       href="https://www.concours-territorial.fr/Index.aspx"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors group min-w-[120px] p-3 rounded-2xl"
+                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200 group min-w-[115px] p-3 rounded-2xl hover:-translate-y-1"
                       onMouseEnter={() => setHoveredQuickAccessIndex(6)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
                       <AnimatePresence>
                         {hoveredQuickAccessIndex === 6 && (
                           <motion.span
-                            className="absolute inset-0 h-full w-full bg-slate-100 dark:bg-slate-700/60 block rounded-2xl z-0 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
+                            className="absolute inset-0 h-full w-full bg-cyan-500/10 dark:bg-cyan-500/15 block rounded-2xl z-0 border border-cyan-500/20 shadow-sm"
                             layoutId="quickAccessHover"
                             initial={{ opacity: 0 }}
-                            animate={{
-                              opacity: 1,
-                              transition: { duration: 0.15 },
-                            }}
-                            exit={{
-                              opacity: 0,
-                              transition: { duration: 0.15, delay: 0.1 },
-                            }}
+                            animate={{ opacity: 1, transition: { duration: 0.15 } }}
+                            exit={{ opacity: 0, transition: { duration: 0.15, delay: 0.1 } }}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl group-hover:bg-cyan-100 dark:group-hover:bg-cyan-900/50 transition-colors">
-                        <GraduationCap className="w-16 h-16 text-cyan-600 dark:text-cyan-400 group-hover:scale-110 transition-transform" />
+                      <div className="relative z-10 p-3.5 rounded-2xl bg-gradient-to-br from-cyan-500/15 to-blue-500/15 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-cyan-500/20 transition-all duration-200">
+                        <GraduationCap className="w-8 h-8" />
                       </div>
-                      <span className="relative z-10 text-sm font-bold text-center">Concours</span>
+                      <span className="relative z-10 text-xs font-extrabold text-center tracking-tight leading-tight">Concours<br />FPT</span>
                     </a>
+
                   </div>
                 </div>
 
@@ -2378,7 +2194,7 @@ ${indicesFactuels}
                   </div>
                 </div>
 
-{/* Colonne 2 : Liens utiles */}
+                {/* Colonne 2 : Liens utiles */}
                 <div className="w-full bg-gradient-to-br from-white/95 via-cyan-50/50 to-sky-50/30 dark:from-slate-900/95 dark:via-cyan-950/20 dark:to-slate-900/95 rounded-3xl p-6 border-2 border-cyan-200/80 dark:border-cyan-800/40 shadow-2xl shadow-cyan-500/10 transition-transform duration-300 hover:-translate-y-1.5 hover:shadow-cyan-500/20 hover:border-cyan-300 relative z-10 flex flex-col justify-between group overflow-hidden">
                   <BorderBeam size={160} duration={8} delay={0} colorFrom="#06b6d4" colorTo="#3b82f6" />
                   <div>
@@ -2454,7 +2270,7 @@ ${indicesFactuels}
                   </div>
                 </div>
 
-                              </div>
+              </div>
 
             </div>
           </>
@@ -2615,105 +2431,21 @@ ${indicesFactuels}
         </section>
       )}
 
-      <main className={
-        chatState.currentView === "chat"
-          ? "relative z-[60] max-w-5xl mx-auto overflow-y-auto overflow-x-hidden overscroll-contain bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-4 sm:px-6 lg:px-8 py-4"
-          : "relative max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 z-10"
-      }>
+      <main className="relative max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 z-10">
         {chatState.currentView === "chat" && (
-          <div
-            ref={chatContainerRef}
-            className="bg-gradient-to-br from-slate-800/80 via-purple-900/80 to-slate-800/80 border border-purple-500/30 rounded-2xl shadow-2xl overflow-hidden hover:shadow-xl transition-all duration-300 glass-card animate-chat-enter"
-          >
-            <div className="bg-gradient-to-r from-purple-600/70 via-pink-600/70 to-purple-600/70 text-white p-6 glass-banner">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-center gap-3 min-w-0">
-                  <Search className="w-7 h-7 text-pink-200" />
-                  <div>
-                    <h3 className="text-lg font-light tracking-tight">
-                      Assistant CFDT Unifié
-                    </h3>
-                    <p className="text-purple-100 text-xs font-light">CFDT Gennevilliers</p>
-                  </div>
-                </div>
-                <button
-                  onClick={returnToMenu}
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
-                >
-                  <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                  <span>Retour au menu</span>
-                </button>
-              </div>
-            </div>
-            <div ref={messagesListRef} className="min-h-[400px] max-h-[700px] overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-slate-800/40 to-purple-900/40 glass-card">
-              {chatState.messages.map((message, index) => (
-                <div key={index} className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}>
-                  <div
-                    className={`max-w-xs lg:max-w-md px-4 py-3 rounded-xl font-light glass-card ${message.type === "user" ? "bg-gradient-to-r from-purple-600/70 to-pink-600/70 text-white shadow-lg" : "bg-slate-700/70 text-slate-100 border border-purple-500/30"}`}
-                  >
-                    <div className="whitespace-pre-wrap break-words text-sm">{message.content}</div>
-                    <div className={`text-xs mt-2 ${message.type === "user" ? "text-purple-100" : "text-slate-400"}`}>
-                      {message.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                    </div>
-                  </div>
-                </div>
-              ))}
-              {chatState.isProcessing && (
-                <div className="flex justify-start">
-                  <div className="bg-slate-700/70 border border-purple-500/30 px-4 py-3 rounded-xl glass-card">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-purple-400 rounded-full typing-dot-1"></div>
-                      <div className="w-2 h-2 bg-purple-400 rounded-full typing-dot-2"></div>
-                      <div className="w-2 h-2 bg-purple-400 rounded-full typing-dot-3"></div>
-                      <span className="text-slate-200 ml-2 text-sm font-light">L&apos;assistant réfléchit...</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {/* Boutons Oui/Non pour élargir la recherche */}
-              {showExpandSearch && !chatState.isProcessing && (
-                <div className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 sm:gap-4 mt-4 mb-2">
-                  <button
-                    onClick={handleExpandSearch}
-                    className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl font-medium flex items-center justify-center gap-2 btn-cta"
-                  >
-                    <span>✅ Oui, rechercher sur Légifrance</span>
-                  </button>
-                  <button
-                    onClick={handleDeclineSearch}
-                    className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium flex items-center justify-center gap-2 glass-pill"
-                  >
-                    <span>❌ Non, retour à l'accueil</span>
-                  </button>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
-            <div className="border-t border-purple-500/30 bg-gradient-to-r from-slate-800/80 to-purple-900/80 p-4 glass-banner">
-              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Ex: Combien de jours de congés ? Comment utiliser mon CPF ? Télétravail possible ?"
-                  className="flex-1 min-w-0 px-3 sm:px-4 py-3 border border-purple-500/30 rounded-lg focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 outline-none transition-all duration-200 bg-slate-700/70 text-base sm:text-sm font-normal text-white placeholder-slate-300"
-                  disabled={chatState.isProcessing}
-                />
-                <button
-                  onClick={handleSendMessage}
-                  disabled={!inputValue.trim() || chatState.isProcessing}
-                  className={`shrink-0 px-4 sm:px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl font-semibold${inputValue.trim() && !chatState.isProcessing ? ' send-btn-pulse' : ''}`}
-                >
-                  <Send className="w-4 h-4" />
-                  <span className="text-sm">Envoyer</span>
-                </button>
-              </div>
-            </div>
-          </div>
+          <LuxuryChat
+            theme={theme}
+            messages={chatState.messages}
+            inputValue={inputValue}
+            isProcessing={chatState.isProcessing}
+            showExpandSearch={showExpandSearch}
+            onInputChange={(val) => setInputValue(val)}
+            onSendMessage={handleSendMessage}
+            onReturnToMenu={returnToMenu}
+            onExpandSearch={handleExpandSearch}
+            onDeclineSearch={handleDeclineSearch}
+          />
         )}
-
       </main>
 
       {chatState.currentView === "menu" && selectedInfo && (
@@ -2788,9 +2520,9 @@ ${indicesFactuels}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col justify-center items-center gap-2 mb-4 mt-2">
-            <img 
-              src={`${BASE_URL}images/votez_cfdt.png`} 
-              alt="Votre Voix Notre Action - Votez CFDT" 
+            <img
+              src={`${BASE_URL}images/votez_cfdt.png`}
+              alt="Votre Voix Notre Action - Votez CFDT"
               className="h-24 sm:h-32 w-auto object-contain drop-shadow-lg"
             />
           </div>
@@ -2820,24 +2552,6 @@ ${indicesFactuels}
           <p className="text-xs text-slate-300 font-normal leading-tight">
             92237 Gennevilliers Cedex
           </p>
-
-          {/* Bouton Admin */}
-          <div className="mt-4 pt-4 border-t border-orange-500/20">
-            <button
-              onClick={() => {
-                // Vérifier si déjà authentifié
-                const isAuth = localStorage.getItem('admin_authenticated') === 'true';
-                if (isAuth) {
-                  setShowAdminPanel(true);
-                } else {
-                  setShowAdminLogin(true);
-                }
-              }}
-              className="px-4 py-2 bg-orange-600/50 border border-orange-500/50 text-white rounded-lg hover:bg-orange-600/70 transition-all duration-200 font-semibold text-xs glass-pill"
-            >
-              Accès Administrateur
-            </button>
-          </div>
         </div>
       </footer>
 
