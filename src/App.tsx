@@ -1315,12 +1315,12 @@ ${indicesFactuels}
               </div>
 
               <div className="flex flex-col justify-center">
-                <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 dark:from-white dark:via-blue-100 dark:to-white transition-colors duration-300">
+                <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 dark:from-white dark:via-blue-100 dark:to-white transition-colors duration-300">
                   ATLAS
                 </h1>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse shadow-[0_0_8px_rgba(249,115,22,0.7)]"></span>
-                  <p className="text-[9px] sm:text-xxs text-orange-600 dark:text-orange-400 font-bold tracking-[0.2em] uppercase">
+                  <p className="text-xs sm:text-sm text-orange-600 dark:text-orange-400 font-bold tracking-[0.2em] uppercase">
                     Assistant syndical CFDT
                   </p>
                 </div>
@@ -1337,13 +1337,13 @@ ${indicesFactuels}
                   <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-xs">
                     <Landmark className="w-3.5 h-3.5" />
                   </div>
-                  <h2 className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-[0.25em] bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-950 to-slate-800 dark:from-white dark:via-blue-100 dark:to-white">
+                  <h2 className="text-base font-black text-slate-800 dark:text-white uppercase tracking-[0.25em] bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-950 to-slate-800 dark:from-white dark:via-blue-100 dark:to-white">
                     Mairie de Gennevilliers
                   </h2>
                   <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse" title="Portail en ligne"></span>
                 </div>
               </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 font-semibold tracking-wide flex items-center gap-1.5">
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5 font-semibold tracking-wide flex items-center gap-1.5">
                 <span className="w-1 h-1 rounded-full bg-orange-500"></span>
                 Portail d'assistance RH & Statutaire — Agents Municipaux
               </p>
@@ -1411,7 +1411,7 @@ ${indicesFactuels}
                       <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-purple-500/15 to-indigo-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-purple-500/25 transition-all duration-200">
                         <Bot className="w-9 h-9 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">J'ai une<br />question</span>
+                      <span className="relative z-10 text-sm sm:text-base font-extrabold text-center tracking-tight leading-tight">J'ai une<br />question</span>
                     </button>
 
                     {/* 2. Spotlight Metiers Button */}
@@ -1435,7 +1435,7 @@ ${indicesFactuels}
                       <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-teal-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-emerald-500/25 transition-all duration-200">
                         <LayoutGrid className="w-9 h-9 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Grilles<br />Indiciaires</span>
+                      <span className="relative z-10 text-sm sm:text-base font-extrabold text-center tracking-tight leading-tight">Grilles<br />Indiciaires</span>
                     </button>
 
                     {/* 3. Spotlight Calculators Button */}
@@ -1459,7 +1459,7 @@ ${indicesFactuels}
                       <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-orange-500/25 transition-all duration-200">
                         <Calculator className="w-9 h-9 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Calculateurs<br />Primes</span>
+                      <span className="relative z-10 text-sm sm:text-base font-extrabold text-center tracking-tight leading-tight">Calculateurs<br />Primes</span>
                     </button>
 
                     {/* 4. Spotlight Espace Jeux Button */}
@@ -1483,7 +1483,7 @@ ${indicesFactuels}
                       <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-pink-500/15 to-rose-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-pink-500/25 transition-all duration-200">
                         <Gamepad2 className="w-9 h-9 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Espace<br />Jeux RH</span>
+                      <span className="relative z-10 text-sm sm:text-base font-extrabold text-center tracking-tight leading-tight">Espace<br />Jeux RH</span>
                     </button>
 
                     {/* 5. Spotlight FAQ Button */}
@@ -1507,7 +1507,7 @@ ${indicesFactuels}
                       <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-amber-500/15 to-yellow-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-amber-500/25 transition-all duration-200">
                         <HelpCircle className="w-9 h-9 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Questions<br />Fréquentes</span>
+                      <span className="relative z-10 text-sm sm:text-base font-extrabold text-center tracking-tight leading-tight">Questions<br />Fréquentes</span>
                     </button>
 
                     {/* 6. Spotlight Podcasts Button */}
@@ -1531,7 +1531,7 @@ ${indicesFactuels}
                       <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-indigo-500/15 to-purple-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-indigo-500/25 transition-all duration-200">
                         <Radio className="w-9 h-9 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Podcasts<br />RH</span>
+                      <span className="relative z-10 text-sm sm:text-base font-extrabold text-center tracking-tight leading-tight">Podcasts<br />RH</span>
                     </button>
 
                     {/* 7. Spotlight Bourse Emploi Anchor Link */}
@@ -1557,7 +1557,7 @@ ${indicesFactuels}
                       <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-orange-500/25 transition-all duration-200">
                         <Briefcase className="w-9 h-9 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Bourse<br />Emploi</span>
+                      <span className="relative z-10 text-sm sm:text-base font-extrabold text-center tracking-tight leading-tight">Bourse<br />Emploi</span>
                     </a>
 
                     {/* 8. Spotlight Concours Anchor Link */}
@@ -1583,7 +1583,7 @@ ${indicesFactuels}
                       <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-cyan-500/15 to-blue-500/15 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-cyan-500/25 transition-all duration-200">
                         <GraduationCap className="w-9 h-9 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Concours<br />FPT</span>
+                      <span className="relative z-10 text-sm sm:text-base font-extrabold text-center tracking-tight leading-tight">Concours<br />FPT</span>
                     </a>
 
                   </div>
@@ -1604,7 +1604,7 @@ ${indicesFactuels}
                             <div className="p-2.5 bg-blue-50 dark:bg-blue-900/40 rounded-xl border border-blue-200 dark:border-blue-800 shadow-xs">
                               <Newspaper className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                             </div>
-                            <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-wide">
+                            <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-wide">
                               Actualités <span className="text-blue-600 dark:text-blue-400">Syndicales & Statutaires</span>
                             </h3>
                           </div>
@@ -1655,7 +1655,7 @@ ${indicesFactuels}
                           <div className="p-2.5 bg-purple-100/60 dark:bg-purple-900/40 rounded-xl border border-purple-200 dark:border-purple-800/60 shadow-sm flex items-center justify-center">
                             <Scale className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                           </div>
-                          <h3 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white tracking-wide">
+                          <h3 className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-white tracking-wide">
                             Veille <span className="text-purple-600 dark:text-purple-400">Juridique & Statutaire</span>
                           </h3>
                         </div>
@@ -1797,7 +1797,7 @@ ${indicesFactuels}
                       <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/40 rounded-xl border border-emerald-200 dark:border-emerald-800 flex items-center justify-center">
                         <Landmark className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                       </div>
-                      <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-wide">
+                      <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-wide">
                         Actualités de la <span className="text-emerald-600 dark:text-emerald-400">Fonction Publique</span>
                       </h3>
                     </div>
