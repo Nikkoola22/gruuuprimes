@@ -1604,7 +1604,7 @@ ${indicesFactuels}
                             <div className="p-2.5 bg-blue-50 dark:bg-blue-900/40 rounded-xl border border-blue-200 dark:border-blue-800 shadow-xs">
                               <Newspaper className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                             </div>
-                            <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-wide">
+                            <h3 className="text-2xl sm:text-3xl font-extrabold text-blue-900 dark:text-blue-100 tracking-wide">
                               Actualités <span className="text-blue-600 dark:text-blue-400">Syndicales & Statutaires</span>
                             </h3>
                           </div>
@@ -1655,7 +1655,7 @@ ${indicesFactuels}
                           <div className="p-2.5 bg-purple-100/60 dark:bg-purple-900/40 rounded-xl border border-purple-200 dark:border-purple-800/60 shadow-sm flex items-center justify-center">
                             <Scale className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                           </div>
-                          <h3 className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-white tracking-wide">
+                          <h3 className="text-2xl sm:text-3xl font-bold text-purple-900 dark:text-purple-100 tracking-wide">
                             Veille <span className="text-purple-600 dark:text-purple-400">Juridique & Statutaire</span>
                           </h3>
                         </div>
@@ -1699,7 +1699,7 @@ ${indicesFactuels}
                   {/* CARROUSEL 1 DÉTACHÉ : En direct de la CFDT Interco */}
                   <div className="w-full bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10">
                     <div className="flex items-center justify-between mb-4">
-                      <h4 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                      <h4 className="text-xl font-extrabold text-blue-900 dark:text-blue-100 flex items-center gap-2">
                         <Rss className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         En direct de la <span className="text-blue-600 dark:text-blue-400">CFDT Interco</span>
                       </h4>
@@ -1797,7 +1797,7 @@ ${indicesFactuels}
                       <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/40 rounded-xl border border-emerald-200 dark:border-emerald-800 flex items-center justify-center">
                         <Landmark className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                       </div>
-                      <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-wide">
+                      <h3 className="text-2xl sm:text-3xl font-extrabold text-emerald-900 dark:text-emerald-100 tracking-wide">
                         Actualités de la <span className="text-emerald-600 dark:text-emerald-400">Fonction Publique</span>
                       </h3>
                     </div>
@@ -1895,7 +1895,7 @@ ${indicesFactuels}
                       <div className="p-2.5 bg-indigo-50 dark:bg-indigo-900/40 rounded-xl border border-indigo-200 dark:border-indigo-800 flex items-center justify-center">
                         <BookOpen className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
                       </div>
-                      <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-wide">
+                      <h3 className="text-2xl font-extrabold text-indigo-900 dark:text-indigo-100 tracking-wide">
                         À lire
                       </h3>
                     </div>
@@ -1947,7 +1947,7 @@ ${indicesFactuels}
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">À connaître</h3>
+                            <h3 className="text-2xl font-black text-rose-900 dark:text-rose-100 tracking-tight">À connaître</h3>
                             <span className="bg-rose-500/10 border border-rose-400/30 text-rose-600 dark:text-rose-400 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
                               Docs Officiels
                             </span>
@@ -2069,7 +2069,7 @@ ${indicesFactuels}
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">À voir</h3>
+                            <h3 className="text-2xl font-black text-amber-900 dark:text-amber-100 tracking-tight">À voir</h3>
                             <span className="bg-amber-500/10 border border-amber-400/30 text-amber-700 dark:text-amber-300 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
                               YouTube RH
                             </span>
@@ -2206,7 +2206,7 @@ ${indicesFactuels}
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Liens Utiles</h3>
+                            <h3 className="text-2xl font-black text-cyan-900 dark:text-cyan-100 tracking-tight">Liens Utiles</h3>
                             <span className="bg-cyan-500/10 border border-cyan-400/30 text-cyan-700 dark:text-cyan-400 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
                               Portails RH
                             </span>
