@@ -467,7 +467,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
         backdropFilter: 'blur(24px) saturate(180%)',
         borderBottom: isLight ? '1px solid rgba(0,0,0,0.05)' : '1px solid rgba(255,28,116,0.22)',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 'clamp(14px, 4vw, 17px)', letterSpacing: '0.03em', color: isLight ? '#334155' : '#F2EAF6' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 'clamp(14px, 4vw, 17px)', letterSpacing: '0.03em', color: isLight ? '#111827' : '#ffffff' }}>
           <svg width="26" height="26" viewBox="0 0 28 28" fill="none" style={{ filter: isLight ? 'none' : 'drop-shadow(0 0 10px rgba(255,28,116,0.85))' }}>
             <path d="M14 2L2 10L14 26L26 10L14 2Z" fill={isLight ? "rgba(244,114,182,0.2)" : "rgba(255,28,116,0.14)"} stroke={isLight ? "#ec4899" : "#FF1C74"} strokeWidth="1.5" strokeLinejoin="round" />
             <path d="M14 2L9 10L14 26L19 10L14 2Z" fill={isLight ? "rgba(244,114,182,0.15)" : "rgba(255,28,116,0.1)"} stroke={isLight ? "#ec4899" : "#FF1C74"} strokeWidth="0.75" strokeLinejoin="round" />
@@ -479,7 +479,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
         <ul style={{ display: 'none', alignItems: 'center', gap: 26, listStyle: 'none', margin: 0, padding: 0 }}>
           {['Home', 'Tokenomics & Revenue model'].map(link => (
             <li key={link}>
-              <a href="#" className="lp-nav-link" style={{ fontSize: 12.5, fontWeight: 400, color: 'rgba(242,234,246,0.48)', textDecoration: 'none', letterSpacing: '0.012em', transition: 'color 0.18s' }}>
+              <a href="#" className="lp-nav-link" style={{ fontSize: 12.5, fontWeight: 400, color: 'rgba(242,234,246,0.48)', textDecoration: 'none', letterSpacing: '0.012em', transition: 'color 0.3s' }}>
                 {link}
               </a>
             </li>
@@ -512,11 +512,11 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
         boxShadow: isLight ? '0 4px 20px rgba(0,0,0,0.03)' : 'none',
         borderRadius: 18, padding: 'clamp(16px, 3vw, 20px)', minWidth: 'clamp(160px, 80vw, 228px)',
       }}>
-        <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 'clamp(20px, 5vw, 28px)', lineHeight: 1, letterSpacing: '-0.02em', background: isLight ? 'linear-gradient(135deg, #f472b6, #db2777)' : 'linear-gradient(135deg, #FF88BB, #FF1C74)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+        <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 'clamp(20px, 5vw, 28px)', lineHeight: 1, letterSpacing: '-0.02em', background: isLight ? 'linear-gradient(135deg, #FFB86C, #FF9A33)' : 'linear-gradient(135deg, #FF9500, #FF7700)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
           Mise à jour
         </div>
         <div style={{ width: 30, height: 1, background: isLight ? 'rgba(244,114,182,0.4)' : 'rgba(255,28,116,0.4)', margin: '12px 0' }} />
-        <div style={{ fontSize: 'clamp(9px, 2vw, 11px)', fontWeight: 500, color: isLight ? '#64748b' : 'rgba(242,234,246,0.48)', lineHeight: 1.5, maxWidth: 175, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+        <div style={{ fontSize: 'clamp(9px, 2vw, 11px)', fontWeight: 500, color: isLight ? '#64748b' : 'rgba(242,234,246,0.48)', lineHeight: 1.5, maxWidth: 175, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
           Mise à jour régulières – fait par tes collègues de Gennevilliers
         </div>
       </div>
@@ -530,11 +530,11 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
         boxShadow: isLight ? '0 4px 20px rgba(0,0,0,0.03)' : 'none',
         borderRadius: 18, padding: 'clamp(16px, 3vw, 20px)', minWidth: 'clamp(160px, 80vw, 228px)',
       }}>
-        <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 'clamp(20px, 5vw, 28px)', lineHeight: 1, letterSpacing: '-0.02em', background: isLight ? 'linear-gradient(135deg, #f472b6, #db2777)' : 'linear-gradient(135deg, #FF88BB, #FF1C74)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+        <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 'clamp(20px, 5vw, 28px)', lineHeight: 1, letterSpacing: '-0.02em', background: isLight ? 'linear-gradient(135deg, #FFB86C, #FF9A33)' : 'linear-gradient(135deg, #FF9500, #FF7700)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
           Docs Internes
         </div>
         <div style={{ width: 30, height: 1, background: isLight ? 'rgba(244,114,182,0.4)' : 'rgba(255,28,116,0.4)', margin: '12px 0' }} />
-        <div style={{ fontSize: 'clamp(9px, 2vw, 11px)', fontWeight: 500, color: isLight ? '#64748b' : 'rgba(242,234,246,0.48)', lineHeight: 1.5, maxWidth: 175, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+        <div style={{ fontSize: 'clamp(9px, 2vw, 11px)', fontWeight: 500, color: isLight ? '#64748b' : 'rgba(242,234,246,0.48)', lineHeight: 1.5, maxWidth: 175, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
           et des news locales et nationales
         </div>
       </div>
