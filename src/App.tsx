@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, lazy, Suspense } from "react"
-import { Phone, Bot, Mail, MapPin, ArrowRight, ArrowLeft, Rss, Radio, Calculator, DollarSign, TrendingUp, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Eye, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop } from "lucide-react"
+import { Bot, ArrowRight, ArrowLeft, Rss, Radio, Calculator, DollarSign, TrendingUp, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Eye, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 
 // --- IMPORTATIONS DES DONNÉES ---
@@ -2461,56 +2461,13 @@ ${indicesFactuels}
         </div>
       </section>
 
-      <footer
-        className="relative text-slate-200 text-center py-3 mt-0 z-10 border-t border-orange-500/20 glass-banner footer-glass"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, 
-              rgba(15, 23, 42, 0.85), 
-              rgba(194, 65, 12, 0.85), 
-              rgba(15, 23, 42, 0.85)
-            ),
-            url('${BASE_URL}mairie.jpeg')
-          `,
-          backgroundPosition: 'center bottom',
-          backgroundSize: 'cover',
-          backgroundAttachment: 'fixed'
-        }}
-      >
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col justify-center items-center gap-2 mb-4 mt-2">
-            <img
-              src={`${BASE_URL}images/votez_cfdt.png`}
-              alt="Votre Voix Notre Action - Votez CFDT"
-              className="h-24 sm:h-32 w-auto object-contain drop-shadow-lg"
-            />
-          </div>
-          <div className="flex justify-center items-center gap-2 mb-3">
-            <span className="text-orange-300 font-bold text-lg tracking-wide">CFDT Gennevilliers</span>
-          </div>
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-6 mb-3">
-            <a
-              href="tel:0140856464"
-              className="flex items-center gap-2 text-orange-200 hover:text-white transition-all duration-200 hover:scale-105 font-semibold text-base"
-            >
-              <Phone className="w-5 h-5 text-orange-300" />
-              <span>01 40 85 64 64</span>
-            </a>
-            <a
-              href="mailto:cfdt-interco@ville-gennevilliers.fr"
-              className="flex items-center gap-2 text-orange-200 hover:text-white transition-all duration-200 hover:scale-105 font-semibold text-base"
-            >
-              <Mail className="w-5 h-5 text-orange-300" />
-              <span>cfdt-interco@ville-gennevilliers.fr</span>
-            </a>
-            <div className="flex items-center gap-2 text-orange-200 font-semibold text-base">
-              <MapPin className="w-5 h-5 text-orange-300" />
-              <span>177 av. Gabriel-Péri</span>
-            </div>
-          </div>
-          <p className="text-sm text-slate-300 font-medium leading-tight">
-            92237 Gennevilliers Cedex
-          </p>
+      <footer className="relative w-full overflow-hidden bg-slate-950/90 z-10 border-t border-orange-500/30">
+        <div className="w-full max-w-6xl mx-auto px-2 sm:px-4 py-2 sm:py-4 flex justify-center items-center">
+          <img
+            src={`${BASE_URL}images/footer_banner.png`}
+            alt="Votons CFDT ! S'engager pour chacun, agir pour tous - Élections professionnelles 10 décembre 2026 - Interco Gennevilliers"
+            className="w-full h-auto object-contain rounded-xl sm:rounded-2xl shadow-2xl border border-orange-500/30 hover:border-orange-500/60 transition-all duration-300"
+          />
         </div>
       </footer>
 
