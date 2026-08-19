@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { ArrowLeft, Play, Activity, RotateCcw, Trophy, Heart, Shield, Ghost, AlertTriangle, ArrowUp, ArrowDown, ArrowLeft as ArrowLeftIcon, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Play, Activity, RotateCcw, Trophy, Heart, AlertTriangle, ArrowUp, ArrowDown, ArrowLeft as ArrowLeftIcon, ArrowRight } from 'lucide-react';
 
 interface PacManProps {
   onClose: () => void;
@@ -99,6 +99,7 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
   const floatingTextsRef = useRef<FloatingText[]>([]);
   const powerModeTimerRef = useRef<number>(0);
   const frameCountRef = useRef(0);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
 
   const changeDirection = useCallback((dir: "left" | "right" | "up" | "down") => {
     const p = playerRef.current;
@@ -108,6 +109,29 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
     if (dir === "up") { p.nextVx = 0; p.nextVy = -speed; }
     if (dir === "down") { p.nextVx = 0; p.nextVy = speed; }
   }, []);
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (e.touches.length > 0) {
+      touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!touchStartRef.current || e.changedTouches.length === 0) return;
+    const dx = e.changedTouches[0].clientX - touchStartRef.current.x;
+    const dy = e.changedTouches[0].clientY - touchStartRef.current.y;
+    const absX = Math.abs(dx);
+    const absY = Math.abs(dy);
+
+    if (Math.max(absX, absY) > 20) {
+      if (absX > absY) {
+        changeDirection(dx > 0 ? "right" : "left");
+      } else {
+        changeDirection(dy > 0 ? "down" : "up");
+      }
+    }
+    touchStartRef.current = null;
+  };
   
   const initGame = useCallback(() => {
     mazeRef.current = INITIAL_MAZE.map(row => [...row]);
@@ -236,7 +260,7 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
           id: Date.now(),
           row: cell.r,
           col: cell.c,
-          type: bonusDef.type as any,
+          type: bonusDef.type as BonusItem["type"],
           label: bonusDef.label,
           symbol: bonusDef.symbol,
           color: bonusDef.color,
@@ -756,30 +780,32 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
         </div>
 
         {/* Canvas Area */}
-        <div className="relative bg-slate-900/90 border-2 border-amber-500/30 rounded-3xl p-3 shadow-[0_0_50px_rgba(245,158,11,0.25)]">
+        <div className="relative w-full max-w-[min(92vw,460px)] aspect-square bg-slate-900/90 border-2 border-amber-500/30 rounded-2xl sm:rounded-3xl p-1 sm:p-3 shadow-[0_0_50px_rgba(245,158,11,0.25)] flex items-center justify-center overflow-hidden">
           <canvas
             ref={canvasRef}
             width={CANVAS_WIDTH}
             height={CANVAS_HEIGHT}
-            className="rounded-2xl border border-slate-800 block shadow-inner tab-index-0 focus:outline-none"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            className="w-full h-full max-w-full max-h-full object-contain rounded-xl sm:rounded-2xl border border-slate-800 block shadow-inner tab-index-0 focus:outline-none touch-none select-none"
             tabIndex={0}
           />
 
           {/* Overlay Start */}
           {gameState === "ready" && (
-            <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center p-6 text-center z-20">
-              <div className="w-16 h-16 bg-amber-500/20 border border-amber-400 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
-                <Activity className="w-8 h-8 text-amber-400 animate-pulse" />
+            <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center p-4 sm:p-6 text-center z-20">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-amber-500/20 border border-amber-400 rounded-2xl flex items-center justify-center mb-3 sm:mb-4 shadow-lg">
+                <Activity className="w-6 h-6 sm:w-8 sm:h-8 text-amber-400 animate-pulse" />
               </div>
-              <h2 className="text-2xl font-black text-white mb-2">Sécurisez la Paie</h2>
-              <p className="text-slate-300 text-xs sm:text-sm max-w-xs mb-6 leading-relaxed">
-                Utilisez les <strong>flèches du clavier</strong> ou les <strong>boutons à l'écran</strong> pour vous déplacer. Récoltez les pastilles et débloquez les bonus !
+              <h2 className="text-xl sm:text-2xl font-black text-white mb-2">Sécurisez la Paie</h2>
+              <p className="text-slate-300 text-xs sm:text-sm max-w-xs mb-5 leading-relaxed">
+                Glissez sur l'écran ou utilisez les boutons / flèches pour vous déplacer. Récoltez les pastilles !
               </p>
               <button
                 onClick={initGame}
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 text-sm uppercase tracking-wider"
+                className="flex items-center gap-2 px-6 py-2.5 sm:py-3 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 text-xs sm:text-sm uppercase tracking-wider"
               >
-                <Play className="w-5 h-5 fill-current" />
+                <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
                 Lancer la Paie
               </button>
             </div>
@@ -787,14 +813,14 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
 
           {/* Overlay Game Over */}
           {gameState === "gameover" && (
-            <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center p-6 text-center z-20">
-              <AlertTriangle className="w-12 h-12 text-rose-500 mb-2 animate-bounce" />
-              <h2 className="text-3xl font-black text-rose-500 mb-1">ANOMALIES CRITIQUES !</h2>
+            <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-md rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center p-4 sm:p-6 text-center z-20">
+              <AlertTriangle className="w-10 h-10 sm:w-12 sm:h-12 text-rose-500 mb-2 animate-bounce" />
+              <h2 className="text-2xl sm:text-3xl font-black text-rose-500 mb-1">ANOMALIES CRITIQUES !</h2>
               <p className="text-slate-300 text-xs mb-4">Les erreurs de paie ont submergé le service.</p>
 
-              <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl mb-6 w-48 shadow-lg">
+              <div className="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl mb-5 w-44 sm:w-48 shadow-lg">
                 <span className="text-[10px] uppercase font-bold text-slate-400">Score Obtenu</span>
-                <p className="text-4xl font-black text-amber-400">{score}</p>
+                <p className="text-3xl sm:text-4xl font-black text-amber-400">{score}</p>
               </div>
 
               <button
@@ -809,14 +835,14 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
 
           {/* Overlay Victory */}
           {gameState === "victory" && (
-            <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center p-6 text-center z-20">
-              <Trophy className="w-14 h-14 text-yellow-400 mb-2 animate-bounce" />
-              <h2 className="text-3xl font-black text-emerald-400 mb-1">PAIE CLÔTURÉE AVEC SUCCÈS !</h2>
+            <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-md rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center p-4 sm:p-6 text-center z-20">
+              <Trophy className="w-10 h-10 sm:w-14 sm:h-14 text-yellow-400 mb-2 animate-bounce" />
+              <h2 className="text-2xl sm:text-3xl font-black text-emerald-400 mb-1">PAIE CLÔTURÉE !</h2>
               <p className="text-slate-300 text-xs mb-4">Toutes les paies de la collectivité ont été sécurisées !</p>
 
-              <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl mb-6 w-48 shadow-lg">
+              <div className="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl mb-5 w-44 sm:w-48 shadow-lg">
                 <span className="text-[10px] uppercase font-bold text-slate-400">Score Total</span>
-                <p className="text-4xl font-black text-emerald-400">{score}</p>
+                <p className="text-3xl sm:text-4xl font-black text-emerald-400">{score}</p>
               </div>
 
               <button
@@ -832,35 +858,39 @@ const PacManPaie: React.FC<PacManProps> = ({ onClose }) => {
 
         {/* Virtuels Controls / On-screen D-Pad */}
         {gameState === "playing" && (
-          <div className="mt-6 flex flex-col items-center gap-2">
+          <div className="mt-4 sm:mt-6 flex flex-col items-center gap-1.5 sm:gap-2">
             <button
               onClick={() => changeDirection("up")}
-              className="w-14 h-14 bg-slate-900 hover:bg-amber-500/20 active:bg-amber-500 border-2 border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-90"
+              onPointerDown={(e) => { e.preventDefault(); changeDirection("up"); }}
+              className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-900 hover:bg-amber-500/20 active:bg-amber-500/40 border-2 border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-90 touch-none select-none"
               aria-label="Haut"
             >
-              <ArrowUp className="w-7 h-7" />
+              <ArrowUp className="w-6 h-6 sm:w-7 sm:h-7" />
             </button>
             <div className="flex items-center gap-3">
               <button
                 onClick={() => changeDirection("left")}
-                className="w-14 h-14 bg-slate-900 hover:bg-amber-500/20 active:bg-amber-500 border-2 border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-90"
+                onPointerDown={(e) => { e.preventDefault(); changeDirection("left"); }}
+                className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-900 hover:bg-amber-500/20 active:bg-amber-500/40 border-2 border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-90 touch-none select-none"
                 aria-label="Gauche"
               >
-                <ArrowLeftIcon className="w-7 h-7" />
+                <ArrowLeftIcon className="w-6 h-6 sm:w-7 sm:h-7" />
               </button>
               <button
                 onClick={() => changeDirection("down")}
-                className="w-14 h-14 bg-slate-900 hover:bg-amber-500/20 active:bg-amber-500 border-2 border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-90"
+                onPointerDown={(e) => { e.preventDefault(); changeDirection("down"); }}
+                className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-900 hover:bg-amber-500/20 active:bg-amber-500/40 border-2 border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-90 touch-none select-none"
                 aria-label="Bas"
               >
-                <ArrowDown className="w-7 h-7" />
+                <ArrowDown className="w-6 h-6 sm:w-7 sm:h-7" />
               </button>
               <button
                 onClick={() => changeDirection("right")}
-                className="w-14 h-14 bg-slate-900 hover:bg-amber-500/20 active:bg-amber-500 border-2 border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-90"
+                onPointerDown={(e) => { e.preventDefault(); changeDirection("right"); }}
+                className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-900 hover:bg-amber-500/20 active:bg-amber-500/40 border-2 border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-90 touch-none select-none"
                 aria-label="Droite"
               >
-                <ArrowRight className="w-7 h-7" />
+                <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7" />
               </button>
             </div>
           </div>
