@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { ArrowLeft, Play, AlertTriangle, RotateCcw, Trophy, Shield, Crosshair, Zap, Coins, Heart, FastForward, Sparkles, Volume2, VolumeX, Target, Award } from 'lucide-react';
+import { ArrowLeft, Play, AlertTriangle, RotateCcw, Trophy, Shield, Coins, Heart, FastForward, Sparkles, Volume2, VolumeX, Target } from 'lucide-react';
 
 interface TowerDefenseProps {
   onClose: () => void;
@@ -65,8 +65,7 @@ let isMutedGlobal = false;
 const playTDSound = (type: "shoot" | "place" | "hit" | "damage" | "wave" | "gameover" | "victory") => {
   if (isMutedGlobal) return;
   try {
-    // @ts-ignore
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     if (!AudioContextClass) return;
     const ctx = new AudioContextClass();
     const osc = ctx.createOscillator();
@@ -135,7 +134,7 @@ const playTDSound = (type: "shoot" | "place" | "hit" | "damage" | "wave" | "game
       osc.start(now);
       osc.stop(now + 0.55);
     }
-  } catch (e) {
+  } catch {
     // Ignore audio policy errors
   }
 };
@@ -1441,8 +1440,8 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
         {/* --- Main Dashboard Container --- */}
         <div className="flex flex-col lg:flex-row w-full gap-5 items-start">
 
-          {/* Left Sidebar: Tower Shop & Tactical Controls */}
-          <div className="w-full lg:w-72 flex flex-col gap-4">
+          {/* Column 1 (On mobile: Tower shop at top. On desktop: Tower shop + Legend) */}
+          <div className="w-full lg:w-80 flex flex-col gap-4 order-1 lg:order-1">
             
             {/* Tower Selection Card */}
             <div className="bg-slate-900/90 backdrop-blur-2xl p-4 sm:p-5 rounded-3xl border border-slate-800 shadow-[0_0_35px_rgba(0,0,0,0.5)]">
@@ -1492,20 +1491,10 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
                   );
                 })}
               </div>
-
-              {/* Start Next Wave Button */}
-              {!waveActiveRef.current && wave < 10 && gameState === "playing" && (
-                <button
-                  onClick={startWave}
-                  className="w-full mt-5 py-3.5 bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black rounded-2xl shadow-[0_0_30px_rgba(16,185,129,0.4)] flex justify-center items-center gap-2 transition-all uppercase tracking-wider text-xs hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  <Play className="w-4 h-4 fill-current" /> Lancer Vague {wave + 1} / 10 <span className="opacity-70 text-[10px] font-mono">[Espace]</span>
-                </button>
-              )}
             </div>
 
-            {/* Tactical Guide / Legend Card */}
-            <div className="bg-slate-900/90 backdrop-blur-2xl p-4 rounded-3xl border border-slate-800 text-xs text-slate-300 font-medium">
+            {/* Tactical Guide / Legend Card (Visible on desktop sidebar) */}
+            <div className="hidden lg:block bg-slate-900/90 backdrop-blur-2xl p-4 rounded-3xl border border-slate-800 text-xs text-slate-300 font-medium">
               <h4 className="font-extrabold text-white mb-2 uppercase tracking-wide font-mono text-[11px] flex items-center gap-1.5 text-sky-400">
                 <Sparkles className="w-3.5 h-3.5" /> Légende & Ennemis
               </h4>
@@ -1527,8 +1516,10 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
 
           </div>
 
-          {/* Right Area: Game Canvas Frame */}
-          <div className="flex-1 w-full relative">
+          {/* Column 2: Game Canvas Frame + Wave Button + Legend (on mobile) */}
+          <div className="flex-1 w-full relative order-2 lg:order-2 flex flex-col gap-4">
+            
+            {/* Game Canvas Box */}
             <div className="bg-slate-900/90 backdrop-blur-2xl rounded-3xl p-2.5 sm:p-3 shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-slate-800 relative overflow-hidden">
               
               {/* Ready Screen Overlay */}
@@ -1611,6 +1602,38 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
               />
 
             </div>
+
+            {/* Start Next Wave Button: Entre l'écran de jeu et la fenêtre des légendes */}
+            {!waveActiveRef.current && wave < 10 && gameState === "playing" && (
+              <button
+                onClick={startWave}
+                className="w-full py-4 bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black rounded-2xl shadow-[0_0_30px_rgba(16,185,129,0.4)] flex justify-center items-center gap-2 transition-all uppercase tracking-wider text-sm hover:scale-[1.01] active:scale-[0.98]"
+              >
+                <Play className="w-5 h-5 fill-current" /> Lancer Vague {wave + 1} / 10 <span className="opacity-70 text-xs font-mono">[Espace]</span>
+              </button>
+            )}
+
+            {/* Tactical Guide / Legend Card on Mobile: Placé sous le jeu et le bouton lancer la vague */}
+            <div className="block lg:hidden bg-slate-900/90 backdrop-blur-2xl p-4 rounded-3xl border border-slate-800 text-xs text-slate-300 font-medium">
+              <h4 className="font-extrabold text-white mb-2 uppercase tracking-wide font-mono text-[11px] flex items-center gap-1.5 text-sky-400">
+                <Sparkles className="w-3.5 h-3.5" /> Légende & Ennemis
+              </h4>
+              <ul className="space-y-1.5 text-[11px] text-slate-400">
+                <li className="flex items-center justify-between">
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-amber-500 inline-block" /> Cumul d'Emplois</span>
+                  <span className="font-mono text-slate-500">Moyen</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-emerald-500 inline-block" /> Départ Retraite</span>
+                  <span className="font-mono text-slate-500">Lourd</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-pink-500 inline-block" /> Pic Saisonnier</span>
+                  <span className="font-mono text-slate-500">Rapide</span>
+                </li>
+              </ul>
+            </div>
+
           </div>
 
         </div>
