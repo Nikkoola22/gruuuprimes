@@ -504,7 +504,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
       </nav>
 
       {/* Stat card — top left */}
-      <div ref={cardTlRef} className="lp-card lp-card-tl" style={{
+      <div ref={cardTlRef} className="lp-card lp-card-tl hidden md:block" style={{
         position: 'absolute', top: 'clamp(20px, 5vh, 94px)', left: 'clamp(12px, 3vw, 44px)', zIndex: 30,
         background: isLight ? 'rgba(255,255,255,0.75)' : 'rgba(5,1,10,0.72)',
         backdropFilter: 'blur(20px) saturate(200%)',
@@ -522,7 +522,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
       </div>
 
       {/* Stat card — bottom right */}
-      <div ref={cardBrRef} className="lp-card lp-card-br" style={{
+      <div ref={cardBrRef} className="lp-card lp-card-br hidden md:block" style={{
         position: 'absolute', bottom: 'clamp(20px, 10vh, 138px)', right: 'clamp(12px, 3vw, 44px)', zIndex: 30,
         background: isLight ? 'rgba(255,255,255,0.75)' : 'rgba(5,1,10,0.72)',
         backdropFilter: 'blur(20px) saturate(200%)',
@@ -555,7 +555,7 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
         </div>
         <div style={{
           fontFamily: "'Syne', sans-serif", fontWeight: 800,
-          fontSize: 'clamp(40px, 12vw, 98px)', lineHeight: 0.9, letterSpacing: '-0.04em',
+          fontSize: 'clamp(36px, 12vw, 98px)', lineHeight: 0.9, letterSpacing: '-0.04em',
           background: isLight ? 'linear-gradient(165deg, #FFB86C 22%, #FF9A33 100%)' : 'linear-gradient(165deg, #FF9500 22%, #FF7700 100%)',
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
         }}>
@@ -564,8 +564,8 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
       </div>
 
       {/* Hero — bottom right */}
-      <div className="lp-hero-right" style={{ position: 'absolute', bottom: 'clamp(20px, 5vh, 50px)', right: 'clamp(12px, 3vw, 44px)', zIndex: 40, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <p style={{ fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 500, color: isLight ? '#64748b' : 'rgba(242,234,246,0.48)', lineHeight: 1.65, letterSpacing: '0.01em', marginBottom: 20 }}>
+      <div className="lp-hero-right" style={{ position: 'absolute', bottom: 'clamp(20px, 5vh, 50px)', right: 'clamp(12px, 3vw, 44px)', zIndex: 50, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <p className="hidden sm:block" style={{ fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 500, color: isLight ? '#64748b' : 'rgba(242,234,246,0.48)', lineHeight: 1.65, letterSpacing: '0.01em', marginBottom: 20 }}>
           Votre syndicat CFDT,<br />De GENNEVILLIERS
         </p>
         <button
@@ -603,6 +603,36 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
           }
           .lp-buy-btn:hover { transform: scale(1.07) !important; }
           .lp-buy-btn:active { transform: scale(0.97) !important; }
+          @media (max-width: 768px) {
+            .lp-card-tl,
+            .lp-card-br {
+              display: none !important;
+            }
+            .lp-hero-left {
+              bottom: max(20px, env(safe-area-inset-bottom, 20px)) !important;
+              left: 16px !important;
+              z-index: 40 !important;
+            }
+            .lp-hero-right {
+              bottom: max(20px, env(safe-area-inset-bottom, 20px)) !important;
+              right: 16px !important;
+              z-index: 50 !important;
+            }
+          }
+          @media (max-width: 480px) {
+            .lp-hero-left {
+              bottom: max(20px, env(safe-area-inset-bottom, 20px)) !important;
+              left: 14px !important;
+            }
+            .lp-hero-right {
+              bottom: max(20px, env(safe-area-inset-bottom, 20px)) !important;
+              right: 14px !important;
+            }
+            .lp-buy-btn {
+              padding: 13px 24px !important;
+              font-size: 15px !important;
+            }
+          }
         `}</style>
       </div>
 

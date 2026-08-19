@@ -134,7 +134,7 @@ const RssBandeau = React.memo(({ rssItems, rssLoading, marqueeRef }: { rssItems:
           href={item.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-lg font-semibold mx-6 hover:text-orange-855 cursor-pointer text-orange-950 transition-colors duration-100 inline-block"
+          className="text-sm sm:text-lg font-semibold mx-3 sm:mx-6 hover:text-orange-855 cursor-pointer text-orange-950 transition-colors duration-100 inline-block"
         >
           {item.title}
         </a>
@@ -144,16 +144,16 @@ const RssBandeau = React.memo(({ rssItems, rssLoading, marqueeRef }: { rssItems:
 
   return (
     <section className="relative bg-gradient-to-r from-orange-600/60 via-amber-500/60 to-orange-600/60 text-orange-950 overflow-hidden w-full shadow-lg border-b border-orange-500/30 z-50 glass-banner marquee-pausable">
-      <div className="relative h-16 flex items-center overflow-hidden">
+      <div className="relative h-11 sm:h-14 flex items-center overflow-hidden">
         {/* Label ACTU fixe à gauche */}
-        <div className="absolute left-0 top-0 h-full w-40 flex items-center justify-center bg-gradient-to-r from-amber-400 to-orange-300 z-20 shadow-lg glass-pill actu-pill-glow">
-          <div className="flex items-center gap-2">
-            <Rss className="w-4 h-4 text-orange-950 animate-pulse" />
-            <span className="text-base font-bold tracking-wide text-orange-950">ACTU:</span>
+        <div className="absolute left-0 top-0 h-full w-20 sm:w-36 flex items-center justify-center bg-gradient-to-r from-amber-400 to-orange-300 z-20 shadow-lg glass-pill actu-pill-glow">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <Rss className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-950 animate-pulse" />
+            <span className="text-xs sm:text-base font-bold tracking-wide text-orange-950">ACTU:</span>
           </div>
         </div>
         {/* Container du défilement - 2 copies pour boucle infinie */}
-        <div ref={marqueeRef} className="marquee-track animate-marquee ml-44">
+        <div ref={marqueeRef} className="marquee-track animate-marquee ml-24 sm:ml-40">
           <div className="marquee-group">
             {renderItems('a')}
           </div>
@@ -1294,21 +1294,21 @@ ${indicesFactuels}
 
       {/* HEADER PROFESSIONNEL MODERNE & DYNAMIQUE */}
       <header className={`relative bg-white/75 dark:bg-slate-950/75 border-b border-slate-200/30 dark:border-slate-800/30 shadow-sm dark:shadow-blue-950/10 z-30 transition-all duration-300 ${showMacMenuBar ? 'mt-7' : ''}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 relative z-10">
-          <div className="flex items-center justify-between gap-4 sm:gap-6">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-3 relative z-10">
+          <div className="flex items-center justify-between gap-3 sm:gap-6">
             {/* Logo et titre (Gauche) */}
-            <div className="flex items-center gap-3.5 group cursor-pointer" onClick={() => setShowLanding(true)}>
+            <div className="flex items-center gap-2.5 sm:gap-3.5 group cursor-pointer" onClick={() => setShowLanding(true)}>
               <div className="relative">
                 {/* Glow effect on hover (supprimé) */}
                 {logoLoadError ? (
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-650 border border-white/20 shadow-md flex items-center justify-center relative transition-all duration-300 group-hover:scale-105 group-hover:rotate-3">
+                  <div className="w-10 h-10 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-500 to-orange-650 border border-white/20 shadow-md flex items-center justify-center relative transition-all duration-300 group-hover:scale-105 group-hover:rotate-3">
                     <span className="text-white font-black tracking-wider text-xs sm:text-lg">CFDT</span>
                   </div>
                 ) : (
                   <img
                     src={`${BASE_URL}images/cfdt_logo_texte.png`}
                     alt="Logo CFDT S'engager pour chacun, Agir pour tous"
-                    className="h-24 sm:h-32 w-auto object-contain relative"
+                    className="h-14 sm:h-28 w-auto object-contain relative"
                     onError={() => setLogoLoadError(true)}
                   />
                 )}
@@ -1320,7 +1320,7 @@ ${indicesFactuels}
                 </h1>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse shadow-[0_0_8px_rgba(249,115,22,0.7)]"></span>
-                  <p className="text-[9px] sm:text-xxs text-orange-600 dark:text-orange-400 font-bold tracking-[0.2em] uppercase">
+                  <p className="text-xs sm:text-sm text-orange-600 dark:text-orange-400 font-bold tracking-[0.15em] sm:tracking-[0.2em] uppercase">
                     Assistant syndical CFDT
                   </p>
                 </div>
@@ -1335,39 +1335,39 @@ ${indicesFactuels}
 
                 <div className="relative flex items-center gap-3 px-6 py-2 rounded-full bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-700/80 shadow-lg shadow-blue-500/5 transition-all duration-300 hover:scale-[1.02] hover:border-blue-400/50">
                   <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-xs">
-                    <Landmark className="w-3.5 h-3.5" />
+                    <Landmark className="w-4 h-4" />
                   </div>
-                  <h2 className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-[0.25em] bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-950 to-slate-800 dark:from-white dark:via-blue-100 dark:to-white">
+                  <h2 className="text-base font-black text-slate-800 dark:text-white uppercase tracking-[0.25em] bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-950 to-slate-800 dark:from-white dark:via-blue-100 dark:to-white">
                     Mairie de Gennevilliers
                   </h2>
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse" title="Portail en ligne"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse" title="Portail en ligne"></span>
                 </div>
               </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 font-semibold tracking-wide flex items-center gap-1.5">
-                <span className="w-1 h-1 rounded-full bg-orange-500"></span>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1.5 font-semibold tracking-wide flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
                 Portail d'assistance RH & Statutaire — Agents Municipaux
               </p>
             </div>
 
             {/* Actions / Toggles (Droite) */}
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2 sm:gap-2.5">
               <button
                 onClick={() => setShowMacMenuBar(prev => !prev)}
-                className={`p-2.5 rounded-xl border shadow-sm transition-all duration-300 hover:scale-105 active:scale-95 ${showMacMenuBar
+                className={`p-2 sm:p-2.5 rounded-xl border shadow-sm transition-all duration-300 hover:scale-105 active:scale-95 ${showMacMenuBar
                   ? 'bg-blue-600 border-blue-600 text-white shadow-blue-500/20'
                   : 'bg-white/80 dark:bg-slate-900/80 border-slate-200/50 dark:border-slate-800/50 text-slate-700 dark:text-slate-250 hover:bg-slate-50 dark:hover:bg-slate-800/90'
                   }`}
                 title={showMacMenuBar ? "Désactiver la barre de menus macOS" : "Activer la barre de menus macOS"}
               >
-                <Laptop className="w-5 h-5" />
+                <Laptop className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
 
               <button
                 onClick={toggleTheme}
-                className="p-2.5 rounded-xl bg-white/85 dark:bg-slate-900/85 border border-slate-200/50 dark:border-slate-800/50 text-slate-700 dark:text-slate-250 hover:bg-slate-50 dark:hover:bg-slate-800/90 shadow-sm transition-all duration-300 hover:scale-105 active:scale-95 hover:rotate-12"
+                className="p-2 sm:p-2.5 rounded-xl bg-white/85 dark:bg-slate-900/85 border border-slate-200/50 dark:border-slate-800/50 text-slate-700 dark:text-slate-250 hover:bg-slate-50 dark:hover:bg-slate-800/90 shadow-sm transition-all duration-300 hover:scale-105 active:scale-95 hover:rotate-12"
                 title="Basculer le thème"
               >
-                <Eye className="w-5 h-5" />
+                <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             </div>
           </div>
@@ -1381,19 +1381,18 @@ ${indicesFactuels}
         {chatState.currentView === "menu" && (
           <>
             <div className="grid grid-cols-1 gap-4">
-              {/* Colonne principale - pleine largeur */}
               <div className="lg:col-span-1">
 
                 {/* Barre d'accès rapide style GAFAM / Frosted Glass Dock Ajustée avec précision */}
-                <div className="max-w-7xl mx-auto mt-5 mb-7 bg-white/85 dark:bg-[#0E121D]/90 backdrop-blur-2xl rounded-3xl p-3 sm:p-4.5 border border-slate-200/80 dark:border-white/[0.1] shadow-xl shadow-slate-200/50 dark:shadow-black/60 flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
+                <div className="max-w-7xl mx-auto mt-3 sm:mt-5 mb-5 sm:mb-7 bg-white/85 dark:bg-[#0E121D]/90 backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-2.5 sm:p-4.5 border border-slate-200/80 dark:border-white/[0.1] shadow-xl shadow-slate-200/50 dark:shadow-black/60 flex flex-wrap lg:flex-nowrap items-center justify-between gap-3 sm:gap-4">
 
                   {/* Links & Quick Actions avec ajustement précis */}
-                  <div className="flex flex-1 justify-around items-center gap-3 sm:gap-4 overflow-x-auto custom-scrollbar py-1 px-1 sm:py-1.5 sm:px-2 relative">
+                  <div className="flex flex-1 justify-start sm:justify-around items-center gap-2 sm:gap-4 overflow-x-auto no-scrollbar py-1 px-1 sm:py-1.5 sm:px-2 relative snap-x snap-mandatory">
                     
                     {/* 1. Spotlight Search Button */}
                     <button
                       onClick={() => handleDomainSelection(0)}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-200 group min-w-[125px] sm:min-w-[140px] p-3 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0"
+                      className="relative flex flex-col items-center justify-center gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
                       onMouseEnter={() => setHoveredQuickAccessIndex(0)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
@@ -1408,16 +1407,16 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-purple-500/15 to-indigo-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-purple-500/25 transition-all duration-200">
-                        <Bot className="w-9 h-9 sm:w-11 sm:h-11" />
+                      <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-purple-500/15 to-indigo-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-purple-500/25 transition-all duration-200">
+                        <Bot className="w-8 h-8 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">J'ai une<br />question</span>
+                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">J'ai une<br />question</span>
                     </button>
 
                     {/* 2. Spotlight Metiers Button */}
                     <button
                       onClick={openMetiersView}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 group min-w-[125px] sm:min-w-[140px] p-3 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0"
+                      className="relative flex flex-col items-center justify-center gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
                       onMouseEnter={() => setHoveredQuickAccessIndex(1)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
@@ -1432,16 +1431,16 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-teal-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-emerald-500/25 transition-all duration-200">
-                        <LayoutGrid className="w-9 h-9 sm:w-11 sm:h-11" />
+                      <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-teal-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-emerald-500/25 transition-all duration-200">
+                        <LayoutGrid className="w-8 h-8 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Grilles<br />Indiciaires</span>
+                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Grilles<br />Indiciaires</span>
                     </button>
 
                     {/* 3. Spotlight Calculators Button */}
                     <button
                       onClick={openCalculatorsLanding}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[125px] sm:min-w-[140px] p-3 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0"
+                      className="relative flex flex-col items-center justify-center gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
                       onMouseEnter={() => setHoveredQuickAccessIndex(2)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
@@ -1456,16 +1455,16 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-orange-500/25 transition-all duration-200">
-                        <Calculator className="w-9 h-9 sm:w-11 sm:h-11" />
+                      <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-orange-500/25 transition-all duration-200">
+                        <Calculator className="w-8 h-8 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Calculateurs<br />Primes</span>
+                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Calculateurs<br />Primes</span>
                     </button>
 
                     {/* 4. Spotlight Espace Jeux Button */}
                     <button
                       onClick={() => setChatState({ ...chatState, currentView: 'jeux' })}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-pink-600 dark:hover:text-pink-400 transition-all duration-200 group min-w-[125px] sm:min-w-[140px] p-3 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0"
+                      className="relative flex flex-col items-center justify-center gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-pink-600 dark:hover:text-pink-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
                       onMouseEnter={() => setHoveredQuickAccessIndex(3)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
@@ -1480,16 +1479,16 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-pink-500/15 to-rose-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-pink-500/25 transition-all duration-200">
-                        <Gamepad2 className="w-9 h-9 sm:w-11 sm:h-11" />
+                      <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-pink-500/15 to-rose-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-pink-500/25 transition-all duration-200">
+                        <Gamepad2 className="w-8 h-8 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Espace<br />Jeux RH</span>
+                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Espace<br />Jeux RH</span>
                     </button>
 
                     {/* 5. Spotlight FAQ Button */}
                     <button
                       onClick={() => setChatState({ ...chatState, currentView: 'faq' })}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200 group min-w-[125px] sm:min-w-[140px] p-3 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0"
+                      className="relative flex flex-col items-center justify-center gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
                       onMouseEnter={() => setHoveredQuickAccessIndex(4)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
@@ -1504,16 +1503,16 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-amber-500/15 to-yellow-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-amber-500/25 transition-all duration-200">
-                        <HelpCircle className="w-9 h-9 sm:w-11 sm:h-11" />
+                      <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-amber-500/15 to-yellow-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-amber-500/25 transition-all duration-200">
+                        <HelpCircle className="w-8 h-8 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Questions<br />Fréquentes</span>
+                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Questions<br />Fréquentes</span>
                     </button>
 
                     {/* 6. Spotlight Podcasts Button */}
                     <button
                       onClick={() => setChatState({ ...chatState, currentView: 'podcasts' })}
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 group min-w-[125px] sm:min-w-[140px] p-3 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0"
+                      className="relative flex flex-col items-center justify-center gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
                       onMouseEnter={() => setHoveredQuickAccessIndex(99)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
@@ -1528,10 +1527,10 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-indigo-500/15 to-purple-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-indigo-500/25 transition-all duration-200">
-                        <Radio className="w-9 h-9 sm:w-11 sm:h-11" />
+                      <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-indigo-500/15 to-purple-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-indigo-500/25 transition-all duration-200">
+                        <Radio className="w-8 h-8 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Podcasts<br />RH</span>
+                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Podcasts<br />RH</span>
                     </button>
 
                     {/* 7. Spotlight Bourse Emploi Anchor Link */}
@@ -1539,7 +1538,7 @@ ${indicesFactuels}
                       href="https://www.emploi-territorial.fr/emploi-mobilite/?search-col=99599"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[125px] sm:min-w-[140px] p-3 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0"
+                      className="relative flex flex-col items-center justify-center gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
                       onMouseEnter={() => setHoveredQuickAccessIndex(5)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
@@ -1554,10 +1553,10 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-orange-500/25 transition-all duration-200">
-                        <Briefcase className="w-9 h-9 sm:w-11 sm:h-11" />
+                      <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-orange-500/25 transition-all duration-200">
+                        <Briefcase className="w-8 h-8 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Bourse<br />Emploi</span>
+                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Bourse<br />Emploi</span>
                     </a>
 
                     {/* 8. Spotlight Concours Anchor Link */}
@@ -1565,7 +1564,7 @@ ${indicesFactuels}
                       href="https://www.concours-territorial.fr/Index.aspx"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="relative flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-slate-200 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200 group min-w-[125px] sm:min-w-[140px] p-3 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0"
+                      className="relative flex flex-col items-center justify-center gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
                       onMouseEnter={() => setHoveredQuickAccessIndex(6)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
@@ -1580,10 +1579,10 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-3.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-cyan-500/15 to-blue-500/15 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-cyan-500/25 transition-all duration-200">
-                        <GraduationCap className="w-9 h-9 sm:w-11 sm:h-11" />
+                      <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-cyan-500/15 to-blue-500/15 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-cyan-500/25 transition-all duration-200">
+                        <GraduationCap className="w-8 h-8 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-center tracking-tight leading-tight">Concours<br />FPT</span>
+                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Concours<br />FPT</span>
                     </a>
 
                   </div>
@@ -1604,8 +1603,8 @@ ${indicesFactuels}
                             <div className="p-2.5 bg-blue-50 dark:bg-blue-900/40 rounded-xl border border-blue-200 dark:border-blue-800 shadow-xs">
                               <Newspaper className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                             </div>
-                            <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-wide">
-                              Actualités <span className="text-blue-600 dark:text-blue-400">Syndicales & Statutaires</span>
+                            <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-wide">
+                              Actualités <span className="text-blue-600 dark:text-blue-400">de tous les CIG/CDG</span>
                             </h3>
                           </div>
                         </div>
@@ -1614,30 +1613,30 @@ ${indicesFactuels}
                         <div className="flex flex-col sm:flex-row gap-5 group/card">
                           <div className="relative w-full sm:w-48 h-36 overflow-hidden rounded-xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
                             <img loading="lazy" src="https://www.cig929394.fr/wp-content/uploads/2026/08/FOCUS-BIP_Actu-aout2026.png" alt="Retraites, congés de maladie et temps partiel thérapeutique" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
-                            <span className="absolute top-2 left-2 inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/90 dark:bg-slate-900/90 text-red-600 dark:text-red-400 border border-red-200 shadow-xs">
+                            <span className="absolute top-2 left-2 inline-block text-xs font-bold px-2.5 py-0.5 rounded-full bg-white/90 dark:bg-slate-900/90 text-red-600 dark:text-red-400 border border-red-200 shadow-xs">
                               Statutaire CIG (Août 2026)
                             </span>
                           </div>
                           <div className="flex flex-col justify-between flex-1">
                             <div>
-                              <h4 className="text-base font-bold text-slate-900 dark:text-white hover:text-blue-600 transition-colors leading-snug mb-2">
+                              <h4 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white hover:text-blue-600 transition-colors leading-snug mb-2">
                                 <a href="https://www.cig929394.fr/actualites/retraites-conges-de-maladie-et-temps-partiel-therapeutique-de-nouvelles-regles/" target="_blank" rel="noopener noreferrer">
                                   Retraites, congés de maladie et temps partiel thérapeutique : de nouvelles règles
                                 </a>
                               </h4>
-                              <p className="text-xs text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
+                              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
                                 Nouvelles règles d'août et septembre 2026 : encadrement du temps partiel thérapeutique (réponse sous 30j, refus motivé), plafonnement des arrêts maladie (31j initial / 62j prolongation) et bonification retraite (1 trimestre/enfant).
                               </p>
                             </div>
                             <div className="mt-3 flex items-center justify-between text-xs text-slate-500">
                               <a
-                                href="https://www.cig929394.fr/actualites/"
+                                href="https://actu-cig-blue.vercel.app"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-[11px] bg-blue-50 dark:bg-blue-950/50 hover:bg-blue-100 dark:hover:bg-blue-900/60 px-3 py-1 rounded-full border border-blue-200/80 dark:border-blue-800/80 transition-all duration-200 shadow-2xs hover:scale-105 active:scale-95 group/cig"
+                                className="inline-flex items-center gap-1.5 font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-xs sm:text-sm bg-blue-50 dark:bg-blue-950/50 hover:bg-blue-100 dark:hover:bg-blue-900/60 px-3.5 py-1.5 rounded-full border border-blue-200/80 dark:border-blue-800/80 transition-all duration-200 shadow-2xs hover:scale-105 active:scale-95 group/cig"
                               >
-                                CIG Petite Couronne
-                                <ArrowRight className="w-3 h-3 text-blue-500 group-hover/cig:translate-x-0.5 transition-transform" />
+                                TOUS LES GIC
+                                <ArrowRight className="w-3.5 h-3.5 text-blue-500 group-hover/cig:translate-x-0.5 transition-transform" />
                               </a>
                             </div>
                           </div>
@@ -1655,7 +1654,7 @@ ${indicesFactuels}
                           <div className="p-2.5 bg-purple-100/60 dark:bg-purple-900/40 rounded-xl border border-purple-200 dark:border-purple-800/60 shadow-sm flex items-center justify-center">
                             <Scale className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                           </div>
-                          <h3 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white tracking-wide">
+                          <h3 className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-white tracking-wide">
                             Veille <span className="text-purple-600 dark:text-purple-400">Juridique & Statutaire</span>
                           </h3>
                         </div>
@@ -1663,21 +1662,21 @@ ${indicesFactuels}
                         <div className="flex flex-col sm:flex-row gap-5 mb-4 group/card">
                           <div className="relative w-full sm:w-48 h-36 overflow-hidden rounded-xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-900/50">
                             <img loading="lazy" src="/images/legal_news_illustration.png" alt="Veille Juridique" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
-                            <span className="absolute top-2 left-2 inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-900/80 text-purple-300 border border-purple-500/30">
+                            <span className="absolute top-2 left-2 inline-block text-xs font-medium px-2.5 py-0.5 rounded-full bg-slate-900/80 text-purple-300 border border-purple-500/30">
                               Juridique
                             </span>
                           </div>
                           <div className="flex flex-col justify-between flex-1">
                             <div>
-                              <h4 className="text-base font-bold text-slate-800 dark:text-slate-100 group-hover/veille:text-purple-600 dark:group-hover/veille:text-purple-400 transition-colors leading-snug mb-2">
+                              <h4 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100 group-hover/veille:text-purple-600 dark:group-hover/veille:text-purple-400 transition-colors leading-snug mb-2">
                                 Veille Juridique & Statutaire (« Vu cette semaine »)
                               </h4>
-                              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+                              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
                                 Découvrez notre veille juridique interactive. Explorez les dernières décisions des tribunaux administratifs et du Conseil d'État, ou testez vos connaissances dans notre Mode Défi Quiz !
                               </p>
                             </div>
                             <div className="mt-3 flex items-center justify-between text-xs text-slate-500">
-                              <span className="font-semibold bg-purple-100/70 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 px-2.5 py-0.5 rounded-full text-[10px]">
+                              <span className="font-semibold bg-purple-100/70 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 px-3 py-1 rounded-full text-xs">
                                 Veille CFDT Interactive
                               </span>
                             </div>
@@ -1699,8 +1698,8 @@ ${indicesFactuels}
                   {/* CARROUSEL 1 DÉTACHÉ : En direct de la CFDT Interco */}
                   <div className="w-full bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10">
                     <div className="flex items-center justify-between mb-4">
-                      <h4 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                        <Rss className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                      <h4 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                        <Rss className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                         En direct de la <span className="text-blue-600 dark:text-blue-400">CFDT Interco</span>
                       </h4>
                     </div>
@@ -1752,7 +1751,7 @@ ${indicesFactuels}
                                 href={article.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group/card flex-none w-48 sm:w-52 flex flex-col bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl overflow-hidden hover:border-blue-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-xs"
+                                className="group/card flex-none w-52 sm:w-56 flex flex-col bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl overflow-hidden hover:border-blue-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-xs"
                               >
                                 <div className="relative w-full h-24 overflow-hidden bg-slate-50 dark:bg-slate-900 flex-shrink-0 border-b border-slate-100 dark:border-slate-800">
                                   <img
@@ -1766,20 +1765,20 @@ ${indicesFactuels}
                                     }}
                                   />
                                   {article.category && (
-                                    <span className="absolute top-1.5 left-1.5 inline-block text-[9px] font-bold px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 text-blue-700 dark:text-blue-300 border border-blue-200 shadow-xs">
+                                    <span className="absolute top-1.5 left-1.5 inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 text-blue-700 dark:text-blue-300 border border-blue-200 shadow-xs">
                                       {article.category}
                                     </span>
                                   )}
                                 </div>
 
-                                <div className="p-3 flex flex-col justify-between flex-grow bg-white dark:bg-slate-800">
-                                  <p className="text-slate-900 dark:text-white font-bold text-xs leading-snug group-hover/card:text-blue-600 transition-colors duration-150 line-clamp-2">
+                                <div className="p-3.5 flex flex-col justify-between flex-grow bg-white dark:bg-slate-800">
+                                  <p className="text-slate-900 dark:text-white font-bold text-sm leading-snug group-hover/card:text-blue-600 transition-colors duration-150 line-clamp-2">
                                     {article.title}
                                   </p>
-                                  <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100 dark:border-slate-700/60">
-                                    <span className="text-[10px] text-slate-500 font-medium">{date}</span>
-                                    <span className="text-[10px] text-blue-600 dark:text-blue-400 font-bold flex items-center gap-0.5 opacity-90 group-hover/card:opacity-100 transition-opacity duration-150">
-                                      Lire <ArrowRight className="w-2.5 h-2.5" />
+                                  <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-700/60">
+                                    <span className="text-xs text-slate-500 font-medium">{date}</span>
+                                    <span className="text-xs text-blue-600 dark:text-blue-400 font-bold flex items-center gap-0.5 opacity-90 group-hover/card:opacity-100 transition-opacity duration-150">
+                                      Lire <ArrowRight className="w-3 h-3" />
                                     </span>
                                   </div>
                                 </div>
@@ -1797,7 +1796,7 @@ ${indicesFactuels}
                       <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/40 rounded-xl border border-emerald-200 dark:border-emerald-800 flex items-center justify-center">
                         <Landmark className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                       </div>
-                      <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-wide">
+                      <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-wide">
                         Actualités de la <span className="text-emerald-600 dark:text-emerald-400">Fonction Publique</span>
                       </h3>
                     </div>
@@ -1847,7 +1846,7 @@ ${indicesFactuels}
                               href={article.link}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="group/card flex-none w-48 sm:w-52 flex flex-col bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl overflow-hidden hover:border-emerald-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-xs"
+                              className="group/card flex-none w-52 sm:w-56 flex flex-col bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl overflow-hidden hover:border-emerald-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-xs"
                             >
                               <div className="relative w-full h-24 overflow-hidden bg-slate-50 dark:bg-slate-900 flex-shrink-0 border-b border-slate-100 dark:border-slate-800 p-2 flex items-center justify-center">
                                 {article.imageUrl ? (
@@ -1861,21 +1860,21 @@ ${indicesFactuels}
                                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
                                   </div>
                                 )}
-                                <span className="absolute top-1.5 left-1.5 inline-block text-[9px] font-bold px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 text-emerald-700 dark:text-emerald-300 border border-emerald-200 shadow-xs z-10 max-w-[90%] truncate">
+                                <span className="absolute top-1.5 left-1.5 inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 text-emerald-700 dark:text-emerald-300 border border-emerald-200 shadow-xs z-10 max-w-[90%] truncate">
                                   {article.category || 'Actualité'}
                                 </span>
                               </div>
 
-                              <div className="p-3 flex flex-col justify-between flex-grow bg-white dark:bg-slate-800">
-                                <p className="text-slate-900 dark:text-white font-bold text-xs leading-snug group-hover/card:text-emerald-600 transition-colors duration-150 line-clamp-2">
+                              <div className="p-3.5 flex flex-col justify-between flex-grow bg-white dark:bg-slate-800">
+                                <p className="text-slate-900 dark:text-white font-bold text-sm leading-snug group-hover/card:text-emerald-600 transition-colors duration-150 line-clamp-2">
                                   {article.title}
                                 </p>
-                                <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100 dark:border-slate-700/60">
-                                  <span className="text-[10px] text-slate-500 font-medium truncate pr-2">
+                                <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-700/60">
+                                  <span className="text-xs text-slate-500 font-medium truncate pr-2">
                                     {new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
                                   </span>
-                                  <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-0.5">
-                                    Lire <ArrowRight className="w-2.5 h-2.5" />
+                                  <span className="text-xs text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-0.5">
+                                    Lire <ArrowRight className="w-3 h-3" />
                                   </span>
                                 </div>
                               </div>
@@ -1895,7 +1894,7 @@ ${indicesFactuels}
                       <div className="p-2.5 bg-indigo-50 dark:bg-indigo-900/40 rounded-xl border border-indigo-200 dark:border-indigo-800 flex items-center justify-center">
                         <BookOpen className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
                       </div>
-                      <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-wide">
+                      <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-wide">
                         À lire
                       </h3>
                     </div>
@@ -1918,10 +1917,10 @@ ${indicesFactuels}
                           <h4 className="text-slate-900 dark:text-white text-base font-bold mb-1 flex items-center gap-1.5">
                             <FileText className="w-4 h-4 text-orange-500 shrink-0" />
                           </h4>
-                          <p className="text-slate-600 dark:text-slate-400 text-xs mb-4 leading-relaxed font-medium">
+                          <p className="text-slate-600 dark:text-slate-400 text-sm mb-4 leading-relaxed font-medium">
                             Découvrez la dernière édition de l'Écho de la CFDT.
                           </p>
-                          <div className="flex items-center justify-center gap-2 w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 px-4 rounded-xl shadow-md transition-all text-xs">
+                          <div className="flex items-center justify-center gap-2 w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-xl shadow-md transition-all text-sm">
                             Télécharger (PDF)
                             <ArrowRight className="w-4 h-4" />
                           </div>
@@ -1947,12 +1946,12 @@ ${indicesFactuels}
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">À connaître</h3>
-                            <span className="bg-rose-500/10 border border-rose-400/30 text-rose-600 dark:text-rose-400 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
+                            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">À connaître</h3>
+                            <span className="bg-rose-500/10 border border-rose-400/30 text-rose-600 dark:text-rose-400 text-xs font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
                               Docs Officiels
                             </span>
                           </div>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Règlements & chartes de la collectivité</p>
+                          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Règlements & chartes de la collectivité</p>
                         </div>
                       </div>
                     </div>
@@ -1972,14 +1971,14 @@ ${indicesFactuels}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1.5 mb-0.5">
-                            <span className="text-[10px] font-black uppercase tracking-wider text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/40 px-2 py-0.5 rounded-md border border-rose-200/50 dark:border-rose-800/50">
+                            <span className="text-xs font-black uppercase tracking-wider text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/40 px-2 py-0.5 rounded-md border border-rose-200/50 dark:border-rose-800/50">
                               1607H & Congés
                             </span>
                           </div>
-                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-rose-600 transition-colors truncate">
+                          <h4 className="font-black text-slate-900 dark:text-white text-base sm:text-lg leading-snug group-hover/item:text-rose-600 transition-colors truncate">
                             Temps de travail
                           </h4>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
                             Règlement complet sur le temps de travail.
                           </p>
                         </div>
@@ -2001,14 +2000,14 @@ ${indicesFactuels}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1.5 mb-0.5">
-                            <span className="text-[10px] font-black uppercase tracking-wider text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-900/40 px-2 py-0.5 rounded-md border border-teal-200/50 dark:border-teal-800/50">
+                            <span className="text-xs font-black uppercase tracking-wider text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-900/40 px-2 py-0.5 rounded-md border border-teal-200/50 dark:border-teal-800/50">
                               Mise à jour Juin 2025
                             </span>
                           </div>
-                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-teal-600 transition-colors truncate">
+                          <h4 className="font-black text-slate-900 dark:text-white text-base sm:text-lg leading-snug group-hover/item:text-teal-600 transition-colors truncate">
                             Règlement Formation
                           </h4>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
                             Règlement intérieur des formations & CPF.
                           </p>
                         </div>
@@ -2030,14 +2029,14 @@ ${indicesFactuels}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1.5 mb-0.5">
-                            <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/40 px-2 py-0.5 rounded-md border border-blue-200/50 dark:border-blue-800/50">
+                            <span className="text-xs font-black uppercase tracking-wider text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/40 px-2 py-0.5 rounded-md border border-blue-200/50 dark:border-blue-800/50">
                               Charte & Accords
                             </span>
                           </div>
-                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-blue-600 transition-colors truncate">
+                          <h4 className="font-black text-slate-900 dark:text-white text-base sm:text-lg leading-snug group-hover/item:text-blue-600 transition-colors truncate">
                             Charte Télétravail
                           </h4>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
                             Circulaire et évolutions du travail à distance.
                           </p>
                         </div>
@@ -2049,12 +2048,12 @@ ${indicesFactuels}
                   </div>
 
                   {/* Pied de carte */}
-                  <div className="mt-4 pt-3 border-t border-rose-100/60 dark:border-rose-900/40 flex items-center justify-between text-xs text-rose-700 dark:text-rose-400 font-extrabold">
+                  <div className="mt-4 pt-3 border-t border-rose-100/60 dark:border-rose-900/40 flex items-center justify-between text-xs sm:text-sm text-rose-700 dark:text-rose-400 font-extrabold">
                     <span className="flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5 text-rose-500" />
                       Documents PDF certifiés RH
                     </span>
-                    <span className="text-[11px] text-slate-400 font-normal">Intranet Ville</span>
+                    <span className="text-xs text-slate-400 font-normal">Intranet Ville</span>
                   </div>
                 </div>
 
@@ -2069,12 +2068,12 @@ ${indicesFactuels}
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">À voir</h3>
-                            <span className="bg-amber-500/10 border border-amber-400/30 text-amber-700 dark:text-amber-300 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
+                            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">À voir</h3>
+                            <span className="bg-amber-500/10 border border-amber-400/30 text-amber-700 dark:text-amber-300 text-xs font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
                               YouTube RH
                             </span>
                           </div>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Vidéos & préparation aux concours FPT</p>
+                          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Vidéos & préparation aux concours FPT</p>
                         </div>
                       </div>
                     </div>
@@ -2097,14 +2096,14 @@ ${indicesFactuels}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1.5 mb-0.5">
-                            <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-200/50 dark:border-amber-800/50">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-200/50 dark:border-amber-800/50">
                               Sigles & Concours
                             </span>
                           </div>
-                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-amber-600 transition-colors truncate">
+                          <h4 className="font-black text-slate-900 dark:text-white text-base sm:text-lg leading-snug group-hover/item:text-amber-600 transition-colors truncate">
                             Les 50 acronymes
                           </h4>
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
                             Décoder les sigles clés des concours.
                           </p>
                         </div>
@@ -2129,14 +2128,14 @@ ${indicesFactuels}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1.5 mb-0.5">
-                            <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-200/50 dark:border-amber-800/50">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-200/50 dark:border-amber-800/50">
                               Préparation Jury
                             </span>
                           </div>
-                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-amber-600 transition-colors truncate">
+                          <h4 className="font-black text-slate-900 dark:text-white text-base sm:text-lg leading-snug group-hover/item:text-amber-600 transition-colors truncate">
                             150 Questions Oral
                           </h4>
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
                             Entraînement complet aux entretiens.
                           </p>
                         </div>
@@ -2161,14 +2160,14 @@ ${indicesFactuels}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1.5 mb-0.5">
-                            <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-200/50 dark:border-amber-800/50">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-md border border-amber-200/50 dark:border-amber-800/50">
                               Cas Pratiques
                             </span>
                           </div>
-                          <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-amber-600 transition-colors truncate">
+                          <h4 className="font-black text-slate-900 dark:text-white text-base sm:text-lg leading-snug group-hover/item:text-amber-600 transition-colors truncate">
                             30 Mises en situation
                           </h4>
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
                             Cas pratiques et mises en situation.
                           </p>
                         </div>
@@ -2180,7 +2179,7 @@ ${indicesFactuels}
                   </div>
 
                   {/* Pied de carte */}
-                  <div className="mt-4 pt-3 border-t border-amber-100/60 dark:border-amber-900/40 flex items-center justify-between text-xs text-amber-800 dark:text-amber-300 font-extrabold">
+                  <div className="mt-4 pt-3 border-t border-amber-100/60 dark:border-amber-900/40 flex items-center justify-between text-xs sm:text-sm text-amber-800 dark:text-amber-300 font-extrabold">
                     <a
                       href="https://www.youtube.com/results?search_query=fonction+publique+territoriale"
                       target="_blank"
@@ -2206,12 +2205,12 @@ ${indicesFactuels}
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Liens Utiles</h3>
-                            <span className="bg-cyan-500/10 border border-cyan-400/30 text-cyan-700 dark:text-cyan-400 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
+                            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Liens Utiles</h3>
+                            <span className="bg-cyan-500/10 border border-cyan-400/30 text-cyan-700 dark:text-cyan-400 text-xs font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
                               Portails RH
                             </span>
                           </div>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Bases de données & sites institutionnels</p>
+                          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Bases de données & sites institutionnels</p>
                         </div>
                       </div>
                     </div>
@@ -2240,14 +2239,14 @@ ${indicesFactuels}
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-1.5 mb-0.5">
-                                <span className="text-[9px] font-black uppercase tracking-wider text-cyan-700 dark:text-cyan-300 bg-cyan-50 dark:bg-cyan-900/40 px-2 py-0.5 rounded-md border border-cyan-200/50 dark:border-cyan-800/50">
+                                <span className="text-[10px] font-black uppercase tracking-wider text-cyan-700 dark:text-cyan-300 bg-cyan-50 dark:bg-cyan-900/40 px-2 py-0.5 rounded-md border border-cyan-200/50 dark:border-cyan-800/50">
                                   {linkDetails.tag}
                                 </span>
                               </div>
-                              <h4 className="font-black text-slate-900 dark:text-white text-sm leading-snug group-hover/item:text-cyan-600 transition-colors truncate">
+                              <h4 className="font-black text-slate-900 dark:text-white text-base sm:text-lg leading-snug group-hover/item:text-cyan-600 transition-colors truncate">
                                 {label}
                               </h4>
-                              <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
                                 {linkDetails.desc}
                               </p>
                             </div>
@@ -2261,12 +2260,12 @@ ${indicesFactuels}
                   </div>
 
                   {/* Pied de carte */}
-                  <div className="mt-4 pt-3 border-t border-cyan-100/60 dark:border-cyan-900/40 flex items-center justify-between text-xs text-cyan-800 dark:text-cyan-300 font-extrabold">
+                  <div className="mt-4 pt-3 border-t border-cyan-100/60 dark:border-cyan-900/40 flex items-center justify-between text-xs sm:text-sm text-cyan-800 dark:text-cyan-300 font-extrabold">
                     <span className="flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5 text-cyan-500" />
                       Accès direct sécurisé
                     </span>
-                    <span className="text-[11px] text-slate-400 font-normal">Sites externes certifiés</span>
+                    <span className="text-xs text-slate-400 font-normal">Sites externes certifiés</span>
                   </div>
                 </div>
 
@@ -2467,18 +2466,18 @@ ${indicesFactuels}
 
       {/* Bandeau NEWS FPT */}
       <section className="relative bg-gradient-to-r from-orange-600/90 via-red-600/90 to-pink-600/90 text-white overflow-hidden w-full shadow-lg border-b border-orange-400/30 z-10 glass-banner marquee-pausable banner-top-streak">
-        <div className="relative h-16 flex items-center overflow-hidden">
-          <div className="absolute left-0 top-0 h-full w-32 flex items-center justify-center bg-gradient-to-r from-orange-700 to-red-700 z-20 shadow-lg glass-pill news-pill-glow">
-            <span className="text-base font-light tracking-wide text-white">NEWS:</span>
+        <div className="relative h-11 sm:h-14 flex items-center overflow-hidden">
+          <div className="absolute left-0 top-0 h-full w-20 sm:w-32 flex items-center justify-center bg-gradient-to-r from-orange-700 to-red-700 z-20 shadow-lg glass-pill news-pill-glow">
+            <span className="text-xs sm:text-base font-semibold tracking-wide text-white">NEWS:</span>
           </div>
-          <div ref={newsMarqueeRef} className="marquee-track animate-marquee pl-36">
+          <div ref={newsMarqueeRef} className="marquee-track animate-marquee pl-24 sm:pl-36">
             <div className="marquee-group">
               {infoItems.map((info, index) => (
                 <React.Fragment key={`news-a-${info.id}-${index}`}>
                   <span className={`marquee-diamond${index % 3 === 0 ? ' marquee-diamond-twinkle' : ''}`} aria-hidden="true" />
                   <button
                     onClick={() => handleInfoClick(info)}
-                    className="text-lg font-light mx-4 hover:text-amber-200 cursor-pointer hover:scale-105 text-white transition-transform duration-100"
+                    className="text-xs sm:text-base font-medium mx-2.5 sm:mx-4 hover:text-amber-200 cursor-pointer hover:scale-105 text-white transition-transform duration-100"
                   >
                     {info.title}
                   </button>
@@ -2491,7 +2490,7 @@ ${indicesFactuels}
                   <span className={`marquee-diamond${index % 3 === 0 ? ' marquee-diamond-twinkle' : ''}`} aria-hidden="true" />
                   <button
                     onClick={() => handleInfoClick(info)}
-                    className="text-lg font-light mx-4 hover:text-amber-200 cursor-pointer hover:scale-105 text-white transition-transform duration-100"
+                    className="text-xs sm:text-base font-medium mx-2.5 sm:mx-4 hover:text-amber-200 cursor-pointer hover:scale-105 text-white transition-transform duration-100"
                   >
                     {info.title}
                   </button>
@@ -2527,29 +2526,29 @@ ${indicesFactuels}
             />
           </div>
           <div className="flex justify-center items-center gap-2 mb-3">
-            <span className="text-orange-300 font-semibold text-base tracking-wide">CFDT Gennevilliers</span>
+            <span className="text-orange-300 font-bold text-lg tracking-wide">CFDT Gennevilliers</span>
           </div>
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-5 mb-3">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-6 mb-3">
             <a
               href="tel:0140856464"
-              className="flex items-center gap-2 text-orange-200 hover:text-white transition-all duration-200 hover:scale-105 font-medium text-sm"
+              className="flex items-center gap-2 text-orange-200 hover:text-white transition-all duration-200 hover:scale-105 font-semibold text-base"
             >
               <Phone className="w-5 h-5 text-orange-300" />
               <span>01 40 85 64 64</span>
             </a>
             <a
               href="mailto:cfdt-interco@ville-gennevilliers.fr"
-              className="flex items-center gap-2 text-orange-200 hover:text-white transition-all duration-200 hover:scale-105 font-medium text-sm"
+              className="flex items-center gap-2 text-orange-200 hover:text-white transition-all duration-200 hover:scale-105 font-semibold text-base"
             >
               <Mail className="w-5 h-5 text-orange-300" />
               <span>cfdt-interco@ville-gennevilliers.fr</span>
             </a>
-            <div className="flex items-center gap-2 text-orange-200 font-medium text-sm">
+            <div className="flex items-center gap-2 text-orange-200 font-semibold text-base">
               <MapPin className="w-5 h-5 text-orange-300" />
               <span>177 av. Gabriel-Péri</span>
             </div>
           </div>
-          <p className="text-xs text-slate-300 font-normal leading-tight">
+          <p className="text-sm text-slate-300 font-medium leading-tight">
             92237 Gennevilliers Cedex
           </p>
         </div>

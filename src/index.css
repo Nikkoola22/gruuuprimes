@@ -15,26 +15,26 @@ body {
   background: #0f1419;
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-weight: 300;
-  font-size: 14px;
+  font-size: 15px;
   position: relative;
   overflow-x: clip;
 }
 
 @media (min-width: 768px) {
   body {
-    font-size: 15px;
+    font-size: 16.5px;
   }
 }
 
 @media (min-width: 1024px) {
   body {
-    font-size: 16px;
+    font-size: 17.5px;
   }
 }
 
 /* Base font size - responsive */
 html {
-  font-size: 16px;
+  font-size: 16.5px;
   overflow-x: clip;
 }
 
@@ -47,13 +47,13 @@ body,
 
 @media (min-width: 768px) {
   html {
-    font-size: 17px;
+    font-size: 17.5px;
   }
 }
 
 @media (min-width: 1024px) {
   html {
-    font-size: 18px;
+    font-size: 18.5px;
   }
 }
 
@@ -75,35 +75,50 @@ body,
 /* Mobile-optimized banner height */
 @media (max-width: 640px) {
   .glass-banner .marquee-track {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
   }
 }
 
-/* Touch-friendly button sizes for mobile */
+/* Touch targets et prévention zoom iOS sur mobile */
 @media (max-width: 640px) {
-  button {
-    min-height: 44px;
-    min-width: 44px;
-  }
-
   input,
   textarea,
   select {
-    min-height: 44px;
-    font-size: 16px !important;
-    /* Prevents zoom on iOS */
+    min-height: 42px;
+    font-size: 16px !important; /* Prévient le zoom intempestif sur iOS */
   }
+
+  /* Tap targets confortables pour les boutons principaux sans casser les micro-boutons */
+  .btn-touch {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Masquer les barres de défilement tout en préservant le scroll tactile fluide */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Utilitaire de conteneur fluide mobile */
+.safe-pb {
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
 }
 
 /* Improve spacing on very small screens */
 @media (max-width: 480px) {
   body {
-    font-size: 13px;
+    font-size: 13.5px;
   }
 
   main {
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: 6px;
+    padding-right: 6px;
   }
 }
 
@@ -112,7 +127,6 @@ body,
   main .glass-card {
     max-height: 80vh;
   }
-
 }
 
 .glass-pill {

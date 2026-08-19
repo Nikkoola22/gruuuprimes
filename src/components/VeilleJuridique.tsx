@@ -387,59 +387,59 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
     <div className="dark fixed inset-0 z-[60] overflow-y-auto overflow-x-hidden overscroll-contain bg-slate-950 text-white flex flex-col font-sans">
       
       {/* Banner / Header */}
-      <header className="relative z-40 bg-slate-900/90 backdrop-blur-xl py-8 border-b border-slate-800 shadow-2xl shrink-0">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="p-3.5 bg-purple-500/20 rounded-2xl border border-purple-500/30 shadow-inner flex items-center justify-center animate-pulse">
-              <Scale className="w-8 h-8 text-purple-400" />
+      <header className="relative z-40 bg-slate-900/90 backdrop-blur-xl py-4 sm:py-8 border-b border-slate-800 shadow-2xl shrink-0">
+        <div className="max-w-6xl mx-auto px-3 sm:px-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 sm:gap-6">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="p-2.5 sm:p-3.5 bg-purple-500/20 rounded-xl sm:rounded-2xl border border-purple-500/30 shadow-inner flex items-center justify-center animate-pulse shrink-0">
+              <Scale className="w-6 h-6 sm:w-8 sm:h-8 text-purple-400" />
             </div>
             <div>
-              <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-2">
+              <h1 className="text-xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2">
                 Veille Juridique
-                <span className="text-xs font-bold px-2.5 py-1 bg-purple-600 text-white rounded-full uppercase tracking-widest animate-bounce">2026</span>
+                <span className="text-[10px] sm:text-xs font-bold px-2 py-0.5 sm:py-1 bg-purple-600 text-white rounded-full uppercase tracking-widest animate-bounce">2026</span>
               </h1>
-              <p className="text-slate-300 text-sm font-medium mt-1">
-                Les dernières décisions des Tribunaux Administratifs et du Conseil d'État expliquées simplement.
+              <p className="text-slate-300 text-xs sm:text-sm font-medium mt-0.5 sm:mt-1 line-clamp-2 sm:line-clamp-none">
+                Décisions des Tribunaux Administratifs et Conseil d'État expliquées simplement.
               </p>
             </div>
           </div>
           
           {/* Controls: Mode Switcher & Close button */}
-          <div className="flex items-center gap-3 self-start md:self-auto">
+          <div className="flex items-center justify-between sm:justify-start gap-2 sm:gap-3 w-full md:w-auto overflow-x-auto no-scrollbar pb-1">
             {/* View Mode Toggle */}
-            <div className="bg-slate-900 p-1 rounded-full border border-slate-800 flex items-center shadow-lg">
+            <div className="bg-slate-900 p-1 rounded-full border border-slate-800 flex items-center shadow-lg shrink-0 overflow-x-auto no-scrollbar">
               <button
                 onClick={() => setViewMode("fiches")}
-                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${viewMode === "fiches" ? "bg-purple-600 text-white shadow-md" : "text-slate-300 hover:text-white"}`}
+                className={`px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-bold transition-all ${viewMode === "fiches" ? "bg-purple-600 text-white shadow-md" : "text-slate-300 hover:text-white"}`}
               >
-                <BookOpen className="w-3.5 h-3.5 inline mr-1.5" />
-                Fiches d'étude
+                <BookOpen className="w-3.5 h-3.5 inline mr-1" />
+                Fiches <span className="hidden sm:inline">d'étude</span>
               </button>
               <button
                 onClick={() => {
                   setViewMode("quiz");
                   startQuiz();
                 }}
-                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${viewMode === "quiz" ? "bg-purple-600 text-white shadow-md" : "text-slate-300 hover:text-white"}`}
+                className={`px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-bold transition-all ${viewMode === "quiz" ? "bg-purple-600 text-white shadow-md" : "text-slate-300 hover:text-white"}`}
               >
-                <Trophy className="w-3.5 h-3.5 inline mr-1.5" />
-                Mode Défi Quiz
+                <Trophy className="w-3.5 h-3.5 inline mr-1" />
+                Quiz
               </button>
               <button
                 onClick={() => setViewMode("statut")}
-                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${viewMode === "statut" ? "bg-emerald-600 text-white shadow-md" : "text-slate-300 hover:text-white"}`}
+                className={`px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-bold transition-all ${viewMode === "statut" ? "bg-emerald-600 text-white shadow-md" : "text-slate-300 hover:text-white"}`}
               >
-                <FileSignature className="w-3.5 h-3.5 inline mr-1.5" />
-                Suite RH Statutaire (CGFP / Légifrance)
+                <FileSignature className="w-3.5 h-3.5 inline mr-1" />
+                Suite RH <span className="hidden sm:inline">(CGFP)</span>
               </button>
             </div>
 
             {/* Back Button */}
             <button
               onClick={onClose}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
             >
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:-translate-x-1 transition-transform" />
               <span>Retour</span>
             </button>
           </div>
