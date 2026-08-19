@@ -271,7 +271,7 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
     for (let i = 0; i < numBunkers; i++) {
       const bx = spacing + i * (bunkW + spacing);
       const by = CANVAS_HEIGHT - 120;
-      const bricks: Brick[] = [];
+      const bricks: BunkerBrick[] = [];
       
       for (let r = 0; r < bRows; r++) {
         for (let c = 0; c < bCols; c++) {
@@ -739,7 +739,15 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
       });
 
       // === DESSINER LES ENVAHISSEURS CYBER ===
-      const drawPixelSprite = (ctx, x, y, width, height, sprite, color) => {
+      const drawPixelSprite = (
+        ctx: CanvasRenderingContext2D,
+        x: number,
+        y: number,
+        width: number,
+        height: number,
+        sprite: number[][],
+        color: string
+      ) => {
         const rows = sprite.length;
         const cols = sprite[0].length;
         const pixelW = width / cols;
