@@ -29,7 +29,21 @@ const WAYPOINTS = [
   { x: 20 * TILE_SIZE, y: 12.5 * TILE_SIZE }
 ];
 
-const TOWER_TYPES = {
+interface TowerTypeDef {
+  id: number;
+  name: string;
+  cost: number;
+  range: number;
+  damage: number;
+  fireRate: number;
+  color: string;
+  glowColor: string;
+  desc: string;
+  splash?: number;
+  slowDuration?: number;
+}
+
+const TOWER_TYPES: Record<number, TowerTypeDef> = {
   1: { id: 1, name: "Chargé de Recrutement", cost: 40, range: 110, damage: 16, fireRate: 28, color: "#3b82f6", glowColor: "rgba(59, 130, 246, 0.6)", desc: "Tir rapide de dossiers CV. Efficace contre les petites vagues." },
   2: { id: 2, name: "Budget Contractuel", cost: 100, range: 135, damage: 55, fireRate: 85, splash: 65, color: "#ef4444", glowColor: "rgba(239, 68, 68, 0.6)", desc: "Tir de pièces d'or lourdes. Dégâts de zone dévastateurs." },
   3: { id: 3, name: "Redéploiement", cost: 60, range: 115, damage: 6, fireRate: 50, slowDuration: 120, color: "#a855f7", glowColor: "rgba(168, 85, 247, 0.6)", desc: "Onde de choc administrative. Ralentit fortement les cibles." }
@@ -287,6 +301,12 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (gameState !== "playing") return;
+    const coords = getGridCoords(e);
+    setHoverTile(coords ? { c: coords.c, r: coords.r } : null);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
     if (gameState !== "playing") return;
     const coords = getGridCoords(e);
     setHoverTile(coords ? { c: coords.c, r: coords.r } : null);
@@ -1593,7 +1613,7 @@ const TowerDefenseRH: React.FC<TowerDefenseProps> = ({ onClose }) => {
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
                 onClick={handleClick}
-                onTouchStart={handleMouseMove}
+                onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
                 className={`w-full h-auto max-h-[600px] bg-slate-950 rounded-2xl cursor-crosshair border border-slate-800 touch-none shadow-2xl ${
                   gameState !== "playing" ? 'opacity-20' : ''
