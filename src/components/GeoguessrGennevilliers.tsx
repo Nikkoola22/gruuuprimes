@@ -256,6 +256,7 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
   const clickMarkerRef = useRef<L.Marker | null>(null);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const imageSectionRef = useRef<HTMLDivElement | null>(null);
   const baseScorePerDifficulty = { novice: 1000, urbanist: 1500, cartographer: 2000 };
 
   const startNewGame = (diff: typeof difficulty) => {
@@ -276,7 +277,27 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
     setShowAnswer(false);
     setRoundStats(null);
     setTimeLeft(difficulty === "novice" ? 45 : difficulty === "urbanist" ? 30 : 15);
+
+    // Remonter le scroll à l'image du nouveau lieu à découvrir
+    setTimeout(() => {
+      if (imageSectionRef.current) {
+        imageSectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }, 60);
   };
+
+  // Remonter le scroll à chaque nouvelle manche
+  useEffect(() => {
+    if (gameState === "playing" && !showAnswer) {
+      if (imageSectionRef.current) {
+        imageSectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+  }, [round, gameState, showAnswer]);
 
   // Timer countdown
   useEffect(() => {
@@ -539,6 +560,7 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
 
   return (
     <div className="relative min-h-screen flex flex-col pt-4 sm:pt-6 pb-6 overflow-x-hidden bg-slate-950 px-4 font-sans text-slate-100 select-none">
+      <GeoguessrStyles />
       {/* Background decoration */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-tr from-sky-500/10 via-purple-500/10 to-indigo-500/10 rounded-full blur-3xl pointer-events-none z-0" />
 
@@ -650,7 +672,7 @@ const GeoguessrGennevilliers: React.FC<GeoguessrGennevilliersProps> = ({ onClose
                 </p>
 
                 {/* Location Image View */}
-                <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-slate-850 bg-slate-950 shadow-inner group">
+                <div ref={imageSectionRef} className="relative aspect-video w-full rounded-2xl overflow-hidden border border-slate-850 bg-slate-950 shadow-inner group scroll-mt-6">
                   <img
                     src={`${BASE_URL}images/${locations[round].image}`}
                     alt="Clue location"
