@@ -1,22 +1,18 @@
-import React, { useState, useRef, useEffect, useMemo, lazy, Suspense } from "react"
-import { Phone, Bot, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Radio, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Coins, Gamepad2, FileText, Clock, Home, Eye, Users, MessageCircleQuestion, HeartHandshake, Briefcase, Shield, CircleUser, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop } from "lucide-react"
+import React, { useState, useRef, useEffect, lazy, Suspense } from "react"
+import { Phone, Bot, Mail, MapPin, ArrowRight, ArrowLeft, Rss, Radio, Calculator, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Eye, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { searchFAQ } from "./data/FAQdata.ts"
 import { infoItems } from "./data/info-data.ts"
-import { franceInfoRss } from "./data/rss-data.ts"
 import AdminPanel from "./components/AdminPanel.tsx"
 import AdminLogin from "./components/AdminLogin.tsx"
 import { incrementWeeklyStat } from "./lib/adminStats.ts"
-import { SparklesCore } from "./components/ui/Sparkles.tsx"
-import { HoverEffect } from "./components/ui/CardHoverEffect.tsx"
-import { BackgroundGradient } from "./components/ui/BackgroundGradient.tsx"
 import { BorderBeam } from "./components/ui/BorderBeam.tsx"
 import { Toaster, toast } from "sonner"
 import { OrangeGeometricBackground } from "./components/ui/OrangeGeometricBackground.tsx"
 import { queryPisteLegifrance } from "./services/legifrance.ts"
-import { useNewsFeeds, type RssItem, type IntercoNewsItem } from "./hooks/useNewsFeeds.ts"
+import { useNewsFeeds, type RssItem } from "./hooks/useNewsFeeds.ts"
 
 
 const CalculateurCIAV2 = lazy(() => import("./components/CalculateurCIAV2.tsx"))
@@ -239,7 +235,6 @@ function App() {
   const [showAdminLogin, setShowAdminLogin] = useState(false)
   const [logoLoadError, setLogoLoadError] = useState(false)
   const [showExpandSearch, setShowExpandSearch] = useState(false)
-  const [showUsefulLinks, setShowUsefulLinks] = useState(false)
   const [lastQuestion, setLastQuestion] = useState<string>("")
   const [showMacMenuBar, setShowMacMenuBar] = useState<boolean>(() => {
     const saved = localStorage.getItem('showMacMenuBar');
@@ -249,10 +244,8 @@ function App() {
     localStorage.setItem('showMacMenuBar', String(showMacMenuBar));
   }, [showMacMenuBar]);
 
-  const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesListRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-  const chatContainerRef = useRef<HTMLDivElement>(null)
   const newsMarqueeRef = useRef<HTMLDivElement>(null)
   const rssMarqueeRef = useRef<HTMLDivElement>(null)
   const bipMarkdownCacheRef = useRef<Map<string, string>>(new Map())
@@ -1229,13 +1222,6 @@ ${indicesFactuels}
     } finally {
       setChatState((prevState) => ({ ...prevState, isProcessing: false }))
       setTimeout(() => inputRef.current?.focus(), 100)
-    }
-  }
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault()
-      handleSendMessage()
     }
   }
 
