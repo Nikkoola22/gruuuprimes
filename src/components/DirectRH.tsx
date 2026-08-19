@@ -684,15 +684,15 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
               <div className="text-white text-3xl font-black">✕</div>
             </button>
             <div className="flex items-center gap-2">
-              <Undo2 className="w-6 h-6 text-teal-800" />
-              <span className="text-teal-900 font-black text-sm text-center w-24 leading-tight uppercase drop-shadow-[0_1px_1px_rgba(255,255,255,0.5)]">
+              <Undo2 className="w-6 h-6 text-teal-800 shrink-0" />
+              <span className="text-teal-950 font-bold text-xs sm:text-sm text-center w-36 sm:w-48 leading-snug drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
                 {currentCard?.choiceLeft}
               </span>
             </div>
           </div>
 
           {/* Center Card */}
-          <div className="relative w-full max-w-xs sm:max-w-sm">
+          <div className="relative w-full max-w-[290px] sm:max-w-sm">
             {currentCard && (
               <div
                 ref={cardRef}
@@ -708,10 +708,10 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
                 }}
               >
                 {/* Polaroid styling */}
-                <div className="bg-white p-4 pb-6 rounded-sm shadow-2xl shadow-teal-900/50 relative">
+                <div className="bg-white p-3.5 pb-5 rounded-sm shadow-2xl shadow-teal-900/50 relative">
                   
                   {/* Image Area */}
-                  <div className="aspect-[4/5] bg-slate-100 mb-4 overflow-hidden relative border border-slate-200">
+                  <div className="aspect-[4/3.8] sm:aspect-[4/5] bg-slate-100 mb-3 overflow-hidden relative border border-slate-200">
                     {imageMap[currentCard.id] && !imgErrorMap[currentCard.id] ? (
                       <img
                         src={imageMap[currentCard.id]}
@@ -720,11 +720,11 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
                         onError={() => setImgErrorMap(prev => ({ ...prev, [currentCard.id]: true }))}
                       />
                     ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-teal-600 to-emerald-700 p-6 text-center text-white relative shadow-inner">
-                        <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center mb-3 shadow-lg border border-white/30">
-                          <span className="text-5xl drop-shadow-md">{currentCard.characterEmoji}</span>
+                      <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-teal-600 to-emerald-700 p-4 text-center text-white relative shadow-inner">
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center mb-2 shadow-lg border border-white/30">
+                          <span className="text-4xl sm:text-5xl drop-shadow-md">{currentCard.characterEmoji}</span>
                         </div>
-                        <span className="text-base font-extrabold tracking-wide uppercase drop-shadow-md">{currentCard.character}</span>
+                        <span className="text-sm sm:text-base font-extrabold tracking-wide uppercase drop-shadow-md">{currentCard.character}</span>
                       </div>
                     )}
                     
@@ -749,10 +749,10 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
 
                   {/* Text content under image (Polaroid bottom area) */}
                   <div className="text-center">
-                    <p className="font-bold text-slate-800 text-sm mb-1 uppercase tracking-wide border-b border-slate-200 pb-2">
+                    <p className="font-bold text-slate-800 text-xs sm:text-sm mb-1 uppercase tracking-wide border-b border-slate-200 pb-1.5">
                       {currentCard.character}
                     </p>
-                    <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mt-2" style={{ fontFamily: "'Caveat', cursive, sans-serif" }}>
+                    <p className="text-slate-700 text-xs sm:text-sm leading-relaxed mt-1.5 font-medium" style={{ fontFamily: "'Caveat', cursive, sans-serif" }}>
                       "{currentCard.situation}"
                     </p>
                   </div>
@@ -770,40 +770,46 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
               <Heart className="w-8 h-8 text-red-500 fill-red-500" />
             </button>
             <div className="flex items-center gap-2">
-              <span className="text-teal-900 font-black text-sm text-center w-24 leading-tight uppercase drop-shadow-[0_1px_1px_rgba(255,255,255,0.5)]">
+              <span className="text-teal-950 font-bold text-xs sm:text-sm text-center w-36 sm:w-48 leading-snug drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
                 {currentCard?.choiceRight}
               </span>
-              <Redo2 className="w-6 h-6 text-teal-800" />
+              <Redo2 className="w-6 h-6 text-teal-800 shrink-0" />
             </div>
           </div>
         </div>
 
-        {/* Mobile action choices (visible only on small screens) */}
-        <div className="flex sm:hidden items-stretch justify-center gap-3 mt-4 w-full max-w-[310px]">
+        {/* Mobile action choices (Full readable decision cards) */}
+        <div className="flex flex-col sm:hidden items-stretch gap-2.5 mt-4 w-full max-w-[340px] px-1">
           {/* Refuser / Left Choice */}
           <button 
             onClick={() => !swipeDir && applyChoice("left")}
-            className="flex-1 flex flex-col items-center justify-center py-2.5 px-2 rounded-2xl bg-teal-950/90 border-2 border-red-500/60 text-white shadow-xl active:scale-95 transition-all gap-1 hover:bg-teal-900"
+            className={`w-full flex items-center gap-3 p-3 rounded-2xl bg-teal-950/90 border-2 transition-all active:scale-[0.98] shadow-lg text-left ${previewDir === 'left' ? 'border-red-400 bg-red-950/70 ring-2 ring-red-400/50' : 'border-red-500/50 hover:border-red-400'}`}
           >
-            <div className="w-9 h-9 rounded-full bg-red-600/20 border border-red-500 flex items-center justify-center text-white text-base font-black shadow-inner">
+            <div className="w-9 h-9 rounded-xl bg-red-500/20 border border-red-500 flex items-center justify-center text-red-400 text-base font-black shrink-0 shadow-inner">
               ✕
             </div>
-            <span className="text-xs font-black uppercase text-red-200 text-center leading-tight tracking-tight line-clamp-2">
-              {currentCard?.choiceLeft}
-            </span>
+            <div className="flex-1">
+              <span className="text-[10px] font-black text-red-300 uppercase tracking-wider block">Glisser à gauche / Refuser :</span>
+              <span className="text-xs font-bold text-white leading-snug block mt-0.5">
+                {currentCard?.choiceLeft}
+              </span>
+            </div>
           </button>
 
           {/* Accepter / Right Choice */}
           <button 
             onClick={() => !swipeDir && applyChoice("right")}
-            className="flex-1 flex flex-col items-center justify-center py-2.5 px-2 rounded-2xl bg-white border-2 border-emerald-500 text-slate-900 shadow-xl active:scale-95 transition-all gap-1 hover:bg-slate-50"
+            className={`w-full flex items-center gap-3 p-3 rounded-2xl bg-white border-2 transition-all active:scale-[0.98] shadow-lg text-left ${previewDir === 'right' ? 'border-emerald-500 bg-emerald-50 ring-2 ring-emerald-400/50' : 'border-emerald-500/50 hover:border-emerald-500'}`}
           >
-            <div className="w-9 h-9 rounded-full bg-red-50 border border-red-200 flex items-center justify-center shadow-inner">
-              <Heart className="w-4 h-4 text-red-500 fill-red-500" />
+            <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-300 flex items-center justify-center shrink-0 shadow-inner">
+              <Heart className="w-4 h-4 text-emerald-600 fill-emerald-600" />
             </div>
-            <span className="text-xs font-black uppercase text-teal-950 text-center leading-tight tracking-tight line-clamp-2">
-              {currentCard?.choiceRight}
-            </span>
+            <div className="flex-1">
+              <span className="text-[10px] font-black text-emerald-700 uppercase tracking-wider block">Glisser à droite / Accepter :</span>
+              <span className="text-xs font-bold text-slate-900 leading-snug block mt-0.5">
+                {currentCard?.choiceRight}
+              </span>
+            </div>
           </button>
         </div>
         
