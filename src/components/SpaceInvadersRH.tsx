@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { ArrowLeft, RotateCcw, Play, Trophy, Rocket, Sparkles, Shield, ArrowLeft as LeftIcon, ArrowRight as RightIcon, Crosshair, Zap, Volume2, VolumeX } from "lucide-react";
+import { ArrowLeft, RotateCcw, Play, Trophy, Rocket, ArrowLeft as LeftIcon, ArrowRight as RightIcon, Crosshair, Zap, Volume2, VolumeX } from "lucide-react";
 
 interface SpaceInvadersRHProps {
   onClose: () => void;
@@ -204,7 +204,8 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
   const shakeRef = useRef<number>(0);
 
   // Initialiser les envahisseurs et boucliers
-  const initWave = useCallback((_currentWave: number) => {
+  const initWave = useCallback((_currentWave?: number) => {
+    void _currentWave;
     const invaders: Invader[] = [];
     const rows = 4;
     const cols = 8;
@@ -1032,23 +1033,23 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
         </div>
 
         {/* Canvas Area */}
-        <div className="relative bg-slate-900/90 border-2 border-purple-500/30 rounded-3xl p-3 shadow-[0_0_50px_rgba(168,85,247,0.25)]">
+        <div className="relative w-full max-w-[min(94vw,560px)] aspect-square bg-slate-900/90 border-2 border-purple-500/30 rounded-2xl sm:rounded-3xl p-1.5 sm:p-3 shadow-[0_0_50px_rgba(168,85,247,0.25)] flex items-center justify-center overflow-hidden">
           <canvas
             ref={canvasRef}
             width={CANVAS_WIDTH}
             height={CANVAS_HEIGHT}
-            className="rounded-2xl border border-slate-800 block shadow-inner"
+            className="w-full h-full max-w-full max-h-full object-contain rounded-xl sm:rounded-2xl border border-slate-800 block shadow-inner touch-none select-none"
           />
 
           {/* HUD Score */}
           {gameState === "playing" && (
-            <div className="absolute top-6 left-6 flex flex-col gap-2 pointer-events-none">
-              <div className="bg-slate-950/70 border border-purple-500/30 px-4 py-1.5 rounded-full backdrop-blur-md text-sm font-mono font-bold text-purple-300 shadow-xl">
+            <div className="absolute top-3 left-3 sm:top-6 sm:left-6 flex flex-col gap-1.5 sm:gap-2 pointer-events-none z-10">
+              <div className="bg-slate-950/80 border border-purple-500/30 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full backdrop-blur-md text-xs sm:text-sm font-mono font-bold text-purple-300 shadow-xl">
                 Score : {score}
               </div>
               {doubleShootTimer > 0 && (
-                <div className="flex items-center gap-2 bg-cyan-950/80 border border-cyan-400/50 px-3 py-1 rounded-full backdrop-blur-md text-[10px] font-bold text-cyan-300 shadow-xl animate-pulse">
-                  <Zap className="w-3.5 h-3.5 text-cyan-400" />
+                <div className="flex items-center gap-1.5 bg-cyan-950/90 border border-cyan-400/50 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full backdrop-blur-md text-[9px] sm:text-[10px] font-bold text-cyan-300 shadow-xl animate-pulse">
+                  <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cyan-400" />
                   <span>TIR DOUBLE : {(doubleShootTimer / 60).toFixed(1)}s</span>
                 </div>
               )}
@@ -1057,19 +1058,19 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
 
           {/* Overlay Start */}
           {gameState === "ready" && (
-            <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center p-6 text-center z-20">
-              <div className="w-16 h-16 bg-purple-500/20 border border-purple-400 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
-                <Rocket className="w-8 h-8 text-purple-400 animate-pulse" />
+            <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center p-4 sm:p-6 text-center z-20">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500/20 border border-purple-400 rounded-2xl flex items-center justify-center mb-3 sm:mb-4 shadow-lg">
+                <Rocket className="w-6 h-6 sm:w-8 sm:h-8 text-purple-400 animate-pulse" />
               </div>
-              <h2 className="text-2xl font-black text-white mb-2">Chasse aux Bureaucraties</h2>
-              <p className="text-slate-300 text-xs sm:text-sm max-w-xs mb-6 leading-relaxed">
-                Dirigez votre chasseur spatial avec les flèches et désintégrez les vagues de bugs avec la touche <kbd className="px-2 py-1 bg-slate-800 rounded text-purple-400">ESPACE</kbd> !
+              <h2 className="text-xl sm:text-2xl font-black text-white mb-2">Chasse aux Bureaucraties</h2>
+              <p className="text-slate-300 text-xs sm:text-sm max-w-xs mb-5 leading-relaxed">
+                Dirigez votre chasseur avec les boutons tactiles ou le clavier et éliminez les bugs !
               </p>
               <button
                 onClick={startNewGame}
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-400 hover:to-pink-500 text-white font-black rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 text-sm uppercase tracking-wider"
+                className="flex items-center gap-2 px-6 py-2.5 sm:py-3 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-400 hover:to-pink-500 text-white font-black rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 text-xs sm:text-sm uppercase tracking-wider"
               >
-                <Play className="w-5 h-5 fill-current" />
+                <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
                 Lancer l'assaut
               </button>
             </div>
@@ -1077,14 +1078,14 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
 
           {/* Overlay Game Over */}
           {gameState === "gameover" && (
-            <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center p-6 text-center z-20">
-              <Trophy className="w-12 h-12 text-yellow-400 mb-2 animate-bounce" />
-              <h2 className="text-3xl font-black text-rose-500 mb-1">DÉBORDEMENT BUREAUCRATIQUE !</h2>
+            <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-md rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center p-4 sm:p-6 text-center z-20">
+              <Trophy className="w-10 h-10 sm:w-12 sm:h-12 text-yellow-400 mb-2 animate-bounce" />
+              <h2 className="text-2xl sm:text-3xl font-black text-rose-500 mb-1">DÉBORDEMENT !</h2>
               <p className="text-slate-300 text-xs mb-4">Vos défenses ont été franchies par les anomalies.</p>
 
-              <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl mb-6 w-48 shadow-lg">
+              <div className="bg-slate-900 border border-slate-800 p-3 sm:p-4 rounded-xl mb-5 w-44 sm:w-48 shadow-lg">
                 <span className="text-[10px] uppercase font-bold text-slate-400">Score Final</span>
-                <p className="text-4xl font-black text-purple-400">{score}</p>
+                <p className="text-3xl sm:text-4xl font-black text-purple-400">{score}</p>
               </div>
 
               <button
@@ -1099,26 +1100,32 @@ const SpaceInvadersRH: React.FC<SpaceInvadersRHProps> = ({ onClose }) => {
         </div>
 
         {/* Mobile Controls */}
-        <div className="flex gap-4 mt-4 w-full max-w-[400px]">
+        <div className="flex gap-2.5 sm:gap-4 mt-3 sm:mt-4 w-full max-w-[min(94vw,480px)] px-1">
           <button
-            onPointerDown={() => { keysRef.current["ArrowLeft"] = true; }}
+            onPointerDown={(e) => { e.preventDefault(); keysRef.current["ArrowLeft"] = true; }}
             onPointerUp={() => { keysRef.current["ArrowLeft"] = false; }}
-            className="flex-1 py-4 bg-slate-900 border border-slate-800 hover:border-purple-500 rounded-2xl flex items-center justify-center active:scale-95"
+            onPointerLeave={() => { keysRef.current["ArrowLeft"] = false; }}
+            className="flex-1 py-3.5 sm:py-4 bg-slate-900 border border-slate-800 hover:border-purple-500 rounded-2xl flex items-center justify-center active:scale-95 touch-none select-none shadow-lg active:bg-slate-800"
+            aria-label="Gauche"
           >
-            <LeftIcon className="w-6 h-6 text-purple-400" />
+            <LeftIcon className="w-6 h-6 sm:w-7 sm:h-7 text-purple-400" />
           </button>
           <button
             onClick={fireLaser}
-            className="flex-1 py-4 bg-purple-500/20 border border-purple-500/50 hover:bg-purple-500/30 text-purple-300 font-bold rounded-2xl flex items-center justify-center gap-2 active:scale-95 uppercase tracking-wider text-xs shadow-lg"
+            onPointerDown={(e) => { e.preventDefault(); fireLaser(); }}
+            className="flex-1.5 py-3.5 sm:py-4 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-500/50 hover:bg-purple-500/40 text-purple-200 font-black rounded-2xl flex items-center justify-center gap-1.5 active:scale-95 uppercase tracking-wider text-xs sm:text-sm shadow-lg active:bg-purple-600/50 touch-none select-none"
+            aria-label="Tirer"
           >
-            <Crosshair className="w-5 h-5 text-pink-400" /> Tir Double
+            <Crosshair className="w-5 h-5 text-pink-400" /> TIRER
           </button>
           <button
-            onPointerDown={() => { keysRef.current["ArrowRight"] = true; }}
+            onPointerDown={(e) => { e.preventDefault(); keysRef.current["ArrowRight"] = true; }}
             onPointerUp={() => { keysRef.current["ArrowRight"] = false; }}
-            className="flex-1 py-4 bg-slate-900 border border-slate-800 hover:border-purple-500 rounded-2xl flex items-center justify-center active:scale-95"
+            onPointerLeave={() => { keysRef.current["ArrowRight"] = false; }}
+            className="flex-1 py-3.5 sm:py-4 bg-slate-900 border border-slate-800 hover:border-purple-500 rounded-2xl flex items-center justify-center active:scale-95 touch-none select-none shadow-lg active:bg-slate-800"
+            aria-label="Droite"
           >
-            <RightIcon className="w-6 h-6 text-purple-400" />
+            <RightIcon className="w-6 h-6 sm:w-7 sm:h-7 text-purple-400" />
           </button>
         </div>
       </div>
