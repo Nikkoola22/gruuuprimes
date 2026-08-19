@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, lazy, Suspense } from "react"
-import { Phone, Bot, Mail, MapPin, ArrowRight, ArrowLeft, Rss, Radio, Calculator, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Eye, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop } from "lucide-react"
+import { Phone, Bot, Mail, MapPin, ArrowRight, ArrowLeft, Rss, Radio, Calculator, DollarSign, TrendingUp, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Eye, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 
 // --- IMPORTATIONS DES DONNÉES ---
@@ -41,9 +41,6 @@ const getApiEndpoint = (endpoint: string) => {
 
 const BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL || getApiEndpoint("completions");
 
-
-// --- RSS ITEM TYPE ---
-
 const MARQUEE_SPEED = 80
 
 const updateMarqueeDuration = (el: HTMLDivElement | null) => {
@@ -58,10 +55,8 @@ const updateMarqueeDuration = (el: HTMLDivElement | null) => {
 }
 
 const ViewLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-950 to-slate-900">
-    <div className="px-4 py-3 rounded-xl border border-purple-400/30 bg-slate-900/60 text-purple-100/90 ">
-      Chargement en cours...
-    </div>
+  <div className="flex items-center justify-center min-h-[40vh]">
+    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-orange-500"></div>
   </div>
 )
 
@@ -77,6 +72,7 @@ type SearchDeps = {
     motsCles: string[]
     source: string
     chapitre?: number
+    article?: number
   }>
   rechercherAvecPriorite: (query: string, maxResults?: number) => Array<{ id: string }>
   searchFichesByKeywordsAsync: (keywords: string[]) => Promise<{ results?: unknown[] }>
