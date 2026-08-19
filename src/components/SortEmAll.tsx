@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { 
   ArrowLeft, Play, Timer, FileText, Inbox, Trophy, Volume2, VolumeX, 
-  Sparkles, Flame, Building2, ShieldAlert, Users, HeartPulse, 
-  FileSpreadsheet, HelpCircle, RotateCcw, CheckCircle2, AlertTriangle, 
-  XCircle, Keyboard
+  Flame, Building2, ShieldAlert, Users, HeartPulse, 
+  FileSpreadsheet, HelpCircle, RotateCcw, Keyboard
 } from "lucide-react";
 import confetti from "canvas-confetti";
 
@@ -486,7 +485,7 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
   const rank = getRankTitle(score);
 
   return (
-    <div className="relative z-30 isolate min-h-screen flex flex-col justify-between overflow-x-hidden bg-slate-950 text-slate-100 font-sans select-none touch-none">
+    <div className="relative z-30 isolate min-h-[100dvh] flex flex-col justify-between overflow-x-hidden overflow-y-auto bg-slate-950 text-slate-100 font-sans select-none">
       
       {/* Dynamic Animated Ambient Background Glow */}
       <div 
@@ -501,7 +500,7 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
       {/* Grid Pattern overlay for tech office vibe */}
       <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.03] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:32px_32px]" />
 
-      <div className="w-full max-w-6xl mx-auto flex-1 flex flex-col p-4 sm:p-6 relative z-10">
+      <div className="w-full max-w-6xl mx-auto flex-1 flex flex-col p-3 sm:p-6 pb-28 sm:pb-8 relative z-10">
         
         {/* ─── HEADER BAR ─────────────────────────────────────────────────── */}
         <div className="w-full flex flex-wrap justify-between items-center gap-3 mb-4 sm:mb-6">
@@ -686,7 +685,7 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
 
           {/* ─── ACTIVE DOSSIER CARD (MANILA FOLDER STYLE) ───────────────── */}
           {gameState === "playing" && currentDossier && (
-            <div className="relative w-full max-w-lg aspect-[16/10] sm:aspect-[16/9] flex items-center justify-center">
+            <div className="relative w-full max-w-lg aspect-[16/10] sm:aspect-[16/9] flex items-center justify-center my-1 sm:my-2">
               
               {/* Stacked background cards for 3D depth */}
               <div className="absolute w-[92%] h-[94%] bg-amber-900/40 rounded-2xl shadow-sm rotate-3 translate-y-3 opacity-40 border border-amber-700/30 pointer-events-none" />
@@ -694,7 +693,7 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
               
               {/* Main Physical Manila Folder */}
               <div 
-                className={`relative w-full h-full rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-2xl transition-all duration-200 transform border
+                className={`relative w-full h-full rounded-2xl p-4 sm:p-8 flex flex-col justify-between shadow-2xl transition-all duration-200 transform border
                   bg-gradient-to-br from-[#fbf4db] via-[#f7e9be] to-[#eed89d] text-slate-900 border-[#d4be80]
                   ${animateCard 
                     ? animateCard.direction === 'left'
@@ -714,16 +713,16 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
                 </div>
 
                 {/* Card Header */}
-                <div className="flex justify-between items-start border-b border-amber-900/20 pb-3">
+                <div className="flex justify-between items-start border-b border-amber-900/20 pb-2 sm:pb-3">
                   <div className="flex items-center gap-2 text-amber-900/70">
-                    <FileText className="w-5 h-5 text-amber-900" />
+                    <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-amber-900" />
                     <div className="flex flex-col">
-                      <span className="font-mono text-[10px] font-black tracking-widest uppercase">RÉPUBLIQUE FRANÇAISE</span>
-                      <span className="text-[9px] font-semibold opacity-75">DIRECTION DES RESSOURCES HUMAINES</span>
+                      <span className="font-mono text-[9px] sm:text-[10px] font-black tracking-widest uppercase">RÉPUBLIQUE FRANÇAISE</span>
+                      <span className="text-[8px] sm:text-[9px] font-semibold opacity-75">DIRECTION DES RESSOURCES HUMAINES</span>
                     </div>
                   </div>
 
-                  <div className={`px-2.5 py-1 rounded font-mono font-black text-[10px] uppercase border rotate-6 shadow-sm ${
+                  <div className={`px-2 py-0.5 sm:px-2.5 sm:py-1 rounded font-mono font-black text-[9px] sm:text-[10px] uppercase border rotate-6 shadow-sm ${
                     currentDossier.urgency === "EXTRÊME"
                       ? "bg-red-600 text-white border-red-700 animate-pulse"
                       : currentDossier.urgency === "HAUTE"
@@ -735,14 +734,14 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
                 </div>
 
                 {/* Card Body Text */}
-                <div className="my-auto py-2 text-center flex items-center justify-center">
-                  <h3 className="text-lg sm:text-2xl font-black text-amber-950 leading-snug tracking-tight">
+                <div className="my-auto py-1 sm:py-2 text-center flex items-center justify-center">
+                  <h3 className="text-base sm:text-2xl font-black text-amber-950 leading-snug tracking-tight">
                     "{currentDossier.text}"
                   </h3>
                 </div>
 
                 {/* Card Footer info */}
-                <div className="flex justify-between items-center text-[10px] font-mono text-amber-900/60 border-t border-amber-900/15 pt-2">
+                <div className="flex justify-between items-center text-[9px] sm:text-[10px] font-mono text-amber-900/60 border-t border-amber-900/15 pt-1.5 sm:pt-2">
                   <span>Dossier #{(processedCount + 1).toString().padStart(4, '0')}</span>
                   <span>Statut : En attente d'orientation</span>
                 </div>
@@ -775,7 +774,7 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
         </div>
 
         {/* ─── 5 BANNETTES DE TRI (TARGET BINS) ───────────────────────────── */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3.5 relative z-20 mt-auto pt-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3.5 relative z-20 mt-auto pt-2 pb-6 sm:pb-0">
           {BINS.map((bin) => {
             const Icon = bin.icon;
             const isDisabled = gameState !== "playing" || animateCard !== null;
@@ -785,7 +784,8 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
                 key={bin.id}
                 disabled={isDisabled}
                 onClick={() => handleSort(bin.id)}
-                className={`relative flex flex-col p-3 sm:p-4 rounded-2xl border transition-all duration-200 group overflow-hidden cursor-pointer select-none
+                className={`relative flex flex-col p-2.5 sm:p-4 rounded-2xl border transition-all duration-200 group overflow-hidden cursor-pointer select-none
+                  ${bin.id === "RH" ? "col-span-2 sm:col-span-1" : ""}
                   ${bin.theme.bg} ${bin.theme.border} ${isDisabled ? 'opacity-40 cursor-not-allowed' : `${bin.theme.glow} hover:scale-[1.02] active:scale-95`}`}
               >
                 {/* 3D Glass Light reflection */}
@@ -793,18 +793,18 @@ const SortEmAll: React.FC<SortEmAllProps> = ({ onClose }) => {
 
                 {/* Keyboard Badge Header */}
                 <div className="flex justify-between items-center w-full mb-1">
-                  <span className={`text-[10px] font-mono font-black px-2 py-0.5 rounded-md border ${bin.theme.keyColor}`}>
+                  <span className={`text-[10px] font-mono font-black px-1.5 sm:px-2 py-0.5 rounded-md border ${bin.theme.keyColor}`}>
                     {bin.badge}
                   </span>
-                  <Icon className={`w-4 h-4 ${bin.theme.text} opacity-80 group-hover:scale-110 transition-transform`} />
+                  <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${bin.theme.text} opacity-80 group-hover:scale-110 transition-transform`} />
                 </div>
 
                 {/* Bin Label */}
-                <div className="relative z-10 flex flex-col items-start text-left mt-1">
-                  <span className={`text-base sm:text-lg font-black tracking-wider ${bin.theme.text}`}>
+                <div className="relative z-10 flex flex-col items-start text-left mt-0.5 sm:mt-1">
+                  <span className={`text-sm sm:text-lg font-black tracking-wider ${bin.theme.text}`}>
                     {bin.label}
                   </span>
-                  <span className="text-[10px] font-medium leading-tight text-slate-300 opacity-85 mt-0.5 line-clamp-2">
+                  <span className="text-[9px] sm:text-[10px] font-medium leading-tight text-slate-300 opacity-85 mt-0.5 line-clamp-2">
                     {bin.desc}
                   </span>
                 </div>
