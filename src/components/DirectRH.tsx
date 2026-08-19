@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
-import { ArrowLeft, ChevronLeft, ChevronRight, RotateCcw, Users, Heart, Wallet, Scale, Crown, Skull, Volume2, VolumeX, Undo2, Redo2 } from "lucide-react";
+import { ArrowLeft, RotateCcw, Users, Heart, Wallet, Scale, Skull, Volume2, VolumeX, Undo2, Redo2 } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface CardDef {
@@ -601,6 +601,7 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
         <div className="relative z-10 text-center max-w-lg bg-white/10 p-8 rounded-3xl backdrop-blur-md border border-white/20 shadow-2xl">
           <div className="text-8xl mb-6"><Skull className="w-24 h-24 mx-auto text-red-400 drop-shadow-lg" /></div>
           <h2 className="text-3xl sm:text-4xl font-black text-white mb-3">Fin de mandat.</h2>
+          {gameOverReason && <p className="text-amber-300 font-semibold text-sm mb-4 px-2">{gameOverReason}</p>}
           <p className="text-teal-200 mb-8 font-medium">Vous avez tenu <span className="text-white font-black text-xl">{cardsPlayed}</span> décision{cardsPlayed > 1 ? "s" : ""}.</p>
 
           <div className="flex gap-4 justify-center">
@@ -777,34 +778,32 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
           </div>
         </div>
 
-        {/* Mobile buttons (visible only on small screens) */}
-        <div className="flex sm:hidden items-center justify-center gap-12 mt-8">
+        {/* Mobile action choices (visible only on small screens) */}
+        <div className="flex sm:hidden items-stretch justify-center gap-3 mt-4 w-full max-w-[310px]">
+          {/* Refuser / Left Choice */}
           <button 
             onClick={() => !swipeDir && applyChoice("left")}
-            className="w-14 h-14 rounded-full bg-teal-900 border-4 border-teal-800 flex items-center justify-center shadow-lg active:scale-95"
+            className="flex-1 flex flex-col items-center justify-center py-2.5 px-2 rounded-2xl bg-teal-950/90 border-2 border-red-500/60 text-white shadow-xl active:scale-95 transition-all gap-1 hover:bg-teal-900"
           >
-            <div className="text-white text-2xl font-black">✕</div>
+            <div className="w-9 h-9 rounded-full bg-red-600/20 border border-red-500 flex items-center justify-center text-white text-base font-black shadow-inner">
+              ✕
+            </div>
+            <span className="text-xs font-black uppercase text-red-200 text-center leading-tight tracking-tight line-clamp-2">
+              {currentCard?.choiceLeft}
+            </span>
           </button>
+
+          {/* Accepter / Right Choice */}
           <button 
             onClick={() => !swipeDir && applyChoice("right")}
-            className="w-14 h-14 rounded-full bg-white flex items-center justify-center shadow-lg active:scale-95"
+            className="flex-1 flex flex-col items-center justify-center py-2.5 px-2 rounded-2xl bg-white border-2 border-emerald-500 text-slate-900 shadow-xl active:scale-95 transition-all gap-1 hover:bg-slate-50"
           >
-            <Heart className="w-7 h-7 text-red-500 fill-red-500" />
-          </button>
-        </div>
-
-        {/* Superlike Button */}
-        <div className="mt-8 sm:mt-12 text-center">
-          <p className="text-white font-bold text-sm mb-2 drop-shadow-md">
-            IS IT A FAVOURITE?<br/>Click on the super like!
-          </p>
-          <button 
-            onClick={() => !swipeDir && applyChoice("right")} // just mapped to right choice for now
-            className="px-6 py-2 bg-gradient-to-r from-amber-400 to-orange-400 text-white font-black rounded-full shadow-lg border border-white/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 mx-auto"
-          >
-            <span className="text-lg">★</span>
-            SUPERLIKE
-            <span className="text-lg">★</span>
+            <div className="w-9 h-9 rounded-full bg-red-50 border border-red-200 flex items-center justify-center shadow-inner">
+              <Heart className="w-4 h-4 text-red-500 fill-red-500" />
+            </div>
+            <span className="text-xs font-black uppercase text-teal-950 text-center leading-tight tracking-tight line-clamp-2">
+              {currentCard?.choiceRight}
+            </span>
           </button>
         </div>
         
