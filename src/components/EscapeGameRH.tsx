@@ -1,20 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { 
-  Key, Lock, LockKeyhole, LogOut, ArrowLeft, 
+  Key, LockKeyhole, LogOut, ArrowLeft, 
   RotateCcw, 
   BookOpen, 
-  FileText, 
-  ShieldAlert, 
   Trophy, 
-  HelpCircle,
   Sparkles,
   ArrowRight,
   TrendingUp,
   AlertTriangle,
   CheckCircle2,
-  XCircle,
-  Building2,
-  Eye
+  XCircle
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -177,17 +172,42 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
   const [currentScenarioIndex, setCurrentScenarioIndex] = useState(0);
   const [selectedChoiceIndex, setSelectedChoiceIndex] = useState<number | null>(null);
   const [score, setScore] = useState(0);
-  const [scoresHistory, setScoresHistory] = useState<number[]>([]);
   const [userChoices, setUserChoices] = useState<number[]>([]);
+
+  const dossierRef = useRef<HTMLDivElement | null>(null);
+  const feedbackRef = useRef<HTMLDivElement | null>(null);
 
   const currentScenario = SCENARIOS[currentScenarioIndex];
   const maxScenarios = SCENARIOS.length;
+
+  // Scroll automatique au niveau de la fenêtre des dossiers à chaque nouveau dossier
+  useEffect(() => {
+    if (gameState === "playing" && selectedChoiceIndex === null) {
+      const timer = setTimeout(() => {
+        if (dossierRef.current) {
+          dossierRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }, 60);
+      return () => clearTimeout(timer);
+    }
+  }, [currentScenarioIndex, gameState, selectedChoiceIndex]);
+
+  // Scroll automatique vers le débrief de l'expert quand une réponse est validée
+  useEffect(() => {
+    if (gameState === "playing" && selectedChoiceIndex !== null) {
+      const timer = setTimeout(() => {
+        feedbackRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedChoiceIndex, gameState]);
 
   const handleStart = () => {
     setScore(0);
     setCurrentScenarioIndex(0);
     setSelectedChoiceIndex(null);
-    setScoresHistory([]);
     setUserChoices([]);
     setGameState("playing");
   };
@@ -197,7 +217,6 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
     setSelectedChoiceIndex(choiceIndex);
     const chosenChoice = currentScenario.choices[choiceIndex];
     setScore((prev) => prev + chosenChoice.score);
-    setScoresHistory((prev) => [...prev, chosenChoice.score]);
     setUserChoices((prev) => [...prev, choiceIndex]);
   };
 
@@ -347,8 +366,8 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
                 transition={{ type: "spring", bounce: 0.4 }}
                 className="w-full flex flex-col gap-6"
               >
-                {/* PROGRESS BAR */}
-                <div className="bg-white border-4 border-slate-900 rounded-2xl p-4 shadow-[6px_6px_0px_#000] flex flex-col gap-3">
+                {/* PROGRESS BAR & DOSSIER HEADER */}
+                <div ref={dossierRef} className="bg-white border-4 border-slate-900 rounded-2xl p-4 shadow-[6px_6px_0px_#000] flex flex-col gap-3 scroll-mt-6">
                   <div className="flex justify-between items-center text-sm font-black text-slate-800 uppercase">
                     <span>Dossier <span className="text-indigo-600 text-xl">#{currentScenarioIndex + 1}</span> / {maxScenarios}</span>
                     <span className="bg-yellow-300 px-3 py-1 rounded-xl border-2 border-slate-900 shadow-[2px_2px_0px_#000]">
@@ -443,11 +462,12 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
                 <AnimatePresence>
                   {selectedChoiceIndex !== null && (
                     <motion.div
+                      ref={feedbackRef}
                       initial={{ opacity: 0, scale: 0.5, y: 20 }}
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.5 }}
                       transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                      className={`rounded-3xl p-6 sm:p-8 border-4 border-slate-900 text-left shadow-[8px_8px_0px_rgba(0,0,0,1)] relative overflow-hidden ${
+                      className={`rounded-3xl p-6 sm:p-8 border-4 border-slate-900 text-left shadow-[8px_8px_0px_rgba(0,0,0,1)] relative overflow-hidden scroll-mt-6 ${
                         currentScenario.choices[selectedChoiceIndex].type === "bon"
                           ? "bg-emerald-100"
                           : currentScenario.choices[selectedChoiceIndex].type === "risque"
