@@ -1373,17 +1373,17 @@ ${indicesFactuels}
                       <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">J'ai une<br />question</span>
                     </button>
 
-                    {/* 2. Spotlight Metiers Button */}
+                    {/* 2. Spotlight Espace Jeux Button */}
                     <button
-                      onClick={openMetiersView}
-                      className="relative flex flex-col items-center justify-center gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
+                      onClick={() => setChatState({ ...chatState, currentView: 'jeux' })}
+                      className="relative flex flex-col items-center justify-center gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-pink-600 dark:hover:text-pink-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
                       onMouseEnter={() => setHoveredQuickAccessIndex(1)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
                       <AnimatePresence>
                         {hoveredQuickAccessIndex === 1 && (
                           <motion.span
-                            className="absolute inset-0 h-full w-full bg-emerald-500/10 dark:bg-emerald-500/15 block rounded-2xl z-0 border border-emerald-500/25 shadow-sm pointer-events-none"
+                            className="absolute inset-0 h-full w-full bg-pink-500/10 dark:bg-pink-500/15 block rounded-2xl z-0 border border-pink-500/25 shadow-sm pointer-events-none"
                             layoutId="quickAccessHover"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -1391,10 +1391,10 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-teal-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-emerald-500/25 transition-all duration-200">
-                        <LayoutGrid className="w-8 h-8 sm:w-11 sm:h-11" />
+                      <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-pink-500/15 to-rose-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-pink-500/25 transition-all duration-200">
+                        <Gamepad2 className="w-8 h-8 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Grilles<br />Indiciaires</span>
+                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Espace<br />Jeux RH</span>
                     </button>
 
                     {/* 3. Spotlight Calculators Button */}
@@ -1421,17 +1421,17 @@ ${indicesFactuels}
                       <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Calculateurs<br />Primes</span>
                     </button>
 
-                    {/* 4. Spotlight Espace Jeux Button */}
+                    {/* 4. Spotlight Metiers Button */}
                     <button
-                      onClick={() => setChatState({ ...chatState, currentView: 'jeux' })}
-                      className="relative flex flex-col items-center justify-center gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-pink-600 dark:hover:text-pink-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
+                      onClick={openMetiersView}
+                      className="relative flex flex-col items-center justify-center gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
                       onMouseEnter={() => setHoveredQuickAccessIndex(3)}
                       onMouseLeave={() => setHoveredQuickAccessIndex(null)}
                     >
                       <AnimatePresence>
                         {hoveredQuickAccessIndex === 3 && (
                           <motion.span
-                            className="absolute inset-0 h-full w-full bg-pink-500/10 dark:bg-pink-500/15 block rounded-2xl z-0 border border-pink-500/25 shadow-sm pointer-events-none"
+                            className="absolute inset-0 h-full w-full bg-emerald-500/10 dark:bg-emerald-500/15 block rounded-2xl z-0 border border-emerald-500/25 shadow-sm pointer-events-none"
                             layoutId="quickAccessHover"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -1439,10 +1439,10 @@ ${indicesFactuels}
                           />
                         )}
                       </AnimatePresence>
-                      <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-pink-500/15 to-rose-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-pink-500/25 transition-all duration-200">
-                        <Gamepad2 className="w-8 h-8 sm:w-11 sm:h-11" />
+                      <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-teal-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-emerald-500/25 transition-all duration-200">
+                        <LayoutGrid className="w-8 h-8 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Espace<br />Jeux RH</span>
+                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Grilles<br />Indiciaires</span>
                     </button>
 
                     {/* 5. Spotlight FAQ Button */}
