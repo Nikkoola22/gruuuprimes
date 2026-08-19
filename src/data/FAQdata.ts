@@ -302,6 +302,10 @@ const scoreFAQMatch = (item: FAQItem, query: string): number => {
     score += 20;
   }
 
+  if (normalizedAnswer.includes(normalizedQuery)) {
+    score += 8;
+  }
+
   if (normalizedQuery.includes(normalizedQuestion)) {
     score += 12;
   }

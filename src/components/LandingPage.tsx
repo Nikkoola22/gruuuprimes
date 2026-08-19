@@ -99,7 +99,6 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
       : [0xFF1C74, 0xCC0055, 0xFF00BB, 0xAA00DD, 0xFF4499, 0xDD0088]
 
     const edgeColor = isLight ? 0x000000 : 0xFF5599
-    const textColor = isLight ? 0x111827 : 0xffffff
 
     const mkMat = (emissive: number, opacity: number) =>
       new THREE.MeshPhysicalMaterial({

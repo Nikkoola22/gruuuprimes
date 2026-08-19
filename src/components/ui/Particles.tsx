@@ -53,17 +53,6 @@ export const Particles: React.FC<ParticlesProps> = ({
       });
     }
 
-    let mouseX = width / 2;
-    let mouseY = height / 2;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
@@ -108,7 +97,6 @@ export const Particles: React.FC<ParticlesProps> = ({
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(animationFrameId);
     };
   }, [particleCount, particleColor, speed]);

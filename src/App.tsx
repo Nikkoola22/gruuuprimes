@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, lazy, Suspense } from "react"
-import { Phone, Bot, Mail, MapPin, ArrowRight, ArrowLeft, Rss, Radio, Calculator, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Eye, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop } from "lucide-react"
+import { Phone, Bot, Mail, MapPin, ArrowRight, ArrowLeft, Rss, Radio, Calculator, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Eye, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 
 // --- IMPORTATIONS DES DONNÉES ---
@@ -43,11 +43,6 @@ const BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL || getApiEndpoint("
 
 
 // --- RSS ITEM TYPE ---
-interface RssItem {
-  title: string
-  link: string
-  pubDate: string
-}
 
 const MARQUEE_SPEED = 80
 
@@ -244,27 +239,11 @@ function App() {
     localStorage.setItem('showMacMenuBar', String(showMacMenuBar));
   }, [showMacMenuBar]);
 
-  const messagesListRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
   const newsMarqueeRef = useRef<HTMLDivElement>(null)
   const rssMarqueeRef = useRef<HTMLDivElement>(null)
   const bipMarkdownCacheRef = useRef<Map<string, string>>(new Map())
 
   // --- EFFETS ---
-  useEffect(() => {
-    if (chatState.currentView !== "chat") return
-
-    const messageList = messagesListRef.current
-    if (!messageList) return
-
-    if (chatState.messages.length <= 1 && !chatState.isProcessing) {
-      messageList.scrollTo({ top: 0, behavior: "auto" })
-      return
-    }
-
-    messageList.scrollTo({ top: messageList.scrollHeight, behavior: "smooth" })
-  }, [chatState.messages, chatState.currentView, chatState.isProcessing])
-
   useEffect(() => {
     const sync = () => {
       updateMarqueeDuration(newsMarqueeRef.current)
@@ -1221,7 +1200,6 @@ ${indicesFactuels}
       setChatState((prevState) => ({ ...prevState, messages: [...prevState.messages, errorMessage] }))
     } finally {
       setChatState((prevState) => ({ ...prevState, isProcessing: false }))
-      setTimeout(() => inputRef.current?.focus(), 100)
     }
   }
 
