@@ -1756,13 +1756,25 @@ ${indicesFactuels}
                   {/* CARROUSEL 2 : Actualités de la Fonction Publique */}
                   <div className="flex-1 w-full bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 flex flex-col justify-between">
                     <div>
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/40 rounded-xl border border-emerald-200 dark:border-emerald-800 flex items-center justify-center">
-                          <Landmark className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/40 rounded-xl border border-emerald-200 dark:border-emerald-800 flex items-center justify-center">
+                            <Landmark className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                          </div>
+                          <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-wide">
+                            Actualités de la <span className="text-emerald-600 dark:text-emerald-400">Fonction Publique</span>
+                          </h3>
                         </div>
-                        <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-wide">
-                          Actualités de la <span className="text-emerald-600 dark:text-emerald-400">Fonction Publique</span>
-                        </h3>
+                        <a
+                          href="https://www.lettreducadre.fr/ressources/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/80 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 transition-all hover:scale-105"
+                          title="Accéder aux ressources de La Lettre du Cadre"
+                        >
+                          <span>Ressources La Lettre du Cadre</span>
+                          <ExternalLinkIcon className="w-3 h-3" />
+                        </a>
                       </div>
 
                       {fpLoading ? (

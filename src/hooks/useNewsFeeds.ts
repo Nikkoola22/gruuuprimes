@@ -35,6 +35,57 @@ export const FALLBACK_INTERCO_NEWS: IntercoNewsItem[] = [
   { title: "Déclaration liminaire CFDT au CSA services judiciaires du 19 février", link: "https://interco.cfdt.fr/lacte-de-juger-ne-se-reduit-pas-au-rendu-dune-decision/", pubDate: "Wed, 19 Feb 2026 00:00:00 +0000", category: "Services judiciaires", description: "L'absence de réflexion transverse sur le sens des missions de chacun." },
 ];
 
+export const FALLBACK_FP_NEWS: IntercoNewsItem[] = [
+  {
+    title: "Ressources & Management Territorial : Dossiers et fiches pratiques",
+    link: "https://www.lettreducadre.fr/ressources/",
+    pubDate: "2026-08-01T08:00:00.000Z",
+    category: "Ressources RH",
+    description: "Accédez à tous les dossiers, guides statutaires et ressources documentaires de La Lettre du Cadre Territorial.",
+    imageUrl: "https://www.lettreducadre.fr/mediatheque/0/2/6/000032620_210x140_c.jpeg"
+  },
+  {
+    title: "Rémunération : la FPT au bout du rouleau",
+    link: "https://www.lettreducadre.fr/article/remuneration-la-fpt-au-bout-du-rouleau.55529",
+    pubDate: "2026-07-08T06:00:00.000Z",
+    category: "Salaire & Primes",
+    description: "Analyse sur les grilles indiciaires, le pouvoir d'achat et les tensions indemnitaires dans la territoriale.",
+    imageUrl: "https://www.lettreducadre.fr/mediatheque/0/2/6/000032620_210x140_c.jpeg"
+  },
+  {
+    title: "Comment accompagner un agent bipolaire au sein de son équipe ?",
+    link: "https://www.lettreducadre.fr/article/comment-accompagner-un-agent-bipolaire-au-sein-de-son-equipe.55515",
+    pubDate: "2026-06-17T08:11:00.000Z",
+    category: "Santé au travail",
+    description: "Conseils et repères managériaux pour les encadrants territoriaux face aux troubles psychiques.",
+    imageUrl: "https://www.lettreducadre.fr/mediatheque/7/9/5/000032597_210x140_c.jpeg"
+  },
+  {
+    title: "Charge de travail des cadres : retour d'expérience et leviers d'action",
+    link: "https://www.lettreducadre.fr/article/comment-rennes-a-planche-sur-la-charge-de-travail-de-ses-cadres-et-mis-au-jour-leurs-irritants-du-quotidien.55073",
+    pubDate: "2026-05-14T10:01:00.000Z",
+    category: "Management",
+    description: "Comment une collectivité a planché sur la charge de travail de ses cadres et les irritants du quotidien.",
+    imageUrl: "https://www.lettreducadre.fr/mediatheque/7/3/0/000032037_210x140_c.jpeg"
+  },
+  {
+    title: "La décroissance démographique, une question « largement taboue » pour les territoires",
+    link: "https://www.lettreducadre.fr/article/la-decroissance-demographique-une-question-largement-taboue.55474",
+    pubDate: "2026-05-19T06:01:00.000Z",
+    category: "Territoires",
+    description: "Enjeux d'organisation des services publics territoriaux face aux évolutions démographiques.",
+    imageUrl: "https://www.lettreducadre.fr/mediatheque/3/5/5/000032553_210x140_c.jpeg"
+  },
+  {
+    title: "AMF - Gestion des carrières et rémunérations territoriales",
+    link: "https://www.amf.asso.fr",
+    pubDate: "2026-04-10T08:00:00.000Z",
+    category: "AMF",
+    description: "Dernières actualités sur le statut des agents territoriaux.",
+    imageUrl: "https://www.amf.asso.fr/upload/rubriques/36012.jpg"
+  }
+];
+
 export function useNewsFeeds() {
   const [rssItems, setRssItems] = useState<RssItem[]>([]);
   const [rssLoading, setRssLoading] = useState(true);
@@ -46,6 +97,7 @@ export function useNewsFeeds() {
   const [fpLoading, setFpLoading] = useState(true);
 
   const fallbackInterco = useMemo(() => FALLBACK_INTERCO_NEWS, []);
+  const fallbackFp = useMemo(() => FALLBACK_FP_NEWS, []);
 
   // 1. General RSS
   useEffect(() => {
@@ -127,7 +179,7 @@ export function useNewsFeeds() {
     };
   }, [fallbackInterco]);
 
-  // 3. FP News (AMF)
+  // 3. FP News (Lettre du Cadre & AMF)
   useEffect(() => {
     let isMounted = true;
     const fetchFpNews = async () => {
@@ -138,10 +190,10 @@ export function useNewsFeeds() {
         if (!response.ok) throw new Error(`Erreur serveur: ${response.status}`);
         const data = await response.json();
         if (isMounted) {
-          setFpNews(data.items || []);
+          setFpNews(data.items && data.items.length > 0 ? data.items : fallbackFp);
         }
       } catch {
-        // Fallback handled on backend
+        if (isMounted) setFpNews(fallbackFp);
       } finally {
         if (isMounted) setFpLoading(false);
       }
@@ -153,7 +205,7 @@ export function useNewsFeeds() {
       isMounted = false;
       clearInterval(interval);
     };
-  }, []);
+  }, [fallbackFp]);
 
   return {
     rssItems,
