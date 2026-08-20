@@ -25,45 +25,60 @@ export default async function handler(req, res) {
     const fetch = (await import('node-fetch')).default;
     const articles = [];
 
-    // 1. Fetch Lettre du Cadre RSS
+    // 1. Fetch Lettre du Cadre (Ressources & Actualités)
     try {
       const xml2js = await import('xml2js');
       const parser = new xml2js.default.Parser();
-      const ldcRes = await fetch("https://www.lettreducadre.fr/rss/", {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-        }
-      });
-      if (ldcRes.ok) {
-        const ldcXml = await ldcRes.text();
-        const ldcData = await parser.parseStringPromise(ldcXml);
-        const ldcItems = ldcData.rss?.channel?.[0]?.item || [];
-        
-        ldcItems.forEach(it => {
-          const title = (it.title?.[0] || 'Sans titre').trim();
-          const link = (it.link?.[0] || 'https://www.lettreducadre.fr/ressources/').trim();
-          const pubDate = it.pubDate?.[0] || new Date().toISOString();
-          const imageUrl = it.enclosure?.[0]?.['$']?.url || null;
-          let category = 'Lettre du Cadre';
-          if (Array.isArray(it.category) && it.category.length > 0) {
-            const catItem = it.category[0];
-            const catStr = typeof catItem === 'string' ? catItem : (catItem._ || '');
-            category = catStr.trim() || 'Lettre du Cadre';
-          }
-          const description = (it.description?.[0] || '').replace(/<[^>]*>/g, '').trim();
-          const timestamp = new Date(pubDate).getTime() || Date.now();
+      const ldcFeeds = [
+        "https://www.lettreducadre.fr/ressources/rss",
+        "https://www.lettreducadre.fr/rss/"
+      ];
+      const seenLinks = new Set();
 
-          articles.push({
-            title,
-            link,
-            pubDate,
-            category,
-            description,
-            imageUrl,
-            timestamp,
-            source: 'Lettre du Cadre'
+      for (const feedUrl of ldcFeeds) {
+        try {
+          const ldcRes = await fetch(feedUrl, {
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
           });
-        });
+          if (ldcRes.ok) {
+            const ldcXml = await ldcRes.text();
+            const ldcData = await parser.parseStringPromise(ldcXml);
+            const ldcItems = ldcData.rss?.channel?.[0]?.item || [];
+            
+            ldcItems.forEach(it => {
+              const link = (it.link?.[0] || '').trim();
+              if (!link || seenLinks.has(link)) return;
+              seenLinks.add(link);
+
+              const title = (it.title?.[0] || 'Sans titre').trim();
+              const pubDate = it.pubDate?.[0] || new Date().toISOString();
+              const imageUrl = it.enclosure?.[0]?.['$']?.url || null;
+              let category = 'Ressources RH';
+              if (Array.isArray(it.category) && it.category.length > 0) {
+                const catItem = it.category[0];
+                const catStr = typeof catItem === 'string' ? catItem : (catItem._ || '');
+                category = catStr.trim() || 'Ressources RH';
+              }
+              const description = (it.description?.[0] || '').replace(/<[^>]*>/g, '').trim();
+              const timestamp = new Date(pubDate).getTime() || Date.now();
+
+              articles.push({
+                title,
+                link,
+                pubDate,
+                category,
+                description,
+                imageUrl,
+                timestamp,
+                source: 'Lettre du Cadre'
+              });
+            });
+          }
+        } catch (feedErr) {
+          console.warn(`⚠️ Erreur fetch ${feedUrl}:`, feedErr.message);
+        }
       }
     } catch (ldcErr) {
       console.warn("⚠️ Erreur fetch Lettre du Cadre RSS (Vercel):", ldcErr.message);

@@ -37,19 +37,51 @@ export const FALLBACK_INTERCO_NEWS: IntercoNewsItem[] = [
 
 export const FALLBACK_FP_NEWS: IntercoNewsItem[] = [
   {
-    title: "Ressources & Management Territorial : Dossiers et fiches pratiques",
-    link: "https://www.lettreducadre.fr/ressources/",
-    pubDate: "2026-08-01T08:00:00.000Z",
+    title: "Masse salariale : l'heure des choix dans les collectivités",
+    link: "https://www.lettreducadre.fr/article/masse-salariale-l-heure-des-choix.55534",
+    pubDate: "2026-07-10T08:00:00.000Z",
+    category: "Ressources & Gestion",
+    description: "Contraintes budgétaires, arbitrages RH et pilotage de la masse salariale territoriale.",
+    imageUrl: "https://www.lettreducadre.fr/mediatheque/5/2/6/000032625_210x140_c.jpeg"
+  },
+  {
+    title: "Absentéisme : l’usure professionnelle a changé de visage",
+    link: "https://www.lettreducadre.fr/article/absenteisme-l-usure-professionnelle-a-change-de-visage.55537",
+    pubDate: "2026-07-10T06:00:00.000Z",
+    category: "Santé au travail",
+    description: "Nouveaux facteurs d'usure, santé mentale et démarches de prévention pour les agents publics.",
+    imageUrl: "https://www.lettreducadre.fr/mediatheque/1/2/6/000032621_210x140_c.jpeg"
+  },
+  {
+    title: "L'absurdité invisible des grilles salariales",
+    link: "https://www.lettreducadre.fr/article/l-absurdite-invisible-des-grilles-salariales.55535",
+    pubDate: "2026-07-10T06:00:00.000Z",
+    category: "Salaire & Primes",
+    description: "Tassement des grilles, perte de repères d'avancement et défis d'attractivité de la territoriale.",
+    imageUrl: "https://www.lettreducadre.fr/mediatheque/2/2/6/000032622_210x140_c.jpeg"
+  },
+  {
+    title: "Reclassement : sortir de la gestion de crise",
+    link: "https://www.lettreducadre.fr/article/reclassement-sortir-de-la-gestion-de-crise.55533",
+    pubDate: "2026-07-10T06:00:00.000Z",
+    category: "Carrière & Mobilité",
+    description: "Accompagnement des agents inaptes, reconversion et sécurisation des parcours professionnels.",
+    imageUrl: "https://www.lettreducadre.fr/mediatheque/3/2/6/000032623_210x140_c.jpeg"
+  },
+  {
+    title: "8 chantiers RH prioritaires pour la fonction publique territoriale",
+    link: "https://www.lettreducadre.fr/article/8-chantiers-rh-pour-la-territoriale.55532",
+    pubDate: "2026-07-10T06:00:00.000Z",
     category: "Ressources RH",
-    description: "Accédez à tous les dossiers, guides statutaires et ressources documentaires de La Lettre du Cadre Territorial.",
-    imageUrl: "https://www.lettreducadre.fr/mediatheque/0/2/6/000032620_210x140_c.jpeg"
+    description: "Panorama des transformations majeures : management, attractivité, formation et conditions de travail.",
+    imageUrl: "https://www.lettreducadre.fr/mediatheque/9/1/6/000032619_210x140_c.jpeg"
   },
   {
     title: "Rémunération : la FPT au bout du rouleau",
     link: "https://www.lettreducadre.fr/article/remuneration-la-fpt-au-bout-du-rouleau.55529",
     pubDate: "2026-07-08T06:00:00.000Z",
     category: "Salaire & Primes",
-    description: "Analyse sur les grilles indiciaires, le pouvoir d'achat et les tensions indemnitaires dans la territoriale.",
+    description: "Grilles indiciaires décrochées, RIFSEEP au plafond et tensions salariales persistantes.",
     imageUrl: "https://www.lettreducadre.fr/mediatheque/0/2/6/000032620_210x140_c.jpeg"
   },
   {
@@ -57,32 +89,64 @@ export const FALLBACK_FP_NEWS: IntercoNewsItem[] = [
     link: "https://www.lettreducadre.fr/article/comment-accompagner-un-agent-bipolaire-au-sein-de-son-equipe.55515",
     pubDate: "2026-06-17T08:11:00.000Z",
     category: "Santé au travail",
-    description: "Conseils et repères managériaux pour les encadrants territoriaux face aux troubles psychiques.",
+    description: "Conseils pratiques et dialogue managérial face aux handicaps invisibles en collectivité.",
     imageUrl: "https://www.lettreducadre.fr/mediatheque/7/9/5/000032597_210x140_c.jpeg"
+  },
+  {
+    title: "Une fresque pour parler de santé mentale au travail",
+    link: "https://www.lettreducadre.fr/article/une-fresque-pour-parler-de-sante-mentale-au-travail.55522",
+    pubDate: "2026-06-26T09:26:00.000Z",
+    category: "Santé au travail",
+    description: "Sensibilisation des managers et formation aux premiers secours en santé mentale.",
+    imageUrl: "https://www.lettreducadre.fr/mediatheque/4/0/6/000032604_210x140_c.jpeg"
+  },
+  {
+    title: "La Cour des comptes acte une mutation durable de la place des contractuels",
+    link: "https://www.lettreducadre.fr/article/la-cour-des-comptes-acte-une-mutation-durable-de-la-place-des-contractuels-dans-la-territoriale.55517",
+    pubDate: "2026-06-19T12:23:00.000Z",
+    category: "Statut & Contrats",
+    description: "L'irruption en masse des contractuels et les préconisations de la Cour des comptes.",
+    imageUrl: "https://www.lettreducadre.fr/mediatheque/9/9/5/000032599_210x140_c.jpeg"
+  },
+  {
+    title: "Ce qui change dans le statut des administrateurs territoriaux et emplois de direction",
+    link: "https://www.lettreducadre.fr/article/ce-qui-change-dans-le-statut-des-administrateurs-territoriaux-et-emplois-de-direction.55528",
+    pubDate: "2026-07-06T06:00:00.000Z",
+    category: "Statut",
+    description: "Transposition de la réforme de la haute fonction publique d'État à la territoriale.",
+    imageUrl: "https://www.lettreducadre.fr/mediatheque/5/1/6/000032615_210x140_c.jpeg"
   },
   {
     title: "Charge de travail des cadres : retour d'expérience et leviers d'action",
     link: "https://www.lettreducadre.fr/article/comment-rennes-a-planche-sur-la-charge-de-travail-de-ses-cadres-et-mis-au-jour-leurs-irritants-du-quotidien.55073",
     pubDate: "2026-05-14T10:01:00.000Z",
     category: "Management",
-    description: "Comment une collectivité a planché sur la charge de travail de ses cadres et les irritants du quotidien.",
+    description: "Identifier et gommer les irritants du quotidien pour les cadres territoriaux.",
     imageUrl: "https://www.lettreducadre.fr/mediatheque/7/3/0/000032037_210x140_c.jpeg"
   },
   {
-    title: "La décroissance démographique, une question « largement taboue » pour les territoires",
+    title: "La smicardisation en marche des agents publics",
+    link: "https://www.lettreducadre.fr/article/la-smicardisation-en-marche-des-agents-publics.55495",
+    pubDate: "2026-06-04T06:00:00.000Z",
+    category: "Salaire & Primes",
+    description: "L'impact de la revalorisation du SMIC sur l'échelle indiciaire de la fonction publique.",
+    imageUrl: "https://www.lettreducadre.fr/mediatheque/4/8/5/000032584_210x140_c.jpeg"
+  },
+  {
+    title: "Douze conseils pour une fin de carrière (presque) sereine…",
+    link: "https://www.lettreducadre.fr/article/douze-conseils-pour-une-fin-de-carriere-presque-sereine.55343",
+    pubDate: "2026-01-22T06:00:00.000Z",
+    category: "Carrière",
+    description: "Anticiper et réussir sa seconde partie de carrière professionnelle.",
+    imageUrl: "https://www.lettreducadre.fr/mediatheque/0/7/3/000032370_210x140_c.jpeg"
+  },
+  {
+    title: "La décroissance démographique, une question taboue pour les territoires",
     link: "https://www.lettreducadre.fr/article/la-decroissance-demographique-une-question-largement-taboue.55474",
     pubDate: "2026-05-19T06:01:00.000Z",
     category: "Territoires",
-    description: "Enjeux d'organisation des services publics territoriaux face aux évolutions démographiques.",
+    description: "Nouvelle ère démographique et défis d'organisation pour les services publics territoriaux.",
     imageUrl: "https://www.lettreducadre.fr/mediatheque/3/5/5/000032553_210x140_c.jpeg"
-  },
-  {
-    title: "AMF - Gestion des carrières et rémunérations territoriales",
-    link: "https://www.amf.asso.fr",
-    pubDate: "2026-04-10T08:00:00.000Z",
-    category: "AMF",
-    description: "Dernières actualités sur le statut des agents territoriaux.",
-    imageUrl: "https://www.amf.asso.fr/upload/rubriques/36012.jpg"
   }
 ];
 
