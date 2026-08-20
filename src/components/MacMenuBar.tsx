@@ -12,7 +12,7 @@ interface Props {
   theme: 'light' | 'dark';
   toggleTheme: () => void;
   currentView: string;
-  setView: (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts") => void;
+  setView: (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag") => void;
   openCalculator: (calc: 'primes' | 'cia' | '13eme') => void;
   onClose: () => void;
 }
@@ -32,62 +32,13 @@ export default function MacMenuBar({
   const [climatSocial, setClimatSocial] = useState(88); // Battery-like indicator
   const [brightness, setBrightness] = useState(100); // UI visual glow
   const [wifiConnected, setWifiConnected] = useState(true);
-  const [focusMode, setFocusMode] = useState(false);
-  
-  // Spotlight Search State
-  const [showSpotlight, setShowSpotlight] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<FAQItem[]>([]);
-  const [selectedResult, setSelectedResult] = useState<FAQItem | null>(null);
   
   // About / Preferences Modals State
   const [showAbout, setShowAbout] = useState(false);
   const [showPreferences, setShowPreferences] = useState(false);
 
-  // Time & Date State
-  const [timeStr, setTimeStr] = useState('');
-  const [dateStr, setDateStr] = useState('');
-
   // DOM Refs for closing dropdowns on click outside
   const menuBarRef = useRef<HTMLDivElement>(null);
-  const spotlightInputRef = useRef<HTMLInputElement>(null);
-
-  // Update clock every second
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTimeStr(now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }));
-      setDateStr(now.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' }));
-    };
-    updateTime();
-    const timer = setInterval(updateTime, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // Handle Spotlight Search Shortcut (⌘K or ⌘Space or /)
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && (e.key === ' ' || e.key === 'k')) {
-        e.preventDefault();
-        setShowSpotlight(prev => !prev);
-      } else if (e.key === 'Escape') {
-        setShowSpotlight(false);
-        setActiveDropdown(null);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  // Focus Spotlight Input when shown
-  useEffect(() => {
-    if (showSpotlight && spotlightInputRef.current) {
-      setTimeout(() => spotlightInputRef.current?.focus(), 150);
-      setSearchQuery('');
-      setSearchResults([]);
-      setSelectedResult(null);
-    }
-  }, [showSpotlight]);
 
   // Click outside to close dropdowns
   useEffect(() => {
@@ -100,8 +51,8 @@ export default function MacMenuBar({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Handle Navigation selection
-  const selectView = (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts") => {
+  // Helper to select view and close dropdowns
+  const selectView = (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag") => {
     setView(view);
     setActiveDropdown(null);
   };
@@ -115,88 +66,82 @@ export default function MacMenuBar({
     setActiveDropdown(prev => prev === name ? null : name);
   };
 
-  const executeSpotlightAction = (item: FAQItem) => {
-    setSelectedResult(item);
-  };
-
   return (
     <>
+      {/* ─── MAC MENU BAR ────────────────────────────────────────── */}
       <div 
         ref={menuBarRef}
-        className="w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-800/60 text-slate-800 dark:text-slate-200 px-2 sm:px-4 py-1 text-xs select-none sticky top-0 z-[100] flex items-center justify-between gap-2 shadow-2xs font-sans transition-colors duration-300 min-h-[30px] overflow-x-auto no-scrollbar"
-        style={{ filter: `brightness(${brightness}%)` }}
+        className={`fixed top-0 left-0 right-0 h-7 z-[100] select-none text-[13px] font-medium tracking-tight backdrop-blur-2xl transition-colors duration-200 border-b flex items-center justify-between px-3 ${
+          theme === 'dark' 
+            ? 'bg-slate-950/80 text-slate-200 border-slate-800/80 shadow-sm' 
+            : 'bg-white/80 text-slate-800 border-slate-200/80 shadow-sm'
+        }`}
       >
-        {/* Left: Apple Menu + Main Navigation Sections */}
-        <div className="flex items-center gap-1 sm:gap-2 shrink-0 min-w-0">
-          {/* Apple Logo Dropdown */}
+        {/* Left Side: Apple Logo & Navigation Menus */}
+        <div className="flex items-center gap-1">
+          {/* Apple Logo (System Menu) */}
           <div className="relative">
             <button 
               onClick={() => handleDropdownClick('apple')}
-              className="p-1 hover:bg-slate-200/60 dark:hover:bg-slate-800/60 rounded transition-colors flex items-center"
-              aria-label="Menu Système"
+              className={`p-1 rounded transition-colors ${activeDropdown === 'apple' ? 'bg-blue-600 text-white' : 'hover:bg-slate-200/60 dark:hover:bg-slate-800/60'}`}
             >
-              <Apple className="w-3.5 h-3.5" />
+              <Apple className="w-3.5 h-3.5 fill-current" />
             </button>
             <AnimatePresence>
               {activeDropdown === 'apple' && (
-                <motion.div
-                  initial={{ opacity: 0, y: -5 }}
+                <motion.div 
+                  initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -5 }}
+                  exit={{ opacity: 0, y: 5 }}
                   transition={{ duration: 0.1 }}
-                  className="absolute left-0 mt-1 w-52 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110]"
+                  className="absolute left-0 mt-1 w-56 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110]"
                 >
-                  <button onClick={() => { setShowAbout(true); setActiveDropdown(null); }} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex items-center justify-between">
-                    <span>À propos d'ATLAS</span>
-                    <Info className="w-3 h-3 text-slate-400" />
-                  </button>
-                  <button onClick={() => { setShowPreferences(true); setActiveDropdown(null); }} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex items-center justify-between">
-                    <span>Préférences Système...</span>
-                    <Sliders className="w-3 h-3 text-slate-400" />
+                  <button onClick={() => { setShowAbout(true); setActiveDropdown(null); }} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">À propos de l'application</button>
+                  <div className="h-px bg-slate-200 dark:bg-slate-800 my-1" />
+                  <button onClick={() => { setShowPreferences(true); setActiveDropdown(null); }} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex justify-between items-center">
+                    <span>Réglages Système...</span>
+                    <span className="text-[10px] opacity-40">⌘,</span>
                   </button>
                   <div className="h-px bg-slate-200 dark:bg-slate-800 my-1" />
-                  <button onClick={() => selectView('menu')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Accueil / Dashboard</button>
-                  <button onClick={() => window.location.reload()} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex items-center justify-between">
-                    <span>Actualiser l'application</span>
-                    <RefreshCw className="w-3 h-3 text-slate-400" />
-                  </button>
-                  <div className="h-px bg-slate-200 dark:bg-slate-800 my-1" />
-                  <button onClick={onClose} className="w-full text-left px-3 py-1.5 hover:bg-red-600 hover:text-white rounded-md text-red-600 dark:text-red-400">Fermer la session</button>
+                  <button onClick={() => selectView('menu')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Retour à l'accueil</button>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          {/* App Title Badge */}
-          <span className="font-extrabold tracking-tight px-1.5 text-slate-900 dark:text-white flex items-center gap-1.5">
-            ATLAS <span className="font-medium text-[10px] text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-1.5 py-0.2 rounded border border-blue-200 dark:border-blue-800">Pro</span>
-          </span>
+          {/* App Title (Current Status) */}
+          <span className="font-bold px-2 py-0.5 text-orange-500 hidden sm:inline">CFDT Gennevilliers</span>
 
-          {/* Menu: Modules & Vues */}
+          {/* Menu: Navigation */}
           <div className="relative">
             <button 
-              onClick={() => handleDropdownClick('views')}
-              className={`px-2 py-0.5 rounded transition-colors flex items-center gap-1 font-medium ${activeDropdown === 'views' ? 'bg-blue-600 text-white' : 'hover:bg-slate-200/60 dark:hover:bg-slate-800/60'}`}
+              onClick={() => handleDropdownClick('nav')}
+              className={`px-2 py-0.5 rounded transition-colors ${activeDropdown === 'nav' ? 'bg-blue-600 text-white' : 'hover:bg-slate-200/60 dark:hover:bg-slate-800/60'}`}
             >
-              <BookOpen className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Modules</span>
+              Navigation
             </button>
             <AnimatePresence>
-              {activeDropdown === 'views' && (
-                <motion.div
-                  initial={{ opacity: 0, y: -5 }}
+              {activeDropdown === 'nav' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -5 }}
+                  exit={{ opacity: 0, y: 5 }}
                   transition={{ duration: 0.1 }}
-                  className="absolute left-0 mt-1 w-52 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110]"
+                  className="absolute left-0 mt-1 w-56 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110]"
                 >
-                  <button onClick={() => selectView('menu')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Tableau de Bord</button>
-                  <button onClick={() => selectView('chat')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Chatbot ATLAS</button>
-                  <button onClick={() => selectView('veille-cdg')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-blue-500 dark:text-blue-400 font-bold">Veille Tous les CIG (86+) 🏢</button>
-                  <button onClick={() => selectView('veille')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Veille Juridique (Statut) ⚖️</button>
-                  <button onClick={() => selectView('metiers')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Grilles Indiciaires</button>
-                  <button onClick={() => selectView('faq')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Questions Fréquentes</button>
-                  <button onClick={() => selectView('actualites')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Actualités Syndicales</button>
+                  <button onClick={() => selectView('menu')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Accueil</button>
+                  <button onClick={() => selectView('docutheque-rag')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md font-bold text-blue-400 flex items-center justify-between">
+                    <span>Docuthèque RH (RAG) 📁</span>
+                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300">111 docs</span>
+                  </button>
+                  <button onClick={() => selectView('chat')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Assistant IA (Chat)</button>
+                  <button onClick={() => selectView('faq')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Foire aux Questions</button>
+                  <button onClick={() => selectView('metiers')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Grilles & Métiers</button>
+                  <div className="h-px bg-slate-200 dark:bg-slate-800 my-1" />
+                  <button onClick={() => selectView('actualites')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-emerald-500 font-bold">Actualités & News 📰</button>
+                  <button onClick={() => selectView('veille-cdg')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-sky-500 font-bold">Veille CDG & CIG 🏛️</button>
+                  <button onClick={() => selectView('veille')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-indigo-500 font-bold">Veille Juridique ⚖️</button>
+                  <button onClick={() => selectView('dessine-moi-le-statut')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-purple-500 font-bold">Dessine-moi le statut 🎨</button>
                   <button onClick={() => selectView('podcasts')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-amber-500 font-bold">Podcasts RH 🎧</button>
                 </motion.div>
               )}

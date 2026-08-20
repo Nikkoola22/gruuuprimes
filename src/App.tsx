@@ -27,8 +27,10 @@ const VeilleJuridique = lazy(() => import("./components/VeilleJuridique.tsx"))
 const VeilleCdgPage = lazy(() => import("./components/VeilleCdgPage.tsx"))
 const EspacePodcastsFigurines = lazy(() => import("./components/EspacePodcastsFigurines.tsx"))
 const DessineMoiLeStatut = lazy(() => import("./components/DessineMoiLeStatut.tsx"))
+const DocuthequeRAG = lazy(() => import("./components/DocuthequeRAG").then(m => ({ default: m.DocuthequeRAG })))
 import MacMenuBar from "./components/MacMenuBar.tsx"
 import { LuxuryChat } from "./components/ui/LuxuryChat.tsx"
+import { searchDocuthequeRAG } from "./utils/docuthequeSearch.ts"
 
 // --- CONFIGURATION BASE URL POUR GITHUB PAGES ---
 const BASE_URL = import.meta.env.BASE_URL
@@ -168,7 +170,7 @@ interface InfoItem {
   content: string
 }
 interface ChatbotState {
-  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut"
+  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag"
   selectedDomain: number | null
   messages: ChatMessage[]
   isProcessing: boolean
@@ -1018,6 +1020,17 @@ PROTOCOLE TÉLÉTRAVAIL :\n${typeof teletravailData === 'string' ? teletravailDa
       contenuCible = `${contenuCible}\n\n=== FAQ INTERNES PERTINENTES ===\n${faqContexte}`.trim()
     }
 
+    // ⚡ Recherche RAG dans la Docuthèque RH de Gennevilliers (111 formulaires & circulaires)
+    const docuthequeRes = searchDocuthequeRAG(question)
+    if (docuthequeRes.matchedDocuments.length > 0) {
+      const docuthequeContext = `\n\n=== FORMULAIRES ET DOCUMENTS OFFICIELS VILLE DE GENNEVILLIERS (DOCUTHÈQUE RH) ===\n` +
+        docuthequeRes.matchedDocuments.slice(0, 4).map(d =>
+          `- [${d.type.toUpperCase()}] ${d.title} (${d.category}${d.subCategory ? ' > ' + d.subCategory : ''}) : ${d.summary}\n  Lien direct de téléchargement : ${d.url}`
+        ).join('\n\n')
+
+      contenuCible += docuthequeContext
+    }
+
     // Attendre les résultats PISTE Légifrance
     const pisteResults = await pistePromise
     let pisteContexte = ""
@@ -1036,10 +1049,12 @@ RÈGLES STRICTES :
 2. Sois précis sur les chiffres, statuts CGFP et délais statutaires.
 3. Réponds comme un collègue syndical bienveillant et professionnel.
 4. Ne mentionne JAMAIS [CHAPITRE X - ARTICLE Y] de manière brute. Réponds naturellement.
+5. Si des formulaires officiels de la Ville de Gennevilliers (Docuthèque RH) correspondent à la demande, cite-les expressément avec leur lien de téléchargement direct sous forme de lien markdown [Nom du Document](URL).
 
 ⚠️ RÈGLE CRITIQUE - INTERPRÈTE LA QUESTION :
 - Si l'utilisateur demande "congés bonifiés" → cherche "congé bonifié" dans les documents
 - Si l'utilisateur demande "école grève" → cherche "garde d'enfant", "école fermée", "grève"
+- Si l'utilisateur demande "temps partiel" → explique la différence entre temps partiel de droit (naissance, soins) et sur autorisation, et fournis les liens directs des formulaires correspondants.
 - Fais des correspondances intelligentes entre les termes utilisés et le contenu des documents
 
 ⚠️ RÈGLE CRITIQUE - SI TU TROUVES L'INFO :
@@ -2081,13 +2096,23 @@ ${indicesFactuels}
                         </div>
                       </a>
                     </div>
+
+                    {/* Action Button: Docuthèque RAG */}
+                    <button
+                      onClick={() => setChatState({ ...chatState, currentView: 'docutheque-rag' })}
+                      className="mt-4 flex items-center justify-center gap-2 w-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold py-2.5 px-3 rounded-xl shadow-md hover:shadow-lg transition-all text-xs group-hover:scale-[1.02]"
+                    >
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>Rechercher dans les 111 docs RH (RAG)</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </button>
                   </div>
 
                   {/* Pied de carte */}
                   <div className="mt-4 pt-3 border-t border-rose-100/60 dark:border-rose-900/40 flex items-center justify-between text-xs sm:text-sm text-rose-700 dark:text-rose-400 font-extrabold">
                     <span className="flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5 text-rose-500" />
-                      Documents PDF certifiés RH
+                      111 documents certifiés RH
                     </span>
                     <span className="text-xs text-slate-400 font-normal">Intranet Ville</span>
                   </div>
@@ -2372,6 +2397,16 @@ ${indicesFactuels}
         <Suspense fallback={<ViewLoader />}>
           <DessineMoiLeStatut
             onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
+            theme={theme}
+          />
+        </Suspense>
+      )}
+
+      {/* --- SECTION DOCUTHÈQUE RH (RAG) --- */}
+      {chatState.currentView === 'docutheque-rag' && (
+        <Suspense fallback={<ViewLoader />}>
+          <DocuthequeRAG
+            onBack={() => setChatState({ ...chatState, currentView: 'menu' })}
             theme={theme}
           />
         </Suspense>
