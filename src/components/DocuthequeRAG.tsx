@@ -57,6 +57,11 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
   const [ragResult, setRagResult] = useState<RAGSearchResult | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
 
+  // Scroll en haut de page à l'ouverture du composant
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, []);
+
   // Exécuter la recherche RAG lors de la saisie
   const handleSearch = (searchQuery: string) => {
     if (!searchQuery.trim()) {

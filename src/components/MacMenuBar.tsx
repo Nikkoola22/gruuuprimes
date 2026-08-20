@@ -55,6 +55,7 @@ export default function MacMenuBar({
   const selectView = (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag") => {
     setView(view);
     setActiveDropdown(null);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   };
 
   const selectCalculator = (calc: 'primes' | 'cia' | '13eme') => {

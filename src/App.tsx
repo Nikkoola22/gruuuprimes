@@ -2099,7 +2099,10 @@ ${indicesFactuels}
 
                     {/* Action Button: Docuthèque RAG */}
                     <button
-                      onClick={() => setChatState({ ...chatState, currentView: 'docutheque-rag' })}
+                      onClick={() => {
+                        setChatState({ ...chatState, currentView: 'docutheque-rag' });
+                        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                      }}
                       className="mt-4 flex items-center justify-center gap-2 w-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold py-2.5 px-3 rounded-xl shadow-md hover:shadow-lg transition-all text-xs group-hover:scale-[1.02]"
                     >
                       <Sparkles className="w-3.5 h-3.5" />
