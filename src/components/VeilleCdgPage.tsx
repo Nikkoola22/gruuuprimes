@@ -286,6 +286,22 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
     return filteredCDGs.reduce((acc, curr) => acc + curr.news.length, 0);
   }, [filteredCDGs]);
 
+  // Formatted last updated date
+  const formattedLastUpdated = useMemo(() => {
+    try {
+      const date = initialMetadata?.lastUpdated ? new Date(initialMetadata.lastUpdated) : new Date();
+      return new Intl.DateTimeFormat('fr-FR', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      }).format(date);
+    } catch {
+      return "20 août 2026";
+    }
+  }, []);
+
   // Export CSV
   const handleExportCSV = () => {
     const rows = [["Département", "Centre de Gestion", "Titre de l'actualité", "Date", "Lien officiel", "Lien CDG"]];
@@ -353,11 +369,22 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
               />
             </div>
 
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center gap-2">
+            <div className="min-w-0 flex-1 space-y-1">
+              <div className="flex flex-wrap items-center gap-2.5">
                 <h1 className="text-lg sm:text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight break-words">
                   Veille CDG & CIG
                 </h1>
+
+                {/* Badge Indexation quotidienne mis en valeur */}
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-300 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-300 text-xs font-bold shadow-xs">
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  <span>Indexation quotidienne</span>
+                  <span className="text-emerald-400 dark:text-emerald-500 hidden sm:inline">•</span>
+                  <span className="text-slate-600 dark:text-slate-300 text-[11px] font-semibold hidden sm:inline">Dernière MAJ : {formattedLastUpdated}</span>
+                </div>
               </div>
               <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm font-medium mt-0.5 leading-snug break-words">
                 Intelligence territoriale & RH : arrêtés, circulaires, concours et actualités statutaires.
@@ -563,18 +590,23 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
         <div className="bg-white/85 dark:bg-slate-900/85 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-4 sm:p-5 backdrop-blur-md shadow-xs dark:shadow-xl flex flex-col gap-4 transition-colors min-w-0">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2">
-              <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/30 rounded-full text-xs font-semibold text-blue-700 dark:text-blue-400 shrink-0">
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/30 rounded-full text-xs font-semibold text-blue-700 dark:text-blue-400 shrink-0">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                 <span>{filteredCDGs.length} Centres indexés</span>
               </div>
-              <div className="flex items-center gap-2 px-3 py-1 bg-purple-50 dark:bg-purple-500/10 border border-purple-200 dark:border-purple-500/30 rounded-full text-xs font-semibold text-purple-700 dark:text-purple-300 shrink-0">
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-purple-50 dark:bg-purple-500/10 border border-purple-200 dark:border-purple-500/30 rounded-full text-xs font-semibold text-purple-700 dark:text-purple-300 shrink-0">
                 <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
                 <span>{totalNewsCount} publications</span>
               </div>
             </div>
-            <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 shrink-0">
-              <Clock className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
-              <span>Indexation quotidienne</span>
+
+            {/* Encadré mis en valeur Indexation quotidienne */}
+            <div className="flex items-center gap-2 px-3.5 py-1.5 bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-blue-500/10 border border-emerald-500/30 dark:border-emerald-500/40 rounded-2xl text-xs font-bold text-emerald-800 dark:text-emerald-300 shadow-xs shrink-0">
+              <Clock className="w-4 h-4 text-emerald-500 animate-pulse shrink-0" />
+              <div className="flex flex-col sm:flex-row sm:items-center sm:gap-1.5">
+                <span className="font-extrabold text-emerald-700 dark:text-emerald-300">Indexation quotidienne active</span>
+                <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400">• Mis à jour le {formattedLastUpdated}</span>
+              </div>
             </div>
           </div>
 
