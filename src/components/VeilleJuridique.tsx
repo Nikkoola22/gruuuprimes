@@ -24,7 +24,12 @@ import {
   X,
   Building2,
   Check,
-  Copy
+  Copy,
+  ExternalLink,
+  Shield,
+  Stethoscope,
+  Megaphone,
+  Coins
 } from "lucide-react";
 
 export interface LegalQuestion {
@@ -33,6 +38,7 @@ export interface LegalQuestion {
   question: string;
   answer: string;
   decision: string;
+  decisionUrl?: string;
   quizStatement: string;
   quizCorrection: boolean; // true = Vrai, false = Faux
   difficulty: "Facile" | "Moyen" | "Difficile";
@@ -218,24 +224,661 @@ const LEGAL_DATA: LegalQuestion[] = [
     quizStatement: "L'administration peut valablement refuser une demande de temps partiel en invoquant simplement des contraintes budgétaires globales.",
     quizCorrection: false,
     difficulty: "Moyen"
+  },
+  {
+    id: "Q19",
+    category: "Congé de maladie",
+    question: "La participation d’un agent placé en congé de maladie ordinaire à des rallyes automobiles peut-elle, à elle seule, justifier une sanction disciplinaire ?",
+    answer: "Non. Une activité sportive exigeante exercée pendant un CMO n’est pas fautive lorsqu’elle est médicalement autorisée et qu’elle s’inscrit dans un parcours thérapeutique favorisant la guérison. En l’espèce, les certificats médicaux établissaient que les rallyes automobiles participaient à la prise en charge du syndrome dépressif de la commandante de sapeurs-pompiers. L’administration ne pouvait donc déduire de cette seule activité une incompatibilité avec le congé de maladie ni prononcer une sanction sur ce motif.",
+    decision: "TA Nancy, 7 juillet 2026, n° 2403121",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA54/DTA_2403121_20260707",
+    quizStatement: "Participer à des rallyes automobiles pendant un congé de maladie ordinaire médicalement autorisés dans le cadre thérapeutique justifie une sanction disciplinaire.",
+    quizCorrection: false,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q20",
+    category: "Contrats",
+    question: "Une collectivité peut-elle prévoir une nouvelle période d’essai pour un agent déjà employé lorsqu’elle lui propose un nouveau contrat ?",
+    answer: "Oui, à condition que le nouveau contrat porte sur des fonctions réellement différentes de celles précédemment exercées. Le fait que l’employeur demeure identique ne fait pas obstacle à une nouvelle période d’essai si le nouvel emploi implique des compétences, responsabilités ou aptitudes distinctes à évaluer. Dans cette affaire, le passage d’architecte en cybersécurité à directeur des systèmes d’information impliquait notamment des missions d’encadrement et de pilotage. La collectivité pouvait donc légalement prévoir, renouveler, puis rompre le contrat au terme de cette période d’essai en raison de carences managériales.",
+    decision: "CAA Paris, 4 août 2026, n° 25PA00141",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/CAA75/DCA_25PA00141_20260804",
+    quizStatement: "Une collectivité peut fixer une nouvelle période d'essai à un agent déjà en poste si le nouveau contrat porte sur des fonctions et responsabilités réellement distinctes.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q21",
+    category: "Cumul d’activités",
+    question: "Les fonctions d’assesseur d’un tribunal pour enfants sont-elles soumises aux règles de cumul d’activités applicables aux agents publics ?",
+    answer: "Oui. Cette activité juridictionnelle exercée auprès du service public de la justice judiciaire constitue une activité accessoire d’intérêt général donnant lieu au versement d’indemnités. Elle nécessite donc, en principe, une autorisation préalable de cumul.",
+    decision: "TA Réunion, 3 juillet 2026, n° 2501810",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA101/DTA_2501810_20260703",
+    quizStatement: "Les fonctions d'assesseur auprès d'un tribunal pour enfants exercées par un agent public nécessitent une autorisation préalable de cumul d'activités.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q22",
+    category: "Cumul d’activités",
+    question: "L’absence d’autorisation préalable pendant seize ans pour exercer les fonctions d’assesseur d’un tribunal pour enfants justifie-t-elle une exclusion temporaire de trois mois ?",
+    answer: "Non, pas dans les circonstances de l’espèce. Bien que l’agent ait méconnu les règles de cumul, son employeur connaissait depuis longtemps cette activité, lui accordait des autorisations spéciales d’absence pour assister aux audiences et entretenait ainsi une confusion sur la régularité de sa situation. En l’absence d’incidence démontrée sur le fonctionnement du service, l’exclusion temporaire de trois mois a été jugée disproportionnée.",
+    decision: "TA Réunion, 3 juillet 2026, n° 2501810",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA101/DTA_2501810_20260703",
+    quizStatement: "Une exclusion de 3 mois pour cumul sans autorisation préalable est proportionnée même si l'employeur accordait des autorisations d'absence en connaissant l'activité depuis 16 ans.",
+    quizCorrection: false,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q23",
+    category: "Discipline",
+    question: "Des troubles cognitifs et comportementaux doivent-ils être pris en compte pour apprécier la proportionnalité d’une sanction disciplinaire ?",
+    answer: "Oui. Ils peuvent atténuer l’appréciation de la gravité des faits et conduire le juge à censurer une sanction excessive. Dans cette affaire, malgré la sortie d’un couteau devant un collègue ainsi que des insultes et menaces, les troubles de l’agent affectaient sa capacité à entretenir des relations sociales normales. Compte tenu également de sa prise de conscience du caractère inadapté de son comportement, la révocation a été jugée disproportionnée.",
+    decision: "TA Grenoble, 27 juillet 2026, n° 2409440",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA38/DTA_2409440_20260727",
+    quizStatement: "Les troubles cognitifs ou comportementaux d'un agent peuvent atténuer la gravité des faits et rendre une révocation disproportionnée.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q24",
+    category: "Discipline",
+    question: "La détresse psychologique d’un agent, marquée notamment par des tentatives de suicide, exclut-elle nécessairement toute sanction disciplinaire ?",
+    answer: "Non. Une situation de détresse psychologique ne fait obstacle à une sanction que si elle révèle une absence totale de discernement au moment des faits. En l’espèce, le brigadier-chef principal avait conduit son véhicule personnel en état d’ébriété et de manière dangereuse, en dehors du service, avant d’être condamné. Ces faits ont été regardés comme portant atteinte au devoir de dignité et d’exemplarité, compte tenu notamment de ses fonctions. Malgré ses bons états de service et ses difficultés personnelles, sa révocation a été jugée proportionnée.",
+    decision: "TA Strasbourg, 28 juillet 2026, n° 2405266",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA67/DTA_2405266_20260728",
+    quizStatement: "La détresse psychologique d'un agent exclut automatiquement toute sanction disciplinaire, quel que soit son niveau de discernement au moment des faits.",
+    quizCorrection: false,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q25",
+    category: "Droit syndical",
+    question: "Un représentant syndical peut-il critiquer, par courriel interne, le recours au bénévolat lors de campagnes de vaccination ?",
+    answer: "Oui, lorsque les propos restent exempts d’injures, de propos véhéments ou d’excès. L’ironie employée par le représentant syndical et sa suggestion de recruter du personnel rémunéré relevaient de la liberté d’expression attachée à l’exercice de son mandat syndical.",
+    decision: "TA Nantes, 10 juillet 2026, n° 2501948",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA44/DTA_2501948_20260710",
+    quizStatement: "Un représentant syndical peut critiquer avec ironie le recours au bénévolat dans un courriel interne au titre de la liberté d'expression syndicale.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q26",
+    category: "Droit syndical",
+    question: "Des propos inappropriés envers une collègue peuvent-ils, à eux seuls, justifier un abaissement d’échelon ?",
+    answer: "Pas nécessairement. Dans cette affaire, les propos tenus au sujet des convictions religieuses d’une collègue et la mise en cause publique de celle-ci constituaient bien des manquements. Toutefois, les autres griefs invoqués par l’administration n’étaient pas établis ou relevaient de la liberté d’expression syndicale. L’abaissement d’échelon a donc été jugé excessif au regard des seuls faits restant établis.",
+    decision: "TA Nantes, 10 juillet 2026, n° 2501948",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA44/DTA_2501948_20260710",
+    quizStatement: "Un abaissement d'échelon est automatiquement justifié dès lors qu'un manquement verbal isolé est constaté à l'encontre d'un agent.",
+    quizCorrection: false,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q27",
+    category: "Élections",
+    question: "Le directeur d’un groupement d’intérêt public dont une commune est membre est-il inéligible au conseil municipal de cette commune ?",
+    answer: "Non, pas du seul fait de ses fonctions de directeur du GIP. Les fonctions de direction d’un GIP ne figurent pas, en elles-mêmes, parmi celles entraînant l’inéligibilité prévue par l’article L. 231 du code électoral. En l’espèce, le groupement réunissait également d’autres personnes morales que les seules personnes publiques visées par cet article : les fonctions de directeur ne relevaient donc pas du champ de l’inéligibilité.",
+    decision: "CE, 30 juillet 2026, n° 515681",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/CE/DCE_515681_20260730",
+    quizStatement: "Le directeur d'un Groupement d'Intérêt Public (GIP) est automatiquement inéligible au conseil municipal d'une commune membre.",
+    quizCorrection: false,
+    difficulty: "Difficile"
+  },
+  {
+    id: "Q28",
+    category: "Harcèlement moral",
+    question: "La privation progressive des fonctions d’encadrement d’un chef de service peut-elle caractériser un harcèlement moral ?",
+    answer: "Oui. Un supérieur hiérarchique qui intervient directement auprès de l’équipe d’un chef de service, participe ou organise des réunions sans l’associer et répond directement aux agents placés sous son autorité peut créer une confusion durable dans la chaîne hiérarchique. Si ces agissements provoquent une mise à l’écart du chef de service et une perte de légitimité auprès de son équipe, ils sont susceptibles de caractériser un harcèlement moral.",
+    decision: "CAA Versailles, 9 juillet 2026, n° 24VE03430",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/CAA78/DCA_24VE03430_20260709",
+    quizStatement: "Court-circuiter systématiquement un chef de service auprès de son équipe et l'exclure des réunions peut constituer un harcèlement moral.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q29",
+    category: "Harcèlement moral",
+    question: "Quels droits la situation de harcèlement moral par éviction hiérarchique peut-elle ouvrir à l’agent victime ?",
+    answer: "Lorsque le harcèlement moral est caractérisé, l’agent peut bénéficier de la protection fonctionnelle. Ces agissements sont également susceptibles d’engager la responsabilité de l’établissement public employeur et d’ouvrir droit à indemnisation du préjudice subi.",
+    decision: "CAA Versailles, 9 juillet 2026, n° 24VE03430",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/CAA78/DCA_24VE03430_20260709",
+    quizStatement: "Un agent victime de harcèlement moral par mise à l'écart hiérarchique a droit à la protection fonctionnelle et à l'indemnisation de son préjudice.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q30",
+    category: "Imputabilité au service",
+    question: "Des difficultés personnelles suffisent-elles à détacher du service une tentative de suicide survenue sur le lieu et pendant le temps de travail ?",
+    answer: "Non. L’administration doit établir une circonstance particulière suffisamment caractérisée pour renverser le lien avec le service. La seule existence de difficultés personnelles, ou le fait que l’administration ait antérieurement accordé des mobilités à l’agent, ne suffit pas.",
+    decision: "TA Toulouse, 23 juillet 2026, n° 2305361",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA31/DTA_2305361_20260723",
+    quizStatement: "La seule existence de difficultés personnelles dans la vie privée de l'agent suffit à exonérer l'administration de l'imputabilité au service d'un acte survenu sur le lieu de travail.",
+    quizCorrection: false,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q31",
+    category: "Imputabilité au service",
+    question: "Une tentative de suicide commise avec l’arme de service, dans un véhicule de service situé dans l’enceinte d’un commissariat, peut-elle être reconnue imputable au service ?",
+    answer: "Oui, lorsque l’acte survient dans le temps et le lieu du service, dans un contexte de difficultés professionnelles, et qu’aucun élément ne démontre un état dépressif antérieur ou une cause personnelle détachable du service. Le refus de reconnaissance de l’imputabilité a alors été jugé entaché d’une erreur d’appréciation.",
+    decision: "TA Toulouse, 23 juillet 2026, n° 2305361",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA31/DTA_2305361_20260723",
+    quizStatement: "Un acte dramatique survenu sur le lieu de travail avec du matériel de service dans un contexte professionnel tendu bénéficie de la présomption d'imputabilité au service.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q32",
+    category: "Management",
+    question: "La révocation d’un chef de service peut-elle être proportionnée en cas de management toxique ?",
+    answer: "Oui. La révocation peut être légalement prononcée lorsque les pratiques managériales sont graves, répétées et ont durablement perturbé le fonctionnement du service ou dégradé les conditions de travail et la santé des agents. En l’espèce, étaient notamment établis des abus de pouvoir, des propos humiliants ou insultants, des pressions répétées, une surveillance abusive, des manœuvres d’isolement des agents et des discriminations.",
+    decision: "TA Toulouse, 28 juillet 2026, n° 2400224",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA31/DTA_2400224_20260728",
+    quizStatement: "Un management toxique caractérisé par des humiliations, pressions et discriminations répétées peut légalement justifier la révocation d'un cadre.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q33",
+    category: "Management",
+    question: "L’absence de prise de conscience de la gravité des comportements managériaux peut-elle être prise en compte pour la sanction ?",
+    answer: "Oui. Le positionnement hiérarchique de l’agent, ses responsabilités d’encadrement, les conséquences de ses agissements sur les équipes et son absence de remise en question sont des éléments pertinents pour apprécier la proportionnalité de la sanction. Dans cette affaire, ils justifiaient la révocation.",
+    decision: "TA Toulouse, 28 juillet 2026, n° 2400224",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA31/DTA_2400224_20260728",
+    quizStatement: "L'absence totale de remise en question d'un cadre face à ses dérives managériales est un facteur aggravant pour la sévérité de la sanction.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q34",
+    category: "Mutation d’office",
+    question: "Une mutation d’office sans baisse de rémunération ni diminution de responsabilités peut-elle être une sanction disciplinaire déguisée ?",
+    answer: "Oui. Une décision d’affectation peut être requalifiée en sanction disciplinaire déguisée si elle bouleverse de manière significative les conditions de travail ou de vie de l’agent et intervient dans un contexte révélant une intention disciplinaire.",
+    decision: "TA Mayotte, 3 juillet 2026, n° 2500418",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA107/DTA_2500418_20260703",
+    quizStatement: "Une mutation d'office qui bouleverse la vie d'un agent dans un contexte répressif peut être annulée comme sanction disciplinaire déguisée, même sans perte de salaire.",
+    quizCorrection: true,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q35",
+    category: "Mutation d’office",
+    question: "Le déplacement d’un agent de La Réunion vers Mayotte, plus de 1 400 km plus loin, après une exclusion temporaire, peut-il constituer une sanction déguisée ?",
+    answer: "Oui. Même si le poste est similaire et que la rémunération est maintenue, une mutation obligeant l’agent à quitter un lieu de résidence et de travail occupé depuis plus de quarante ans, quelques semaines après une exclusion temporaire, constitue un bouleversement substantiel. Elle a donc été regardée comme une mesure disciplinaire déguisée. Or, une telle mesure ne figurant pas parmi les sanctions statutaires applicables aux fonctionnaires territoriaux, elle était dépourvue de base légale.",
+    decision: "TA Mayotte, 3 juillet 2026, n° 2500418",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA107/DTA_2500418_20260703",
+    quizStatement: "Déplacer un agent territorial à 1 400 km de sa résidence habituelle suite à une sanction est illégal et constitue une sanction déguisée non prévue par le statut.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q36",
+    category: "Obéissance hiérarchique",
+    question: "Un agent peut-il refuser les missions figurant sur sa fiche de poste au motif qu’elles impliquent de travailler avec un service connexe ?",
+    answer: "Non. L’agent ne peut pas sélectionner les missions qu’il accepte d’exercer parmi celles relevant de ses attributions. Lorsqu’une fiche de poste prévoit une collaboration avec un autre service, le refus catégorique de tout rapport avec ce service constitue un manquement aux obligations professionnelles.",
+    decision: "TA Clermont-Ferrand, 27 juillet 2026, n° 2302898",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA63/DTA_2302898_20260727",
+    quizStatement: "Un fonctionnaire peut légalement refuser d'accomplir une tâche inscrite sur sa fiche de poste s'il est en désaccord avec le service partenaire.",
+    quizCorrection: false,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q37",
+    category: "Obéissance hiérarchique",
+    question: "Le refus répété d’accomplir certaines tâches peut-il justifier un blâme ?",
+    answer: "Oui. Lorsque ce refus contraint les collègues à réaliser les missions de l’agent dans des délais difficiles ou dégrade le fonctionnement du service, il peut justifier une sanction de premier groupe telle qu’un blâme.",
+    decision: "TA Clermont-Ferrand, 27 juillet 2026, n° 2302898",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA63/DTA_2302898_20260727",
+    quizStatement: "Le refus répété d'accomplir certaines missions obligeant les collègues à surcompenser justifie légalement un blâme.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q38",
+    category: "Protection fonctionnelle",
+    question: "L’administration est-elle liée par une décision de relaxe du juge pénal lorsqu’elle examine une demande de protection fonctionnelle ?",
+    answer: "Non. L’administration doit exercer son propre pouvoir d’appréciation. Elle ne peut pas se borner à déduire d’une relaxe pénale que les faits sont étrangers au service, en particulier lorsque le juge pénal ne s’est pas prononcé sur le lien entre les faits et le service.",
+    decision: "TA Strasbourg, 26 mai 2026, n° 2405851",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA67/DTA_2405851_20260526",
+    quizStatement: "L'administration est obligée de refuser la protection fonctionnelle dès lors que l'auteur présumé des faits a été relaxé au pénal.",
+    quizCorrection: false,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q39",
+    category: "Protection fonctionnelle",
+    question: "La relaxe d’un supérieur poursuivi pour harcèlement sexuel et violences permet-elle de considérer automatiquement que le conflit avec une subordonnée relève d’une relation purement privée ?",
+    answer: "Non. Lorsque les faits opposent un chef de service à une agente placée sous son autorité, l’administration doit apprécier concrètement leur lien avec le service. Elle ne peut pas inférer de la seule relaxe que le litige se situe nécessairement dans le champ d’une relation intime, personnelle et étrangère au travail.",
+    decision: "TA Strasbourg, 26 mai 2026, n° 2405851",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA67/DTA_2405851_20260526",
+    quizStatement: "La relaxe pénale d'un supérieur pour harcèlement n'empêche pas l'administration de reconnaître que les faits sont liés au service pour accorder la protection fonctionnelle.",
+    quizCorrection: true,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q40",
+    category: "Protection fonctionnelle",
+    question: "La production par l’administration d’un document contesté dans le cadre d’un contentieux ouvre-t-elle droit, pour l’agent, à la protection fonctionnelle ?",
+    answer: "Non, en principe. La production d’une pièce en défense dans une procédure contentieuse, même si l’agent estime cette pièce irrégulière ou mensongère, ne constitue pas nécessairement une attaque dirigée contre lui en sa qualité d’agent public. En l’espèce, la fiche de poste contestée avait été produite pour les besoins de la défense de l’employeur dans un litige indemnitaire : elle ne justifiait donc pas l’octroi de la protection fonctionnelle.",
+    decision: "TA Versailles, 27 juillet 2026, n° 2406299",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA78/DTA_2406299_20260727",
+    quizStatement: "Un agent peut obtenir la protection fonctionnelle contre son propre employeur qui produit une pièce de défense qu'il conteste lors d'un litige administratif.",
+    quizCorrection: false,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q41",
+    category: "Avancement de grade",
+    question: "Une collectivité peut-elle inscrire et nommer les agents promus selon un classement alphabétique ?",
+    answer: "Non. L’avancement de grade au choix doit reposer sur un tableau d’avancement établi par ordre de mérite. L’administration doit apprécier la valeur professionnelle ainsi que les acquis de l’expérience professionnelle des agents. Un classement alphabétique ne constitue qu’un ordre matériel de présentation et ne peut légalement déterminer l’ordre des promotions.",
+    decision: "CE, 27 juillet 2026, n° 503411",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/CE/DCE_503411_20260727",
+    quizStatement: "Une collectivité territoriale peut légalement établir un tableau d'avancement de grade au choix par ordre alphabétique.",
+    quizCorrection: false,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q42",
+    category: "Avancement de grade",
+    question: "Quelle conséquence entraîne un tableau d’avancement établi par ordre alphabétique plutôt que par ordre de mérite ?",
+    answer: "Les nominations prononcées sur ce fondement sont illégales et peuvent être annulées.",
+    decision: "CE, 27 juillet 2026, n° 503411",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/CE/DCE_503411_20260727",
+    quizStatement: "Les nominations prononcées sur la base d'un tableau d'avancement établi par ordre alphabétique sont illégales et annulables par le juge administratif.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q43",
+    category: "Démission",
+    question: "Une administration peut-elle fixer rétroactivement la date d’effet d’une démission déjà acceptée ?",
+    answer: "Elle ne peut pas considérer que tout lien avec le service a définitivement cessé avant que sa décision acceptant la démission ait été portée à la connaissance de l’agent. Une date d’effet rétroactive ne peut donc justifier l’absence de rémunération d’un agent qui a effectivement continué à travailler jusqu’à la notification de la décision.",
+    decision: "TA Bastia, 24 juillet 2026, n° 2401505",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA20/DTA_2401505_20260724",
+    quizStatement: "L'employeur public peut fixer rétroactivement la date d'effet d'une démission pour refuser de payer le travail effectué jusqu'à sa notification.",
+    quizCorrection: false,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q44",
+    category: "Démission",
+    question: "L’agent doit-il être rémunéré lorsqu’il a continué à exercer ses fonctions jusqu’à la notification de l’acceptation de sa démission ?",
+    answer: "Oui. Le refus de rémunérer cette période de service effectif constitue une faute de l’administration susceptible d’engager sa responsabilité et d’ouvrir droit à réparation.",
+    decision: "TA Bastia, 24 juillet 2026, n° 2401505",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA20/DTA_2401505_20260724",
+    quizStatement: "Tout service effectif accompli par un agent jusqu'à la notification de sa démission doit obligatoirement être rémunéré.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q45",
+    category: "Devoir de réserve",
+    question: "Le fait, pour un agent, d’exprimer par écrit sa souffrance au travail ou des difficultés avec sa hiérarchie constitue-t-il automatiquement une faute disciplinaire ?",
+    answer: "Non. La dénonciation d’un manque de bienveillance, de pressions répétées ou d’une situation que l’agent estime assimilable à du harcèlement moral ne suffit pas, en elle-même, à caractériser un manquement au devoir de réserve ou des propos diffamatoires.",
+    decision: "TA Poitiers, 13 juillet 2026, n° 2402214",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA86/DTA_2402214_20260713",
+    quizStatement: "Exprimer par écrit sa souffrance au travail ou dénoncer des pressions hiérarchiques constitue automatiquement une violation du devoir de réserve.",
+    quizCorrection: false,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q46",
+    category: "Devoir de réserve",
+    question: "Des courriers internes dénonçant des difficultés relationnelles peuvent-ils justifier une exclusion temporaire de fonctions ?",
+    answer: "Non, lorsque l’administration ne démontre pas le caractère fautif des propos. En l’espèce, les écrits étaient restés dans un cadre interne et l’agent se bornait à exprimer sa perception de ses conditions de travail. L’exclusion de quatre mois, dont deux avec sursis, a donc été annulée.",
+    decision: "TA Poitiers, 13 juillet 2026, n° 2402214",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA86/DTA_2402214_20260713",
+    quizStatement: "Des écrits internes exprimant un ressenti sur les conditions de travail sans propos diffamatoires ne peuvent justifier une exclusion temporaire.",
+    quizCorrection: true,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q47",
+    category: "Discipline",
+    question: "Un agent RH peut-il être sanctionné pour s’être appliqué une indemnité complémentaire sans accord préalable de la direction ?",
+    answer: "Pas lorsque le versement résulte d’une pratique ancienne, connue de l’employeur et instaurée par la précédente direction. Dans cette affaire, l’indemnité d’heures supplémentaires était versée depuis plusieurs années pour compenser l’impossibilité de prendre en compte la réussite à un examen professionnel. Elle bénéficiait également à d’autres agents.",
+    decision: "TA Poitiers, 13 juillet 2026, n° 2401103",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA86/DTA_2401103_20260713",
+    quizStatement: "Un agent RH peut être sanctionné disciplinairement pour une indemnité qu'il s'est appliquée si la pratique était durable, connue et tolérée par la direction.",
+    quizCorrection: false,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q48",
+    category: "Discipline",
+    question: "Une administration peut-elle sanctionner un agent pour une pratique indemnitaire durable qu’elle ne pouvait ignorer ?",
+    answer: "Non. Dès lors que la pratique était durable, connue et admise au sein de la collectivité, l’administration ne pouvait reprocher à l’agent de l’avoir appliquée à son propre bénéfice. L’exclusion temporaire de trois jours a été annulée.",
+    decision: "TA Poitiers, 13 juillet 2026, n° 2401103",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA86/DTA_2401103_20260713",
+    quizStatement: "L'employeur ne peut sanctionner disciplinairement un agent pour une pratique indemnitaire collective ancienne qu'il connaissait et tolérait.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q49",
+    category: "Discipline",
+    question: "L’agression physique d’un supérieur hiérarchique constitue-t-elle une faute disciplinaire ?",
+    answer: "Oui. Le fait d’invectiver, menacer puis agresser physiquement un supérieur hiérarchique, notamment en lui déchirant le col de sa chemise, méconnaît les obligations de dignité et d’obéissance hiérarchique. Ces faits peuvent à eux seuls justifier une sanction disciplinaire.",
+    decision: "TA Nîmes, 16 juillet 2026, n° 2402680",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA30/DTA_2402680_20260716",
+    quizStatement: "Invectiver, menacer et bousculer physiquement un supérieur hiérarchique constitue une faute disciplinaire grave justifiant une exclusion.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q50",
+    category: "Discipline",
+    question: "Une exclusion temporaire de quinze jours est-elle proportionnée en cas d’agression physique d’un directeur des services techniques ?",
+    answer: "Oui. Lorsque les faits sont corroborés par des témoignages concordants, une exclusion de quinze jours n’est pas disproportionnée compte tenu de la gravité de l’agression. La contestation de la qualité des images de vidéosurveillance est sans incidence lorsque d’autres éléments établissent suffisamment la matérialité des faits.",
+    decision: "TA Nîmes, 16 juillet 2026, n° 2402680",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA30/DTA_2402680_20260716",
+    quizStatement: "Une exclusion temporaire de 15 jours est proportionnée en cas d'agression physique d'un cadre établie par des témoignages concordants.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q51",
+    category: "Management",
+    question: "Un agent encadrant est-il soumis à une obligation particulière d’exemplarité ?",
+    answer: "Oui. En raison de ses responsabilités, un encadrant doit adopter un comportement exemplaire dans ses relations avec les agents placés sous son autorité et dans l’utilisation des moyens du service. Cette exigence s’ajoute aux obligations de dignité, de probité et d’obéissance hiérarchique.",
+    decision: "TA Montpellier, 20 juillet 2026, n° 2502714",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA34/DTA_2502714_20260720",
+    quizStatement: "Les agents investis de responsabilités d'encadrement sont tenus à une obligation renforcée d'exemplarité.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q52",
+    category: "Management",
+    question: "Des insultes envers les subordonnés, la consommation d’alcool au travail et l’utilisation des moyens du service à des fins privées peuvent-elles justifier une exclusion de douze mois, dont six avec sursis ?",
+    answer: "Oui. En l’espèce, un chef de cuisine avait notamment insulté ou affublé ses collaborateurs de sobriquets, y compris des agents précaires, malgré des rappels hiérarchiques. Il lui était également reproché des consommations d’alcool au travail, des siestes pendant le service, l’usage personnel des moyens du collège et des commandes privées auprès de fournisseurs du collège. L’ensemble de ces manquements justifiait l’exclusion temporaire de douze mois, dont six avec sursis.",
+    decision: "TA Montpellier, 20 juillet 2026, n° 2502714",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA34/DTA_2502714_20260720",
+    quizStatement: "Cumuler insultes aux collègues, alcool sur le lieu de travail et usage privé du matériel justifie une exclusion temporaire de 12 mois.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q53",
+    category: "Temps de travail",
+    question: "Une pause-cigarette prise pendant le temps de travail constitue-t-elle nécessairement une faute disciplinaire ?",
+    answer: "Non. La pause-cigarette ne peut justifier une sanction que si elle méconnaît une règle applicable au sein du service : règlement intérieur, note de service, consigne hiérarchique, organisation du temps de travail ou nécessité de continuité du service.",
+    decision: "TA Montpellier, 20 juillet 2026, n° 2502675",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA34/DTA_2502675_20260720",
+    quizStatement: "Prendre une pause-cigarette constitue d'office une faute disciplinaire même si aucun règlement ni note de service ne la prohibe.",
+    quizCorrection: false,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q54",
+    category: "Temps de travail",
+    question: "Un avertissement peut-il être infligé pour une pause-cigarette alors que la note de service ne réglemente que les pauses-café ?",
+    answer: "Non. Si la note interne ne vise pas les pauses-cigarettes, leur seule matérialité ne suffit pas à caractériser une méconnaissance des règles de service. L’avertissement infligé à l’agent a donc été annulé.",
+    decision: "TA Montpellier, 20 juillet 2026, n° 2502675",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA34/DTA_2502675_20260720",
+    quizStatement: "Un avertissement infligé pour pause-cigarette est illégal si la note de service interne ne vise et ne réglemente expressément que les pauses-café.",
+    quizCorrection: true,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q55",
+    category: "Discipline",
+    question: "Une exclusion temporaire de trois mois, dont un mois avec sursis, peut-elle être disproportionnée malgré la réalité des manquements reprochés ?",
+    answer: "Oui. La proportionnalité d’une sanction s’apprécie notamment au regard de l’ancienneté de l’agent, de ses antécédents disciplinaires, de son comportement ultérieur et de sa manière de servir.",
+    decision: "TA Paris, 22 juillet 2026, n° 2313341",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA75/DTA_2313341_20260722",
+    quizStatement: "La proportionnalité d'une sanction s'apprécie uniquement au moment des faits, sans pouvoir tenir compte de l'ancienneté ou de la manière de servir ultérieure.",
+    quizCorrection: false,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q56",
+    category: "Discipline",
+    question: "Le comportement ultérieur de l’agent peut-il conduire à annuler une sanction disciplinaire trop sévère ?",
+    answer: "Oui. Dans cette affaire, l’agent avait refusé à plusieurs reprises d’appliquer des consignes, d’assister à des réunions et d’adhérer à un projet de réorganisation. Mais il exerçait depuis près de vingt ans, n’avait qu’un unique blâme antérieur pour des faits comparables et, depuis sa mutation dans l’intérêt du service, ne faisait plus l’objet d’aucun grief. Sa nouvelle hiérarchie relevait au contraire son expertise, son investissement et son assiduité. L’exclusion de trois mois, dont un avec sursis, a donc été jugée disproportionnée.",
+    decision: "TA Paris, 22 juillet 2026, n° 2313341",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA75/DTA_2313341_20260722",
+    quizStatement: "L'exemplarité ultérieure et l'investissement d'un agent muté peuvent justifier l'annulation d'une exclusion temporaire jugée disproportionnée.",
+    quizCorrection: true,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q57",
+    category: "Discipline",
+    question: "Une altercation violente avec un usager ou un tiers pendant le service peut-elle justifier une révocation ?",
+    answer: "Oui. Un agent d’entretien qui endommage un véhicule, frappe à plusieurs reprises son conducteur avec un manche à balai et l’insulte commet une faute d’une particulière gravité. Les faits portent atteinte aux obligations professionnelles et déontologiques de l’agent, au fonctionnement du service ainsi qu’à l’image de la commune.",
+    decision: "TA Rouen, 24 juillet 2026, n° 2503674",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA76/DTA_2503674_20260724",
+    quizStatement: "Frapper un tiers avec un outil de travail et dégrader son véhicule pendant le service justifie légalement la révocation de l'agent.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q58",
+    category: "Discipline",
+    question: "L’administration doit-elle obligatoirement solliciter une expertise psychiatrique avant de révoquer un agent ayant commis des violences ?",
+    answer: "Non. Aucune disposition n’impose à l’employeur public d’ordonner une expertise psychiatrique, de recueillir un avis médical spécifique ou de saisir la médecine préventive avant de prononcer une sanction. Cela est d’autant plus vrai lorsque l’agent n’a jamais invoqué une altération de son discernement durant la procédure disciplinaire. La révocation a été jugée proportionnée.",
+    decision: "TA Rouen, 24 juillet 2026, n° 2503674",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA76/DTA_2503674_20260724",
+    quizStatement: "L'administration a l'obligation légale de diligenter une expertise psychiatrique avant toute révocation pour violences.",
+    quizCorrection: false,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q59",
+    category: "Élections professionnelles",
+    question: "Les directeurs généraux des services et directeurs généraux adjoints des collectivités affiliées à un centre de gestion peuvent-ils être élus représentants du personnel au CST placé auprès de ce centre ?",
+    answer: "Non. Compte tenu de la nature de leurs fonctions, les DGS et DGAS ont vocation à représenter l’employeur. Ils sont donc inéligibles aux élections des représentants du personnel au comité social territorial placé auprès du centre de gestion auquel leur collectivité est affiliée.",
+    decision: "CE, 16 juillet 2026, n° 510507",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/CE/DCE_510507_20260716",
+    quizStatement: "Les DGS et DGAS d'une collectivité affiliée sont inéligibles en tant que représentants du personnel au CST du Centre de Gestion.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q60",
+    category: "Imputabilité au service",
+    question: "Le non-respect des règles de sécurité par un agent suffit-il à refuser l’imputabilité au service d’un accident ?",
+    answer: "Non. Une imprudence ou une méconnaissance des consignes de sécurité ne détache pas automatiquement l’accident du service. L’administration doit établir une faute personnelle présentant une gravité ou des circonstances particulières telles qu’elle rompe le lien avec le service.",
+    decision: "TA Toulouse, 22 juillet 2026, n° 2301425",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA31/DTA_2301425_20260722",
+    quizStatement: "Une simple imprudence ou non-respect d'une consigne de sécurité suffit à priver un accident de son imputabilité au service.",
+    quizCorrection: false,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q61",
+    category: "Imputabilité au service",
+    question: "Un accident causé par la conduite d’un camion-benne avec le bras de levage déployé reste-t-il imputable au service ?",
+    answer: "Oui, dans cette affaire. L’agent avait causé l’arrachement de lignes électriques et de câbles de fibre optique en conduisant son camion-benne avec le bras de levage déployé. Même s’il avait méconnu les consignes d’utilisation de l’engin, ce manquement n’était pas suffisamment détachable du service pour faire obstacle à l’imputabilité. Un accident ancien similaire et le comportement postérieur de l’agent, notamment le fait allégué d’avoir quitté les lieux sans sécuriser le site, ne pouvaient être utilement invoqués puisqu’ils n’avaient pas causé l’accident.",
+    decision: "TA Toulouse, 22 juillet 2026, n° 2301425",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA31/DTA_2301425_20260722",
+    quizStatement: "Un accident de camion-benne avec bras de levage déployé reste imputable au service en l'absence de faute personnelle détachable.",
+    quizCorrection: true,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q62",
+    category: "Imputabilité au service",
+    question: "L’existence d’un état de santé antérieur permet-elle d’écarter l’imputabilité au service d’un infarctus survenu au temps et au lieu du service ?",
+    answer: "Non, sauf si cet état antérieur constitue la cause exclusive de l’accident. Le seul fait qu’un agent présente des facteurs de risque ou une fragilité médicale antérieure ne suffit pas à écarter l’imputabilité au service.",
+    decision: "CE, 28 juillet 2026, n° 506295",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/CE/DCE_506295_20260728",
+    quizStatement: "Un infarctus survenu sur le lieu et pendant le temps de travail est présumé imputable au service, même si l'agent avait des antécédents médicaux non exclusifs.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q63",
+    category: "Imputabilité au service",
+    question: "L’agent doit-il démontrer un effort inhabituel ou une situation de stress professionnel exceptionnelle pour que son infarctus soit reconnu imputable au service ?",
+    answer: "Non. Exiger la preuve d’un lien direct entre l’accident et des conditions particulières d’exécution du service constitue une erreur de droit. Lorsque l’accident survient au temps et au lieu du service, il bénéficie d’une présomption d’imputabilité, sauf cause totalement étrangère au service ou état pathologique préexistant constituant sa cause exclusive.",
+    decision: "CE, 28 juillet 2026, n° 506295",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/CE/DCE_506295_20260728",
+    quizStatement: "L'agent victime d'un infarctus au travail doit obligatoirement prouver qu'il subissait un stress anormal ou un effort physique exceptionnel.",
+    quizCorrection: false,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q64",
+    category: "Neutralité du service public",
+    question: "Une marque physique résultant d’une pratique religieuse privée suffit-elle à caractériser une violation de l’obligation de neutralité ?",
+    answer: "Non. La seule apparence physique d’un agent ou d’un candidat, même si elle résulte d’une pratique religieuse, ne permet pas de considérer qu’il manifeste ses convictions dans l’exercice de ses fonctions ni de présumer qu’il méconnaîtra son obligation de neutralité.",
+    decision: "CE, 27 juillet 2026, n° 499886",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/CE/DCE_499886_20260727",
+    quizStatement: "La simple présence d'une marque corporelle liée à une pratique religieuse personnelle suffit à caractériser une rupture de l'obligation de neutralité.",
+    quizCorrection: false,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q65",
+    category: "Neutralité du service public",
+    question: "Une administration peut-elle refuser l’agrément d’un candidat au seul motif qu’il porte une marque dermatologique visible sur le front liée à une pratique religieuse ?",
+    answer: "Non. Cette circonstance ne suffit pas à établir une manifestation de croyance religieuse dans le cadre du service. En outre, le candidat avait indiqué être disposé à atténuer la visibilité de cette marque. Le refus d’agrément ne pouvait donc légalement reposer sur ce seul motif.",
+    decision: "CE, 27 juillet 2026, n° 499886",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/CE/DCE_499886_20260727",
+    quizStatement: "Refuser l'agrément d'un candidat uniquement pour une marque dermatologique sur le front liée à une pratique religieuse est illégal.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q66",
+    category: "Prévention",
+    question: "Une collectivité engage-t-elle sa responsabilité lorsqu’elle expose un agent à un risque professionnel connu sans mesures de prévention adaptées ?",
+    answer: "Oui. L’employeur public doit identifier les risques, définir des protocoles, informer et former les agents, organiser les procédures de sécurité nécessaires et fournir des équipements de protection adaptés. L’absence de telles mesures engage sa responsabilité lorsqu’un agent subit un dommage en lien avec le risque connu.",
+    decision: "TA Marseille, 17 juillet 2026, n° 2312116",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA13/DTA_2312116_20260717",
+    quizStatement: "L'employeur public engage sa responsabilité s'il expose un agent à un risque connu sans protocole ni équipement de protection adapté.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q67",
+    category: "Prévention",
+    question: "Une commune peut-elle reprocher à un agent une imprudence alors qu’aucune consigne de sécurité ne lui a été donnée face à des gaz toxiques connus ?",
+    answer: "Non. Dans cette affaire, un agent chargé de mesurer les gaz dégagés par des algues en décomposition a été intoxiqué. La commune connaissait le risque mais n’avait ni protocole spécifique, ni procédure opérationnelle, ni formation adaptée ; les équipements de protection étaient, en outre, insuffisants. Elle ne pouvait donc pas invoquer une faute de l’agent pour s’exonérer de sa responsabilité.",
+    decision: "TA Marseille, 17 juillet 2026, n° 2312116",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA13/DTA_2312116_20260717",
+    quizStatement: "Une collectivité ne peut invoquer l'imprudence d'un agent intoxiqué par des gaz si elle ne lui a fourni ni consigne, ni formation, ni EPI adéquat.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q68",
+    category: "Prévention",
+    question: "Que doit faire l’employeur public lorsqu’il est alerté par la médecine de prévention d’un risque pour la santé d’un agent ?",
+    answer: "Il doit prendre, dans un délai raisonnable, les mesures nécessaires pour adapter les conditions de travail de l’agent et prévenir toute aggravation de son état de santé : réévaluation de la charge de travail, adaptation du poste, accompagnement managérial, mesures organisationnelles ou toute autre action pertinente au regard de l’alerte reçue.",
+    decision: "TA Bastia, 14 juillet 2026, n° 2401367",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA20/DTA_2401367_20260724",
+    quizStatement: "L'employeur public est tenu de mettre en œuvre des mesures d'adaptation concrètes lorsqu'il est alerté d'un risque par la médecine préventive.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q69",
+    category: "Prévention",
+    question: "L’absence de réponse à une alerte de la médecine de prévention peut-elle caractériser un harcèlement moral ?",
+    answer: "Oui, lorsqu’elle s’accompagne d’autres agissements tels qu’un changement d’affectation constituant une sanction déguisée, une absence de réintégration ou une évaluation professionnelle illégalement dégradée. Dans cette affaire, l’absence de mesures de prévention, combinée à ces éléments, caractérisait une méconnaissance de l’obligation de protection et une situation de harcèlement moral engageant la responsabilité de l’administration.",
+    decision: "TA Bastia, 14 juillet 2026, n° 2401367",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA20/DTA_2401367_20260724",
+    quizStatement: "Ignorer les alertes du médecin de prévention tout en dégradant la notation d'un agent peut caractériser un harcèlement moral.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q70",
+    category: "Recrutement",
+    question: "La présence d’une condamnation au bulletin n° 2 du casier judiciaire suffit-elle à refuser le recrutement d’un candidat dans la fonction publique ?",
+    answer: "Non. L’administration doit apprécier concrètement si les mentions portées au bulletin n° 2 sont incompatibles avec les fonctions envisagées. Elle doit notamment tenir compte de la nature des faits, de leur ancienneté, de leur caractère isolé ou répété, de l’existence éventuelle d’une récidive, du comportement professionnel de l’intéressé et du lien entre l’infraction et l’emploi postulé.",
+    decision: "TA Paris, 22 juillet 2026, n° 2420165",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA75/DTA_2420165_20260722",
+    quizStatement: "Toute mention inscrite au bulletin n° 2 du casier judiciaire entraîne automatiquement le refus légal de recrutement dans la fonction publique.",
+    quizCorrection: false,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q71",
+    category: "Recrutement",
+    question: "Une condamnation isolée pour conduite sous l’emprise de stupéfiants datant de près de six ans peut-elle justifier le refus de recruter un métallier ?",
+    answer: "Non, en l’absence d’élément complémentaire démontrant une incompatibilité avec les fonctions. En l’espèce, aucune consommation récente, addiction ou altération physique ou psychique n’était établie. Le candidat avait en outre exercé les mêmes fonctions pendant près d’un an sous CDD sans difficulté particulière. Le refus de recrutement a donc été jugé illégal.",
+    decision: "TA Paris, 22 juillet 2026, n° 2420165",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA75/DTA_2420165_20260722",
+    quizStatement: "Une condamnation ancienne et isolée sans lien d'incompatibilité actuel avec le métier ne justifie pas un refus d'embauche.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q72",
+    category: "Régime indemnitaire",
+    question: "Une collectivité peut-elle réduire une prime de maintien après avoir augmenté l’IFSE d’un agent ?",
+    answer: "Non, lorsque la délibération instituant cette prime prévoit expressément qu’elle est acquise et ne peut faire l’objet d’aucune révision. L’employeur reste libre de faire évoluer l’IFSE liée aux fonctions exercées, mais ne peut compenser cette hausse par une baisse d’un complément indemnitaire qu’il a lui-même garanti comme non révisable.",
+    decision: "TA Nîmes, 16 juillet 2026, n° 2404285",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA30/DTA_2404285_20260716",
+    quizStatement: "Une collectivité peut réduire une prime de maintien garantie non révisable pour compenser la hausse de l'IFSE d'un agent.",
+    quizCorrection: false,
+    difficulty: "Moyen"
+  },
+  {
+    id: "Q73",
+    category: "Régime indemnitaire",
+    question: "Quels droits possède l’agent dont la prime de maintien a été réduite en violation de la délibération ?",
+    answer: "Il peut demander le rétablissement de la prime à son montant initial et obtenir le versement rétroactif des sommes indûment retirées.",
+    decision: "TA Nîmes, 16 juillet 2026, n° 2404285",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA30/DTA_2404285_20260716",
+    quizStatement: "L'agent victime d'une baisse illégale de prime acquise a droit au rétablissement de son montant et au rappel rétroactif des sommes dues.",
+    quizCorrection: true,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q74",
+    category: "Suppression de poste",
+    question: "La suppression du poste d’un agent lui donne-t-elle une priorité pour être nommé sur un nouveau poste créé lors d’une réorganisation ?",
+    answer: "Non. La suppression d’emploi oblige la collectivité à proposer à l’agent un emploi correspondant à son grade ou à son cadre d’emplois, mais elle ne lui confère aucun droit à être nommé sur le poste de son choix.",
+    decision: "TA Guyane, 25 juin 2026, n° 2401092",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA106/DTA_2401092_20260625",
+    quizStatement: "La suppression d'un poste confère à l'agent un droit de priorité absolu pour choisir son nouveau poste dans l'organigramme.",
+    quizCorrection: false,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q75",
+    category: "Suppression de poste",
+    question: "Une collectivité doit-elle reclasser l’agent dont le poste est supprimé sur un emploi comportant davantage de responsabilités ?",
+    answer: "Non. L’employeur n’est pas tenu de proposer un poste d’un niveau hiérarchique ou de responsabilités supérieur à celui détenu auparavant. Il peut légalement sélectionner un autre candidat au poste convoité, dès lors qu’il propose à l’agent concerné un emploi compatible avec son grade ou son cadre d’emplois.",
+    decision: "TA Guyane, 25 juin 2026, n° 2401092",
+    decisionUrl: "https://opendata.justice-administrative.fr/recherche/shareFile/TA106/DTA_2401092_20260625",
+    quizStatement: "L'employeur est seulement tenu de proposer un poste équivalent au grade de l'agent dont l'emploi est supprimé, sans obligation de promotion.",
+    quizCorrection: true,
+    difficulty: "Facile"
   }
 ];
 
 const CATEGORIES = [
-  { name: "Tous", count: 18, icon: <BookOpen className="w-3.5 h-3.5" /> },
-  { name: "Contrats", count: 2, icon: <FileSignature className="w-3.5 h-3.5" /> },
-  { name: "Discipline", count: 3, icon: <Gavel className="w-3.5 h-3.5" /> },
-  { name: "Harcèlement moral", count: 2, icon: <AlertTriangle className="w-3.5 h-3.5" /> },
-  { name: "Management et encadrement", count: 3, icon: <UserCheck className="w-3.5 h-3.5" /> },
-  { name: "Recrutement", count: 3, icon: <Sparkles className="w-3.5 h-3.5" /> },
-  { name: "Temps de travail", count: 2, icon: <Clock className="w-3.5 h-3.5" /> },
-  { name: "Vie Quotidienne", count: 3, icon: <Heart className="w-3.5 h-3.5" /> }
+  { name: "Tous", icon: <BookOpen className="w-4 h-4" />, gradient: "from-purple-600 to-indigo-600", glow: "shadow-purple-500/25", hoverBorder: "hover:border-purple-300 dark:hover:border-purple-700/60" },
+  { name: "Discipline", icon: <Gavel className="w-4 h-4" />, gradient: "from-red-600 to-rose-600", glow: "shadow-red-500/25", hoverBorder: "hover:border-rose-300 dark:hover:border-rose-700/60" },
+  { name: "Management et encadrement", icon: <UserCheck className="w-4 h-4" />, gradient: "from-indigo-600 to-violet-600", glow: "shadow-indigo-500/25", hoverBorder: "hover:border-indigo-300 dark:hover:border-indigo-700/60" },
+  { name: "Santé, Sécurité & Maladie", icon: <Stethoscope className="w-4 h-4" />, gradient: "from-rose-500 to-red-600", glow: "shadow-rose-500/25", hoverBorder: "hover:border-rose-300 dark:hover:border-rose-700/60" },
+  { name: "Protection fonctionnelle", icon: <Shield className="w-4 h-4" />, gradient: "from-blue-600 to-indigo-600", glow: "shadow-blue-500/25", hoverBorder: "hover:border-blue-300 dark:hover:border-blue-700/60" },
+  { name: "Harcèlement moral", icon: <AlertTriangle className="w-4 h-4" />, gradient: "from-amber-500 to-orange-600", glow: "shadow-amber-500/25", hoverBorder: "hover:border-amber-300 dark:hover:border-amber-700/60" },
+  { name: "Contrats & Carrière", icon: <FileSignature className="w-4 h-4" />, gradient: "from-blue-600 to-cyan-600", glow: "shadow-blue-500/25", hoverBorder: "hover:border-blue-300 dark:hover:border-blue-700/60" },
+  { name: "Régime indemnitaire & Primes", icon: <Coins className="w-4 h-4" />, gradient: "from-emerald-600 to-teal-600", glow: "shadow-emerald-500/25", hoverBorder: "hover:border-emerald-300 dark:hover:border-emerald-700/60" },
+  { name: "Recrutement & Carrière", icon: <Sparkles className="w-4 h-4" />, gradient: "from-emerald-600 to-green-600", glow: "shadow-emerald-500/25", hoverBorder: "hover:border-emerald-300 dark:hover:border-emerald-700/60" },
+  { name: "Syndical & Élections", icon: <Megaphone className="w-4 h-4" />, gradient: "from-purple-600 to-pink-600", glow: "shadow-purple-500/25", hoverBorder: "hover:border-purple-300 dark:hover:border-purple-700/60" },
+  { name: "Cumul d’activités", icon: <Briefcase className="w-4 h-4" />, gradient: "from-teal-600 to-emerald-600", glow: "shadow-teal-500/25", hoverBorder: "hover:border-teal-300 dark:hover:border-teal-700/60" },
+  { name: "Temps de travail", icon: <Clock className="w-4 h-4" />, gradient: "from-cyan-600 to-blue-600", glow: "shadow-cyan-500/25", hoverBorder: "hover:border-cyan-300 dark:hover:border-cyan-700/60" },
+  { name: "Vie Quotidienne", icon: <Heart className="w-4 h-4" />, gradient: "from-pink-600 to-rose-600", glow: "shadow-pink-500/25", hoverBorder: "hover:border-pink-300 dark:hover:border-pink-700/60" }
 ];
 
 const mapCategoryToTab = (cat: string): string => {
-  if (cat === "Procédure disciplinaire") return "Discipline";
-  if (cat === "Promotion interne") return "Recrutement";
+  if (cat === "Procédure disciplinaire" || cat === "Mutation d’office" || cat === "Devoir de réserve") return "Discipline";
+  if (cat === "Promotion interne" || cat === "Avancement de grade" || cat === "Neutralité du service public" || cat === "Recrutement") return "Recrutement & Carrière";
+  if (cat === "Démission" || cat === "Suppression de poste" || cat === "Contrats") return "Contrats & Carrière";
+  if (cat === "Régime indemnitaire") return "Régime indemnitaire & Primes";
   if (cat === "Relations intimes" || cat === "Stupéfiants" || cat === "Suspension") return "Vie Quotidienne";
+  if (cat === "Management" || cat === "Obéissance hiérarchique") return "Management et encadrement";
+  if (cat === "Congé de maladie" || cat === "Imputabilité au service" || cat === "Prévention") return "Santé, Sécurité & Maladie";
+  if (cat === "Droit syndical" || cat === "Élections" || cat === "Élections professionnelles") return "Syndical & Élections";
   return cat;
 };
 
@@ -320,6 +963,16 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
     }));
   };
 
+  // Dynamic category counts
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = { Tous: LEGAL_DATA.length };
+    for (const item of LEGAL_DATA) {
+      const tab = mapCategoryToTab(item.category);
+      counts[tab] = (counts[tab] || 0) + 1;
+    }
+    return counts;
+  }, []);
+
   // Filtered fiches
   const filteredQuestions = useMemo(() => {
     return LEGAL_DATA.filter(q => {
@@ -386,14 +1039,23 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
     <div className="fixed inset-0 z-[60] overflow-y-auto overflow-x-hidden overscroll-contain bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-300">
       
       {/* Banner / Header with flexible responsive wrapping */}
-      <header className="relative z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl py-3.5 sm:py-6 border-b border-slate-200/80 dark:border-slate-800/80 shadow-xs dark:shadow-2xl shrink-0 transition-colors">
+      <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl py-3.5 sm:py-5 border-b border-slate-200/80 dark:border-slate-800/80 shadow-xs dark:shadow-2xl shrink-0 transition-colors">
         <div className="max-w-6xl mx-auto px-3 sm:px-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3 sm:gap-6 min-w-0">
           
-          {/* Header Title & Icon */}
+          {/* Header Title & CFDT Logo */}
           <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-            <div className="p-2.5 sm:p-3 bg-purple-50 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400 rounded-2xl border border-purple-200/80 dark:border-purple-500/30 shadow-xs flex items-center justify-center animate-pulse shrink-0">
-              <Scale className="w-6 h-6 sm:w-8 sm:h-8" />
+            {/* Logo CFDT agrandi à la place de l'icône */}
+            <div className="relative shrink-0 flex items-center">
+              <img
+                src="/images/cfdt_logo_texte.png"
+                alt="Logo CFDT"
+                className="h-14 sm:h-20 w-auto object-contain hover:scale-105 transition-transform"
+                onError={(e) => {
+                  (e.target as HTMLElement).style.display = 'none';
+                }}
+              />
             </div>
+
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="text-lg sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight break-words">
@@ -454,19 +1116,6 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
               </button>
             </div>
 
-            {/* Quick jump to Veille CDG if provided */}
-            {onNavigateToCdg && (
-              <button
-                type="button"
-                onClick={onNavigateToCdg}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/80 border border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-300 font-bold text-xs shadow-2xs transition-colors cursor-pointer shrink-0"
-                title="Consulter les actualités des 86+ CDG et CIG"
-              >
-                <Building2 className="w-3.5 h-3.5" />
-                <span>Tous les CIG</span>
-              </button>
-            )}
-
             {/* Back Button */}
             <button
               onClick={onClose}
@@ -480,17 +1129,115 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
       </header>
 
       {/* Main Container */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-8 flex flex-col gap-5 sm:gap-6 overflow-y-auto">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-8 flex flex-col gap-5 sm:gap-6 min-w-0">
         
         {viewMode === "fiches" ? (
           <>
-            {/* Search & Filter Bar */}
-            <div className="w-full flex flex-col md:flex-row gap-3 sm:gap-4 items-center bg-white/85 dark:bg-slate-900/85 p-3.5 sm:p-4 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs dark:shadow-xl backdrop-blur-xl transition-colors min-w-0">
+            {/* ========================================================= */}
+            {/* RADAR DES THÉMATIQUES JURIDIQUES - HERO SPOTLIGHT         */}
+            {/* ========================================================= */}
+            <div className="relative z-10 w-full overflow-hidden rounded-3xl bg-gradient-to-br from-white via-slate-50/80 to-purple-50/40 dark:from-slate-900/95 dark:via-slate-900/80 dark:to-slate-950 border border-slate-200/80 dark:border-slate-800 p-4 sm:p-6 shadow-xs dark:shadow-2xl backdrop-blur-xl min-w-0 transition-colors">
+              
+              {/* Subtle Ambient Glow */}
+              <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/10 dark:bg-purple-600/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+              <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-500/10 dark:bg-blue-600/10 rounded-full blur-3xl pointer-events-none -ml-20 -mb-20" />
+
+              <div className="relative z-10 flex flex-col gap-4 min-w-0">
+                {/* Header of Radar */}
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 min-w-0">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="p-2.5 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-500/25 flex items-center justify-center shrink-0">
+                      <Scale className="w-5 h-5 animate-pulse" />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h2 className="text-base sm:text-xl font-extrabold text-slate-900 dark:text-white tracking-tight break-words">
+                          Radar des Thématiques & Jurisprudences
+                        </h2>
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-100 dark:bg-purple-950/80 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800/60 shrink-0">
+                          TA • CAA • CE
+                        </span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5 leading-snug break-words">
+                        Explorez les arrêts et décisions de justice administrative par grand domaine statutaire ({LEGAL_DATA.length} fiches répertoriées).
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Active Filter Reset Action */}
+                  {activeTab !== "Tous" && (
+                    <div className="flex items-center gap-2 self-start md:self-auto shrink-0">
+                      <button
+                        onClick={() => setActiveTab("Tous")}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs shadow-md shadow-purple-500/20 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                        <span>Réinitialiser le filtre ({activeTab})</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Grid of Interactive Spotlight Cards */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 sm:gap-3.5 pt-1 min-w-0">
+                  {CATEGORIES.map((cat) => {
+                    const isActive = activeTab === cat.name;
+                    const count = categoryCounts[cat.name] || 0;
+
+                    return (
+                      <button
+                        key={cat.name}
+                        type="button"
+                        onClick={() => setActiveTab(cat.name)}
+                        className={`group relative text-left p-3 sm:p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between min-h-[90px] sm:min-h-[105px] min-w-0 ${
+                          isActive
+                            ? `bg-gradient-to-br ${cat.gradient} text-white border-transparent shadow-lg ${cat.glow} scale-[1.02] ring-2 ring-white/50 dark:ring-white/30`
+                            : `bg-white/90 dark:bg-slate-900/90 hover:bg-white dark:hover:bg-slate-850 text-slate-800 dark:text-slate-200 border-slate-200/80 dark:border-slate-800 shadow-2xs hover:shadow-md hover:-translate-y-1 ${cat.hoverBorder}`
+                        }`}
+                      >
+                        {/* Top Row: Icon & Count Badge */}
+                        <div className="flex items-center justify-between gap-2 w-full">
+                          <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center text-base sm:text-lg shrink-0 transition-transform group-hover:scale-110 shadow-2xs ${
+                            isActive
+                              ? "bg-white/20 text-white"
+                              : "bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-200/60 dark:border-purple-800/40"
+                          }`}>
+                            {cat.icon}
+                          </div>
+
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-extrabold tracking-tight shrink-0 transition-colors ${
+                            isActive
+                              ? "bg-white/25 text-white"
+                              : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 group-hover:bg-slate-200 dark:group-hover:bg-slate-700"
+                          }`}>
+                            {count} {count > 1 ? "fiches" : "fiche"}
+                          </span>
+                        </div>
+
+                        {/* Bottom: Label */}
+                        <div className="mt-2 min-w-0">
+                          <span className={`text-xs sm:text-sm font-bold leading-snug break-words block ${
+                            isActive ? "text-white" : "group-hover:text-purple-600 dark:group-hover:text-purple-300 transition-colors"
+                          }`}>
+                            {cat.name}
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* ========================================================= */}
+            {/* SEARCH BAR                                                */}
+            {/* ========================================================= */}
+            <div className="w-full flex flex-col md:flex-row gap-3 sm:gap-4 items-center bg-white/95 dark:bg-slate-900/95 p-3.5 sm:p-4 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs dark:shadow-xl backdrop-blur-xl transition-colors min-w-0">
               <div className="relative flex-grow w-full min-w-0">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-600 dark:text-purple-400 pointer-events-none" />
                 <input
                   type="text"
-                  placeholder="Rechercher une décision (ex: harcèlement, congés, révocation)..."
+                  placeholder="Rechercher une décision (ex: harcèlement, congés, révocation, 2026)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-12 pr-12 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700/80 rounded-2xl text-sm font-medium focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all outline-hidden text-slate-900 dark:text-white placeholder-slate-400 shadow-inner"
@@ -509,30 +1256,6 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
               <div className="shrink-0 text-xs font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-4 py-2.5 rounded-2xl border border-purple-200 dark:border-purple-500/30">
                 {filteredQuestions.length} décision{filteredQuestions.length > 1 ? "s" : ""}
               </div>
-            </div>
-
-            {/* Categories Horizontal Tabs */}
-            <div className="w-full overflow-x-auto pb-2 flex gap-2 flex-nowrap no-scrollbar -mx-1 px-1">
-              {CATEGORIES.map((cat) => {
-                const isActive = activeTab === cat.name;
-                return (
-                  <button
-                    key={cat.name}
-                    onClick={() => setActiveTab(cat.name)}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-xs font-bold transition-all shrink-0 cursor-pointer whitespace-nowrap ${
-                      isActive 
-                        ? "bg-purple-600 border-purple-500 text-white shadow-sm scale-105" 
-                        : "bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
-                    }`}
-                  >
-                    {cat.icon}
-                    <span>{cat.name}</span>
-                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${isActive ? "bg-white/30 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700"}`}>
-                      {cat.count}
-                    </span>
-                  </button>
-                );
-              })}
             </div>
 
             {/* Cards Grid */}
@@ -604,14 +1327,29 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
                               </p>
                             </div>
 
-                            {/* Decision Ref stamp with wrapping */}
+                            {/* Decision Ref stamp with Open Data Link */}
                             <div className="flex flex-wrap items-center justify-between gap-2 mt-1 pt-3 border-t border-slate-200/60 dark:border-slate-700/50">
                               <span className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5 shrink-0">
                                 ⚖️ Référence de décision :
                               </span>
-                              <span className="text-xs font-black text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/50 border border-purple-200 dark:border-purple-800/40 px-3 py-1 rounded-full shadow-2xs break-words">
-                                {item.decision}
-                              </span>
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-xs font-black text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/50 border border-purple-200 dark:border-purple-800/40 px-3 py-1 rounded-full shadow-2xs break-words">
+                                  {item.decision}
+                                </span>
+                                {item.decisionUrl && (
+                                  <a
+                                    href={item.decisionUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800/40 px-2.5 py-1 rounded-full shadow-2xs transition-colors"
+                                    title="Consulter le texte officiel sur l'Open Data Justice Administrative"
+                                  >
+                                    <span>Opendata Justice</span>
+                                    <ExternalLink className="w-3 h-3" />
+                                  </a>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>

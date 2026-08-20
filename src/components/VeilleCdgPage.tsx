@@ -60,6 +60,10 @@ interface TrendingTopicDef {
   label: string;
   icon: string;
   keywords: string[];
+  gradient: string;
+  glow: string;
+  hoverBorder: string;
+  activeText: string;
 }
 
 const TRENDING_TOPICS: TrendingTopicDef[] = [
@@ -67,61 +71,101 @@ const TRENDING_TOPICS: TrendingTopicDef[] = [
     key: "rupture",
     label: "Rupture conventionnelle",
     icon: "⚖️",
-    keywords: ["rupture", "conventionnelle", "conventionnement", "indemnité de rupture"]
+    keywords: ["rupture", "conventionnelle", "conventionnement", "indemnité de rupture"],
+    gradient: "from-indigo-600 to-violet-600",
+    glow: "shadow-indigo-500/30",
+    hoverBorder: "hover:border-indigo-300 dark:hover:border-indigo-700/60",
+    activeText: "text-indigo-600 dark:text-indigo-400"
   },
   {
     key: "election",
     label: "Élections 2026",
     icon: "🗳️",
-    keywords: ["élection", "election", "élections", "elections", "scrutin", "pré-liste", "pre-liste", "vote", "syndic", "représentativité"]
+    keywords: ["élection", "election", "élections", "elections", "scrutin", "pré-liste", "pre-liste", "vote", "syndic", "représentativité"],
+    gradient: "from-emerald-600 to-teal-600",
+    glow: "shadow-emerald-500/30",
+    hoverBorder: "hover:border-emerald-300 dark:hover:border-emerald-700/60",
+    activeText: "text-emerald-600 dark:text-emerald-400"
   },
   {
     key: "retraite",
     label: "Retraite & CNRACL",
     icon: "⏳",
-    keywords: ["retraite", "retraites", "cnracl", "pension", "pensions", "liquidation", "carrière longue"]
+    keywords: ["retraite", "retraites", "cnracl", "pension", "pensions", "liquidation", "carrière longue"],
+    gradient: "from-amber-500 to-orange-600",
+    glow: "shadow-amber-500/30",
+    hoverBorder: "hover:border-amber-300 dark:hover:border-amber-700/60",
+    activeText: "text-amber-600 dark:text-amber-400"
   },
   {
     key: "sante",
     label: "Santé & Arrêts",
     icon: "🩺",
-    keywords: ["santé", "sante", "maladie", "médical", "medical", "thérapeutique", "therapeutique", "inaptitude", "reclassement", "temps partiel thérapeutique", "conseil médical", "cmo", "clm", "cld", "asa"]
+    keywords: ["santé", "sante", "maladie", "médical", "medical", "thérapeutique", "therapeutique", "inaptitude", "reclassement", "temps partiel thérapeutique", "conseil médical", "cmo", "clm", "cld", "asa"],
+    gradient: "from-rose-500 to-red-600",
+    glow: "shadow-rose-500/30",
+    hoverBorder: "hover:border-rose-300 dark:hover:border-rose-700/60",
+    activeText: "text-rose-600 dark:text-rose-400"
   },
   {
     key: "conges",
     label: "Congés & RSU",
     icon: "🏖️",
-    keywords: ["congé", "conge", "congés", "conges", "rsu", "absence", "report", "données sociales", "donnees sociales", "bilan social"]
+    keywords: ["congé", "conge", "congés", "conges", "rsu", "absence", "report", "données sociales", "donnees sociales", "bilan social"],
+    gradient: "from-cyan-500 to-blue-600",
+    glow: "shadow-cyan-500/30",
+    hoverBorder: "hover:border-cyan-300 dark:hover:border-cyan-700/60",
+    activeText: "text-cyan-600 dark:text-cyan-400"
   },
   {
     key: "emploi",
     label: "Recrutement & Concours",
     icon: "💼",
-    keywords: ["recrutement", "emploi", "concours", "examen", "candidat", "lauréat", "laureat", "stage", "apprentissage", "mobilité", "mobilite", "intérim", "interim", "contractuel", "cdi", "cdd"]
+    keywords: ["recrutement", "emploi", "concours", "examen", "candidat", "lauréat", "laureat", "stage", "apprentissage", "mobilité", "mobilite", "intérim", "interim", "contractuel", "cdi", "cdd"],
+    gradient: "from-blue-600 to-indigo-600",
+    glow: "shadow-blue-500/30",
+    hoverBorder: "hover:border-blue-300 dark:hover:border-blue-700/60",
+    activeText: "text-blue-600 dark:text-blue-400"
   },
   {
     key: "remuneration",
     label: "Rémunération & Primes",
     icon: "💰",
-    keywords: ["smic", "rémunération", "remuneration", "prime", "indemnité", "indemnite", "salaire", "cotisation", "paie", "rifseep", "pouvoir d'achat", "indice", "nbi", "gipa"]
+    keywords: ["smic", "rémunération", "remuneration", "prime", "indemnité", "indemnite", "salaire", "cotisation", "paie", "rifseep", "pouvoir d'achat", "indice", "nbi", "gipa"],
+    gradient: "from-emerald-600 to-green-600",
+    glow: "shadow-emerald-500/30",
+    hoverBorder: "hover:border-emerald-300 dark:hover:border-emerald-700/60",
+    activeText: "text-emerald-600 dark:text-emerald-400"
   },
   {
     key: "protection",
     label: "Protection Sociale & PSC",
     icon: "🛡️",
-    keywords: ["psc", "protection sociale", "mutuelle", "prévoyance", "prevoyance", "contrat groupe", "assurance statutaire"]
+    keywords: ["psc", "protection sociale", "mutuelle", "prévoyance", "prevoyance", "contrat groupe", "assurance statutaire"],
+    gradient: "from-purple-600 to-pink-600",
+    glow: "shadow-purple-500/30",
+    hoverBorder: "hover:border-purple-300 dark:hover:border-purple-700/60",
+    activeText: "text-purple-600 dark:text-purple-400"
   },
   {
     key: "prevention",
     label: "Prévention & Canicule",
     icon: "🌡️",
-    keywords: ["canicule", "chaleur", "prévention", "prevention", "sécurité", "securite", "document unique", "duerp", "f3sct", "risques psychosociaux", "rps", "ergonomie", "fortes chaleurs"]
+    keywords: ["canicule", "chaleur", "prévention", "prevention", "sécurité", "securite", "document unique", "duerp", "f3sct", "risques psychosociaux", "rps", "ergonomie", "fortes chaleurs"],
+    gradient: "from-orange-500 to-amber-600",
+    glow: "shadow-orange-500/30",
+    hoverBorder: "hover:border-orange-300 dark:hover:border-orange-700/60",
+    activeText: "text-orange-600 dark:text-orange-400"
   },
   {
     key: "instances",
     label: "Instances & Déontologie",
     icon: "🏛️",
-    keywords: ["cst", "cap", "ccp", "conseil de discipline", "instance", "instances", "déontologie", "deontologie", "laïcité", "laicite", "comité social", "instances consultatives"]
+    keywords: ["cst", "cap", "ccp", "conseil de discipline", "instance", "instances", "déontologie", "deontologie", "laïcité", "laicite", "comité social", "instances consultatives"],
+    gradient: "from-slate-700 to-slate-900 dark:from-slate-600 dark:to-slate-800",
+    glow: "shadow-slate-500/30",
+    hoverBorder: "hover:border-slate-400 dark:hover:border-slate-600",
+    activeText: "text-slate-700 dark:text-slate-300"
   }
 ];
 
@@ -292,26 +336,28 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
       <div className="fixed top-1/3 -right-40 w-96 h-96 bg-purple-500/10 dark:bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
 
       {/* Top Header Navigation Bar with full responsive wrapping */}
-      <header className="relative z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl py-3 sm:py-5 border-b border-slate-200/80 dark:border-slate-800/80 shadow-xs dark:shadow-2xl shrink-0 transition-colors">
+      <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl py-3 sm:py-5 border-b border-slate-200/80 dark:border-slate-800/80 shadow-xs dark:shadow-2xl shrink-0 transition-colors">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 sm:gap-4">
           
-          {/* Title & Badge */}
+          {/* Title, CFDT Logo & Badge */}
           <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-            <div className="p-2.5 sm:p-3 bg-blue-50 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 rounded-2xl border border-blue-200/80 dark:border-blue-500/30 shadow-xs flex items-center justify-center animate-pulse shrink-0">
-              <Building2 className="w-6 h-6 sm:w-7 sm:h-7" />
+            {/* Logo CFDT agrandi à la place de l'icône */}
+            <div className="relative shrink-0 flex items-center">
+              <img
+                src="/images/cfdt_logo_texte.png"
+                alt="Logo CFDT"
+                className="h-14 sm:h-20 w-auto object-contain hover:scale-105 transition-transform"
+                onError={(e) => {
+                  (e.target as HTMLElement).style.display = 'none';
+                }}
+              />
             </div>
+
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
-                <h1 className="text-lg sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight break-words">
+                <h1 className="text-lg sm:text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight break-words">
                   Veille CDG & CIG
                 </h1>
-                <span className="text-[10px] sm:text-xs font-black px-2.5 py-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full uppercase tracking-wider shadow-xs shrink-0">
-                  PRO SAAS
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-[11px] font-bold shrink-0">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-                  86+ Centres
-                </span>
               </div>
               <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm font-medium mt-0.5 leading-snug break-words">
                 Intelligence territoriale & RH : arrêtés, circulaires, concours et actualités statutaires.
@@ -400,19 +446,6 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
               )}
             </div>
 
-            {/* Link to Veille Juridique */}
-            {onNavigateToJuridique && (
-              <button
-                type="button"
-                onClick={onNavigateToJuridique}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/80 border border-purple-200 dark:border-purple-500/30 text-purple-700 dark:text-purple-300 font-bold text-xs shadow-2xs transition-colors cursor-pointer shrink-0"
-                title="Basculer sur la jurisprudence"
-              >
-                <Scale className="w-3.5 h-3.5" />
-                <span>Jurisprudence</span>
-              </button>
-            )}
-
             {/* Back Button to ATLAS */}
             <button
               onClick={onClose}
@@ -426,8 +459,107 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-6 flex flex-col gap-5 sm:gap-6 overflow-y-auto">
-        {/* Command Bar: Search and Live Stats */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-8 flex flex-col gap-6 min-w-0">
+        
+        {/* ========================================================= */}
+        {/* RADAR DES TENDANCES RH - HERO SPOTLIGHT                    */}
+        {/* ========================================================= */}
+        <div className="relative z-10 w-full overflow-hidden rounded-3xl bg-gradient-to-br from-white via-slate-50/80 to-blue-50/40 dark:from-slate-900/95 dark:via-slate-900/80 dark:to-slate-950 border border-slate-200/80 dark:border-slate-800 p-4 sm:p-6 shadow-xs dark:shadow-2xl backdrop-blur-xl min-w-0 transition-colors">
+          
+          {/* Subtle Ambient Glow */}
+          <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/10 dark:bg-blue-600/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-purple-500/10 dark:bg-purple-600/10 rounded-full blur-3xl pointer-events-none -ml-20 -mb-20" />
+
+          <div className="relative z-10 flex flex-col gap-4 min-w-0">
+            {/* Header of Radar */}
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 min-w-0">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="p-2.5 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-md shadow-amber-500/25 flex items-center justify-center shrink-0">
+                  <Flame className="w-5 h-5 animate-pulse" />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h2 className="text-base sm:text-xl font-extrabold text-slate-900 dark:text-white tracking-tight break-words">
+                      Radar des Tendances RH & Statutaires
+                    </h2>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60 shrink-0">
+                      En direct
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5 leading-snug break-words">
+                    Explorez les 10 thématiques d'actualité les plus publiées par l'ensemble des Centres de Gestion (CDG / CIG).
+                  </p>
+                </div>
+              </div>
+
+              {/* Active Filter Pill or Reset Action */}
+              {activeTopic && (
+                <div className="flex items-center gap-2 self-start md:self-auto shrink-0">
+                  <button
+                    onClick={() => setActiveTopic(null)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-500/20 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                    <span>Réinitialiser le filtre</span>
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Grid of 10 Interactive Spotlight Trend Cards */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 sm:gap-3.5 pt-1 min-w-0">
+              {TRENDING_TOPICS.map((topic) => {
+                const isActive = activeTopic === topic.key;
+                const count = topicCounts[topic.key] || 0;
+
+                return (
+                  <button
+                    key={topic.key}
+                    type="button"
+                    onClick={() => setActiveTopic(isActive ? null : topic.key)}
+                    className={`group relative text-left p-3 sm:p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between min-h-[90px] sm:min-h-[105px] min-w-0 ${
+                      isActive
+                        ? `bg-gradient-to-br ${topic.gradient} text-white border-transparent shadow-lg ${topic.glow} scale-[1.02] ring-2 ring-white/50 dark:ring-white/30`
+                        : `bg-white/90 dark:bg-slate-900/90 hover:bg-white dark:hover:bg-slate-850 text-slate-800 dark:text-slate-200 border-slate-200/80 dark:border-slate-800 shadow-2xs hover:shadow-md hover:-translate-y-1 ${topic.hoverBorder}`
+                    }`}
+                  >
+                    {/* Top Row: Icon & Count Badge */}
+                    <div className="flex items-center justify-between gap-2 w-full">
+                      <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center text-base sm:text-lg shrink-0 transition-transform group-hover:scale-110 shadow-2xs ${
+                        isActive
+                          ? "bg-white/20 text-white"
+                          : "bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60"
+                      }`}>
+                        {topic.icon}
+                      </div>
+
+                      <span className={`px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-extrabold tracking-tight shrink-0 transition-colors ${
+                        isActive
+                          ? "bg-white/25 text-white"
+                          : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 group-hover:bg-slate-200 dark:group-hover:bg-slate-700"
+                      }`}>
+                        {count} {count > 1 ? "actus" : "actu"}
+                      </span>
+                    </div>
+
+                    {/* Bottom: Label */}
+                    <div className="mt-2 min-w-0">
+                      <span className={`text-xs sm:text-sm font-bold leading-snug break-words block ${
+                        isActive ? "text-white" : "group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
+                      }`}>
+                        {topic.label}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* ========================================================= */}
+        {/* RECHERCHE & STATISTIQUES GLOBALES                         */}
+        {/* ========================================================= */}
         <div className="bg-white/85 dark:bg-slate-900/85 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-4 sm:p-5 backdrop-blur-md shadow-xs dark:shadow-xl flex flex-col gap-4 transition-colors min-w-0">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2">
@@ -470,54 +602,6 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
                 <X className="w-3.5 h-3.5" />
               </button>
             )}
-          </div>
-
-          {/* Trending Topics Chips with horizontal scroll and no wrapping breakage */}
-          <div className="flex flex-col gap-2 min-w-0">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-300">
-                <Flame className="w-4 h-4 text-amber-500 animate-pulse shrink-0" />
-                <span>Tendances RH en direct :</span>
-              </div>
-              {activeTopic && (
-                <button
-                  onClick={() => setActiveTopic(null)}
-                  className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-semibold cursor-pointer shrink-0"
-                >
-                  <X className="w-3 h-3" />
-                  <span>Réinitialiser le filtre</span>
-                </button>
-              )}
-            </div>
-
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1.5 pt-0.5 -mx-1 px-1">
-              {TRENDING_TOPICS.map((topic) => {
-                const isActive = activeTopic === topic.key;
-                const count = topicCounts[topic.key] || 0;
-                return (
-                  <button
-                    key={topic.key}
-                    type="button"
-                    onClick={() => setActiveTopic(isActive ? null : topic.key)}
-                    className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold shrink-0 border transition-all duration-150 active:scale-95 cursor-pointer whitespace-nowrap ${
-                      isActive
-                        ? "bg-blue-600 text-white border-blue-500 shadow-sm scale-105"
-                        : "bg-white dark:bg-slate-800/90 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white"
-                    }`}
-                  >
-                    <span>{topic.icon}</span>
-                    <span>{topic.label}</span>
-                    <span
-                      className={`px-1.5 py-0.2 text-[10px] rounded-full font-bold ${
-                        isActive ? "bg-blue-800 text-white" : "bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400"
-                      }`}
-                    >
-                      {count}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
           </div>
         </div>
 
