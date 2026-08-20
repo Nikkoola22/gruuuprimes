@@ -222,29 +222,13 @@ export default async function handler(req, res) {
       console.warn("⚠️ Erreur fetch AMF (Vercel):", amfErr.message);
     }
 
-    // Direct link to Lettre du Cadre Ressources
-    const hasRessources = articles.some(a => a.link.includes('/ressources/'));
-    if (!hasRessources) {
-      articles.unshift({
-        title: "Dossiers, Guides Statutaires & Ressources RH",
-        link: "https://www.lettreducadre.fr/ressources/",
-        pubDate: new Date().toISOString(),
-        category: "Ressources RH",
-        description: "Accédez à l'ensemble des ressources et guides pratiques pour les encadrants et agents territoriaux.",
-        imageUrl: "https://www.lettreducadre.fr/mediatheque/0/2/6/000032620_210x140_c.jpeg",
-        timestamp: Date.now() + 1000,
-        source: "Lettre du Cadre"
-      });
-    }
-
-    // Sort by timestamp desc
-    articles.sort((a, b) => b.timestamp - a.timestamp);
-
-    // Limit to 20 articles
-    const resultArticles = articles.slice(0, 20);
+    // Prioritize Lettre du Cadre articles first, then AMF
+    const ldcArticles = articles.filter(a => a.source === 'Lettre du Cadre');
+    const amfArticles = articles.filter(a => a.source === 'AMF');
+    const resultArticles = [...ldcArticles, ...amfArticles].slice(0, 30);
 
     cache = { data: resultArticles, timestamp: now, ttl: cache.ttl };
-    console.log(`✅ ${resultArticles.length} actualités FP (Lettre du Cadre & AMF) trouvées (cache mis à jour)`);
+    console.log(`✅ ${resultArticles.length} actualités FP (${ldcArticles.length} Lettre du Cadre, ${amfArticles.length} AMF) trouvées (cache mis à jour)`);
     res.status(200).json({ items: resultArticles });
 
   } catch (error) {

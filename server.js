@@ -630,29 +630,16 @@ app.get('/api/fp-rss', async (req, res) => {
       console.warn("⚠️ Erreur fetch AMF:", amfErr.message);
     }
 
-    // Always ensure a direct featured link to Lettre du Cadre Ressources is present if not already
-    const hasRessources = articles.some(a => a.link.includes('/ressources/'));
-    if (!hasRessources) {
-      articles.unshift({
-        title: "Dossiers, Guides Statutaires & Ressources RH",
-        link: "https://www.lettreducadre.fr/ressources/",
-        pubDate: new Date().toISOString(),
-        category: "Ressources RH",
-        description: "Accédez à l'ensemble des ressources et guides pratiques pour les encadrants et agents territoriaux.",
-        imageUrl: "https://www.lettreducadre.fr/mediatheque/0/2/6/000032620_210x140_c.jpeg",
-        timestamp: Date.now() + 1000,
-        source: "Lettre du Cadre"
-      });
-    }
-
-    articles.sort((a, b) => b.timestamp - a.timestamp);
-    const resultArticles = articles.slice(0, 20);
+    // Prioritize Lettre du Cadre articles first, then AMF
+    const ldcArticles = articles.filter(a => a.source === 'Lettre du Cadre');
+    const amfArticles = articles.filter(a => a.source === 'AMF');
+    const resultArticles = [...ldcArticles, ...amfArticles].slice(0, 30);
 
     if (resultArticles.length === 0) {
       return res.status(200).json({ items: FALLBACK_FP_ARTICLES });
     }
 
-    console.log(`✅ Actualités Fonction Publique : ${resultArticles.length} articles récupérés (Lettre du Cadre & AMF)`);
+    console.log(`✅ Actualités Fonction Publique : ${resultArticles.length} articles récupérés (${ldcArticles.length} Lettre du Cadre, ${amfArticles.length} AMF)`);
     res.json({ items: resultArticles });
 
   } catch (error) {
