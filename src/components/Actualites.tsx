@@ -16,9 +16,10 @@ interface ActualitesProps {
   news: IntercoNewsItem[];
   onClose: () => void;
   baseUrl: string;
+  onNavigateToVeille?: () => void;
 }
 
-const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl }) => {
+const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavigateToVeille }) => {
   return (
     <div className="fixed inset-0 z-[60] overflow-y-auto overflow-x-hidden overscroll-contain bg-slate-100 text-slate-900 font-sans">
       {/* Top Header Banner */}
@@ -95,14 +96,24 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl }) => {
                   </div>
                   <div className="mt-4 flex items-center justify-between text-xs text-slate-500 font-medium">
                     <span className="text-blue-700 font-bold">CIG Petite Couronne</span>
-                    <a
-                      href="https://www.cig929394.fr/actualites/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1"
-                    >
-                      Toutes les actus CIG <ArrowRight className="w-4 h-4" />
-                    </a>
+                    {onNavigateToVeille ? (
+                      <button
+                        type="button"
+                        onClick={onNavigateToVeille}
+                        className="font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1 cursor-pointer"
+                      >
+                        Toutes les actus CIG & CDG <ArrowRight className="w-4 h-4" />
+                      </button>
+                    ) : (
+                      <a
+                        href="https://www.cig929394.fr/actualites/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                      >
+                        Toutes les actus CIG <ArrowRight className="w-4 h-4" />
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>

@@ -12,7 +12,7 @@ interface Props {
   theme: 'light' | 'dark';
   toggleTheme: () => void;
   currentView: string;
-  setView: (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "podcasts") => void;
+  setView: (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts") => void;
   openCalculator: (calc: 'primes' | 'cia' | '13eme') => void;
   onClose: () => void;
 }
@@ -100,32 +100,8 @@ export default function MacMenuBar({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Search FAQ logic
-  const handleSearch = (val: string) => {
-    setSearchQuery(val);
-    if (!val.trim()) {
-      setSearchResults([]);
-      setSelectedResult(null);
-      return;
-    }
-    const matches = faqData.filter(item => 
-      item.question.toLowerCase().includes(val.toLowerCase()) || 
-      item.answer.toLowerCase().includes(val.toLowerCase()) ||
-      item.category.toLowerCase().includes(val.toLowerCase())
-    ).slice(0, 5);
-    setSearchResults(matches);
-    if (matches.length > 0) {
-      setSelectedResult(matches[0]);
-    } else {
-      setSelectedResult(null);
-    }
-  };
-
-  const handleDropdownClick = (menu: string) => {
-    setActiveDropdown(prev => prev === menu ? null : menu);
-  };
-
-  const selectView = (view: any) => {
+  // Handle Navigation selection
+  const selectView = (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts") => {
     setView(view);
     setActiveDropdown(null);
   };
@@ -135,129 +111,92 @@ export default function MacMenuBar({
     setActiveDropdown(null);
   };
 
-  // Reset application mockup
-  const handleResetApp = () => {
-    localStorage.clear();
-    setActiveDropdown(null);
-    window.location.reload();
+  const handleDropdownClick = (name: string) => {
+    setActiveDropdown(prev => prev === name ? null : name);
   };
 
-  // Custom visual brightness screen filter style
-  const screenOverlayStyle = focusMode ? {
-    filter: `brightness(${Math.max(brightness, 40)}%) saturate(60%)`
-  } : {
-    filter: `brightness(${Math.max(brightness, 40)}%)`
+  const executeSpotlightAction = (item: FAQItem) => {
+    setSelectedResult(item);
   };
-
-  // Inject visual screen adjustment styles dynamically
-  useEffect(() => {
-    const mainEl = document.querySelector('main');
-    const headerEl = document.querySelector('header');
-    if (mainEl) {
-      mainEl.style.transition = 'filter 0.3s ease';
-      mainEl.style.filter = screenOverlayStyle.filter;
-    }
-    if (headerEl) {
-      headerEl.style.transition = 'filter 0.3s ease';
-      headerEl.style.filter = screenOverlayStyle.filter;
-    }
-  }, [brightness, focusMode]);
 
   return (
     <>
-      {/* 1. THE MENUBAR BASE */}
       <div 
         ref={menuBarRef}
-        className="fixed top-0 left-0 w-full h-7 bg-white/95 dark:bg-slate-900/95 border-b border-slate-200/50 dark:border-slate-800/80 z-[100] flex justify-between items-center px-4 select-none font-sans text-xs text-slate-800 dark:text-slate-200 shadow-sm"
+        className="w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-800/60 text-slate-800 dark:text-slate-200 px-2 sm:px-4 py-1 text-xs select-none sticky top-0 z-[100] flex items-center justify-between gap-2 shadow-2xs font-sans transition-colors duration-300 min-h-[30px] overflow-x-auto no-scrollbar"
+        style={{ filter: `brightness(${brightness}%)` }}
       >
-        {/* Left Side: Native menus */}
-        <div className="flex items-center gap-4">
-          {/* Apple Menu */}
+        {/* Left: Apple Menu + Main Navigation Sections */}
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0 min-w-0">
+          {/* Apple Logo Dropdown */}
           <div className="relative">
             <button 
               onClick={() => handleDropdownClick('apple')}
-              className={`px-2 py-0.5 rounded transition-colors flex items-center ${activeDropdown === 'apple' ? 'bg-blue-600 text-white' : 'hover:bg-slate-200/60 dark:hover:bg-slate-800/60'}`}
+              className="p-1 hover:bg-slate-200/60 dark:hover:bg-slate-800/60 rounded transition-colors flex items-center"
+              aria-label="Menu Système"
             >
               <Apple className="w-3.5 h-3.5" />
             </button>
-            
             <AnimatePresence>
               {activeDropdown === 'apple' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 5 }}
+                <motion.div
+                  initial={{ opacity: 0, y: -5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 5 }}
+                  exit={{ opacity: 0, y: -5 }}
                   transition={{ duration: 0.1 }}
-                  className="absolute left-0 mt-1 w-52 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110] text-slate-800 dark:text-slate-200"
+                  className="absolute left-0 mt-1 w-52 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110]"
                 >
-                  <button 
-                    onClick={() => { setShowAbout(true); setActiveDropdown(null); }}
-                    className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex items-center justify-between"
-                  >
+                  <button onClick={() => { setShowAbout(true); setActiveDropdown(null); }} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex items-center justify-between">
                     <span>À propos d'ATLAS</span>
-                    <Info className="w-3.5 h-3.5 opacity-60" />
+                    <Info className="w-3 h-3 text-slate-400" />
                   </button>
-                  <button 
-                    onClick={() => { setShowPreferences(true); setActiveDropdown(null); }}
-                    className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex items-center justify-between"
-                  >
-                    <span>Réglages Système...</span>
-                    <Sliders className="w-3.5 h-3.5 opacity-60" />
+                  <button onClick={() => { setShowPreferences(true); setActiveDropdown(null); }} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex items-center justify-between">
+                    <span>Préférences Système...</span>
+                    <Sliders className="w-3 h-3 text-slate-400" />
                   </button>
                   <div className="h-px bg-slate-200 dark:bg-slate-800 my-1" />
-                  <button 
-                    onClick={() => selectView('menu')}
-                    className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md"
-                  >
-                    Aller au Tableau de Bord
+                  <button onClick={() => selectView('menu')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Accueil / Dashboard</button>
+                  <button onClick={() => window.location.reload()} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex items-center justify-between">
+                    <span>Actualiser l'application</span>
+                    <RefreshCw className="w-3 h-3 text-slate-400" />
                   </button>
                   <div className="h-px bg-slate-200 dark:bg-slate-800 my-1" />
-                  <button 
-                    onClick={handleResetApp}
-                    className="w-full text-left px-3 py-1.5 hover:bg-red-650 hover:text-white rounded-md flex items-center justify-between text-red-600 dark:text-red-400"
-                  >
-                    <span>Forcer à Redémarrer</span>
-                    <RefreshCw className="w-3.5 h-3.5" />
-                  </button>
-                  <button 
-                    onClick={onClose}
-                    className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-slate-500"
-                  >
-                    Quitter Mode Bureau
-                  </button>
+                  <button onClick={onClose} className="w-full text-left px-3 py-1.5 hover:bg-red-600 hover:text-white rounded-md text-red-600 dark:text-red-400">Fermer la session</button>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          {/* App Title */}
-          <div className="font-bold tracking-tight px-1 cursor-default text-[13px] text-orange-650 dark:text-orange-400">
-            ATLAS
-          </div>
+          {/* App Title Badge */}
+          <span className="font-extrabold tracking-tight px-1.5 text-slate-900 dark:text-white flex items-center gap-1.5">
+            ATLAS <span className="font-medium text-[10px] text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-1.5 py-0.2 rounded border border-blue-200 dark:border-blue-800">Pro</span>
+          </span>
 
-          {/* Menu: Simulate Fichier / Navigation */}
+          {/* Menu: Modules & Vues */}
           <div className="relative">
             <button 
               onClick={() => handleDropdownClick('views')}
-              className={`px-2 py-0.5 rounded transition-colors hidden sm:block ${activeDropdown === 'views' ? 'bg-blue-600 text-white' : 'hover:bg-slate-200/60 dark:hover:bg-slate-800/60'}`}
+              className={`px-2 py-0.5 rounded transition-colors flex items-center gap-1 font-medium ${activeDropdown === 'views' ? 'bg-blue-600 text-white' : 'hover:bg-slate-200/60 dark:hover:bg-slate-800/60'}`}
             >
-              Navigation
+              <BookOpen className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Modules</span>
             </button>
             <AnimatePresence>
               {activeDropdown === 'views' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 5 }}
+                <motion.div
+                  initial={{ opacity: 0, y: -5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 5 }}
+                  exit={{ opacity: 0, y: -5 }}
                   transition={{ duration: 0.1 }}
-                  className="absolute left-0 mt-1 w-48 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110]"
+                  className="absolute left-0 mt-1 w-52 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110]"
                 >
                   <button onClick={() => selectView('menu')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Tableau de Bord</button>
                   <button onClick={() => selectView('chat')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Chatbot ATLAS</button>
+                  <button onClick={() => selectView('veille-cdg')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-blue-500 dark:text-blue-400 font-bold">Veille Tous les CIG (86+) 🏢</button>
+                  <button onClick={() => selectView('veille')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Veille Juridique (Statut) ⚖️</button>
                   <button onClick={() => selectView('metiers')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Grilles Indiciaires</button>
                   <button onClick={() => selectView('faq')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Questions Fréquentes</button>
                   <button onClick={() => selectView('actualites')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Actualités Syndicales</button>
-                  <button onClick={() => selectView('veille')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Veille Juridique</button>
                   <button onClick={() => selectView('podcasts')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-amber-500 font-bold">Podcasts RH 🎧</button>
                 </motion.div>
               )}

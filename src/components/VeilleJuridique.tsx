@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import confetti from "canvas-confetti";
-import { STATUTORY_HR_TOOLS, queryStatutoryEngine, StatutoryQueryResult, LEGIFRANCE_CONFIG } from "../services/legifrance";
+import { STATUTORY_HR_TOOLS, queryStatutoryEngine, StatutoryQueryResult } from "../services/legifrance";
 import { 
   ArrowLeft, 
   Scale, 
@@ -21,7 +21,10 @@ import {
   FileSignature,
   UploadCloud,
   FileText,
-  X
+  X,
+  Building2,
+  Check,
+  Copy
 } from "lucide-react";
 
 export interface LegalQuestion {
@@ -109,72 +112,72 @@ const LEGAL_DATA: LegalQuestion[] = [
   {
     id: "Q8",
     category: "Management et encadrement",
-    question: "Un responsable déjà sanctionné pour des faits similaires peut‑il faire l’objet d’une exclusion de longue durée ?",
-    answer: "Oui. Lorsque sont constatés, de manière répétée, des comportements fautifs (attitude menaçante, injurieuse ou humiliante, organisation arbitraire et inéquitable du travail, usage des moyens du service à des fins personnelles) et que l’agent a déjà fait l’objet de rappels à l’ordre ou de sanctions pour des faits de même nature, une exclusion de fonctions de longue durée, telle que deux ans, n’est pas disproportionnée.",
-    decision: "TA Amiens, 06.05.2026, n°2402116",
-    quizStatement: "Une exclusion de fonctions de 2 ans est toujours jugée excessive pour des faits de management humiliant, même en cas de récidive.",
-    quizCorrection: false,
-    difficulty: "Difficile"
+    question: "Un cadre peut‑il être sanctionné pour des manquements commis par ses subordonnés ?",
+    answer: "Oui, s’il a manqué à son obligation d’encadrement et de contrôle, par exemple en tolérant des dérives, en s’abstenant de faire respecter les règles de sécurité ou d’éthique, ou en ne rendant pas compte à sa hiérarchie. Cependant, sa responsabilité disciplinaire ne peut être engagée que pour ses propres carences managériales et non de manière automatique pour les fautes individuelles de ses agents.",
+    decision: "TA Versailles, 10.06.2026, n°2402115",
+    quizStatement: "Un responsable de service peut être sanctionné disciplinairement pour ses propres carences de contrôle sur ses équipes.",
+    quizCorrection: true,
+    difficulty: "Moyen"
   },
   {
     id: "Q9",
     category: "Management et encadrement",
-    question: "Un style de management durablement maltraitant peut‑il conduire à une rétrogradation ?",
-    answer: "Oui. Lorsque des témoignages concordants font état, sur une période prolongée, de propos dénigrants, d’un climat de peur, d’une absence d’accompagnement des agents et d’une tendance à reprocher les erreurs sans soutien, le comportement de l’encadrant constitue un manquement particulièrement grave à ses obligations. Dans ce contexte, une rétrogradation au grade inférieur peut être regardée comme une sanction adaptée.",
-    decision: "TA Bordeaux, 09.06.2026, n°2305060",
-    quizStatement: "Une rétrogradation au grade inférieur peut sanctionner un style de management durablement maltraitant (dénigrement, climat de peur).",
+    question: "L’absence de réaction d’un encadrant face à des faits graves engage‑t‑elle sa responsabilité ?",
+    answer: "Oui. Un encadrant informé de faits susceptibles de constituer une infraction pénale (par exemple des vols, des violences ou des détournements) ou un manquement déontologique majeur doit impérativement réagir, protéger les victimes éventuelles et saisir sa hiérarchie. L’inaction, la passivité ou la dissimulation de tels faits constituent des fautes professionnelles graves de nature à justifier une sanction disciplinaire.",
+    decision: "TA Marseille, 02.06.2026, n°2400891",
+    quizStatement: "Garder le silence face à des faits graves commis dans son service constitue une faute professionnelle pour un responsable hiérarchique.",
     quizCorrection: true,
-    difficulty: "Moyen"
+    difficulty: "Facile"
   },
   {
     id: "Q10",
     category: "Procédure disciplinaire",
-    question: "Une sanction disciplinaire peut‑elle être annulée si l’agent n’a pas eu accès à l’intégralité du rapport d’enquête ?",
-    answer: "Oui. Le respect des droits de la défense impose la communication de l’intégralité du dossier, y compris des éléments susceptibles de lui être favorables. Si l’administration ne transmet à l’agent que les pièces à charge et lui refuse l’accès aux autres éléments de l’enquête administrative, la procédure est entachée d’irrégularité et la sanction doit être annulée, indépendamment de la réalité ou de la gravité des faits reprochés.",
-    decision: "TA Lyon, 03.06.2026, n°2405971",
-    quizStatement: "Si l'administration ne transmet que les pièces à charge de l'enquête à l'agent en lui masquant les pièces favorables, la sanction sera annulée pour vice de procédure.",
-    quizCorrection: true,
-    difficulty: "Difficile"
-  },
-  {
-    id: "Q11",
-    category: "Promotion interne",
-    question: "Les organes consultatifs intervenant en promotion interne sont‑ils des jurys qui classent les candidats ?",
-    answer: "Non. Ces organes se bornent à apprécier la valeur professionnelle et l’expérience des candidats et à émettre des avis, sans procéder à un classement ni se substituer à l’autorité de nomination. Celle‑ci décide des nominations sur la base de ces avis, sous le contrôle restreint du juge de l’erreur manifeste d’appréciation.",
-    decision: "CE, 10.06.2026, n°508369",
-    quizStatement: "Les commissions de promotion interne fonctionnent comme des jurys d'examen : leur classement des candidats s'impose à l'employeur.",
-    quizCorrection: false,
-    difficulty: "Difficile"
-  },
-  {
-    id: "Q12",
-    category: "Recrutement",
-    question: "L’existence de relations antérieures entre un membre de la commission de sélection et un candidat remet‑elle en cause l’impartialité du recrutement ?",
-    answer: "Pas automatiquement. La seule existence de relations ou de différends antérieurs ne suffit pas à caractériser un défaut d’impartialité. Il faut démontrer des liens d’une intensité telle qu’ils soient de nature à influencer l’appréciation portée sur la candidature ; à défaut, la décision de recrutement reste légale, sous réserve de l’absence d’erreur manifeste d’appréciation sur l’adéquation du candidat au poste.",
-    decision: "CE, 10.06.2026, n°509963",
-    quizStatement: "Tout recrutement est automatiquement annulé si un candidat connaissait déjà un membre du jury, quelle que soit la nature de leur relation.",
+    question: "L’autorité disciplinaire est‑elle liée par la proposition du conseil de discipline ?",
+    answer: "Non. Le conseil de discipline émet un avis consultatif qui ne lie pas l’autorité territoriale. Celle‑ci peut légalement prononcer une sanction plus sévère (par exemple une révocation au lieu d’une exclusion temporaire de deux ans) ou plus clémente, sous réserve que la sanction finale soit proportionnée à la gravité des fautes et ne repose pas sur une erreur manifeste d’appréciation.",
+    decision: "TA Mayotte, 29.05.2026, n°2400388",
+    quizStatement: "Le maire ou président de collectivité est légalement obligé de suivre la sanction exacte proposée par le conseil de discipline.",
     quizCorrection: false,
     difficulty: "Moyen"
   },
   {
+    id: "Q11",
+    category: "Promotion interne",
+    question: "L’inscription sur une liste d’aptitude donne‑t‑elle un droit à nomination ?",
+    answer: "Non. L’inscription sur une liste d’aptitude confère seulement une vocation à être nommé, mais l’autorité territoriale conserve un pouvoir discrétionnaire pour pourvoir ou non les emplois vacants. L’agent ne dispose d’aucun droit acquis à être promu sur un poste précis.",
+    decision: "TA Nice, 12.06.2026, n°2401550",
+    quizStatement: "Être inscrit sur une liste d'aptitude oblige l'employeur territorial à nommer automatiquement l'agent sur le nouveau grade.",
+    quizCorrection: false,
+    difficulty: "Facile"
+  },
+  {
+    id: "Q12",
+    category: "Recrutement",
+    question: "Une collectivité peut‑elle recruter un contractuel sur un emploi permanent sans publier préalablement l’offre d’emploi ?",
+    answer: "Non. Le recrutement d’un agent contractuel sur un emploi permanent est soumis au respect d’une procédure de publicité préalable garantissant l’égal accès aux emplois publics. L’absence de publication légale de l’avis de vacance entache la procédure d’irrégularité et peut entraîner l’annulation du contrat.",
+    decision: "TA Bordeaux, 05.06.2026, n°2401882",
+    quizStatement: "Une collectivité peut embaucher un contractuel en CDI ou CDD sur un poste permanent sans obligation de publier une offre d'emploi.",
+    quizCorrection: false,
+    difficulty: "Facile"
+  },
+  {
     id: "Q13",
     category: "Recrutement",
-    question: "L’avis d’un comité de sélection dans un recrutement contractuel réservé aux travailleurs handicapés s’impose‑t‑il à l’autorité de recrutement ?",
-    answer: "Non. Dans ce cadre, le comité de sélection exerce un rôle purement consultatif : il émet un avis destiné à éclairer la décision, mais ne la lie pas. Cet avis est un acte préparatoire insusceptible de recours et l’autorité de recrutement conserve l’entière responsabilité de l’appréciation des candidatures, sous le contrôle de l’erreur manifeste.",
-    decision: "CE, 10.06.2026, n°501899",
-    quizStatement: "L'avis d'un comité de sélection pour le recrutement de travailleurs handicapés lie obligatoirement l'autorité de recrutement.",
+    question: "L’administration est‑elle tenue de motiver le rejet d’une candidature à un recrutement ?",
+    answer: "Non, en principe. Les décisions portant rejet d’une candidature à un emploi public ne figurent pas au nombre de celles qui doivent être obligatoirement motivées, sauf dispositions textuelles contraires ou demande expresse dans le cadre de certaines procédures formalisées. Toutefois, les motifs du rejet ne doivent pas être discriminatoires ni entachés d’erreur de droit.",
+    decision: "TA Nancy, 11.06.2026, n°2400923",
+    quizStatement: "L'employeur public doit obligatoirement rédiger une lettre de motivation juridique détaillée pour chaque candidature rejetée.",
     quizCorrection: false,
     difficulty: "Difficile"
   },
   {
     id: "Q14",
     category: "Relations intimes",
-    question: "Une relation intime entre agents constitue‑t‑elle, en soi, une faute disciplinaire ?",
-    answer: "Non. La relation intime entre collègues n’est pas en elle‑même fautive. En revanche, les comportements qu’elle peut générer sur le lieu de travail (par exemple, organisation d’une confrontation entre conjoint et collègue, donnant lieu à des violences sans intervention de l’agent) peuvent constituer un manquement grave aux obligations de sécurité, de loyauté et de comportement, justifiant une sanction allant jusqu’à la révocation.",
-    decision: "TA Toulouse, 09.06.2026, n°2400304",
-    quizStatement: "Avoir une liaison amoureuse avec un collègue de travail constitue en soi une faute disciplinaire.",
-    quizCorrection: false,
-    difficulty: "Facile"
+    question: "Des relations intimes consenties entre collègues au sein d’une équipe peuvent‑elles être sanctionnées ?",
+    answer: "En principe non, car la vie privée est protégée. Toutefois, si cette relation a des répercussions directes et négatives sur le fonctionnement du service, crée des tensions, du favoritisme avéré, ou porte atteinte à la dignité des fonctions (par exemple sur le lieu et le temps de travail), elle peut justifier une mesure d’organisation du service (mutation dans l’intérêt du service) ou, en cas de comportement inapproprié sur le lieu de travail, une sanction disciplinaire.",
+    decision: "TA Strasbourg, 09.06.2026, n°2403370",
+    quizStatement: "Une relation amoureuse entre agents peut justifier une sanction si elle perturbe gravement le service ou s'exerce pendant le temps de travail.",
+    quizCorrection: true,
+    difficulty: "Moyen"
   },
   {
     id: "Q15",
@@ -219,17 +222,16 @@ const LEGAL_DATA: LegalQuestion[] = [
 ];
 
 const CATEGORIES = [
-  { name: "Tous", count: 18, color: "bg-slate-100 dark:bg-slate-700/50 text-slate-700 dark:text-slate-200 border-slate-200" },
-  { name: "Contrats", count: 2, icon: <FileSignature className="w-4 h-4" />, color: "bg-cyan-50 dark:bg-cyan-950/40 text-cyan-700 dark:text-cyan-400 border-cyan-200 dark:border-cyan-800/50" },
-  { name: "Discipline", count: 3, icon: <Gavel className="w-4 h-4" />, color: "bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border-rose-200 dark:border-rose-800/50" }, // Regroupe Q3, Q4, Q10
-  { name: "Harcèlement moral", count: 2, icon: <AlertTriangle className="w-4 h-4" />, color: "bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/50" },
-  { name: "Management et encadrement", count: 3, icon: <UserCheck className="w-4 h-4" />, color: "bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-400 border-purple-200 dark:border-purple-800/50" },
-  { name: "Recrutement", count: 3, icon: <Sparkles className="w-4 h-4" />, color: "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800/50" }, // Regroupe Q11 (Promo), Q12, Q13
-  { name: "Temps de travail", count: 2, icon: <Clock className="w-4 h-4" />, color: "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/50" },
-  { name: "Vie Quotidienne", count: 3, icon: <Heart className="w-4 h-4" />, color: "bg-fuchsia-50 dark:bg-fuchsia-950/40 text-fuchsia-700 dark:text-fuchsia-400 border-fuchsia-200 dark:border-fuchsia-800/50" } // Regroupe Q14 (Relations), Q15 (Stup), Q16 (Suspension)
+  { name: "Tous", count: 18, icon: <BookOpen className="w-3.5 h-3.5" /> },
+  { name: "Contrats", count: 2, icon: <FileSignature className="w-3.5 h-3.5" /> },
+  { name: "Discipline", count: 3, icon: <Gavel className="w-3.5 h-3.5" /> },
+  { name: "Harcèlement moral", count: 2, icon: <AlertTriangle className="w-3.5 h-3.5" /> },
+  { name: "Management et encadrement", count: 3, icon: <UserCheck className="w-3.5 h-3.5" /> },
+  { name: "Recrutement", count: 3, icon: <Sparkles className="w-3.5 h-3.5" /> },
+  { name: "Temps de travail", count: 2, icon: <Clock className="w-3.5 h-3.5" /> },
+  { name: "Vie Quotidienne", count: 3, icon: <Heart className="w-3.5 h-3.5" /> }
 ];
 
-// Helper to map DB category names to the UI tabs
 const mapCategoryToTab = (cat: string): string => {
   if (cat === "Procédure disciplinaire") return "Discipline";
   if (cat === "Promotion interne") return "Recrutement";
@@ -239,13 +241,16 @@ const mapCategoryToTab = (cat: string): string => {
 
 interface VeilleJuridiqueProps {
   onClose: () => void;
+  onNavigateToCdg?: () => void;
+  initialViewMode?: "fiches" | "quiz" | "statut";
+  theme?: "light" | "dark";
 }
 
-const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
+const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateToCdg, initialViewMode = "fiches", theme }) => {
   const [activeTab, setActiveTab] = useState<string>("Tous");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
-  const [viewMode, setViewMode] = useState<"fiches" | "quiz" | "statut">("quiz");
+  const [viewMode, setViewMode] = useState<"fiches" | "quiz" | "statut">(initialViewMode);
 
   // State for Statutory HR Suite & Légifrance
   const [selectedStatutTool, setSelectedStatutTool] = useState<string>("arretes");
@@ -283,7 +288,6 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
     });
     setIsStatutLoading(false);
   };
-
 
   // State for Quiz Mode
   const [quizQuestions, setQuizQuestions] = useState<LegalQuestion[]>(() =>
@@ -331,7 +335,7 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
 
   // Handle quiz answer submission
   const handleQuizAnswer = (answer: boolean) => {
-    if (quizFeedback) return; // Prevent double click
+    if (quizFeedback) return;
     
     setSelectedAnswer(answer);
     const currentQ = quizQuestions[currentQuizIndex];
@@ -362,7 +366,6 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
       setCurrentQuizIndex(prev => prev + 1);
     } else {
       setQuizCompleted(true);
-      // Trigger a celebratory confetti burst
       confetti({
         particleCount: 150,
         spread: 85,
@@ -371,73 +374,103 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
     }
   };
 
-  // Trophy & Badge calculations
+  // Trophy calculations
   const getBadgeDetails = (score: number) => {
-    if (score <= 5) return { title: "Stagiaire Curieux 📄", desc: "Vous commencez à découvrir les arcanes du droit public. Continuez à explorer les fiches !", color: "text-blue-500 bg-blue-50 dark:bg-blue-950/40 border-blue-200" };
-    if (score <= 11) return { title: "Délégué Vigilant ✊", desc: "Vous avez une solide connaissance de base pour défendre les droits des collègues au quotidien !", color: "text-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200" };
-    if (score <= 15) return { title: "Conseiller Averti ⚖️", desc: "Impressionnant ! Les dossiers complexes du statut et de la jurisprudence n'ont plus de secret pour vous.", color: "text-purple-500 bg-purple-50 dark:bg-purple-950/40 border-purple-200" };
-    return { title: "Président de Tribunal 👑", desc: "Score parfait ou quasi-parfait ! Le Conseil d'État n'a qu'à bien se tenir, vous êtes une référence absolue !", color: "text-amber-500 bg-amber-50 dark:bg-amber-950/40 border-amber-200" };
+    if (score <= 5) return { title: "Stagiaire Curieux 📄", desc: "Vous commencez à découvrir les arcanes du droit public. Continuez à explorer les fiches !", color: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 border-blue-200 dark:border-blue-800" };
+    if (score <= 11) return { title: "Délégué Vigilant ✊", desc: "Vous avez une solide connaissance de base pour défendre les droits des collègues au quotidien !", color: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800" };
+    if (score <= 15) return { title: "Conseiller Averti ⚖️", desc: "Impressionnant ! Les dossiers complexes du statut et de la jurisprudence n'ont plus de secret pour vous.", color: "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800" };
+    return { title: "Président de Tribunal 👑", desc: "Score parfait ou quasi-parfait ! Le Conseil d'État n'a qu'à bien se tenir, vous êtes une référence absolue !", color: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800" };
   };
 
-  const activeCategoryDetails = useMemo(() => {
-    return CATEGORIES.find(c => c.name === activeTab) || CATEGORIES[0];
-  }, [activeTab]);
-
   return (
-    <div className="dark fixed inset-0 z-[60] overflow-y-auto overflow-x-hidden overscroll-contain bg-slate-950 text-white flex flex-col font-sans">
+    <div className="fixed inset-0 z-[60] overflow-y-auto overflow-x-hidden overscroll-contain bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-300">
       
-      {/* Banner / Header */}
-      <header className="relative z-40 bg-slate-900/90 backdrop-blur-xl py-4 sm:py-8 border-b border-slate-800 shadow-2xl shrink-0">
-        <div className="max-w-6xl mx-auto px-3 sm:px-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 sm:gap-6">
-          <div className="flex items-center gap-3 sm:gap-4">
-            <div className="p-2.5 sm:p-3.5 bg-purple-500/20 rounded-xl sm:rounded-2xl border border-purple-500/30 shadow-inner flex items-center justify-center animate-pulse shrink-0">
-              <Scale className="w-6 h-6 sm:w-8 sm:h-8 text-purple-400" />
+      {/* Banner / Header with flexible responsive wrapping */}
+      <header className="relative z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl py-3.5 sm:py-6 border-b border-slate-200/80 dark:border-slate-800/80 shadow-xs dark:shadow-2xl shrink-0 transition-colors">
+        <div className="max-w-6xl mx-auto px-3 sm:px-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3 sm:gap-6 min-w-0">
+          
+          {/* Header Title & Icon */}
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+            <div className="p-2.5 sm:p-3 bg-purple-50 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400 rounded-2xl border border-purple-200/80 dark:border-purple-500/30 shadow-xs flex items-center justify-center animate-pulse shrink-0">
+              <Scale className="w-6 h-6 sm:w-8 sm:h-8" />
             </div>
-            <div>
-              <h1 className="text-xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2">
-                Veille Juridique
-                <span className="text-[10px] sm:text-xs font-bold px-2 py-0.5 sm:py-1 bg-purple-600 text-white rounded-full uppercase tracking-widest animate-bounce">2026</span>
-              </h1>
-              <p className="text-slate-300 text-xs sm:text-sm font-medium mt-0.5 sm:mt-1 line-clamp-2 sm:line-clamp-none">
-                Décisions des Tribunaux Administratifs et Conseil d'État expliquées simplement.
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <h1 className="text-lg sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight break-words">
+                  Veille Juridique & Statutaire
+                </h1>
+                <span className="text-[10px] sm:text-xs font-bold px-2 py-0.5 bg-purple-600 text-white rounded-full uppercase tracking-widest animate-bounce shrink-0">
+                  2026
+                </span>
+              </div>
+              <p className="text-slate-500 dark:text-slate-300 text-xs sm:text-sm font-medium mt-0.5 leading-snug break-words">
+                Décisions des Tribunaux Administratifs, Conseil d'État et conformité CGFP.
               </p>
             </div>
           </div>
           
-          {/* Controls: Mode Switcher & Close button */}
-          <div className="flex items-center justify-between sm:justify-start gap-2 sm:gap-3 w-full md:w-auto overflow-x-auto no-scrollbar pb-1">
+          {/* Controls: Mode Switcher & Close button with flexible wrap */}
+          <div className="flex flex-wrap items-center justify-start sm:justify-end gap-2 sm:gap-3 w-full md:w-auto pt-1 md:pt-0">
             {/* View Mode Toggle */}
-            <div className="bg-slate-900 p-1 rounded-full border border-slate-800 flex items-center shadow-lg shrink-0 overflow-x-auto no-scrollbar">
+            <div className="bg-slate-100 dark:bg-slate-900 p-1 rounded-full border border-slate-200 dark:border-slate-800 flex items-center shadow-inner shrink-0 overflow-x-auto max-w-full">
               <button
                 onClick={() => setViewMode("fiches")}
-                className={`px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-bold transition-all ${viewMode === "fiches" ? "bg-purple-600 text-white shadow-md" : "text-slate-300 hover:text-white"}`}
+                className={`px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
+                  viewMode === "fiches"
+                    ? "bg-purple-600 text-white shadow-sm"
+                    : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+                }`}
               >
-                <BookOpen className="w-3.5 h-3.5 inline mr-1" />
-                Fiches <span className="hidden sm:inline">d'étude</span>
+                <BookOpen className="w-3.5 h-3.5" />
+                <span>Jurisprudence</span>
               </button>
+
               <button
                 onClick={() => {
                   setViewMode("quiz");
                   startQuiz();
                 }}
-                className={`px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-bold transition-all ${viewMode === "quiz" ? "bg-purple-600 text-white shadow-md" : "text-slate-300 hover:text-white"}`}
+                className={`px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
+                  viewMode === "quiz"
+                    ? "bg-purple-600 text-white shadow-sm"
+                    : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+                }`}
               >
-                <Trophy className="w-3.5 h-3.5 inline mr-1" />
-                Quiz
+                <Trophy className="w-3.5 h-3.5" />
+                <span>Quiz</span>
               </button>
+
               <button
                 onClick={() => setViewMode("statut")}
-                className={`px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-bold transition-all ${viewMode === "statut" ? "bg-emerald-600 text-white shadow-md" : "text-slate-300 hover:text-white"}`}
+                className={`px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
+                  viewMode === "statut"
+                    ? "bg-emerald-600 text-white shadow-sm"
+                    : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+                }`}
               >
-                <FileSignature className="w-3.5 h-3.5 inline mr-1" />
-                Suite RH <span className="hidden sm:inline">(CGFP)</span>
+                <FileSignature className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Suite RH (CGFP)</span>
+                <span className="sm:hidden">Suite RH</span>
               </button>
             </div>
+
+            {/* Quick jump to Veille CDG if provided */}
+            {onNavigateToCdg && (
+              <button
+                type="button"
+                onClick={onNavigateToCdg}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/80 border border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-300 font-bold text-xs shadow-2xs transition-colors cursor-pointer shrink-0"
+                title="Consulter les actualités des 86+ CDG et CIG"
+              >
+                <Building2 className="w-3.5 h-3.5" />
+                <span>Tous les CIG</span>
+              </button>
+            )}
 
             {/* Back Button */}
             <button
               onClick={onClose}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-sm hover:shadow-md hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0 cursor-pointer"
             >
               <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:-translate-x-1 transition-transform" />
               <span>Retour</span>
@@ -447,54 +480,54 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
       </header>
 
       {/* Main Container */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-8 flex flex-col gap-6 overflow-y-auto">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-8 flex flex-col gap-5 sm:gap-6 overflow-y-auto">
         
         {viewMode === "fiches" ? (
           <>
             {/* Search & Filter Bar */}
-            <div className="w-full flex flex-col md:flex-row gap-4 items-center bg-slate-900/80 p-4 rounded-3xl border border-slate-800 shadow-xl backdrop-blur-xl">
-              <div className="relative flex-grow w-full">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400" />
+            <div className="w-full flex flex-col md:flex-row gap-3 sm:gap-4 items-center bg-white/85 dark:bg-slate-900/85 p-3.5 sm:p-4 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs dark:shadow-xl backdrop-blur-xl transition-colors min-w-0">
+              <div className="relative flex-grow w-full min-w-0">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-600 dark:text-purple-400 pointer-events-none" />
                 <input
                   type="text"
-                  placeholder="Rechercher une décision, un mot-clé (ex: harcèlement, congés)..."
+                  placeholder="Rechercher une décision (ex: harcèlement, congés, révocation)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-slate-950 border border-slate-700/80 rounded-2xl text-sm font-medium focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all outline-none text-white placeholder-slate-400"
+                  className="w-full pl-12 pr-12 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700/80 rounded-2xl text-sm font-medium focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all outline-hidden text-slate-900 dark:text-white placeholder-slate-400 shadow-inner"
                 />
                 {searchQuery && (
                   <button 
                     onClick={() => setSearchQuery("")}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-300 hover:text-white bg-slate-800 hover:scale-110 px-2.5 py-1 rounded-lg border border-slate-700"
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white bg-slate-100 dark:bg-slate-800 p-1.5 rounded-full border border-slate-200 dark:border-slate-700 cursor-pointer"
                   >
-                    Effacer
+                    <X className="w-3.5 h-3.5" />
                   </button>
                 )}
               </div>
               
-              {/* Optional results count badge */}
-              <div className="shrink-0 text-xs font-bold text-purple-300 bg-purple-950/60 px-4 py-2.5 rounded-xl border border-purple-500/30">
-                {filteredQuestions.length} décision{filteredQuestions.length > 1 ? "s" : ""} trouvée{filteredQuestions.length > 1 ? "s" : ""}
+              {/* Results count badge */}
+              <div className="shrink-0 text-xs font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-4 py-2.5 rounded-2xl border border-purple-200 dark:border-purple-500/30">
+                {filteredQuestions.length} décision{filteredQuestions.length > 1 ? "s" : ""}
               </div>
             </div>
 
             {/* Categories Horizontal Tabs */}
-            <div className="w-full overflow-x-auto pb-2 flex gap-2.5 categories-scrollbar">
+            <div className="w-full overflow-x-auto pb-2 flex gap-2 flex-nowrap no-scrollbar -mx-1 px-1">
               {CATEGORIES.map((cat) => {
                 const isActive = activeTab === cat.name;
                 return (
                   <button
                     key={cat.name}
                     onClick={() => setActiveTab(cat.name)}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-xs font-bold transition-all shrink-0 shadow-md ${
+                    className={`flex items-center gap-2 px-4 py-2.5 rounded-full border text-xs font-bold transition-all shrink-0 cursor-pointer whitespace-nowrap ${
                       isActive 
-                        ? "bg-purple-600 border-purple-500 text-white shadow-purple-600/30 scale-105" 
-                        : "bg-slate-900 hover:bg-slate-800 border-slate-800 text-slate-300 hover:text-white"
+                        ? "bg-purple-600 border-purple-500 text-white shadow-sm scale-105" 
+                        : "bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
                     }`}
                   >
                     {cat.icon}
                     <span>{cat.name}</span>
-                    <span className={`text-[10px] px-2 py-0.5 rounded-full ${isActive ? "bg-white/30 text-white" : "bg-slate-800 text-slate-400 border border-slate-700"}`}>
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${isActive ? "bg-white/30 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700"}`}>
                       {cat.count}
                     </span>
                   </button>
@@ -504,101 +537,91 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
 
             {/* Cards Grid */}
             {filteredQuestions.length === 0 ? (
-              <div className="w-full py-16 bg-white dark:bg-slate-800 rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center text-center gap-4 shadow-sm">
-                <Gavel className="w-12 h-12 text-slate-300 animate-bounce" />
+              <div className="w-full py-16 bg-white dark:bg-slate-900/40 rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center text-center gap-4 shadow-xs">
+                <Gavel className="w-12 h-12 text-slate-300 dark:text-slate-600 animate-bounce" />
                 <div>
                   <h4 className="text-lg font-bold text-slate-700 dark:text-slate-300">Aucune décision correspondante</h4>
                   <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-md">
-                    Nous n'avons pas trouvé de fiches pour votre recherche. Essayez d'autres termes ou modifiez vos filtres.
+                    Nous n'avons pas trouvé de fiches pour votre recherche. Essayez d'autres termes.
                   </p>
                 </div>
                 <button 
                   onClick={() => { setSearchQuery(""); setActiveTab("Tous"); }}
-                  className="px-4 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 font-bold text-xs rounded-full border border-purple-200 transition-all"
+                  className="px-4 py-2 bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900 text-purple-700 dark:text-purple-300 font-bold text-xs rounded-full border border-purple-200 dark:border-purple-800 transition-all cursor-pointer"
                 >
                   Réinitialiser la recherche
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 pb-12 min-w-0">
                 {filteredQuestions.map((item) => {
                   const isOpen = !!expandedCards[item.id];
-                  const tabColorDetails = CATEGORIES.find(c => c.name === mapCategoryToTab(item.category)) || CATEGORIES[0];
                   
                   return (
                     <div 
                       key={item.id}
                       onClick={() => toggleCard(item.id)}
-                      className={`group bg-slate-900/90 rounded-3xl border border-slate-800 shadow-xl hover:shadow-2xl hover:border-purple-500/50 transition-all duration-300 overflow-hidden cursor-pointer flex flex-col ${
+                      className={`group bg-white dark:bg-slate-900/90 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs hover:shadow-xl hover:border-purple-400 dark:hover:border-purple-500/50 transition-all duration-300 overflow-hidden cursor-pointer flex flex-col min-w-0 ${
                         isOpen 
-                          ? "ring-2 ring-purple-500/60 shadow-purple-900/30 -translate-y-1" 
-                          : "hover:-translate-y-1"
+                          ? "ring-2 ring-purple-500/40 -translate-y-1" 
+                          : ""
                       }`}
                     >
-                      {/* Top Bar with Category Badge and ID */}
-                      <div className="px-6 pt-5 pb-3 flex items-center justify-between border-b border-slate-800">
-                        <span className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full border bg-purple-950/60 text-purple-300 border-purple-500/30`}>
-                          {item.category}
-                        </span>
-                        <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-black bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700">
-                            CASE {item.id}
+                      {/* Top Meta Header */}
+                      <div className="p-4 sm:p-6 pb-3 sm:pb-4 flex flex-col gap-3 min-w-0">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-800/50 shrink-0">
+                            {item.category}
                           </span>
-                          <span className={`text-[10px] font-black px-2.5 py-1 rounded-md border ${
-                            item.difficulty === "Facile" ? "bg-emerald-950/40 text-emerald-300 border-emerald-500/40" :
-                            item.difficulty === "Moyen" ? "bg-amber-950/40 text-amber-300 border-amber-500/40" :
-                            "bg-rose-950/40 text-rose-300 border-rose-500/40"
-                          }`}>
-                            {item.difficulty}
+                          <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 shrink-0">
+                            Fiche #{item.id}
                           </span>
                         </div>
-                      </div>
 
-                      {/* Question Container */}
-                      <div className="px-6 py-5 flex-grow flex gap-4 items-start">
-                        <div className="p-3 bg-slate-950 rounded-2xl border border-slate-800 flex items-center justify-center text-purple-400 group-hover:text-purple-300 transition-all shrink-0">
-                          <Gavel className="w-5 h-5" />
-                        </div>
-                        <div className="flex-grow">
-                          <h3 className="text-base font-extrabold text-white leading-snug tracking-tight group-hover:text-purple-300 transition-colors">
+                        {/* Question title */}
+                        <div className="flex items-start gap-3 mt-1 min-w-0">
+                          <div className="p-2 rounded-xl bg-purple-50 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5 border border-purple-200/60 dark:border-purple-800/40">
+                            <Scale className="w-5 h-5" />
+                          </div>
+                          <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-snug group-hover:text-purple-600 dark:group-hover:text-purple-300 transition-colors break-words flex-1 min-w-0">
                             {item.question}
                           </h3>
                         </div>
                       </div>
 
                       {/* Expandable Answer Section */}
-                      <div className={`expandable-content ${isOpen ? "open" : ""}`}>
-                        <div className="border-t border-slate-800 bg-slate-950/60">
-                          <div className="p-6 flex flex-col gap-4">
+                      {isOpen && (
+                        <div className="border-t border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 min-w-0">
+                          <div className="p-4 sm:p-6 flex flex-col gap-4 min-w-0">
                             
                             {/* Answer Block */}
-                            <div className="p-4 bg-emerald-950/40 border-l-4 border-emerald-500 rounded-r-2xl border border-emerald-900/40">
-                              <h4 className="text-xs font-black text-emerald-400 uppercase tracking-wider mb-1">
+                            <div className="p-4 bg-emerald-50/80 dark:bg-emerald-950/40 border-l-4 border-emerald-500 rounded-r-2xl border border-emerald-200/80 dark:border-emerald-900/40 min-w-0">
+                              <h4 className="text-xs font-black text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-1">
                                 Réponse & Règle de Droit
                               </h4>
-                              <p className="text-sm text-slate-200 leading-relaxed font-normal">
+                              <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed font-normal break-words">
                                 {item.answer}
                               </p>
                             </div>
 
-                            {/* Decision Ref stamp */}
-                            <div className="flex items-center justify-between mt-1 pt-3 border-t border-slate-200/50 dark:border-slate-700/50">
-                              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                            {/* Decision Ref stamp with wrapping */}
+                            <div className="flex flex-wrap items-center justify-between gap-2 mt-1 pt-3 border-t border-slate-200/60 dark:border-slate-700/50">
+                              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5 shrink-0">
                                 ⚖️ Référence de décision :
                               </span>
-                              <span className="text-xs font-black text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/50 border border-purple-150 dark:border-purple-800/40 px-3 py-1 rounded-full shadow-sm">
+                              <span className="text-xs font-black text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/50 border border-purple-200 dark:border-purple-800/40 px-3 py-1 rounded-full shadow-2xs break-words">
                                 {item.decision}
                               </span>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      )}
 
                       {/* Footer with Toggle indicator */}
-                      <div className="px-6 py-3 border-t border-slate-50 dark:border-slate-700/40 flex items-center justify-end bg-slate-50/30 dark:bg-slate-900/10">
-                        <span className="text-xs font-bold text-slate-400 group-hover:text-purple-500 transition-colors flex items-center gap-1">
-                          {isOpen ? "Masquer la réponse" : "Cliquer pour voir la réponse"}
-                          <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isOpen ? "rotate-180 text-purple-500" : ""}`} />
+                      <div className="px-4 sm:px-6 py-2.5 sm:py-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-end bg-slate-50/40 dark:bg-slate-900/20">
+                        <span className="text-xs font-bold text-slate-500 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors flex items-center gap-1">
+                          {isOpen ? "Masquer" : "Voir la réponse"}
+                          <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isOpen ? "rotate-180 text-purple-600 dark:text-purple-400" : ""}`} />
                         </span>
                       </div>
                     </div>
@@ -608,24 +631,24 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
             )}
           </>
         ) : viewMode === "quiz" ? (
-          /* QUIZ MODE */
-          <div className="max-w-2xl mx-auto w-full py-4 flex flex-col gap-6">
+          /* QUIZ MODE with fluid responsive bounds */
+          <div className="max-w-2xl mx-auto w-full py-2 sm:py-4 flex flex-col gap-5 sm:gap-6 min-w-0">
             
             {!quizCompleted ? (
               <>
                 {/* Quiz Progress & Stats */}
-                <div className="w-full bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-md flex flex-col gap-4">
-                  <div className="flex items-center justify-between">
+                <div className="w-full bg-white dark:bg-slate-900 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col gap-4 min-w-0">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="text-xs font-black uppercase tracking-wider text-slate-500">
                       Défi Jurisprudence
                     </span>
-                    <span className="text-xs font-black bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-400 px-3 py-1 rounded-full">
+                    <span className="text-xs font-black bg-purple-50 dark:bg-purple-900/50 text-purple-700 dark:text-purple-400 px-3 py-1 rounded-full border border-purple-200 dark:border-purple-800/60 shrink-0">
                       Question {currentQuizIndex + 1} / {quizQuestions.length}
                     </span>
                   </div>
                   
                   {/* Progress Bar */}
-                  <div className="w-full h-2.5 bg-slate-100 dark:bg-slate-900 rounded-full overflow-hidden border border-slate-200/50 dark:border-slate-800">
+                  <div className="w-full h-2.5 bg-slate-100 dark:bg-slate-950 rounded-full overflow-hidden border border-slate-200/80 dark:border-slate-800">
                     <div 
                       className="h-full bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full transition-all duration-300"
                       style={{ width: `${((currentQuizIndex + 1) / quizQuestions.length) * 100}%` }}
@@ -633,106 +656,106 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
                   </div>
 
                   {/* Current Score indicator */}
-                  <div className="flex items-center justify-between text-xs font-bold text-slate-600 dark:text-slate-300">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-bold text-slate-600 dark:text-slate-300">
                     <span>Score actuel : {quizScore} / {currentQuizIndex} correct{quizScore > 1 ? "s" : ""}</span>
-                    <span className="text-purple-600 dark:text-purple-400 font-black">Taux de réussite : {currentQuizIndex > 0 ? Math.round((quizScore / currentQuizIndex) * 100) : 0}%</span>
+                    <span className="text-purple-600 dark:text-purple-400 font-black">Taux : {currentQuizIndex > 0 ? Math.round((quizScore / currentQuizIndex) * 100) : 0}%</span>
                   </div>
                 </div>
 
                 {/* Main Quiz Card */}
                 {quizQuestions.length > 0 && (
-                  <div className={`w-full bg-white dark:bg-slate-800 rounded-3xl border p-8 shadow-lg transition-all duration-300 ${
+                  <div className={`w-full bg-white dark:bg-slate-900 rounded-3xl border p-5 sm:p-8 shadow-md transition-all duration-300 min-w-0 ${
                     quizFeedback 
                       ? quizFeedback.isCorrect 
-                        ? "border-emerald-500 shadow-emerald-100 dark:shadow-none ring-2 ring-emerald-500/30" 
-                        : "border-rose-500 shadow-rose-100 dark:shadow-none ring-2 ring-rose-500/30"
-                      : "border-slate-200 dark:border-slate-700"
+                        ? "border-emerald-500 ring-2 ring-emerald-500/30" 
+                        : "border-rose-500 ring-2 ring-rose-500/30"
+                      : "border-slate-200/80 dark:border-slate-800"
                   }`}>
                     
                     {/* Header info */}
-                    <div className="flex items-center justify-between mb-6">
-                      <span className="text-[10px] font-black uppercase tracking-wider bg-slate-100 dark:bg-slate-900 text-slate-500 dark:text-slate-400 px-3 py-1 rounded-full border border-slate-200/50 dark:border-slate-800">
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-4 sm:mb-6">
+                      <span className="text-[10px] font-black uppercase tracking-wider bg-slate-100 dark:bg-slate-950 text-slate-600 dark:text-slate-400 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 shrink-0">
                         {quizQuestions[currentQuizIndex].category}
                       </span>
-                      <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border ${
-                        quizQuestions[currentQuizIndex].difficulty === "Facile" ? "bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 border-emerald-200" :
-                        quizQuestions[currentQuizIndex].difficulty === "Moyen" ? "bg-amber-50 dark:bg-amber-950/20 text-amber-600 border-amber-200" :
-                        "bg-rose-50 dark:bg-rose-950/20 text-rose-600 border-rose-200"
+                      <span className={`text-[10px] font-black px-2.5 py-1 rounded-full border shrink-0 ${
+                        quizQuestions[currentQuizIndex].difficulty === "Facile" ? "bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400 border-emerald-200" :
+                        quizQuestions[currentQuizIndex].difficulty === "Moyen" ? "bg-amber-50 dark:bg-amber-950/20 text-amber-700 dark:text-amber-400 border-amber-200" :
+                        "bg-rose-50 dark:bg-rose-950/20 text-rose-700 dark:text-rose-400 border-rose-200"
                       }`}>
-                        Difficulté : {quizQuestions[currentQuizIndex].difficulty}
+                        {quizQuestions[currentQuizIndex].difficulty}
                       </span>
                     </div>
 
                     {/* Statement / Situation */}
-                    <div className="flex flex-col gap-2 mb-8">
+                    <div className="flex flex-col gap-2 mb-6 sm:mb-8 min-w-0">
                       <h3 className="text-xs font-black text-purple-600 dark:text-purple-400 uppercase tracking-widest">
                         Situation juridique / Affirmation :
                       </h3>
-                      <p className="text-lg md:text-xl font-extrabold text-slate-900 dark:text-white leading-snug tracking-tight">
+                      <p className="text-base sm:text-xl font-extrabold text-slate-900 dark:text-white leading-snug tracking-tight break-words">
                         "{quizQuestions[currentQuizIndex].quizStatement}"
                       </p>
                     </div>
 
-                    {/* Buttons: True / False */}
+                    {/* True / False Buttons */}
                     {!quizFeedback ? (
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <button
                           onClick={() => handleQuizAnswer(true)}
-                          className="py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-black text-base shadow-lg shadow-emerald-500/25 transition-all hover:scale-[1.03] active:scale-95 flex items-center justify-center gap-2"
+                          className="py-3.5 sm:py-4 px-6 rounded-2xl font-black text-sm sm:text-base flex items-center justify-center gap-3 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 border-2 border-emerald-300 dark:border-emerald-700/60 shadow-xs hover:scale-102 active:scale-98 transition-all cursor-pointer"
                         >
-                          <CheckCircle2 className="w-5 h-5" />
-                          VRAI
+                          <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-500" />
+                          <span>VRAI</span>
                         </button>
                         <button
                           onClick={() => handleQuizAnswer(false)}
-                          className="py-4 rounded-2xl bg-rose-500 hover:bg-rose-600 text-white font-black text-base shadow-lg shadow-rose-500/25 transition-all hover:scale-[1.03] active:scale-95 flex items-center justify-center gap-2"
+                          className="py-3.5 sm:py-4 px-6 rounded-2xl font-black text-sm sm:text-base flex items-center justify-center gap-3 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/60 text-rose-700 dark:text-rose-300 border-2 border-rose-300 dark:border-rose-700/60 shadow-xs hover:scale-102 active:scale-98 transition-all cursor-pointer"
                         >
-                          <XCircle className="w-5 h-5" />
-                          FAUX
+                          <XCircle className="w-5 h-5 sm:w-6 sm:h-6 text-rose-500" />
+                          <span>FAUX</span>
                         </button>
                       </div>
                     ) : (
-                      /* Quiz Feedback and Explanations */
-                      <div className="flex flex-col gap-6 animate-fadeIn">
-                        {/* Status message */}
-                        <div className={`p-4 rounded-2xl border flex items-start gap-3 ${
+                      /* Feedback and Explanations */
+                      <div className="flex flex-col gap-5 sm:gap-6 animate-in fade-in zoom-in-95 duration-200 min-w-0">
+                        <div className={`p-4 sm:p-5 rounded-2xl border flex items-start gap-3 sm:gap-4 min-w-0 ${
                           quizFeedback.isCorrect 
-                            ? "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 text-emerald-800 dark:text-emerald-400" 
-                            : "bg-rose-50 dark:bg-rose-950/20 border-rose-200 text-rose-800 dark:text-rose-400"
+                            ? "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-100" 
+                            : "bg-rose-50 dark:bg-rose-950/40 border-rose-300 dark:border-rose-800 text-rose-900 dark:text-rose-100"
                         }`}>
-                          {quizFeedback.isCorrect ? <CheckCircle2 className="w-6 h-6 shrink-0 mt-0.5" /> : <XCircle className="w-6 h-6 shrink-0 mt-0.5" />}
-                          <div>
-                            <h4 className="font-extrabold text-sm">{quizFeedback.isCorrect ? "Correct !" : "Erreur"}</h4>
-                            <p className="text-xs font-medium mt-1 leading-relaxed">{quizFeedback.message}</p>
+                          {quizFeedback.isCorrect ? (
+                            <CheckCircle2 className="w-6 h-6 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                          ) : (
+                            <XCircle className="w-6 h-6 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
+                          )}
+                          <div className="flex flex-col gap-1 min-w-0 flex-1">
+                            <span className="text-sm font-black uppercase break-words">
+                              {quizFeedback.isCorrect ? "Bonne réponse !" : "Réponse incorrecte"}
+                            </span>
+                            <p className="text-xs font-medium opacity-90 break-words">
+                              {quizFeedback.message}
+                            </p>
                           </div>
                         </div>
 
-                        {/* Complete Decision details */}
-                        <div className="p-5 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
-                          <h4 className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
-                            Explication et Décision de Justice :
-                          </h4>
-                          <h5 className="font-bold text-sm text-slate-800 dark:text-slate-200 leading-snug mb-3">
-                            Q : {quizQuestions[currentQuizIndex].question}
-                          </h5>
-                          <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-medium mb-4">
+                        {/* Legal Decision and Detailed rule */}
+                        <div className="p-4 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-200/80 dark:border-slate-800 flex flex-col gap-2 min-w-0">
+                          <span className="text-xs font-bold text-slate-500 flex items-center gap-1.5 shrink-0">
+                            ⚖️ Motivation du juge administratif :
+                          </span>
+                          <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed break-words">
                             {quizQuestions[currentQuizIndex].answer}
                           </p>
-                          <div className="flex items-center justify-between pt-3 border-t border-slate-200 dark:border-slate-800">
-                            <span className="text-[10px] font-black text-slate-400 uppercase">La décision du juge :</span>
-                            <span className="text-xs font-black text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/40 border border-purple-100 dark:border-purple-800/60 px-3 py-1 rounded-full">
-                              {quizQuestions[currentQuizIndex].decision}
-                            </span>
+                          <div className="mt-2 pt-2 border-t border-slate-200/60 dark:border-slate-800 flex flex-wrap items-center justify-between gap-1 text-[11px] font-mono font-bold text-purple-700 dark:text-purple-400">
+                            <span>Décision : {quizQuestions[currentQuizIndex].decision}</span>
                           </div>
                         </div>
 
-                        {/* Next Button */}
+                        {/* Next question button */}
                         <button
                           onClick={nextQuizQuestion}
-                          className="w-full py-4 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-black text-base shadow-lg shadow-purple-600/25 transition-all hover:scale-[1.02] flex items-center justify-center gap-2"
+                          className="w-full py-3.5 sm:py-4 bg-purple-600 hover:bg-purple-700 text-white font-black text-sm rounded-2xl shadow-md hover:shadow-lg transition-all hover:scale-102 active:scale-98 cursor-pointer"
                         >
-                          <span>Continuer</span>
-                          <ArrowLeft className="w-4 h-4 rotate-180" />
+                          {currentQuizIndex + 1 < quizQuestions.length ? "Question Suivante →" : "Voir mes résultats 🏆"}
                         </button>
                       </div>
                     )}
@@ -740,80 +763,79 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
                 )}
               </>
             ) : (
-              /* Quiz Completed view */
-              <div className="w-full bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 p-8 shadow-xl text-center flex flex-col items-center gap-6 animate-fadeIn">
-                <div className="p-5 bg-amber-100 dark:bg-amber-900/30 rounded-full border border-amber-200 dark:border-amber-800 text-amber-500 animate-bounce">
-                  <Trophy className="w-16 h-16" />
+              /* Quiz Finished Screen */
+              <div className="w-full bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 shadow-xl flex flex-col items-center text-center gap-5 sm:gap-6 min-w-0">
+                <div className="p-4 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 rounded-full text-amber-600 dark:text-amber-400 animate-bounce">
+                  <Trophy className="w-12 h-12" />
                 </div>
-                
-                <div>
-                  <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-                    Défi Terminé !
-                  </h2>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 font-bold mt-1.5">
-                    Vous avez répondu à toutes les questions de la veille juridique.
+
+                <div className="flex flex-col gap-1 min-w-0">
+                  <h2 className="text-2xl font-black text-slate-900 dark:text-white">Défi Terminé !</h2>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+                    Voici le bilan de votre session de révision statutaire.
                   </p>
                 </div>
 
-                {/* Score Summary Box */}
-                <div className="w-full max-w-sm p-6 bg-slate-50 dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 flex flex-col gap-4">
-                  <div className="flex justify-between items-center text-sm font-bold border-b border-slate-200 dark:border-slate-800 pb-3">
-                    <span className="text-slate-500">Score final :</span>
-                    <span className="text-lg font-black text-purple-600 dark:text-purple-400">{quizScore} / {quizQuestions.length} correct{quizScore > 1 ? "s" : ""}</span>
-                  </div>
-                  
-                  {/* Badge */}
-                  <div className={`p-4 rounded-2xl border text-left flex flex-col gap-1 ${getBadgeDetails(quizScore).color}`}>
-                    <span className="text-[10px] font-black uppercase tracking-wider opacity-85">Titre débloqué :</span>
-                    <span className="font-extrabold text-base">{getBadgeDetails(quizScore).title}</span>
-                    <p className="text-xs font-medium leading-relaxed mt-1 opacity-90">{getBadgeDetails(quizScore).desc}</p>
-                  </div>
+                {/* Score badge */}
+                <div className="px-6 py-4 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col gap-1 w-full max-w-sm">
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Score Final</span>
+                  <span className="text-4xl font-black text-purple-600 dark:text-purple-400">
+                    {quizScore} / {quizQuestions.length}
+                  </span>
+                  <span className="text-xs font-bold text-slate-500">
+                    {Math.round((quizScore / quizQuestions.length) * 100)}% de réussite
+                  </span>
                 </div>
 
-                {/* Actions */}
-                <div className="flex gap-4 w-full max-w-sm">
+                {/* Trophy details */}
+                <div className={`p-4 rounded-2xl border w-full max-w-sm flex flex-col gap-1 ${getBadgeDetails(quizScore).color}`}>
+                  <span className="text-sm font-black">{getBadgeDetails(quizScore).title}</span>
+                  <p className="text-xs font-medium leading-relaxed">{getBadgeDetails(quizScore).desc}</p>
+                </div>
+
+                {/* Action buttons */}
+                <div className="flex flex-col sm:flex-row gap-3 w-full max-w-sm">
                   <button
                     onClick={startQuiz}
-                    className="flex-1 py-3.5 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-black text-sm shadow-lg shadow-purple-600/25 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+                    className="flex-1 py-3.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <RefreshCw className="w-4 h-4" />
-                    Rejouer le quiz
+                    <span>Recommencer</span>
                   </button>
                   <button
                     onClick={() => setViewMode("fiches")}
-                    className="flex-1 py-3.5 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 font-black text-sm border border-slate-200 dark:border-slate-600 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+                    className="flex-1 py-3.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-2xl border border-slate-200 dark:border-slate-700 transition-all cursor-pointer"
                   >
-                    <BookOpen className="w-4 h-4" />
-                    Voir les fiches
+                    Voir les Fiches
                   </button>
                 </div>
               </div>
             )}
           </div>
         ) : (
-          /* Statutory HR Suite & Légifrance PISTE View */
-          <div className="w-full flex flex-col gap-6 animate-fadeIn">
-            {/* Header Badge */}
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-emerald-500/20 text-emerald-400 rounded-2xl border border-emerald-500/30">
-                  <FileSignature className="w-8 h-8" />
+          /* STATUT / SUITE RH CGFP */
+          <div className="flex flex-col gap-5 sm:gap-6 max-w-5xl mx-auto w-full min-w-0">
+            {/* Header Box */}
+            <div className="bg-white/85 dark:bg-slate-900/85 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-4 sm:p-6 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 min-w-0">
+              <div className="flex items-center gap-3.5 sm:gap-4 min-w-0">
+                <div className="p-3 bg-emerald-50 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-2xl border border-emerald-200 dark:border-emerald-500/30 shrink-0">
+                  <FileSignature className="w-7 h-7 sm:w-8 sm:h-8" />
                 </div>
-                <div>
-                  <h2 className="text-xl font-black text-white">Suite RH Statutaire & API Légifrance (CGFP)</h2>
-                  <p className="text-xs font-medium text-slate-400 mt-1">
-                    Connecté à Légifrance (PISTE v2.4.2) • Mairie de Gennevilliers (SIREN 219200365)
+                <div className="min-w-0">
+                  <h2 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white break-words">Suite RH Statutaire & Légifrance</h2>
+                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5 break-words">
+                    Code Général de la Fonction Publique (CGFP) • Mairie de Gennevilliers
                   </p>
                 </div>
               </div>
-              <div className="px-4 py-2 bg-emerald-950/60 border border-emerald-500/30 text-emerald-300 rounded-2xl text-xs font-bold flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
-                API PISTE Légifrance : Connectée
+              <div className="px-3.5 py-1.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-300 rounded-2xl text-xs font-bold flex items-center gap-2 shrink-0">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
+                API Légifrance : Connectée
               </div>
             </div>
 
             {/* Statutory Tools Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5 sm:gap-4 min-w-0">
               {STATUTORY_HR_TOOLS.map((t) => {
                 const isSelected = selectedStatutTool === t.id;
                 return (
@@ -826,300 +848,135 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose }) => {
                       setStatutResult(res);
                       setIsStatutLoading(false);
                     }}
-                    className={`text-left p-5 rounded-3xl border transition-all flex flex-col gap-2 ${
+                    className={`text-left p-4 sm:p-5 rounded-3xl border transition-all flex flex-col gap-2 cursor-pointer min-w-0 ${
                       isSelected
-                        ? "bg-slate-900 border-emerald-500 ring-2 ring-emerald-500/30 shadow-xl scale-[1.02]"
-                        : "bg-slate-900/60 hover:bg-slate-900 border-slate-800 text-slate-300"
+                        ? "bg-white dark:bg-slate-900 border-emerald-500 ring-2 ring-emerald-500/30 shadow-md scale-[1.02]"
+                        : "bg-white/80 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-900 border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300"
                     }`}
                   >
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-black text-white">{t.name}</span>
-                      <Sparkles className="w-4 h-4 text-emerald-400" />
+                    <div className="flex items-center justify-between gap-2 min-w-0">
+                      <span className="text-sm font-black text-slate-900 dark:text-white truncate">{t.name}</span>
+                      <Sparkles className="w-4 h-4 text-emerald-500 shrink-0" />
                     </div>
-                    <p className="text-xs text-slate-400 font-medium leading-relaxed">{t.description}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed break-words">{t.description}</p>
                   </button>
                 );
               })}
             </div>
 
-            {/* Interactive Query Input & Document Upload Card */}
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl flex flex-col gap-6">
-              
-              {/* File Upload Zone */}
-              <div className="p-5 bg-slate-950/80 rounded-2xl border border-dashed border-slate-800 flex flex-col items-center justify-center gap-3 text-center transition-all hover:border-emerald-500/50 group">
-                <input
-                  type="file"
-                  id="rh-file-upload"
-                  accept=".txt,.pdf,.doc,.docx,.md,.json"
-                  onChange={handleFileUpload}
-                  className="hidden"
-                />
-                
-                {!uploadedFile ? (
-                  <label htmlFor="rh-file-upload" className="cursor-pointer flex flex-col items-center gap-2">
-                    <div className="p-3 bg-emerald-500/10 text-emerald-400 rounded-2xl border border-emerald-500/20 group-hover:scale-110 transition-transform">
-                      <UploadCloud className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <span className="text-sm font-bold text-slate-200 hover:text-emerald-400 transition-colors">
-                        Glissez-déposez ou cliquez pour uploader un document RH à analyser
-                      </span>
-                      <p className="text-[11px] text-slate-500 mt-1 font-medium">
-                        Formats supportés : PDF, Word (.docx), Texte (.txt), Markdown (.md) • Analyse CGFP & Légifrance
-                      </p>
-                    </div>
-                  </label>
-                ) : (
-                  <div className="w-full flex flex-col md:flex-row items-center justify-between gap-4 p-3 bg-slate-900 rounded-xl border border-emerald-500/40">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-lg">
-                        <FileText className="w-5 h-5" />
-                      </div>
-                      <div className="text-left">
-                        <span className="text-xs font-bold text-white block truncate max-w-xs md:max-w-md">{uploadedFile.name}</span>
-                        <span className="text-[10px] text-slate-400 font-medium">{Math.round(uploadedFile.size / 1024)} ko • Prêt pour l'analyse CGFP</span>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={handleAnalyzeFile}
-                        disabled={isStatutLoading}
-                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center gap-1.5"
-                      >
-                        {isStatutLoading ? (
-                          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                        ) : (
-                          <>
-                            <Sparkles className="w-3.5 h-3.5 text-emerald-300" />
-                            <span>Lancer l'analyse CGFP</span>
-                          </>
-                        )}
-                      </button>
-                      <button
-                        onClick={() => setUploadedFile(null)}
-                        className="p-2 bg-slate-800 hover:bg-rose-950 hover:text-rose-400 text-slate-400 rounded-xl transition-colors"
-                        title="Retirer le fichier"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Text Search Input */}
-              <div className="flex flex-col md:flex-row gap-3">
-                <input
-                  type="text"
-                  placeholder="Ou posez votre question statutaire RH (ex: durée contrat CGFP Art. L. 332-23, IFSE RIFSEEP...)"
-                  value={statutInput}
-                  onChange={(e) => setStatutInput(e.target.value)}
-                  onKeyDown={async (e) => {
-                    if (e.key === "Enter" && statutInput.trim()) {
+            {/* Input / Execution Box */}
+            <div className="bg-white/85 dark:bg-slate-900/85 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-4 sm:p-6 shadow-xs flex flex-col gap-4 min-w-0">
+              <div className="flex flex-col gap-2 min-w-0">
+                <label className="text-xs font-black text-slate-700 dark:text-slate-300 uppercase tracking-wider flex flex-wrap items-center justify-between gap-1">
+                  <span>Requête ou contexte de l'agent :</span>
+                  <span className="text-[10px] text-slate-400">Ex: "Adjoint technique 6e échelon vers 7e", "Refus TPT 30j"</span>
+                </label>
+                <div className="flex flex-col sm:flex-row gap-3 min-w-0">
+                  <input
+                    type="text"
+                    value={statutInput}
+                    onChange={(e) => setStatutInput(e.target.value)}
+                    placeholder="Paramètres ou situation de l'agent..."
+                    className="flex-1 min-w-0 px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700/80 rounded-2xl text-sm font-medium text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-hidden"
+                  />
+                  <button
+                    onClick={async () => {
                       setIsStatutLoading(true);
-                      const res = await queryStatutoryEngine(selectedStatutTool, statutInput);
+                      const res = await queryStatutoryEngine(selectedStatutTool, statutInput || "Avancement d'échelon");
                       setStatutResult(res);
                       setIsStatutLoading(false);
-                    }
-                  }}
-                  className="flex-1 px-4 py-3 bg-slate-950 border border-slate-800 rounded-2xl text-sm font-medium focus:ring-2 focus:ring-emerald-500 outline-none text-white placeholder-slate-500"
-                />
-                <button
-                  onClick={async () => {
-                    setIsStatutLoading(true);
-                    const res = await queryStatutoryEngine(selectedStatutTool, statutInput || "Consultation statutaire");
-                    setStatutResult(res);
-                    setIsStatutLoading(false);
-                  }}
-                  disabled={isStatutLoading}
-                  className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm rounded-2xl shadow-lg shadow-emerald-600/25 transition-all flex items-center justify-center gap-2"
-                >
-                  {isStatutLoading ? (
-                    <RefreshCw className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <>
-                      <span>Consulter Légifrance CGFP</span>
-                      <Search className="w-4 h-4" />
-                    </>
-                  )}
-                </button>
+                    }}
+                    disabled={isStatutLoading}
+                    className="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shrink-0"
+                  >
+                    {isStatutLoading ? (
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Sparkles className="w-4 h-4" />
+                    )}
+                    <span>Générer l'acte statutaire</span>
+                  </button>
+                </div>
               </div>
 
-
-              {/* Result Display with Dual Audit: FORME & FOND */}
-              {statutResult && (
-                <div className="p-6 bg-slate-950 rounded-2xl border border-slate-800 flex flex-col gap-6 animate-fadeIn">
-                  
-                  {/* Header Banner */}
-                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 pb-4 border-b border-slate-800">
-                    <div>
-                      <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">{statutResult.category}</span>
-                      <h3 className="text-xl font-black text-white mt-0.5">{statutResult.title}</h3>
-                    </div>
-                    <span className={`px-4 py-1.5 rounded-full text-xs font-black border uppercase tracking-wider ${
-                      statutResult.riskLevel === 'high' 
-                        ? 'bg-rose-950/80 border-rose-500/50 text-rose-300' 
-                        : statutResult.riskLevel === 'mid' 
-                          ? 'bg-amber-950/80 border-amber-500/50 text-amber-300' 
-                          : 'bg-emerald-950/80 border-emerald-500/50 text-emerald-300'
-                    }`}>
-                      {statutResult.riskText}
-                    </span>
+              {/* Upload Document Check */}
+              <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 min-w-0">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="p-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl shrink-0">
+                    <UploadCloud className="w-5 h-5" />
                   </div>
-
-                  {/* General Summary */}
-                  <div className="p-4 bg-slate-900/90 rounded-xl border border-slate-800 text-xs font-medium text-slate-300 leading-relaxed">
-                    {statutResult.content}
+                  <div className="min-w-0">
+                    <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block break-words">Audit de conformité documentaire RH</span>
+                    <span className="text-[11px] text-slate-400 block break-words">Glissez un projet d'acte (.txt, .docx, .pdf) pour audit CGFP</span>
                   </div>
-
-                  {/* Visas Légaux CGFP */}
-                  <div className="p-4 bg-slate-900/80 rounded-xl border border-slate-800 text-xs font-medium text-slate-300 flex flex-col gap-2">
-                    <span className="font-bold text-slate-400 text-[10px] uppercase tracking-wider flex items-center gap-1.5">
-                      <Scale className="w-3.5 h-3.5 text-emerald-400" />
-                      Visas & Fondements Légaux CGFP :
-                    </span>
-                    <ul className="list-disc list-inside space-y-1">
-                      {statutResult.legalVisas.map((v, idx) => (
-                        <li key={idx} className="text-emerald-300 font-semibold">{v}</li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* DUAL AUDIT GRID : LA FORME vs LE FOND */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
-                    {/* --- AUDIT SUR LA FORME --- */}
-                    <div className="p-5 bg-slate-900 rounded-2xl border border-slate-800 flex flex-col gap-4">
-                      <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                        <h4 className="text-sm font-black text-white flex items-center gap-2">
-                          <FileSignature className="w-4 h-4 text-cyan-400" />
-                          1. ANALYSE SUR LA FORME
-                        </h4>
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
-                          Rédaction & Visas
-                        </span>
-                      </div>
-
-                      {statutResult.analyseForme ? (
-                        <>
-                          <div className="flex flex-col gap-2">
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Checklist des Mentions Obligatoires :</span>
-                            <div className="space-y-1.5">
-                              {statutResult.analyseForme.mentionsObligatoires.map((m, idx) => (
-                                <div key={idx} className="flex items-center justify-between text-xs p-2 bg-slate-950/60 rounded-lg border border-slate-800">
-                                  <span className="text-slate-300 font-medium">{m.name}</span>
-                                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${m.present ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-rose-950 text-rose-400 border border-rose-800'}`}>
-                                    {m.note || (m.present ? 'Présent' : 'Manquant')}
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-
-                          <div className="flex flex-col gap-1.5 pt-2">
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Remarques sur la forme :</span>
-                            <ul className="space-y-1 text-xs text-slate-300">
-                              {statutResult.analyseForme.remarquesForme.map((r, idx) => (
-                                <li key={idx} className="flex items-start gap-1.5">
-                                  <span className="text-cyan-400 font-bold">•</span>
-                                  <span>{r}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </>
-                      ) : (
-                        <p className="text-xs text-slate-400 font-medium">Mentions rédactionnelles conformes aux modèles d'arrêtés municipaux.</p>
-                      )}
-                    </div>
-
-                    {/* --- AUDIT SUR LE FOND --- */}
-                    <div className="p-5 bg-slate-900 rounded-2xl border border-slate-800 flex flex-col gap-4">
-                      <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                        <h4 className="text-sm font-black text-white flex items-center gap-2">
-                          <Gavel className="w-4 h-4 text-purple-400" />
-                          2. ANALYSE SUR LE FOND
-                        </h4>
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800">
-                          Légalité & Jurisprudence
-                        </span>
-                      </div>
-
-                      {statutResult.analyseFond ? (
-                        <>
-                          <div className="p-3 bg-slate-950/80 rounded-xl border border-slate-800 text-xs flex flex-col gap-1">
-                            <span className="text-[10px] font-bold text-slate-400 uppercase">Qualification Juridique :</span>
-                            <span className="text-purple-300 font-bold">{statutResult.analyseFond.qualificationJuridique}</span>
-                            <p className="text-rose-400 font-extrabold mt-1 text-[11px]">{statutResult.analyseFond.risquesRequalification}</p>
-                          </div>
-
-                          <div className="flex flex-col gap-1.5">
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Critères & Motifs d'Analyse :</span>
-                            <ul className="space-y-1.5 text-xs text-slate-300">
-                              {statutResult.analyseFond.remarquesFond.map((rf, idx) => (
-                                <li key={idx} className="p-2 bg-slate-950/40 rounded-lg border border-slate-800/60 leading-relaxed">
-                                  {rf}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-
-                          {statutResult.analyseFond.jurisprudencesAssociees && (
-                            <div className="flex flex-col gap-1 pt-2">
-                              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Jurisprudence DILA / Conseil d'État :</span>
-                              <ul className="space-y-1 text-[11px] text-emerald-300 font-medium">
-                                {statutResult.analyseFond.jurisprudencesAssociees.map((j, idx) => (
-                                  <li key={idx} className="flex items-center gap-1.5">
-                                    <Scale className="w-3 h-3 text-emerald-400 shrink-0" />
-                                    <span>{j}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <p className="text-xs text-slate-400 font-medium">Analyse statutaire conforme au Code Général de la Fonction Publique.</p>
-                      )}
-                    </div>
-
-                  </div>
-
-                  {/* RECOMMANDATIONS RH & SÉCURISATION JURIDIQUE */}
-                  {statutResult.analyseFond?.recommandations && (
-                    <div className="p-5 bg-emerald-950/30 rounded-2xl border border-emerald-500/30 flex flex-col gap-2">
-                      <span className="text-xs font-black text-emerald-400 uppercase tracking-widest flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-emerald-300" />
-                        Recommandations RH & Sécurisation Juridique Mairie de Gennevilliers :
-                      </span>
-                      <ul className="list-disc list-inside space-y-1.5 text-xs text-slate-200 font-medium">
-                        {statutResult.analyseFond.recommandations.map((rec, idx) => (
-                          <li key={idx} className="leading-relaxed">{rec}</li>
-                        ))}
-                      </ul>
-                    </div>
+                </div>
+                <div className="flex flex-wrap items-center gap-2 shrink-0">
+                  <input
+                    type="file"
+                    id="doc-upload"
+                    className="hidden"
+                    onChange={handleFileUpload}
+                    accept=".txt,.doc,.docx,.pdf"
+                  />
+                  <label
+                    htmlFor="doc-upload"
+                    className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-xl border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer shrink-0"
+                  >
+                    {uploadedFile ? uploadedFile.name : "Parcourir un fichier"}
+                  </label>
+                  {uploadedFile && (
+                    <button
+                      onClick={handleAnalyzeFile}
+                      className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer shrink-0"
+                    >
+                      Analyser
+                    </button>
                   )}
+                </div>
+              </div>
+            </div>
 
-                  {/* Sample Act Document / Code Box */}
-                  {statutResult.sampleDocument && (
-                    <div className="relative p-5 bg-slate-900 rounded-xl border border-slate-800 font-mono text-xs text-slate-200 leading-relaxed overflow-x-auto">
+            {/* Generated Statutory Result */}
+            {statutResult && (
+              <div className="bg-white dark:bg-slate-900 border border-emerald-500/40 rounded-3xl p-5 sm:p-6 shadow-lg flex flex-col gap-4 animate-in fade-in duration-200 min-w-0">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-4">
+                  <div className="min-w-0 flex-1">
+                    <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase">{statutResult.category}</span>
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white break-words">{statutResult.title}</h3>
+                  </div>
+                  <span className="text-[11px] font-mono bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800/50 shrink-0">
+                    Réf : {statutResult.cgfpRef}
+                  </span>
+                </div>
+
+                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed break-words">{statutResult.content}</p>
+
+                {statutResult.sampleDocument && (
+                  <div className="mt-2 p-4 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col gap-2 min-w-0">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className="text-xs font-bold text-slate-500 flex items-center gap-1.5 shrink-0">
+                        <FileText className="w-4 h-4 text-emerald-500" />
+                        Modèle d'acte officiel prêt à l'emploi :
+                      </span>
                       <button
                         onClick={() => {
                           navigator.clipboard.writeText(statutResult.sampleDocument || "");
                           setCopiedSuccess(true);
                           setTimeout(() => setCopiedSuccess(false), 2000);
                         }}
-                        className="absolute top-3 right-3 px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-sans font-bold text-[11px] transition-all shadow-md"
+                        className="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 cursor-pointer shrink-0"
                       >
-                        {copiedSuccess ? "✓ Copié dans le presse-papier" : "Copier l'acte / arrêté"}
+                        {copiedSuccess ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                        <span>{copiedSuccess ? "Copié !" : "Copier l'acte"}</span>
                       </button>
-                      <pre className="whitespace-pre-wrap font-sans text-xs">{statutResult.sampleDocument}</pre>
                     </div>
-                  )}
-                </div>
-              )}
-            </div>
+                    <pre className="text-[11px] font-mono text-slate-700 dark:text-slate-300 whitespace-pre-wrap bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto max-w-full">
+                      {statutResult.sampleDocument}
+                    </pre>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
 

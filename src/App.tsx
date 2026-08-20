@@ -24,6 +24,7 @@ const LandingPage = lazy(() => import("./components/LandingPage.tsx"))
 const EspaceJeux = lazy(() => import("./components/EspaceJeux.tsx"))
 const Actualites = lazy(() => import("./components/Actualites.tsx"))
 const VeilleJuridique = lazy(() => import("./components/VeilleJuridique.tsx"))
+const VeilleCdgPage = lazy(() => import("./components/VeilleCdgPage.tsx"))
 const EspacePodcastsFigurines = lazy(() => import("./components/EspacePodcastsFigurines.tsx"))
 import MacMenuBar from "./components/MacMenuBar.tsx"
 import { LuxuryChat } from "./components/ui/LuxuryChat.tsx"
@@ -166,7 +167,7 @@ interface InfoItem {
   content: string
 }
 interface ChatbotState {
-  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "podcasts"
+  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts"
   selectedDomain: number | null
   messages: ChatMessage[]
   isProcessing: boolean
@@ -1552,52 +1553,51 @@ ${indicesFactuels}
 
               {/* --- FENÊTRE UNIQUE COMBINÉE : ACTUALITÉS SYNDICALES & VEILLE JURIDIQUE CÔTE À CÔTE --- */}
               <div className="mt-8 mb-8">
-                <div className="w-full bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 dark:divide-slate-800">
+                <div className="w-full bg-white/95 dark:bg-slate-900/95 rounded-3xl p-4 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 min-w-0">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 dark:divide-slate-800 min-w-0">
 
                     {/* CÔTÉ GAUCHE : Actualités Syndicales & Statutaires */}
-                    <div className="lg:pr-8 flex flex-col justify-between">
-                      <div>
-                        <div className="flex items-center justify-between gap-4 mb-6">
-                          <div className="flex items-center gap-3">
-                            <div className="p-2.5 bg-blue-50 dark:bg-blue-900/40 rounded-xl border border-blue-200 dark:border-blue-800 shadow-xs">
+                    <div className="lg:pr-8 flex flex-col justify-between min-w-0">
+                      <div className="min-w-0">
+                        <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6 min-w-0">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="p-2.5 bg-blue-50 dark:bg-blue-900/40 rounded-xl border border-blue-200 dark:border-blue-800 shadow-xs shrink-0">
                               <Newspaper className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                             </div>
-                            <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-wide">
+                            <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-wide break-words">
                               Actualités <span className="text-blue-600 dark:text-blue-400">de tous les CIG/CDG</span>
                             </h3>
                           </div>
                         </div>
 
                         {/* Article principal Statutaire CIG */}
-                        <div className="flex flex-col sm:flex-row gap-5 group/card">
-                          <div className="relative w-full sm:w-48 h-36 overflow-hidden rounded-xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 group/card min-w-0">
+                          <div className="relative w-full sm:w-44 md:w-48 h-36 overflow-hidden rounded-2xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
                             <img loading="lazy" src="https://www.cig929394.fr/wp-content/uploads/2026/08/FOCUS-BIP_Actu-aout2026.png" alt="Retraites, congés de maladie et temps partiel thérapeutique" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
-                            <span className="absolute top-2 left-2 inline-block text-xs font-bold px-2.5 py-0.5 rounded-full bg-white/90 dark:bg-slate-900/90 text-red-600 dark:text-red-400 border border-red-200 shadow-xs">
+                            <span className="absolute top-2 left-2 inline-block text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-white/90 dark:bg-slate-900/90 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/60 shadow-xs">
                               Statutaire CIG (Août 2026)
                             </span>
                           </div>
-                          <div className="flex flex-col justify-between flex-1">
-                            <div>
-                              <h4 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white hover:text-blue-600 transition-colors leading-snug mb-2">
+                          <div className="flex flex-col justify-between flex-1 min-w-0">
+                            <div className="min-w-0">
+                              <h4 className="text-base sm:text-lg md:text-xl font-bold text-slate-900 dark:text-white hover:text-blue-600 transition-colors leading-snug mb-2 break-words">
                                 <a href="https://www.cig929394.fr/actualites/retraites-conges-de-maladie-et-temps-partiel-therapeutique-de-nouvelles-regles/" target="_blank" rel="noopener noreferrer">
                                   Retraites, congés de maladie et temps partiel thérapeutique : de nouvelles règles
                                 </a>
                               </h4>
-                              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
+                              <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium leading-relaxed break-words">
                                 Nouvelles règles d'août et septembre 2026 : encadrement du temps partiel thérapeutique (réponse sous 30j, refus motivé), plafonnement des arrêts maladie (31j initial / 62j prolongation) et bonification retraite (1 trimestre/enfant).
                               </p>
                             </div>
-                            <div className="mt-3 flex items-center justify-between text-xs text-slate-500">
-                              <a
-                                href="https://actu-cig-blue.vercel.app"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-xs sm:text-sm bg-blue-50 dark:bg-blue-950/50 hover:bg-blue-100 dark:hover:bg-blue-900/60 px-3.5 py-1.5 rounded-full border border-blue-200/80 dark:border-blue-800/80 transition-all duration-200 shadow-2xs hover:scale-105 active:scale-95 group/cig"
+                            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
+                              <button
+                                type="button"
+                                onClick={() => setChatState({ ...chatState, currentView: 'veille-cdg' })}
+                                className="inline-flex items-center gap-1.5 font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-xs sm:text-sm bg-blue-50 dark:bg-blue-950/50 hover:bg-blue-100 dark:hover:bg-blue-900/60 px-3.5 py-1.5 rounded-full border border-blue-200/80 dark:border-blue-800/80 transition-all duration-200 shadow-2xs hover:scale-105 active:scale-95 group/cig cursor-pointer shrink-0"
                               >
-                                TOUS LES GIC
+                                TOUS LES CIG / CDG
                                 <ArrowRight className="w-3.5 h-3.5 text-blue-500 group-hover/cig:translate-x-0.5 transition-transform" />
-                              </a>
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -1607,44 +1607,44 @@ ${indicesFactuels}
                     {/* CÔTÉ DROIT : Veille Juridique */}
                     <div
                       onClick={() => setChatState({ ...chatState, currentView: 'veille' })}
-                      className="lg:pl-8 pt-6 lg:pt-0 flex flex-col justify-between cursor-pointer group/veille"
+                      className="lg:pl-8 pt-6 lg:pt-0 flex flex-col justify-between cursor-pointer group/veille min-w-0"
                     >
-                      <div>
-                        <div className="flex items-center gap-3 mb-6">
-                          <div className="p-2.5 bg-purple-100/60 dark:bg-purple-900/40 rounded-xl border border-purple-200 dark:border-purple-800/60 shadow-sm flex items-center justify-center">
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-3 mb-4 sm:mb-6 min-w-0">
+                          <div className="p-2.5 bg-purple-100/60 dark:bg-purple-900/40 rounded-xl border border-purple-200 dark:border-purple-800/60 shadow-sm flex items-center justify-center shrink-0">
                             <Scale className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                           </div>
-                          <h3 className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-white tracking-wide">
+                          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800 dark:text-white tracking-wide break-words">
                             Veille <span className="text-purple-600 dark:text-purple-400">Juridique & Statutaire</span>
                           </h3>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row gap-5 mb-4 group/card">
-                          <div className="relative w-full sm:w-48 h-36 overflow-hidden rounded-xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-900/50">
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 mb-4 group/card min-w-0">
+                          <div className="relative w-full sm:w-44 md:w-48 h-36 overflow-hidden rounded-2xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-900/50">
                             <img loading="lazy" src="/images/legal_news_illustration.png" alt="Veille Juridique" className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300" />
-                            <span className="absolute top-2 left-2 inline-block text-xs font-medium px-2.5 py-0.5 rounded-full bg-slate-900/80 text-purple-300 border border-purple-500/30">
+                            <span className="absolute top-2 left-2 inline-block text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-slate-900/80 text-purple-300 border border-purple-500/30">
                               Juridique
                             </span>
                           </div>
-                          <div className="flex flex-col justify-between flex-1">
-                            <div>
-                              <h4 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100 group-hover/veille:text-purple-600 dark:group-hover/veille:text-purple-400 transition-colors leading-snug mb-2">
+                          <div className="flex flex-col justify-between flex-1 min-w-0">
+                            <div className="min-w-0">
+                              <h4 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 dark:text-slate-100 group-hover/veille:text-purple-600 dark:group-hover/veille:text-purple-400 transition-colors leading-snug mb-2 break-words">
                                 Veille Juridique & Statutaire (« Vu cette semaine »)
                               </h4>
-                              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+                              <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-400 leading-relaxed font-medium break-words">
                                 Découvrez notre veille juridique interactive. Explorez les dernières décisions des tribunaux administratifs et du Conseil d'État, ou testez vos connaissances dans notre Mode Défi Quiz !
                               </p>
                             </div>
-                            <div className="mt-3 flex items-center justify-between text-xs text-slate-500">
-                              <span className="font-semibold bg-purple-100/70 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 px-3 py-1 rounded-full text-xs">
+                            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
+                              <span className="font-semibold bg-purple-100/70 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 px-3 py-1 rounded-full text-xs shrink-0">
                                 Veille CFDT Interactive
                               </span>
                             </div>
                           </div>
                         </div>
                       </div>
-
                     </div>
+
                   </div>
                 </div>
               </div>
@@ -2264,6 +2264,18 @@ ${indicesFactuels}
             news={intercoNews}
             onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
             baseUrl={BASE_URL}
+            onNavigateToVeille={() => setChatState({ ...chatState, currentView: 'veille-cdg' })}
+          />
+        </Suspense>
+      )}
+
+      {/* --- SECTION VEILLE CDG & CIG (ACTU-CIG) --- */}
+      {chatState.currentView === 'veille-cdg' && (
+        <Suspense fallback={<ViewLoader />}>
+          <VeilleCdgPage
+            onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
+            onNavigateToJuridique={() => setChatState({ ...chatState, currentView: 'veille' })}
+            theme={theme}
           />
         </Suspense>
       )}
@@ -2271,7 +2283,11 @@ ${indicesFactuels}
       {/* --- SECTION VEILLE JURIDIQUE --- */}
       {chatState.currentView === 'veille' && (
         <Suspense fallback={<ViewLoader />}>
-          <VeilleJuridique onClose={() => setChatState({ ...chatState, currentView: 'menu' })} />
+          <VeilleJuridique
+            onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
+            onNavigateToCdg={() => setChatState({ ...chatState, currentView: 'veille-cdg' })}
+            theme={theme}
+          />
         </Suspense>
       )}
 
