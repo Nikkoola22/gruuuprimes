@@ -1,5 +1,28 @@
 [
   {
+    "id": "droit-schemas-ordre-administratif",
+    "title": "L'ordre juridictionnel administratif (infographie)",
+    "description": "Schéma synthétique de l'organisation de la justice administrative : Tribunaux Administratifs (1er ressort), Cours Administratives d'Appel (2nd degré), Conseil d'État (cassation & juge de 1er et dernier ressort) et Tribunal des Conflits.",
+    "category": "Instances & Déontologie",
+    "cdg": "DROIT EN SCHÉMAS",
+    "dept": "National",
+    "date": "2026",
+    "link": "https://droitenschemas.com/wp-content/uploads/2021/02/Ordre-administratif_SCHEMA-V1.png",
+    "pdfUrl": "https://droitenschemas.com/wp-content/uploads/2021/02/Ordre-administratif_SCHEMA-V1.png",
+    "imageUrl": "https://droitenschemas.com/wp-content/uploads/2021/02/Ordre-administratif_SCHEMA-V1.png",
+    "icon": "⚖️",
+    "badge": "Organisation Juridictionnelle",
+    "tags": [
+      "Infographie",
+      "Justice administrative",
+      "Tribunal Administratif",
+      "Cour Administrative d'Appel",
+      "Conseil d'État",
+      "Tribunal des Conflits",
+      "Contentieux"
+    ]
+  },
+  {
     "id": "cdg63-report-ca-sante",
     "title": "Report des congés annuels en cas d'arrêts longs pour raison de santé (infographie)",
     "description": "Schéma et règles applicables pour le report des congés annuels non pris suite à un congé de maladie ordinaire (CMO), congé de longue maladie (CLM), congé de longue durée (CLD) ou congé pour invalidité temporaire imputable au service (CITIS).",
