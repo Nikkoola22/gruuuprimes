@@ -1,5 +1,77 @@
 [
   {
+    "id": "cdg63-report-ca-sante",
+    "title": "Report des congés annuels en cas d'arrêts longs pour raison de santé (infographie)",
+    "description": "Schéma et règles applicables pour le report des congés annuels non pris suite à un congé de maladie ordinaire (CMO), congé de longue maladie (CLM), congé de longue durée (CLD) ou congé pour invalidité temporaire imputable au service (CITIS).",
+    "category": "Congés & Absences",
+    "cdg": "CDG 63 (PUY-DE-DÔME)",
+    "dept": "63",
+    "date": "2025/2026",
+    "link": "https://www.cdg63.fr/wp-content/uploads/2025/09/Infographie-report-des-CA-en-cas-darrets-longs-raison-sante.pdf",
+    "pdfUrl": "https://www.cdg63.fr/wp-content/uploads/2025/09/Infographie-report-des-CA-en-cas-darrets-longs-raison-sante.pdf",
+    "imageUrl": "https://www.cig929394.fr/wp-content/uploads/2025/09/info_ppr_2024_06_vf-179x252.jpg",
+    "icon": "🏖️",
+    "badge": "Report Congés Annuels & Arrêts",
+    "tags": [
+      "Infographie",
+      "CDG 63",
+      "Congés annuels",
+      "Report CA",
+      "Arrêt maladie",
+      "CMO",
+      "CLM",
+      "CLD",
+      "Santé"
+    ]
+  },
+  {
+    "id": "cdg63-procedure-disciplinaire",
+    "title": "La procédure disciplinaire dans la fonction publique territoriale (infographie)",
+    "description": "Étapes clés de la procédure disciplinaire : rapport de saisine, communication intégrale du dossier individuel, droits de la défense, consultation du Conseil de discipline et notification de l'arrêté.",
+    "category": "Statut & Procédures RH",
+    "cdg": "CDG 63 (PUY-DE-DÔME)",
+    "dept": "63",
+    "date": "2026",
+    "link": "https://www.cdg63.fr/wp-content/uploads/2026/01/Infographie-La-procedure-disciplinaire.pdf",
+    "pdfUrl": "https://www.cdg63.fr/wp-content/uploads/2026/01/Infographie-La-procedure-disciplinaire.pdf",
+    "imageUrl": "https://www.cig929394.fr/wp-content/uploads/2025/09/info_ppr_2024_06_vf-179x252.jpg",
+    "icon": "⚖️",
+    "badge": "Procédure Disciplinaire",
+    "tags": [
+      "Infographie",
+      "CDG 63",
+      "Discipline",
+      "Conseil de discipline",
+      "Droits de la défense",
+      "Procédure RH",
+      "Statut"
+    ]
+  },
+  {
+    "id": "cdg63-sanctions-disciplinaires",
+    "title": "Les sanctions disciplinaires par groupe dans la FPT (infographie)",
+    "description": "Échelle et classification des sanctions du 1er au 4ème groupe (avertissement, blâme, exclusion temporaire de fonctions, rétrogradation, révocation) pour fonctionnaires et contractuels.",
+    "category": "Statut & Procédures RH",
+    "cdg": "CDG 63 (PUY-DE-DÔME)",
+    "dept": "63",
+    "date": "2026",
+    "link": "https://www.cdg63.fr/wp-content/uploads/2026/01/Infographie-Les-sanctions-disciplinaires.pdf",
+    "pdfUrl": "https://www.cdg63.fr/wp-content/uploads/2026/01/Infographie-Les-sanctions-disciplinaires.pdf",
+    "imageUrl": "https://www.cig929394.fr/wp-content/uploads/2025/09/info_ppr_2024_06_vf-179x252.jpg",
+    "icon": "🚨",
+    "badge": "Groupes de Sanctions (1 à 4)",
+    "tags": [
+      "Infographie",
+      "CDG 63",
+      "Sanctions",
+      "Groupes 1 à 4",
+      "Avertissement",
+      "Exclusion",
+      "Révocation",
+      "Discipline"
+    ]
+  },
+  {
     "id": "versailles-all-1",
     "title": "Gestion d'un Congé Maladie Ordinaire des fonctionnaires (infographie)",
     "description": "08/04/2026",
