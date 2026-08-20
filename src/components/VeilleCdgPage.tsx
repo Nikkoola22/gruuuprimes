@@ -423,23 +423,6 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
                 <LayoutGrid className="w-3.5 h-3.5" />
                 <span>Grille</span>
               </button>
-
-              <button
-                type="button"
-                onClick={() => setViewMode("infographies")}
-                className={`flex items-center gap-1.5 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-xs font-bold transition-all shrink-0 cursor-pointer ${
-                  viewMode === "infographies"
-                    ? "bg-purple-600 text-white shadow-sm"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                }`}
-                title="Infographies & Guides RH"
-              >
-                <ImageIcon className="w-3.5 h-3.5" />
-                <span>Infographies</span>
-                <span className="px-1.5 py-0.2 bg-purple-100 dark:bg-purple-500/40 text-purple-700 dark:text-purple-200 text-[10px] rounded-full font-bold">
-                  {infographies.length}
-                </span>
-              </button>
             </div>
 
             {/* Export Dropdown */}
@@ -642,24 +625,24 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 min-w-0">
             {/* Left Column Table */}
             <div className="bg-white/85 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 rounded-3xl overflow-hidden shadow-xs dark:shadow-xl transition-colors min-w-0">
-              <div className="divide-y divide-slate-100 dark:divide-slate-800/80">
+              <div className="divide-y divide-slate-200/80 dark:divide-slate-800/80">
                 {leftColEntries.length === 0 && (
                   <div className="p-8 text-center text-slate-400 text-sm">Aucun Centre de Gestion correspondant.</div>
                 )}
-                {leftColEntries.map((entry) => (
-                  <CDGTableRow key={entry.cdg} entry={entry} />
+                {leftColEntries.map((entry, idx) => (
+                  <CDGTableRow key={entry.cdg} entry={entry} isEven={idx % 2 === 0} />
                 ))}
               </div>
             </div>
 
             {/* Right Column Table */}
             <div className="bg-white/85 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 rounded-3xl overflow-hidden shadow-xs dark:shadow-xl transition-colors min-w-0">
-              <div className="divide-y divide-slate-100 dark:divide-slate-800/80">
+              <div className="divide-y divide-slate-200/80 dark:divide-slate-800/80">
                 {rightColEntries.length === 0 && (
                   <div className="p-8 text-center text-slate-400 text-sm">Aucun Centre de Gestion correspondant.</div>
                 )}
-                {rightColEntries.map((entry) => (
-                  <CDGTableRow key={entry.cdg} entry={entry} />
+                {rightColEntries.map((entry, idx) => (
+                  <CDGTableRow key={entry.cdg} entry={entry} isEven={idx % 2 === 0} />
                 ))}
               </div>
             </div>
@@ -875,9 +858,15 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
 };
 
 // Component for compact row in 2-column table view with rich clickable article cards
-const CDGTableRow: React.FC<{ entry: CDGEntry }> = ({ entry }) => {
+const CDGTableRow: React.FC<{ entry: CDGEntry; isEven?: boolean }> = ({ entry, isEven }) => {
   return (
-    <div className="p-3.5 sm:p-4 hover:bg-slate-50/50 dark:hover:bg-slate-900/40 transition-colors flex flex-col md:flex-row md:items-start gap-3 sm:gap-4 min-w-0">
+    <div
+      className={`p-3.5 sm:p-4 transition-colors flex flex-col md:flex-row md:items-start gap-3 sm:gap-4 min-w-0 ${
+        isEven
+          ? "bg-white dark:bg-slate-900/90 hover:bg-blue-50/50 dark:hover:bg-blue-950/30"
+          : "bg-slate-100/70 dark:bg-slate-950/75 hover:bg-blue-50/60 dark:hover:bg-blue-950/40"
+      }`}
+    >
       {/* CDG Header / Badge */}
       <div className="md:w-52 shrink-0 flex flex-row md:flex-col items-center md:items-start justify-between gap-2 min-w-0">
         <div className="flex items-center gap-2 min-w-0 flex-1 md:w-full">
@@ -908,7 +897,11 @@ const CDGTableRow: React.FC<{ entry: CDGEntry }> = ({ entry }) => {
               href={item.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group/item relative flex items-start justify-between gap-2.5 p-2 sm:p-2.5 rounded-xl bg-slate-50/60 dark:bg-slate-950/40 hover:bg-blue-50/90 dark:hover:bg-blue-950/50 border border-slate-200/60 dark:border-slate-800/80 hover:border-blue-300 dark:hover:border-blue-700/60 shadow-2xs hover:shadow-sm hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-200 cursor-pointer min-w-0"
+              className={`group/item relative flex items-start justify-between gap-2.5 p-2 sm:p-2.5 rounded-xl border shadow-2xs hover:shadow-sm hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-200 cursor-pointer min-w-0 ${
+                isEven
+                  ? "bg-slate-50/90 dark:bg-slate-950/70 hover:bg-blue-50/90 dark:hover:bg-blue-950/60 border-slate-200/70 dark:border-slate-800/80 hover:border-blue-300 dark:hover:border-blue-700/60"
+                  : "bg-white dark:bg-slate-900/90 hover:bg-blue-50/90 dark:hover:bg-blue-950/60 border-slate-200/80 dark:border-slate-800/90 hover:border-blue-300 dark:hover:border-blue-700/60"
+              }`}
               title="Cliquer pour lire l'article complet"
             >
               {/* Left icon with hover color shift */}
