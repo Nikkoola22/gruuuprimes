@@ -889,7 +889,7 @@ interface VeilleJuridiqueProps {
   theme?: "light" | "dark";
 }
 
-const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateToCdg, initialViewMode = "fiches", theme }) => {
+const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateToCdg, initialViewMode = "quiz", theme }) => {
   const [activeTab, setActiveTab] = useState<string>("Tous");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
@@ -932,9 +932,9 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
     setIsStatutLoading(false);
   };
 
-  // State for Quiz Mode
+  // State for Quiz Mode (Série de 10 questions aléatoires)
   const [quizQuestions, setQuizQuestions] = useState<LegalQuestion[]>(() =>
-    [...LEGAL_DATA].sort(() => Math.random() - 0.5)
+    [...LEGAL_DATA].sort(() => Math.random() - 0.5).slice(0, 10)
   );
   const [currentQuizIndex, setCurrentQuizIndex] = useState<number>(0);
   const [quizScore, setQuizScore] = useState<number>(0);
@@ -943,9 +943,9 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
   const [quizCompleted, setQuizCompleted] = useState<boolean>(false);
   const [historyAnswers, setHistoryAnswers] = useState<Record<string, { userAns: boolean; isCorrect: boolean }>>({});
 
-  // Initialize and shuffle quiz
+  // Initialize and shuffle quiz with 10 new distinct questions
   const startQuiz = () => {
-    const shuffled = [...LEGAL_DATA].sort(() => Math.random() - 0.5);
+    const shuffled = [...LEGAL_DATA].sort(() => Math.random() - 0.5).slice(0, 10);
     setQuizQuestions(shuffled);
     setCurrentQuizIndex(0);
     setQuizScore(0);
@@ -1027,12 +1027,12 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
     }
   };
 
-  // Trophy calculations
+  // Trophy calculations (sur 10 questions)
   const getBadgeDetails = (score: number) => {
-    if (score <= 5) return { title: "Stagiaire Curieux 📄", desc: "Vous commencez à découvrir les arcanes du droit public. Continuez à explorer les fiches !", color: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 border-blue-200 dark:border-blue-800" };
-    if (score <= 11) return { title: "Délégué Vigilant ✊", desc: "Vous avez une solide connaissance de base pour défendre les droits des collègues au quotidien !", color: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800" };
-    if (score <= 15) return { title: "Conseiller Averti ⚖️", desc: "Impressionnant ! Les dossiers complexes du statut et de la jurisprudence n'ont plus de secret pour vous.", color: "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800" };
-    return { title: "Président de Tribunal 👑", desc: "Score parfait ou quasi-parfait ! Le Conseil d'État n'a qu'à bien se tenir, vous êtes une référence absolue !", color: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800" };
+    if (score <= 4) return { title: "Stagiaire Curieux 📄", desc: "Vous commencez à découvrir les arcanes du droit public. Continuez à explorer les fiches !", color: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 border-blue-200 dark:border-blue-800" };
+    if (score <= 7) return { title: "Délégué Vigilant ✊", desc: "Vous avez une solide connaissance de base pour défendre les droits des collègues au quotidien !", color: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800" };
+    if (score <= 9) return { title: "Conseiller Averti ⚖️", desc: "Impressionnant ! Les dossiers complexes du statut et de la jurisprudence n'ont plus de secret pour vous.", color: "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800" };
+    return { title: "Président de Tribunal 👑", desc: "Score parfait 10/10 ! Le Conseil d'État n'a qu'à bien se tenir, vous êtes une référence absolue !", color: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800" };
   };
 
   return (
@@ -1076,6 +1076,18 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
             {/* View Mode Toggle */}
             <div className="bg-slate-100 dark:bg-slate-900 p-1 rounded-full border border-slate-200 dark:border-slate-800 flex items-center shadow-inner shrink-0 overflow-x-auto max-w-full">
               <button
+                onClick={() => setViewMode("quiz")}
+                className={`px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
+                  viewMode === "quiz"
+                    ? "bg-purple-600 text-white shadow-sm"
+                    : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+                }`}
+              >
+                <Trophy className="w-3.5 h-3.5" />
+                <span>Défi Jurisprudence</span>
+              </button>
+
+              <button
                 onClick={() => setViewMode("fiches")}
                 className={`px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
                   viewMode === "fiches"
@@ -1085,21 +1097,6 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
               >
                 <BookOpen className="w-3.5 h-3.5" />
                 <span>Jurisprudence</span>
-              </button>
-
-              <button
-                onClick={() => {
-                  setViewMode("quiz");
-                  startQuiz();
-                }}
-                className={`px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
-                  viewMode === "quiz"
-                    ? "bg-purple-600 text-white shadow-sm"
-                    : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
-                }`}
-              >
-                <Trophy className="w-3.5 h-3.5" />
-                <span>Quiz</span>
               </button>
 
               <button
