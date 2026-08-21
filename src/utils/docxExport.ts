@@ -354,3 +354,16 @@ export async function exportToOfficialDocx(options: DocxGenerationOptions): Prom
   const cleanFileName = `Gennevilliers_${docType.toUpperCase()}_${new Date().toISOString().slice(0, 10)}.docx`;
   saveAs(blob, cleanFileName);
 }
+
+/**
+ * Raccourci pour exporter directement un StatutoryQueryResult au format .docx
+ */
+export async function exportStatutoryActToDocx(result: { title: string; category?: string; sampleDocument?: string; content?: string }): Promise<void> {
+  return exportToOfficialDocx({
+    title: result.title,
+    category: result.category,
+    content: result.content || result.title,
+    rawText: result.sampleDocument || result.content || result.title
+  });
+}
+

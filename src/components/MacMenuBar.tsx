@@ -12,7 +12,7 @@ interface Props {
   theme: 'light' | 'dark';
   toggleTheme: () => void;
   currentView: string;
-  setView: (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag") => void;
+  setView: (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh") => void;
   openCalculator: (calc: 'primes' | 'cia' | '13eme') => void;
   onClose: () => void;
 }
@@ -52,7 +52,7 @@ export default function MacMenuBar({
   }, []);
 
   // Helper to select view and close dropdowns
-  const selectView = (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag") => {
+  const selectView = (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh") => {
     setView(view);
     setActiveDropdown(null);
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -140,6 +140,10 @@ export default function MacMenuBar({
                   <button onClick={() => selectView('metiers')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md">Grilles & Métiers</button>
                   <div className="h-px bg-slate-200 dark:bg-slate-800 my-1" />
                   <button onClick={() => selectView('actualites')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-emerald-500 font-bold">Actualités & News 📰</button>
+                  <button onClick={() => selectView('coin-rh')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-indigo-400 font-bold flex items-center justify-between">
+                    <span>Coin RH (Actes & Légalité) 📜</span>
+                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300">CGFP</span>
+                  </button>
                   <button onClick={() => selectView('veille-cdg')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-sky-500 font-bold">Veille CDG & CIG 🏛️</button>
                   <button onClick={() => selectView('veille')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-indigo-500 font-bold">Veille Juridique ⚖️</button>
                   <button onClick={() => selectView('dessine-moi-le-statut')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-purple-500 font-bold">Dessine-moi le statut 🎨</button>

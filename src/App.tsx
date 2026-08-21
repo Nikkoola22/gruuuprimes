@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, lazy, Suspense } from "react"
-import { Bot, ArrowRight, ArrowLeft, Rss, Radio, Calculator, DollarSign, TrendingUp, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Eye, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop, Palette } from "lucide-react"
+import { Bot, ArrowRight, ArrowLeft, Rss, Radio, Calculator, DollarSign, TrendingUp, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Eye, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop, Palette, FileSignature } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 
 // --- IMPORTATIONS DES DONNÉES ---
@@ -28,6 +28,7 @@ const VeilleCdgPage = lazy(() => import("./components/VeilleCdgPage.tsx"))
 const EspacePodcastsFigurines = lazy(() => import("./components/EspacePodcastsFigurines.tsx"))
 const DessineMoiLeStatut = lazy(() => import("./components/DessineMoiLeStatut.tsx"))
 const DocuthequeRAG = lazy(() => import("./components/DocuthequeRAG").then(m => ({ default: m.DocuthequeRAG })))
+const CoinRH = lazy(() => import("./components/CoinRH.tsx"))
 import MacMenuBar from "./components/MacMenuBar.tsx"
 import { LuxuryChat } from "./components/ui/LuxuryChat.tsx"
 import { searchDocuthequeRAG } from "./utils/docuthequeSearch.ts"
@@ -170,7 +171,7 @@ interface InfoItem {
   content: string
 }
 interface ChatbotState {
-  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag"
+  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh"
   selectedDomain: number | null
   messages: ChatMessage[]
   isProcessing: boolean
@@ -1486,7 +1487,34 @@ ${indicesFactuels}
                       <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Questions<br />Fréquentes</span>
                     </button>
 
-                    {/* 6. Spotlight Podcasts Button */}
+                    {/* 6. Spotlight Coin RH Button (Légalité & Actes) */}
+                    <button
+                      onClick={() => {
+                        setChatState({ ...chatState, currentView: 'coin-rh' });
+                        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                      }}
+                      className="relative flex flex-col items-center justify-center gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
+                      onMouseEnter={() => setHoveredQuickAccessIndex(66)}
+                      onMouseLeave={() => setHoveredQuickAccessIndex(null)}
+                    >
+                      <AnimatePresence>
+                        {hoveredQuickAccessIndex === 66 && (
+                          <motion.span
+                            className="absolute inset-0 h-full w-full bg-indigo-500/10 dark:bg-indigo-500/15 block rounded-2xl z-0 border border-indigo-500/25 shadow-md pointer-events-none"
+                            layoutId="quickAccessHover"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1, transition: { duration: 0.15 } }}
+                            exit={{ opacity: 0, transition: { duration: 0.15, delay: 0.1 } }}
+                          />
+                        )}
+                      </AnimatePresence>
+                      <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-indigo-500/15 to-purple-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-indigo-500/25 transition-all duration-200">
+                        <FileSignature className="w-8 h-8 sm:w-11 sm:h-11" />
+                      </div>
+                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Coin<br />RH</span>
+                    </button>
+
+                    {/* 7. Spotlight Podcasts Button */}
                     <button
                       onClick={() => setChatState({ ...chatState, currentView: 'podcasts' })}
                       className="relative flex flex-col items-center justify-center gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
@@ -2410,6 +2438,16 @@ ${indicesFactuels}
         <Suspense fallback={<ViewLoader />}>
           <DocuthequeRAG
             onBack={() => setChatState({ ...chatState, currentView: 'menu' })}
+            theme={theme}
+          />
+        </Suspense>
+      )}
+
+      {/* --- SECTION COIN RH (ACTES & LÉGALITÉ) --- */}
+      {chatState.currentView === 'coin-rh' && (
+        <Suspense fallback={<ViewLoader />}>
+          <CoinRH
+            onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
             theme={theme}
           />
         </Suspense>
