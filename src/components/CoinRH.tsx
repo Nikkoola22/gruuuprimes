@@ -16,6 +16,7 @@ import {
   Printer
 } from "lucide-react";
 import { queryStatutoryEngine, StatutoryQueryResult } from "../services/legifrance";
+import { extractTextFromFile, auditStatutoryDocument } from "../services/statutoryAuditEngine";
 import { OfficialDocumentPreview } from "./OfficialDocumentPreview";
 import { ALL_THEMES_TEMPLATES } from "../data/allThemesTemplatesRegistry";
 import { exportStatutoryActToDocx } from "../utils/docxExport";
@@ -62,31 +63,31 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
     }
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const text = event.target?.result as string;
+    try {
+      const text = await extractTextFromFile(file);
       setUploadedFile({
         name: file.name,
         size: file.size,
         content: text || ""
       });
       toast.success(`Fichier "${file.name}" chargé pour audit.`);
-    };
-    reader.readAsText(file);
+    } catch (err) {
+      console.error("Erreur lecture fichier:", err);
+      toast.error("Échec de la lecture du fichier.");
+    }
   };
 
   const handleAnalyzeFile = async () => {
     if (!uploadedFile) return;
     setIsStatutLoading(true);
     try {
-      const prompt = `Audit et contrôle de légalité du document : ${uploadedFile.name}\n${uploadedFile.content.substring(0, 1500)}`;
-      const res = await queryStatutoryEngine("arretes", prompt);
+      const res = auditStatutoryDocument(uploadedFile.name, uploadedFile.content);
       setStatutResult(res);
-      toast.success("Audit documentaire CGFP terminé !");
+      toast.success("Audit juridique et conformité CGFP terminés !");
       setTimeout(() => {
         statutResultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 150);
@@ -221,8 +222,30 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                   onClick={() => {
                     if (uploadedFile) {
                       handleAnalyzeFile();
+                    } else if (statutInput.trim()) {
+                      setIsStatutLoading(true);
+                      try {
+                        const res = auditStatutoryDocument("Saisie Utilisateur", statutInput);
+                        setStatutResult(res);
+                        toast.success("Audit juridique et conformité CGFP terminés !");
+                        setTimeout(() => {
+                          statutResultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                        }, 150);
+                      } finally {
+                        setIsStatutLoading(false);
+                      }
                     } else {
-                      handleExecuteStatut("Vérifier la conformité d'un arrêté de refus d'autorisation d'absence");
+                      setIsStatutLoading(true);
+                      try {
+                        const res = auditStatutoryDocument("Contrat CDD sur Emploi Permanent (Modèle CGFP)", "Contrat d'engagement à durée déterminée sur emploi permanent article L. 332-8 du Code Général de la Fonction Publique, Ville de Gennevilliers.");
+                        setStatutResult(res);
+                        toast.success("Audit de conformité CGFP généré !");
+                        setTimeout(() => {
+                          statutResultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                        }, 150);
+                      } finally {
+                        setIsStatutLoading(false);
+                      }
                     }
                   }}
                   disabled={isStatutLoading}
@@ -233,7 +256,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                   ) : (
                     <Scale className="w-4 h-4 text-emerald-200" />
                   )}
-                  <span>{uploadedFile ? "Auditer la légalité du document" : "Tester la légalité de l'acte"}</span>
+                  <span>{uploadedFile ? `Auditer la légalité (${uploadedFile.name.length > 20 ? uploadedFile.name.slice(0, 18) + '…' : uploadedFile.name})` : "Tester la légalité de l'acte"}</span>
                 </button>
               </div>
             </div>

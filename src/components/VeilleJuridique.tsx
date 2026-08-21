@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useRef } from "react";
 import confetti from "canvas-confetti";
 import { STATUTORY_HR_TOOLS, queryStatutoryEngine, StatutoryQueryResult } from "../services/legifrance";
+import { extractTextFromFile, auditStatutoryDocument } from "../services/statutoryAuditEngine";
 import { 
   ArrowLeft,
   ArrowRight, 
@@ -944,36 +945,33 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewM
     }
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const text = event.target?.result as string || "";
+    try {
+      const text = await extractTextFromFile(file);
       setUploadedFile({
         name: file.name,
         size: file.size,
-        content: text
+        content: text || ""
       });
-    };
-    reader.readAsText(file);
+    } catch (err) {
+      console.error("Erreur lecture fichier:", err);
+    }
   };
 
   const handleAnalyzeFile = async () => {
     if (!uploadedFile) return;
     setIsStatutLoading(true);
-    const queryContext = `Analyse du document RH uploadé: "${uploadedFile.name}" (Contenu: ${uploadedFile.content.slice(0, 500)}...)`;
-    const res = await queryStatutoryEngine(selectedStatutTool, queryContext);
-    setStatutResult({
-      ...res,
-      title: `Analyse Statutaire & Conformité CGFP : ${uploadedFile.name}`,
-      category: `Audit Documentaire RH (Mairie de Gennevilliers)`,
-      content: `L'analyse du document "${uploadedFile.name}" (${Math.round(uploadedFile.size / 1024)} ko) a été effectuée au regard des dispositions du Code Général de la Fonction Publique (CGFP) et de la jurisprudence DILA / Légifrance.`,
-    });
-    setIsStatutLoading(false);
-    setTimeout(() => {
-      statutResultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 100);
+    try {
+      const res = auditStatutoryDocument(uploadedFile.name, uploadedFile.content);
+      setStatutResult(res);
+    } finally {
+      setIsStatutLoading(false);
+      setTimeout(() => {
+        statutResultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 100);
+    }
   };
 
   // State for Quiz Mode (Série de 10 questions aléatoires)
