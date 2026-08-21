@@ -321,10 +321,13 @@ export function searchDocuthequeRAG(rawQuery: string): RAGSearchResult {
   });
 
   scoredBip.sort((a, b) => b.score - a.score);
-  const matchedBipFiches = scoredBip
-    .filter(item => item.score > 10)
-    .slice(0, 5)
-    .map(item => item.fiche);
+  const uniqueBipMap = new Map<string, BipFicheIndex>();
+  for (const item of scoredBip) {
+    if (item.score > 10 && !uniqueBipMap.has(item.fiche.code)) {
+      uniqueBipMap.set(item.fiche.code, item.fiche);
+    }
+  }
+  const matchedBipFiches = Array.from(uniqueBipMap.values()).slice(0, 4);
 
   // 3. Synthèse d'explication RAG
   let explanation = '';

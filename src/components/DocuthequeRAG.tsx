@@ -137,11 +137,17 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
     if (!searchQuery.trim()) {
       setRagResult(null);
       setHasSearched(false);
+      setExpandedBipFicheId(null);
       return;
     }
     const result = searchDocuthequeRAG(searchQuery);
     setRagResult(result);
     setHasSearched(true);
+    if (result.matchedBipFiches && result.matchedBipFiches.length > 0) {
+      setExpandedBipFicheId(result.matchedBipFiches[0].code);
+    } else {
+      setExpandedBipFicheId(null);
+    }
   };
 
   useEffect(() => {
@@ -452,6 +458,75 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
               )}
             </div>
 
+            {/* SECTION FICHES BIP & JURISPRUDENCE ASSOCIEES */}
+            {ragResult.matchedBipFiches && ragResult.matchedBipFiches.length > 0 && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg sm:text-xl font-bold flex items-center gap-2 text-purple-400">
+                    <BookOpen className="w-5 h-5 text-purple-400" />
+                    Fiches BIP & Analyses Juridiques du Statut CGFP ({ragResult.matchedBipFiches.length})
+                  </h3>
+                  <span className="text-xs text-purple-300/80 bg-purple-500/10 px-2.5 py-1 rounded-full border border-purple-500/20 font-medium">
+                    Base Jurisprudentielle Territoriale
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 gap-3">
+                  {ragResult.matchedBipFiches.map((fiche) => {
+                    const ficheKey = fiche.code || fiche.id;
+                    const isExpanded = expandedBipFicheId === fiche.code || expandedBipFicheId === fiche.id;
+                    return (
+                      <div
+                        key={ficheKey}
+                        className={`p-5 rounded-2xl border transition-all ${
+                          isLight
+                            ? 'bg-purple-50/70 border-purple-200/90 shadow-sm'
+                            : 'bg-gradient-to-r from-purple-950/30 via-slate-900/80 to-slate-900/90 border-purple-500/40 shadow-lg'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="space-y-1.5 flex-1">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-purple-500/25 text-purple-300 border border-purple-500/40 uppercase tracking-wide">
+                                Fiche BIP {fiche.code.toUpperCase()}
+                              </span>
+                              {fiche.chapitre && (
+                                <span className="text-xs text-slate-400 font-medium">
+                                  {fiche.chapitre} {fiche.sousPartie ? `› ${fiche.sousPartie}` : ''}
+                                </span>
+                              )}
+                            </div>
+                            <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-slate-100 leading-snug">
+                              {fiche.titre}
+                            </h4>
+                            <p className={`text-xs sm:text-sm leading-relaxed ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>
+                              {fiche.resume || fiche.content?.slice(0, 220) + "..."}
+                            </p>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => setExpandedBipFicheId(isExpanded ? null : ficheKey)}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs shadow-md shadow-purple-600/30 transition-all shrink-0 cursor-pointer"
+                          >
+                            <span>{isExpanded ? "Masquer" : "Lire l'analyse"}</span>
+                            {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                          </button>
+                        </div>
+
+                        {/* Contenu complet déplié */}
+                        {isExpanded && fiche.content && (
+                          <div className="mt-4 pt-4 border-t border-purple-500/30 text-xs sm:text-sm text-slate-700 dark:text-slate-200 whitespace-pre-line leading-relaxed max-h-[32rem] overflow-y-auto custom-scrollbar p-3.5 bg-slate-950/60 rounded-xl border border-purple-500/20 font-sans">
+                            {fiche.content}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             {/* Grille des formulaires et documents identifiés */}
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -519,71 +594,6 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                 </div>
               )}
             </div>
-
-            {/* SECTION FICHES BIP & JURISPRUDENCE ASSOCIEES */}
-            {ragResult.matchedBipFiches && ragResult.matchedBipFiches.length > 0 && (
-              <div className="space-y-4 pt-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg sm:text-xl font-bold flex items-center gap-2 text-purple-400">
-                    <BookOpen className="w-5 h-5 text-purple-400" />
-                    Fiches BIP & Analyses Juridiques du Statut CGFP ({ragResult.matchedBipFiches.length})
-                  </h3>
-                </div>
-
-                <div className="grid grid-cols-1 gap-3">
-                  {ragResult.matchedBipFiches.map((fiche) => {
-                    const isExpanded = expandedBipFicheId === fiche.id;
-                    return (
-                      <div
-                        key={fiche.id}
-                        className={`p-4 rounded-2xl border transition-all ${
-                          isLight
-                            ? 'bg-purple-50/50 border-purple-200/80 shadow-xs'
-                            : 'bg-gradient-to-r from-purple-950/20 to-slate-900/60 border-purple-500/30 shadow-md'
-                        }`}
-                      >
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="space-y-1 flex-1">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 uppercase">
-                                Fiche BIP {fiche.code.toUpperCase()}
-                              </span>
-                              {fiche.chapitre && (
-                                <span className="text-xs text-slate-400">
-                                  {fiche.chapitre} {fiche.sousPartie ? `› ${fiche.sousPartie}` : ''}
-                                </span>
-                              )}
-                            </div>
-                            <h4 className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100">
-                              {fiche.titre}
-                            </h4>
-                            <p className={`text-xs ${isLight ? 'text-slate-600' : 'text-slate-300'} line-clamp-2`}>
-                              {fiche.resume || fiche.content?.slice(0, 180) + "..."}
-                            </p>
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={() => setExpandedBipFicheId(isExpanded ? null : fiche.id)}
-                            className="p-2 rounded-xl bg-purple-600/15 hover:bg-purple-600 text-purple-300 hover:text-white transition-all shrink-0 cursor-pointer"
-                            title={isExpanded ? "Réduire" : "Lire l'analyse complète"}
-                          >
-                            {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                          </button>
-                        </div>
-
-                        {/* Contenu complet déplié */}
-                        {isExpanded && fiche.content && (
-                          <div className="mt-4 pt-3 border-t border-purple-500/20 text-xs sm:text-sm text-slate-700 dark:text-slate-200 whitespace-pre-line leading-relaxed max-h-96 overflow-y-auto custom-scrollbar p-2 bg-black/20 rounded-xl">
-                            {fiche.content}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
           </div>
         )}
 
