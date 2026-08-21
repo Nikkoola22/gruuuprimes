@@ -259,7 +259,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <h2 className="text-base sm:text-xl font-black text-slate-900 dark:text-white tracking-tight">
-                      Simulation d'Actes
+                      Simulation d'Actes <span className="text-sm font-semibold text-amber-400/90">(non officiels)</span>
                     </h2>
                     <span className="text-[10.5px] uppercase font-black tracking-wider px-2.5 py-0.5 rounded-full bg-[#182348] text-indigo-300 border border-indigo-500/40">
                       WORD (.DOCX) • VILLE DE GENNEVILLIERS
