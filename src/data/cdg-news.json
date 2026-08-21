@@ -2068,6 +2068,7 @@
     ]
   },
   {
+    "dept": "78, 91, 95",
     "cdg": "(78) CIG GRANDE COURONNE (VERSAILLES - 78, 91, 95)",
     "officialUrl": "https://www.cigversailles.fr/actualites",
     "news": [
@@ -2135,6 +2136,7 @@
     ]
   },
   {
+    "dept": "92, 93, 94",
     "cdg": "(92) CIG PETITE COURONNE (92, 93, 94)",
     "officialUrl": "https://www.cig929394.fr/actualites",
     "news": [

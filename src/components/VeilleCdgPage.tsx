@@ -33,7 +33,7 @@ export interface CDGNewsItem {
 
 export interface CDGEntry {
   cdg: string;
-  dept: string;
+  dept?: string;
   officialUrl: string;
   logo?: string;
   news: CDGNewsItem[];
@@ -228,7 +228,7 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
     return data
       .map((entry) => {
         const cdgMatches =
-          (query && (entry.cdg.toLowerCase().includes(query) || entry.dept.toLowerCase().includes(query))) || false;
+          (query && ((entry.cdg?.toLowerCase() || "").includes(query) || (entry.dept?.toLowerCase() || "").includes(query))) || false;
 
         const matchingNews = entry.news.filter((item) => {
           const itemText = `${item.title} ${item.description || ""}`.toLowerCase();
@@ -319,7 +319,7 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
     for (const entry of filteredCDGs) {
       for (const item of entry.news) {
         rows.push([
-          `"${entry.dept}"`,
+          `"${entry.dept || ""}"`,
           `"${entry.cdg.replace(/"/g, '""')}"`,
           `"${item.title.replace(/"/g, '""')}"`,
           `"${item.pubDate || ""}"`,
