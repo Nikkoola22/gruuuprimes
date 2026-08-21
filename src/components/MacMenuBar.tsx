@@ -27,9 +27,9 @@ export default function MacMenuBar({
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   
   // Custom Controls State (macOS widgets)
-  const [climatSocial] = useState(88); // Battery-like indicator
-  const [brightness] = useState(100); // UI visual glow
-  const [wifiConnected] = useState(true);
+  const [climatSocial, setClimatSocial] = useState<number>(88); // Battery-like indicator
+  const [brightness, setBrightness] = useState<number>(100); // UI visual glow
+  const [wifiConnected, setWifiConnected] = useState<boolean>(true);
   
   // About / Preferences Modals State
   const [showAbout, setShowAbout] = useState(false);
