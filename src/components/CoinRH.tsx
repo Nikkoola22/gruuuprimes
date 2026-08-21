@@ -13,12 +13,7 @@ import {
   Scale, 
   Download, 
   Copy, 
-  Printer, 
-  ExternalLink,
-  BookOpen,
-  Briefcase,
-  AlertTriangle,
-  FileCheck
+  Printer
 } from "lucide-react";
 import { queryStatutoryEngine, StatutoryQueryResult } from "../services/legifrance";
 import { OfficialDocumentPreview } from "./OfficialDocumentPreview";
@@ -635,7 +630,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
               <OfficialDocumentPreview 
                 documentText={statutResult.sampleDocument || ""}
                 title={statutResult.title}
-                theme={theme}
+                category={statutResult.category}
               />
             </div>
           </div>

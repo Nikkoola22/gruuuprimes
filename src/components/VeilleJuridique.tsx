@@ -1131,19 +1131,6 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewM
                 <BookOpen className="w-3.5 h-3.5" />
                 <span>Jurisprudence</span>
               </button>
-
-              <button
-                onClick={() => setViewMode("statut")}
-                className={`px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
-                  viewMode === "statut"
-                    ? "bg-emerald-600 text-white shadow-sm"
-                    : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
-                }`}
-              >
-                <FileSignature className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Suite RH (CGFP)</span>
-                <span className="sm:hidden">Suite RH</span>
-              </button>
             </div>
 
             {/* Back Button */}
