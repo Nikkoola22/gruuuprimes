@@ -80,6 +80,7 @@ export const LuxuryChat: React.FC<LuxuryChatProps> = ({
   };
 
   const suggestions = [
+    "Congé maladie ordinaire (CMO 90%)",
     "Jours pour mariage ou PACS",
     "Règles télétravail 2026",
     "Calcul IFSE & CIA",

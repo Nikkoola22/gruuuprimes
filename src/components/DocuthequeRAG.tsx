@@ -4,7 +4,6 @@ import {
   FileText,
   FileSpreadsheet,
   Download,
-  ExternalLink,
   Sparkles,
   ArrowLeft,
   Bot,
@@ -25,7 +24,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { searchDocuthequeRAG, RAGSearchResult } from '../utils/docuthequeSearch';
-import { GENNEVILLIERS_DOCUTHEQUE, DOCUTHEQUE_CATEGORIES, DocuthequeItem } from '../data/gennevilliersDocutheque';
+import { GENNEVILLIERS_DOCUTHEQUE, DOCUTHEQUE_CATEGORIES } from '../data/gennevilliersDocutheque';
 
 interface DocuthequeRAGProps {
   onBack: () => void;
@@ -33,17 +32,69 @@ interface DocuthequeRAGProps {
   theme?: 'light' | 'dark';
 }
 
-const QUICK_SUGGESTIONS = [
-  { label: "Temps partiel (80% / 50%)", query: "Je veux prendre un temps partiel" },
-  { label: "Déclaration accident de travail", query: "Comment déclarer un accident de travail ?" },
-  { label: "Forfait vélo & mobilités", query: "Demande de forfait mobilité durable vélo" },
-  { label: "Télétravail & matériel 2026", query: "Je veux faire du télétravail" },
-  { label: "Entretien CREP & Recours", query: "Modèle et révision de l'entretien professionnel CREP" },
-  { label: "Congés bonifiés", query: "Dossier congés bonifiés outre-mer" },
-  { label: "Compte Épargne Temps (CET)", query: "Alimenter mon compte épargne temps" },
-  { label: "Enfant malade & Absence", query: "Autorisation absence pour enfant malade" },
-  { label: "Démission & Mutation", query: "Formulaire de démission ou de mutation" },
-  { label: "Procédure disciplinaire", query: "Règles et sanctions procédure disciplinaire" }
+const THEMED_SUGGESTIONS = [
+  { theme: "Tous", label: "Charte bureautique & Modèles", query: "Charte bureautique et modèles de documents officiels" },
+  
+  // Marchés Publics
+  { theme: "Marchés Publics", label: "Décision signature marché", query: "Décision du maire signature d'un marché public" },
+  { theme: "Marchés Publics", label: "Acte d'engagement ATTRI1", query: "Formulaire ATTRI1 acte d'engagement marché public" },
+  { theme: "Marchés Publics", label: "Avenant de marché", query: "Avenant de modification de marché public" },
+  { theme: "Marchés Publics", label: "Ordre de Service (OS)", query: "Ordre de service démarrage de travaux" },
+  { theme: "Marchés Publics", label: "PV de réception travaux", query: "Procès-verbal de réception de travaux avec réserves" },
+
+  // Recrutement & Contrats
+  { theme: "Recrutement", label: "Nomination stagiaire", query: "Arrêté de nomination en qualité de fonctionnaire stagiaire" },
+  { theme: "Recrutement", label: "Contrat CDD Remplacement (L. 332-13)", query: "Contrat CDD remplacement agent indisponible" },
+  { theme: "Recrutement", label: "Contrat Accroissement (L. 332-23)", query: "Contrat CDD accroissement temporaire d'activité" },
+  { theme: "Recrutement", label: "Contrat de Projet (L. 332-24)", query: "Contrat de projet de droit public" },
+  { theme: "Recrutement", label: "Contrat Apprentissage FPT", query: "Contrat d'apprentissage secteur public local" },
+
+  // Carrière & Parcours
+  { theme: "Carrière", label: "Avancement d'échelon", query: "Avancement d'échelon à l'ancienneté" },
+  { theme: "Carrière", label: "Avancement de grade", query: "Arrêté d'avancement de grade au choix" },
+  { theme: "Carrière", label: "Titularisation stagiaire", query: "Titularisation après stage et formation CNFPT" },
+  { theme: "Carrière", label: "Prorogation de stage", query: "Arrêté de prorogation de stage probatoire" },
+  { theme: "Carrière", label: "Disponibilité convenances", query: "Mise en disponibilité pour convenances personnelles" },
+  { theme: "Carrière", label: "Retraite & Radiation", query: "Radiation des cadres pour admission à la retraite" },
+
+  // Évaluation & CREP
+  { theme: "CREP & Évaluation", label: "Modèle CREP 2025 (.docx)", query: "Modèle et révision de l'entretien professionnel CREP" },
+  { theme: "CREP & Évaluation", label: "Convocation entretien 8j", query: "Convocation entretien professionnel annuel" },
+  { theme: "CREP & Évaluation", label: "Demande révision CREP", query: "Formulaire et décision demande de révision du CREP" },
+
+  // Rémunération & Primes
+  { theme: "Rémunération", label: "Cotation & Attribution IFSE", query: "Attribution RIFSEEP et cotation IFSE" },
+  { theme: "Rémunération", label: "Complément CIA", query: "Complément indemnitaire annuel CIA" },
+  { theme: "Rémunération", label: "Attribution NBI (Loi 91-73)", query: "Nouvelle bonification indiciaire NBI" },
+  { theme: "Rémunération", label: "Supplément Familial (SFT)", query: "Attribution du supplément familial de traitement" },
+  { theme: "Rémunération", label: "Astreintes & Heures sup", query: "Indemnisation astreintes et heures supplémentaires IHTS" },
+  { theme: "Rémunération", label: "Forfait Mobilités (FMD) & Navigo", query: "Forfait mobilités durables et prise en charge Navigo 75%" },
+
+  // Discipline & Déontologie
+  { theme: "Discipline", label: "Rapport hiérarchique 2024 (.docx)", query: "Modèle rapport hiérarchique disciplinaire 2024" },
+  { theme: "Discipline", label: "Convocation entretien préalable (.doc)", query: "Convocation entretien disciplinaire droits défense" },
+  { theme: "Discipline", label: "Sanctions 1er groupe & Blâme", query: "Sanction disciplinaire blâme avertissement" },
+  { theme: "Discipline", label: "Suspension conservatoire (L. 531-1)", query: "Arrêté suspension conservatoire de fonctions" },
+  { theme: "Discipline", label: "Mise en demeure abandon poste", query: "Mise en demeure pour abandon de poste et radiation" },
+
+  // Santé & Inaptitude
+  { theme: "Santé & Inaptitude", label: "Congé Maladie Ordinaire (CMO 90%)", query: "Arrêté et règles du congé de maladie ordinaire CMO" },
+  { theme: "Santé & Inaptitude", label: "Accident de travail & CITIS", query: "Comment déclarer un accident de travail ou maladie pro" },
+  { theme: "Santé & Inaptitude", label: "Temps Partiel Thérapeutique (TPT)", query: "Demande de temps partiel thérapeutique" },
+  { theme: "Santé & Inaptitude", label: "Reclassement PPR & Inaptitude", query: "Période de préparation au reclassement inaptitude physique" },
+  { theme: "Santé & Inaptitude", label: "Saisine Conseil Médical", query: "Saisine du conseil médical plénier ou restreint" },
+
+  // Formation Professionnelle
+  { theme: "Formation", label: "Mobilisation CPF avec financement", query: "Utilisation du compte personnel de formation CPF" },
+  { theme: "Formation", label: "Congé Formation Pro (CFP 85%)", query: "Congé de formation professionnelle CFP indemnité" },
+  { theme: "Formation", label: "Convention CNFPT", query: "Convention individuelle de formation CNFPT" },
+  { theme: "Formation", label: "Bilan de compétences & VAE", query: "Autorisation absence bilan de compétences ou VAE" },
+
+  // Temps de travail & Télétravail
+  { theme: "Temps de travail", label: "Convention Télétravail 2026", query: "Je veux faire du télétravail" },
+  { theme: "Temps de travail", label: "Temps partiel (80% / 50%)", query: "Je veux prendre un temps partiel" },
+  { theme: "Temps de travail", label: "Compte Épargne Temps (CET)", query: "Alimenter mon compte épargne temps" },
+  { theme: "Temps de travail", label: "Congé Parental & ASA", query: "Congé parental et autorisations spéciales d'absence" }
 ];
 
 export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
@@ -54,6 +105,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
   const isLight = theme === 'light';
   const [query, setQuery] = useState(initialQuery);
   const [selectedCategory, setSelectedCategory] = useState<string>("Toutes les rubriques");
+  const [activeThemeTab, setActiveThemeTab] = useState<string>("Tous");
   const [ragResult, setRagResult] = useState<RAGSearchResult | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
 
@@ -189,6 +241,88 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8">
+        {/* Top Highlight: Vérification de Légalité & Conformité */}
+        <div className={`rounded-3xl p-5 sm:p-6 border shadow-xl relative overflow-hidden transition-all ${
+          isLight
+            ? 'bg-gradient-to-r from-emerald-50 via-teal-50 to-white border-emerald-200 shadow-emerald-100/50'
+            : 'bg-gradient-to-r from-emerald-950/40 via-slate-900/90 to-slate-900/95 border-emerald-500/30 shadow-black/60'
+        }`}>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex items-start sm:items-center gap-3.5">
+              <div className="p-3 bg-emerald-500/20 text-emerald-400 rounded-2xl border border-emerald-500/30 shrink-0">
+                <Shield className="w-6 h-6 sm:w-7 sm:h-7 text-emerald-400" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-base sm:text-lg font-black text-emerald-700 dark:text-emerald-300">
+                    Vérifier la Légalité d'un Document Administratif
+                  </h2>
+                  <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                    CGFP & CGCT
+                  </span>
+                </div>
+                <p className={`text-xs mt-0.5 max-w-2xl ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>
+                  Contrôlez instantanément la conformité statutaire de vos arrêtés, contrats ou décisions (visas obligatoires, motifs, délais et recours TA Cergy-Pontoise).
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2.5 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  handleSelectSuggestion("Vérifier la légalité et conformité d'un arrêté de refus");
+                }}
+                className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/20 transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <Scale className="w-4 h-4" />
+                <span>Tester la légalité d'un acte</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Top Highlight 2: Création d'Actes Administratifs & Modèles Officiels */}
+        <div className={`rounded-3xl p-5 sm:p-6 border shadow-xl relative overflow-hidden transition-all ${
+          isLight
+            ? 'bg-gradient-to-r from-indigo-50 via-blue-50 to-white border-indigo-200 shadow-indigo-100/50'
+            : 'bg-gradient-to-r from-indigo-950/40 via-slate-900/90 to-slate-900/95 border-indigo-500/30 shadow-black/60'
+        }`}>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex items-start sm:items-center gap-3.5">
+              <div className="p-3 bg-indigo-500/20 text-indigo-400 rounded-2xl border border-indigo-500/30 shrink-0">
+                <FileText className="w-6 h-6 sm:w-7 sm:h-7 text-indigo-400" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-base sm:text-lg font-black text-indigo-700 dark:text-indigo-300">
+                    Création & Génération d'Actes Officiels
+                  </h2>
+                  <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30">
+                    Word (.docx) • Ville de Gennevilliers
+                  </span>
+                </div>
+                <p className={`text-xs mt-0.5 max-w-2xl ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>
+                  Rédigez immédiatement un arrêté du Maire, un contrat CDD de droit public, un ordre de service ou une décision municipale conforme.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  handleSelectSuggestion("Générer un arrêté portant nomination stagiaire");
+                }}
+                className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-md shadow-indigo-600/20 transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>Générer un acte officiel</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* Search & Question Hero Box */}
         <div className={`rounded-3xl p-6 sm:p-8 border shadow-2xl relative overflow-hidden ${
           isLight
@@ -236,27 +370,53 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
             </div>
           </form>
 
-          {/* Suggestions rapides */}
+          {/* Suggestions rapides organisées par Thème */}
           <div className="max-w-4xl mx-auto mt-6">
-            <p className={`text-xs font-semibold mb-2.5 flex items-center gap-1.5 ${
-              isLight ? 'text-slate-500' : 'text-slate-400'
-            }`}>
-              <HelpCircle className="w-3.5 h-3.5" /> Exemples de questions fréquentes :
-            </p>
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+              <p className={`text-xs font-semibold flex items-center gap-1.5 ${
+                isLight ? 'text-slate-500' : 'text-slate-400'
+              }`}>
+                <HelpCircle className="w-3.5 h-3.5" /> Modèles et questions fréquentes :
+              </p>
+
+              {/* Theme Tabs Filter */}
+              <div className="flex flex-wrap gap-1">
+                {["Tous", "Marchés Publics", "Recrutement", "Carrière & CREP", "Rémunération", "Discipline", "Santé & Inaptitude", "Formation", "Temps de travail"].map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => setActiveThemeTab(t)}
+                    className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full transition-all cursor-pointer ${
+                      activeThemeTab === t
+                        ? 'bg-blue-600 text-white shadow-xs'
+                        : isLight
+                        ? 'bg-slate-100 hover:bg-slate-200 text-slate-600'
+                        : 'bg-slate-800/80 hover:bg-slate-700 text-slate-400'
+                    }`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="flex flex-wrap gap-2">
-              {QUICK_SUGGESTIONS.map((item, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => handleSelectSuggestion(item.query)}
-                  className={`text-xs px-3 py-1.5 rounded-full border transition-all ${
-                    isLight
-                      ? 'bg-slate-100 hover:bg-blue-50 text-slate-700 border-slate-200 hover:border-blue-300'
-                      : 'bg-slate-800/60 hover:bg-blue-500/20 text-slate-300 border-slate-700 hover:border-blue-400/40'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
+              {THEMED_SUGGESTIONS
+                .filter(item => activeThemeTab === "Tous" || item.theme === activeThemeTab)
+                .map((item, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => handleSelectSuggestion(item.query)}
+                    className={`text-xs px-3 py-1.5 rounded-full border transition-all cursor-pointer ${
+                      isLight
+                        ? 'bg-slate-100 hover:bg-blue-50 text-slate-700 border-slate-200 hover:border-blue-300'
+                        : 'bg-slate-800/60 hover:bg-blue-500/20 text-slate-300 border-slate-700 hover:border-blue-400/40'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
             </div>
           </div>
         </div>

@@ -1,8 +1,10 @@
 import { GENNEVILLIERS_DOCUTHEQUE, DocuthequeItem } from '../data/gennevilliersDocutheque';
+import { bipIndex, BipFicheIndex } from '../data/bip-index';
 
 export interface RAGSearchResult {
   query: string;
   matchedDocuments: DocuthequeItem[];
+  matchedBipFiches?: BipFicheIndex[];
   explanation: string;
   categoryHighlighted?: string;
   keyPoints?: string[];
@@ -263,6 +265,51 @@ export function searchDocuthequeRAG(rawQuery: string): RAGSearchResult {
     .slice(0, 8)
     .map(item => item.doc);
 
+  // 2bis. Scoring des fiches BIP
+  const scoredBip: Array<{ fiche: BipFicheIndex; score: number }> = bipIndex.map(fiche => {
+    let score = 0;
+    const normTitre = normalizeText(fiche.titre);
+    const normContent = normalizeText((fiche.content || '').slice(0, 1500));
+    const normChapitre = normalizeText(fiche.chapitre || '');
+    const normSousPartie = normalizeText(fiche.sousPartie || '');
+    const normMotsCles = fiche.motsCles.map(normalizeText);
+
+    // Match exact du titre
+    if (normTitre.includes(query)) score += 50;
+
+    // Match des mots-clés BIP
+    for (const mc of normMotsCles) {
+      if (query.includes(mc) || mc.includes(query)) {
+        score += 20;
+      } else {
+        const mcTokens = mc.split(' ');
+        const matched = queryTokens.filter(t => mcTokens.includes(t));
+        score += matched.length * 5;
+      }
+    }
+
+    // Match mot à mot dans titre, contenu, chapitre
+    queryTokens.forEach(token => {
+      if (normTitre.includes(token)) score += 12;
+      if (normContent.includes(token)) score += 6;
+      if (normChapitre.includes(token)) score += 4;
+      if (normSousPartie.includes(token)) score += 5;
+    });
+
+    // Bonus si rattaché à l'intention experte (par code dans docIds)
+    if (bestExpertMatch && bestExpertMatch.docIds.some(did => fiche.code === did || fiche.id === did)) {
+      score += 80;
+    }
+
+    return { fiche, score };
+  });
+
+  scoredBip.sort((a, b) => b.score - a.score);
+  const matchedBipFiches = scoredBip
+    .filter(item => item.score > 10)
+    .slice(0, 5)
+    .map(item => item.fiche);
+
   // 3. Synthèse d'explication RAG
   let explanation = '';
   let keyPoints: string[] | undefined;
@@ -273,23 +320,37 @@ export function searchDocuthequeRAG(rawQuery: string): RAGSearchResult {
     explanation = bestExpertMatch.explanation;
     keyPoints = bestExpertMatch.keyPoints;
     suggestedFollowUps = bestExpertMatch.suggestedFollowUps;
-    categoryHighlighted = bestExpertMatch.title;
-  } else if (matchedDocuments.length > 0) {
-    const topDoc = matchedDocuments[0];
-    explanation = `Voici les documents officiels et formulaires de la Ville de Gennevilliers correspondant à votre demande (« ${rawQuery} »). Vous pouvez les télécharger directement ci-dessous pour effectuer vos démarches.`;
-    categoryHighlighted = topDoc.category;
-    keyPoints = [
-      `📄 Document principal : ${topDoc.title}`,
-      `📌 Rubrique : ${topDoc.category}${topDoc.subCategory ? ' > ' + topDoc.subCategory : ''}`,
-      `💡 Utilisation : ${topDoc.summary}`
-    ];
+  } else if (matchedDocuments.length > 0 || matchedBipFiches.length > 0) {
+    const parts: string[] = [];
+    if (matchedDocuments.length > 0) {
+      const topDoc = matchedDocuments[0];
+      categoryHighlighted = topDoc.category;
+      parts.push(`📄 ${matchedDocuments.length} document(s) interne(s) trouvé(s) dans la Docuthèque`);
+      keyPoints = [
+        `📄 Document principal : ${topDoc.title}`,
+        `📌 Rubrique : ${topDoc.category}${topDoc.subCategory ? ' > ' + topDoc.subCategory : ''}`,
+        `💡 Utilisation : ${topDoc.summary}`
+      ];
+    }
+    if (matchedBipFiches.length > 0) {
+      const topBip = matchedBipFiches[0];
+      parts.push(`📚 ${matchedBipFiches.length} fiche(s) BIP juridique(s) associée(s)`);
+      if (!categoryHighlighted) categoryHighlighted = topBip.chapitre || topBip.section;
+      const bipPoints = [
+        `📚 Fiche BIP principale : ${topBip.titre} (${topBip.code.toUpperCase()})`,
+        `📌 Chapitre : ${topBip.chapitre || topBip.section}${topBip.sousPartie ? ' > ' + topBip.sousPartie : ''}`
+      ];
+      keyPoints = [...(keyPoints || []), ...bipPoints];
+    }
+    explanation = `Voici les résultats correspondant à votre demande « ${rawQuery} » : ${parts.join(' — ')}.`;
   } else {
-    explanation = `Aucun document exact n'a été trouvé pour la requête « ${rawQuery} ». Vous pouvez reformuler avec des termes comme : temps partiel, accident de travail, forfait vélo, télétravail, CREP 2025, congés bonifiés, CET ou retraite.`;
+    explanation = `Aucun document exact n'a été trouvé pour la requête « ${rawQuery} ». Vous pouvez reformuler avec des termes comme : temps partiel, accident de travail, congé maladie, forfait vélo, télétravail, CREP, congés bonifiés, CET ou retraite.`;
   }
 
   return {
     query: rawQuery,
     matchedDocuments,
+    matchedBipFiches: matchedBipFiches.length > 0 ? matchedBipFiches : undefined,
     explanation,
     categoryHighlighted,
     keyPoints,

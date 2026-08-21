@@ -13,7 +13,124 @@ export interface DocuthequeItem {
   importantNotes?: string;
 }
 
+export const GENNEVILLIERS_ADMIN_IDENTITY = {
+  ville: "Gennevilliers",
+  charteBureautiqueUrl: "https://intranet.ville-gennevilliers.fr/151/docutheque/ressources-et-moyens-generaux/charte-bureautique.htm",
+  templates: {
+    arreteDocx: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_et_moyens_generaux/charte_bureautique/arrete.docx",
+    decisionDocx: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_et_moyens_generaux/charte_bureautique/decision_municipale.docx",
+    circulaireDocx: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_et_moyens_generaux/charte_bureautique/circulaire.docx",
+    courrierDoc: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_et_moyens_generaux/charte_bureautique/courrier.doc",
+    chartePdf: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_et_moyens_generaux/charte_bureautique/charte_bureautique.pdf",
+    rapportDisciplinaireDocx: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/procedure_disciplinaire/modele_rapport_hierarchique_2024.docx",
+    convocationDisciplinaireDoc: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/procedure_disciplinaire/modele_de_courrier_convocation_entretien_hierarchique.doc"
+  },
+  maire: {
+    nom: "LECLERC",
+    prenom: "Patrice",
+    titre: "Maire de Gennevilliers",
+    url: "https://intranet.ville-gennevilliers.fr/249-163/la-mairie/presentation-de-la-ville/les-elus/ficheAnnu/patrice-leclerc.htm"
+  },
+  eluPersonnel: {
+    nom: "ANNOOT",
+    prenom: "Pierric",
+    titre: "12e Adjoint au Maire délégué aux Ressources humaines, à la Démocratie, à la Politique de la ville et à la Coordination des centres sociaux",
+    url: "https://intranet.ville-gennevilliers.fr/249-164/la-mairie/presentation-de-la-ville/les-elus/ficheAnnu/pierric-annoot.htm",
+    arreteDelegationUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/gestion_financiere_et_juridique/affaires_juridiques/arretes_delegation_permanente_des_elus/arretes_adjoints_au_maire/arrete_portant_delegation_de_fonctions_et_de_signature_a_monsieur_pierric_annoot_12eme_adjoint_au_maire.pdf"
+  },
+  dgs: {
+    nom: "FONTAINE KESSAR",
+    prenom: "Soraya",
+    titre: "Directrice Générale des Services (DGS)",
+    pole: "Direction générale des services",
+    direction: "Direction générale des services",
+    service: "Direction générale des services"
+  }
+};
+
 export const GENNEVILLIERS_DOCUTHEQUE: DocuthequeItem[] = [
+  // ─── CHARTE GRAPHIQUE ET BUREAUTIQUE OFFICIELLE DE GENNEVILLIERS ────────────
+  {
+    id: "charte-bureautique-modele-arrete-docx",
+    title: "Modèle officiel d'Arrêté Municipal (.docx) - Charte Bureautique Gennevilliers",
+    category: "Ressources et moyens généraux",
+    subCategory: "Charte bureautique / Modèles d'actes",
+    type: "docx",
+    size: "48 Ko",
+    date: "01/01/2026",
+    url: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_et_moyens_generaux/charte_bureautique/arrete.docx",
+    keywords: ["arrete docx", "modele arrete", "charte bureautique", "trame arrete", "gabarit arrete municipal", "arrete word", "moyens generaux", "lettrage officiel", "mise en page arrete"],
+    summary: "Fichier modèle Word (.docx) officiel de la Ville de Gennevilliers servant de trame de fond pour la rédaction et l'édition des arrêtés municipaux et statutaires.",
+    intentions: ["telecharger modele arrete docx", "trame arrete gennevilliers", "arrete docx charte bureautique", "gabarit officiel arrete maire"]
+  },
+  {
+    id: "charte-bureautique-modele-decision-docx",
+    title: "Modèle officiel de Décision Municipale (.docx) - Charte Bureautique Gennevilliers",
+    category: "Ressources et moyens généraux",
+    subCategory: "Charte bureautique / Modèles d'actes",
+    type: "docx",
+    size: "45 Ko",
+    date: "01/01/2026",
+    url: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_et_moyens_generaux/charte_bureautique/decision_municipale.docx",
+    keywords: ["decision municipale docx", "modele decision", "charte bureautique", "trame decision", "gabarit decision du maire", "decision word", "refus motive", "crpa"],
+    summary: "Fichier modèle Word (.docx) officiel pour les décisions administratives individuelles du Maire (refus motivés, décisions unilatérales, rejets de demandes).",
+    intentions: ["telecharger modele decision docx", "trame decision municipale", "gabarit decision maire word"]
+  },
+  {
+    id: "charte-bureautique-modele-circulaire-docx",
+    title: "Modèle officiel de Circulaire / Note de Service (.docx) - Charte Bureautique Gennevilliers",
+    category: "Ressources et moyens généraux",
+    subCategory: "Charte bureautique / Modèles d'actes",
+    type: "docx",
+    size: "52 Ko",
+    date: "01/01/2026",
+    url: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_et_moyens_generaux/charte_bureautique/circulaire.docx",
+    keywords: ["circulaire docx", "note de service docx", "modele circulaire", "charte bureautique", "trame note interne", "instruction rh", "communication interne"],
+    summary: "Fichier modèle Word (.docx) officiel de la Ville de Gennevilliers pour les notes de service, circulaires internes et instructions de la DGS et des directions.",
+    intentions: ["telecharger modele circulaire docx", "modele note de service word", "trame circulaire gennevilliers"]
+  },
+  {
+    id: "charte-bureautique-modele-courrier-doc",
+    title: "Modèle officiel de Courrier à En-tête (.doc) - Charte Bureautique Gennevilliers",
+    category: "Ressources et moyens généraux",
+    subCategory: "Charte bureautique / Modèles de correspondance",
+    type: "doc",
+    size: "64 Ko",
+    date: "01/01/2026",
+    url: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_et_moyens_generaux/charte_bureautique/courrier.doc",
+    keywords: ["courrier doc", "lettre en tete", "papier a en tete", "modele courrier", "charte bureautique", "correspondance officielle", "notification agent"],
+    summary: "Fichier modèle Word (.doc) officiel avec en-tête réglementaire de la Ville de Gennevilliers pour courriers officiels, convocations et notifications individuelles.",
+    intentions: ["modele courrier en tete gennevilliers", "lettre officielle mairie doc", "papier a en tete mairie word"]
+  },
+  {
+    id: "charte-bureautique-guide-pdf",
+    title: "Guide officiel de la Charte Bureautique (PDF) - Ville de Gennevilliers",
+    category: "Ressources et moyens généraux",
+    subCategory: "Communication / Charte bureautique",
+    type: "pdf",
+    size: "1,2 Mo",
+    date: "01/01/2026",
+    url: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_et_moyens_generaux/charte_bureautique/charte_bureautique.pdf",
+    keywords: ["charte bureautique pdf", "charte graphique", "guide typographique", "normes mise en page", "logo ville", "polices officielles", "moyens generaux", "identite visuelle"],
+    summary: "Document guide complet fixant la charte graphique et bureautique : règles typographiques, marges normalisées, lettrage, logos, gabarits et signatures électroniques.",
+    intentions: ["telecharger charte bureautique pdf", "guide graphique gennevilliers", "regles de mise en page mairie"]
+  },
+
+  // ─── DÉLÉGATION DE SIGNATURE ET ÉLUS ─────────────────────────────────────────
+  {
+    id: "arrete-delegation-pierric-annoot",
+    title: "Arrêté portant délégation de fonctions et de signature à Monsieur Pierric ANNOOT, 12ème adjoint au Maire",
+    category: "Gestion financière et juridique",
+    subCategory: "Affaires juridiques / Arrêtés délégation permanente des élus",
+    type: "pdf",
+    size: "245 Ko",
+    date: "01/01/2026",
+    url: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/gestion_financiere_et_juridique/affaires_juridiques/arretes_delegation_permanente_des_elus/arretes_adjoints_au_maire/arrete_portant_delegation_de_fonctions_et_de_signature_a_monsieur_pierric_annoot_12eme_adjoint_au_maire.pdf",
+    keywords: ["delegation", "signature", "fonctions", "pierric annoot", "adjoint au maire", "ressources humaines", "personnel", "patrice leclerc", "arrete municipal", "dgs"],
+    summary: "Arrêté municipal officiel de Patrice LECLERC conférant délégation permanente de fonctions et de signature à Pierric ANNOOT (12e adjoint au Maire) en matière de Ressources Humaines, de gestion du personnel communal, d'arrêtés et décisions statutaires.",
+    intentions: ["qui signe les arretes rh", "delegation de signature pierric annoot", "arrete delegation ressources humaines", "delegation maire adjoint personnel"]
+  },
+
   // ─── 1. CARRIÈRE ET PARCOURS PROFESSIONNELS > ENTRETIENS PROFESSIONNELS ──────
   {
     id: "crep-faq-2025",
@@ -1208,6 +1325,7 @@ export const GENNEVILLIERS_DOCUTHEQUE: DocuthequeItem[] = [
 
 export const DOCUTHEQUE_CATEGORIES = [
   "Toutes les rubriques",
+  "Ressources et moyens généraux",
   "Temps de travail, congés, absences",
   "Télétravail",
   "Rémunération",

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import confetti from "canvas-confetti";
 import { STATUTORY_HR_TOOLS, queryStatutoryEngine, StatutoryQueryResult } from "../services/legifrance";
 import { 
@@ -22,15 +22,15 @@ import {
   UploadCloud,
   FileText,
   X,
-  Building2,
-  Check,
-  Copy,
   ExternalLink,
   Shield,
   Stethoscope,
   Megaphone,
   Coins
 } from "lucide-react";
+import { searchDocuthequeRAG, RAGSearchResult } from "../utils/docuthequeSearch";
+import { OfficialDocumentPreview } from "./OfficialDocumentPreview";
+import { ALL_THEMES_TEMPLATES } from "../data/allThemesTemplatesRegistry";
 
 export interface LegalQuestion {
   id: string;
@@ -889,7 +889,7 @@ interface VeilleJuridiqueProps {
   theme?: "light" | "dark";
 }
 
-const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateToCdg, initialViewMode = "quiz", theme }) => {
+const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewMode = "quiz" }) => {
   const [activeTab, setActiveTab] = useState<string>("Tous");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
@@ -900,8 +900,46 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
   const [statutInput, setStatutInput] = useState<string>("");
   const [statutResult, setStatutResult] = useState<StatutoryQueryResult | null>(null);
   const [isStatutLoading, setIsStatutLoading] = useState<boolean>(false);
-  const [copiedSuccess, setCopiedSuccess] = useState<boolean>(false);
   const [uploadedFile, setUploadedFile] = useState<{ name: string; size: number; content: string } | null>(null);
+  const [ragResult, setRagResult] = useState<RAGSearchResult | null>(null);
+  const [selectedThemeFilter, setSelectedThemeFilter] = useState<string>("all");
+  const statutResultRef = useRef<HTMLDivElement>(null);
+
+  const handleExecuteStatut = async (toolIdToUse?: string, queryToUse?: string) => {
+    const tool = toolIdToUse || selectedStatutTool;
+    const rawQuery = queryToUse !== undefined ? queryToUse : statutInput;
+    const effectiveQuery = rawQuery.trim() || (tool === 'arretes' ? "Avancement d'échelon" : "");
+
+    // Run RAG search first
+    try {
+      const rag = await searchDocuthequeRAG(effectiveQuery);
+      setRagResult(rag);
+      // Direct execution without modal confirmation
+      await runStatutEngine(tool, effectiveQuery);
+    } catch (err) {
+      console.error("RAG search error:", err);
+      // Fallback to direct statutory engine execution
+      await runStatutEngine(tool, effectiveQuery);
+    }
+  };
+
+  const runStatutEngine = async (tool: string, query: string) => {
+    setIsStatutLoading(true);
+    try {
+      const res = await queryStatutoryEngine(
+        tool,
+        query || (STATUTORY_HR_TOOLS.find(t => t.id === tool)?.name || "Acte statutaire")
+      );
+      setStatutResult(res);
+      setTimeout(() => {
+        statutResultRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }, 100);
+    } catch (err) {
+      console.error("Erreur statut:", err);
+    } finally {
+      setIsStatutLoading(false);
+    }
+  };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -930,6 +968,9 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
       content: `L'analyse du document "${uploadedFile.name}" (${Math.round(uploadedFile.size / 1024)} ko) a été effectuée au regard des dispositions du Code Général de la Fonction Publique (CGFP) et de la jurisprudence DILA / Légifrance.`,
     });
     setIsStatutLoading(false);
+    setTimeout(() => {
+      statutResultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
   };
 
   // State for Quiz Mode (Série de 10 questions aléatoires)
@@ -938,10 +979,8 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
   );
   const [currentQuizIndex, setCurrentQuizIndex] = useState<number>(0);
   const [quizScore, setQuizScore] = useState<number>(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<boolean | null>(null);
   const [quizFeedback, setQuizFeedback] = useState<{ isCorrect: boolean; message: string } | null>(null);
   const [quizCompleted, setQuizCompleted] = useState<boolean>(false);
-  const [historyAnswers, setHistoryAnswers] = useState<Record<string, { userAns: boolean; isCorrect: boolean }>>({});
 
   // Initialize and shuffle quiz with 10 new distinct questions
   const startQuiz = () => {
@@ -949,10 +988,8 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
     setQuizQuestions(shuffled);
     setCurrentQuizIndex(0);
     setQuizScore(0);
-    setSelectedAnswer(null);
     setQuizFeedback(null);
     setQuizCompleted(false);
-    setHistoryAnswers({});
   };
 
   // Toggle expanded card
@@ -990,18 +1027,12 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
   const handleQuizAnswer = (answer: boolean) => {
     if (quizFeedback) return;
     
-    setSelectedAnswer(answer);
     const currentQ = quizQuestions[currentQuizIndex];
     const isCorrect = answer === currentQ.quizCorrection;
     
     if (isCorrect) {
       setQuizScore(prev => prev + 1);
     }
-
-    setHistoryAnswers(prev => ({
-      ...prev,
-      [currentQ.id]: { userAns: answer, isCorrect }
-    }));
 
     setQuizFeedback({
       isCorrect,
@@ -1014,7 +1045,6 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
   // Move to next quiz question
   const nextQuizQuestion = () => {
     setQuizFeedback(null);
-    setSelectedAnswer(null);
     if (currentQuizIndex + 1 < quizQuestions.length) {
       setCurrentQuizIndex(prev => prev + 1);
     } else {
@@ -1408,7 +1438,7 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
                   }`}>
                     
                     {/* Header info */}
-                    <div className="flex flex-wrap items-center justify-between gap-2 mb-4 sm:mb-6">
+                    <div className="flex flex-wrap items-center justify-between gap-4 mb-4 sm:mb-6">
                       <span className="text-[10px] font-black uppercase tracking-wider bg-slate-100 dark:bg-slate-950 text-slate-600 dark:text-slate-400 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 shrink-0">
                         {quizQuestions[currentQuizIndex].category}
                       </span>
@@ -1569,146 +1599,392 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
               </div>
             </div>
 
-            {/* Statutory Tools Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5 sm:gap-4 min-w-0">
-              {STATUTORY_HR_TOOLS.map((t) => {
-                const isSelected = selectedStatutTool === t.id;
-                return (
-                  <button
-                    key={t.id}
-                    onClick={async () => {
-                      setSelectedStatutTool(t.id);
-                      setIsStatutLoading(true);
-                      const res = await queryStatutoryEngine(t.id, statutInput || t.name);
-                      setStatutResult(res);
-                      setIsStatutLoading(false);
-                    }}
-                    className={`text-left p-4 sm:p-5 rounded-3xl border transition-all flex flex-col gap-2 cursor-pointer min-w-0 ${
-                      isSelected
-                        ? "bg-white dark:bg-slate-900 border-emerald-500 ring-2 ring-emerald-500/30 shadow-md scale-[1.02]"
-                        : "bg-white/80 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-900 border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between gap-2 min-w-0">
-                      <span className="text-sm font-black text-slate-900 dark:text-white truncate">{t.name}</span>
-                      <Sparkles className="w-4 h-4 text-emerald-500 shrink-0" />
+            {/* Top Priority Module: Contrôle de Légalité & Audit de Document */}
+            <div className="bg-gradient-to-br from-emerald-950/40 via-slate-900/90 to-slate-900/95 border-2 border-emerald-500/40 hover:border-emerald-500/60 rounded-3xl p-5 sm:p-7 shadow-xl backdrop-blur-md relative overflow-hidden transition-all">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+              
+              <div className="relative z-10 flex flex-col gap-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2.5 bg-emerald-500/20 text-emerald-400 rounded-2xl border border-emerald-500/30 shadow-inner shrink-0">
+                      <Shield className="w-6 h-6 sm:w-7 sm:h-7" />
                     </div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed break-words">{t.description}</p>
-                  </button>
-                );
-              })}
-            </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-base sm:text-lg font-black text-white tracking-tight">
+                          Contrôle de Légalité & Audit de Conformité
+                        </h3>
+                        <span className="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                          Prioritaire • IA CGFP
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-300 font-medium mt-0.5">
+                        Auditez vos projets d'arrêtés, contrats, décisions ou courriers : visas obligatoires, conformité statutaire et clause de recours TA Cergy-Pontoise.
+                      </p>
+                    </div>
+                  </div>
 
-            {/* Input / Execution Box */}
-            <div className="bg-white/85 dark:bg-slate-900/85 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-4 sm:p-6 shadow-xs flex flex-col gap-4 min-w-0">
-              <div className="flex flex-col gap-2 min-w-0">
-                <label className="text-xs font-black text-slate-700 dark:text-slate-300 uppercase tracking-wider flex flex-wrap items-center justify-between gap-1">
-                  <span>Requête ou contexte de l'agent :</span>
-                  <span className="text-[10px] text-slate-400">Ex: "Adjoint technique 6e échelon vers 7e", "Refus TPT 30j"</span>
-                </label>
-                <div className="flex flex-col sm:flex-row gap-3 min-w-0">
-                  <input
-                    type="text"
-                    value={statutInput}
-                    onChange={(e) => setStatutInput(e.target.value)}
-                    placeholder="Paramètres ou situation de l'agent..."
-                    className="flex-1 min-w-0 px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700/80 rounded-2xl text-sm font-medium text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-hidden"
-                  />
-                  <button
-                    onClick={async () => {
-                      setIsStatutLoading(true);
-                      const res = await queryStatutoryEngine(selectedStatutTool, statutInput || "Avancement d'échelon");
-                      setStatutResult(res);
-                      setIsStatutLoading(false);
-                    }}
-                    disabled={isStatutLoading}
-                    className="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shrink-0"
-                  >
-                    {isStatutLoading ? (
-                      <RefreshCw className="w-4 h-4 animate-spin" />
-                    ) : (
-                      <Sparkles className="w-4 h-4" />
-                    )}
-                    <span>Générer l'acte statutaire</span>
-                  </button>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="text-[11px] font-semibold text-emerald-400 bg-emerald-950/60 px-3 py-1.5 rounded-xl border border-emerald-500/30 flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5" /> 100% Conforme Ville de Gennevilliers
+                    </span>
+                  </div>
+                </div>
+
+                {/* Upload & Direct Text Verification Dropzone */}
+                <div className="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <div className="p-2 bg-slate-900 text-slate-400 rounded-xl shrink-0">
+                      <UploadCloud className="w-5 h-5 text-emerald-400" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold text-white truncate">
+                        {uploadedFile ? uploadedFile.name : "Déposer un fichier à auditer (.docx, .doc, .pdf, .txt)"}
+                      </p>
+                      <p className="text-[11px] text-slate-400">
+                        {uploadedFile 
+                          ? `${Math.round(uploadedFile.size / 1024)} ko chargé • Prêt pour l'audit` 
+                          : "Ou tapez / collez le texte d'un acte ci-dessous pour vérifier sa légalité"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 shrink-0">
+                    <input
+                      type="file"
+                      id="doc-upload-top"
+                      className="hidden"
+                      onChange={handleFileUpload}
+                      accept=".txt,.doc,.docx,.pdf"
+                    />
+                    <label
+                      htmlFor="doc-upload-top"
+                      className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl border border-slate-700 hover:border-slate-600 transition-colors cursor-pointer shrink-0 flex items-center gap-1.5"
+                    >
+                      <FileText className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>{uploadedFile ? "Changer de fichier" : "Importer un document"}</span>
+                    </label>
+                    <button
+                      onClick={() => {
+                        if (uploadedFile) {
+                          handleAnalyzeFile();
+                        } else {
+                          handleExecuteStatut('arretes');
+                        }
+                      }}
+                      disabled={isStatutLoading}
+                      className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-900/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shrink-0"
+                    >
+                      {isStatutLoading ? (
+                        <RefreshCw className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Shield className="w-4 h-4" />
+                      )}
+                      <span>{uploadedFile ? "Auditer la légalité" : "Vérifier la légalité"}</span>
+                    </button>
+                  </div>
                 </div>
               </div>
+            </div>
 
-              {/* Upload Document Check */}
-              <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 min-w-0">
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="p-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl shrink-0">
-                    <UploadCloud className="w-5 h-5" />
+            {/* Module 2 : Création & Rédaction d'Actes Administratifs & Statutaires */}
+            <div className="bg-white/95 dark:bg-slate-900/95 border-2 border-indigo-500/40 hover:border-indigo-500/60 rounded-3xl p-5 sm:p-7 shadow-xl backdrop-blur-md relative overflow-hidden transition-all">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+              
+              <div className="relative z-10 flex flex-col gap-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2.5 bg-indigo-500/20 text-indigo-400 rounded-2xl border border-indigo-500/30 shadow-inner shrink-0">
+                      <FileSignature className="w-6 h-6 sm:w-7 sm:h-7" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white tracking-tight">
+                          Création & Génération d'Actes Officiels
+                        </h3>
+                        <span className="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30">
+                          Export Word (.docx) • Ville de Gennevilliers
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-500 dark:text-slate-300 font-medium mt-0.5">
+                        Rédigez en un clic un arrêté, contrat CDD, décision municipale ou courrier formel, pré-rempli avec les visas statutaires et l'en-tête officiel.
+                      </p>
+                    </div>
                   </div>
-                  <div className="min-w-0">
-                    <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block break-words">Audit de conformité documentaire RH</span>
-                    <span className="text-[11px] text-slate-400 block break-words">Glissez un projet d'acte (.txt, .docx, .pdf) pour audit CGFP</span>
+
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-3 py-1.5 rounded-xl border border-indigo-200 dark:border-indigo-500/30 flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5" /> Rédaction Juridique Guidée
+                    </span>
                   </div>
                 </div>
-                <div className="flex flex-wrap items-center gap-2 shrink-0">
-                  <input
-                    type="file"
-                    id="doc-upload"
-                    className="hidden"
-                    onChange={handleFileUpload}
-                    accept=".txt,.doc,.docx,.pdf"
-                  />
-                  <label
-                    htmlFor="doc-upload"
-                    className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-xl border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer shrink-0"
-                  >
-                    {uploadedFile ? uploadedFile.name : "Parcourir un fichier"}
-                  </label>
-                  {uploadedFile && (
+
+                {/* Input & Execution Bar */}
+                <div className="flex flex-col gap-2.5">
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <input
+                      type="text"
+                      value={statutInput}
+                      onChange={(e) => setStatutInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          handleExecuteStatut();
+                        }
+                      }}
+                      placeholder="Ex: Arrêté portant nomination stagiaire, Contrat CDD accroissement 6 mois, Décision refus CPF..."
+                      className="flex-1 min-w-0 px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700/80 rounded-2xl text-sm font-medium text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-hidden"
+                    />
                     <button
-                      onClick={handleAnalyzeFile}
-                      className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer shrink-0"
+                      onClick={() => handleExecuteStatut()}
+                      disabled={isStatutLoading}
+                      className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-2xl shadow-lg shadow-indigo-900/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shrink-0"
                     >
-                      Analyser
+                      {isStatutLoading ? (
+                        <RefreshCw className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Sparkles className="w-4 h-4" />
+                      )}
+                      <span>Générer l'acte officiel</span>
                     </button>
-                  )}
+                  </div>
+                </div>
+
+                {/* Theme Category Filter Bar & Quick Suggestions */}
+                <div className="flex flex-col gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/80">
+                  <div className="flex flex-wrap items-center gap-1.5 pb-1">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedThemeFilter("all")}
+                      className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
+                        selectedThemeFilter === "all"
+                          ? "bg-indigo-600 text-white shadow-xs"
+                          : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
+                      }`}
+                    >
+                      <span>Tous les modèles</span>
+                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                        selectedThemeFilter === "all" ? "bg-indigo-700 text-indigo-100" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                      }`}>
+                        {ALL_THEMES_TEMPLATES.reduce((acc, t) => acc + t.templates.length, 0)}
+                      </span>
+                    </button>
+
+                    {ALL_THEMES_TEMPLATES.map((thm) => {
+                      const isActive = selectedThemeFilter === thm.id;
+                      return (
+                        <button
+                          key={thm.id}
+                          type="button"
+                          onClick={() => setSelectedThemeFilter(thm.id)}
+                          className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
+                            isActive
+                              ? "bg-indigo-600 text-white shadow-xs"
+                              : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
+                          }`}
+                        >
+                          <span>{thm.icon || "📌"} {thm.title.split('&')[0].trim()}</span>
+                          <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                            isActive ? "bg-indigo-700 text-indigo-100" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                          }`}>
+                            {thm.templates.length}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Filtered Templates Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-56 overflow-y-auto pr-1 py-1 custom-scrollbar">
+                    {(selectedThemeFilter === "all"
+                      ? ALL_THEMES_TEMPLATES.flatMap(t => t.templates)
+                      : ALL_THEMES_TEMPLATES.find(t => t.id === selectedThemeFilter)?.templates || []
+                    ).map((tpl) => {
+                      const typeStyles: Record<string, string> = {
+                        arrete: "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/80",
+                        decision: "bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800/80",
+                        contrat: "bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/80",
+                        circulaire: "bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800/80",
+                        courrier: "bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-800/80"
+                      };
+                      return (
+                        <button
+                          key={tpl.id}
+                          type="button"
+                          onClick={() => {
+                            setStatutInput(tpl.name);
+                            handleExecuteStatut(selectedStatutTool, tpl.name);
+                          }}
+                          className="flex flex-col items-start text-left p-2.5 bg-slate-50/80 dark:bg-slate-800/40 hover:bg-emerald-50/80 dark:hover:bg-emerald-950/40 border border-slate-200/80 dark:border-slate-700/60 hover:border-emerald-300 dark:hover:border-emerald-700 rounded-xl transition-all group cursor-pointer shadow-2xs"
+                        >
+                          <div className="flex items-center justify-between w-full gap-1 mb-1">
+                            <span className={`text-[9.5px] font-black uppercase px-2 py-0.5 rounded-md border tracking-wider ${typeStyles[tpl.type] || typeStyles.arrete}`}>
+                              {tpl.type}
+                            </span>
+                            <span className="text-[10px] text-slate-600 dark:text-slate-300 font-mono truncate max-w-[120px]">
+                              {tpl.cgfpRef.split('&')[0].trim()}
+                            </span>
+                          </div>
+                          <span className="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 line-clamp-1">
+                            {tpl.name}
+                          </span>
+                          <span className="text-[10.5px] text-slate-600 dark:text-slate-300 line-clamp-1 mt-0.5">
+                            {tpl.summary}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Generated Statutory Result */}
             {statutResult && (
-              <div className="bg-white dark:bg-slate-900 border border-emerald-500/40 rounded-3xl p-5 sm:p-6 shadow-lg flex flex-col gap-4 animate-in fade-in duration-200 min-w-0">
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-4">
-                  <div className="min-w-0 flex-1">
-                    <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase">{statutResult.category}</span>
-                    <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white break-words">{statutResult.title}</h3>
+              <div 
+                ref={statutResultRef} 
+                className="bg-white dark:bg-slate-900 border border-emerald-500/40 rounded-3xl p-5 sm:p-7 shadow-xl flex flex-col gap-5 animate-in fade-in duration-200 min-w-0"
+              >
+                {/* Header: Title & Badges Full Width */}
+                <div className="flex flex-col gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
+                  <div className="w-full">
+                    <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block mb-1">
+                      {statutResult.category}
+                    </span>
+                    <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white leading-snug">
+                      {statutResult.title}
+                    </h3>
                   </div>
-                  <span className="text-[11px] font-mono bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800/50 shrink-0">
-                    Réf : {statutResult.cgfpRef}
-                  </span>
+                  
+                  <div className="flex flex-wrap items-center gap-2 pt-1">
+                    <span className="text-xs font-mono font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center gap-1.5">
+                      <Scale className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                      <span>Réf : {statutResult.cgfpRef || "CGFP 2026"}</span>
+                    </span>
+                    <span className={`text-xs font-bold px-3 py-1.5 rounded-xl border flex items-center gap-2 ${
+                      statutResult.riskLevel === 'high'
+                        ? "bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800/60"
+                        : statutResult.riskLevel === 'mid'
+                        ? "bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/60"
+                        : "bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60"
+                    }`}>
+                      <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${
+                        statutResult.riskLevel === 'high' ? "bg-rose-500" : statutResult.riskLevel === 'mid' ? "bg-amber-500" : "bg-emerald-500"
+                      }`} />
+                      <span>{statutResult.riskText}</span>
+                    </span>
+                  </div>
                 </div>
 
-                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed break-words">{statutResult.content}</p>
-
-                {statutResult.sampleDocument && (
-                  <div className="mt-2 p-4 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col gap-2 min-w-0">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className="text-xs font-bold text-slate-500 flex items-center gap-1.5 shrink-0">
-                        <FileText className="w-4 h-4 text-emerald-500" />
-                        Modèle d'acte officiel prêt à l'emploi :
-                      </span>
-                      <button
-                        onClick={() => {
-                          navigator.clipboard.writeText(statutResult.sampleDocument || "");
-                          setCopiedSuccess(true);
-                          setTimeout(() => setCopiedSuccess(false), 2000);
-                        }}
-                        className="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 cursor-pointer shrink-0"
-                      >
-                        {copiedSuccess ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                        <span>{copiedSuccess ? "Copié !" : "Copier l'acte"}</span>
-                      </button>
-                    </div>
-                    <pre className="text-[11px] font-mono text-slate-700 dark:text-slate-300 whitespace-pre-wrap bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto max-w-full">
-                      {statutResult.sampleDocument}
-                    </pre>
+                {/* Legal Visas */}
+                {statutResult.legalVisas && statutResult.legalVisas.length > 0 && (
+                  <div className="p-4 bg-slate-50 dark:bg-slate-950/60 rounded-2xl border border-slate-200/80 dark:border-slate-800 flex flex-col gap-2">
+                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                      <Scale className="w-4 h-4 text-emerald-500" />
+                      Visas Juridiques Applicables (CGFP & Règlements) :
+                    </span>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mt-1">
+                      {statutResult.legalVisas.map((visa, idx) => (
+                        <li key={idx} className="text-[11px] text-slate-600 dark:text-slate-400 flex items-start gap-1.5">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                          <span>{visa}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
+                )}
+
+                {/* Content Synthesis */}
+                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed break-words bg-emerald-50/40 dark:bg-emerald-950/20 p-4 rounded-2xl border border-emerald-100 dark:border-emerald-900/30">
+                  {statutResult.content}
+                </p>
+
+                {/* Sources RAG & Fiches BIP intégrées */}
+                {ragResult && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {ragResult.matchedBipFiches && ragResult.matchedBipFiches.length > 0 && (
+                      <div className="p-4 bg-indigo-50/40 dark:bg-indigo-950/20 rounded-2xl border border-indigo-100 dark:border-indigo-900/30 flex flex-col gap-2.5">
+                        <span className="text-xs font-bold text-indigo-800 dark:text-indigo-300 flex items-center gap-1.5">
+                          <BookOpen className="w-4 h-4 text-indigo-500" />
+                          Fiches BIP Juridiques Associées ({ragResult.matchedBipFiches.length}) :
+                        </span>
+                        <div className="flex flex-col gap-1.5">
+                          {ragResult.matchedBipFiches.slice(0, 3).map((bip, i) => (
+                            <div key={i} className="text-[11px] text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 p-2 rounded-xl border border-indigo-100 dark:border-indigo-900/40">
+                              <span className="font-bold text-indigo-600 dark:text-indigo-400">{bip.code.toUpperCase()}</span> — {bip.titre}
+                              {bip.chapitre && <span className="text-slate-400 dark:text-slate-500 ml-1">({bip.chapitre})</span>}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {ragResult.matchedDocuments && ragResult.matchedDocuments.length > 0 && (
+                      <div className="p-4 bg-emerald-50/40 dark:bg-emerald-950/20 rounded-2xl border border-emerald-100 dark:border-emerald-900/30 flex flex-col gap-2.5">
+                        <span className="text-xs font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
+                          <FileText className="w-4 h-4 text-emerald-500" />
+                          Documents Docuthèque Génnevilliers ({ragResult.matchedDocuments.length}) :
+                        </span>
+                        <div className="flex flex-col gap-1.5">
+                          {ragResult.matchedDocuments.slice(0, 3).map((doc, i) => (
+                            <div key={i} className="text-[11px] text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 p-2 rounded-xl border border-emerald-100 dark:border-emerald-900/40">
+                              <span className="font-bold text-emerald-600 dark:text-emerald-400">{doc.title}</span>
+                              <span className="text-slate-400 dark:text-slate-500 ml-1">({doc.category})</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Detailed Analysis (Forme & Fond) */}
+                {(statutResult.analyseForme || statutResult.analyseFond) && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {statutResult.analyseForme && (
+                      <div className="p-4 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col gap-2.5">
+                        <span className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                          Audit de Forme & Mentions Obligatoires :
+                        </span>
+                        <div className="flex flex-col gap-1.5">
+                          {statutResult.analyseForme.mentionsObligatoires.map((m, idx) => (
+                            <div key={idx} className="flex items-center justify-between text-[11px] p-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-800">
+                              <span className="font-medium text-slate-700 dark:text-slate-300">{m.name}</span>
+                              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${m.present ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300" : "bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300"}`}>
+                                {m.note || (m.present ? "Conforme" : "Manquant")}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {statutResult.analyseFond && (
+                      <div className="p-4 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col gap-2.5">
+                        <span className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                          <Gavel className="w-4 h-4 text-emerald-500" />
+                          Sécurisation au Fond & Recommandations RH :
+                        </span>
+                        <div className="flex flex-col gap-2 text-[11px] text-slate-600 dark:text-slate-400">
+                          {statutResult.analyseFond.remarquesFond && statutResult.analyseFond.remarquesFond.map((rf, idx) => (
+                            <div key={idx} className="p-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-800 leading-relaxed">
+                              {rf}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Ready to Use Official Act with Real A4 Letterhead & Word .DOCX Export */}
+                {statutResult.sampleDocument && (
+                  <OfficialDocumentPreview
+                    title={statutResult.title}
+                    category={statutResult.category}
+                    documentText={statutResult.sampleDocument}
+                  />
                 )}
               </div>
             )}
