@@ -164,8 +164,8 @@ const THEME_HIGHLIGHT_CONFIGS: ThemeHighlightConfig[] = [
     badge: "Protocole d'Urgence CITIS",
     title: "Déclaration d'Accident de Service ou Trajet & Prise en Charge 100%",
     subtitle: "Procédure statutaire d'instruction sous 48h et couverture intégrale des frais médicaux",
-    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/sante_et_inaptitude/procedure_de_declaration_d_accident_de_travail_ou_de_trajet.pdf",
-    downloadLabel: "Protocole & Attestation (.PDF)",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/sante_et_securite_au_travail/medecine_professionnelle/procedure_de_declaration_d_accident_de_travail_ou_de_trajet.pdf",
+    downloadLabel: "Protocole & Déclaration (.PDF)",
     features: [
       { icon: "⏱️", title: "Délai Strict 48h", subtitle: "Transmission obligatoire à la DRH" },
       { icon: "📋", title: "2 Formulaires", subtitle: "Attestation victime + Rapport manager" },
@@ -175,34 +175,34 @@ const THEME_HIGHLIGHT_CONFIGS: ThemeHighlightConfig[] = [
   },
   {
     id: "mobilite-velo",
-    matches: ["forfait velo", "mobilite durable", "covoiturage", "trottinette", "transport vert"],
+    matches: ["forfait velo", "mobilite durable", "covoiturage", "trottinette", "transport vert", "transport"],
     icon: "🚲",
-    badge: "Dispositif Mobilités Vertes",
-    title: "Forfait Mobilités Durables (Vélo & Covoiturage) — Gennevilliers",
-    subtitle: "Indemnisation annuelle pour l'utilisation de modes de déplacement écologiques",
-    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/remuneration/forfait_mobilites_durables/formulaire_forfait_mobilites_durables.pdf",
-    downloadLabel: "Formulaire Mobilités (.PDF)",
+    badge: "Dispositif Mobilités & Transport",
+    title: "Prise en Charge Transport & Mobilités — Ville de Gennevilliers",
+    subtitle: "Indemnisation annuelle mobilités durables et remboursement employeur des abonnements",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/remuneration/demande_de_prise_en_charge_du_transport_domicile_travail.pdf",
+    downloadLabel: "Formulaire Transport (.PDF)",
     features: [
       { icon: "🚲", title: "Modes Éligibles", subtitle: "Vélo mécanique, VAE, Trottinette" },
       { icon: "💶", title: "Jusqu'à 300 € / an", subtitle: "Net d'impôt et exonéré de charges" },
-      { icon: "🚆", title: "Cumul Navigo", subtitle: "Compatible prise en charge 75%" },
+      { icon: "🚆", title: "Prise en Charge 75%", subtitle: "Pass Navigo et abonnements" },
       { icon: "📋", title: "Minimum 30 Jours", subtitle: "Attestation annuelle sur l'honneur" }
     ]
   },
   {
     id: "rifseep",
-    matches: ["rifseep", "ifse", "cotation", "regime indemnitaire", "prime ifse"],
+    matches: ["rifseep", "ifse", "cotation", "regime indemnitaire", "prime ifse", "sft"],
     icon: "💰",
     badge: "Socle Indemnitaire Municipal",
-    title: "Régime RIFSEEP (IFSE & CIA) — Cotation des Postes & Barème",
-    subtitle: "Part fixe mensuelle selon les groupes de fonctions et complément variable annuel",
-    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/remuneration/guide_attribution_rifseep_cotation_ifse_cia.pdf",
-    downloadLabel: "Guide & Barème RIFSEEP (.PDF)",
+    title: "Régime RIFSEEP (IFSE & CIA) & Prestations Familiales (SFT)",
+    subtitle: "Part fixe mensuelle selon les groupes de fonctions et formulaire officiel SFT",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/remuneration/demande_d_attribution_du_supplement_familiale_de_traitement.pdf",
+    downloadLabel: "Dossier SFT & Rémunération (.PDF)",
     features: [
       { icon: "🏛️", title: "IFSE Part Fixe", subtitle: "Cotation selon responsabilité & sujétions" },
       { icon: "📈", title: "Réexamen 4 Ans", subtitle: "Revalorisation statutaire obligatoire" },
       { icon: "🏆", title: "Complément CIA", subtitle: "Valorisation de l'engagement (CREP)" },
-      { icon: "⚠️", title: "Distinction SFT", subtitle: "Prestation familiale séparée" }
+      { icon: "⚠️", title: "Formulaire SFT", subtitle: "Prestation familiale statutaire" }
     ]
   },
   {
@@ -212,8 +212,8 @@ const THEME_HIGHLIGHT_CONFIGS: ThemeHighlightConfig[] = [
     badge: "Campagne Annuelle CREP 2025",
     title: "Entretien Professionnel Annuel (CREP 2025) — Ville de Gennevilliers",
     subtitle: "Bilan des résultats, fixation des objectifs annuels et recueil des besoins de formation",
-    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/crep/modele_crep_2025.pdf",
-    downloadLabel: "Modèle Officiel CREP (.PDF)",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/carriere_et_parcours_professionnels/entretiens_professionnels/modele_crep_2025.docx",
+    downloadLabel: "Modèle Officiel CREP (.DOCX)",
     features: [
       { icon: "📅", title: "Convocation 8 Jours", subtitle: "Délai légal préalable obligatoire" },
       { icon: "📝", title: "Grille Officielle", subtitle: "Évaluation critères et fixation cibles" },
@@ -228,7 +228,7 @@ const THEME_HIGHLIGHT_CONFIGS: ThemeHighlightConfig[] = [
     badge: "Gestion & Monétisation CET",
     title: "Compte Épargne Temps (CET) — Capitalisation & Indemnisation",
     subtitle: "Épargne annuelle des congés et RTT non pris au 31 décembre et options de sortie",
-    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail/cet/formulaire_ouverture_alimentation_cet.pdf",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail_conges_absences/compte_epargne_temps/formulaire_d_ouverture_et_d_alimentation_du_cet_2022.pdf",
     downloadLabel: "Formulaire Ouverture CET (.PDF)",
     features: [
       { icon: "📥", title: "Campagne au 31/12", subtitle: "Alimentation annuelle congés & RTT" },
@@ -239,13 +239,13 @@ const THEME_HIGHLIGHT_CONFIGS: ThemeHighlightConfig[] = [
   },
   {
     id: "conges-bonifies",
-    matches: ["conges bonifies", "cimm", "outre mer", "dom tom", "guadeloupe", "martinique", "reunion"],
+    matches: ["conges bonifies", "cimm", "outre mer", "dom tom", "guadeloupe", "martinique", "reunion", "conge paternite"],
     icon: "✈️",
-    badge: "Dispositif Outre-Mer (CIMM)",
-    title: "Congés Bonifiés — Prise en Charge Transport & Majoration de Séjour",
-    subtitle: "Dossier statutaire pour les agents originaires des départements d'Outre-mer",
-    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail/conges_bonifies/dossier_conges_bonifies_formulaire.pdf",
-    downloadLabel: "Dossier Congés Bonifiés (.PDF)",
+    badge: "Dispositif Congés & Paternité",
+    title: "Congés & Autorisations Spéciales d'Absence — Ville de Gennevilliers",
+    subtitle: "Formulaires de congés statutaires, accueil de l'enfant et mobilités spécifiques",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail_conges_absences/conges/demande_de_conge_paternite_et_d_accueil_de_l_enfant.pdf",
+    downloadLabel: "Formulaire Congé (.PDF)",
     features: [
       { icon: "✈️", title: "Billets Avion 100%", subtitle: "Prise en charge trajet aller-retour" },
       { icon: "🏝️", title: "31 Jours Maximaux", subtitle: "Périodicité tous les 2 ans" },
@@ -260,7 +260,7 @@ const THEME_HIGHLIGHT_CONFIGS: ThemeHighlightConfig[] = [
     badge: "Autorisations d'Absence Rémunérées",
     title: "Absences Garde d'Enfant Malade & Congé de Présence Parentale",
     subtitle: "Dispositifs pour concilier vie professionnelle et obligations parentales de santé",
-    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail/absences/formulaire_absence_garde_enfant_malade.pdf",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail_conges_absences/reglement_temps_de_travail/formulaire_d_autorisation_d_absence_garde_d_enfant_2018.pdf",
     downloadLabel: "Formulaire Garde d'Enfant (.PDF)",
     features: [
       { icon: "👶", title: "6 à 12 Jours / an", subtitle: "Selon la composition du foyer" },
@@ -276,7 +276,7 @@ const THEME_HIGHLIGHT_CONFIGS: ThemeHighlightConfig[] = [
     badge: "Mobilité Externe & Départs",
     title: "Mutation Externe, Disponibilité & Démission — Ville de Gennevilliers",
     subtitle: "Démarches statutaires pour changer d'administration ou suspendre son activité",
-    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/recrutement/demande_de_mutation_externe.pdf",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/carriere_et_parcours_professionnels/situations_administratives/formulaire_demande_de_mutation_2018.pdf",
     downloadLabel: "Demande de Mutation (.PDF)",
     features: [
       { icon: "🏛️", title: "Mutation Externe", subtitle: "Préavis légal de 3 mois" },
@@ -307,9 +307,9 @@ const THEME_HIGHLIGHT_CONFIGS: ThemeHighlightConfig[] = [
     icon: "⚖️",
     badge: "Garanties Disciplinaires CGFP",
     title: "Procédure Disciplinaire & Droits de la Défense — Statut CGFP",
-    subtitle: "Règles contradictoires, consultation du dossier et échelle des sanctions",
-    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/discipline/procedure_disciplinaire_2024.pdf",
-    downloadLabel: "Guide Procédure (.PDF)",
+    subtitle: "Règles contradictoires, convocation préalable et échelle des sanctions",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/procedure_disciplinaire/modele_de_courrier_convocation_entretien_hierarchique.doc",
+    downloadLabel: "Convocation Entretien (.DOC)",
     features: [
       { icon: "🛡️", title: "Droits Défense", subtitle: "Consultation intégrale du dossier individuel" },
       { icon: "⚖️", title: "4 Groupes Sanctions", subtitle: "De l'avertissement à la révocation" },
@@ -319,18 +319,18 @@ const THEME_HIGHLIGHT_CONFIGS: ThemeHighlightConfig[] = [
   },
   {
     id: "marches-publics",
-    matches: ["marche", "marches publics", "commande publique", "attri1", "ordre de service"],
+    matches: ["marche", "marches publics", "commande publique", "attri1", "ordre de service", "arrete"],
     icon: "🏗️",
-    badge: "Commande Publique Municipale",
-    title: "Marchés Publics & Actes d'Engagement — Ville de Gennevilliers",
-    subtitle: "Modèles officiels ATTRI1, ordres de service et décisions de signature",
-    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/marches_publics/attri1_acte_d_engagement_marche_public.pdf",
-    downloadLabel: "Formulaire ATTRI1 (.PDF)",
+    badge: "Actes Municipaux & Commande Publique",
+    title: "Arrêtés Municipaux & Actes Administratifs — Charte Bureautique",
+    subtitle: "Modèles officiels d'arrêtés, décisions municipales et ordres de service",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_et_moyens_generaux/charte_bureautique/arrete.docx",
+    downloadLabel: "Trame Arrêté Municipal (.DOCX)",
     features: [
-      { icon: "📑", title: "Acte Engagement", subtitle: "Formulaire réglementaire ATTRI1" },
-      { icon: "✍️", title: "Décision du Maire", subtitle: "Délégation de signature marchés" },
-      { icon: "🚧", title: "Ordres de Service", subtitle: "Notification démarrage travaux / OS" },
-      { icon: "⚖️", title: "Code Commande Publique", subtitle: "Conformité seuils et procédures" }
+      { icon: "📑", title: "Trame Arrêté", subtitle: "Modèle officiel charte bureautique" },
+      { icon: "✍️", title: "Délégation Signature", subtitle: "Arrêté du Maire Patrice LECLERC" },
+      { icon: "🚧", title: "Ordres de Service", subtitle: "Notification formelle prestataire" },
+      { icon: "⚖️", title: "Sécurisation Juridique", subtitle: "Contrôle de légalité CGFP / CGCT" }
     ]
   }
 ];

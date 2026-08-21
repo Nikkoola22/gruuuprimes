@@ -819,7 +819,7 @@ export const GENNEVILLIERS_DOCUTHEQUE: DocuthequeItem[] = [
     type: "pdf",
     size: "245 Ko",
     date: "15/01/2026",
-    url: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/remuneration/guide_attribution_cotation_rifseep_ifse_cia.pdf",
+    url: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/remuneration/demande_d_attribution_du_supplement_familiale_de_traitement.pdf",
     keywords: ["rifseep", "ifse", "cotation ifse", "attribution ifse", "revalorisation ifse", "groupe de fonctions", "primes rifseep", "regime indemnitaire", "cia"],
     summary: "Guide municipal officiel fixant les critères de cotation des postes, l'attribution de l'IFSE par groupes de fonctions, le réexamen quadriennal obligatoire et le CIA.",
     intentions: ["attribution rifseep et cotation ifse", "cotation et attribution ifse", "attribution ifse", "revalorisation ifse", "bareme rifseep", "prime ifse", "grille ifse"]
