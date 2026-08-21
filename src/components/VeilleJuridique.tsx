@@ -1692,7 +1692,7 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewM
                     <div>
                       <div className="flex flex-wrap items-center gap-2">
                         <h3 className="text-base sm:text-xl font-black text-slate-900 dark:text-white tracking-tight">
-                          Création & Génération d'Actes Officiels
+                          Simulation d'Actes
                         </h3>
                         <span className="text-[10.5px] uppercase font-black tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30">
                           Export Word (.docx) • Ville de Gennevilliers

@@ -243,7 +243,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
           </div>
         </div>
 
-        {/* ─── MODULE 2 : CRÉATION & GÉNÉRATION D'ACTES OFFICIELS ─── */}
+        {/* ─── MODULE 2 : SIMULATION D'ACTES ─── */}
         <div className={`rounded-3xl p-6 sm:p-7 border-2 shadow-2xl relative overflow-hidden transition-all ${
           isLight
             ? "bg-white border-indigo-200 shadow-indigo-100/50"
@@ -259,7 +259,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <h2 className="text-base sm:text-xl font-black text-slate-900 dark:text-white tracking-tight">
-                      Création & Génération d'Actes Officiels
+                      Simulation d'Actes
                     </h2>
                     <span className="text-[10.5px] uppercase font-black tracking-wider px-2.5 py-0.5 rounded-full bg-[#182348] text-indigo-300 border border-indigo-500/40">
                       WORD (.DOCX) • VILLE DE GENNEVILLIERS
