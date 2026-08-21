@@ -98,16 +98,16 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
   };
 
   return (
-    <div className={`min-h-screen pb-24 ${
+    <div className={`w-full min-h-screen pb-24 relative z-20 transition-colors duration-300 ${
       isLight 
-        ? "bg-slate-50 text-slate-900" 
-        : "bg-slate-950 text-slate-100"
+        ? "bg-slate-100 text-slate-900" 
+        : "bg-[#060913] text-slate-100"
     }`}>
       {/* Top Header Sticky */}
-      <div className={`sticky top-0 z-40 backdrop-blur-xl border-b px-4 sm:px-8 py-3.5 flex items-center justify-between transition-colors ${
+      <div className={`sticky top-0 z-40 border-b px-4 sm:px-8 py-3.5 flex items-center justify-between transition-colors ${
         isLight
-          ? "bg-white/90 border-slate-200 shadow-sm"
-          : "bg-slate-950/80 border-slate-800/80 shadow-md"
+          ? "bg-white border-slate-200 shadow-sm"
+          : "bg-[#0A0F1D] border-slate-800 shadow-lg shadow-black/50"
       }`}>
         <div className="flex items-center gap-3.5">
           <button
@@ -115,7 +115,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
             className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
               isLight
                 ? "bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-700"
-                : "bg-slate-900 hover:bg-slate-800 border-slate-700 text-slate-200"
+                : "bg-[#151F38] hover:bg-[#1E2D52] border-slate-700 text-slate-200"
             }`}
             title="Retour au menu principal"
           >
@@ -126,18 +126,18 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
               <span className="text-xl sm:text-2xl font-black tracking-tight bg-gradient-to-r from-emerald-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
                 Coin RH • Actes & Légalité
               </span>
-              <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-500/40">
                 <CheckCircle2 className="w-3.5 h-3.5" /> Ville de Gennevilliers
               </span>
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+            <p className={`text-xs font-medium ${isLight ? "text-slate-500" : "text-slate-400"}`}>
               Contrôle de conformité statutaire et rédaction automatisée d'actes officiels CGFP & CGCT
             </p>
           </div>
         </div>
 
         <div className="hidden md:flex items-center gap-2">
-          <span className="text-xs px-3 py-1.5 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 font-bold flex items-center gap-1.5">
+          <span className="text-xs px-3 py-1.5 rounded-xl bg-[#131C33] text-indigo-300 border border-indigo-500/30 font-bold flex items-center gap-1.5">
             <Scale className="w-3.5 h-3.5" /> 38 Modèles Certifiés
           </span>
         </div>
@@ -149,13 +149,13 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
         {/* ─── MODULE 1 : VÉRIFICATION DE LÉGALITÉ ─── */}
         <div className={`rounded-3xl p-6 sm:p-7 border-2 shadow-xl relative overflow-hidden transition-all ${
           isLight
-            ? "bg-gradient-to-br from-emerald-50/70 via-teal-50/40 to-white border-emerald-300 shadow-emerald-100/50"
-            : "bg-gradient-to-br from-emerald-950/40 via-slate-900/90 to-slate-900/95 border-emerald-500/30 shadow-2xl shadow-emerald-950/30"
+            ? "bg-white border-emerald-300 shadow-emerald-100/50"
+            : "bg-[#0E1526] border-emerald-500/40 shadow-2xl shadow-black/80"
         }`}>
           <div className="relative z-10 flex flex-col gap-4">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-emerald-200/60 dark:border-emerald-800/40 pb-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-emerald-500/20 pb-4">
               <div className="flex items-start sm:items-center gap-3.5">
-                <div className="p-3 bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 rounded-2xl border border-emerald-500/30 shrink-0">
+                <div className="p-3 bg-[#11241D] text-emerald-400 rounded-2xl border border-emerald-500/40 shrink-0">
                   <Shield className="w-7 h-7" />
                 </div>
                 <div>
@@ -163,32 +163,36 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                     <h2 className="text-base sm:text-xl font-black text-slate-900 dark:text-white tracking-tight">
                       Vérifier la Légalité d'un Document Administratif
                     </h2>
-                    <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                    <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#11241D] text-emerald-300 border border-emerald-500/40">
                       CGFP & CGCT
                     </span>
                   </div>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-1 max-w-3xl">
+                  <p className={`text-xs font-medium mt-1 max-w-3xl ${isLight ? "text-slate-600" : "text-slate-300"}`}>
                     Contrôlez instantanément la conformité statutaire de vos arrêtés, contrats ou décisions (visas obligatoires, motifs, délais et recours TA Cergy-Pontoise).
                   </p>
                 </div>
               </div>
 
-              <span className="text-[11px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950/70 px-3 py-1.5 rounded-xl border border-emerald-300 dark:border-emerald-700/50 flex items-center gap-1.5 shrink-0 self-start md:self-auto">
+              <span className="text-[11px] font-bold text-emerald-300 bg-[#11241D] px-3 py-1.5 rounded-xl border border-emerald-500/40 flex items-center gap-1.5 shrink-0 self-start md:self-auto">
                 <CheckCircle2 className="w-3.5 h-3.5" /> Contrôle Visas & MPO CIG
               </span>
             </div>
 
             {/* Dropzone & Direct verification */}
-            <div className="bg-slate-100/80 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-inner">
+            <div className={`border rounded-2xl p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-inner ${
+              isLight ? "bg-slate-50 border-slate-200" : "bg-[#060913] border-slate-800"
+            }`}>
               <div className="flex items-center gap-3 flex-1 min-w-0">
-                <div className="p-2.5 bg-white dark:bg-slate-900 text-emerald-500 rounded-xl shrink-0 border border-slate-200 dark:border-slate-800">
+                <div className={`p-2.5 rounded-xl shrink-0 border ${
+                  isLight ? "bg-white text-emerald-600 border-slate-200" : "bg-[#10192E] text-emerald-400 border-slate-700"
+                }`}>
                   <UploadCloud className="w-5 h-5" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">
+                  <p className="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
                     {uploadedFile ? uploadedFile.name : "Glissez un projet d'acte (.docx, .doc, .pdf, .txt) pour audit CGFP"}
                   </p>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                  <p className={`text-[11px] ${isLight ? "text-slate-500" : "text-slate-400"}`}>
                     {uploadedFile 
                       ? `${Math.round(uploadedFile.size / 1024)} ko chargé • Cliquez sur 'Auditer la légalité'` 
                       : "Ou tapez un projet d'acte dans le module de création ci-dessous"}
@@ -206,9 +210,13 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                 />
                 <label
                   htmlFor="coinrh-file-upload"
-                  className="px-4 py-2.5 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer shrink-0 flex items-center gap-1.5 shadow-2xs"
+                  className={`px-4 py-2.5 text-xs font-bold rounded-xl border transition-colors cursor-pointer shrink-0 flex items-center gap-1.5 shadow-2xs ${
+                    isLight 
+                      ? "bg-white hover:bg-slate-100 text-slate-800 border-slate-300"
+                      : "bg-[#151F38] hover:bg-[#1E2D52] text-slate-200 border-slate-700"
+                  }`}
                 >
-                  <FileText className="w-3.5 h-3.5 text-emerald-500" />
+                  <FileText className="w-3.5 h-3.5 text-emerald-400" />
                   <span>{uploadedFile ? "Changer de fichier" : "Parcourir un fichier"}</span>
                 </label>
                 <button
@@ -237,16 +245,14 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
         {/* ─── MODULE 2 : CRÉATION & GÉNÉRATION D'ACTES OFFICIELS ─── */}
         <div className={`rounded-3xl p-6 sm:p-7 border-2 shadow-2xl relative overflow-hidden transition-all ${
           isLight
-            ? "bg-white/95 border-indigo-200 shadow-indigo-100/50"
-            : "bg-slate-900/95 border-indigo-500/30 shadow-black/80"
+            ? "bg-white border-indigo-200 shadow-indigo-100/50"
+            : "bg-[#0E1526] border-indigo-500/40 shadow-2xl shadow-black/80"
         }`}>
-          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-indigo-500/15 via-purple-500/10 to-transparent rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
-
           <div className="relative z-10 flex flex-col gap-5">
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3.5 border-b border-slate-100 dark:border-slate-800/80 pb-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3.5 border-b border-indigo-500/20 pb-4">
               <div className="flex items-start sm:items-center gap-3.5">
-                <div className="p-3 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-indigo-500 dark:text-indigo-400 rounded-2xl border border-indigo-500/30 shadow-inner shrink-0">
+                <div className="p-3 bg-[#171F38] text-indigo-400 rounded-2xl border border-indigo-500/40 shadow-inner shrink-0">
                   <FileSignature className="w-7 h-7" />
                 </div>
                 <div>
@@ -254,24 +260,26 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                     <h2 className="text-base sm:text-xl font-black text-slate-900 dark:text-white tracking-tight">
                       Création & Génération d'Actes Officiels
                     </h2>
-                    <span className="text-[10.5px] uppercase font-black tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30">
+                    <span className="text-[10.5px] uppercase font-black tracking-wider px-2.5 py-0.5 rounded-full bg-[#182348] text-indigo-300 border border-indigo-500/40">
                       WORD (.DOCX) • VILLE DE GENNEVILLIERS
                     </span>
                   </div>
-                  <p className="text-xs text-slate-500 dark:text-slate-300 font-medium mt-1 max-w-3xl">
+                  <p className={`text-xs font-medium mt-1 max-w-3xl ${isLight ? "text-slate-500" : "text-slate-300"}`}>
                     Rédigez immédiatement un arrêté du Maire, un contrat CDD de droit public, un ordre de service ou une décision municipale conforme.
                   </p>
                 </div>
               </div>
 
-              <span className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-3 py-1.5 rounded-xl border border-indigo-200 dark:border-indigo-500/30 flex items-center gap-1.5 shrink-0 self-start md:self-auto">
-                <Sparkles className="w-3.5 h-3.5" /> 38 Modèles Thématiques
+              <span className="text-[11px] font-bold text-indigo-300 bg-[#171F38] px-3 py-1.5 rounded-xl border border-indigo-500/40 flex items-center gap-1.5 shrink-0 self-start md:self-auto">
+                <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 38 Modèles Thématiques
               </span>
             </div>
 
             {/* Input Bar & Actions */}
             <div className="flex flex-col gap-2.5">
-              <div className="flex flex-col sm:flex-row gap-2.5 bg-slate-50/90 dark:bg-slate-950/70 p-2 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner">
+              <div className={`flex flex-col sm:flex-row gap-2.5 p-2 rounded-2xl border shadow-inner ${
+                isLight ? "bg-slate-50 border-slate-300 focus-within:border-indigo-500" : "bg-[#060913] border-slate-700 focus-within:border-indigo-400"
+              }`}>
                 <div className="relative flex-1 flex items-center">
                   <Search className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
                   <input
@@ -333,7 +341,11 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                       setStatutInput(chip.query);
                       handleExecuteStatut(chip.query);
                     }}
-                    className="px-2.5 py-1 text-[11px] font-semibold rounded-lg bg-slate-100 hover:bg-indigo-50 dark:bg-slate-800/80 dark:hover:bg-indigo-950/60 text-slate-700 hover:text-indigo-700 dark:text-slate-300 dark:hover:text-indigo-300 border border-slate-200 dark:border-slate-700/60 hover:border-indigo-300 dark:hover:border-indigo-700/60 transition-all cursor-pointer flex items-center gap-1.5"
+                    className={`px-2.5 py-1 text-[11px] font-semibold rounded-lg border transition-all cursor-pointer flex items-center gap-1.5 ${
+                      isLight
+                        ? "bg-white hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border-slate-200 hover:border-indigo-300 shadow-2xs"
+                        : "bg-[#151F38] hover:bg-[#1E2D52] text-slate-200 hover:text-indigo-300 border-slate-700 hover:border-indigo-500/50"
+                    }`}
                   >
                     <span>{chip.icon}</span>
                     <span>{chip.label}</span>
@@ -343,7 +355,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
             </div>
 
             {/* Catalog Browser with Dual Filtering */}
-            <div className="flex flex-col gap-3 pt-3 border-t border-slate-100 dark:border-slate-800/80">
+            <div className="flex flex-col gap-3 pt-3 border-t border-slate-800">
               {/* Category Pills */}
               <div className="flex flex-wrap items-center gap-1.5">
                 <button
@@ -352,12 +364,14 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                   className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
                     selectedThemeFilter === "all"
                       ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
-                      : "bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
+                      : isLight 
+                        ? "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
+                        : "bg-[#151F38] hover:bg-[#1E2D52] text-slate-300 border border-slate-700"
                   }`}
                 >
                   <span>Tous les thèmes</span>
                   <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
-                    selectedThemeFilter === "all" ? "bg-indigo-700 text-indigo-100" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                    selectedThemeFilter === "all" ? "bg-indigo-700 text-indigo-100" : isLight ? "bg-slate-100 text-slate-700" : "bg-slate-800 text-slate-300"
                   }`}>
                     {ALL_THEMES_TEMPLATES.reduce((acc, t) => acc + t.templates.length, 0)}
                   </span>
@@ -373,12 +387,14 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                       className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
                         isActive
                           ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
-                          : "bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
+                          : isLight
+                            ? "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
+                            : "bg-[#151F38] hover:bg-[#1E2D52] text-slate-300 border border-slate-700"
                       }`}
                     >
                       <span>{thm.icon || "📌"} {thm.title.split("&")[0].trim()}</span>
                       <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
-                        isActive ? "bg-indigo-700 text-indigo-100" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                        isActive ? "bg-indigo-700 text-indigo-100" : isLight ? "bg-slate-100 text-slate-700" : "bg-slate-800 text-slate-300"
                       }`}>
                         {thm.templates.length}
                       </span>
@@ -388,9 +404,11 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
               </div>
 
               {/* Sub-Filters: Type Filter + Live Keyword Filter */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 bg-slate-50 dark:bg-slate-950/60 p-2.5 rounded-2xl border border-slate-200/80 dark:border-slate-800">
+              <div className={`flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 p-2.5 rounded-2xl border ${
+                isLight ? "bg-slate-50 border-slate-200" : "bg-[#060913] border-slate-800"
+              }`}>
                 <div className="flex flex-wrap items-center gap-1">
-                  <span className="text-[11px] font-bold text-slate-600 dark:text-slate-300 mr-1.5">Typologie :</span>
+                  <span className={`text-[11px] font-bold mr-1.5 ${isLight ? "text-slate-600" : "text-slate-300"}`}>Typologie :</span>
                   {[
                     { id: "all", label: "Tous types" },
                     { id: "arrete", label: "📜 Arrêtés" },
@@ -406,7 +424,9 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                       className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                         selectedTypeFilter === t.id
                           ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-xs"
-                          : "text-slate-600 dark:text-slate-400 hover:bg-slate-200/70 dark:hover:bg-slate-800"
+                          : isLight 
+                            ? "text-slate-600 hover:bg-slate-200"
+                            : "text-slate-300 hover:bg-[#151F38]"
                       }`}
                     >
                       {t.label}
@@ -421,7 +441,11 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                     value={templateSearchQuery}
                     onChange={(e) => setTemplateSearchQuery(e.target.value)}
                     placeholder="Rechercher parmi les modèles..."
-                    className="w-full pl-8 pr-7 py-1.5 text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden focus:ring-1 focus:ring-indigo-500"
+                    className={`w-full pl-8 pr-7 py-1.5 text-xs rounded-xl focus:outline-hidden focus:ring-1 focus:ring-indigo-500 border ${
+                      isLight 
+                        ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400"
+                        : "bg-[#0E1526] border-slate-700 text-white placeholder-slate-400"
+                    }`}
                   />
                   {templateSearchQuery && (
                     <button
@@ -462,7 +486,11 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                             setSelectedTypeFilter("all");
                             setTemplateSearchQuery("");
                           }}
-                          className="px-3 py-1.5 text-xs font-bold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 rounded-xl border border-indigo-200 dark:border-indigo-800"
+                          className={`px-3 py-1.5 text-xs font-bold rounded-xl border ${
+                            isLight
+                              ? "bg-indigo-50 text-indigo-600 border-indigo-200"
+                              : "bg-[#151F38] text-indigo-300 border-indigo-500/40"
+                          }`}
                         >
                           Réinitialiser tous les filtres
                         </button>
@@ -473,24 +501,24 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                   return filtered.map((tpl) => {
                     const typeStyles: Record<string, { badge: string; border: string }> = {
                       arrete: {
-                        badge: "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/80",
-                        border: "hover:border-emerald-400 dark:hover:border-emerald-600"
+                        badge: "bg-[#11241D] text-emerald-300 border-emerald-500/40",
+                        border: "hover:border-emerald-400 dark:hover:border-emerald-500"
                       },
                       decision: {
-                        badge: "bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800/80",
-                        border: "hover:border-rose-400 dark:hover:border-rose-600"
+                        badge: "bg-[#2A151C] text-rose-300 border-rose-500/40",
+                        border: "hover:border-rose-400 dark:hover:border-rose-500"
                       },
                       contrat: {
-                        badge: "bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800/80",
-                        border: "hover:border-indigo-400 dark:hover:border-indigo-600"
+                        badge: "bg-[#171F38] text-indigo-300 border-indigo-500/40",
+                        border: "hover:border-indigo-400 dark:hover:border-indigo-500"
                       },
                       circulaire: {
-                        badge: "bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-800/80",
-                        border: "hover:border-sky-400 dark:hover:border-sky-600"
+                        badge: "bg-[#102334] text-sky-300 border-sky-500/40",
+                        border: "hover:border-sky-400 dark:hover:border-sky-500"
                       },
                       courrier: {
-                        badge: "bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/80",
-                        border: "hover:border-amber-400 dark:hover:border-amber-600"
+                        badge: "bg-[#2A2012] text-amber-300 border-amber-500/40",
+                        border: "hover:border-amber-400 dark:hover:border-amber-500"
                       }
                     };
 
@@ -503,30 +531,34 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                           setStatutInput(tpl.name);
                           handleExecuteStatut(tpl.name);
                         }}
-                        className={`group relative flex flex-col justify-between p-3.5 bg-slate-50/90 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 ${currentStyle.border} rounded-2xl transition-all cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5`}
+                        className={`group relative flex flex-col justify-between p-3.5 border ${currentStyle.border} rounded-2xl transition-all cursor-pointer shadow-md hover:shadow-xl hover:-translate-y-0.5 ${
+                          isLight
+                            ? "bg-white hover:bg-indigo-50/40 border-slate-200"
+                            : "bg-[#131C33] hover:bg-[#1A2645] border-slate-700"
+                        }`}
                       >
                         <div className="flex flex-col gap-1.5">
                           <div className="flex items-center justify-between w-full gap-1">
                             <span className={`text-[9.5px] font-black uppercase px-2 py-0.5 rounded-md border tracking-wider ${currentStyle.badge}`}>
                               {tpl.type}
                             </span>
-                            <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono truncate max-w-[130px]" title={tpl.cgfpRef}>
+                            <span className="text-[10px] text-slate-400 font-mono truncate max-w-[130px]" title={tpl.cgfpRef}>
                               {tpl.cgfpRef.split("&")[0].trim()}
                             </span>
                           </div>
-                          <h4 className="text-xs font-black text-slate-800 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 line-clamp-1 transition-colors">
+                          <h4 className="text-xs font-black text-slate-900 dark:text-slate-100 group-hover:text-indigo-400 line-clamp-1 transition-colors">
                             {tpl.name}
                           </h4>
-                          <p className="text-[11px] text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed font-medium">
+                          <p className={`text-[11px] line-clamp-2 leading-relaxed font-medium ${isLight ? "text-slate-600" : "text-slate-300"}`}>
                             {tpl.summary}
                           </p>
                         </div>
 
-                        <div className="flex items-center justify-between pt-2.5 mt-2 border-t border-slate-100 dark:border-slate-700/50">
-                          <span className="text-[10px] font-bold text-slate-400 dark:text-slate-400 truncate max-w-[140px]">
+                        <div className="flex items-center justify-between pt-2.5 mt-2 border-t border-slate-700/60">
+                          <span className="text-[10px] font-bold text-slate-400 truncate max-w-[140px]">
                             {tpl.themeTitle || "Gennevilliers"}
                           </span>
-                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-indigo-600 dark:text-indigo-400 group-hover:translate-x-0.5 transition-transform">
+                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-indigo-400 group-hover:translate-x-0.5 transition-transform">
                             <span>Générer</span>
                             <ArrowRight className="w-3 h-3" />
                           </span>
@@ -547,19 +579,19 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
             className={`border rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col gap-6 animate-in fade-in duration-200 min-w-0 ${
               isLight
                 ? "bg-white border-emerald-300 shadow-emerald-100/50"
-                : "bg-slate-900 border-emerald-500/40 shadow-black/80"
+                : "bg-[#0E1526] border-emerald-500/40 shadow-2xl shadow-black/80"
             }`}
           >
             {/* Header Result */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-5">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
               <div>
-                <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block mb-1">
+                <span className="text-xs font-black text-emerald-400 uppercase tracking-wider block mb-1">
                   {statutResult.category}
                 </span>
                 <h3 className="text-lg sm:text-2xl font-black text-slate-900 dark:text-white leading-snug">
                   {statutResult.title}
                 </h3>
-                <p className="text-xs font-mono text-slate-500 dark:text-slate-400 mt-1">
+                <p className="text-xs font-mono text-slate-400 mt-1">
                   Fondement juridique : {statutResult.cgfpRef}
                 </p>
               </div>
@@ -579,14 +611,22 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                     navigator.clipboard.writeText(statutResult.sampleDocument || "");
                     toast.success("Texte de l'acte copié dans le presse-papier !");
                   }}
-                  className="px-3.5 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl border border-slate-200 dark:border-slate-700 transition-all flex items-center gap-1.5 cursor-pointer"
+                  className={`px-3.5 py-2.5 font-bold text-xs rounded-xl border transition-all flex items-center gap-1.5 cursor-pointer ${
+                    isLight
+                      ? "bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200"
+                      : "bg-[#151F38] hover:bg-[#1E2D52] text-slate-200 border-slate-700"
+                  }`}
                 >
                   <Copy className="w-4 h-4" />
                   <span>Copier</span>
                 </button>
                 <button
                   onClick={() => window.print()}
-                  className="px-3.5 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl border border-slate-200 dark:border-slate-700 transition-all flex items-center gap-1.5 cursor-pointer"
+                  className={`px-3.5 py-2.5 font-bold text-xs rounded-xl border transition-all flex items-center gap-1.5 cursor-pointer ${
+                    isLight
+                      ? "bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200"
+                      : "bg-[#151F38] hover:bg-[#1E2D52] text-slate-200 border-slate-700"
+                  }`}
                 >
                   <Printer className="w-4 h-4" />
                   <span>Imprimer</span>
@@ -596,28 +636,32 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
 
             {/* Analysis Grid (Visas & Conformité) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex flex-col gap-2">
-                <span className="text-xs font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5">
+              <div className={`p-4 rounded-2xl border flex flex-col gap-2 ${
+                isLight ? "bg-emerald-50 border-emerald-200" : "bg-[#091713] border-emerald-500/40"
+              }`}>
+                <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4" /> Analyse de Forme & Visas
                 </span>
-                <ul className="text-xs space-y-1.5 text-slate-700 dark:text-slate-300 font-medium">
+                <ul className={`text-xs space-y-1.5 font-medium ${isLight ? "text-slate-700" : "text-slate-300"}`}>
                   {statutResult.analyseForme?.mentionsObligatoires.map((m, idx) => (
                     <li key={idx} className="flex items-center gap-2">
-                      <span className="text-emerald-500">✓</span>
+                      <span className="text-emerald-400">✓</span>
                       <span>{m.name} ({m.note})</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="p-4 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex flex-col gap-2">
-                <span className="text-xs font-bold text-indigo-700 dark:text-indigo-300 flex items-center gap-1.5">
+              <div className={`p-4 rounded-2xl border flex flex-col gap-2 ${
+                isLight ? "bg-indigo-50 border-indigo-200" : "bg-[#0F142A] border-indigo-500/40"
+              }`}>
+                <span className="text-xs font-bold text-indigo-400 flex items-center gap-1.5">
                   <Scale className="w-4 h-4" /> Conformité de Fond & Recommandations
                 </span>
-                <ul className="text-xs space-y-1.5 text-slate-700 dark:text-slate-300 font-medium">
+                <ul className={`text-xs space-y-1.5 font-medium ${isLight ? "text-slate-700" : "text-slate-300"}`}>
                   {statutResult.analyseFond?.remarquesFond.map((r, idx) => (
                     <li key={idx} className="flex items-start gap-1.5">
-                      <span className="text-indigo-500">•</span>
+                      <span className="text-indigo-400">•</span>
                       <span>{r}</span>
                     </li>
                   ))}
