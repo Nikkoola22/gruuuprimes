@@ -655,6 +655,166 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
               </div>
             </div>
 
+            {/* Traceability & Legal Audit Context Header */}
+            {((statutResult as any).auditHeader) && (
+              <div className={`p-4 rounded-2xl border text-xs flex flex-wrap items-center justify-between gap-3 font-mono ${
+                isLight ? "bg-slate-50 border-slate-200 text-slate-700" : "bg-[#090D1A] border-slate-800 text-slate-300"
+              }`}>
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-indigo-400">📅 Analyse :</span>
+                  <span>{(statutResult as any).auditHeader.dateAnalyse}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-emerald-400">📍 Champ :</span>
+                  <span>{(statutResult as any).auditHeader.champTerritorial}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-amber-400">⚖️ Ressort :</span>
+                  <span>{(statutResult as any).auditHeader.juridictionRecours}</span>
+                </div>
+              </div>
+            )}
+
+            {/* Comprehensive Legal Controls Grid (Légalité Externe vs Légalité Interne) */}
+            {((statutResult as any).controleLegaliteExterne || (statutResult as any).controleLegaliteInterne) && (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {/* 1. Contrôle de Légalité Externe (Forme, Compétence, Procédure) */}
+                <div className={`p-4.5 rounded-2xl border flex flex-col gap-3 ${
+                  isLight ? "bg-emerald-50/70 border-emerald-200" : "bg-[#081512] border-emerald-500/40"
+                }`}>
+                  <div className="flex items-center justify-between border-b border-emerald-500/20 pb-2">
+                    <span className="text-xs font-black uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+                      <Shield className="w-4 h-4" /> 1. Contrôle de Légalité Externe
+                    </span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-950 text-emerald-300 border border-emerald-500/30">
+                      Compétence & Forme
+                    </span>
+                  </div>
+                  <div className="space-y-2 text-xs">
+                    {(statutResult as any).controleLegaliteExterne?.competenceSignataire && (
+                      <div className="flex items-start gap-2">
+                        <span className={(statutResult as any).controleLegaliteExterne.competenceSignataire.valide ? "text-emerald-400 font-bold" : "text-amber-400 font-bold"}>
+                          {(statutResult as any).controleLegaliteExterne.competenceSignataire.valide ? "✓" : "⚠️"}
+                        </span>
+                        <div>
+                          <strong className="block text-slate-900 dark:text-white">Compétence de l'autorité signataire :</strong>
+                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{(statutResult as any).controleLegaliteExterne.competenceSignataire.details}</span>
+                        </div>
+                      </div>
+                    )}
+                    {(statutResult as any).controleLegaliteExterne?.regulariteProcedure && (
+                      <div className="flex items-start gap-2">
+                        <span className={(statutResult as any).controleLegaliteExterne.regulariteProcedure.valide ? "text-emerald-400 font-bold" : "text-amber-400 font-bold"}>
+                          {(statutResult as any).controleLegaliteExterne.regulariteProcedure.valide ? "✓" : "⚠️"}
+                        </span>
+                        <div>
+                          <strong className="block text-slate-900 dark:text-white">Régularité de la procédure (DVE / Avis) :</strong>
+                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{(statutResult as any).controleLegaliteExterne.regulariteProcedure.details}</span>
+                        </div>
+                      </div>
+                    )}
+                    {(statutResult as any).controleLegaliteExterne?.clauseRecoursDelais && (
+                      <div className="flex items-start gap-2">
+                        <span className={(statutResult as any).controleLegaliteExterne.clauseRecoursDelais.valide ? "text-emerald-400 font-bold" : "text-amber-400 font-bold"}>
+                          {(statutResult as any).controleLegaliteExterne.clauseRecoursDelais.valide ? "✓" : "⚠️"}
+                        </span>
+                        <div>
+                          <strong className="block text-slate-900 dark:text-white">Clause des voies et délais de recours :</strong>
+                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{(statutResult as any).controleLegaliteExterne.clauseRecoursDelais.details}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* 2. Contrôle de Légalité Interne (Fond, Qualification, Plafonds) */}
+                <div className={`p-4.5 rounded-2xl border flex flex-col gap-3 ${
+                  isLight ? "bg-indigo-50/70 border-indigo-200" : "bg-[#0A1024] border-indigo-500/40"
+                }`}>
+                  <div className="flex items-center justify-between border-b border-indigo-500/20 pb-2">
+                    <span className="text-xs font-black uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
+                      <Scale className="w-4 h-4" /> 2. Contrôle de Légalité Interne
+                    </span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-950 text-indigo-300 border border-indigo-500/30">
+                      Fond & Qualification CGFP
+                    </span>
+                  </div>
+                  <div className="space-y-2 text-xs">
+                    {(statutResult as any).controleLegaliteInterne?.baseLegaleCGFP && (
+                      <div className="flex items-start gap-2">
+                        <span className="text-indigo-400 font-bold">✓</span>
+                        <div>
+                          <strong className="block text-slate-900 dark:text-white">Base légale statutaire ({ (statutResult as any).controleLegaliteInterne.baseLegaleCGFP.article }) :</strong>
+                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{(statutResult as any).controleLegaliteInterne.baseLegaleCGFP.details}</span>
+                        </div>
+                      </div>
+                    )}
+                    {(statutResult as any).controleLegaliteInterne?.dureeEtPlafonds && (
+                      <div className="flex items-start gap-2">
+                        <span className="text-indigo-400 font-bold">✓</span>
+                        <div>
+                          <strong className="block text-slate-900 dark:text-white">Durée et respect des plafonds d'engagement :</strong>
+                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{(statutResult as any).controleLegaliteInterne.dureeEtPlafonds.details}</span>
+                        </div>
+                      </div>
+                    )}
+                    {(statutResult as any).controleLegaliteInterne?.periodeEssai && (
+                      <div className="flex items-start gap-2">
+                        <span className="text-indigo-400 font-bold">✓</span>
+                        <div>
+                          <strong className="block text-slate-900 dark:text-white">Période d'essai & Décret 88-145 (Art. 4) :</strong>
+                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{(statutResult as any).controleLegaliteInterne.periodeEssai.details}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Adversarial Review & Pre-litigation Risks (Auto-critique / Regard Préfecture & TA) */}
+            {((statutResult as any).autoCritiqueAdversariale) && (
+              <div className={`p-4.5 rounded-2xl border flex flex-col gap-3 ${
+                isLight ? "bg-amber-50/70 border-amber-300" : "bg-[#1C1408] border-amber-500/40"
+              }`}>
+                <div className="flex items-center justify-between border-b border-amber-500/20 pb-2">
+                  <span className="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                    <Sparkles className="w-4 h-4" /> 3. Auto-Critique Adversariale & Risques Contentieux
+                  </span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-950 text-amber-300 border border-amber-500/30">
+                    Contrôle Préfectoral & TA
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                  <div>
+                    <strong className="block text-amber-300 mb-1">🏛️ Regard du Préfet (Contrôle de légalité) :</strong>
+                    <p className={isLight ? "text-slate-700" : "text-slate-300"}>
+                      {(statutResult as any).autoCritiqueAdversariale.regardPrefecture}
+                    </p>
+                  </div>
+                  <div>
+                    <strong className="block text-amber-300 mb-1">⚖️ Risque Contentieux Juge Administratif (TA Cergy) :</strong>
+                    <p className={isLight ? "text-slate-700" : "text-slate-300"}>
+                      {(statutResult as any).autoCritiqueAdversariale.regardJugeAdministratif}
+                    </p>
+                  </div>
+                </div>
+                {(statutResult as any).autoCritiqueAdversariale.recommandationsCorrectives?.length > 0 && (
+                  <div className="pt-2 border-t border-amber-500/20">
+                    <strong className="block text-amber-300 text-xs mb-1.5">📝 Recommandations d'amendements clause par clause :</strong>
+                    <ul className="space-y-1 text-xs">
+                      {(statutResult as any).autoCritiqueAdversariale.recommandationsCorrectives.map((rec: string, idx: number) => (
+                        <li key={idx} className="flex items-start gap-1.5 text-slate-300">
+                          <span className="text-amber-400 font-bold">•</span>
+                          <span>{rec}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Analysis Grid (Visas & Conformité) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className={`p-4 rounded-2xl border flex flex-col gap-2 ${
@@ -690,14 +850,16 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
               </div>
             </div>
 
-            {/* A4 High-Fidelity Preview */}
-            <div className="mt-2">
-              <OfficialDocumentPreview 
-                documentText={statutResult.sampleDocument || ""}
-                title={statutResult.title}
-                category={statutResult.category}
-              />
-            </div>
+            {/* A4 High-Fidelity Preview (Only if sampleDocument is present) */}
+            {statutResult.sampleDocument && (
+              <div className="mt-2">
+                <OfficialDocumentPreview 
+                  documentText={statutResult.sampleDocument}
+                  title={statutResult.title}
+                  category={statutResult.category}
+                />
+              </div>
+            )}
           </div>
         )}
 
