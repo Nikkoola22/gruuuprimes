@@ -1,11 +1,9 @@
 import React, { useState, useMemo, useEffect, useTransition } from "react";
 import {
-  Building2,
   Search,
   ExternalLink,
   LayoutGrid,
   Table as TableIcon,
-  Image as ImageIcon,
   Download,
   Flame,
   X,
@@ -18,11 +16,7 @@ import {
   Clock,
   ArrowLeft,
   ArrowUpRight,
-  Scale,
-  Compass,
-  Check,
-  FileText,
-  Newspaper
+  FileText
 } from "lucide-react";
 import initialNewsData from "../data/cdg-news.json";
 import initialInfographiesData from "../data/cdg-infographies.json";
@@ -178,9 +172,7 @@ interface VeilleCdgPageProps {
 
 export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
   onClose,
-  onNavigateToJuridique,
-  initialMode = "table",
-  theme
+  initialMode = "table"
 }) => {
   const [data, setData] = useState<CDGEntry[]>(initialNewsData as unknown as CDGEntry[]);
   const [infographies] = useState<InfographyItem[]>(initialInfographiesData as unknown as InfographyItem[]);
@@ -287,7 +279,7 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
   }, [filteredCDGs]);
 
   // Date dynamique d'indexation quotidienne
-  const [currentLastUpdated, setCurrentLastUpdated] = useState<Date>(() => {
+  const currentLastUpdated = useMemo<Date>(() => {
     try {
       const now = new Date();
       if (initialMetadata?.lastUpdated) {
@@ -300,7 +292,7 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
     } catch {
       return new Date();
     }
-  });
+  }, []);
 
   // Formatted last updated date
   const formattedLastUpdated = useMemo(() => {
