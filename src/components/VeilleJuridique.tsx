@@ -2,7 +2,8 @@ import React, { useState, useMemo, useRef } from "react";
 import confetti from "canvas-confetti";
 import { STATUTORY_HR_TOOLS, queryStatutoryEngine, StatutoryQueryResult } from "../services/legifrance";
 import { 
-  ArrowLeft, 
+  ArrowLeft,
+  ArrowRight, 
   Scale, 
   Search, 
   Gavel, 
@@ -896,7 +897,7 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewM
   const [viewMode, setViewMode] = useState<"fiches" | "quiz" | "statut">(initialViewMode);
 
   // State for Statutory HR Suite & Légifrance
-  const [selectedStatutTool, setSelectedStatutTool] = useState<string>("arretes");
+  const [selectedStatutTool] = useState<string>("arretes");
   const [statutInput, setStatutInput] = useState<string>("");
   const [statutResult, setStatutResult] = useState<StatutoryQueryResult | null>(null);
   const [isStatutLoading, setIsStatutLoading] = useState<boolean>(false);
