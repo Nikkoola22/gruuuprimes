@@ -492,10 +492,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center bg-white/90 dark:bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-700/60 shadow-xs">
-              <GennevilliersLogo className="h-6 w-auto text-[#0B3C5D]" variant="blue" />
-            </div>
+          <div className="flex items-center gap-2">
             <span className="text-xs px-3 py-1.5 rounded-xl bg-[#131C33] text-indigo-300 border border-indigo-500/30 font-medium">
               Intranet Connecté 🟢
             </span>
