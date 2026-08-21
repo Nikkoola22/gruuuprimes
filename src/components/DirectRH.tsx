@@ -254,12 +254,7 @@ const allCards: CardDef[] = [
   },
   {
     id: 24,
-    character: "Le Maire en visite",
-    characterEmoji: "🏅",
-    situation: "Le Maire visite votre service et remarque un agent qui consulte son téléphone. Il vous demande de sévir.",
-    choiceLeft: "Faire un rappel général devant toute l'équipe",
-    choiceRight: "Traiter le sujet en privé avec l'agent concerné",
-    effectLeft: { usagers: 0, qvt: -15, budget: 0, conformite: 5 },
+    character: "Le stagiaire de 3ème",
     characterEmoji: "🎒",
     situation: "Un stagiaire collégien arrive lundi. Aucun programme n'a été préparé et vos agents sont débordés.",
     choiceLeft: "Le mettre dans un coin avec de la documentation",
