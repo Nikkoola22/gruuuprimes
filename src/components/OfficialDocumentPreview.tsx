@@ -12,6 +12,7 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { exportToOfficialDocx, detectDocumentType } from '../utils/docxExport';
+import { GennevilliersLogo } from './GennevilliersLogo';
 
 interface OfficialDocumentPreviewProps {
   title: string;
@@ -93,9 +94,9 @@ export const OfficialDocumentPreview: React.FC<OfficialDocumentPreviewProps> = (
     <div className="mt-4 flex flex-col gap-3.5 min-w-0">
       {/* Action Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-2.5 p-3 sm:p-4 bg-slate-900 text-white rounded-2xl shadow-md">
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="p-1.5 bg-emerald-500/20 text-emerald-400 rounded-xl">
-            <Building2 className="w-4 h-4" />
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="p-2 bg-white rounded-xl shadow-xs shrink-0 flex items-center justify-center">
+            <GennevilliersLogo className="h-6 w-auto text-[#0B3C5D]" variant="blue" />
           </div>
           <div className="flex flex-col">
             <span className="text-xs font-black tracking-wide flex items-center gap-2">
@@ -193,20 +194,33 @@ export const OfficialDocumentPreview: React.FC<OfficialDocumentPreviewProps> = (
               </div>
             </div>
 
-            {/* HEADER OFFICIEL - CHARTE BUREAUTIQUE */}
-            <div className="relative border-b-2 border-[#0B3C5D] pb-5 mb-6 text-center">
-              <p className="text-[11px] font-black uppercase tracking-widest text-slate-500 mb-1">
-                RÉPUBLIQUE FRANÇAISE
-              </p>
-              <h1 className="text-xl sm:text-2xl font-black tracking-tight text-[#0B3C5D] uppercase">
-                VILLE DE GENNEVILLIERS
-              </h1>
-              <p className="text-[11px] font-bold text-[#4A6984] uppercase tracking-wider mt-1">
-                DIRECTION GÉNÉRALE DES SERVICES • DIRECTION DES RESSOURCES HUMAINES
-              </p>
-              <p className="text-[10px] text-slate-400 mt-0.5">
-                Hôtel de Ville • 177, avenue Gabriel-Péri, 92230 Gennevilliers
-              </p>
+            {/* HEADER OFFICIEL - CHARTE BUREAUTIQUE AVEC LOGO OFFICIEL */}
+            <div className="relative border-b-2 border-[#0B3C5D] pb-5 mb-6">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-3">
+                <div className="flex items-center">
+                  <GennevilliersLogo className="h-12 sm:h-14 w-auto text-[#0B3C5D]" variant="blue" />
+                </div>
+                <div className="text-center sm:text-right">
+                  <p className="text-[11px] font-black uppercase tracking-widest text-slate-500 mb-0.5">
+                    RÉPUBLIQUE FRANÇAISE
+                  </p>
+                  <p className="text-[12px] font-black text-[#0B3C5D] uppercase">
+                    DÉPARTEMENT DES HAUTS-DE-SEINE
+                  </p>
+                </div>
+              </div>
+
+              <div className="text-center pt-2 border-t border-slate-100">
+                <h1 className="text-xl sm:text-2xl font-black tracking-tight text-[#0B3C5D] uppercase">
+                  VILLE DE GENNEVILLIERS
+                </h1>
+                <p className="text-[11px] font-bold text-[#4A6984] uppercase tracking-wider mt-1">
+                  DIRECTION GÉNÉRALE DES SERVICES • DIRECTION DES RESSOURCES HUMAINES
+                </p>
+                <p className="text-[10px] text-slate-400 mt-0.5">
+                  Hôtel de Ville • 177, avenue Gabriel-Péri, 92230 Gennevilliers
+                </p>
+              </div>
             </div>
 
             {/* CONTENU OFFICIEL PARAGRAPHE PAR PARAGRAPHE */}
