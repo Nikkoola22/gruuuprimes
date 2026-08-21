@@ -203,9 +203,10 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
     const counts: Record<string, number> = {};
     for (const topic of TRENDING_TOPICS) {
       let count = 0;
-      for (const entry of data) {
+      for (const entry of (data || [])) {
+        if (!entry?.news || !Array.isArray(entry.news)) continue;
         for (const item of entry.news) {
-          const text = `${item.title} ${item.description || ""}`.toLowerCase();
+          const text = `${item?.title || ""} ${item?.description || ""}`.toLowerCase();
           if (topic.keywords.some((k) => text.includes(k.toLowerCase()))) {
             count++;
           }
@@ -222,16 +223,19 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
     const topicDef = activeTopic ? TRENDING_TOPICS.find((t) => t.key === activeTopic) : null;
 
     if (!query && !topicDef) {
-      return data;
+      return data || [];
     }
 
-    return data
+    return (data || [])
       .map((entry) => {
+        if (!entry) return null;
         const cdgMatches =
-          (query && ((entry.cdg?.toLowerCase() || "").includes(query) || (entry.dept?.toLowerCase() || "").includes(query))) || false;
+          (query && (((entry.cdg?.toLowerCase() || "").includes(query)) || ((entry.dept?.toLowerCase() || "").includes(query)))) || false;
 
-        const matchingNews = entry.news.filter((item) => {
-          const itemText = `${item.title} ${item.description || ""}`.toLowerCase();
+        const newsList = Array.isArray(entry.news) ? entry.news : [];
+        const matchingNews = newsList.filter((item) => {
+          if (!item) return false;
+          const itemText = `${item.title || ""} ${item.description || ""}`.toLowerCase();
           const matchesQuery = !query || cdgMatches || itemText.includes(query);
           const matchesTopic =
             !topicDef || topicDef.keywords.some((k) => itemText.includes(k.toLowerCase()));
@@ -256,26 +260,27 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
 
   // Filter infographies
   const filteredInfographies = useMemo(() => {
-    return infographies.filter((item) => {
+    return (infographies || []).filter((item) => {
+      if (!item) return false;
       const matchesCat = activeInfographyCat === "Tous" || item.category === activeInfographyCat;
       const query = searchQuery.trim().toLowerCase();
       const matchesQuery =
         !query ||
-        item.title.toLowerCase().includes(query) ||
-        item.source.toLowerCase().includes(query) ||
+        (item.title?.toLowerCase() || "").includes(query) ||
+        (item.source?.toLowerCase() || "").includes(query) ||
         (item.description && item.description.toLowerCase().includes(query));
       return matchesCat && matchesQuery;
     });
   }, [infographies, activeInfographyCat, searchQuery]);
 
   const infographyCategories = useMemo(() => {
-    const cats = new Set<string>(infographies.map((i) => i.category));
+    const cats = new Set<string>((infographies || []).map((i) => i.category).filter(Boolean));
     return ["Tous", ...Array.from(cats)];
   }, [infographies]);
 
   // Statistics
   const totalNewsCount = useMemo(() => {
-    return filteredCDGs.reduce((acc, curr) => acc + curr.news.length, 0);
+    return (filteredCDGs || []).reduce((acc, curr) => acc + (curr?.news?.length || 0), 0);
   }, [filteredCDGs]);
 
   // Date dynamique d'indexation quotidienne
