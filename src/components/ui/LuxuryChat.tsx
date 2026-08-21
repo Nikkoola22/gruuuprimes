@@ -128,14 +128,11 @@ export const LuxuryChat: React.FC<LuxuryChatProps> = ({
 
           <button
             onClick={onReturnToMenu}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 shrink-0 ${
-              isLight
-                ? 'bg-slate-200 hover:bg-slate-300 text-slate-800'
-                : 'bg-white/10 hover:bg-white/15 text-slate-200'
-            }`}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-sm hover:shadow-md hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0 cursor-pointer"
+            title="Retour au menu principal"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Fermer</span>
+            <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:-translate-x-1 transition-transform" />
+            <span>Retour</span>
           </button>
         </div>
 

@@ -511,9 +511,10 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
         <div className="w-full flex justify-between items-center mb-6 z-20 flex-wrap gap-3">
           <button
             onClick={onClose}
-            className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 rounded-full font-bold transition-all text-xs sm:text-sm shadow-md hover:scale-105 active:scale-95"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
           >
-            <ArrowLeft className="w-4 h-4 text-blue-400" /> Quitter
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            <span>Retour</span>
           </button>
 
           <div className="flex items-center gap-3">

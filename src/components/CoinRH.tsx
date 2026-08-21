@@ -112,14 +112,11 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
         <div className="flex items-center gap-3.5">
           <button
             onClick={onClose}
-            className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
-              isLight
-                ? "bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-700"
-                : "bg-[#151F38] hover:bg-[#1E2D52] border-slate-700 text-slate-200"
-            }`}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-sm hover:shadow-md hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0 cursor-pointer"
             title="Retour au menu principal"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:-translate-x-1 transition-transform" />
+            <span>Retour</span>
           </button>
           <div>
             <div className="flex items-center gap-2.5">

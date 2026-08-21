@@ -304,11 +304,13 @@ const MemoryRH: React.FC<MemoryRHProps> = ({ onClose }) => {
         {/* Top UI Bar */}
         <div className="w-full flex justify-between items-center px-4 sm:px-8 py-4 sm:py-6">
           
-          {/* Hamburger Menu (Retour) */}
-          <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-lg transition-colors cursor-pointer group">
-            <div className="w-8 h-1 bg-white mb-1.5 rounded-full group-hover:-translate-x-1 transition-transform" />
-            <div className="w-8 h-1 bg-white mb-1.5 rounded-full" />
-            <div className="w-8 h-1 bg-white rounded-full group-hover:translate-x-1 transition-transform" />
+          {/* Bouton Retour */}
+          <button
+            onClick={onClose}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
+          >
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            <span>Retour</span>
           </button>
 
           {/* Energy/Coups Bar */}

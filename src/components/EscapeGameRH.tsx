@@ -282,10 +282,11 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
           
           <button
             onClick={onClose}
-            className="p-3 bg-rose-500 hover:bg-rose-400 border-4 border-slate-900 text-white rounded-xl shadow-[4px_4px_0px_#000] active:shadow-none active:translate-y-1 active:translate-x-1 transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0"
             title="Quitter la mission"
           >
-            <LogOut className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            <span>Retour</span>
           </button>
         </div>
 

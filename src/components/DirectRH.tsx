@@ -557,10 +557,10 @@ const DirectRH: React.FC<DirectRHProps> = ({ onClose }) => {
 
         <button
           onClick={onClose}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm shadow-md hover:scale-105 active:scale-95 border border-white/30 backdrop-blur-md transition-all duration-200 absolute top-6 left-6 z-50"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0 absolute top-6 left-6 z-50 cursor-pointer"
         >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Quitter</span>
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <span>Retour</span>
         </button>
 
         <button onClick={() => setIsMuted(!isMuted)} className="absolute top-6 right-6 z-50 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/30 backdrop-blur-md transition-all hover:scale-105 active:scale-95">
