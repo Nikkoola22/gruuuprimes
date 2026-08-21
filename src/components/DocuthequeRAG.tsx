@@ -148,8 +148,8 @@ const THEME_HIGHLIGHT_CONFIGS: ThemeHighlightConfig[] = [
     badge: "Régimes & Surcote Statutaire",
     title: "Modalités du Temps Partiel & Rémunération Surcotée — Gennevilliers",
     subtitle: "Temps partiel de droit pour enfant/proche et sur autorisation pour convenances",
-    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail/temps_partiel/formulaire_temps_partiel_de_droit_2018.pdf",
-    downloadLabel: "Générer le Formulaire Officiel (.DOCX)",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail_conges_absences/reglement_temps_de_travail/formulaire_temps_partiel_de_droit_2018.pdf",
+    downloadLabel: "Formulaire Officiel (.PDF)",
     features: [
       { icon: "👶", title: "De Droit (Enfant)", subtitle: "Jusqu'aux 3 ans de l'enfant" },
       { icon: "✍️", title: "Sur Autorisation", subtitle: "Quotités de 50% à 90%" },
@@ -402,29 +402,6 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
         ragEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 50);
-  };
-
-  // Téléchargement sécurisé ou génération d'actes officiels
-  const handleDocumentDownload = async (doc: { id?: string; url?: string; title?: string; type?: string }) => {
-    const id = (doc.id || '').toLowerCase();
-    const title = (doc.title || '').toLowerCase();
-
-    if (id.includes('temps-partiel-de-droit') || (title.includes('temps partiel') && title.includes('droit'))) {
-      await exportTempsPartielFormDocx('de_droit');
-      return;
-    }
-    if (id.includes('temps-partiel-autorisation') || (title.includes('temps partiel') && (title.includes('autorisation') || title.includes('convenance')))) {
-      await exportTempsPartielFormDocx('autorisation');
-      return;
-    }
-    if (id.includes('temps-partiel') || title.includes('temps partiel')) {
-      await exportTempsPartielFormDocx('de_droit');
-      return;
-    }
-
-    if (doc.url) {
-      window.open(doc.url, '_blank', 'noopener,noreferrer');
-    }
   };
 
   // Liste filtrée pour le mode explorateur par catégorie
@@ -708,20 +685,15 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                     </div>
 
                     {currentHighlight.downloadUrl && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (currentHighlight.id === 'temps-partiel') {
-                            exportTempsPartielFormDocx('de_droit');
-                          } else if (currentHighlight.downloadUrl) {
-                            window.open(currentHighlight.downloadUrl, '_blank', 'noopener,noreferrer');
-                          }
-                        }}
+                      <a
+                        href={currentHighlight.downloadUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-all shadow-md shadow-blue-600/30 shrink-0 self-start sm:self-auto cursor-pointer"
                       >
                         <Download className="w-3.5 h-3.5" />
-                        <span>{currentHighlight.downloadLabel || "Document Officiel"}</span>
-                      </button>
+                        <span>{currentHighlight.downloadLabel || "Document Officiel (.PDF)"}</span>
+                      </a>
                     )}
                   </div>
 
@@ -908,14 +880,28 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                           <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {doc.date}</span>
                         </div>
 
-                        <button
-                          type="button"
-                          onClick={() => handleDocumentDownload(doc)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-all shadow-md shadow-blue-600/20 cursor-pointer"
-                        >
-                          <Download className="w-3.5 h-3.5" />
-                          <span>{doc.id.includes('temps-partiel') ? 'Générer .DOCX' : 'Télécharger'}</span>
-                        </button>
+                        <div className="flex items-center gap-2">
+                          {doc.id.includes('temps-partiel') && (
+                            <button
+                              type="button"
+                              onClick={() => exportTempsPartielFormDocx(doc.id.includes('autorisation') ? 'autorisation' : 'de_droit')}
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 border border-indigo-500/30 font-medium transition-all cursor-pointer text-xs"
+                              title="Télécharger la version Word modifiable (.docx)"
+                            >
+                              <FileText className="w-3.5 h-3.5" />
+                              <span>.DOCX</span>
+                            </button>
+                          )}
+                          <a
+                            href={doc.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-all shadow-md shadow-blue-600/20 cursor-pointer"
+                          >
+                            <Download className="w-3.5 h-3.5" />
+                            <span>Télécharger (.PDF)</span>
+                          </a>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -1003,14 +989,28 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
 
                 <div className="pt-3 mt-3 border-t border-slate-800/40 flex items-center justify-between text-[11px]">
                   <span className="text-slate-500">{doc.date}</span>
-                  <button
-                    type="button"
-                    onClick={() => handleDocumentDownload(doc)}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white font-medium transition-all cursor-pointer"
-                  >
-                    <Download className="w-3 h-3" />
-                    <span>{doc.id.includes('temps-partiel') ? 'Générer .DOCX' : 'Télécharger'}</span>
-                  </button>
+                  <div className="flex items-center gap-1">
+                    {doc.id.includes('temps-partiel') && (
+                      <button
+                        type="button"
+                        onClick={() => exportTempsPartielFormDocx(doc.id.includes('autorisation') ? 'autorisation' : 'de_droit')}
+                        className="inline-flex items-center gap-0.5 px-2 py-1 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 border border-indigo-500/30 font-medium transition-all cursor-pointer text-[10px]"
+                        title="Télécharger la version Word modifiable (.docx)"
+                      >
+                        <FileText className="w-2.5 h-2.5" />
+                        <span>DOCX</span>
+                      </button>
+                    )}
+                    <a
+                      href={doc.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white font-medium transition-all cursor-pointer text-[11px]"
+                    >
+                      <Download className="w-3 h-3" />
+                      <span>Télécharger</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             ))}
