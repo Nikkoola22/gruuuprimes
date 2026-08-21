@@ -206,16 +206,6 @@ function App() {
     localStorage.setItem('theme', theme)
   }, [theme])
 
-  // --- WELCOME TOAST EFFECT ---
-  useEffect(() => {
-    if (!showLanding) {
-      toast.success("Bienvenue sur ATLAS !", {
-        description: "Votre assistant statutaire et calculateur de primes.",
-        duration: 4000,
-      })
-    }
-  }, [showLanding])
-
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light')
   }
