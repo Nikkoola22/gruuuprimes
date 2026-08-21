@@ -113,6 +113,229 @@ const THEMED_SUGGESTIONS = [
   { theme: "Discipline", icon: "⚠️", label: "Mise en demeure abandon de poste", query: "Mise en demeure pour abandon de poste et radiation" }
 ];
 
+interface ThemeHighlightConfig {
+  id: string;
+  matches: string[];
+  icon: string;
+  badge: string;
+  title: string;
+  subtitle: string;
+  downloadUrl?: string;
+  downloadLabel?: string;
+  features: Array<{ icon: string; title: string; subtitle: string }>;
+}
+
+const THEME_HIGHLIGHT_CONFIGS: ThemeHighlightConfig[] = [
+  {
+    id: "teletravail",
+    matches: ["teletravail", "télétravail", "ordinateur portable", "kit teletravail"],
+    icon: "💻",
+    badge: "Dispositif Municipal & Matériel 2026",
+    title: "Pack Matériel DSI & Dotation Informatique — Ville de Gennevilliers",
+    subtitle: "Matériel professionnel configuré et sécurisé pour l'exercice de vos missions à domicile",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/teletravail/fiche_de_demande_et_renouvellement_de_teletravail_et_materiel_2026.pdf",
+    downloadLabel: "Formulaire Officiel 2026 (.PDF)",
+    features: [
+      { icon: "💻", title: "PC Portable DSI", subtitle: "VPN & Accès distant Mairie" },
+      { icon: "🖥️", title: "Écran 24\" HD", subtitle: "Double affichage bureautique" },
+      { icon: "⌨️", title: "Kit Périphériques", subtitle: "Clavier & Souris sans fil" },
+      { icon: "🎒", title: "Pack Mobilité", subtitle: "Sacoche renforcée & Câblage" }
+    ]
+  },
+  {
+    id: "temps-partiel",
+    matches: ["temps partiel", "quotite", "80", "50", "90", "mi temps"],
+    icon: "⏱️",
+    badge: "Régimes & Surcote Statutaire",
+    title: "Modalités du Temps Partiel & Rémunération Surcotée — Gennevilliers",
+    subtitle: "Temps partiel de droit pour enfant/proche et sur autorisation pour convenances",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail/temps_partiel/formulaire_temps_partiel_de_droit_2018.pdf",
+    downloadLabel: "Formulaire Temps Partiel (.PDF)",
+    features: [
+      { icon: "👶", title: "De Droit (Enfant)", subtitle: "Jusqu'aux 3 ans de l'enfant" },
+      { icon: "✍️", title: "Sur Autorisation", subtitle: "Quotités de 50% à 90%" },
+      { icon: "💰", title: "Rémunéré 85,7%", subtitle: "Surcote avantageuse pour le 80%" },
+      { icon: "📅", title: "Préavis 2 Mois", subtitle: "Délai d'instruction hiérarchique" }
+    ]
+  },
+  {
+    id: "accident-citis",
+    matches: ["accident", "citis", "trajet", "service", "blesse", "chute"],
+    icon: "🩺",
+    badge: "Protocole d'Urgence CITIS",
+    title: "Déclaration d'Accident de Service ou Trajet & Prise en Charge 100%",
+    subtitle: "Procédure statutaire d'instruction sous 48h et couverture intégrale des frais médicaux",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/sante_et_inaptitude/procedure_de_declaration_d_accident_de_travail_ou_de_trajet.pdf",
+    downloadLabel: "Protocole & Attestation (.PDF)",
+    features: [
+      { icon: "⏱️", title: "Délai Strict 48h", subtitle: "Transmission obligatoire à la DRH" },
+      { icon: "📋", title: "2 Formulaires", subtitle: "Attestation victime + Rapport manager" },
+      { icon: "🏥", title: "100% Sans Carence", subtitle: "Prise en charge intégrale des soins" },
+      { icon: "🩺", title: "Certificat Médical", subtitle: "Volets 1 & 2 du médecin traitant" }
+    ]
+  },
+  {
+    id: "mobilite-velo",
+    matches: ["forfait velo", "mobilite durable", "covoiturage", "trottinette", "transport vert"],
+    icon: "🚲",
+    badge: "Dispositif Mobilités Vertes",
+    title: "Forfait Mobilités Durables (Vélo & Covoiturage) — Gennevilliers",
+    subtitle: "Indemnisation annuelle pour l'utilisation de modes de déplacement écologiques",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/remuneration/forfait_mobilites_durables/formulaire_forfait_mobilites_durables.pdf",
+    downloadLabel: "Formulaire Mobilités (.PDF)",
+    features: [
+      { icon: "🚲", title: "Modes Éligibles", subtitle: "Vélo mécanique, VAE, Trottinette" },
+      { icon: "💶", title: "Jusqu'à 300 € / an", subtitle: "Net d'impôt et exonéré de charges" },
+      { icon: "🚆", title: "Cumul Navigo", subtitle: "Compatible prise en charge 75%" },
+      { icon: "📋", title: "Minimum 30 Jours", subtitle: "Attestation annuelle sur l'honneur" }
+    ]
+  },
+  {
+    id: "rifseep",
+    matches: ["rifseep", "ifse", "cotation", "regime indemnitaire", "prime ifse"],
+    icon: "💰",
+    badge: "Socle Indemnitaire Municipal",
+    title: "Régime RIFSEEP (IFSE & CIA) — Cotation des Postes & Barème",
+    subtitle: "Part fixe mensuelle selon les groupes de fonctions et complément variable annuel",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/remuneration/guide_attribution_rifseep_cotation_ifse_cia.pdf",
+    downloadLabel: "Guide & Barème RIFSEEP (.PDF)",
+    features: [
+      { icon: "🏛️", title: "IFSE Part Fixe", subtitle: "Cotation selon responsabilité & sujétions" },
+      { icon: "📈", title: "Réexamen 4 Ans", subtitle: "Revalorisation statutaire obligatoire" },
+      { icon: "🏆", title: "Complément CIA", subtitle: "Valorisation de l'engagement (CREP)" },
+      { icon: "⚠️", title: "Distinction SFT", subtitle: "Prestation familiale séparée" }
+    ]
+  },
+  {
+    id: "crep",
+    matches: ["crep", "entretien professionnel", "evaluation", "notation", "recours crep"],
+    icon: "📋",
+    badge: "Campagne Annuelle CREP 2025",
+    title: "Entretien Professionnel Annuel (CREP 2025) — Ville de Gennevilliers",
+    subtitle: "Bilan des résultats, fixation des objectifs annuels et recueil des besoins de formation",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/crep/modele_crep_2025.pdf",
+    downloadLabel: "Modèle Officiel CREP (.PDF)",
+    features: [
+      { icon: "📅", title: "Convocation 8 Jours", subtitle: "Délai légal préalable obligatoire" },
+      { icon: "📝", title: "Grille Officielle", subtitle: "Évaluation critères et fixation cibles" },
+      { icon: "🎓", title: "Volet Formation", subtitle: "Besoins prioritaires & souhaits CPF" },
+      { icon: "⚖️", title: "Recours & Révision", subtitle: "Saisine autorité territoriale & CAP" }
+    ]
+  },
+  {
+    id: "cet",
+    matches: ["cet", "compte epargne temps", "monetiser cet", "epargne temps"],
+    icon: "🏖️",
+    badge: "Gestion & Monétisation CET",
+    title: "Compte Épargne Temps (CET) — Capitalisation & Indemnisation",
+    subtitle: "Épargne annuelle des congés et RTT non pris au 31 décembre et options de sortie",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail/cet/formulaire_ouverture_alimentation_cet.pdf",
+    downloadLabel: "Formulaire Ouverture CET (.PDF)",
+    features: [
+      { icon: "📥", title: "Campagne au 31/12", subtitle: "Alimentation annuelle congés & RTT" },
+      { icon: "🏖️", title: "Prise en Congés", subtitle: "Utilisable dès le 1er jour épargné" },
+      { icon: "💶", title: "Monétisation (€)", subtitle: "Indemnisation financière au-delà de 15 j" },
+      { icon: "📊", title: "Plafond 60 Jours", subtitle: "Option de transfert retraite RAFP" }
+    ]
+  },
+  {
+    id: "conges-bonifies",
+    matches: ["conges bonifies", "cimm", "outre mer", "dom tom", "guadeloupe", "martinique", "reunion"],
+    icon: "✈️",
+    badge: "Dispositif Outre-Mer (CIMM)",
+    title: "Congés Bonifiés — Prise en Charge Transport & Majoration de Séjour",
+    subtitle: "Dossier statutaire pour les agents originaires des départements d'Outre-mer",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail/conges_bonifies/dossier_conges_bonifies_formulaire.pdf",
+    downloadLabel: "Dossier Congés Bonifiés (.PDF)",
+    features: [
+      { icon: "✈️", title: "Billets Avion 100%", subtitle: "Prise en charge trajet aller-retour" },
+      { icon: "🏝️", title: "31 Jours Maximaux", subtitle: "Périodicité tous les 2 ans" },
+      { icon: "📂", title: "Dossier CIMM", subtitle: "Justificatifs intérêts matériels & moraux" },
+      { icon: "👨‍👩‍👧", title: "Ayants Droit", subtitle: "Conjoint & enfants à charge inclus" }
+    ]
+  },
+  {
+    id: "enfant-malade",
+    matches: ["enfant malade", "garde enfant", "presence parentale", "soigner enfant"],
+    icon: "👶",
+    badge: "Autorisations d'Absence Rémunérées",
+    title: "Absences Garde d'Enfant Malade & Congé de Présence Parentale",
+    subtitle: "Dispositifs pour concilier vie professionnelle et obligations parentales de santé",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/temps_de_travail/absences/formulaire_absence_garde_enfant_malade.pdf",
+    downloadLabel: "Formulaire Garde d'Enfant (.PDF)",
+    features: [
+      { icon: "👶", title: "6 à 12 Jours / an", subtitle: "Selon la composition du foyer" },
+      { icon: "🩺", title: "Certificat Médical", subtitle: "Sous 48h à la DRH pour maintien de paie" },
+      { icon: "🏥", title: "Présence Parentale", subtitle: "En cas d'affection ou handicap lourd" },
+      { icon: "⏳", title: "Temps Partiel Droit", subtitle: "Passage 80% ou 50% jusqu'aux 3 ans" }
+    ]
+  },
+  {
+    id: "mobilite-depart",
+    matches: ["demission", "mutation", "mobilite", "quitter la mairie", "partir", "disponibilite"],
+    icon: "🏛️",
+    badge: "Mobilité Externe & Départs",
+    title: "Mutation Externe, Disponibilité & Démission — Ville de Gennevilliers",
+    subtitle: "Démarches statutaires pour changer d'administration ou suspendre son activité",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/recrutement/demande_de_mutation_externe.pdf",
+    downloadLabel: "Demande de Mutation (.PDF)",
+    features: [
+      { icon: "🏛️", title: "Mutation Externe", subtitle: "Préavis légal de 3 mois" },
+      { icon: "🚪", title: "Démission Écrite", subtitle: "Accord formel de l'autorité territoriale" },
+      { icon: "⏸️", title: "Disponibilité", subtitle: "Suspension temporaire sans perte de grade" },
+      { icon: "📑", title: "Détachement", subtitle: "Accueil temporaire dans autre corps" }
+    ]
+  },
+  {
+    id: "formation",
+    matches: ["formation", "cpf", "cnfpt", "competences", "vae", "bilan"],
+    icon: "🎓",
+    badge: "Développement des Compétences",
+    title: "Plan de Formation, Compte CPF & Évolution Professionnelle",
+    subtitle: "Accompagnement, formations CNFPT et préparation aux concours de la FPT",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/formation/reglement_interieur_de_formation_juin_2025.pdf",
+    downloadLabel: "Règlement Formation (.PDF)",
+    features: [
+      { icon: "🎓", title: "Compte CPF", subtitle: "Heures créditées pour vos projets" },
+      { icon: "🏛️", title: "Catalogue CNFPT", subtitle: "Formations statutaires sans frais" },
+      { icon: "📜", title: "Dispositif VAE", subtitle: "Validation des acquis de l'expérience" },
+      { icon: "💶", title: "Prise en Charge", subtitle: "Maintien de traitement et frais de stage" }
+    ]
+  },
+  {
+    id: "discipline",
+    matches: ["discipline", "sanction", "blame", "avertissement", "suspension", "faute"],
+    icon: "⚖️",
+    badge: "Garanties Disciplinaires CGFP",
+    title: "Procédure Disciplinaire & Droits de la Défense — Statut CGFP",
+    subtitle: "Règles contradictoires, consultation du dossier et échelle des sanctions",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/discipline/procedure_disciplinaire_2024.pdf",
+    downloadLabel: "Guide Procédure (.PDF)",
+    features: [
+      { icon: "🛡️", title: "Droits Défense", subtitle: "Consultation intégrale du dossier individuel" },
+      { icon: "⚖️", title: "4 Groupes Sanctions", subtitle: "De l'avertissement à la révocation" },
+      { icon: "🏛️", title: "Conseil Discipline", subtitle: "Instance paritaire obligatoire (Gr. 2 à 4)" },
+      { icon: "🛑", title: "Suspension Conservatoire", subtitle: "Max 4 mois avec maintien de traitement" }
+    ]
+  },
+  {
+    id: "marches-publics",
+    matches: ["marche", "marches publics", "commande publique", "attri1", "ordre de service"],
+    icon: "🏗️",
+    badge: "Commande Publique Municipale",
+    title: "Marchés Publics & Actes d'Engagement — Ville de Gennevilliers",
+    subtitle: "Modèles officiels ATTRI1, ordres de service et décisions de signature",
+    downloadUrl: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/marches_publics/attri1_acte_d_engagement_marche_public.pdf",
+    downloadLabel: "Formulaire ATTRI1 (.PDF)",
+    features: [
+      { icon: "📑", title: "Acte Engagement", subtitle: "Formulaire réglementaire ATTRI1" },
+      { icon: "✍️", title: "Décision du Maire", subtitle: "Délégation de signature marchés" },
+      { icon: "🚧", title: "Ordres de Service", subtitle: "Notification démarrage travaux / OS" },
+      { icon: "⚖️", title: "Code Commande Publique", subtitle: "Conformité seuils et procédures" }
+    ]
+  }
+];
+
 export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
   onBack,
   initialQuery = "",
@@ -126,6 +349,16 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
   const [ragResult, setRagResult] = useState<RAGSearchResult | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
   const [expandedBipFicheId, setExpandedBipFicheId] = useState<string | null>(null);
+
+  // Détection du thème pour carte héro enrichie
+  const currentHighlight = useMemo(() => {
+    if (!ragResult) return null;
+    const cat = (ragResult.categoryHighlighted || '').toLowerCase();
+    const q = (ragResult.query || '').toLowerCase();
+    return THEME_HIGHLIGHT_CONFIGS.find(cfg =>
+      cfg.matches.some(m => cat.includes(m) || q.includes(m))
+    );
+  }, [ragResult]);
 
   // Scroll en haut de page à l'ouverture du composant
   useEffect(() => {
@@ -425,67 +658,61 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                 </div>
               )}
 
-              {/* Highlight Spécial Télétravail & Matériel DSI */}
-              {(ragResult.categoryHighlighted?.toLowerCase().includes("télétravail") || ragResult.categoryHighlighted?.toLowerCase().includes("teletravail") || ragResult.query.toLowerCase().includes("teletravail")) && (
+              {/* Carte Hero & Dotation Dynamique pour Tous les Modèles et Thématiques RH */}
+              {currentHighlight && (
                 <div className={`mt-5 p-5 rounded-2xl border ${
                   isLight
-                    ? 'bg-gradient-to-r from-blue-50/90 to-indigo-50/90 border-blue-200 shadow-sm'
+                    ? 'bg-gradient-to-r from-blue-50/90 via-indigo-50/70 to-purple-50/80 border-blue-200 shadow-sm'
                     : 'bg-gradient-to-r from-blue-950/30 via-indigo-950/20 to-slate-900/60 border-blue-500/40 shadow-md'
                 }`}>
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-blue-500/20">
                     <div className="flex items-center gap-2.5">
-                      <div className="p-2 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                        <Laptop className="w-5 h-5" />
+                      <div className="p-2.5 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-500/30 text-xl shrink-0 flex items-center justify-center">
+                        {currentHighlight.icon}
                       </div>
                       <div>
-                        <h4 className="text-sm sm:text-base font-bold text-blue-400">
-                          Pack Matériel DSI & Dotation Informatique — Ville de Gennevilliers
-                        </h4>
-                        <p className={`text-xs ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>
-                          Matériel professionnel configuré et sécurisé pour l'exercice de vos missions à domicile
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h4 className="text-sm sm:text-base font-bold text-blue-400">
+                            {currentHighlight.title}
+                          </h4>
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 uppercase tracking-wide">
+                            {currentHighlight.badge}
+                          </span>
+                        </div>
+                        <p className={`text-xs mt-0.5 ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>
+                          {currentHighlight.subtitle}
                         </p>
                       </div>
                     </div>
-                    <a
-                      href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/teletravail/fiche_de_demande_et_renouvellement_de_teletravail_et_materiel_2026.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-all shadow-md shadow-blue-600/30 shrink-0 self-start sm:self-auto"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                      <span>Formulaire Officiel 2026 (.PDF)</span>
-                    </a>
+
+                    {currentHighlight.downloadUrl && (
+                      <a
+                        href={currentHighlight.downloadUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-all shadow-md shadow-blue-600/30 shrink-0 self-start sm:self-auto"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        <span>{currentHighlight.downloadLabel || "Document Officiel (.PDF)"}</span>
+                      </a>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-3.5">
-                    <div className={`p-3 rounded-xl border flex items-center gap-2.5 ${isLight ? 'bg-white/90 border-blue-200' : 'bg-slate-900/60 border-slate-800'}`}>
-                      <span className="text-xl">💻</span>
-                      <div className="min-w-0">
-                        <p className="text-xs font-bold truncate">PC Portable DSI</p>
-                        <p className="text-[10px] text-slate-400">VPN & Accès Mairie</p>
+                    {currentHighlight.features.map((feat, idx) => (
+                      <div
+                        key={idx}
+                        className={`p-3 rounded-xl border flex items-center gap-2.5 ${
+                          isLight ? 'bg-white/90 border-blue-200 shadow-2xs' : 'bg-slate-900/60 border-slate-800'
+                        }`}
+                      >
+                        <span className="text-xl shrink-0">{feat.icon}</span>
+                        <div className="min-w-0">
+                          <p className="text-xs font-bold truncate text-slate-900 dark:text-slate-100">{feat.title}</p>
+                          <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">{feat.subtitle}</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className={`p-3 rounded-xl border flex items-center gap-2.5 ${isLight ? 'bg-white/90 border-blue-200' : 'bg-slate-900/60 border-slate-800'}`}>
-                      <span className="text-xl">🖥️</span>
-                      <div className="min-w-0">
-                        <p className="text-xs font-bold truncate">Écran 24" HD</p>
-                        <p className="text-[10px] text-slate-400">Double affichage</p>
-                      </div>
-                    </div>
-                    <div className={`p-3 rounded-xl border flex items-center gap-2.5 ${isLight ? 'bg-white/90 border-blue-200' : 'bg-slate-900/60 border-slate-800'}`}>
-                      <span className="text-xl">⌨️</span>
-                      <div className="min-w-0">
-                        <p className="text-xs font-bold truncate">Périphériques</p>
-                        <p className="text-[10px] text-slate-400">Clavier & Souris sans fil</p>
-                      </div>
-                    </div>
-                    <div className={`p-3 rounded-xl border flex items-center gap-2.5 ${isLight ? 'bg-white/90 border-blue-200' : 'bg-slate-900/60 border-slate-800'}`}>
-                      <span className="text-xl">🎒</span>
-                      <div className="min-w-0">
-                        <p className="text-xs font-bold truncate">Pack Mobilité</p>
-                        <p className="text-[10px] text-slate-400">Sacoche & Câblage</p>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               )}
