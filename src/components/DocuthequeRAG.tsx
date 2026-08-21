@@ -457,14 +457,14 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
   };
 
   return (
-    <div className={`min-h-screen pb-20 transition-colors duration-300 ${
-      isLight ? 'bg-slate-100 text-slate-900' : 'bg-[#080C16] text-slate-100'
+    <div className={`w-full min-h-screen pb-20 relative z-20 transition-colors duration-300 ${
+      isLight ? 'bg-slate-100 text-slate-900' : 'bg-[#060913] text-slate-100'
     }`}>
       {/* Header Bar */}
       <div className={`sticky top-0 z-40 border-b transition-colors ${
         isLight
           ? 'bg-white border-slate-200 shadow-sm'
-          : 'bg-[#0B1120] border-slate-800 shadow-lg shadow-black/40'
+          : 'bg-[#0A0F1D] border-slate-800 shadow-lg shadow-black/50'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -473,7 +473,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
               className={`p-2.5 rounded-xl transition-all cursor-pointer ${
                 isLight
                   ? 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-                  : 'bg-slate-800 hover:bg-slate-700 text-slate-200'
+                  : 'bg-[#151F38] hover:bg-[#1C2B4E] text-slate-200'
               }`}
               title="Retour au menu principal"
             >
@@ -495,7 +495,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-xs px-3 py-1.5 rounded-xl bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 font-medium">
+            <span className="text-xs px-3 py-1.5 rounded-xl bg-[#131C33] text-indigo-300 border border-indigo-500/30 font-medium">
               Intranet Connecté 🟢
             </span>
           </div>
@@ -507,10 +507,10 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
         <div className={`rounded-3xl p-6 sm:p-8 border shadow-xl relative overflow-hidden ${
           isLight
             ? 'bg-white border-slate-200 shadow-slate-200/50'
-            : 'bg-[#0F172A] border-slate-800 shadow-2xl shadow-black/80'
+            : 'bg-[#0E1526] border-slate-800 shadow-2xl shadow-black/80'
         }`}>
           <div className="relative z-10 max-w-3xl mx-auto text-center space-y-4 mb-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold bg-blue-500/15 text-blue-300 border border-blue-500/30">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold bg-[#14203D] text-blue-300 border border-blue-500/40">
               <Sparkles className="w-3.5 h-3.5 text-blue-400 animate-pulse" />
               Recherche Statutaire & RAG Intelligent
             </div>
@@ -527,7 +527,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
             <div className={`flex items-center rounded-2xl border p-2 shadow-inner transition-all ${
               isLight
                 ? 'bg-slate-50 border-slate-300 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/10'
-                : 'bg-[#090D18] border-slate-700 focus-within:border-blue-400 focus-within:ring-4 focus-within:ring-blue-500/20'
+                : 'bg-[#060913] border-slate-700 focus-within:border-blue-400 focus-within:ring-4 focus-within:ring-blue-500/20'
             }`}>
               <Search className="w-5 h-5 ml-3 text-slate-400 shrink-0" />
               <input
@@ -572,7 +572,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                         ? 'bg-blue-600 text-white border-blue-500 shadow-sm'
                         : isLight
                         ? 'bg-slate-100 hover:bg-slate-200 text-slate-600 border-slate-200'
-                        : 'bg-[#131E36] hover:bg-[#1B2949] text-slate-300 border-slate-700'
+                        : 'bg-[#151F38] hover:bg-[#1E2D52] text-slate-300 border-slate-700'
                     }`}
                   >
                     {t.label}
@@ -593,7 +593,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                     className={`group text-left text-xs p-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-2 hover:-translate-y-0.5 ${
                       isLight
                         ? 'bg-white hover:bg-blue-50 text-slate-700 border-slate-200 hover:border-blue-300 hover:shadow-sm'
-                        : 'bg-[#131E36] hover:bg-[#1B2949] text-slate-100 border-slate-700 hover:border-blue-500/50 hover:shadow-md'
+                        : 'bg-[#151F38] hover:bg-[#1E2D52] text-slate-100 border-slate-700 hover:border-blue-500/50 hover:shadow-md'
                     }`}
                   >
                     <div className="flex items-center gap-2 min-w-0">
@@ -616,10 +616,10 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
             <div className={`rounded-3xl p-6 sm:p-8 border shadow-xl ${
               isLight
                 ? 'bg-white border-blue-200 shadow-blue-500/5'
-                : 'bg-[#0F172A] border-blue-500/40 shadow-xl shadow-black/60'
+                : 'bg-[#0E1526] border-blue-500/40 shadow-2xl shadow-black/80'
             }`}>
               <div className="flex items-start gap-4 mb-4">
-                <div className="p-3 rounded-2xl bg-blue-500/20 text-blue-400 border border-blue-500/30 shrink-0">
+                <div className="p-3 rounded-2xl bg-[#14203D] text-blue-400 border border-blue-500/40 shrink-0">
                   <Bot className="w-6 h-6" />
                 </div>
                 <div className="flex-1">
@@ -627,7 +627,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                     <h2 className="text-xl sm:text-2xl font-bold text-blue-400">
                       {ragResult.categoryHighlighted || "Synthèse & Documents Officiels"}
                     </h2>
-                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-medium flex items-center gap-1">
+                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500/40 font-semibold flex items-center gap-1">
                       <CheckCircle2 className="w-3 h-3" /> Conforme Statut Gennevilliers
                     </span>
                   </div>
@@ -642,7 +642,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
               {/* Points Clés Statutaires */}
               {ragResult.keyPoints && ragResult.keyPoints.length > 0 && (
                 <div className={`mt-5 p-4 sm:p-5 rounded-2xl border space-y-2.5 ${
-                  isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#090D18] border-slate-800'
+                  isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#060913] border-slate-800'
                 }`}>
                   <p className="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
                     <Layers className="w-3.5 h-3.5" /> Règles & Démarches à retenir :
@@ -661,12 +661,12 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
               {currentHighlight && (
                 <div className={`mt-5 p-5 rounded-2xl border ${
                   isLight
-                    ? 'bg-gradient-to-r from-blue-50/90 via-indigo-50/70 to-purple-50/80 border-blue-200 shadow-sm'
-                    : 'bg-[#131C33] border-blue-500/40 shadow-lg'
+                    ? 'bg-blue-50 border-blue-200 shadow-sm'
+                    : 'bg-[#11192E] border-blue-500/40 shadow-lg'
                 }`}>
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-blue-500/20">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-blue-500/30">
                     <div className="flex items-center gap-2.5">
-                      <div className="p-2.5 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-500/30 text-xl shrink-0 flex items-center justify-center">
+                      <div className="p-2.5 rounded-xl bg-[#14203D] text-blue-400 border border-blue-500/40 text-xl shrink-0 flex items-center justify-center">
                         {currentHighlight.icon}
                       </div>
                       <div>
@@ -674,7 +674,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                           <h4 className="text-sm sm:text-base font-bold text-blue-400">
                             {currentHighlight.title}
                           </h4>
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 uppercase tracking-wide">
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#18264A] text-blue-300 border border-blue-500/40 uppercase tracking-wide">
                             {currentHighlight.badge}
                           </span>
                         </div>
@@ -702,7 +702,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                       <div
                         key={idx}
                         className={`p-3 rounded-xl border flex items-center gap-2.5 ${
-                          isLight ? 'bg-white/90 border-blue-200 shadow-2xs' : 'bg-slate-900/60 border-slate-800'
+                          isLight ? 'bg-white border-blue-200 shadow-2xs' : 'bg-[#080D1A] border-slate-800'
                         }`}
                       >
                         <span className="text-xl shrink-0">{feat.icon}</span>
@@ -718,7 +718,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
 
               {/* Suggestions / Rebondissements Rapides */}
               {ragResult.suggestedFollowUps && ragResult.suggestedFollowUps.length > 0 && (
-                <div className="mt-4 pt-4 border-t border-slate-800/40 flex flex-wrap items-center gap-2">
+                <div className="mt-4 pt-4 border-t border-slate-800/60 flex flex-wrap items-center gap-2">
                   <span className="text-xs font-bold text-slate-400 flex items-center gap-1">
                     <Sparkles className="w-3.5 h-3.5 text-amber-400" /> Actions & Rebondissements :
                   </span>
@@ -740,10 +740,10 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                         }}
                         className={`text-xs font-semibold px-3 py-1.5 rounded-xl border transition-all cursor-pointer flex items-center gap-1.5 ${
                           isCalcPrimes || isCalcCia
-                            ? 'bg-gradient-to-r from-orange-500/20 to-amber-500/20 text-orange-400 border-orange-500/40 hover:from-orange-500/30 hover:to-amber-500/30 shadow-xs'
+                            ? 'bg-[#291708] text-orange-400 border-orange-500/50 hover:bg-[#38200B] shadow-xs'
                             : isLight
                             ? 'bg-white hover:bg-blue-50 text-slate-700 border-slate-300 shadow-2xs'
-                            : 'bg-slate-800/80 hover:bg-slate-700 text-slate-200 border-slate-700'
+                            : 'bg-[#151F38] hover:bg-[#1E2D52] text-slate-200 border-slate-700'
                         }`}
                       >
                         {isCalcPrimes || isCalcCia ? <Calculator className="w-3.5 h-3.5 text-orange-400" /> : <ArrowRight className="w-3 h-3 text-blue-400" />}
@@ -783,7 +783,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                       className={`group p-5 rounded-2xl border transition-all duration-300 hover:shadow-xl flex flex-col justify-between ${
                         isLight
                           ? 'bg-white border-slate-200 hover:border-blue-400 shadow-sm'
-                          : 'bg-[#0F172A] border-slate-800 hover:border-blue-500/60 hover:bg-[#131E36] shadow-md'
+                          : 'bg-[#0E1526] border-slate-800 hover:border-blue-500/60 hover:bg-[#151F38] shadow-lg'
                       }`}
                     >
                       <div className="space-y-3">
@@ -804,7 +804,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                         </p>
                       </div>
 
-                      <div className="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between gap-2 text-xs">
+                      <div className="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between gap-2 text-xs">
                         <div className="flex items-center gap-3 text-slate-400 text-[11px]">
                           <span className="flex items-center gap-1"><HardDrive className="w-3 h-3" /> {doc.size}</span>
                           <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {doc.date}</span>
@@ -815,7 +815,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                             <button
                               type="button"
                               onClick={() => exportTempsPartielFormDocx(doc.id.includes('autorisation') ? 'autorisation' : 'de_droit')}
-                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 border border-indigo-500/30 font-medium transition-all cursor-pointer text-xs"
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-[#182342] hover:bg-[#203058] text-indigo-300 border border-indigo-500/40 font-semibold transition-all cursor-pointer text-xs"
                               title="Télécharger la version Word modifiable (.docx)"
                             >
                               <FileText className="w-3.5 h-3.5" />
@@ -847,7 +847,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                     <BookOpen className="w-5 h-5 text-purple-400" />
                     Fiches BIP & Analyses Juridiques du Statut CGFP ({ragResult.matchedBipFiches.length})
                   </h3>
-                  <span className="text-xs text-purple-300/80 bg-purple-500/10 px-2.5 py-1 rounded-full border border-purple-500/20 font-medium">
+                  <span className="text-xs text-purple-300 bg-[#241A48] px-2.5 py-1 rounded-full border border-purple-500/40 font-semibold">
                     Base Jurisprudentielle Territoriale
                   </span>
                 </div>
@@ -861,14 +861,14 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                         key={ficheKey}
                         className={`p-5 rounded-2xl border transition-all ${
                           isLight
-                            ? 'bg-purple-50/90 border-purple-200 shadow-sm'
-                            : 'bg-[#12172A] border-purple-500/40 shadow-lg'
+                            ? 'bg-purple-50 border-purple-200 shadow-sm'
+                            : 'bg-[#14122B] border-purple-500/40 shadow-xl'
                         }`}
                       >
                         <div className="flex items-start justify-between gap-3">
                           <div className="space-y-1.5 flex-1">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-purple-500/25 text-purple-300 border border-purple-500/40 uppercase tracking-wide">
+                              <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-[#281A54] text-purple-200 border border-purple-500/50 uppercase tracking-wide">
                                 Fiche BIP {fiche.code.toUpperCase()}
                               </span>
                               {fiche.chapitre && (
@@ -888,19 +888,19 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                           <button
                             type="button"
                             onClick={() => setExpandedBipFicheId(isExpanded ? null : ficheKey)}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs shadow-md shadow-purple-600/30 transition-all shrink-0 cursor-pointer"
+                            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs shadow-md shadow-purple-600/30 transition-all shrink-0 cursor-pointer"
                           >
                             <span>{isExpanded ? "Masquer" : "Lire l'analyse"}</span>
                             {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                           </button>
                         </div>
 
-                        {/* Contenu complet déplié avec fond opaque haute lisibilité */}
+                        {/* Contenu complet déplié avec fond 100% opaque et contraste maximal */}
                         {isExpanded && fiche.content && (
-                          <div className={`mt-4 pt-4 border-t border-purple-500/30 text-xs sm:text-sm whitespace-pre-line leading-relaxed max-h-[34rem] overflow-y-auto custom-scrollbar p-4 rounded-xl border font-sans ${
+                          <div className={`mt-4 pt-4 border-t border-purple-500/40 text-xs sm:text-sm whitespace-pre-line leading-relaxed max-h-[34rem] overflow-y-auto custom-scrollbar p-4 rounded-xl border font-sans ${
                             isLight
                               ? 'bg-white text-slate-900 border-purple-200 shadow-inner'
-                              : 'bg-[#070B16] text-slate-100 border-purple-500/40 shadow-inner'
+                              : 'bg-[#060510] text-slate-100 border-purple-500/50 shadow-2xl'
                           }`}>
                             {fiche.content}
                           </div>
