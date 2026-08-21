@@ -207,16 +207,20 @@ export function searchDocuthequeRAG(rawQuery: string): RAGSearchResult {
     let score = 0;
     for (const trigger of intent.triggers) {
       const normTrigger = normalizeText(trigger);
-      if (query.includes(normTrigger) || normTrigger.includes(query)) {
+      if (query === normTrigger || query.includes(normTrigger)) {
+        score += 30;
+      } else if (normTrigger.includes(query) && query.length >= 6) {
         score += 15;
       } else {
-        const triggerTokens = normTrigger.split(' ');
+        const triggerTokens = normTrigger.split(' ').filter(t => t.length > 2);
         const matchingTokens = queryTokens.filter(t => triggerTokens.includes(t));
-        score += matchingTokens.length * 3;
+        if (matchingTokens.length >= 2 || (matchingTokens.length === 1 && triggerTokens.length === 1)) {
+          score += matchingTokens.length * 5;
+        }
       }
     }
 
-    if (score > highestIntentScore && score >= 6) {
+    if (score > highestIntentScore && score >= 10) {
       highestIntentScore = score;
       bestExpertMatch = intent;
     }
@@ -243,23 +247,21 @@ export function searchDocuthequeRAG(rawQuery: string): RAGSearchResult {
 
     // Match des intentions types de l'agent
     for (const intention of normIntentions) {
-      if (query.includes(intention) || intention.includes(query)) {
+      if (query === intention || query.includes(intention)) {
         score += 40;
       } else {
-        const intentTokens = intention.split(' ');
+        const intentTokens = intention.split(' ').filter(t => t.length > 2);
         const matched = queryTokens.filter(t => intentTokens.includes(t));
-        score += matched.length * 8;
+        if (matched.length >= 2 || (matched.length === 1 && intentTokens.length === 1)) {
+          score += matched.length * 8;
+        }
       }
     }
 
     // Match des mots-clés
     for (const kw of normKeywords) {
-      if (query.includes(kw) || kw.includes(query)) {
+      if (queryTokens.includes(kw) || (kw.length >= 4 && query.includes(kw))) {
         score += 25;
-      } else {
-        const kwTokens = kw.split(' ');
-        const matched = queryTokens.filter(t => kwTokens.includes(t));
-        score += matched.length * 5;
       }
     }
 
@@ -295,12 +297,8 @@ export function searchDocuthequeRAG(rawQuery: string): RAGSearchResult {
 
     // Match des mots-clés BIP
     for (const mc of normMotsCles) {
-      if (query.includes(mc) || mc.includes(query)) {
+      if (queryTokens.includes(mc) || (mc.length >= 4 && query.includes(mc))) {
         score += 20;
-      } else {
-        const mcTokens = mc.split(' ');
-        const matched = queryTokens.filter(t => mcTokens.includes(t));
-        score += matched.length * 5;
       }
     }
 

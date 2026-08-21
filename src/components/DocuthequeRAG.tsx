@@ -164,6 +164,12 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
   const handleSelectSuggestion = (suggestedQuery: string) => {
     setQuery(suggestedQuery);
     handleSearch(suggestedQuery);
+    setTimeout(() => {
+      const ragEl = document.getElementById('rag-results-section');
+      if (ragEl) {
+        ragEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 50);
   };
 
   // Liste filtrée pour le mode explorateur par catégorie
@@ -373,7 +379,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
 
         {/* SECTION RAG : Réponse Contextuelle et Formulaires Recommandés */}
         {hasSearched && ragResult && (
-          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
+          <div id="rag-results-section" className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300 scroll-mt-6">
             {/* Carte de Synthèse Explicative RAG */}
             <div className={`rounded-3xl p-6 sm:p-8 border shadow-xl ${
               isLight
@@ -514,9 +520,13 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                           </button>
                         </div>
 
-                        {/* Contenu complet déplié */}
+                        {/* Contenu complet déplié avec fond ultra lisible et contraste parfait */}
                         {isExpanded && fiche.content && (
-                          <div className="mt-4 pt-4 border-t border-purple-500/30 text-xs sm:text-sm text-slate-700 dark:text-slate-200 whitespace-pre-line leading-relaxed max-h-[32rem] overflow-y-auto custom-scrollbar p-3.5 bg-slate-950/60 rounded-xl border border-purple-500/20 font-sans">
+                          <div className={`mt-4 pt-4 border-t border-purple-500/30 text-xs sm:text-sm whitespace-pre-line leading-relaxed max-h-[34rem] overflow-y-auto custom-scrollbar p-4 rounded-xl border font-sans ${
+                            isLight
+                              ? 'bg-white text-slate-900 border-purple-200 shadow-inner'
+                              : 'bg-[#080d1a] text-slate-100 border-purple-500/40 shadow-inner'
+                          }`}>
                             {fiche.content}
                           </div>
                         )}
