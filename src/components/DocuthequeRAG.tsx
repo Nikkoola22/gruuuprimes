@@ -12,7 +12,6 @@ import {
   Layers,
   Calendar,
   HardDrive,
-  HelpCircle,
   Clock,
   Briefcase,
   Laptop,
@@ -26,8 +25,7 @@ import {
   BookOpen,
   ChevronDown,
   ChevronUp,
-  Calculator,
-  ExternalLink
+  Calculator
 } from 'lucide-react';
 import { searchDocuthequeRAG, RAGSearchResult } from '../utils/docuthequeSearch';
 import { GENNEVILLIERS_DOCUTHEQUE, DOCUTHEQUE_CATEGORIES } from '../data/gennevilliersDocutheque';
