@@ -1402,7 +1402,7 @@ ${indicesFactuels}
                       <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-pink-500/15 to-rose-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-pink-500/25 transition-all duration-200">
                         <Gamepad2 className="w-8 h-8 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Espace<br />Jeux RH</span>
+                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Espace<br />Jeux</span>
                     </button>
 
                     {/* 3. Spotlight Calculators Button */}
@@ -1525,7 +1525,7 @@ ${indicesFactuels}
                       <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-indigo-500/15 to-purple-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-indigo-500/25 transition-all duration-200">
                         <Radio className="w-8 h-8 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Podcasts<br />RH</span>
+                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">Podcasts</span>
                     </button>
 
                     {/* 7. Spotlight Bourse Emploi Anchor Link */}

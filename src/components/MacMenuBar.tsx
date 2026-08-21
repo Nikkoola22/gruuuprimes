@@ -182,7 +182,7 @@ export default function MacMenuBar({
                   <button onClick={() => selectView('veille-cdg')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-sky-500 font-bold">Veille CDG & CIG 🏛️</button>
                   <button onClick={() => selectView('veille')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-indigo-500 font-bold">Veille Juridique ⚖️</button>
                   <button onClick={() => selectView('dessine-moi-le-statut')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-purple-500 font-bold">Dessine-moi le statut 🎨</button>
-                  <button onClick={() => selectView('podcasts')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-amber-500 font-bold">Podcasts RH 🎧</button>
+                  <button onClick={() => selectView('podcasts')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-amber-500 font-bold">Podcasts 🎧</button>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -230,7 +230,7 @@ export default function MacMenuBar({
               className={`px-2 py-0.5 rounded transition-colors flex items-center gap-1 ${activeDropdown === 'games' ? 'bg-blue-600 text-white' : 'hover:bg-slate-200/60 dark:hover:bg-slate-800/60'}`}
             >
               <Gamepad2 className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">Jeux RH</span>
+              <span className="hidden md:inline">Jeux</span>
             </button>
             <AnimatePresence>
               {activeDropdown === 'games' && (
