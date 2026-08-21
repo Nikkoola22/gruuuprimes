@@ -1750,7 +1750,7 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewM
                       ) : (
                         <Sparkles className="w-4 h-4" />
                       )}
-                      <span>Générer l'acte officiel</span>
+                      <span>Générer la simulation</span>
                       <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[9.5px] font-mono bg-white/20 rounded-md text-white">↵</kbd>
                     </button>
                   </div>

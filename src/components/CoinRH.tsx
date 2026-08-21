@@ -229,14 +229,14 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                     }
                   }}
                   disabled={isStatutLoading}
-                  className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-900/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shrink-0 transform active:scale-98"
+                  className="px-6 py-3 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-500 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-lg shadow-emerald-600/30 hover:shadow-emerald-500/50 border border-emerald-400/40 hover:border-emerald-300 transition-all duration-200 flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-50 shrink-0 transform hover:scale-[1.03] active:scale-95"
                 >
                   {isStatutLoading ? (
                     <RefreshCw className="w-4 h-4 animate-spin" />
                   ) : (
-                    <Scale className="w-4 h-4" />
+                    <Scale className="w-4 h-4 text-emerald-200" />
                   )}
-                  <span>{uploadedFile ? "Auditer la légalité" : "Tester la légalité d'un acte"}</span>
+                  <span>{uploadedFile ? "Auditer la légalité du document" : "Tester la légalité de l'acte"}</span>
                 </button>
               </div>
             </div>
@@ -316,7 +316,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                   ) : (
                     <Sparkles className="w-4 h-4" />
                   )}
-                  <span>Générer l'acte officiel</span>
+                  <span>Générer la simulation</span>
                   <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[9.5px] font-mono bg-white/20 rounded-md text-white">↵</kbd>
                 </button>
               </div>
