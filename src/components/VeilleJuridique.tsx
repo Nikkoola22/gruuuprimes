@@ -903,6 +903,8 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewM
   const [uploadedFile, setUploadedFile] = useState<{ name: string; size: number; content: string } | null>(null);
   const [ragResult, setRagResult] = useState<RAGSearchResult | null>(null);
   const [selectedThemeFilter, setSelectedThemeFilter] = useState<string>("all");
+  const [templateSearchQuery, setTemplateSearchQuery] = useState<string>("");
+  const [selectedTypeFilter, setSelectedTypeFilter] = useState<string>("all");
   const statutResultRef = useRef<HTMLDivElement>(null);
 
   const handleExecuteStatut = async (toolIdToUse?: string, queryToUse?: string) => {
@@ -1688,57 +1690,72 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewM
             </div>
 
             {/* Module 2 : Création & Rédaction d'Actes Administratifs & Statutaires */}
-            <div className="bg-white/95 dark:bg-slate-900/95 border-2 border-indigo-500/40 hover:border-indigo-500/60 rounded-3xl p-5 sm:p-7 shadow-xl backdrop-blur-md relative overflow-hidden transition-all">
-              <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+            <div className="bg-white/95 dark:bg-slate-900/95 border-2 border-indigo-500/30 hover:border-indigo-500/50 rounded-3xl p-5 sm:p-7 shadow-2xl backdrop-blur-xl relative overflow-hidden transition-all">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-indigo-500/15 via-purple-500/10 to-transparent rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-blue-500/10 to-transparent rounded-full blur-2xl -ml-20 -mb-20 pointer-events-none" />
               
-              <div className="relative z-10 flex flex-col gap-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2.5 bg-indigo-500/20 text-indigo-400 rounded-2xl border border-indigo-500/30 shadow-inner shrink-0">
-                      <FileSignature className="w-6 h-6 sm:w-7 sm:h-7" />
+              <div className="relative z-10 flex flex-col gap-5">
+                {/* Header with Title & Capabilities */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-3.5 border-b border-slate-100 dark:border-slate-800/80 pb-4">
+                  <div className="flex items-start sm:items-center gap-3.5">
+                    <div className="p-3 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-indigo-400 rounded-2xl border border-indigo-500/30 shadow-inner shrink-0">
+                      <FileSignature className="w-7 h-7" />
                     </div>
                     <div>
-                      <div className="flex items-center gap-2">
-                        <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white tracking-tight">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="text-base sm:text-xl font-black text-slate-900 dark:text-white tracking-tight">
                           Création & Génération d'Actes Officiels
                         </h3>
-                        <span className="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30">
+                        <span className="text-[10.5px] uppercase font-black tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30">
                           Export Word (.docx) • Ville de Gennevilliers
                         </span>
                       </div>
-                      <p className="text-xs text-slate-500 dark:text-slate-300 font-medium mt-0.5">
-                        Rédigez en un clic un arrêté, contrat CDD, décision municipale ou courrier formel, pré-rempli avec les visas statutaires et l'en-tête officiel.
+                      <p className="text-xs text-slate-500 dark:text-slate-300 font-medium mt-1 max-w-3xl">
+                        Rédigez en un clic un arrêté du Maire, un contrat CDD de droit public, une décision municipale ou un courrier officiel pré-rempli avec les visas et clauses réglementaires.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-3 py-1.5 rounded-xl border border-indigo-200 dark:border-indigo-500/30 flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5" /> Rédaction Juridique Guidée
+                  <div className="flex flex-wrap items-center gap-2 shrink-0">
+                    <span className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-3 py-1.5 rounded-xl border border-indigo-200 dark:border-indigo-500/30 flex items-center gap-1.5 shadow-2xs">
+                      <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+                      <span>38 Modèles Conformes CGFP</span>
                     </span>
                   </div>
                 </div>
 
-                {/* Input & Execution Bar */}
+                {/* Main Command & Generation Bar */}
                 <div className="flex flex-col gap-2.5">
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <input
-                      type="text"
-                      value={statutInput}
-                      onChange={(e) => setStatutInput(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          e.preventDefault();
-                          handleExecuteStatut();
-                        }
-                      }}
-                      placeholder="Ex: Arrêté portant nomination stagiaire, Contrat CDD accroissement 6 mois, Décision refus CPF..."
-                      className="flex-1 min-w-0 px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700/80 rounded-2xl text-sm font-medium text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-hidden"
-                    />
+                  <div className="flex flex-col sm:flex-row gap-2.5 bg-slate-50/80 dark:bg-slate-950/70 p-2 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner">
+                    <div className="relative flex-1 flex items-center">
+                      <Search className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
+                      <input
+                        type="text"
+                        value={statutInput}
+                        onChange={(e) => setStatutInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            handleExecuteStatut();
+                          }
+                        }}
+                        placeholder="Ex: Contrat CDD L. 332-8 permanent, Arrêté nomination stagiaire, Remplacement L. 332-13, Arrêté IFSE..."
+                        className="w-full pl-10 pr-10 py-3 bg-transparent text-sm font-semibold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden"
+                      />
+                      {statutInput && (
+                        <button
+                          type="button"
+                          onClick={() => setStatutInput("")}
+                          className="absolute right-3 p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
+                        >
+                          <span className="text-xs font-bold">✕</span>
+                        </button>
+                      )}
+                    </div>
                     <button
                       onClick={() => handleExecuteStatut()}
                       disabled={isStatutLoading}
-                      className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-2xl shadow-lg shadow-indigo-900/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shrink-0"
+                      className="px-6 py-3.5 bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-indigo-900/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shrink-0 transform active:scale-98"
                     >
                       {isStatutLoading ? (
                         <RefreshCw className="w-4 h-4 animate-spin" />
@@ -1746,94 +1763,235 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewM
                         <Sparkles className="w-4 h-4" />
                       )}
                       <span>Générer l'acte officiel</span>
+                      <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[9.5px] font-mono bg-white/20 rounded-md text-white">↵</kbd>
                     </button>
+                  </div>
+
+                  {/* Fast Inspiration Chips */}
+                  <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                    <span className="text-[10.5px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mr-1">
+                      Suggestions rapides :
+                    </span>
+                    {[
+                      { label: "CDD Emploi Permanent (L. 332-8)", query: "Contrat CDD sur Emploi Permanent (CGFP Art. L. 332-8 2°)", icon: "📑" },
+                      { label: "CDD Remplacement (L. 332-13)", query: "Contrat CDD : Remplacement Temporaire d'un Agent Indisponible (L. 332-13)", icon: "👥" },
+                      { label: "CDD Accroissement (L. 332-23)", query: "Contrat CDD : Engagement pour Accroissement Temporaire d'Activité (L. 332-23 1°)", icon: "⚡" },
+                      { label: "Médecin Vacataire", query: "Contrat Portant Engagement d'un Médecin Vacataire (Permanence des Soins)", icon: "🩺" },
+                      { label: "Arrêté IFSE Mensuelle", query: "Arrêté du Maire : Attribution de l'IFSE Mensuelle", icon: "💰" },
+                      { label: "Nomination Stagiaire", query: "Arrêté du Maire : Nomination en Qualité de Fonctionnaire Stagiaire", icon: "📜" },
+                      { label: "Sanction Blâme", query: "Arrêté du Maire : Sanction Disciplinaire du 1er Groupe (Blâme)", icon: "⚖️" }
+                    ].map((chip) => (
+                      <button
+                        key={chip.label}
+                        type="button"
+                        onClick={() => {
+                          setStatutInput(chip.query);
+                          handleExecuteStatut(selectedStatutTool, chip.query);
+                        }}
+                        className="px-2.5 py-1 text-[11px] font-semibold rounded-lg bg-slate-100 hover:bg-indigo-50 dark:bg-slate-800/80 dark:hover:bg-indigo-950/60 text-slate-700 hover:text-indigo-700 dark:text-slate-300 dark:hover:text-indigo-300 border border-slate-200 dark:border-slate-700/60 hover:border-indigo-300 dark:hover:border-indigo-700/60 transition-all cursor-pointer flex items-center gap-1.5"
+                      >
+                        <span>{chip.icon}</span>
+                        <span>{chip.label}</span>
+                      </button>
+                    ))}
                   </div>
                 </div>
 
-                {/* Theme Category Filter Bar & Quick Suggestions */}
-                <div className="flex flex-col gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/80">
-                  <div className="flex flex-wrap items-center gap-1.5 pb-1">
-                    <button
-                      type="button"
-                      onClick={() => setSelectedThemeFilter("all")}
-                      className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
-                        selectedThemeFilter === "all"
-                          ? "bg-indigo-600 text-white shadow-xs"
-                          : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
-                      }`}
-                    >
-                      <span>Tous les modèles</span>
-                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                        selectedThemeFilter === "all" ? "bg-indigo-700 text-indigo-100" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
-                      }`}>
-                        {ALL_THEMES_TEMPLATES.reduce((acc, t) => acc + t.templates.length, 0)}
-                      </span>
-                    </button>
+                {/* Catalog Browser with Dual Filtering & Search */}
+                <div className="flex flex-col gap-3 pt-3 border-t border-slate-100 dark:border-slate-800/80">
+                  {/* Category Filter Pills */}
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex flex-wrap items-center gap-1.5 flex-1">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedThemeFilter("all")}
+                        className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
+                          selectedThemeFilter === "all"
+                            ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
+                            : "bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
+                        }`}
+                      >
+                        <span>Tous les thèmes</span>
+                        <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
+                          selectedThemeFilter === "all" ? "bg-indigo-700 text-indigo-100" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                        }`}>
+                          {ALL_THEMES_TEMPLATES.reduce((acc, t) => acc + t.templates.length, 0)}
+                        </span>
+                      </button>
 
-                    {ALL_THEMES_TEMPLATES.map((thm) => {
-                      const isActive = selectedThemeFilter === thm.id;
-                      return (
-                        <button
-                          key={thm.id}
-                          type="button"
-                          onClick={() => setSelectedThemeFilter(thm.id)}
-                          className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
-                            isActive
-                              ? "bg-indigo-600 text-white shadow-xs"
-                              : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
-                          }`}
-                        >
-                          <span>{thm.icon || "📌"} {thm.title.split('&')[0].trim()}</span>
-                          <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                            isActive ? "bg-indigo-700 text-indigo-100" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
-                          }`}>
-                            {thm.templates.length}
-                          </span>
-                        </button>
-                      );
-                    })}
+                      {ALL_THEMES_TEMPLATES.map((thm) => {
+                        const isActive = selectedThemeFilter === thm.id;
+                        return (
+                          <button
+                            key={thm.id}
+                            type="button"
+                            onClick={() => setSelectedThemeFilter(thm.id)}
+                            className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
+                              isActive
+                                ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
+                                : "bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
+                            }`}
+                          >
+                            <span>{thm.icon || "📌"} {thm.title.split('&')[0].trim()}</span>
+                            <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
+                              isActive ? "bg-indigo-700 text-indigo-100" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                            }`}>
+                              {thm.templates.length}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
 
-                  {/* Filtered Templates Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-56 overflow-y-auto pr-1 py-1 custom-scrollbar">
-                    {(selectedThemeFilter === "all"
-                      ? ALL_THEMES_TEMPLATES.flatMap(t => t.templates)
-                      : ALL_THEMES_TEMPLATES.find(t => t.id === selectedThemeFilter)?.templates || []
-                    ).map((tpl) => {
-                      const typeStyles: Record<string, string> = {
-                        arrete: "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/80",
-                        decision: "bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800/80",
-                        contrat: "bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/80",
-                        circulaire: "bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800/80",
-                        courrier: "bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-800/80"
-                      };
-                      return (
+                  {/* Sub-Filters: Type Filter + Live Keyword Filter */}
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 bg-slate-50 dark:bg-slate-950/60 p-2.5 rounded-2xl border border-slate-200/80 dark:border-slate-800">
+                    <div className="flex flex-wrap items-center gap-1">
+                      <span className="text-[11px] font-bold text-slate-600 dark:text-slate-300 mr-1.5">Typologie :</span>
+                      {[
+                        { id: "all", label: "Tous types" },
+                        { id: "arrete", label: "📜 Arrêtés" },
+                        { id: "contrat", label: "📑 Contrats" },
+                        { id: "decision", label: "🏛️ Décisions" },
+                        { id: "courrier", label: "✉️ Courriers" },
+                        { id: "circulaire", label: "📋 Notes & Circulaires" }
+                      ].map((t) => (
                         <button
-                          key={tpl.id}
+                          key={t.id}
                           type="button"
-                          onClick={() => {
-                            setStatutInput(tpl.name);
-                            handleExecuteStatut(selectedStatutTool, tpl.name);
-                          }}
-                          className="flex flex-col items-start text-left p-2.5 bg-slate-50/80 dark:bg-slate-800/40 hover:bg-emerald-50/80 dark:hover:bg-emerald-950/40 border border-slate-200/80 dark:border-slate-700/60 hover:border-emerald-300 dark:hover:border-emerald-700 rounded-xl transition-all group cursor-pointer shadow-2xs"
+                          onClick={() => setSelectedTypeFilter(t.id)}
+                          className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                            selectedTypeFilter === t.id
+                              ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-xs"
+                              : "text-slate-600 dark:text-slate-400 hover:bg-slate-200/70 dark:hover:bg-slate-800"
+                          }`}
                         >
-                          <div className="flex items-center justify-between w-full gap-1 mb-1">
-                            <span className={`text-[9.5px] font-black uppercase px-2 py-0.5 rounded-md border tracking-wider ${typeStyles[tpl.type] || typeStyles.arrete}`}>
-                              {tpl.type}
-                            </span>
-                            <span className="text-[10px] text-slate-600 dark:text-slate-300 font-mono truncate max-w-[120px]">
-                              {tpl.cgfpRef.split('&')[0].trim()}
-                            </span>
-                          </div>
-                          <span className="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 line-clamp-1">
-                            {tpl.name}
-                          </span>
-                          <span className="text-[10.5px] text-slate-600 dark:text-slate-300 line-clamp-1 mt-0.5">
-                            {tpl.summary}
-                          </span>
+                          {t.label}
                         </button>
-                      );
-                    })}
+                      ))}
+                    </div>
+
+                    <div className="relative flex items-center min-w-[220px]">
+                      <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 pointer-events-none" />
+                      <input
+                        type="text"
+                        value={templateSearchQuery}
+                        onChange={(e) => setTemplateSearchQuery(e.target.value)}
+                        placeholder="Rechercher parmi les modèles..."
+                        className="w-full pl-8 pr-7 py-1.5 text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden focus:ring-1 focus:ring-indigo-500"
+                      />
+                      {templateSearchQuery && (
+                        <button
+                          type="button"
+                          onClick={() => setTemplateSearchQuery("")}
+                          className="absolute right-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs"
+                        >
+                          ✕
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Filtered Templates Interactive Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-72 overflow-y-auto pr-1 py-1 custom-scrollbar">
+                    {(() => {
+                      const allRaw = selectedThemeFilter === "all"
+                        ? ALL_THEMES_TEMPLATES.flatMap(t => t.templates.map(tpl => ({ ...tpl, themeTitle: t.title })))
+                        : (ALL_THEMES_TEMPLATES.find(t => t.id === selectedThemeFilter)?.templates || []).map(tpl => ({ ...tpl, themeTitle: ALL_THEMES_TEMPLATES.find(t => t.id === selectedThemeFilter)?.title }));
+
+                      const filtered = allRaw.filter(tpl => {
+                        const matchType = selectedTypeFilter === "all" || tpl.type === selectedTypeFilter;
+                        const matchSearch = !templateSearchQuery.trim() || 
+                          tpl.name.toLowerCase().includes(templateSearchQuery.toLowerCase()) ||
+                          tpl.cgfpRef.toLowerCase().includes(templateSearchQuery.toLowerCase()) ||
+                          tpl.summary.toLowerCase().includes(templateSearchQuery.toLowerCase());
+                        return matchType && matchSearch;
+                      });
+
+                      if (filtered.length === 0) {
+                        return (
+                          <div className="col-span-full py-8 text-center flex flex-col items-center justify-center gap-2">
+                            <p className="text-sm font-bold text-slate-400">Aucun modèle ne correspond à vos critères de recherche.</p>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSelectedThemeFilter("all");
+                                setSelectedTypeFilter("all");
+                                setTemplateSearchQuery("");
+                              }}
+                              className="px-3 py-1.5 text-xs font-bold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 rounded-xl border border-indigo-200 dark:border-indigo-800"
+                            >
+                              Réinitialiser tous les filtres
+                            </button>
+                          </div>
+                        );
+                      }
+
+                      return filtered.map((tpl) => {
+                        const typeStyles: Record<string, { badge: string; border: string }> = {
+                          arrete: {
+                            badge: "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/80",
+                            border: "hover:border-emerald-400 dark:hover:border-emerald-600"
+                          },
+                          decision: {
+                            badge: "bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800/80",
+                            border: "hover:border-rose-400 dark:hover:border-rose-600"
+                          },
+                          contrat: {
+                            badge: "bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800/80",
+                            border: "hover:border-indigo-400 dark:hover:border-indigo-600"
+                          },
+                          circulaire: {
+                            badge: "bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-800/80",
+                            border: "hover:border-sky-400 dark:hover:border-sky-600"
+                          },
+                          courrier: {
+                            badge: "bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/80",
+                            border: "hover:border-amber-400 dark:hover:border-amber-600"
+                          }
+                        };
+
+                        const currentStyle = typeStyles[tpl.type] || typeStyles.arrete;
+
+                        return (
+                          <div
+                            key={tpl.id}
+                            onClick={() => {
+                              setStatutInput(tpl.name);
+                              handleExecuteStatut(selectedStatutTool, tpl.name);
+                            }}
+                            className={`group relative flex flex-col justify-between p-3.5 bg-slate-50/90 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 ${currentStyle.border} rounded-2xl transition-all cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5`}
+                          >
+                            <div className="flex flex-col gap-1.5">
+                              <div className="flex items-center justify-between w-full gap-1">
+                                <span className={`text-[9.5px] font-black uppercase px-2 py-0.5 rounded-md border tracking-wider ${currentStyle.badge}`}>
+                                  {tpl.type}
+                                </span>
+                                <span className="text-[10px] text-slate-600 dark:text-slate-300 font-mono truncate max-w-[130px]" title={tpl.cgfpRef}>
+                                  {tpl.cgfpRef.split('&')[0].trim()}
+                                </span>
+                              </div>
+                              <h4 className="text-xs font-black text-slate-800 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 line-clamp-1 transition-colors">
+                                {tpl.name}
+                              </h4>
+                              <p className="text-[11px] text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed font-medium">
+                                {tpl.summary}
+                              </p>
+                            </div>
+
+                            <div className="flex items-center justify-between pt-2.5 mt-2 border-t border-slate-100 dark:border-slate-700/50">
+                              <span className="text-[10px] font-bold text-slate-600 dark:text-slate-300 truncate max-w-[140px]">
+                                {tpl.themeTitle || "Gennevilliers"}
+                              </span>
+                              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-indigo-600 dark:text-indigo-400 group-hover:translate-x-0.5 transition-transform">
+                                <span>Générer</span>
+                                <ArrowRight className="w-3 h-3" />
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      });
+                    })()}
                   </div>
                 </div>
               </div>
