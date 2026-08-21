@@ -774,39 +774,62 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
 
             {/* Adversarial Review & Pre-litigation Risks (Auto-critique / Regard Préfecture & TA) */}
             {((statutResult as any).autoCritiqueAdversariale) && (
-              <div className={`p-4.5 rounded-2xl border flex flex-col gap-3 ${
-                isLight ? "bg-amber-50/70 border-amber-300" : "bg-[#1C1408] border-amber-500/40"
+              <div className={`p-5 rounded-2xl border-2 flex flex-col gap-4 shadow-xl transition-all ${
+                isLight 
+                  ? "bg-white border-amber-400/80 shadow-amber-100/60 text-slate-900" 
+                  : "bg-[#0B132B] border-amber-400/60 shadow-black/70 text-slate-100"
               }`}>
-                <div className="flex items-center justify-between border-b border-amber-500/20 pb-2">
-                  <span className="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
-                    <Sparkles className="w-4 h-4" /> 3. Auto-Critique Adversariale & Risques Contentieux
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/30 pb-3">
+                  <span className="text-xs sm:text-sm font-black uppercase tracking-wide text-amber-600 dark:text-amber-300 flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-amber-500 dark:text-amber-400" /> 3. Auto-Critique Adversariale & Risques Contentieux
                   </span>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-950 text-amber-300 border border-amber-500/30">
-                    Contrôle Préfectoral & TA
+                  <span className="text-[11px] font-extrabold px-3 py-1 rounded-lg bg-amber-100 dark:bg-amber-950 text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-500/50 shadow-2xs">
+                    🏛️ Contrôle Préfectoral & TA Cergy
                   </span>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                  <div>
-                    <strong className="block text-amber-300 mb-1">🏛️ Regard du Préfet (Contrôle de légalité) :</strong>
-                    <p className={isLight ? "text-slate-700" : "text-slate-300"}>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                  <div className={`p-3.5 rounded-xl border flex flex-col gap-1.5 ${
+                    isLight 
+                      ? "bg-amber-50/70 border-amber-200/90 text-slate-800" 
+                      : "bg-[#131D3B] border-slate-700/80 text-slate-200"
+                  }`}>
+                    <strong className="text-amber-700 dark:text-amber-300 font-black text-xs flex items-center gap-1.5">
+                      <span>🏛️ Regard du Préfet (Contrôle de légalité) :</span>
+                    </strong>
+                    <p className="text-xs font-medium leading-relaxed">
                       {(statutResult as any).autoCritiqueAdversariale.regardPrefecture}
                     </p>
                   </div>
-                  <div>
-                    <strong className="block text-amber-300 mb-1">⚖️ Risque Contentieux Juge Administratif (TA Cergy) :</strong>
-                    <p className={isLight ? "text-slate-700" : "text-slate-300"}>
+
+                  <div className={`p-3.5 rounded-xl border flex flex-col gap-1.5 ${
+                    isLight 
+                      ? "bg-amber-50/70 border-amber-200/90 text-slate-800" 
+                      : "bg-[#131D3B] border-slate-700/80 text-slate-200"
+                  }`}>
+                    <strong className="text-amber-700 dark:text-amber-300 font-black text-xs flex items-center gap-1.5">
+                      <span>⚖️ Risque Contentieux Juge Administratif (TA Cergy) :</span>
+                    </strong>
+                    <p className="text-xs font-medium leading-relaxed">
                       {(statutResult as any).autoCritiqueAdversariale.regardJugeAdministratif}
                     </p>
                   </div>
                 </div>
+
                 {(statutResult as any).autoCritiqueAdversariale.recommandationsCorrectives?.length > 0 && (
-                  <div className="pt-2 border-t border-amber-500/20">
-                    <strong className="block text-amber-300 text-xs mb-1.5">📝 Recommandations d'amendements clause par clause :</strong>
-                    <ul className="space-y-1 text-xs">
+                  <div className={`p-3.5 rounded-xl border flex flex-col gap-2 ${
+                    isLight 
+                      ? "bg-slate-50 border-slate-200 text-slate-800" 
+                      : "bg-[#131D3B] border-slate-700/80 text-slate-200"
+                  }`}>
+                    <strong className="text-amber-700 dark:text-amber-300 text-xs font-black flex items-center gap-1.5">
+                      <span>📝 Recommandations d'amendements clause par clause :</span>
+                    </strong>
+                    <ul className="space-y-1.5 text-xs font-medium">
                       {(statutResult as any).autoCritiqueAdversariale.recommandationsCorrectives.map((rec: string, idx: number) => (
-                        <li key={idx} className="flex items-start gap-1.5 text-slate-300">
-                          <span className="text-amber-400 font-bold">•</span>
-                          <span>{rec}</span>
+                        <li key={idx} className="flex items-start gap-2">
+                          <span className="text-amber-500 dark:text-amber-400 font-bold shrink-0 mt-0.5">•</span>
+                          <span className="leading-relaxed">{rec}</span>
                         </li>
                       ))}
                     </ul>
