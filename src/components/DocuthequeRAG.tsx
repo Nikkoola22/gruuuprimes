@@ -21,7 +21,8 @@ import {
   GraduationCap,
   Scale,
   Users,
-  AlertCircle
+  AlertCircle,
+  ArrowRight
 } from 'lucide-react';
 import { searchDocuthequeRAG, RAGSearchResult } from '../utils/docuthequeSearch';
 import { GENNEVILLIERS_DOCUTHEQUE, DOCUTHEQUE_CATEGORIES } from '../data/gennevilliersDocutheque';
@@ -32,69 +33,78 @@ interface DocuthequeRAGProps {
   theme?: 'light' | 'dark';
 }
 
+const THEME_TABS = [
+  { id: "Tous", label: "⭐ Essentiels" },
+  { id: "Temps de travail", label: "🏠 Télétravail & Temps" },
+  { id: "Rémunération", label: "💰 Primes & RIFSEEP" },
+  { id: "Santé & Inaptitude", label: "🩺 Santé & CITIS" },
+  { id: "Carrière", label: "📈 Carrière" },
+  { id: "Recrutement", label: "📑 Recrutement" },
+  { id: "CREP & Évaluation", label: "📋 CREP" },
+  { id: "Formation", label: "🎓 Formation" },
+  { id: "Marchés Publics", label: "🏗️ Marchés" },
+  { id: "Discipline", label: "⚖️ Discipline" }
+];
+
 const THEMED_SUGGESTIONS = [
-  { theme: "Tous", label: "Charte bureautique & Modèles", query: "Charte bureautique et modèles de documents officiels" },
-  
-  // Marchés Publics
-  { theme: "Marchés Publics", label: "Décision signature marché", query: "Décision du maire signature d'un marché public" },
-  { theme: "Marchés Publics", label: "Acte d'engagement ATTRI1", query: "Formulaire ATTRI1 acte d'engagement marché public" },
-  { theme: "Marchés Publics", label: "Avenant de marché", query: "Avenant de modification de marché public" },
-  { theme: "Marchés Publics", label: "Ordre de Service (OS)", query: "Ordre de service démarrage de travaux" },
-  { theme: "Marchés Publics", label: "PV de réception travaux", query: "Procès-verbal de réception de travaux avec réserves" },
-
-  // Recrutement & Contrats
-  { theme: "Recrutement", label: "Nomination stagiaire", query: "Arrêté de nomination en qualité de fonctionnaire stagiaire" },
-  { theme: "Recrutement", label: "Contrat CDD Remplacement (L. 332-13)", query: "Contrat CDD remplacement agent indisponible" },
-  { theme: "Recrutement", label: "Contrat Accroissement (L. 332-23)", query: "Contrat CDD accroissement temporaire d'activité" },
-  { theme: "Recrutement", label: "Contrat de Projet (L. 332-24)", query: "Contrat de projet de droit public" },
-  { theme: "Recrutement", label: "Contrat Apprentissage FPT", query: "Contrat d'apprentissage secteur public local" },
-
-  // Carrière & Parcours
-  { theme: "Carrière", label: "Avancement d'échelon", query: "Avancement d'échelon à l'ancienneté" },
-  { theme: "Carrière", label: "Avancement de grade", query: "Arrêté d'avancement de grade au choix" },
-  { theme: "Carrière", label: "Titularisation stagiaire", query: "Titularisation après stage et formation CNFPT" },
-  { theme: "Carrière", label: "Prorogation de stage", query: "Arrêté de prorogation de stage probatoire" },
-  { theme: "Carrière", label: "Disponibilité convenances", query: "Mise en disponibilité pour convenances personnelles" },
-  { theme: "Carrière", label: "Retraite & Radiation", query: "Radiation des cadres pour admission à la retraite" },
-
-  // Évaluation & CREP
-  { theme: "CREP & Évaluation", label: "Modèle CREP 2025 (.docx)", query: "Modèle et révision de l'entretien professionnel CREP" },
-  { theme: "CREP & Évaluation", label: "Convocation entretien 8j", query: "Convocation entretien professionnel annuel" },
-  { theme: "CREP & Évaluation", label: "Demande révision CREP", query: "Formulaire et décision demande de révision du CREP" },
-
-  // Rémunération & Primes
-  { theme: "Rémunération", label: "Cotation & Attribution IFSE", query: "Attribution RIFSEEP et cotation IFSE" },
-  { theme: "Rémunération", label: "Complément CIA", query: "Complément indemnitaire annuel CIA" },
-  { theme: "Rémunération", label: "Attribution NBI (Loi 91-73)", query: "Nouvelle bonification indiciaire NBI" },
-  { theme: "Rémunération", label: "Supplément Familial (SFT)", query: "Attribution du supplément familial de traitement" },
-  { theme: "Rémunération", label: "Astreintes & Heures sup", query: "Indemnisation astreintes et heures supplémentaires IHTS" },
-  { theme: "Rémunération", label: "Forfait Mobilités (FMD) & Navigo", query: "Forfait mobilités durables et prise en charge Navigo 75%" },
-
-  // Discipline & Déontologie
-  { theme: "Discipline", label: "Rapport hiérarchique 2024 (.docx)", query: "Modèle rapport hiérarchique disciplinaire 2024" },
-  { theme: "Discipline", label: "Convocation entretien préalable (.doc)", query: "Convocation entretien disciplinaire droits défense" },
-  { theme: "Discipline", label: "Sanctions 1er groupe & Blâme", query: "Sanction disciplinaire blâme avertissement" },
-  { theme: "Discipline", label: "Suspension conservatoire (L. 531-1)", query: "Arrêté suspension conservatoire de fonctions" },
-  { theme: "Discipline", label: "Mise en demeure abandon poste", query: "Mise en demeure pour abandon de poste et radiation" },
-
-  // Santé & Inaptitude
-  { theme: "Santé & Inaptitude", label: "Congé Maladie Ordinaire (CMO 90%)", query: "Arrêté et règles du congé de maladie ordinaire CMO" },
-  { theme: "Santé & Inaptitude", label: "Accident de travail & CITIS", query: "Comment déclarer un accident de travail ou maladie pro" },
-  { theme: "Santé & Inaptitude", label: "Temps Partiel Thérapeutique (TPT)", query: "Demande de temps partiel thérapeutique" },
-  { theme: "Santé & Inaptitude", label: "Reclassement PPR & Inaptitude", query: "Période de préparation au reclassement inaptitude physique" },
-  { theme: "Santé & Inaptitude", label: "Saisine Conseil Médical", query: "Saisine du conseil médical plénier ou restreint" },
-
-  // Formation Professionnelle
-  { theme: "Formation", label: "Mobilisation CPF avec financement", query: "Utilisation du compte personnel de formation CPF" },
-  { theme: "Formation", label: "Congé Formation Pro (CFP 85%)", query: "Congé de formation professionnelle CFP indemnité" },
-  { theme: "Formation", label: "Convention CNFPT", query: "Convention individuelle de formation CNFPT" },
-  { theme: "Formation", label: "Bilan de compétences & VAE", query: "Autorisation absence bilan de compétences ou VAE" },
+  // Top Essentiels pour l'onglet Tous
+  { theme: "Tous", icon: "🏠", label: "Je veux faire du télétravail", query: "Je veux faire du télétravail" },
+  { theme: "Tous", icon: "⏱️", label: "Demande de temps partiel (80% / 50%)", query: "Je veux prendre un temps partiel" },
+  { theme: "Tous", icon: "🩺", label: "Déclarer un accident de travail (CITIS)", query: "Comment déclarer un accident de travail ou maladie pro" },
+  { theme: "Tous", icon: "💰", label: "Attribution et revalorisation IFSE", query: "Attribution RIFSEEP et cotation IFSE" },
+  { theme: "Tous", icon: "🎓", label: "Mobiliser mon CPF avec financement", query: "Utilisation du compte personnel de formation CPF" },
+  { theme: "Tous", icon: "📋", label: "Modèle CREP 2025 (.docx)", query: "Modèle et révision de l'entretien professionnel CREP" },
 
   // Temps de travail & Télétravail
-  { theme: "Temps de travail", label: "Convention Télétravail 2026", query: "Je veux faire du télétravail" },
-  { theme: "Temps de travail", label: "Temps partiel (80% / 50%)", query: "Je veux prendre un temps partiel" },
-  { theme: "Temps de travail", label: "Compte Épargne Temps (CET)", query: "Alimenter mon compte épargne temps" },
-  { theme: "Temps de travail", label: "Congé Parental & ASA", query: "Congé parental et autorisations spéciales d'absence" }
+  { theme: "Temps de travail", icon: "🏠", label: "Convention Télétravail 2026", query: "Je veux faire du télétravail" },
+  { theme: "Temps de travail", icon: "⏱️", label: "Demande de temps partiel", query: "Je veux prendre un temps partiel" },
+  { theme: "Temps de travail", icon: "⏳", label: "Alimenter mon Compte Épargne Temps (CET)", query: "Alimenter mon compte épargne temps" },
+  { theme: "Temps de travail", icon: "👶", label: "Congé Parental & Autorisations d'absence", query: "Congé parental et autorisations spéciales d'absence" },
+
+  // Rémunération & Primes
+  { theme: "Rémunération", icon: "💰", label: "Cotation & Attribution IFSE", query: "Attribution RIFSEEP et cotation IFSE" },
+  { theme: "Rémunération", icon: "🏆", label: "Complément Indemnitaire Annuel (CIA)", query: "Complément indemnitaire annuel CIA" },
+  { theme: "Rémunération", icon: "⭐", label: "Points NBI (Loi 91-73)", query: "Nouvelle bonification indiciaire NBI" },
+  { theme: "Rémunération", icon: "👨‍👩‍👧", label: "Supplément Familial de Traitement (SFT)", query: "Attribution du supplément familial de traitement" },
+  { theme: "Rémunération", icon: "🚴", label: "Forfait Mobilités Durables & Navigo", query: "Forfait mobilités durables et prise en charge Navigo 75%" },
+
+  // Santé & Inaptitude
+  { theme: "Santé & Inaptitude", icon: "🩺", label: "Accident de travail & CITIS", query: "Comment déclarer un accident de travail ou maladie pro" },
+  { theme: "Santé & Inaptitude", icon: "🏥", label: "Congé de Maladie Ordinaire (CMO 90%)", query: "Arrêté et règles du congé de maladie ordinaire CMO" },
+  { theme: "Santé & Inaptitude", icon: "⏱️", label: "Temps Partiel Thérapeutique (TPT)", query: "Demande de temps partiel thérapeutique" },
+  { theme: "Santé & Inaptitude", icon: "🔄", label: "Reclassement pour inaptitude physique", query: "Période de préparation au reclassement inaptitude physique" },
+
+  // Carrière
+  { theme: "Carrière", icon: "📈", label: "Avancement d'échelon à l'ancienneté", query: "Avancement d'échelon à l'ancienneté" },
+  { theme: "Carrière", icon: "🎖️", label: "Avancement de grade au choix", query: "Arrêté d'avancement de grade au choix" },
+  { theme: "Carrière", icon: "🎓", label: "Titularisation stagiaire et formation", query: "Titularisation après stage et formation CNFPT" },
+  { theme: "Carrière", icon: "🚪", label: "Disponibilité pour convenances", query: "Mise en disponibilité pour convenances personnelles" },
+
+  // Recrutement
+  { theme: "Recrutement", icon: "📜", label: "Arrêté de nomination stagiaire", query: "Arrêté de nomination en qualité de fonctionnaire stagiaire" },
+  { theme: "Recrutement", icon: "📑", label: "Contrat CDD Remplacement (L. 332-13)", query: "Contrat CDD remplacement agent indisponible" },
+  { theme: "Recrutement", icon: "⚡", label: "Contrat Accroissement (L. 332-23)", query: "Contrat CDD accroissement temporaire d'activité" },
+  { theme: "Recrutement", icon: "🤝", label: "Contrat Apprentissage FPT", query: "Contrat d'apprentissage secteur public local" },
+
+  // CREP
+  { theme: "CREP & Évaluation", icon: "📋", label: "Modèle CREP 2025 (.docx)", query: "Modèle et révision de l'entretien professionnel CREP" },
+  { theme: "CREP & Évaluation", icon: "✉️", label: "Convocation entretien 8 jours", query: "Convocation entretien professionnel annuel" },
+  { theme: "CREP & Évaluation", icon: "⚖️", label: "Demande de révision du CREP", query: "Formulaire et décision demande de révision du CREP" },
+
+  // Formation
+  { theme: "Formation", icon: "🎓", label: "Mobilisation CPF avec financement", query: "Utilisation du compte personnel de formation CPF" },
+  { theme: "Formation", icon: "📚", label: "Congé Formation Professionnelle (CFP)", query: "Congé de formation professionnelle CFP indemnité" },
+  { theme: "Formation", icon: "📝", label: "Bilan de compétences & VAE", query: "Autorisation absence bilan de compétences ou VAE" },
+
+  // Marchés Publics
+  { theme: "Marchés Publics", icon: "✍️", label: "Décision signature marché public", query: "Décision du maire signature d'un marché public" },
+  { theme: "Marchés Publics", icon: "📑", label: "Acte d'engagement ATTRI1", query: "Formulaire ATTRI1 acte d'engagement marché public" },
+  { theme: "Marchés Publics", icon: "🚧", label: "Ordre de Service (OS de travaux)", query: "Ordre de service démarrage de travaux" },
+
+  // Discipline
+  { theme: "Discipline", icon: "⚖️", label: "Sanction Blâme / Avertissement", query: "Sanction disciplinaire blâme avertissement" },
+  { theme: "Discipline", icon: "🛑", label: "Arrêté Suspension Conservatoire", query: "Arrêté suspension conservatoire de fonctions" },
+  { theme: "Discipline", icon: "⚠️", label: "Mise en demeure abandon de poste", query: "Mise en demeure pour abandon de poste et radiation" }
 ];
 
 export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
@@ -289,50 +299,58 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
           </form>
 
           {/* Suggestions rapides organisées par Thème */}
-          <div className="max-w-4xl mx-auto mt-6">
-            <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
-              <p className={`text-xs font-semibold flex items-center gap-1.5 ${
-                isLight ? 'text-slate-500' : 'text-slate-400'
+          <div className="max-w-4xl mx-auto mt-6 space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <p className={`text-xs font-bold flex items-center gap-1.5 ${
+                isLight ? 'text-slate-600' : 'text-slate-300'
               }`}>
-                <HelpCircle className="w-3.5 h-3.5" /> Modèles et questions fréquentes :
+                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                <span>Modèles & Questions fréquentes :</span>
               </p>
 
-              {/* Theme Tabs Filter */}
-              <div className="flex flex-wrap gap-1">
-                {["Tous", "Marchés Publics", "Recrutement", "Carrière & CREP", "Rémunération", "Discipline", "Santé & Inaptitude", "Formation", "Temps de travail"].map((t) => (
+              {/* Theme Tabs Filter Horizontal Bar */}
+              <div className="flex items-center gap-1 overflow-x-auto pb-1 max-w-full custom-scrollbar">
+                {THEME_TABS.map((t) => (
                   <button
-                    key={t}
+                    key={t.id}
                     type="button"
-                    onClick={() => setActiveThemeTab(t)}
-                    className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full transition-all cursor-pointer ${
-                      activeThemeTab === t
-                        ? 'bg-blue-600 text-white shadow-xs'
+                    onClick={() => setActiveThemeTab(t.id)}
+                    className={`text-[11px] font-bold px-2.5 py-1 rounded-full transition-all shrink-0 cursor-pointer border ${
+                      activeThemeTab === t.id
+                        ? 'bg-blue-600 text-white border-blue-500 shadow-sm'
                         : isLight
-                        ? 'bg-slate-100 hover:bg-slate-200 text-slate-600'
-                        : 'bg-slate-800/80 hover:bg-slate-700 text-slate-400'
+                        ? 'bg-slate-100 hover:bg-slate-200 text-slate-600 border-slate-200/80'
+                        : 'bg-slate-800/80 hover:bg-slate-700 text-slate-300 border-slate-700/60'
                     }`}
                   >
-                    {t}
+                    {t.label}
                   </button>
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            {/* Suggestions Cards Grid (Aéré, ergonomique, max 6 items par onglet) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
               {THEMED_SUGGESTIONS
-                .filter(item => activeThemeTab === "Tous" || item.theme === activeThemeTab)
+                .filter(item => activeThemeTab === "Tous" ? item.theme === "Tous" : item.theme === activeThemeTab)
                 .map((item, idx) => (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => handleSelectSuggestion(item.query)}
-                    className={`text-xs px-3 py-1.5 rounded-full border transition-all cursor-pointer ${
+                    className={`group text-left text-xs p-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-2 hover:-translate-y-0.5 ${
                       isLight
-                        ? 'bg-slate-100 hover:bg-blue-50 text-slate-700 border-slate-200 hover:border-blue-300'
-                        : 'bg-slate-800/60 hover:bg-blue-500/20 text-slate-300 border-slate-700 hover:border-blue-400/40'
+                        ? 'bg-slate-50 hover:bg-blue-50/80 text-slate-700 border-slate-200 hover:border-blue-300 hover:shadow-sm'
+                        : 'bg-slate-900/60 hover:bg-blue-950/40 text-slate-200 border-slate-800 hover:border-blue-500/40 hover:shadow-md'
                     }`}
                   >
-                    {item.label}
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="text-sm shrink-0">{item.icon || "📄"}</span>
+                      <span className="font-medium truncate group-hover:text-blue-500 transition-colors">
+                        {item.label}
+                      </span>
+                    </div>
+                    <ArrowRight className="w-3.5 h-3.5 opacity-30 group-hover:opacity-100 group-hover:translate-x-0.5 text-blue-500 transition-all shrink-0" />
                   </button>
                 ))}
             </div>
