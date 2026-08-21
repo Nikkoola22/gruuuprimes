@@ -1388,7 +1388,7 @@ ${indicesFactuels}
                       <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-purple-500/15 to-indigo-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-purple-500/25 transition-all duration-200">
                         <Bot className="w-8 h-8 sm:w-11 sm:h-11" />
                       </div>
-                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">J'ai une<br />question</span>
+                      <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight">J'ai une<br />question IA</span>
                     </button>
 
                     {/* 2. Spotlight Espace Jeux Button */}

@@ -23,7 +23,7 @@ interface StoredStats {
 const STORAGE_KEY = 'admin_weekly_stats'
 
 export const STAT_DEFINITIONS: StatDefinition[] = [
-  { key: 'home_question', label: "J'ai une question", group: 'home' },
+  { key: 'home_question', label: "J'ai une question IA", group: 'home' },
   { key: 'home_calculators', label: 'Calculateurs', group: 'home' },
   { key: 'home_metiers', label: 'Grilles indiciaires', group: 'home' },
   { key: 'calculator_primes', label: 'Calculateur primes', group: 'calculators' },
