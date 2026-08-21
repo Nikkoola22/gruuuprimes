@@ -22,7 +22,12 @@ import {
   Scale,
   Users,
   AlertCircle,
-  ArrowRight
+  ArrowRight,
+  BookOpen,
+  ChevronDown,
+  ChevronUp,
+  Calculator,
+  ExternalLink
 } from 'lucide-react';
 import { searchDocuthequeRAG, RAGSearchResult } from '../utils/docuthequeSearch';
 import { GENNEVILLIERS_DOCUTHEQUE, DOCUTHEQUE_CATEGORIES } from '../data/gennevilliersDocutheque';
@@ -30,6 +35,7 @@ import { GENNEVILLIERS_DOCUTHEQUE, DOCUTHEQUE_CATEGORIES } from '../data/gennevi
 interface DocuthequeRAGProps {
   onBack: () => void;
   initialQuery?: string;
+  onOpenCalculator?: (calc: 'primes' | 'cia' | '13eme') => void;
   theme?: 'light' | 'dark';
 }
 
@@ -110,6 +116,7 @@ const THEMED_SUGGESTIONS = [
 export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
   onBack,
   initialQuery = "",
+  onOpenCalculator,
   theme = 'dark'
 }) => {
   const isLight = theme === 'light';
@@ -118,6 +125,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
   const [activeThemeTab, setActiveThemeTab] = useState<string>("Tous");
   const [ragResult, setRagResult] = useState<RAGSearchResult | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
+  const [expandedBipFicheId, setExpandedBipFicheId] = useState<string | null>(null);
 
   // Scroll en haut de page à l'ouverture du composant
   useEffect(() => {
@@ -404,6 +412,44 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                   </ul>
                 </div>
               )}
+
+              {/* Suggestions / Rebondissements Rapides */}
+              {ragResult.suggestedFollowUps && ragResult.suggestedFollowUps.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-slate-800/40 flex flex-wrap items-center gap-2">
+                  <span className="text-xs font-bold text-slate-400 flex items-center gap-1">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-400" /> Actions & Rebondissements :
+                  </span>
+                  {ragResult.suggestedFollowUps.map((action, i) => {
+                    const isCalcPrimes = action.toLowerCase().includes("calculateur") && action.toLowerCase().includes("rifseep");
+                    const isCalcCia = action.toLowerCase().includes("calculateur") && action.toLowerCase().includes("cia");
+                    return (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => {
+                          if (isCalcPrimes && onOpenCalculator) {
+                            onOpenCalculator('primes');
+                          } else if (isCalcCia && onOpenCalculator) {
+                            onOpenCalculator('cia');
+                          } else {
+                            handleSelectSuggestion(action);
+                          }
+                        }}
+                        className={`text-xs font-semibold px-3 py-1.5 rounded-xl border transition-all cursor-pointer flex items-center gap-1.5 ${
+                          isCalcPrimes || isCalcCia
+                            ? 'bg-gradient-to-r from-orange-500/20 to-amber-500/20 text-orange-400 border-orange-500/40 hover:from-orange-500/30 hover:to-amber-500/30 shadow-xs'
+                            : isLight
+                            ? 'bg-white hover:bg-blue-50 text-slate-700 border-slate-300 shadow-2xs'
+                            : 'bg-slate-800/80 hover:bg-slate-700 text-slate-200 border-slate-700'
+                        }`}
+                      >
+                        {isCalcPrimes || isCalcCia ? <Calculator className="w-3.5 h-3.5 text-orange-400" /> : <ArrowRight className="w-3 h-3 text-blue-400" />}
+                        <span>{action}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
 
             {/* Grille des formulaires et documents identifiés */}
@@ -411,7 +457,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg sm:text-xl font-bold flex items-center gap-2">
                   <FileText className="w-5 h-5 text-indigo-400" />
-                  Documents & Formulaires correspondants ({ragResult.matchedDocuments.length})
+                  Documents & Formulaires municipaux ({ragResult.matchedDocuments.length})
                 </h3>
               </div>
 
@@ -473,6 +519,71 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                 </div>
               )}
             </div>
+
+            {/* SECTION FICHES BIP & JURISPRUDENCE ASSOCIEES */}
+            {ragResult.matchedBipFiches && ragResult.matchedBipFiches.length > 0 && (
+              <div className="space-y-4 pt-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg sm:text-xl font-bold flex items-center gap-2 text-purple-400">
+                    <BookOpen className="w-5 h-5 text-purple-400" />
+                    Fiches BIP & Analyses Juridiques du Statut CGFP ({ragResult.matchedBipFiches.length})
+                  </h3>
+                </div>
+
+                <div className="grid grid-cols-1 gap-3">
+                  {ragResult.matchedBipFiches.map((fiche) => {
+                    const isExpanded = expandedBipFicheId === fiche.id;
+                    return (
+                      <div
+                        key={fiche.id}
+                        className={`p-4 rounded-2xl border transition-all ${
+                          isLight
+                            ? 'bg-purple-50/50 border-purple-200/80 shadow-xs'
+                            : 'bg-gradient-to-r from-purple-950/20 to-slate-900/60 border-purple-500/30 shadow-md'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="space-y-1 flex-1">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 uppercase">
+                                Fiche BIP {fiche.code.toUpperCase()}
+                              </span>
+                              {fiche.chapitre && (
+                                <span className="text-xs text-slate-400">
+                                  {fiche.chapitre} {fiche.sousPartie ? `› ${fiche.sousPartie}` : ''}
+                                </span>
+                              )}
+                            </div>
+                            <h4 className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100">
+                              {fiche.titre}
+                            </h4>
+                            <p className={`text-xs ${isLight ? 'text-slate-600' : 'text-slate-300'} line-clamp-2`}>
+                              {fiche.resume || fiche.content?.slice(0, 180) + "..."}
+                            </p>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => setExpandedBipFicheId(isExpanded ? null : fiche.id)}
+                            className="p-2 rounded-xl bg-purple-600/15 hover:bg-purple-600 text-purple-300 hover:text-white transition-all shrink-0 cursor-pointer"
+                            title={isExpanded ? "Réduire" : "Lire l'analyse complète"}
+                          >
+                            {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                          </button>
+                        </div>
+
+                        {/* Contenu complet déplié */}
+                        {isExpanded && fiche.content && (
+                          <div className="mt-4 pt-3 border-t border-purple-500/20 text-xs sm:text-sm text-slate-700 dark:text-slate-200 whitespace-pre-line leading-relaxed max-h-96 overflow-y-auto custom-scrollbar p-2 bg-black/20 rounded-xl">
+                            {fiche.content}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         )}
 

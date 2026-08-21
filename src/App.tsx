@@ -2438,6 +2438,11 @@ ${indicesFactuels}
         <Suspense fallback={<ViewLoader />}>
           <DocuthequeRAG
             onBack={() => setChatState({ ...chatState, currentView: 'menu' })}
+            onOpenCalculator={(calc) => {
+              setActiveCalculator(calc);
+              setChatState({ ...chatState, currentView: 'calculators' });
+              window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+            }}
             theme={theme}
           />
         </Suspense>

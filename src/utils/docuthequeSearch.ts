@@ -97,7 +97,7 @@ const EXPERT_INTENTIONS_KNOWLEDGE: Array<{
       "rifseep", "ifse", "cotation ifse", "attribution ifse", "revalorisation ifse", "prime ifse",
       "regime indemnitaire", "groupe de fonctions", "attribution rifseep et cotation ifse", "cotation et attribution ifse", "primes rifseep"
     ],
-    docIds: ["remun-guide-rifseep-ifse", "remun-bordereau-heures-sup", "remun-demande-sft"],
+    docIds: ["remun-guide-rifseep-ifse", "bip_rifseep", "rifseep", "remun-bordereau-heures-sup", "remun-demande-sft"],
     title: "Régime Indemnitaire RIFSEEP & Cotation IFSE — Ville de Gennevilliers",
     explanation: "Le RIFSEEP (Régime Indemnitaire tenant compte des Fonctions, des Sujétions, de l'Expertise et de l'Engagement Professionnel) est le socle indemnitaire principal à la Ville de Gennevilliers :",
     keyPoints: [
@@ -333,6 +333,7 @@ export function searchDocuthequeRAG(rawQuery: string): RAGSearchResult {
   let categoryHighlighted: string | undefined;
 
   if (bestExpertMatch) {
+    categoryHighlighted = bestExpertMatch.title;
     explanation = bestExpertMatch.explanation;
     keyPoints = bestExpertMatch.keyPoints;
     suggestedFollowUps = bestExpertMatch.suggestedFollowUps;
