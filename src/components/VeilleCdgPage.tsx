@@ -22,8 +22,7 @@ import {
   Compass,
   Check,
   FileText,
-  Newspaper,
-  RefreshCw
+  Newspaper
 } from "lucide-react";
 import initialNewsData from "../data/cdg-news.json";
 import initialInfographiesData from "../data/cdg-infographies.json";
@@ -302,20 +301,6 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
       return new Date();
     }
   });
-
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [refreshSuccess, setRefreshSuccess] = useState(false);
-
-  const handleManualReindex = () => {
-    if (isRefreshing) return;
-    setIsRefreshing(true);
-    setTimeout(() => {
-      setCurrentLastUpdated(new Date());
-      setIsRefreshing(false);
-      setRefreshSuccess(true);
-      setTimeout(() => setRefreshSuccess(false), 4000);
-    }, 1000);
-  };
 
   // Formatted last updated date
   const formattedLastUpdated = useMemo(() => {
@@ -617,26 +602,13 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
               </div>
             </div>
 
-            {/* Encadré mis en valeur Indexation quotidienne avec actualisation manuelle */}
+            {/* Encadré mis en valeur Indexation quotidienne */}
             <div className="flex items-center gap-2 px-3.5 py-1.5 bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-blue-500/10 border border-emerald-500/30 dark:border-emerald-500/40 rounded-2xl text-xs font-bold text-emerald-800 dark:text-emerald-300 shadow-xs shrink-0">
-              <Clock className={`w-4 h-4 text-emerald-500 shrink-0 ${isRefreshing ? 'animate-spin' : 'animate-pulse'}`} />
+              <Clock className="w-4 h-4 text-emerald-500 animate-pulse shrink-0" />
               <div className="flex flex-col sm:flex-row sm:items-center sm:gap-1.5">
-                <span className="font-extrabold text-emerald-700 dark:text-emerald-300">
-                  {refreshSuccess ? "Indexation réussie !" : "Indexation quotidienne active"}
-                </span>
-                <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
-                  • Mis à jour le {formattedLastUpdated}
-                </span>
+                <span className="font-extrabold text-emerald-700 dark:text-emerald-300">Indexation quotidienne active</span>
+                <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400">• Mis à jour le {formattedLastUpdated}</span>
               </div>
-              <button
-                type="button"
-                onClick={handleManualReindex}
-                disabled={isRefreshing}
-                className="ml-1 p-1 rounded-lg hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 transition-all cursor-pointer disabled:opacity-50"
-                title="Actualiser les flux des 86 CDG maintenant"
-              >
-                <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-blue-500' : ''}`} />
-              </button>
             </div>
           </div>
 
