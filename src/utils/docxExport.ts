@@ -367,3 +367,143 @@ export async function exportStatutoryActToDocx(result: { title: string; category
   });
 }
 
+/**
+ * Générateur officiel du Formulaire de Temps Partiel (De Droit & Sur Autorisation)
+ * Conforme CGFP Art. L. 612-1 à L. 612-14 et Décret n° 2004-777
+ */
+export async function exportTempsPartielFormDocx(variant: 'de_droit' | 'autorisation' = 'de_droit'): Promise<void> {
+  const isDroit = variant === 'de_droit';
+  const title = isDroit 
+    ? "Formulaire de Demande de Temps Partiel de Droit - Ville de Gennevilliers"
+    : "Formulaire de Demande de Temps Partiel sur Autorisation - Ville de Gennevilliers";
+
+  const rawText = isDroit ? `VILLE DE GENNEVILLIERS - DIRECTION DES RESSOURCES HUMAINES
+FORMULAIRE OFFICIEL : DEMANDE D'EXERCICE DES FONCTIONS À TEMPS PARTIEL DE DROIT
+(Code Général de la Fonction Publique, Art. L. 612-2 à L. 612-4 & Décret n° 2004-777 du 29 juillet 2004)
+
+1. IDENTIFICATION DE L'AGENT(E)
+Nom de naissance : ___________________________   Nom d'usage : ___________________________
+Prénom : _____________________________________   Matricule RH : ___________________________
+Direction / Pôle : ___________________________   Service : _______________________________
+Grade / Emploi : _____________________________   Fonctions exercées : ____________________
+Téléphone pro : ______________________________   Courriel : ______________________________
+
+2. MOTIF LÉGAL DE LA DEMANDE (TEMPS PARTIEL DE DROIT)
+Cocher le motif justifiant le bénéfice du temps partiel de droit :
+[  ] À l'occasion de chaque naissance (jusqu'aux 3 ans de l'enfant) ou d'une adoption (délai de 3 ans)
+     Nom et prénom de l'enfant : _______________________   Date de naissance/arrivée : ___/___/______
+[  ] Pour donner des soins au conjoint, partenaire de PACS ou concubin atteint d'un handicap ou maladie grave
+[  ] Pour donner des soins à un enfant à charge atteint d'un handicap ou victime d'un accident/maladie grave
+[  ] Pour donner des soins à un ascendant (père, mère) atteint d'un handicap ou perte d'autonomie
+[  ] En qualité de travailleur handicapé (bénéficiaire de l'art. L. 351-1 du CGFP)
+
+3. MODALITÉS & QUOTITÉ DU TEMPS DE TRAVAIL SOLLICITÉ
+Quotité souhaitée :
+[  ] 50 % d'un temps plein (17h30 hebdomadaires)
+[  ] 60 % d'un temps plein (21h00 hebdomadaires)
+[  ] 70 % d'un temps plein (24h30 hebdomadaires)
+[  ] 80 % d'un temps plein (28h00 hebdomadaires — Rémunération avantageuse à 85,7% soit 6/7e)
+
+Période d'effet demandée :
+Du ___ / ___ / 202___ au ___ / ___ / 202___ (Période comprise entre 6 mois et 1 an renouvelable)
+
+Répartition hebdomadaire proposée des journées / demi-journées non travaillées :
+- Lundi :    [  ] Matin   [  ] Après-midi   [  ] Journée entière
+- Mardi :    [  ] Matin   [  ] Après-midi   [  ] Journée entière
+- Mercredi : [  ] Matin   [  ] Après-midi   [  ] Journée entière
+- Jeudi :    [  ] Matin   [  ] Après-midi   [  ] Journée entière
+- Vendredi : [  ] Matin   [  ] Après-midi   [  ] Journée entière
+
+4. RÈGLES STATUTAIRES & IMPACTS SUR LA CARRIÈRE
+- Rémunération : Traitement indiciaire brut, NBI et régime indemnitaire (IFSE) proratisés. Règle dérogatoire des 6/7e pour la quotité de 80% (rémunéré à 85,71%). Le SFT ne peut être inférieur au montant minimum légal.
+- Droits à avancement & retraite : Les périodes de temps partiel sont assimilées à du temps plein pour l'avancement d'échelon et de grade, ainsi que pour la constitution des droits à pension CNRACL.
+- Congés annuels : Proratisés au nombre de jours travaillés par semaine (ex: 20 jours ouvrés pour 4 jours/semaine).
+
+5. SIGNATURES & VISAS HIÉRARCHIQUES
+
+Date de la demande : ___ / ___ / 202___
+Signature de l'agent(e) :
+
+
+AVIS MOTIVÉ DU CHEF DE SERVICE / DIRECTEUR :
+[  ] Favorable
+[  ] Organisation du planning validée
+Observations : _________________________________________________________________
+Date : ___ / ___ / 202___
+Signature et cachet du Chef de service :
+
+
+DÉCISION DE LA DIRECTION DES RESSOURCES HUMAINES :
+[  ] Demande enregistrée et transmise pour établissement de l'arrêté municipal
+Date : ___ / ___ / 202___
+Pour le Maire de Gennevilliers et par délégation, la Direction des Ressources Humaines :`
+  : `VILLE DE GENNEVILLIERS - DIRECTION DES RESSOURCES HUMAINES
+FORMULAIRE OFFICIEL : DEMANDE D'EXERCICE DES FONCTIONS À TEMPS PARTIEL SUR AUTORISATION
+(Code Général de la Fonction Publique, Art. L. 612-1 & Décret n° 2004-777 du 29 juillet 2004)
+
+1. IDENTIFICATION DE L'AGENT(E)
+Nom de naissance : ___________________________   Nom d'usage : ___________________________
+Prénom : _____________________________________   Matricule RH : ___________________________
+Direction / Pôle : ___________________________   Service : _______________________________
+Grade / Emploi : _____________________________   Fonctions exercées : ____________________
+Téléphone pro : ______________________________   Courriel : ______________________________
+
+2. OBJET DE LA DEMANDE (CONVENANCES PERSONNELLES)
+[  ] Première demande de temps partiel sur autorisation
+[  ] Renouvellement d'une période de temps partiel en cours
+[  ] Modification de la quotité de travail en cours
+
+3. MODALITÉS & QUOTITÉ DU TEMPS DE TRAVAIL SOLLICITÉ
+Quotité demandée (accordée sous réserve des nécessités du service) :
+[  ] 50 % d'un temps plein
+[  ] 60 % d'un temps plein
+[  ] 70 % d'un temps plein
+[  ] 80 % d'un temps plein (Rémunéré à 85,7 % soit 6/7e du traitement)
+[  ] 90 % d'un temps plein (Rémunéré à 91,4 % soit 32/35e du traitement)
+
+Modalité d'organisation :
+[  ] Dans un cadre hebdomadaire
+[  ] Dans un cadre mensuel
+[  ] Dans un cadre annualisé (rythme scolaire / périscolaire)
+
+Période souhaitée :
+Du ___ / ___ / 202___ au ___ / ___ / 202___
+(Rappel : La demande doit être déposée au moins 2 mois avant la date d'effet souhaitée).
+
+Répartition hebdomadaire proposée des journées / demi-journées non travaillées :
+- Lundi :    [  ] Matin   [  ] Après-midi   [  ] Journée entière
+- Mardi :    [  ] Matin   [  ] Après-midi   [  ] Journée entière
+- Mercredi : [  ] Matin   [  ] Après-midi   [  ] Journée entière
+- Jeudi :    [  ] Matin   [  ] Après-midi   [  ] Journée entière
+- Vendredi : [  ] Matin   [  ] Après-midi   [  ] Journée entière
+
+4. SIGNATURES & VISAS HIÉRARCHIQUES
+
+Date de la demande : ___ / ___ / 202___
+Signature de l'agent(e) :
+
+
+AVIS MOTIVÉ DU CHEF DE SERVICE / DIRECTEUR :
+[  ] Avis Favorable
+[  ] Avis Défavorable (Motif circonstancié lié à la continuité et l'organisation du service requis) :
+Observations : _________________________________________________________________
+Date : ___ / ___ / 202___
+Signature et cachet du Chef de service :
+
+
+DÉCISION DE LA DIRECTION DES RESSOURCES HUMAINES :
+[  ] Autorisation accordée — Arrêté municipal en cours d'établissement
+[  ] Rejet motivé après saisine de la CAP le cas échéant
+Date : ___ / ___ / 202___
+Pour le Maire de Gennevilliers et par délégation, la DRH :`;
+
+  return exportToOfficialDocx({
+    title,
+    category: "Temps de Travail & Absences CGFP",
+    content: title,
+    rawText,
+    docType: 'circulaire'
+  });
+}
+
+
