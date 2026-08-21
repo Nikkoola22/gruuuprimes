@@ -812,6 +812,19 @@ export const GENNEVILLIERS_DOCUTHEQUE: DocuthequeItem[] = [
     intentions: ["remboursement pass navigo", "prise en charge transport travail", "rembourser abonnement ratp"]
   },
   {
+    id: "remun-guide-rifseep-ifse",
+    title: "Guide & Barème d'Attribution du RIFSEEP (Cotation IFSE & CIA)",
+    category: "Rémunération",
+    subCategory: "Régime indemnitaire",
+    type: "pdf",
+    size: "245 Ko",
+    date: "15/01/2026",
+    url: "https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/remuneration/guide_attribution_cotation_rifseep_ifse_cia.pdf",
+    keywords: ["rifseep", "ifse", "cotation ifse", "attribution ifse", "revalorisation ifse", "groupe de fonctions", "primes rifseep", "regime indemnitaire", "cia"],
+    summary: "Guide municipal officiel fixant les critères de cotation des postes, l'attribution de l'IFSE par groupes de fonctions, le réexamen quadriennal obligatoire et le CIA.",
+    intentions: ["attribution rifseep et cotation ifse", "cotation et attribution ifse", "attribution ifse", "revalorisation ifse", "bareme rifseep", "prime ifse", "grille ifse"]
+  },
+  {
     id: "remun-demande-sft",
     title: "Demande d'attribution du supplément familial de traitement (SFT)",
     category: "Rémunération",

@@ -94,6 +94,22 @@ const EXPERT_INTENTIONS_KNOWLEDGE: Array<{
   },
   {
     triggers: [
+      "rifseep", "ifse", "cotation ifse", "attribution ifse", "revalorisation ifse", "prime ifse",
+      "regime indemnitaire", "groupe de fonctions", "attribution rifseep et cotation ifse", "cotation et attribution ifse", "primes rifseep"
+    ],
+    docIds: ["remun-guide-rifseep-ifse", "remun-bordereau-heures-sup", "remun-demande-sft"],
+    title: "Régime Indemnitaire RIFSEEP & Cotation IFSE — Ville de Gennevilliers",
+    explanation: "Le RIFSEEP (Régime Indemnitaire tenant compte des Fonctions, des Sujétions, de l'Expertise et de l'Engagement Professionnel) est le socle indemnitaire principal à la Ville de Gennevilliers :",
+    keyPoints: [
+      "🏛️ IFSE (Indemnité de Fonctions, de Sujétions et d'Expertise) : Part fixe mensuelle attribuée en fonction du groupe de fonctions auquel est rattaché le poste (responsabilité, technicité, sujétions).",
+      "📈 Revalorisation obligatoire : Réexamen statutaire de la cotation au moins tous les 4 ans, ou lors d'un changement de fonctions, d'une mobilité ou d'un avancement de grade.",
+      "🏆 Complément CIA : Part variable versée annuellement pour valoriser l'engagement et les résultats lors du CREP.",
+      "⚠️ Distinction SFT : Le Supplément Familial de Traitement (SFT) est une prestation distincte liée aux enfants à charge et ne doit pas être confondu avec l'IFSE."
+    ],
+    suggestedFollowUps: ["Calculateur RIFSEEP (Primes)", "Calculateur CIA", "Guide RIFSEEP & Barème IFSE", "Demande SFT"]
+  },
+  {
+    triggers: [
       "crep", "entretien professionnel", "evaluation", "notation", "recours crep", "guide evaluateur",
       "grille crep", "modele crep"
     ],
