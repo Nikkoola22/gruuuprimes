@@ -1,41 +1,76 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Apple, Wifi, Battery, Search, Sliders, Bell, 
-  Calculator, Gamepad2, Info, Moon, Sun, Clock,
-  BookOpen, HelpCircle, CheckCircle, RefreshCw, X,
-  ChevronRight, Volume2, Laptop, ShieldCheck, Share2, Eye
+  Calculator, Gamepad2, Moon, Sun,
+  HelpCircle, CheckCircle, X,
+  ChevronRight, Volume2, Laptop, ShieldCheck, Share2
 } from 'lucide-react';
 import { faqData, FAQItem } from '../data/FAQdata';
 
 interface Props {
   theme: 'light' | 'dark';
   toggleTheme: () => void;
-  currentView: string;
+  currentView?: string;
   setView: (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh") => void;
   openCalculator: (calc: 'primes' | 'cia' | '13eme') => void;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 export default function MacMenuBar({
   theme,
   toggleTheme,
-  currentView,
   setView,
   openCalculator,
-  onClose
 }: Props) {
   // Navigation & Dropdown State
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   
   // Custom Controls State (macOS widgets)
-  const [climatSocial, setClimatSocial] = useState(88); // Battery-like indicator
-  const [brightness, setBrightness] = useState(100); // UI visual glow
-  const [wifiConnected, setWifiConnected] = useState(true);
+  const [climatSocial] = useState(88); // Battery-like indicator
+  const [brightness] = useState(100); // UI visual glow
+  const [wifiConnected] = useState(true);
   
   // About / Preferences Modals State
   const [showAbout, setShowAbout] = useState(false);
   const [showPreferences, setShowPreferences] = useState(false);
+
+  // Spotlight Search State
+  const [showSpotlight, setShowSpotlight] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<FAQItem[]>([]);
+  const [selectedResult, setSelectedResult] = useState<FAQItem | null>(null);
+  const spotlightInputRef = useRef<HTMLInputElement>(null);
+
+  // Focus Mode State
+  const [focusMode, setFocusMode] = useState(false);
+
+  // Clock State
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const dateStr = currentTime.toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short" });
+  const timeStr = currentTime.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+
+  const handleSearch = (q: string) => {
+    setSearchQuery(q);
+    if (!q.trim()) {
+      setSearchResults([]);
+      setSelectedResult(null);
+      return;
+    }
+    const results = faqData.filter(item => 
+      item.question.toLowerCase().includes(q.toLowerCase()) || 
+      item.answer.toLowerCase().includes(q.toLowerCase()) ||
+      item.category.toLowerCase().includes(q.toLowerCase())
+    );
+    setSearchResults(results);
+    setSelectedResult(results[0] || null);
+  };
 
   // DOM Refs for closing dropdowns on click outside
   const menuBarRef = useRef<HTMLDivElement>(null);
@@ -354,7 +389,7 @@ export default function MacMenuBar({
                     </button>
 
                     <button 
-                      onClick={() => setFocusMode(p => !p)}
+                      onClick={() => setFocusMode((p: boolean) => !p)}
                       className="flex flex-col items-center gap-1.5 text-center group cursor-pointer"
                     >
                       <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${focusMode ? 'bg-purple-600 text-white shadow' : 'bg-slate-300 dark:bg-slate-700 text-slate-500'}`}>
@@ -696,7 +731,7 @@ export default function MacMenuBar({
                       <input 
                         type="checkbox" 
                         checked={focusMode}
-                        onChange={() => setFocusMode(p => !p)}
+                        onChange={() => setFocusMode((p: boolean) => !p)}
                         className="sr-only peer"
                       />
                       <div className="w-7 h-4 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:border-slate-600 peer-checked:bg-purple-655"></div>
