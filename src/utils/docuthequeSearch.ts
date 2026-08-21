@@ -65,17 +65,36 @@ const EXPERT_INTENTIONS_KNOWLEDGE: Array<{
   {
     triggers: [
       "teletravail", "faire du teletravail", "jours de teletravail", "demander le teletravail",
-      "ordinateur portable", "kit teletravail", "renouvellement teletravail", "travailler a la maison"
+      "ordinateur portable", "kit teletravail", "renouvellement teletravail", "travailler a la maison",
+      "materiel teletravail", "indemnite teletravail", "allocation teletravail", "protocole teletravail"
     ],
-    docIds: ["teletravail-demande-renouvellement-2026", "teletravail-circulaire-2023", "teletravail-protocole", "teletravail-prevention-posture"],
-    title: "Dispositif Télétravail & Matériel à Gennevilliers",
-    explanation: "Le télétravail est encadré par le protocole municipal et ouvert aux agents occupant des fonctions compatibles avec le travail à distance :",
+    docIds: [
+      "teletravail-demande-renouvellement-2026",
+      "bip_teltra",
+      "teltra",
+      "teletravail-circulaire-2023",
+      "teletravail-protocole",
+      "teletravail-prevention-posture",
+      "teletravail-procedure",
+      "teletravail-aide-decision-agent",
+      "teletravail-aide-decision-manager"
+    ],
+    title: "Dispositif Télétravail & Matériel à Gennevilliers — Protocole Municipal 2026",
+    explanation: "Le dispositif municipal de télétravail à la Ville de Gennevilliers permet d'exercer ses missions à distance avec la mise à disposition complète d'un matériel informatique sécurisé :",
     keyPoints: [
-      "💻 Formulaire unique 2026 : Utilisable pour une première demande ou un renouvellement, incluant la commande du matériel informatique (PC portable, écran, souris).",
-      "📅 Nombre de jours : Généralement 1 à 2 jours par semaine selon l'organisation du service et l'accord hiérarchique.",
-      "💶 Allocation forfaitaire : Indemnisation mensuelle forfaitaire versée pour compenser les frais engagés à domicile."
+      "💻 Formulaire Unique 2026 & Dotation Matériel : Document officiel à remplir pour une première demande ou un renouvellement, incluant la commande de votre pack bureautique (PC portable configuré DSI, écran additionnel, clavier, souris, station d'accueil et sacoche).",
+      "📅 Rythme & Organisation : 1 à 2 jours par semaine (jours fixes ou flottants selon l'accord de service) pour préserver la cohésion d'équipe et la continuité du service public.",
+      "💶 Allocation forfaitaire télétravail : Indemnisation financière versée sur votre fiche de paie pour couvrir les frais de domicile (électricité, internet, chauffage).",
+      "🩺 Prévention santé & Ergonomie : Respect impératif des plages de disponibilité, droit à la déconnexion et bonnes pratiques posturales (kit ergonomique).",
+      "⚖️ Circuit de validation : Transmission du formulaire avec avis motivé du responsable de service pour décision finale de la Direction des Ressources Humaines."
     ],
-    suggestedFollowUps: ["Formulaire demande et matériel 2026", "Circulaire télétravail", "Fiche ergonomie posture"]
+    suggestedFollowUps: [
+      "Fiche demande & matériel 2026",
+      "Circulaire évolution télétravail",
+      "Protocole municipal télétravail",
+      "Guide ergonomie & kit posture",
+      "Fiche aide décision manager"
+    ]
   },
   {
     triggers: [

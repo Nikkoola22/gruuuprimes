@@ -425,6 +425,71 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                 </div>
               )}
 
+              {/* Highlight Spécial Télétravail & Matériel DSI */}
+              {(ragResult.categoryHighlighted?.toLowerCase().includes("télétravail") || ragResult.categoryHighlighted?.toLowerCase().includes("teletravail") || ragResult.query.toLowerCase().includes("teletravail")) && (
+                <div className={`mt-5 p-5 rounded-2xl border ${
+                  isLight
+                    ? 'bg-gradient-to-r from-blue-50/90 to-indigo-50/90 border-blue-200 shadow-sm'
+                    : 'bg-gradient-to-r from-blue-950/30 via-indigo-950/20 to-slate-900/60 border-blue-500/40 shadow-md'
+                }`}>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-blue-500/20">
+                    <div className="flex items-center gap-2.5">
+                      <div className="p-2 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                        <Laptop className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm sm:text-base font-bold text-blue-400">
+                          Pack Matériel DSI & Dotation Informatique — Ville de Gennevilliers
+                        </h4>
+                        <p className={`text-xs ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>
+                          Matériel professionnel configuré et sécurisé pour l'exercice de vos missions à domicile
+                        </p>
+                      </div>
+                    </div>
+                    <a
+                      href="https://intranet.ville-gennevilliers.fr/Statics/Docutheque/ressources_humaines/teletravail/fiche_de_demande_et_renouvellement_de_teletravail_et_materiel_2026.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-all shadow-md shadow-blue-600/30 shrink-0 self-start sm:self-auto"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      <span>Formulaire Officiel 2026 (.PDF)</span>
+                    </a>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-3.5">
+                    <div className={`p-3 rounded-xl border flex items-center gap-2.5 ${isLight ? 'bg-white/90 border-blue-200' : 'bg-slate-900/60 border-slate-800'}`}>
+                      <span className="text-xl">💻</span>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold truncate">PC Portable DSI</p>
+                        <p className="text-[10px] text-slate-400">VPN & Accès Mairie</p>
+                      </div>
+                    </div>
+                    <div className={`p-3 rounded-xl border flex items-center gap-2.5 ${isLight ? 'bg-white/90 border-blue-200' : 'bg-slate-900/60 border-slate-800'}`}>
+                      <span className="text-xl">🖥️</span>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold truncate">Écran 24" HD</p>
+                        <p className="text-[10px] text-slate-400">Double affichage</p>
+                      </div>
+                    </div>
+                    <div className={`p-3 rounded-xl border flex items-center gap-2.5 ${isLight ? 'bg-white/90 border-blue-200' : 'bg-slate-900/60 border-slate-800'}`}>
+                      <span className="text-xl">⌨️</span>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold truncate">Périphériques</p>
+                        <p className="text-[10px] text-slate-400">Clavier & Souris sans fil</p>
+                      </div>
+                    </div>
+                    <div className={`p-3 rounded-xl border flex items-center gap-2.5 ${isLight ? 'bg-white/90 border-blue-200' : 'bg-slate-900/60 border-slate-800'}`}>
+                      <span className="text-xl">🎒</span>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold truncate">Pack Mobilité</p>
+                        <p className="text-[10px] text-slate-400">Sacoche & Câblage</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Suggestions / Rebondissements Rapides */}
               {ragResult.suggestedFollowUps && ragResult.suggestedFollowUps.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-slate-800/40 flex flex-wrap items-center gap-2">
