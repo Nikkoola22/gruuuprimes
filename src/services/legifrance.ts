@@ -1,21 +1,10 @@
 /**
  * Service API Légifrance (PISTE / DILA) & Suite RH Statutaire (CGFP)
  * Mairie de Gennevilliers
+ *
+ * NB : les identifiants PISTE/Légifrance ne doivent jamais figurer côté
+ * client — ils transitent uniquement par le backend (server/routes/search.js).
  */
-
-export interface LegifranceConfig {
-  clientId: string;
-  clientSecret: string;
-  appId: string;
-  apiKey: string;
-}
-
-export const LEGIFRANCE_CONFIG: LegifranceConfig = {
-  clientId: import.meta.env.VITE_LEGIFRANCE_CLIENT_ID || "c21e08ec-26bf-4699-868b-e7e86264cb79",
-  clientSecret: import.meta.env.VITE_LEGIFRANCE_CLIENT_SECRET || "a1cd3e71-e63f-4ec7-b74c-a28f5c4042c6",
-  appId: import.meta.env.VITE_PISTE_APP_ID || "4235123a-6bca-4a60-b410-fd38c7368157",
-  apiKey: import.meta.env.VITE_LEGIFRANCE_API_KEY || "6f3304e9-0093-46c4-8a20-f0dc98c73a01",
-};
 
 export interface AnalysisFormDetails {
   structureValide: boolean;
