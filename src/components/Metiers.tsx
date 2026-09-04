@@ -26,13 +26,13 @@ const MetierCard: React.FC<MetierCardProps & { onClose: () => void }> = ({ icon,
   };
 
   return (
-    <div className="group bg-white dark:bg-slate-800 rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-transparent hover:border-blue-400 cursor-pointer glass-card-light"
+    <div className="group bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl p-5 sm:p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-transparent hover:border-blue-400 cursor-pointer glass-card-light"
       onClick={handleNavigate}
     >
       <div className="text-6xl mb-6 w-20 h-20 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center text-white group-hover:scale-110 transition-transform">
         {icon}
       </div>
-      <h3 className="text-2xl font-bold text-blue-900 mb-4">{title}</h3>
+      <h3 className="text-xl sm:text-2xl font-bold text-blue-900 mb-4">{title}</h3>
       <p className="text-gray-700 text-sm leading-relaxed mb-6">{description}</p>
       <button className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 transform group-hover:scale-105 btn-cta">
         <span>Voir les grilles</span>
@@ -46,10 +46,10 @@ const Metiers: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
     <div className="fixed inset-0 z-[60] overflow-y-auto overflow-x-hidden overscroll-contain bg-slate-50 dark:bg-slate-900">
       {/* Intro Section */}
-      <section className="relative z-40 bg-white dark:bg-slate-800/95 dark:bg-slate-900/95 backdrop-blur-md py-12 text-center border-b border-slate-200 shadow-sm glass-banner">
-        <div className="max-w-3xl mx-auto px-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-            <h2 className="text-3xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
+      <section className="relative z-40 bg-white dark:bg-slate-800/95 dark:bg-slate-900/95 backdrop-blur-md py-6 sm:py-12 text-center border-b border-slate-200 shadow-sm glass-banner">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4 sm:mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
               <Wrench className="w-8 h-8 text-cyan-600" />
               Vos métiers
             </h2>

@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowLeft, Newspaper, ArrowRight, Rss, BookOpen, ExternalLink, FileText, Sparkles } from "lucide-react";
+import { ArrowLeft, Newspaper, ArrowRight, Rss, BookOpen, FileText, Sparkles } from "lucide-react";
 import { SpotlightCard } from "./ui/SpotlightCard.tsx";
 import { BorderGlow } from "./ui/BorderGlow.tsx";
 
@@ -23,11 +23,11 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
   return (
     <div className="fixed inset-0 z-[60] overflow-y-auto overflow-x-hidden overscroll-contain bg-slate-100 text-slate-900 font-sans">
       {/* Top Header Banner */}
-      <section className="relative z-40 bg-white py-10 text-center border-b border-slate-200 shadow-sm">
-        <div className="max-w-6xl mx-auto px-6">
+      <section className="relative z-40 bg-white py-6 sm:py-10 text-center border-b border-slate-200 shadow-sm">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 flex items-center gap-3">
-              <div className="p-3 bg-blue-50 border border-blue-200 rounded-2xl">
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 flex items-center gap-3">
+              <div className="p-2 sm:p-3 bg-blue-50 border border-blue-200 rounded-xl sm:rounded-2xl">
                 <Newspaper className="w-8 h-8 text-blue-600 animate-pulse" />
               </div>
               Actualités <span className="text-blue-600">CFDT & Statut RH</span>
@@ -52,23 +52,23 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
       </section>
 
       {/* Main Content */}
-      <section className="max-w-7xl mx-auto px-6 py-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
           {/* Left Main Column: Articles */}
-          <div className="lg:col-span-3 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xl shadow-slate-200/50">
-            <div className="flex items-center gap-3 mb-8">
+          <div className="lg:col-span-3 bg-white rounded-xl sm:rounded-3xl p-4 sm:p-8 border border-slate-200 shadow-xl shadow-slate-200/50">
+            <div className="flex items-center gap-3 mb-4 sm:mb-8">
               <div className="p-3 bg-blue-50 rounded-xl border border-blue-200">
                 <Sparkles className="w-6 h-6 text-blue-600" />
               </div>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-wide">
+              <h3 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-wide">
                 À la Une — Statut & Actualités
               </h3>
             </div>
 
             {/* --- FEATURED CIG CARD --- */}
             <BorderGlow glowColor="from-blue-500 via-cyan-400 to-blue-600" className="mb-10">
-              <div className="p-6 flex flex-col md:flex-row gap-6 items-center bg-white rounded-2xl">
+              <div className="p-4 sm:p-6 flex flex-col md:flex-row gap-4 sm:gap-6 items-center bg-white rounded-xl sm:rounded-2xl">
                 <div className="relative w-full md:w-72 h-48 overflow-hidden rounded-xl shrink-0 border border-slate-200 bg-slate-50">
                   <img
                     src="https://www.cig929394.fr/wp-content/uploads/2026/08/FOCUS-BIP_Actu-aout2026.png"
@@ -124,13 +124,13 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
               <div className="p-2.5 bg-blue-50 rounded-xl border border-blue-200">
                 <Rss className="w-6 h-6 text-blue-600" />
               </div>
-              <h4 className="text-2xl font-bold text-slate-900 tracking-wide">
+              <h4 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-wide">
                 En direct de la CFDT Interco
               </h4>
             </div>
 
             {news.length === 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 animate-pulse">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 animate-pulse">
                 {[1, 2, 3, 4].map((n) => (
                   <div key={n} className="bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col justify-between h-72">
                     <div className="w-full h-36 bg-slate-200 rounded-xl mb-4" />
@@ -147,7 +147,7 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
                 ))}
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 {news.map((article, i) => {
                   const date = article.pubDate
                     ? new Date(article.pubDate).toLocaleDateString("fr-FR", {
@@ -216,17 +216,17 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
           </div>
 
           {/* Right Column: Publications & Journal */}
-          <div className="lg:col-span-1 bg-white rounded-3xl p-6 border border-slate-200 shadow-xl shadow-slate-200/50 flex flex-col h-full">
-            <div className="flex items-center gap-3 mb-6">
+          <div className="lg:col-span-1 bg-white rounded-xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200 shadow-xl shadow-slate-200/50 flex flex-col h-full">
+            <div className="flex items-center gap-3 mb-4 sm:mb-6">
               <div className="p-2.5 bg-indigo-50 rounded-xl border border-indigo-200">
                 <BookOpen className="w-6 h-6 text-indigo-600" />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 tracking-wide">
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-wide">
                 À Télécharger
               </h3>
             </div>
 
-            <div className="flex flex-col gap-6 flex-grow">
+            <div className="flex flex-col gap-4 sm:gap-6 flex-grow">
               <SpotlightCard spotlightColor="rgba(249, 115, 22, 0.15)" className="bg-white border border-slate-200 rounded-2xl p-5 shadow-md flex flex-col">
                 <a
                   href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/journal-gennevilliers-printemps-2026.pdf"

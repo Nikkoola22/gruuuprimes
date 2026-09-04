@@ -191,13 +191,13 @@ const FAQ: React.FC<Props> = ({ onBack }) => {
         {/* Header */}
         <div className="mb-6 sm:mb-8 animate-fade-in">
           <div className="mb-4 sm:mb-6">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">FAQ</h1>
+            <h1 className="text-2xl sm:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">FAQ</h1>
             <p className="mt-2 text-sm sm:text-base lg:text-lg text-gray-600">Questions fréquentes — guide rapide pour les agents</p>
           </div>
         </div>
 
         {/* Search and Filters */}
-        <div className="mb-8 space-y-4 animate-slide-up">
+        <div className="mb-4 sm:mb-8 space-y-4 animate-slide-up">
           {/* Search Bar */}
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000" />

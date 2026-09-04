@@ -17,9 +17,7 @@ import {
   MapPin,
   Crown
 } from "lucide-react";
-import { SpotlightCard } from "./ui/SpotlightCard.tsx";
 import { ShinyText } from "./ui/ShinyText.tsx";
-import { TiltedCard } from "./ui/TiltedCard.tsx";
 
 
 // Lazy-load les jeux
@@ -118,7 +116,7 @@ const games: GameDef[] = [
   { id: "roulette", title: "Roulette QVT", description: "Obtenez des idées concrètes pour votre bien-être au bureau.", actionText: "Lancer", icon: Sparkles, iconTheme: "blue", bgImage: "roulette.png", spanClass: "md:col-span-2 lg:col-span-2" }
 ];
 
-const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
+const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose }) => {
   const isLight = false; // L'Espace Jeux reste en thème sombre (fond noir) quel que soit le thème global
   const [activeGame, setActiveGame] = useState<GameDef["id"] | "none">("none");
 
@@ -184,7 +182,7 @@ const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
       <div className="max-w-7xl mx-auto relative z-10">
         
         {/* Retour au menu principal */}
-        <div className="relative z-40 mb-8 flex justify-between items-center">
+        <div className="relative z-40 mb-4 sm:mb-8 flex justify-between items-center">
           <button
             type="button"
             onClick={onClose}
@@ -196,11 +194,11 @@ const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
         </div>
 
         {/* Header Title */}
-        <div className="text-center mb-16 animate-fade-in">
-          <div className={`inline-flex p-4 rounded-2xl mb-4 shadow-xl backdrop-blur-md transition-colors duration-500 ${isLight ? "bg-white/50 border border-slate-200 text-slate-700" : "bg-white/5 border border-white/10 text-slate-300"}`}>
-            <Gamepad2 className="w-10 h-10 animate-pulse" />
+        <div className="text-center mb-8 sm:mb-16 animate-fade-in">
+          <div className={`inline-flex p-3 sm:p-4 rounded-xl sm:rounded-2xl mb-4 shadow-xl backdrop-blur-md transition-colors duration-500 ${isLight ? "bg-white/50 border border-slate-200 text-slate-700" : "bg-white/5 border border-white/10 text-slate-300"}`}>
+            <Gamepad2 className="w-8 h-8 sm:w-10 sm:h-10 animate-pulse" />
           </div>
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-4 drop-shadow-lg">
+          <h1 className="text-3xl sm:text-6xl md:text-7xl font-black tracking-tight mb-4 drop-shadow-lg">
             <ShinyText text="Espace Jeux Interactive RH" color="#f97316" shineColor="#ffffff" speed={3} />
           </h1>
           <p className={`text-base sm:text-xl font-light max-w-2xl mx-auto transition-colors duration-500 ${isLight ? "text-slate-600" : "text-slate-300"}`}>
@@ -209,15 +207,15 @@ const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
         </div>
 
         {/* Selection Cards Grid - Bento Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 auto-rows-[300px] gap-6 max-w-7xl mx-auto items-stretch justify-items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 auto-rows-[300px] gap-4 sm:gap-6 max-w-7xl mx-auto items-stretch justify-items-center">
           {games.map((game) => {
             const theme = themeStyles[game.iconTheme];
             const Icon = game.icon;
             return (
               <button
                 key={game.id}
-                onClick={() => setActiveGame(game.id as any)}
-                className={`group relative text-left rounded-3xl overflow-hidden transition-all duration-500 flex flex-col justify-end w-full h-full shadow-lg hover:shadow-2xl hover:-translate-y-2 border ${isLight ? "border-slate-200" : "border-white/10"} backdrop-blur-sm bg-slate-800 ${game.spanClass}`}
+                onClick={() => setActiveGame(game.id)}
+                className={`group relative text-left rounded-xl sm:rounded-3xl overflow-hidden transition-all duration-500 flex flex-col justify-end w-full h-full shadow-lg hover:shadow-2xl hover:-translate-y-2 border ${isLight ? "border-slate-200" : "border-white/10"} backdrop-blur-sm bg-slate-800 ${game.spanClass}`}
                 style={{ 
                   backgroundImage: `url('${BASE_URL}${game.bgImage}')`,
                   backgroundSize: 'cover',
@@ -227,7 +225,7 @@ const EspaceJeux: React.FC<EspaceJeuxProps> = ({ onClose, theme = 'dark' }) => {
                 <div className="absolute inset-0 transition-opacity duration-500 opacity-80 group-hover:opacity-90 bg-gradient-to-t from-black via-black/90 to-transparent" />
                 <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
-                <div className="relative z-10 p-6 sm:p-8 transform translate-y-8 sm:translate-y-12 group-hover:translate-y-0 transition-transform duration-500 flex flex-col justify-end h-full">
+                <div className="relative z-10 p-4 sm:p-8 transform translate-y-8 sm:translate-y-12 group-hover:translate-y-0 transition-transform duration-500 flex flex-col justify-end h-full">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-3">
                     <div className={`p-3 ${theme.bg} backdrop-blur-md rounded-xl border ${theme.border} ${theme.text} shadow-lg ${theme.shadow} shrink-0 w-fit`}>
                       <Icon className={`${game.iconSizeClass || "w-7 h-7"} group-hover:animate-pulse`} />
