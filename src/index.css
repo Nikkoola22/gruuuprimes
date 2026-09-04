@@ -1200,3 +1200,17 @@ body::before {
 .animate-float {
   animation: float 4s ease-in-out infinite;
 }
+
+/* Amélioration contraste Dark Mode Mobile */
+@media (max-width: 640px) {
+  html.dark body {
+    background: #000000;
+  }
+  html.dark .glass-card, html.dark .glass-banner {
+    background: rgba(15, 23, 42, 0.95) !important;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  html.dark .text-slate-500 {
+    color: #94a3b8 !important; /* Lighter text for better contrast */
+  }
+}

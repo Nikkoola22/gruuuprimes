@@ -354,27 +354,27 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
 
   // Étape 1 : Type d'agent
   const renderStepType = () => (
-    <div className="space-y-6">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="text-center mb-6 sm:mb-8">
+        <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
           Quel est votre mode de rémunération ?
         </h2>
-        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
+        <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm font-medium">
           Sélectionnez le mode correspondant à votre statut RH
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
         <button
           onClick={() => setAgentType('indiciaire')}
-          className={`p-6 rounded-3xl border-2 transition-all duration-300 text-left relative overflow-hidden group ${
+          className={`p-4 sm:p-6 rounded-xl sm:rounded-2xl lg:rounded-3xl border-2 transition-all duration-300 text-left relative overflow-hidden group ${
             agentType === 'indiciaire'
               ? 'border-emerald-500 bg-gradient-to-br from-emerald-500/10 via-emerald-500/5 to-teal-500/10 shadow-[0_0_30px_rgba(16,185,129,0.2)] dark:bg-emerald-950/40'
               : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 hover:border-emerald-300 dark:hover:border-emerald-700/60 shadow-sm hover:shadow-md'
           }`}
         >
           <div className="flex items-start gap-4">
-            <div className={`p-4 rounded-2xl transition-transform group-hover:scale-110 ${
+            <div className={`p-4 rounded-xl sm:rounded-2xl transition-transform group-hover:scale-110 ${
               agentType === 'indiciaire'
                 ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/40'
                 : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
@@ -397,14 +397,14 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
 
         <button
           onClick={() => setAgentType('horaire')}
-          className={`p-6 rounded-3xl border-2 transition-all duration-300 text-left relative overflow-hidden group ${
+          className={`p-4 sm:p-6 rounded-xl sm:rounded-2xl lg:rounded-3xl border-2 transition-all duration-300 text-left relative overflow-hidden group ${
             agentType === 'horaire'
               ? 'border-purple-500 bg-gradient-to-br from-purple-500/10 via-purple-500/5 to-indigo-500/10 shadow-[0_0_30px_rgba(168,85,247,0.2)] dark:bg-purple-950/40'
               : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 hover:border-purple-300 dark:hover:border-purple-700/60 shadow-sm hover:shadow-md'
           }`}
         >
           <div className="flex items-start gap-4">
-            <div className={`p-4 rounded-2xl transition-transform group-hover:scale-110 ${
+            <div className={`p-4 rounded-xl sm:rounded-2xl transition-transform group-hover:scale-110 ${
               agentType === 'horaire'
                 ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/40'
                 : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
@@ -430,12 +430,12 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
 
   // Étape 2 Indiciaire : Profil
   const renderStepProfile = () => (
-    <div className="space-y-6">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="text-center mb-6 sm:mb-8">
+        <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
           Sélectionnez votre profil RH
         </h2>
-        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
+        <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm font-medium">
           Chaque profil possède un calendrier de versement spécifique
         </p>
       </div>
@@ -451,7 +451,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
             <button
               key={profile.id}
               onClick={() => setIndiciaireProfile(profile.id as IndiciaireProfile)}
-              className={`w-full p-5 rounded-2xl border-2 transition-all duration-200 text-left ${
+              className={`w-full p-4 sm:p-5 rounded-xl sm:rounded-2xl border-2 transition-all duration-200 text-left ${
                 isSelected
                   ? 'border-emerald-500 bg-emerald-500/10 shadow-md ring-1 ring-emerald-500/30 dark:bg-emerald-950/40'
                   : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 hover:border-slate-300 dark:hover:border-slate-700 shadow-sm'
@@ -477,9 +477,9 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
 
   // Étape 2 Horaire : Mode de calcul
   const renderStepHoraireMode = () => (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
+        <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
           Mode de calcul horaire
         </h2>
         <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
@@ -497,7 +497,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
             <button
               key={mode.id}
               onClick={() => setHoraireBaseType(mode.id as HoraireBase)}
-              className={`w-full p-5 rounded-2xl border-2 transition-all duration-200 text-left ${
+              className={`w-full p-4 sm:p-5 rounded-xl sm:rounded-2xl border-2 transition-all duration-200 text-left ${
                 isSelected
                   ? 'border-purple-500 bg-purple-500/10 shadow-md ring-1 ring-purple-500/30 dark:bg-purple-950/40'
                   : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 hover:border-slate-300 dark:hover:border-slate-700 shadow-sm'
@@ -523,9 +523,9 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
 
   // Étape 3 Indiciaire : Données
   const renderStepDonnees = () => (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
+        <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
           Vos données indiciaires
         </h2>
         <p className="text-slate-500 dark:text-slate-400 font-medium text-sm">
@@ -534,7 +534,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
       </div>
 
       {indiciaireProfile === 'assistante' ? (
-        <div className="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-md space-y-4">
+        <div className="bg-white dark:bg-slate-900/90 rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-md space-y-4">
           <label className="block text-sm font-bold text-emerald-800 dark:text-emerald-400">
             Montant de la rubrique 7587 (Brut)
           </label>
@@ -544,7 +544,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
               inputMode="decimal"
               value={rubrique7587}
               onChange={(e) => setRubrique7587(e.target.value)}
-              className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white font-bold text-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all"
+              className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl sm:rounded-2xl text-slate-900 dark:text-white font-bold text-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all"
               placeholder="ex: 1250.00"
             />
             <span className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-lg">€</span>
@@ -554,9 +554,9 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
           </p>
         </div>
       ) : (
-        <div className="space-y-5">
+        <div className="space-y-3 sm:space-y-5">
           {/* Indice Majoré */}
-          <div className="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-md">
+          <div className="bg-white dark:bg-slate-900/90 rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-md">
             <label className="block text-sm font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center justify-between">
               <span className="flex items-center gap-2">
                 <span className="flex items-center justify-center w-6 h-6 bg-emerald-500 text-white rounded-full text-xs font-black">1</span>
@@ -569,7 +569,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
               inputMode="decimal"
               value={im}
               onChange={(e) => setIm(e.target.value)}
-              className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white font-bold text-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all"
+              className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl sm:rounded-2xl text-slate-900 dark:text-white font-bold text-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all"
               placeholder="ex: 366"
             />
             {indiciaireTI > 0 && (
@@ -580,7 +580,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
           </div>
 
           {/* NBI */}
-          <div className="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-md">
+          <div className="bg-white dark:bg-slate-900/90 rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-md">
             <label className="block text-sm font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
               <span className="flex items-center justify-center w-6 h-6 bg-emerald-500 text-white rounded-full text-xs font-black">2</span>
               Nouvelle Bonification Indiciaire (NBI)
@@ -590,7 +590,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
               inputMode="decimal"
               value={nbi}
               onChange={(e) => setNbi(e.target.value)}
-              className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white font-bold text-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all"
+              className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl sm:rounded-2xl text-slate-900 dark:text-white font-bold text-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all"
               placeholder="ex: 10 (0 si aucune)"
             />
             {indiciaireNBIValue > 0 && (
@@ -602,7 +602,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
 
           {/* Live Breakdown Box */}
           {indiciaireTI > 0 && (
-            <div className="bg-gradient-to-br from-emerald-500/10 to-teal-500/10 dark:from-emerald-950/60 dark:to-teal-950/60 rounded-3xl p-5 border border-emerald-500/30 shadow-md">
+            <div className="bg-gradient-to-br from-emerald-500/10 to-teal-500/10 dark:from-emerald-950/60 dark:to-teal-950/60 rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-5 border border-emerald-500/30 shadow-md">
               <p className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-3 flex items-center gap-2 font-mono">
                 <BarChart3 className="w-4 h-4" /> Base de calcul mensuelle
               </p>
@@ -633,9 +633,9 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
 
   // Étape 3 Horaire : Période
   const renderStepPeriode = () => (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
+        <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
           Période de versement
         </h2>
         <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
@@ -653,7 +653,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
             <button
               key={p.id}
               onClick={() => setHorairePeriode(p.id as HorairePeriode)}
-              className={`w-full p-5 rounded-2xl border-2 transition-all duration-200 text-left ${
+              className={`w-full p-4 sm:p-5 rounded-xl sm:rounded-2xl border-2 transition-all duration-200 text-left ${
                 isSelected
                   ? 'border-purple-500 bg-purple-500/10 shadow-md ring-1 ring-purple-500/30 dark:bg-purple-950/40'
                   : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 hover:border-slate-300 dark:hover:border-slate-700 shadow-sm'
@@ -679,9 +679,9 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
 
   // Étape 4 Indiciaire : Temps de travail
   const renderStepTemps = () => (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
+        <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
           Temps de travail et ancienneté
         </h2>
         <p className="text-slate-500 dark:text-slate-400 font-medium text-sm">
@@ -689,9 +689,9 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
         </p>
       </div>
 
-      <div className="space-y-5">
+      <div className="space-y-3 sm:space-y-5">
         {/* Slider Quotité */}
-        <div className="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-md">
+        <div className="bg-white dark:bg-slate-900/90 rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-md">
           <div className="flex justify-between items-center mb-4">
             <label className="text-sm font-bold text-slate-800 dark:text-slate-200">
               Quotité de temps de travail
@@ -715,24 +715,24 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
         </div>
 
         {/* Counter Mois */}
-        <div className="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-md">
+        <div className="bg-white dark:bg-slate-900/90 rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-md">
           <label className="block text-sm font-bold text-slate-800 dark:text-slate-200 mb-4">
             Nombre de mois travaillés dans l'année
           </label>
           <div className="flex items-center gap-4">
             <button
               onClick={() => setMonthsWorked(prev => Math.max(0, prev - 1))}
-              className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-2xl font-black border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center active:scale-95"
+              className="w-14 h-14 rounded-xl sm:rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-xl sm:text-2xl font-black border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center active:scale-95"
             >
               -
             </button>
-            <div className="flex-1 text-center py-2 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800">
+            <div className="flex-1 text-center py-2 bg-slate-50 dark:bg-slate-950 rounded-xl sm:rounded-2xl border border-slate-200 dark:border-slate-800">
               <span className="text-4xl font-black text-slate-900 dark:text-white font-mono">{monthsWorked}</span>
               <span className="text-base text-slate-400 font-bold ml-1">/ 12 mois</span>
             </div>
             <button
               onClick={() => setMonthsWorked(prev => Math.min(12, prev + 1))}
-              className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-2xl font-black border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center active:scale-95"
+              className="w-14 h-14 rounded-xl sm:rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-xl sm:text-2xl font-black border border-slate-200 dark:border-slate-700 shadow-sm flex items-center justify-center active:scale-95"
             >
               +
             </button>
@@ -746,7 +746,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
         </div>
 
         {/* Total Ratio Badge */}
-        <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-4 flex items-center justify-between text-emerald-800 dark:text-emerald-300 font-bold text-xs">
+        <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl sm:rounded-2xl p-4 flex items-center justify-between text-emerald-800 dark:text-emerald-300 font-bold text-xs">
           <span className="flex items-center gap-2">
             <BarChart3 className="w-4 h-4 text-emerald-500" />
             Taux de proratisation global :
@@ -761,9 +761,9 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
 
   // Étape 4 Horaire : Heures
   const renderStepHeures = () => (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
+        <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">
           Heures travaillées sur le semestre
         </h2>
         <p className="text-slate-500 dark:text-slate-400 font-medium text-sm">
@@ -771,8 +771,8 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
         </p>
       </div>
 
-      <div className="space-y-5">
-        <div className="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-md">
+      <div className="space-y-3 sm:space-y-5">
+        <div className="bg-white dark:bg-slate-900/90 rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-md">
           <label className="block text-sm font-bold text-slate-800 dark:text-slate-200 mb-3">
             Nombre d'heures rémunérées sur la période
           </label>
@@ -781,7 +781,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
             min={0}
             value={horaireHours}
             onChange={(e) => setHoraireHours(Math.max(0, Number(e.target.value) || 0))}
-            className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white font-bold text-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all font-mono"
+            className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl sm:rounded-2xl text-slate-900 dark:text-white font-bold text-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all font-mono"
           />
           <div className="flex justify-between mt-3 text-xs text-slate-400 font-mono">
             <span>Minimum : {HOURS_MIN}h</span>
@@ -790,7 +790,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
         </div>
 
         {horaireBaseType === 'indice' ? (
-          <div className="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-md">
+          <div className="bg-white dark:bg-slate-900/90 rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-md">
             <label className="block text-sm font-bold text-slate-800 dark:text-slate-200 mb-3">
               Indice Majoré de référence (IM)
             </label>
@@ -799,12 +799,12 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
               inputMode="decimal"
               value={horaireIM}
               onChange={(e) => setHoraireIM(e.target.value)}
-              className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white font-bold text-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all font-mono"
+              className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl sm:rounded-2xl text-slate-900 dark:text-white font-bold text-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all font-mono"
               placeholder="ex: 366"
             />
           </div>
         ) : (
-          <div className="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-md space-y-4">
+          <div className="bg-white dark:bg-slate-900/90 rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-md space-y-4">
             <div>
               <label className="block text-sm font-bold text-slate-800 dark:text-slate-200 mb-3">
                 Taux horaire brut (€/h)
@@ -815,7 +815,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
                   inputMode="decimal"
                   value={horaireTaux}
                   onChange={(e) => setHoraireTaux(e.target.value)}
-                  className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white font-bold text-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all font-mono"
+                  className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl sm:rounded-2xl text-slate-900 dark:text-white font-bold text-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all font-mono"
                   placeholder="ex: 11.85"
                 />
                 <span className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">€/h</span>
@@ -851,7 +851,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
     if (!result) {
       return (
         <div className="text-center py-14">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-3xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-xl sm:rounded-2xl lg:rounded-3xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center">
             <HelpCircle className="w-8 h-8 text-amber-500" />
           </div>
           <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Données insuffisantes</h3>
@@ -860,7 +860,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
           </p>
           <button
             onClick={() => setCurrentStep(1)}
-            className="px-6 py-3 bg-slate-800 text-white rounded-2xl font-bold hover:bg-slate-700 transition-all text-sm"
+            className="px-6 py-3 bg-slate-800 text-white rounded-xl sm:rounded-2xl font-bold hover:bg-slate-700 transition-all text-sm"
           >
             Recommencer
           </button>
@@ -872,10 +872,10 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
     const themeColor = isIndiciaire ? 'emerald' : 'purple'
 
     return (
-      <div className="space-y-6 animate-fade-in">
+      <div className="space-y-4 sm:space-y-6 animate-fade-in">
         
         {/* Main Result Hero Card */}
-        <div className={`p-8 rounded-3xl relative overflow-hidden text-center border shadow-[0_0_50px_rgba(0,0,0,0.3)] ${
+        <div className={`p-5 sm:p-8 rounded-xl sm:rounded-2xl lg:rounded-3xl relative overflow-hidden text-center border shadow-[0_0_50px_rgba(0,0,0,0.3)] ${
           isIndiciaire
             ? 'bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-950 border-emerald-500/40'
             : 'bg-gradient-to-br from-slate-900 via-purple-950 to-slate-950 border-purple-500/40'
@@ -896,11 +896,11 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
 
             {/* Sub-breakdown Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg mx-auto">
-              <div className="bg-slate-900/90 backdrop-blur-md p-3.5 rounded-2xl border border-slate-800 text-left">
+              <div className="bg-slate-900/90 backdrop-blur-md p-3.5 rounded-xl sm:rounded-2xl border border-slate-800 text-left">
                 <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-0.5">Part Fixe (Compl. Rémunération)</span>
                 <span className="text-lg font-black text-emerald-400 font-mono">{formatEUR(result.compRem)}</span>
               </div>
-              <div className="bg-slate-900/90 backdrop-blur-md p-3.5 rounded-2xl border border-slate-800 text-left">
+              <div className="bg-slate-900/90 backdrop-blur-md p-3.5 rounded-xl sm:rounded-2xl border border-slate-800 text-left">
                 <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-0.5">Part Variable (Prime Semestrielle)</span>
                 <span className="text-lg font-black text-teal-400 font-mono">{formatEUR(result.primeSem)}</span>
               </div>
@@ -909,7 +909,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
         </div>
 
         {/* Schedule Breakdown */}
-        <div className="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-md">
+        <div className="bg-white dark:bg-slate-900/90 rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-md">
           <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider font-mono mb-4 flex items-center gap-2">
             <CalendarDays className="w-4 h-4 text-emerald-500" />
             Échéancier de versement théorique
@@ -918,7 +918,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
           <div className="space-y-3">
             {result.breakdown.map((item: any, idx: number) => {
               return (
-                <div key={idx} className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4">
+                <div key={idx} className="p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4">
                   <div>
                     <h4 className="font-bold text-slate-900 dark:text-white text-sm">{item.month}</h4>
                     <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">{item.note || `Prorata : ${(item.ratio * 100).toFixed(0)}%`}</p>
@@ -938,7 +938,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
         </div>
 
         {/* Disclaimer */}
-        <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex items-start gap-3 text-amber-800 dark:text-amber-300 text-xs leading-relaxed font-medium">
+        <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl sm:rounded-2xl p-4 flex items-start gap-3 text-amber-800 dark:text-amber-300 text-xs leading-relaxed font-medium">
           <ShieldCheck className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
           <div>
             <b>Avertissement :</b> Cet outil propose un calcul indicatif basé sur le statut RH et les paramètres réglementaires en vigueur. Seul le décompte officiel établi par la Gestion Collective de la Rémunération (GCR) fait foi.
@@ -947,7 +947,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
 
         <button
           onClick={handleReset}
-          className="w-full py-4 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl transition-all text-sm flex items-center justify-center gap-2 shadow-md hover:scale-[1.01] active:scale-[0.99]"
+          className="w-full py-4 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl sm:rounded-2xl transition-all text-sm flex items-center justify-center gap-2 shadow-md hover:scale-[1.01] active:scale-[0.99]"
         >
           <RotateCcw className="w-4 h-4" />
           Faire une nouvelle simulation
@@ -984,7 +984,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
             </div>
           </div>
 
-          <div className="hidden sm:flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 px-4 py-2 rounded-2xl text-xs font-bold font-mono">
+          <div className="hidden sm:flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 px-4 py-2 rounded-xl sm:rounded-2xl text-xs font-bold font-mono">
             <Calculator className="w-4 h-4" /> Version 2.0
           </div>
         </div>
@@ -1009,7 +1009,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
                       isCompleted ? 'cursor-pointer' : 'cursor-default'
                     }`}
                   >
-                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-sm transition-all ${
+                    <div className={`w-10 h-10 rounded-xl sm:rounded-2xl flex items-center justify-center font-bold text-sm transition-all ${
                       isActive
                         ? isHoraire ? 'bg-purple-500 text-white shadow-[0_0_20px_rgba(168,85,247,0.4)] scale-110' : 'bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.4)] scale-110'
                         : isCompleted
@@ -1045,14 +1045,14 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
           
           {/* Tip Box */}
           {currentStep < 5 && (
-            <div className="mb-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-900 dark:text-emerald-300 text-xs font-medium flex items-start gap-2.5">
+            <div className="mb-6 p-4 rounded-xl sm:rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-900 dark:text-emerald-300 text-xs font-medium flex items-start gap-2.5">
               <Info className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
               <p>{getTip(currentStep, agentType)}</p>
             </div>
           )}
 
           {/* Step Card */}
-          <div className="bg-white dark:bg-slate-900/90 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-[0_4px_30px_rgba(0,0,0,0.05)]">
+          <div className="bg-white dark:bg-slate-900/90 rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 lg:p-8 border border-slate-200 dark:border-slate-800 shadow-[0_4px_30px_rgba(0,0,0,0.05)]">
             {renderStep()}
           </div>
 
@@ -1062,7 +1062,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
               <button
                 onClick={goPrev}
                 disabled={currentStep === 1}
-                className={`px-6 py-3.5 rounded-2xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all ${
+                className={`px-6 py-3.5 rounded-xl sm:rounded-2xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all ${
                   currentStep === 1
                     ? 'opacity-40 cursor-not-allowed bg-slate-100 dark:bg-slate-800 text-slate-400'
                     : 'bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 shadow-sm'
@@ -1075,7 +1075,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
               <button
                 onClick={goNext}
                 disabled={!canGoNext()}
-                className={`px-8 py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider flex items-center gap-2 transition-all shadow-md ${
+                className={`px-8 py-3.5 rounded-xl sm:rounded-2xl font-black text-xs uppercase tracking-wider flex items-center gap-2 transition-all shadow-md ${
                   canGoNext()
                     ? agentType === 'horaire'
                       ? 'bg-purple-500 hover:bg-purple-400 text-white shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 active:scale-95'
@@ -1095,7 +1095,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
       {/* Floating Estimated Total Bar (Steps 1-4) */}
       {totalEstime > 0 && currentStep < 5 && (
         <div className="sticky bottom-4 px-4 pointer-events-none z-20">
-          <div className="max-w-2xl mx-auto bg-slate-900/95 backdrop-blur-2xl border border-slate-800 text-white p-4 rounded-2xl shadow-2xl flex items-center justify-between gap-4 pointer-events-auto">
+          <div className="max-w-2xl mx-auto bg-slate-900/95 backdrop-blur-2xl border border-slate-800 text-white p-4 rounded-xl sm:rounded-2xl shadow-2xl flex items-center justify-between gap-4 pointer-events-auto">
             <div>
               <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider font-mono block">Estimation en direct</span>
               <span className="text-xl font-black text-emerald-400 font-mono">{formatEUR(totalEstime)}</span>

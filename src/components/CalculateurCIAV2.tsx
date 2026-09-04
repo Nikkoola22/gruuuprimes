@@ -307,7 +307,7 @@ export default function CalculateurCIAV2({ onClose }: CalculateurCIAProps) {
         <div className="max-w-2xl mx-auto">
           
           {/* En-tête de l'étape */}
-          <div className={`mb-6 p-4 sm:p-6 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 shadow-sm glass-card`}>
+          <div className={`mb-6 p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 shadow-sm glass-card`}>
             <div className="flex items-start gap-4">
               <div className={`p-3 rounded-xl bg-gradient-to-br ${stepColor.bg} shadow-md`}>
                 <StepIcon className="w-6 h-6 text-white" />
@@ -343,11 +343,11 @@ export default function CalculateurCIAV2({ onClose }: CalculateurCIAProps) {
           </div>
 
           {/* Contenu de l'étape */}
-          <div className={`p-4 sm:p-6 rounded-2xl bg-white dark:bg-slate-800/70 border border-slate-200 shadow-md ring-2 ring-transparent transition-all duration-500 glass-card`}>
+          <div className={`p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-white dark:bg-slate-800/70 border border-slate-200 shadow-md ring-2 ring-transparent transition-all duration-500 glass-card`}>
             
             {/* ÉTAPE 1: IFSE Mensuel */}
             {currentStep === 1 && (
-              <div className="space-y-6 animate-in fade-in duration-500">
+              <div className="space-y-4 sm:space-y-6 animate-in fade-in duration-500">
                 <div>
                   <label className="text-sm text-slate-700 block font-semibold mb-3">
                     Montant de votre IFSE mensuel (en €)
@@ -385,7 +385,7 @@ export default function CalculateurCIAV2({ onClose }: CalculateurCIAProps) {
 
             {/* ÉTAPE 2: Week-ends */}
             {currentStep === 2 && (
-              <div className="space-y-6 animate-in fade-in duration-500">
+              <div className="space-y-4 sm:space-y-6 animate-in fade-in duration-500">
                 <p className="text-sm text-slate-600 dark:text-slate-300 font-medium mb-4">
                   Indiquez le nombre exact de samedis et dimanches travaillés de janvier à décembre de l'année N-1, avec le taux appliqué.
                 </p>
@@ -552,7 +552,7 @@ export default function CalculateurCIAV2({ onClose }: CalculateurCIAProps) {
 
             {/* ÉTAPE 4: Absences */}
             {currentStep === 4 && (
-              <div className="space-y-6 animate-in fade-in duration-500">
+              <div className="space-y-4 sm:space-y-6 animate-in fade-in duration-500">
                 <div>
                   <label className="text-sm text-slate-700 block font-semibold mb-3">
                     Nombre de jours d'absence en N-1 (année précédente)
@@ -609,10 +609,10 @@ export default function CalculateurCIAV2({ onClose }: CalculateurCIAProps) {
 
             {/* ÉTAPE 5: Résultat */}
             {currentStep === 5 && (
-              <div className="space-y-6 animate-in fade-in duration-500">
+              <div className="space-y-4 sm:space-y-6 animate-in fade-in duration-500">
                 <div className="text-center mb-6">
                   <Sparkles className="w-12 h-12 text-orange-500 mx-auto mb-3" />
-                  <h3 className="text-2xl font-bold text-slate-800 dark:text-white">Votre CIA estimé</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white">Votre CIA estimé</h3>
                   <p className="text-slate-600 dark:text-slate-300 font-medium">Complément Indemnitaire Annuel</p>
                 </div>
 
@@ -652,7 +652,7 @@ export default function CalculateurCIAV2({ onClose }: CalculateurCIAProps) {
                 </div>
 
                 {/* Total */}
-                <div className="p-6 bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border-2 border-orange-200 shadow-md glass-card">
+                <div className="p-4 sm:p-6 bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl sm:rounded-2xl border-2 border-orange-200 shadow-md glass-card">
                   <div className="text-center">
                     <p className="text-orange-800/70 text-sm mb-1 font-semibold">CIA BRUT ANNUEL ESTIMÉ</p>
                     <p className="text-5xl font-bold text-orange-600">{resultat.ciaFinal.toFixed(0)}€</p>

@@ -39,8 +39,8 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onClose, onSuccess }) => {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden glass-card-light">
-        <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6 relative glass-banner">
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden glass-card-light">
+        <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 sm:p-6 relative glass-banner">
           <button
             onClick={handleClose}
             className="absolute top-4 right-4 p-1 hover:bg-white/20 rounded-full transition-colors glass-pill"
@@ -55,7 +55,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onClose, onSuccess }) => {
           </p>
         </div>
         
-        <form onSubmit={handleSubmit} className="p-6">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6">
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">

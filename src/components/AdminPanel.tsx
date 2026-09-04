@@ -66,16 +66,16 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col glass-card-light">
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xl max-w-[95%] sm:max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col glass-card-light">
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6 relative flex-shrink-0 glass-banner">
+        <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 sm:p-6 relative flex-shrink-0 glass-banner">
           <button
             onClick={onClose}
             className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-full transition-colors glass-pill"
           >
             <X className="w-6 h-6" />
           </button>
-          <h2 className="text-2xl font-bold flex items-center gap-3">
+          <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-3">
             <Settings className="w-7 h-7" />
             Panneau d'Administration
           </h2>
@@ -122,11 +122,11 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose }) => {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6">
           {activeTab === 'news' && (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Add News Form */}
-              <div className="bg-gray-50 rounded-xl p-6 border-2 border-dashed border-gray-300 glass-card-light">
+              <div className="bg-gray-50 rounded-xl p-4 sm:p-6 border-2 border-dashed border-gray-300 glass-card-light">
                 <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
                   <FileText className="w-5 h-5 text-purple-600" />
                   Ajouter une actualité
@@ -200,8 +200,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose }) => {
           )}
 
           {activeTab === 'stats' && (
-            <div className="space-y-6">
-              <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 glass-card-light">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="bg-gray-50 rounded-xl p-4 sm:p-6 border border-gray-200 glass-card-light">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <h3 className="font-semibold text-gray-800 flex items-center gap-2">
@@ -222,8 +222,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose }) => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 glass-card-light">
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+                <div className="bg-gray-50 rounded-xl p-4 sm:p-6 border border-gray-200 glass-card-light">
                   <h4 className="font-semibold text-gray-800 mb-4">Page d'accueil</h4>
                   <div className="space-y-3">
                     {homeStats.map((item) => (
@@ -244,7 +244,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose }) => {
                   </div>
                 </div>
 
-                <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 glass-card-light">
+                <div className="bg-gray-50 rounded-xl p-4 sm:p-6 border border-gray-200 glass-card-light">
                   <h4 className="font-semibold text-gray-800 mb-4">Calculateurs</h4>
                   <div className="space-y-3">
                     {calculatorStats.map((item) => (
@@ -273,8 +273,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose }) => {
           )}
 
           {activeTab === 'settings' && (
-            <div className="space-y-6">
-              <div className="bg-gray-50 rounded-xl p-6 glass-card-light">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="bg-gray-50 rounded-xl p-4 sm:p-6 glass-card-light">
                 <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
                   <Users className="w-5 h-5 text-purple-600" />
                   Informations de l'application

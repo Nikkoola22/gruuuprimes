@@ -427,7 +427,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
             </div>
 
             {totalMonthly > 0 && (
-              <div className="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 px-4 py-2 rounded-2xl flex items-center gap-2 font-mono font-bold text-xs shadow-inner">
+              <div className="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 px-4 py-2 rounded-xl sm:rounded-2xl flex items-center gap-2 font-mono font-bold text-xs shadow-inner">
                 <Coins className="w-4 h-4 text-cyan-400 animate-pulse" />
                 <span>Estimé:</span>
                 <span className="text-cyan-200 text-sm">{totalMonthly.toLocaleString('fr-FR')}€/mois</span>
@@ -458,7 +458,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                         status === 'pending' && step.id > currentStep ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer hover:scale-105'
                       }`}
                     >
-                      <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-sm transition-all ${
+                      <div className={`w-10 h-10 rounded-xl sm:rounded-2xl flex items-center justify-center font-bold text-sm transition-all ${
                         status === 'completed'
                           ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
                           : isActive
@@ -491,9 +491,9 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
           <div className="max-w-3xl mx-auto">
 
             {/* Step Header Banner */}
-            <div className="mb-6 p-6 rounded-3xl bg-slate-900/90 border border-slate-800 shadow-xl backdrop-blur-2xl">
+            <div className="mb-6 p-4 sm:p-6 rounded-xl sm:rounded-2xl lg:rounded-3xl bg-slate-900/90 border border-slate-800 shadow-xl backdrop-blur-2xl">
               <div className="flex items-start gap-4">
-                <div className="p-3.5 rounded-2xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 shrink-0">
+                <div className="p-3.5 rounded-xl sm:rounded-2xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 shrink-0">
                   <StepIcon className="w-6 h-6" />
                 </div>
                 <div className="flex-1">
@@ -509,7 +509,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
               </div>
 
               {showTip && (
-                <div className="mt-4 p-3.5 bg-amber-500/10 border border-amber-500/25 rounded-2xl flex items-center justify-between text-xs text-amber-300 font-medium">
+                <div className="mt-4 p-3.5 bg-amber-500/10 border border-amber-500/25 rounded-xl sm:rounded-2xl flex items-center justify-between text-xs text-amber-300 font-medium">
                   <span className="flex items-center gap-2">
                     <Info className="w-4 h-4 text-amber-400 shrink-0" />
                     {currentStepData.tip}
@@ -520,11 +520,11 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
             </div>
 
             {/* Step Body Card */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/90 border border-slate-800 shadow-[0_4px_30px_rgba(0,0,0,0.4)] backdrop-blur-2xl">
+            <div className="p-4 sm:p-6 lg:p-8 rounded-xl sm:rounded-2xl lg:rounded-3xl bg-slate-900/90 border border-slate-800 shadow-[0_4px_30px_rgba(0,0,0,0.4)] backdrop-blur-2xl">
               
               {/* ÉTAPE 1: Catégorie */}
               {currentStep === 1 && (
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   <div className="text-center mb-4">
                     <h3 className="text-lg font-black text-white mb-1">Sélectionnez votre catégorie statutaire</h3>
                     <p className="text-xs text-slate-400">Niveau de qualification RH requis pour votre grille</p>
@@ -541,14 +541,14 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                         <button
                           key={cat.key}
                           onClick={() => handleCategorySelect(cat.key)}
-                          className={`p-6 rounded-3xl border-2 text-left transition-all duration-300 relative overflow-hidden group ${
+                          className={`p-4 sm:p-6 rounded-xl sm:rounded-2xl lg:rounded-3xl border-2 text-left transition-all duration-300 relative overflow-hidden group ${
                             isSelected
                               ? 'border-cyan-400 bg-cyan-950/50 shadow-[0_0_30px_rgba(6,182,212,0.25)] scale-[1.02]'
                               : 'border-slate-800 bg-slate-950/80 hover:border-slate-700 hover:bg-slate-900'
                           }`}
                         >
                           <div className="flex justify-between items-start mb-3">
-                            <span className="text-3xl font-black text-white font-mono">{cat.key}</span>
+                            <span className="text-2xl sm:text-3xl font-black text-white font-mono">{cat.key}</span>
                             {isSelected && <CheckCircle2 className="w-6 h-6 text-cyan-400" />}
                           </div>
                           <h4 className="font-bold text-white text-sm mb-1">{cat.level}</h4>
@@ -562,7 +562,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
               {/* ÉTAPE 2: Fonction (IFSE 1) */}
               {currentStep === 2 && (
-                <div className="space-y-5">
+                <div className="space-y-3 sm:space-y-5">
                   <div className="flex justify-between items-center mb-2">
                     <h3 className="text-base font-bold text-white">Fonctions disponibles (Cat. {selectedCategory})</h3>
                     <span className="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-lg border border-cyan-500/20">
@@ -577,7 +577,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                         <button
                           key={item.globalIdx}
                           onClick={() => handleFunctionSelect(item.globalIdx)}
-                          className={`w-full p-4 rounded-2xl border transition-all text-left flex items-center justify-between gap-4 ${
+                          className={`w-full p-4 rounded-xl sm:rounded-2xl border transition-all text-left flex items-center justify-between gap-4 ${
                             isSelected
                               ? 'border-cyan-400 bg-cyan-950/40 shadow-[0_0_20px_rgba(6,182,212,0.2)]'
                               : 'border-slate-800 bg-slate-950/60 hover:border-slate-700 hover:bg-slate-900'
@@ -599,7 +599,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
               {/* ÉTAPE 3: Direction & Métier (IFSE 2) */}
               {currentStep === 3 && (
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   {/* Directions */}
                   <div>
                     <h4 className="text-xs font-black uppercase tracking-wider text-slate-400 mb-3 font-mono">1. Choisissez votre Direction</h4>
@@ -613,7 +613,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                           <button
                             key={dir}
                             onClick={() => handleDirectionSelect(dir)}
-                            className={`p-3 rounded-2xl border transition-all text-left flex items-center gap-2.5 ${
+                            className={`p-3 rounded-xl sm:rounded-2xl border transition-all text-left flex items-center gap-2.5 ${
                               isSelected
                                 ? 'border-teal-400 bg-teal-950/50 shadow-[0_0_15px_rgba(20,184,166,0.3)]'
                                 : 'border-slate-800 bg-slate-950/60 hover:border-slate-700'
@@ -667,7 +667,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                             <button
                               key={job}
                               onClick={() => handleJobSelect(job)}
-                              className={`w-full p-3 rounded-2xl border text-left flex justify-between items-center text-xs transition-all ${
+                              className={`w-full p-3 rounded-xl sm:rounded-2xl border text-left flex justify-between items-center text-xs transition-all ${
                                 isSelected
                                   ? 'border-teal-400 bg-teal-950/40 text-white font-bold shadow-[0_0_15px_rgba(20,184,166,0.2)]'
                                   : 'border-slate-800 bg-slate-950 text-slate-300 hover:border-slate-700'
@@ -693,7 +693,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                             <button
                               key={`${prime.motif}-${prime.realIdx}`}
                               onClick={() => handleToggleIFSE2(prime.realIdx)}
-                              className={`p-3.5 rounded-2xl border text-left transition-all ${
+                              className={`p-3.5 rounded-xl sm:rounded-2xl border text-left transition-all ${
                                 isSelected
                                   ? 'border-teal-400 bg-teal-950/40 shadow-[0_0_15px_rgba(20,184,166,0.2)]'
                                   : 'border-slate-800 bg-slate-950 opacity-60 hover:opacity-100'
@@ -716,10 +716,10 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
               {/* ÉTAPE 4: Week-ends (IFSE 3) */}
               {currentStep === 4 && (
-                <div className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="space-y-4 sm:space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     {/* Samedis */}
-                    <div className="bg-slate-950 p-5 rounded-3xl border border-slate-800">
+                    <div className="bg-slate-950 p-4 sm:p-5 rounded-xl sm:rounded-2xl lg:rounded-3xl border border-slate-800">
                       <label className="text-xs font-bold text-slate-300 block mb-3 uppercase tracking-wider font-mono">
                         Samedis travaillés / mois
                       </label>
@@ -751,7 +751,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                     </div>
 
                     {/* Dimanches */}
-                    <div className="bg-slate-950 p-5 rounded-3xl border border-slate-800">
+                    <div className="bg-slate-950 p-4 sm:p-5 rounded-xl sm:rounded-2xl lg:rounded-3xl border border-slate-800">
                       <label className="text-xs font-bold text-slate-300 block mb-3 uppercase tracking-wider font-mono">
                         Dimanches travaillés / mois
                       </label>
@@ -784,7 +784,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                   </div>
 
                   {ifse3Total > 0 && (
-                    <div className="p-4 bg-purple-500/10 border border-purple-500/30 rounded-2xl text-center">
+                    <div className="p-4 bg-purple-500/10 border border-purple-500/30 rounded-xl sm:rounded-2xl text-center">
                       <span className="text-purple-300 font-bold text-xs font-mono">
                         Total IFSE 3 (Week-ends) : <b className="text-purple-200 text-base">{ifse3Total}€/mois</b>
                       </span>
@@ -803,7 +803,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                         <button
                           key={idx}
                           onClick={() => handleToggleSpecialPrime(idx)}
-                          className={`w-full p-4 rounded-2xl border transition-all text-left flex items-center justify-between ${
+                          className={`w-full p-4 rounded-xl sm:rounded-2xl border transition-all text-left flex items-center justify-between ${
                             isSelected
                               ? 'border-amber-400 bg-amber-950/40 shadow-[0_0_15px_rgba(245,158,11,0.2)]'
                               : 'border-slate-800 bg-slate-950 opacity-70 hover:opacity-100'
@@ -828,11 +828,11 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
               {/* ÉTAPE 6: Résultat Dashboard */}
               {currentStep === 6 && (
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   
                   {/* Hero Result Banner */}
                   <BorderGlow glowColor="from-cyan-500 via-emerald-400 to-teal-500">
-                    <div className="p-8 text-center bg-slate-950/90 rounded-3xl">
+                    <div className="p-5 sm:p-8 text-center bg-slate-950/90 rounded-xl sm:rounded-2xl lg:rounded-3xl">
                       <p className="text-cyan-400 text-xs font-bold tracking-widest uppercase mb-1 font-mono">
                         <ShinyText text="TOTAL RIFSEEP ESTIMÉ" color="#22d3ee" shineColor="#ffffff" speed={2} />
                       </p>
@@ -848,7 +848,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                   {/* Detailed breakdown list */}
                   <div className="space-y-3">
                     {ifse1Amount > 0 && (
-                      <div className="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex justify-between items-center">
+                      <div className="p-4 rounded-xl sm:rounded-2xl bg-blue-500/10 border border-blue-500/30 flex justify-between items-center">
                         <div>
                           <span className="text-xs font-bold text-blue-300 uppercase tracking-wider font-mono block">IFSE 1 - Socle Fixe</span>
                           <span className="text-sm font-bold text-white">{ifse1Data[selectedFunctionIndex!].function}</span>
@@ -858,7 +858,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                     )}
 
                     {ifse2Amount > 0 && (
-                      <div className="p-4 rounded-2xl bg-teal-500/10 border border-teal-500/30 flex justify-between items-center">
+                      <div className="p-4 rounded-xl sm:rounded-2xl bg-teal-500/10 border border-teal-500/30 flex justify-between items-center">
                         <div>
                           <span className="text-xs font-bold text-teal-300 uppercase tracking-wider font-mono block">IFSE 2 - Primes de Sujétion</span>
                           <span className="text-xs text-slate-300">{selectedIFSE2.size} prime(s) active(s) sur {selectedJob}</span>
@@ -868,7 +868,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                     )}
 
                     {ifse3Total > 0 && (
-                      <div className="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex justify-between items-center">
+                      <div className="p-4 rounded-xl sm:rounded-2xl bg-purple-500/10 border border-purple-500/30 flex justify-between items-center">
                         <div>
                           <span className="text-xs font-bold text-purple-300 uppercase tracking-wider font-mono block">IFSE 3 - Week-ends</span>
                           <span className="text-xs text-slate-300">{weekendSaturdays} samedi(s) + {weekendSundays} dimanche(s)</span>
@@ -878,7 +878,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                     )}
 
                     {specialPrimesAmount > 0 && (
-                      <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex justify-between items-center">
+                      <div className="p-4 rounded-xl sm:rounded-2xl bg-amber-500/10 border border-amber-500/30 flex justify-between items-center">
                         <div>
                           <span className="text-xs font-bold text-amber-300 uppercase tracking-wider font-mono block">Primes Spéciales</span>
                           <span className="text-xs text-slate-300">{selectedSpecialPrimes.size} prime(s) sélectionnée(s)</span>
@@ -889,7 +889,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                   </div>
 
                   {/* Warning */}
-                  <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3 text-amber-300 text-xs">
+                  <div className="p-4 rounded-xl sm:rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3 text-amber-300 text-xs">
                     <ShieldAlert className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
                     <div>
                       <b>Remarque :</b> Si votre montant réel sur fiche de paie est supérieur, vous bénéficiez sans doute d'une garantie d'avantage acquis (IFSE 4 / négociation historique).
@@ -898,7 +898,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
                   <button
                     onClick={resetCalculator}
-                    className="w-full py-4 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2"
+                    className="w-full py-4 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl sm:rounded-2xl transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2"
                   >
                     <RotateCcw className="w-4 h-4" /> Recommencer un calcul
                   </button>
@@ -914,7 +914,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                 <button
                   onClick={goPrev}
                   disabled={!canGoPrev()}
-                  className={`px-6 py-3.5 rounded-2xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all ${
+                  className={`px-6 py-3.5 rounded-xl sm:rounded-2xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all ${
                     canGoPrev()
                       ? 'bg-slate-800 hover:bg-slate-700 text-white shadow-sm'
                       : 'opacity-40 cursor-not-allowed bg-slate-900 text-slate-500 border border-slate-800'
@@ -927,7 +927,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                 <button
                   onClick={goNext}
                   disabled={!canGoNext()}
-                  className={`px-8 py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider flex items-center gap-2 transition-all ${
+                  className={`px-8 py-3.5 rounded-xl sm:rounded-2xl font-black text-xs uppercase tracking-wider flex items-center gap-2 transition-all ${
                     canGoNext()
                       ? 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:scale-105 active:scale-95'
                       : 'opacity-40 cursor-not-allowed bg-slate-900 text-slate-500 border border-slate-800'
