@@ -14,8 +14,6 @@ interface CasseBriqueProps {
   onClose: () => void;
 }
 
-const BASE_URL = import.meta.env.BASE_URL;
-
 // ─── Modèles du jeu ──────────────────────────────────────────────────────────
 interface Brick {
   x: number;
@@ -436,7 +434,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
       bulletsRef.current = bulletsRef.current.filter(b => b.active);
 
       // 2. Déplacer et vérifier les balles
-      let activeBalls = ballsRef.current.filter((b) => b.active);
+      const activeBalls = ballsRef.current.filter((b) => b.active);
       
       activeBalls.forEach((ball) => {
         // Enregistrer la traînée de la balle

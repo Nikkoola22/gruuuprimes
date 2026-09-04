@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { 
   ChevronRight, 
   ChevronLeft,
@@ -12,7 +12,6 @@ import {
   Award,
   Calculator,
   Info,
-  Sparkles,
   HeartPulse,
   Shield,
   Trees,
@@ -115,10 +114,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
   const [selectedDirection, setSelectedDirection] = useState('')
   const [selectedService, setSelectedService] = useState('')
   const [selectedJob, setSelectedJob] = useState('')
-  const [compactJobsView, setCompactJobsView] = useState(true)
   const [selectedIFSE2, setSelectedIFSE2] = useState<Set<number>>(new Set())
-  const [lastToggledPrimeIdx, setLastToggledPrimeIdx] = useState<number | null>(null)
-  const [lastToggleWasAdd, setLastToggleWasAdd] = useState(false)
   const [selectedSpecialPrimes, setSelectedSpecialPrimes] = useState<Set<number>>(new Set())
   const [weekendSaturdays, setWeekendSaturdays] = useState(0)
   const [weekendSundays, setWeekendSundays] = useState(0)
@@ -249,14 +245,6 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
   }
 
   const canGoPrev = () => currentStep > 1
-
-  const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>, delay = 50) => {
-    window.setTimeout(() => {
-      const target = ref.current
-      if (!target) return
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, delay)
-  }
 
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category)
@@ -514,7 +502,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                     <Info className="w-4 h-4 text-amber-400 shrink-0" />
                     {currentStepData.tip}
                   </span>
-                  <button onClick={() => setShowTip(false)} className="text-slate-500 hover:text-white text-xs px-1.5">✕</button>
+                  <button onClick={() => setShowTip(false)} aria-label="Fermer l'astuce" className="text-slate-500 hover:text-white text-xs px-1.5">✕</button>
                 </div>
               )}
             </div>

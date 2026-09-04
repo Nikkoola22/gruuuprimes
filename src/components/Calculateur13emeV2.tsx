@@ -869,7 +869,6 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
     }
 
     const isIndiciaire = agentType === 'indiciaire'
-    const themeColor = isIndiciaire ? 'emerald' : 'purple'
 
     return (
       <div className="space-y-4 sm:space-y-6 animate-fade-in">
