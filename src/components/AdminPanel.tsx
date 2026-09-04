@@ -71,6 +71,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose }) => {
         <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 sm:p-6 relative flex-shrink-0 glass-banner">
           <button
             onClick={onClose}
+            aria-label="Fermer le panneau d'administration"
             className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-full transition-colors glass-pill"
           >
             <X className="w-6 h-6" />

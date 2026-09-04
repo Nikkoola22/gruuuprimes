@@ -43,6 +43,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onClose, onSuccess }) => {
         <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 sm:p-6 relative glass-banner">
           <button
             onClick={handleClose}
+            aria-label="Fermer la fenêtre de connexion"
             className="absolute top-4 right-4 p-1 hover:bg-white/20 rounded-full transition-colors glass-pill"
           >
             <X className="w-5 h-5" />
