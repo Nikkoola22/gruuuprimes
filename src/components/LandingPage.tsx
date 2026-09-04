@@ -352,9 +352,14 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
         .lp-collegues-badge {
           display: inline-flex;
           align-items: center;
-          gap: 10px;
-          padding: 10px 22px;
-          border-radius: 100px;
+          justify-content: center;
+          flex-wrap: wrap;
+          row-gap: 2px;
+          gap: clamp(6px, 1.6vw, 10px);
+          padding: clamp(7px, 1.8vw, 10px) clamp(12px, 3.5vw, 22px);
+          max-width: 100%;
+          text-align: center;
+          border-radius: clamp(20px, 5vw, 100px);
           background: ${isLight
             ? 'rgba(255, 255, 255, 0.88)'
             : 'rgba(12, 2, 22, 0.82)'};
@@ -405,7 +410,15 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
           -webkit-text-fill-color: transparent;
           animation: lpShimmer 3.5s linear infinite;
           text-transform: uppercase;
-          white-space: nowrap;
+          min-width: 0;
+        }
+
+        /* Responsive badge — repli sur très petits écrans */
+        @media (max-width: 400px) {
+          .lp-badge-icon, .lp-badge-sparkle { font-size: 12px; }
+          .lp-badge-sparkle { display: none; }
+          .lp-badge-text { white-space: normal; }
+          .lp-collegues-badge { border-radius: 22px; }
         }
       `}</style>
 
@@ -421,16 +434,19 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
         zIndex: 100, pointerEvents: 'none',
       }} />
 
-      {/* Bottom Center Animated Badge: Fait par vos collègues de Gennevilliers */}
+      {/* Top Center Animated Badge: Fait par vos collègues de Gennevilliers */}
       <div style={{
         position: 'absolute',
-        bottom: 'clamp(18px, 4vh, 32px)',
-        left: '50%',
-        transform: 'translateX(-50%)',
+        top: 'clamp(70px, 8vh, 78px)',
+        left: 0,
+        right: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        padding: '0 10px',
         zIndex: 50,
-        pointerEvents: 'auto',
+        pointerEvents: 'none',
       }}>
-        <div className="lp-collegues-badge">
+        <div className="lp-collegues-badge" style={{ pointerEvents: 'auto' }}>
           <span className="lp-badge-dot-live" />
           <span className="lp-badge-icon">🏛️</span>
           <span className="lp-badge-text">Fait par vos collègues de Gennevilliers</span>
@@ -502,9 +518,9 @@ export default function LandingPage({ onEnter, onQuizz, theme = 'dark' }: Props)
         </button>
       </nav>
 
-      {/* Stat card — top left */}
+      {/* Stat card — top left (sous le badge collègues, remonté au-dessus) */}
       <div ref={cardTlRef} className="lp-card lp-card-tl hidden md:block" style={{
-        position: 'absolute', top: 'clamp(20px, 5vh, 94px)', left: 'clamp(12px, 3vw, 44px)', zIndex: 30,
+        position: 'absolute', top: 'clamp(120px, 15vh, 160px)', left: 'clamp(12px, 3vw, 44px)', zIndex: 30,
         background: isLight ? 'rgba(255,255,255,0.75)' : 'rgba(5,1,10,0.72)',
         backdropFilter: 'blur(20px) saturate(200%)',
         border: isLight ? '1px solid rgba(0,0,0,0.06)' : '1px solid rgba(255,28,116,0.22)',
