@@ -650,9 +650,12 @@ export const sommaireUnifie: SectionIndex[] = [
     resume: 'Fin possible à tout moment : 1 mois préavis pendant adaptation, 2 mois après'
   },
   // --- FICHES BIP DYNAMIQUEMENT CONVERTIES ---
+  // NB : BipFiche.chapitre est une chaîne (référence documentaire BIP) — la propriété
+  // SectionIndex.chapitre est réservée aux numéros de chapitre du module 'temps'.
   ...bipIndex.map(fiche => ({
     ...fiche,
     source: 'bip' as const,
+    chapitre: undefined,
   }))
 ];
 

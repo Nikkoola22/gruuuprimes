@@ -16,8 +16,8 @@ import {
   Printer,
   Gavel
 } from "lucide-react";
-import { queryStatutoryEngine, StatutoryQueryResult } from "../services/legifrance";
-import { extractTextFromFile, auditStatutoryDocument } from "../services/statutoryAuditEngine";
+import { queryStatutoryEngine } from "../services/legifrance";
+import { extractTextFromFile, auditStatutoryDocument, FullLegalAuditResult } from "../services/statutoryAuditEngine";
 import { OfficialDocumentPreview } from "./OfficialDocumentPreview";
 import { MemoireJuridiqueGenerator } from "./MemoireJuridiqueGenerator";
 import { ALL_THEMES_TEMPLATES } from "../data/allThemesTemplatesRegistry";
@@ -33,7 +33,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
   const isLight = theme === "light";
 
   const [statutInput, setStatutInput] = useState<string>("");
-  const [statutResult, setStatutResult] = useState<StatutoryQueryResult | null>(null);
+  const [statutResult, setStatutResult] = useState<FullLegalAuditResult | null>(null);
   const [isStatutLoading, setIsStatutLoading] = useState<boolean>(false);
   const [uploadedFile, setUploadedFile] = useState<{ name: string; size: number; content: string } | null>(null);
   const [selectedThemeFilter, setSelectedThemeFilter] = useState<string>("all");
@@ -696,27 +696,27 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
             </div>
 
             {/* Traceability & Legal Audit Context Header */}
-            {((statutResult as any).auditHeader) && (
+            {(statutResult.auditHeader) && (
               <div className={`p-4 rounded-2xl border text-xs flex flex-wrap items-center justify-between gap-3 font-mono ${
                 isLight ? "bg-slate-50 border-slate-200 text-slate-700" : "bg-[#090D1A] border-slate-800 text-slate-300"
               }`}>
                 <div className="flex items-center gap-2">
                   <span className="font-bold text-indigo-400">📅 Analyse :</span>
-                  <span>{(statutResult as any).auditHeader.dateAnalyse}</span>
+                  <span>{statutResult.auditHeader.dateAnalyse}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="font-bold text-emerald-400">📍 Champ :</span>
-                  <span>{(statutResult as any).auditHeader.champTerritorial}</span>
+                  <span>{statutResult.auditHeader.champTerritorial}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="font-bold text-amber-400">⚖️ Ressort :</span>
-                  <span>{(statutResult as any).auditHeader.juridictionRecours}</span>
+                  <span>{statutResult.auditHeader.juridictionRecours}</span>
                 </div>
               </div>
             )}
 
             {/* Comprehensive Legal Controls Grid (Légalité Externe vs Légalité Interne) */}
-            {((statutResult as any).controleLegaliteExterne || (statutResult as any).controleLegaliteInterne) && (
+            {(statutResult.controleLegaliteExterne || statutResult.controleLegaliteInterne) && (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {/* 1. Contrôle de Légalité Externe (Forme, Compétence, Procédure) */}
                 <div className={`p-4.5 rounded-2xl border flex flex-col gap-3 ${
@@ -731,36 +731,36 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                     </span>
                   </div>
                   <div className="space-y-2 text-xs">
-                    {(statutResult as any).controleLegaliteExterne?.competenceSignataire && (
+                    {statutResult.controleLegaliteExterne?.competenceSignataire && (
                       <div className="flex items-start gap-2">
-                        <span className={(statutResult as any).controleLegaliteExterne.competenceSignataire.valide ? "text-emerald-400 font-bold" : "text-amber-400 font-bold"}>
-                          {(statutResult as any).controleLegaliteExterne.competenceSignataire.valide ? "✓" : "⚠️"}
+                        <span className={statutResult.controleLegaliteExterne.competenceSignataire.valide ? "text-emerald-400 font-bold" : "text-amber-400 font-bold"}>
+                          {statutResult.controleLegaliteExterne.competenceSignataire.valide ? "✓" : "⚠️"}
                         </span>
                         <div>
                           <strong className="block text-slate-900 dark:text-white">Compétence de l'autorité signataire :</strong>
-                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{(statutResult as any).controleLegaliteExterne.competenceSignataire.details}</span>
+                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{statutResult.controleLegaliteExterne.competenceSignataire.details}</span>
                         </div>
                       </div>
                     )}
-                    {(statutResult as any).controleLegaliteExterne?.regulariteProcedure && (
+                    {statutResult.controleLegaliteExterne?.regulariteProcedure && (
                       <div className="flex items-start gap-2">
-                        <span className={(statutResult as any).controleLegaliteExterne.regulariteProcedure.valide ? "text-emerald-400 font-bold" : "text-amber-400 font-bold"}>
-                          {(statutResult as any).controleLegaliteExterne.regulariteProcedure.valide ? "✓" : "⚠️"}
+                        <span className={statutResult.controleLegaliteExterne.regulariteProcedure.valide ? "text-emerald-400 font-bold" : "text-amber-400 font-bold"}>
+                          {statutResult.controleLegaliteExterne.regulariteProcedure.valide ? "✓" : "⚠️"}
                         </span>
                         <div>
                           <strong className="block text-slate-900 dark:text-white">Régularité de la procédure (DVE / Avis) :</strong>
-                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{(statutResult as any).controleLegaliteExterne.regulariteProcedure.details}</span>
+                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{statutResult.controleLegaliteExterne.regulariteProcedure.details}</span>
                         </div>
                       </div>
                     )}
-                    {(statutResult as any).controleLegaliteExterne?.clauseRecoursDelais && (
+                    {statutResult.controleLegaliteExterne?.clauseRecoursDelais && (
                       <div className="flex items-start gap-2">
-                        <span className={(statutResult as any).controleLegaliteExterne.clauseRecoursDelais.valide ? "text-emerald-400 font-bold" : "text-amber-400 font-bold"}>
-                          {(statutResult as any).controleLegaliteExterne.clauseRecoursDelais.valide ? "✓" : "⚠️"}
+                        <span className={statutResult.controleLegaliteExterne.clauseRecoursDelais.valide ? "text-emerald-400 font-bold" : "text-amber-400 font-bold"}>
+                          {statutResult.controleLegaliteExterne.clauseRecoursDelais.valide ? "✓" : "⚠️"}
                         </span>
                         <div>
                           <strong className="block text-slate-900 dark:text-white">Clause des voies et délais de recours :</strong>
-                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{(statutResult as any).controleLegaliteExterne.clauseRecoursDelais.details}</span>
+                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{statutResult.controleLegaliteExterne.clauseRecoursDelais.details}</span>
                         </div>
                       </div>
                     )}
@@ -780,30 +780,30 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                     </span>
                   </div>
                   <div className="space-y-2 text-xs">
-                    {(statutResult as any).controleLegaliteInterne?.baseLegaleCGFP && (
+                    {statutResult.controleLegaliteInterne?.baseLegaleCGFP && (
                       <div className="flex items-start gap-2">
                         <span className="text-indigo-400 font-bold">✓</span>
                         <div>
-                          <strong className="block text-slate-900 dark:text-white">Base légale statutaire ({ (statutResult as any).controleLegaliteInterne.baseLegaleCGFP.article }) :</strong>
-                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{(statutResult as any).controleLegaliteInterne.baseLegaleCGFP.details}</span>
+                          <strong className="block text-slate-900 dark:text-white">Base légale statutaire ({ statutResult.controleLegaliteInterne.baseLegaleCGFP.article }) :</strong>
+                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{statutResult.controleLegaliteInterne.baseLegaleCGFP.details}</span>
                         </div>
                       </div>
                     )}
-                    {(statutResult as any).controleLegaliteInterne?.dureeEtPlafonds && (
+                    {statutResult.controleLegaliteInterne?.dureeEtPlafonds && (
                       <div className="flex items-start gap-2">
                         <span className="text-indigo-400 font-bold">✓</span>
                         <div>
                           <strong className="block text-slate-900 dark:text-white">Durée et respect des plafonds d'engagement :</strong>
-                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{(statutResult as any).controleLegaliteInterne.dureeEtPlafonds.details}</span>
+                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{statutResult.controleLegaliteInterne.dureeEtPlafonds.details}</span>
                         </div>
                       </div>
                     )}
-                    {(statutResult as any).controleLegaliteInterne?.periodeEssai && (
+                    {statutResult.controleLegaliteInterne?.periodeEssai && (
                       <div className="flex items-start gap-2">
                         <span className="text-indigo-400 font-bold">✓</span>
                         <div>
                           <strong className="block text-slate-900 dark:text-white">Période d'essai & Décret 88-145 (Art. 4) :</strong>
-                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{(statutResult as any).controleLegaliteInterne.periodeEssai.details}</span>
+                          <span className={isLight ? "text-slate-600" : "text-slate-300"}>{statutResult.controleLegaliteInterne.periodeEssai.details}</span>
                         </div>
                       </div>
                     )}
@@ -813,7 +813,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
             )}
 
             {/* Adversarial Review & Pre-litigation Risks (Auto-critique / Regard Préfecture & TA) */}
-            {((statutResult as any).autoCritiqueAdversariale) && (
+            {(statutResult.autoCritiqueAdversariale) && (
               <div className={`p-5 rounded-2xl border-2 flex flex-col gap-4 shadow-xl transition-all ${
                 isLight 
                   ? "bg-white border-amber-400/80 shadow-amber-100/60 text-slate-900" 
@@ -838,7 +838,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                       <span>🏛️ Regard du Préfet (Contrôle de légalité) :</span>
                     </strong>
                     <p className="text-xs font-medium leading-relaxed">
-                      {(statutResult as any).autoCritiqueAdversariale.regardPrefecture}
+                      {statutResult.autoCritiqueAdversariale.regardPrefecture}
                     </p>
                   </div>
 
@@ -851,12 +851,12 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                       <span>⚖️ Risque Contentieux Juge Administratif (TA Cergy) :</span>
                     </strong>
                     <p className="text-xs font-medium leading-relaxed">
-                      {(statutResult as any).autoCritiqueAdversariale.regardJugeAdministratif}
+                      {statutResult.autoCritiqueAdversariale.regardJugeAdministratif}
                     </p>
                   </div>
                 </div>
 
-                {(statutResult as any).autoCritiqueAdversariale.recommandationsCorrectives?.length > 0 && (
+                {statutResult.autoCritiqueAdversariale.recommandationsCorrectives?.length > 0 && (
                   <div className={`p-3.5 rounded-xl border flex flex-col gap-2 ${
                     isLight 
                       ? "bg-slate-50 border-slate-200 text-slate-800" 
@@ -866,7 +866,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                       <span>📝 Recommandations d'amendements clause par clause :</span>
                     </strong>
                     <ul className="space-y-1.5 text-xs font-medium">
-                      {(statutResult as any).autoCritiqueAdversariale.recommandationsCorrectives.map((rec: string, idx: number) => (
+                      {statutResult.autoCritiqueAdversariale.recommandationsCorrectives.map((rec: string, idx: number) => (
                         <li key={idx} className="flex items-start gap-2">
                           <span className="text-amber-500 dark:text-amber-400 font-bold shrink-0 mt-0.5">•</span>
                           <span className="leading-relaxed">{rec}</span>

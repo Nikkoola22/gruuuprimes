@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { ArrowLeft, RotateCcw, Play, Trophy, Feather, Sparkles, Heart, Zap, Shield, Volume2, VolumeX, Coffee, Star } from "lucide-react";
+import { ArrowLeft, RotateCcw, Play, Trophy, Feather, Sparkles, Heart, Zap, Shield, Volume2, VolumeX, Star } from "lucide-react";
 
 interface FlappyAgentProps {
   onClose: () => void;

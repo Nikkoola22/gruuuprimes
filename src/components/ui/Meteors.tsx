@@ -1,4 +1,3 @@
-import React from "react";
 import { cn } from "../../lib/utils";
 
 export const Meteors = ({
@@ -31,7 +30,7 @@ export const Meteors = ({
           }
         `}
       </style>
-      {meteors.map((el, idx) => (
+      {meteors.map((_, idx) => (
         <span
           key={"meteor" + idx}
           className={cn(

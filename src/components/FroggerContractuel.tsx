@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { ArrowLeft, Play, ShieldAlert, Sparkles, Activity } from "lucide-react";
+import { ArrowLeft, Play, Sparkles, Activity } from "lucide-react";
 
 interface FroggerContractuelProps {
   onClose: () => void;
 }
-
-const BASE_URL = import.meta.env.BASE_URL;
 
 // --- Constants ---
 const GRID = 56;
@@ -52,7 +50,7 @@ const LOG_COLORS = ["#8b5cf6", "#6366f1", "#3b82f6", "#0ea5e9", "#14b8a6"];
 
 const playRetroSound = (type: "jump" | "collision" | "success" | "gameover" | "victory") => {
   try {
-    // @ts-ignore
+    // @ts-expect-error — webkitAudioContext est l'ancien préfixe Safari, absent des types DOM
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (!AudioContextClass) return;
     const ctx = new AudioContextClass();
@@ -121,7 +119,7 @@ const FroggerContractuel: React.FC<FroggerContractuelProps> = ({ onClose }) => {
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
   const [gameState, setGameState] = useState<"ready" | "playing" | "gameover" | "victory">("ready");
-  const [level, setLevelState] = useState(1);
+  const [, setLevelState] = useState(1);
 
   const levelRef = useRef(1);
   const setLevel = (val: number) => {

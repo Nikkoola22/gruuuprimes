@@ -5,7 +5,7 @@
  * Mairie de Gennevilliers
  */
 
-import { StatutoryQueryResult, AnalysisFormDetails, AnalysisFondDetails } from "./legifrance";
+import { StatutoryQueryResult } from "./legifrance";
 
 export interface FullLegalAuditResult extends StatutoryQueryResult {
   auditHeader?: {

@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import {
   Trophy,
-  Award,
   RotateCcw,
   CheckCircle2,
   XCircle,
@@ -883,8 +882,6 @@ function getRandomQuestions(pool: Question[], count = QUIZ_LENGTH): Question[] {
 
   return shuffled.slice(0, Math.min(count, shuffled.length));
 }
-
-const BASE_URL = import.meta.env.BASE_URL;
 
 interface FAQQuizProps {
   onClose?: () => void;

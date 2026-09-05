@@ -258,11 +258,11 @@ function identifierFichiersBipPertinents(keywords: string[]): string[] {
   const relevant = scored
     .filter(({ score }) => score > 0)
     .sort((a, b) => b.score - a.score)
-    .map(({ category }) => category.path)
+    .map(({ category }) => category.path ?? "")
 
   // Si aucun fichier id entifié, retourner tous (fallback)
   if (relevant.length === 0) {
-    return BIP_FILE_CATEGORIES.map(cat => cat.path)
+    return BIP_FILE_CATEGORIES.map(cat => cat.path ?? "")
   }
 
   return relevant

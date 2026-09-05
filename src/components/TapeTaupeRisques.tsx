@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { ArrowLeft, Play, ShieldAlert, Activity, AlertTriangle } from "lucide-react";
+import { ArrowLeft, Play, AlertTriangle } from "lucide-react";
 
 interface TapeTaupeRisquesProps {
   onClose: () => void;
 }
-
-const BASE_URL = import.meta.env.BASE_URL;
 
 // --- Constants & Types ---
 type MoleType = "RPS" | "CHUTE" | "HEURES" | "DEPASSEMENT" | "HARCELEMENT" | "INCENDIE" | "TMS" | "DELEGUE" | "EPI" | "CHSCT" | "FORMATION" | "ERGO" | "AMIANTE" | "AGRESSION" | "BRUIT" | "DUERP" | "VISITE" | "DROIT_ALERTE";
@@ -55,7 +53,7 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
   const [gameState, setGameState] = useState<"ready" | "playing" | "gameover">("ready");
   const [score, setScore] = useState(0);
   const [errors, setErrors] = useState(0);
-  const [level, setLevel] = useState(1);
+  const [, setLevel] = useState(1);
   const [difficulty, setDifficulty] = useState<"easy" | "hard">("easy");
   
   // Grille de 9 emplacements (0 à 8)

@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  ArrowLeft, Play, Pause, Radio, Sparkles, Volume2, VolumeX, 
-  RefreshCw, ExternalLink, ShieldCheck, HeartPulse, Scale, 
-  Award, Clock, Calendar, Search, Music, Zap, BookOpen, ChevronRight
+import {
+  ArrowLeft, Play, Pause, Radio, Sparkles, Volume2, VolumeX,
+  RefreshCw, Clock, Calendar, ChevronRight
 } from 'lucide-react';
-import { TiltedCard } from './ui/TiltedCard';
 
 interface Episode {
   id: string;
@@ -153,7 +151,7 @@ const FALLBACK_EPISODES: Episode[] = [
 export default function EspacePodcastsFigurines({ onClose, theme = 'dark' }: Props) {
   const [episodes, setEpisodes] = useState<Episode[]>(FALLBACK_EPISODES);
   const [loading, setLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery] = useState('');
   const [activeEpisode, setActiveEpisode] = useState<Episode | null>(FALLBACK_EPISODES[0]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);

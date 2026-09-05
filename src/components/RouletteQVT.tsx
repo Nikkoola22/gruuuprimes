@@ -1,14 +1,13 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
-import { 
-  ArrowLeft, 
-  Smile, 
-  Heart, 
-  TrendingUp, 
-  Coffee, 
-  Sparkles, 
-  Copy, 
-  Check,
-  RotateCcw
+import React, { useState, useRef, useCallback } from "react";
+import {
+  ArrowLeft,
+  Smile,
+  Heart,
+  TrendingUp,
+  Coffee,
+  Sparkles,
+  Copy,
+  Check
 } from "lucide-react";
 
 interface RouletteQVTProps {
@@ -19,8 +18,6 @@ interface Idea {
   category: "qvt" | "management" | "carriere" | "detente";
   text: string;
 }
-
-const BASE_URL = import.meta.env.BASE_URL;
 
 const IDEAS: Record<string, Idea[]> = {
   qvt: [
@@ -109,7 +106,7 @@ let globalAudioCtx: AudioContext | null = null;
 
 const getAudioContext = () => {
   if (!globalAudioCtx) {
-    globalAudioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    globalAudioCtx = new (window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext!)();
   }
   if (globalAudioCtx.state === 'suspended') {
     globalAudioCtx.resume();

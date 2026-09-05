@@ -1,11 +1,7 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { 
-  ArrowLeft, 
-  RotateCcw, 
-  Trophy, 
-  HelpCircle, 
-  Check, 
-  Sparkles
+import React, { useState, useEffect, useRef } from "react";
+import {
+  ArrowLeft,
+  Trophy
 } from "lucide-react";
 
 interface MemoryRHProps {
@@ -20,8 +16,6 @@ interface Card {
   isFlipped: boolean;
   isMatched: boolean;
 }
-
-const BASE_URL = import.meta.env.BASE_URL;
 
 const ALL_PAIRS = [
   { id: 1, term: "Temps Partiel Thérapeutique 🩺", def: "Reprise progressive du travail après maladie 📈" },

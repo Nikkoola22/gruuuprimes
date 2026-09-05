@@ -30,7 +30,6 @@ import {
 import { searchDocuthequeRAG, RAGSearchResult } from '../utils/docuthequeSearch';
 import { GENNEVILLIERS_DOCUTHEQUE, DOCUTHEQUE_CATEGORIES } from '../data/gennevilliersDocutheque';
 import { exportTempsPartielFormDocx } from '../utils/docxExport';
-import { GennevilliersLogo } from './GennevilliersLogo';
 
 interface DocuthequeRAGProps {
   onBack: () => void;

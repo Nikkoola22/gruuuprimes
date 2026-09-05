@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   ArrowLeft, Building2, Users, Landmark, HeartHandshake,
   TrendingUp, TrendingDown, Play, AlertTriangle, Trophy,
-  FileText, CheckCircle2, XCircle, RotateCcw, Briefcase, Gavel, Newspaper, Megaphone, Clock, Droplets, Bug, Sparkles, ShieldAlert
+  FileText, XCircle, RotateCcw, Briefcase, Gavel, Newspaper, Megaphone, Clock, Droplets, Bug, Sparkles, ShieldAlert, type LucideIcon
 } from 'lucide-react';
 
 interface TycoonProps {
@@ -354,7 +354,7 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
   const [month, setMonth] = useState(1);
   const [currentEvent, setCurrentEvent] = useState<GameEvent | null>(null);
   const [eventPool, setEventPool] = useState<GameEvent[]>([]);
-  const [log, setLog] = useState<{ month: number, text: string, type: "good" | "bad" | "neutral" }[]>([]);
+  const [, setLog] = useState<{ month: number, text: string, type: "good" | "bad" | "neutral" }[]>([]);
   const [failReason, setFailReason] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -444,7 +444,7 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
     }
   };
 
-  const GaugeCard = ({ title, value, icon: Icon, colorClass, borderGlow, type }: { title: string, value: number, icon: any, colorClass: string, borderGlow: string, type: "currency" | "percent" }) => {
+  const GaugeCard = ({ title, value, icon: Icon, colorClass, borderGlow, type }: { title: string, value: number, icon: LucideIcon, colorClass: string, borderGlow: string, type: "currency" | "percent" }) => {
     const isCritical = type === "percent" ? value <= 20 : value <= 200;
 
     const getStatusBadge = () => {

@@ -31,8 +31,9 @@ async function checkUrl(url: string) {
     }
 
     return { status: response.status, ok: response.ok, statusText: response.statusText };
-  } catch (err: any) {
-    return { status: 0, ok: false, statusText: err.name === 'AbortError' ? 'TIMEOUT (7s)' : err.message };
+  } catch (err) {
+    const e = err as { name?: string; message?: string };
+    return { status: 0, ok: false, statusText: e.name === 'AbortError' ? 'TIMEOUT (7s)' : e.message || String(err) };
   }
 }
 

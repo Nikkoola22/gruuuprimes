@@ -7,7 +7,6 @@ import {
   Check,
   Eye,
   Code2,
-  Building2,
   Stamp,
   ShieldCheck
 } from 'lucide-react';

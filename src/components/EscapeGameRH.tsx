@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { 
-  Key, LockKeyhole, LogOut, ArrowLeft, 
+  Key, LockKeyhole, ArrowLeft,
   RotateCcw, 
   BookOpen, 
   Trophy, 
