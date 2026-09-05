@@ -24,6 +24,7 @@ const EspacePodcastsFigurines = lazy(() => import("./components/EspacePodcastsFi
 const DessineMoiLeStatut = lazy(() => import("./components/DessineMoiLeStatut.tsx"))
 const DocuthequeRAG = lazy(() => import("./components/DocuthequeRAG").then(m => ({ default: m.DocuthequeRAG })))
 const CoinRH = lazy(() => import("./components/CoinRH.tsx"))
+const MemoireJuridiqueGenerator = lazy(() => import("./components/MemoireJuridiqueGenerator").then(m => ({ default: m.MemoireJuridiqueGenerator })))
 const HomeMenu = lazy(() => import("./components/HomeMenu.tsx"))
 // Modules rarity chargés à la demande (admin, chat) pour alléger le bundle initial
 const LuxuryChat = lazy(() => import("./components/ui/LuxuryChat.tsx").then(m => ({ default: m.LuxuryChat })))
@@ -169,7 +170,7 @@ interface InfoItem {
   content: string
 }
 export interface ChatbotState {
-  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh"
+  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "memoire-juridique" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh"
   selectedDomain: number | null
   messages: ChatMessage[]
   isProcessing: boolean
@@ -1389,7 +1390,17 @@ ${indicesFactuels}
           <VeilleJuridique
             onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
             onNavigateToCdg={() => setChatState({ ...chatState, currentView: 'veille-cdg' })}
+            onNavigateToMemoire={() => setChatState({ ...chatState, currentView: 'memoire-juridique' })}
             theme={theme}
+          />
+        </Suspense>
+      )}
+
+      {/* --- SECTION MÉMOIRE JURIDIQUE & OBSERVATIONS DISCIPLINAIRES --- */}
+      {chatState.currentView === 'memoire-juridique' && (
+        <Suspense fallback={<ViewLoader />}>
+          <MemoireJuridiqueGenerator
+            onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
           />
         </Suspense>
       )}
