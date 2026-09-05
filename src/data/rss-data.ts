@@ -1,53 +1,54 @@
-// Données RSS France Info - Articles actualisés régulièrement
+// Données RSS & Veille Juridique Territoriale — Sources Légifrance, CIG, CDG, Gazette & DILA
 export const franceInfoRss = [
   {
-    title: "Politique - Les dernières décisions du gouvernement",
-    link: "https://www.franceinfo.fr/politique",
+    title: "Statut FPT : Nouvelles règles sur le temps partiel thérapeutique et congés maladie",
+    link: "https://www.cig929394.fr/actualites/retraites-conges-de-maladie-et-temps-partiel-therapeutique-de-nouvelles-regles/",
     pubDate: new Date().toISOString()
   },
   {
-    title: "Économie - Emploi et salaires en hausse",
-    link: "https://www.franceinfo.fr/economie",
+    title: "Code Général de la Fonction Publique (CGFP) : Dernières évolutions consolidées Légifrance",
+    link: "https://www.legifrance.gouv.fr/codes/id/LEGITEXT000044416551/",
     pubDate: new Date().toISOString()
   },
   {
-    title: "Société - Réformes sociales en cours",
-    link: "https://www.franceinfo.fr/societe",
+    title: "RIFSEEP & CIA : Recommandations de gestion et sécurisation des délibérations",
+    link: "https://www.lagazettedescommunes.com/dossiers/le-rifseep-mode-demploi/",
     pubDate: new Date().toISOString()
   },
   {
-    title: "Monde - Actualités internationales",
-    link: "https://www.franceinfo.fr/monde",
+    title: "Jurisprudence Conseil d'État : Contrôle de proportionnalité et sanctions disciplinaires",
+    link: "https://www.conseil-etat.fr/ressources/decisions-contentieuses",
     pubDate: new Date().toISOString()
   },
   {
-    title: "Sports - Résultats du jour en direct",
-    link: "https://www.franceinfo.fr/sports",
+    title: "Protection des données & RGPD territorial : Référentiels CNIL pour les collectivités",
+    link: "https://www.cnil.fr/fr/collectivites-territoriales",
     pubDate: new Date().toISOString()
   },
   {
-    title: "Environnement - Changement climatique",
-    link: "https://www.franceinfo.fr/environnement",
+    title: "Commande publique & CCAG 2021 : Seuils européens et exécution des marchés territoriaux",
+    link: "https://www.economie.gouv.fr/daj/marches-publics",
     pubDate: new Date().toISOString()
   },
   {
-    title: "Culture - Cinéma et spectacles",
-    link: "https://www.franceinfo.fr/culture",
+    title: "Santé et sécurité au travail : Prévention des risques psychosociaux et Document Unique",
+    link: "https://www.lettreducadre.fr/article/absenteisme-l-usure-professionnelle-a-change-de-visage.55537",
     pubDate: new Date().toISOString()
   },
   {
-    title: "Santé - Nouvelles découvertes médicales",
-    link: "https://www.franceinfo.fr/sante",
+    title: "Contrats territoriaux : Encadrement des augmentations salariales et motifs de non-renouvellement",
+    link: "https://www.service-public.fr/particuliers/vosdroits/F13117",
     pubDate: new Date().toISOString()
   },
   {
-    title: "Éducation - Réformes de l'école",
-    link: "https://www.franceinfo.fr/education",
+    title: "DILA Open Data : Mise à jour quotidienne du fonds LEGI et codes en vigueur",
+    link: "https://echanges.dila.gouv.fr/OPENDATA/LEGI/",
     pubDate: new Date().toISOString()
   },
   {
-    title: "Technologie - Innovations numériques",
-    link: "https://www.franceinfo.fr/technologies",
+    title: "Protection Fonctionnelle : Mise en œuvre et prise en charge des frais d'avocat des agents",
+    link: "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000044416956",
     pubDate: new Date().toISOString()
   }
-]
+];
+
