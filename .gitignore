@@ -35,3 +35,8 @@ bfg.jar
 .vercel
 local-npm-cache/
 
+
+# Outillage Python autonome (CLI jurisprudence)
+.venv/
+__pycache__/
+*.pyc
