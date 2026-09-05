@@ -31,6 +31,7 @@ import {
   Coins
 } from "lucide-react";
 import { searchDocuthequeRAG, RAGSearchResult } from "../utils/docuthequeSearch";
+import { queryJurisprudence, JurisprudenceDecision } from "../services/jurisprudence";
 import { OfficialDocumentPreview } from "./OfficialDocumentPreview";
 import { ALL_THEMES_TEMPLATES } from "../data/allThemesTemplatesRegistry";
 
@@ -887,15 +888,16 @@ const mapCategoryToTab = (cat: string): string => {
 interface VeilleJuridiqueProps {
   onClose: () => void;
   onNavigateToCdg?: () => void;
-  initialViewMode?: "fiches" | "quiz" | "statut";
+  onNavigateToMemoire?: () => void;
+  initialViewMode?: "fiches" | "quiz" | "statut" | "jurisprudence";
   theme?: "light" | "dark";
 }
 
-const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewMode = "quiz" }) => {
+const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateToMemoire, initialViewMode = "quiz" }) => {
   const [activeTab, setActiveTab] = useState<string>("Tous");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
-  const [viewMode, setViewMode] = useState<"fiches" | "quiz" | "statut">(initialViewMode);
+  const [viewMode, setViewMode] = useState<"fiches" | "quiz" | "statut" | "jurisprudence">(initialViewMode);
 
   // State for Statutory HR Suite & Légifrance
   const [selectedStatutTool] = useState<string>("arretes");
@@ -908,6 +910,40 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewM
   const [templateSearchQuery, setTemplateSearchQuery] = useState<string>("");
   const [selectedTypeFilter, setSelectedTypeFilter] = useState<string>("all");
   const statutResultRef = useRef<HTMLDivElement>(null);
+
+  // State for Jurisprudence Search (fond JURI Légifrance — Cassation, CAA, TA, CE)
+  const [jurisQuery, setJurisQuery] = useState<string>("");
+  const [jurisResults, setJurisResults] = useState<JurisprudenceDecision[] | null>(null);
+  const [jurisTotal, setJurisTotal] = useState<number>(0);
+  const [jurisError, setJurisError] = useState<string | null>(null);
+  const [isJurisLoading, setIsJurisLoading] = useState<boolean>(false);
+  const jurisResultRef = useRef<HTMLDivElement>(null);
+
+  const handleJurisSearch = async (queryToUse?: string) => {
+    const rawQuery = queryToUse !== undefined ? queryToUse : jurisQuery;
+    const effectiveQuery = rawQuery.trim() || "proportionnalité sanction disciplinaire";
+
+    setIsJurisLoading(true);
+    setJurisError(null);
+    try {
+      const res = await queryJurisprudence(effectiveQuery, 5);
+      if (res.success) {
+        setJurisResults(res.results);
+        setJurisTotal(res.totalCount || res.results.length);
+      } else {
+        setJurisResults(null);
+        setJurisError(res.message || "Recherche indisponible");
+      }
+    } catch (err) {
+      console.error("Erreur jurisprudence:", err);
+      setJurisError("Service jurisprudence injoignable");
+    } finally {
+      setIsJurisLoading(false);
+      setTimeout(() => {
+        jurisResultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 150);
+    }
+  };
 
   const handleExecuteStatut = async (toolIdToUse?: string, queryToUse?: string) => {
     const tool = toolIdToUse || selectedStatutTool;
@@ -1129,7 +1165,31 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewM
                 <BookOpen className="w-3.5 h-3.5" />
                 <span>Jurisprudence</span>
               </button>
+
+              <button
+                onClick={() => setViewMode("jurisprudence")}
+                className={`px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
+                  viewMode === "jurisprudence"
+                    ? "bg-purple-600 text-white shadow-sm"
+                    : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+                }`}
+              >
+                <Search className="w-3.5 h-3.5" />
+                <span>CE & Cassation</span>
+              </button>
             </div>
+
+            {/* Bouton Générateur de Mémoire */}
+            {onNavigateToMemoire && (
+              <button
+                type="button"
+                onClick={onNavigateToMemoire}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-blue-400/30 transition-all duration-200 shrink-0 cursor-pointer"
+              >
+                <Gavel className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-300 animate-pulse" />
+                <span>Rédiger un Mémoire ⚖️</span>
+              </button>
+            )}
 
             {/* Back Button */}
             <button
@@ -1565,7 +1625,7 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewM
               </div>
             )}
           </div>
-        ) : (
+        ) : viewMode === "statut" ? (
           /* STATUT / SUITE RH CGFP */
           <div className="flex flex-col gap-5 sm:gap-6 max-w-5xl mx-auto w-full min-w-0">
             {/* Header Box */}
@@ -2130,6 +2190,201 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewM
                     documentText={statutResult.sampleDocument}
                   />
                 )}
+              </div>
+            )}
+          </div>
+        ) : (
+          /* JURISPRUDENCE MODE — Recherche fond JURI Légifrance (Cassation, CAA, TA, CE) */
+          <div className="flex flex-col gap-5 sm:gap-6 max-w-5xl mx-auto w-full min-w-0">
+            {/* Header Box */}
+            <div className="bg-white/85 dark:bg-slate-900/85 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-4 sm:p-6 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 min-w-0">
+              <div className="flex items-center gap-3.5 sm:gap-4 min-w-0">
+                <div className="p-3 bg-indigo-50 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 rounded-2xl border border-indigo-200 dark:border-indigo-500/30 shrink-0">
+                  <Scale className="w-7 h-7 sm:w-8 sm:h-8" />
+                </div>
+                <div className="min-w-0">
+                  <h2 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white break-words">Recherche de Jurisprudence</h2>
+                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5 break-words">
+                    Fond JURI Légifrance (PISTE) • Cour de cassation, Cours administratives d'appel, Tribunaux administratifs, Conseil d'État
+                  </p>
+                </div>
+              </div>
+              {jurisTotal > 0 && (
+                <div className="px-3.5 py-1.5 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300 rounded-2xl text-xs font-bold flex items-center gap-2 shrink-0">
+                  <CheckCircle2 className="w-3.5 h-3.5" /> {jurisTotal.toLocaleString("fr-FR")} décisions indexées
+                </div>
+              )}
+            </div>
+
+            {/* Search Module */}
+            <div className="bg-gradient-to-br from-indigo-950/40 via-slate-900/90 to-slate-900/95 border-2 border-indigo-500/40 rounded-3xl p-5 sm:p-7 shadow-xl backdrop-blur-md relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+
+              <div className="relative z-10 flex flex-col gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 bg-indigo-500/20 text-indigo-400 rounded-2xl border border-indigo-500/30 shadow-inner shrink-0">
+                    <Search className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-black text-white tracking-tight">
+                      Interroger le fonds décisionnel national
+                    </h3>
+                    <p className="text-xs text-slate-300 font-medium mt-0.5">
+                      Recherchez par mots-clés juridiques : proportionnalité, droit de retrait, protection fonctionnelle, sanction déguisée…
+                    </p>
+                  </div>
+                </div>
+
+                {/* Input Bar */}
+                <div className="flex flex-col sm:flex-row gap-2.5">
+                  <div className="relative flex-1 flex items-center">
+                    <Scale className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
+                    <input
+                      type="text"
+                      value={jurisQuery}
+                      onChange={(e) => setJurisQuery(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          handleJurisSearch();
+                        }
+                      }}
+                      placeholder="Ex: proportionnalité sanction disciplinaire, droit de retrait…"
+                      className="w-full pl-10 pr-4 py-3 bg-slate-950/70 border border-slate-700 rounded-xl text-sm font-semibold text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-400"
+                    />
+                  </div>
+                  <button
+                    onClick={() => handleJurisSearch()}
+                    disabled={isJurisLoading}
+                    className="px-6 py-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-500 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-indigo-900/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shrink-0"
+                  >
+                    {isJurisLoading ? (
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Search className="w-4 h-4" />
+                    )}
+                    <span>Rechercher</span>
+                  </button>
+                </div>
+
+                {/* Suggestions */}
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-[10.5px] font-bold uppercase tracking-wider text-slate-400 mr-1">Suggested :</span>
+                  {[
+                    { label: "Proportionnalité sanction", query: "proportionnalité sanction disciplinaire" },
+                    { label: "Droit de retrait", query: "droit de retrait fonctionnaire" },
+                    { label: "Protection fonctionnelle", query: "protection fonctionnelle agent territorial" },
+                    { label: "Sanction déguisée", query: "mutation sanction déguisée fonctionnaire" },
+                    { label: "Temps partiel thérapeutique", query: "temps partiel thérapeutique congé maladie" }
+                  ].map((chip) => (
+                    <button
+                      key={chip.label}
+                      type="button"
+                      onClick={() => {
+                        setJurisQuery(chip.query);
+                        handleJurisSearch(chip.query);
+                      }}
+                      disabled={isJurisLoading}
+                      className="px-2.5 py-1 text-[11px] font-semibold rounded-lg bg-slate-800/80 hover:bg-indigo-600/30 text-slate-200 hover:text-indigo-200 border border-slate-700 hover:border-indigo-500/50 transition-all cursor-pointer disabled:opacity-50"
+                    >
+                      {chip.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Error State */}
+            {jurisError && (
+              <div className="bg-white/95 dark:bg-slate-900/95 border-2 border-red-500/40 rounded-3xl p-5 flex items-center gap-3">
+                <AlertTriangle className="w-5 h-5 text-red-500 shrink-0" />
+                <div>
+                  <p className="text-sm font-bold text-slate-900 dark:text-white">Recherche indisponible</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{jurisError}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Loading State */}
+            {isJurisLoading && !jurisResults && (
+              <div className="grid grid-cols-1 gap-3">
+                {[1, 2, 3].map((n) => (
+                  <div key={n} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 animate-pulse space-y-3">
+                    <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-3/4" />
+                    <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-full" />
+                    <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-5/6" />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Results */}
+            {jurisResults && !isJurisLoading && (
+              <div ref={jurisResultRef} className="flex flex-col gap-3">
+                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 px-1">
+                  {jurisResults.length === 0
+                    ? "Aucune décision trouvée pour cette recherche."
+                    : `${jurisResults.length} décision(s) la plus pertinente(s) sur ${jurisTotal.toLocaleString("fr-FR")} au total :`}
+                </p>
+                {jurisResults.map((decision, idx) => (
+                  <a
+                    key={decision.id || idx}
+                    href={decision.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500 rounded-3xl p-5 shadow-xs hover:shadow-lg transition-all flex flex-col gap-3"
+                  >
+                    <div className="flex flex-wrap items-start justify-between gap-2">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <span className="w-7 h-7 rounded-xl bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 font-bold text-xs flex items-center justify-center shrink-0">
+                          {idx + 1}
+                        </span>
+                        <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 shrink-0">
+                          {decision.juridiction}
+                        </span>
+                        {decision.date && (
+                          <span className="text-[11px] font-semibold text-slate-400 shrink-0 flex items-center gap-1">
+                            <Clock className="w-3 h-3" /> {decision.date}
+                          </span>
+                        )}
+                        {decision.nature && (
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 capitalize shrink-0">
+                            {decision.nature}
+                          </span>
+                        )}
+                      </div>
+                      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-indigo-500 group-hover:translate-x-0.5 transition-transform shrink-0">
+                        <span>Lire sur Légifrance</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </span>
+                    </div>
+
+                    <h4 className="text-sm sm:text-base font-black text-slate-900 dark:text-white leading-snug group-hover:text-indigo-500 transition-colors">
+                      {decision.title}
+                    </h4>
+
+                    {decision.summary && (
+                      <p className="text-xs leading-relaxed font-medium text-slate-600 dark:text-slate-300 line-clamp-3">
+                        {decision.summary}
+                      </p>
+                    )}
+
+                    {decision.solution && (
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Solution :</span>
+                        <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 capitalize">
+                          {decision.solution}
+                        </span>
+                      </div>
+                    )}
+
+                    {!decision.summary && decision.excerpt && (
+                      <p className="text-xs leading-relaxed font-medium text-slate-500 dark:text-slate-400 line-clamp-3 italic">
+                        {decision.excerpt}
+                      </p>
+                    )}
+                  </a>
+                ))}
               </div>
             )}
           </div>
