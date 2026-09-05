@@ -272,19 +272,16 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
     setSelectedIFSE2(new Set())
     setSelectedJob('')
     setSelectedService('')
-    setLastToggledPrimeIdx(null)
   }
 
   const handleServiceSelect = (service: string) => {
     setSelectedService(service)
     setSelectedIFSE2(new Set())
     setSelectedJob('')
-    setLastToggledPrimeIdx(null)
   }
 
   const handleJobSelect = (job: string) => {
     setSelectedJob(job)
-    setLastToggledPrimeIdx(null)
     if (!job) return
     
     const directionPrimesList = getIFSE2ByDirection(selectedDirection)
@@ -305,18 +302,12 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
 
   const handleToggleIFSE2 = (idx: number) => {
     const newSet = new Set(selectedIFSE2)
-    const wasSelected = newSet.has(idx)
     if (newSet.has(idx)) {
       newSet.delete(idx)
     } else {
       newSet.add(idx)
     }
     setSelectedIFSE2(newSet)
-    setLastToggleWasAdd(!wasSelected)
-    setLastToggledPrimeIdx(idx)
-    window.setTimeout(() => {
-      setLastToggledPrimeIdx(prev => (prev === idx ? null : prev))
-    }, 700)
   }
 
   const handleToggleSpecialPrime = (idx: number) => {

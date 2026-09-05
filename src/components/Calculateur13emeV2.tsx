@@ -161,7 +161,10 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
     if (base <= 0) return null;
     if (monthsWorked < 3) return null;
 
-    let total, breakdown, compRem, primeSem;
+    let total: number;
+    let breakdown: { month: string; ratio: number; note: string; amount: number; details?: Record<string, number> }[];
+    let compRem: number;
+    let primeSem: number;
     const tempsRatio = Math.max(0, Math.min(1, tempsEmploi / 100));
     const prorataAnnee = Math.max(0, Math.min(1, monthsWorked / 12));
     const prorataGlobal = tempsRatio * prorataAnnee;
@@ -196,7 +199,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
       breakdown = schedule.map(item => ({
         month: item.month,
         ratio: item.part / parts,
-        note: item.note,
+        note: item.note || "",
         amount: +(total * (item.part / parts)).toFixed(2),
       }));
     }
@@ -915,7 +918,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
           </h3>
 
           <div className="space-y-3">
-            {result.breakdown.map((item: any, idx: number) => {
+            {result.breakdown.map((item, idx: number) => {
               return (
                 <div key={idx} className="p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4">
                   <div>

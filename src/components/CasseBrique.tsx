@@ -134,7 +134,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
   // Synthèse sonore Web Audio
   const playSound = useCallback((type: 'paddle' | 'wall' | 'brick' | 'powerup' | 'death' | 'victory') => {
     if (!audioCtxRef.current) {
-      audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      audioCtxRef.current = new (window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext!)();
     }
     const ac = audioCtxRef.current;
     const osc = ac.createOscillator();
@@ -260,7 +260,7 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
   };
 
   // Activer un bonus
-  const applyPowerUp = (type: "life" | "wide" | "slow" | "multiball") => {
+  const applyPowerUp = (type: "life" | "wide" | "slow" | "multiball" | "shoot") => {
     if (type === "life") {
       setLives((l) => l + 1);
     } else if (type === "wide") {
@@ -788,15 +788,15 @@ const CasseBrique: React.FC<CasseBriqueProps> = ({ onClose }) => {
         ctx.roundRect(pup.x - pup.size + 4, pup.y - pup.size / 2 + 4, pup.size * 2, pup.size, pup.size / 2);
         ctx.fill();
 
-        // Capsule (gauche colorée, droite blanche)
+        // Capsule (gauche colorée, droite blanche) — radii au format [tl, tr, br, bl]
         ctx.fillStyle = pup.color;
         ctx.beginPath();
-        ctx.roundRect(pup.x - pup.size, pup.y - pup.size / 2, pup.size, pup.size, {tl: pup.size/2, bl: pup.size/2, tr: 0, br: 0});
+        ctx.roundRect(pup.x - pup.size, pup.y - pup.size / 2, pup.size, pup.size, [pup.size/2, 0, 0, pup.size/2]);
         ctx.fill();
-        
+
         ctx.fillStyle = "#ffffff";
         ctx.beginPath();
-        ctx.roundRect(pup.x, pup.y - pup.size / 2, pup.size, pup.size, {tl: 0, bl: 0, tr: pup.size/2, br: pup.size/2});
+        ctx.roundRect(pup.x, pup.y - pup.size / 2, pup.size, pup.size, [0, pup.size/2, pup.size/2, 0]);
         ctx.fill();
 
         ctx.fillStyle = "#000000";
