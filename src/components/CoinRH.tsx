@@ -125,7 +125,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
           <div>
             <div className="flex items-center gap-2.5">
               <span className="text-xl sm:text-2xl font-black tracking-tight bg-gradient-to-r from-emerald-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
-                Coin RH • Actes & Légalité
+                Coin du Défenseur • Actes & Légalité
               </span>
               <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-500/40">
                 <CheckCircle2 className="w-3.5 h-3.5" /> Ville de Gennevilliers
@@ -265,7 +265,45 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
           </div>
         </div>
 
-        {/* ─── MODULE 2 : SIMULATION D'ACTES ─── */}
+        {/* ─── MODULE 2 : RÉDACTION DE MÉMOIRE EN DÉFENSE ─── */}
+        <div className={`rounded-3xl p-6 sm:p-7 border-2 shadow-2xl relative overflow-hidden transition-all ${
+          isLight
+            ? "bg-white border-blue-200 shadow-blue-100/50"
+            : "bg-[#0E1526] border-blue-500/40 shadow-2xl shadow-black/80"
+        }`}>
+          <div className="relative z-10 flex flex-col gap-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3.5 border-b border-blue-500/20 pb-4">
+              <div className="flex items-start sm:items-center gap-3.5">
+                <div className="p-3 bg-[#101B33] text-blue-400 rounded-2xl border border-blue-500/40 shadow-inner shrink-0">
+                  <Gavel className="w-7 h-7" />
+                </div>
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h2 className="text-base sm:text-xl font-black text-slate-900 dark:text-white tracking-tight">
+                      Rédaction de Mémoire en Défense
+                    </h2>
+                    <span className="text-[10.5px] uppercase font-black tracking-wider px-2.5 py-0.5 rounded-full bg-[#101B33] text-blue-300 border border-blue-500/40">
+                      Syllogisme CGFP & CE Dahan
+                    </span>
+                  </div>
+                  <p className={`text-xs font-medium mt-1 max-w-3xl ${isLight ? "text-slate-500" : "text-slate-300"}`}>
+                    Déposez un rapport disciplinaire ou une convocation : l'outil pré-remplit les griefs puis rédige le mémoire en défense complet (légalité externe, syllogismes, proportionnalité, bordereau de pièces) exportable en Word.
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setIsMemoireOpen(true)}
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-600 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-blue-900/30 transition-all flex items-center gap-2 cursor-pointer shrink-0 transform hover:scale-[1.03] active:scale-95 self-start md:self-auto"
+              >
+                <Gavel className="w-4 h-4 text-amber-300" />
+                <span>Rédiger un mémoire</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* ─── MODULE 3 : SIMULATION D'ACTES ─── */}
         <div className={`rounded-3xl p-6 sm:p-7 border-2 shadow-2xl relative overflow-hidden transition-all ${
           isLight
             ? "bg-white border-indigo-200 shadow-indigo-100/50"
@@ -591,44 +629,6 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                   });
                 })()}
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ─── MODULE 3 : RÉDACTION DE MÉMOIRE JURIDIQUE ─── */}
-        <div className={`rounded-3xl p-6 sm:p-7 border-2 shadow-2xl relative overflow-hidden transition-all ${
-          isLight
-            ? "bg-white border-blue-200 shadow-blue-100/50"
-            : "bg-[#0E1526] border-blue-500/40 shadow-2xl shadow-black/80"
-        }`}>
-          <div className="relative z-10 flex flex-col gap-4">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3.5 border-b border-blue-500/20 pb-4">
-              <div className="flex items-start sm:items-center gap-3.5">
-                <div className="p-3 bg-[#101B33] text-blue-400 rounded-2xl border border-blue-500/40 shadow-inner shrink-0">
-                  <Gavel className="w-7 h-7" />
-                </div>
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h2 className="text-base sm:text-xl font-black text-slate-900 dark:text-white tracking-tight">
-                      Rédaction de Mémoire Juridique
-                    </h2>
-                    <span className="text-[10.5px] uppercase font-black tracking-wider px-2.5 py-0.5 rounded-full bg-[#101B33] text-blue-300 border border-blue-500/40">
-                      Syllogisme CGFP & CE Dahan
-                    </span>
-                  </div>
-                  <p className={`text-xs font-medium mt-1 max-w-3xl ${isLight ? "text-slate-500" : "text-slate-300"}`}>
-                    Déposez un rapport disciplinaire ou une convocation : l'outil pré-remplit les griefs puis rédige le mémoire en défense complet (légalité externe, syllogismes, proportionnalité, bordereau de pièces) exportable en Word.
-                  </p>
-                </div>
-              </div>
-
-              <button
-                onClick={() => setIsMemoireOpen(true)}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-600 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-blue-900/30 transition-all flex items-center gap-2 cursor-pointer shrink-0 transform hover:scale-[1.03] active:scale-95 self-start md:self-auto"
-              >
-                <Gavel className="w-4 h-4 text-amber-300" />
-                <span>Rédiger un mémoire</span>
-              </button>
             </div>
           </div>
         </div>

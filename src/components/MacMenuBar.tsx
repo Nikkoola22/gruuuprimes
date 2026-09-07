@@ -176,7 +176,7 @@ export default function MacMenuBar({
                   <div className="h-px bg-slate-200 dark:bg-slate-800 my-1" />
                   <button onClick={() => selectView('actualites')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-emerald-500 font-bold">Actualités & News 📰</button>
                   <button onClick={() => selectView('coin-rh')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-indigo-400 font-bold flex items-center justify-between">
-                    <span>Coin RH (Actes & Légalité) 📜</span>
+                    <span>Coin du Défenseur (Actes & Légalité) 📜</span>
                     <span className="text-[9px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300">CGFP</span>
                   </button>
                   <button onClick={() => selectView('veille-cdg')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-sky-500 font-bold">Veille CDG & CIG 🏛️</button>

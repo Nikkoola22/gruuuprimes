@@ -289,7 +289,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                 <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-indigo-500/15 to-purple-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-indigo-500/25 transition-all duration-200">
                   <FileSignature className="w-8 h-8 sm:w-11 sm:h-11" />
                 </div>
-                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Coin<br />RH</span>
+                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Coin du<br />Défenseur</span>
               </button>
 
               {/* 7. Spotlight Podcasts Button */}
