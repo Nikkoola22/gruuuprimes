@@ -73,6 +73,67 @@ function extractDateFromTitle(title) {
   return match ? match[1] : "";
 }
 
+// Mots vides français : le moteur ne les gère pas, et ils polluent le classement
+// BM25 (présents dans presque tout le corpus → résultats hors sujet)
+const STOPWORDS = new Set([
+  "au", "aux", "avec", "ce", "ces", "dans", "de", "des", "du", "elle", "en", "et", "eux",
+  "il", "ils", "je", "la", "le", "les", "leur", "lui", "ma", "mais", "me", "mes", "moi",
+  "mon", "ne", "nos", "notre", "nous", "on", "ou", "par", "pas", "pour", "que", "qui",
+  "sa", "se", "ses", "son", "sur", "ta", "te", "tes", "toi", "ton", "tu", "un", "une",
+  "vos", "votre", "vous", "c", "d", "j", "l", "m", "n", "s", "t", "y", "est", "sont"
+]);
+
+/**
+ * Corps de requête du moteur lf-engine-app/search.
+ * Format validé contre l'API (2026-09) : `champs[].criteres[]` + `sort`.
+ * L'ancien format `recherche.mots[]` était silencieusement ignoré par le moteur
+ * (il renvoyait l'intégralité du fond, tri par défaut → décisions anciennes).
+ * Seul `UN_DES_MOTS` est accepté dans criteres[].typeRecherche — la pertinence
+ * vient du tri PERTINENCE et du retrait des mots vides de la requête.
+ */
+function buildSearchBody(fond, sanitizedQuery, pageSize) {
+  const terms = sanitizedQuery
+    .toLowerCase()
+    .split(/[^\p{L}\p{N}']+/u)
+    .filter((t) => t.length > 1 && !STOPWORDS.has(t));
+  const valeur = terms.length ? terms.join(" ") : sanitizedQuery;
+
+  return {
+    fond,
+    recherche: {
+      champs: [{
+        typeChamp: "ALL",
+        criteres: [{ valeur, typeRecherche: "UN_DES_MOTS", operateur: "ET" }],
+        operateur: "ET"
+      }],
+      filtres: [],
+      pageNumber: 1,
+      pageSize,
+      operateur: "ET",
+      sort: "PERTINENCE",
+      typePagination: "DEFAUT"
+    }
+  };
+}
+
+/** Le moteur renvoie les termes trouvés entourés de balises <mark> — à nettoyer avant affichage */
+function stripMarks(str) {
+  return (str || "").replace(/<\/?mark>/g, "").replace(/\s+/g, " ").trim();
+}
+
+/** Résumé du dossier depuis les sections structurées (Résumé principal / Abstrat) */
+function extractSummary(item) {
+  for (const section of item.sections || []) {
+    for (const extract of section.extracts || []) {
+      const field = extract.searchFieldName || "";
+      if (/Résumé principal|Abstrat/i.test(field) && extract.values?.length) {
+        return stripMarks(extract.values[0]).slice(0, 300);
+      }
+    }
+  }
+  return "";
+}
+
 /** Recherche dans le fond CODE_DATE : articles de codes consolidés en vigueur */
 export async function searchCodes(query, pageSize = 5) {
   const sanitizedQuery = query.trim().slice(0, 300);
@@ -90,15 +151,8 @@ export async function searchCodes(query, pageSize = 5) {
       "KeyId": apiKey,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      fond: "CODE_DATE",
-      recherche: {
-        mots: [{ valeur: sanitizedQuery, typeMot: "EXACTE" }],
-        pageNumber: 1,
-        pageSize
-      }
-    }),
-    signal: AbortSignal.timeout(8000)
+    body: JSON.stringify(buildSearchBody("CODE_DATE", sanitizedQuery, pageSize)),
+    signal: AbortSignal.timeout(15000)
   });
 
   if (!response.ok) {
@@ -115,7 +169,7 @@ export async function searchCodes(query, pageSize = 5) {
   return {
     totalCount: data.totalResultNumber || rawResults.length,
     results: rawResults.slice(0, pageSize).map((item) => {
-      const mainTitle = item.titles?.[0]?.title || item.title || "Code / Contexte Réglementaire";
+      const mainTitle = stripMarks(item.titles?.[0]?.title) || item.title || "Code / Contexte Réglementaire";
       const id = item.titles?.[0]?.id || item.id || "";
       const num = item.num ? `Article ${item.num}` : "";
 
@@ -154,15 +208,8 @@ export async function searchJurisprudence(query, pageSize = 5) {
       "KeyId": apiKey,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      fond: "JURI",
-      recherche: {
-        mots: [{ valeur: sanitizedQuery, typeMot: "EXACTE" }],
-        pageNumber: 1,
-        pageSize
-      }
-    }),
-    signal: AbortSignal.timeout(8000)
+    body: JSON.stringify(buildSearchBody("JURI", sanitizedQuery, pageSize)),
+    signal: AbortSignal.timeout(15000)
   });
 
   if (!response.ok) {
@@ -179,7 +226,7 @@ export async function searchJurisprudence(query, pageSize = 5) {
   return {
     totalCount: data.totalResultNumber || rawResults.length,
     results: rawResults.slice(0, pageSize).map((item) => {
-      const title = item.titles?.[0]?.title || "Décision de justice";
+      const title = stripMarks(item.titles?.[0]?.title) || "Décision de justice";
       const id = item.titles?.[0]?.id || item.id || "";
 
       return {
@@ -189,8 +236,8 @@ export async function searchJurisprudence(query, pageSize = 5) {
         nature: item.nature || "décision",
         solution: item.solution || "",
         date: item.date || item.datePublication || item.dateSignature || extractDateFromTitle(title),
-        summary: item.resumePrincipal || "",
-        excerpt: (item.text || "").replace(/\s+/g, " ").slice(0, 400),
+        summary: extractSummary(item),
+        excerpt: stripMarks(item.text).slice(0, 400),
         link: id ? `https://www.legifrance.gouv.fr/juri/id/${id}` : "https://www.legifrance.gouv.fr"
       };
     })
