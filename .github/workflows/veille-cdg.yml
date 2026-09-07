@@ -1,0 +1,42 @@
+name: Veille CDG & CIG — indexation quotidienne
+
+on:
+  schedule:
+    # 05:43 UTC = 07:43 heure de Paris (été) — volontairement décalé de :00
+    - cron: '43 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: veille-cdg
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Indexation des sites CDG / CIG
+        run: node scripts/scrape-cdg-news.mjs
+
+      - name: Commit des données si évolution
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/cdg-news.json src/data/cdg-metadata.json
+          if git diff --cached --quiet; then
+            echo "Aucune évolution détectée — pas de commit."
+          else
+            git commit -m "chore(veille-cdg): indexation quotidienne des sites CDG & CIG ($(date -u +%d/%m/%Y))"
+            git push
+          fi

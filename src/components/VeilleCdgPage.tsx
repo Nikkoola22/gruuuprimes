@@ -283,21 +283,24 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
     return (filteredCDGs || []).reduce((acc, curr) => acc + (curr?.news?.length || 0), 0);
   }, [filteredCDGs]);
 
-  // Date dynamique d'indexation quotidienne
+  // Date réelle de la dernière indexation (fournie par le workflow quotidien via cdg-metadata.json)
   const currentLastUpdated = useMemo<Date>(() => {
     try {
-      const now = new Date();
       if (initialMetadata?.lastUpdated) {
         const fileDate = new Date(initialMetadata.lastUpdated);
-        if (now.getTime() - fileDate.getTime() < 24 * 3600 * 1000 && fileDate <= now) {
-          return fileDate;
-        }
+        if (!isNaN(fileDate.getTime())) return fileDate;
       }
-      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 8, 0);
     } catch {
-      return new Date();
+      // date invalide → repli sur maintenant
     }
+    return new Date();
   }, []);
+
+  // Données obsolètes si la dernière indexation remonte à plus de 48 h (échec du pipeline)
+  const isStale = useMemo(
+    () => Date.now() - currentLastUpdated.getTime() > 48 * 3600 * 1000,
+    [currentLastUpdated]
+  );
 
   // Formatted last updated date
   const formattedLastUpdated = useMemo(() => {
@@ -392,13 +395,19 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
                 </h1>
 
                 {/* Badge Indexation quotidienne mis en valeur */}
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-300 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-300 text-xs font-bold shadow-xs">
+                <div
+                  className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold shadow-xs ${
+                    isStale
+                      ? "bg-amber-50 dark:bg-amber-500/15 border border-amber-300 dark:border-amber-500/30 text-amber-800 dark:text-amber-300"
+                      : "bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-300 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-300"
+                  }`}
+                >
                   <span className="relative flex h-2 w-2 shrink-0">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isStale ? "bg-amber-400" : "bg-emerald-400"}`}></span>
+                    <span className={`relative inline-flex rounded-full h-2 w-2 ${isStale ? "bg-amber-500" : "bg-emerald-500"}`}></span>
                   </span>
-                  <span>Indexation quotidienne</span>
-                  <span className="text-emerald-400 dark:text-emerald-500 hidden sm:inline">•</span>
+                  <span>{isStale ? "Indexation en attente" : "Indexation quotidienne"}</span>
+                  <span className="text-slate-400 dark:text-slate-500 hidden sm:inline">•</span>
                   <span className="text-slate-600 dark:text-slate-300 text-[11px] font-semibold hidden sm:inline">Dernière MAJ : {formattedLastUpdated}</span>
                 </div>
               </div>
@@ -600,10 +609,18 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
             </div>
 
             {/* Encadré mis en valeur Indexation quotidienne */}
-            <div className="flex items-center gap-2 px-3.5 py-1.5 bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-blue-500/10 border border-emerald-500/30 dark:border-emerald-500/40 rounded-2xl text-xs font-bold text-emerald-800 dark:text-emerald-300 shadow-xs shrink-0">
-              <Clock className="w-4 h-4 text-emerald-500 animate-pulse shrink-0" />
+            <div
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-2xl text-xs font-bold shadow-xs shrink-0 ${
+                isStale
+                  ? "bg-amber-500/10 border border-amber-500/30 dark:border-amber-500/40 text-amber-800 dark:text-amber-300"
+                  : "bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-blue-500/10 border border-emerald-500/30 dark:border-emerald-500/40 text-emerald-800 dark:text-emerald-300"
+              }`}
+            >
+              <Clock className={`w-4 h-4 animate-pulse shrink-0 ${isStale ? "text-amber-500" : "text-emerald-500"}`} />
               <div className="flex flex-col sm:flex-row sm:items-center sm:gap-1.5">
-                <span className="font-extrabold text-emerald-700 dark:text-emerald-300">Indexation quotidienne active</span>
+                <span className={`font-extrabold ${isStale ? "text-amber-700 dark:text-amber-300" : "text-emerald-700 dark:text-emerald-300"}`}>
+                  {isStale ? "Indexation en retard" : "Indexation quotidienne active"}
+                </span>
                 <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400">• Mis à jour le {formattedLastUpdated}</span>
               </div>
             </div>
