@@ -389,9 +389,18 @@ const EscapeGameRH: React.FC<EscapeGameRHProps> = ({ onClose }) => {
                     {currentScenario.title}
                   </h3>
                   
-                  <div className="bg-indigo-50 p-6 rounded-2xl border-4 border-slate-900 shadow-[inset_4px_4px_0px_rgba(0,0,0,0.05)] text-slate-800 font-bold text-base leading-relaxed relative">
-                    <div className="absolute -top-5 -left-5 text-5xl transform -rotate-12 bg-white rounded-full p-2 border-4 border-slate-900 shadow-[2px_2px_0px_#000]">🕵️</div>
-                    {currentScenario.description}
+                  <div className="bg-indigo-50 p-6 sm:p-7 rounded-2xl border-4 border-slate-900 shadow-[inset_4px_4px_0px_rgba(0,0,0,0.05)] text-slate-800 font-bold text-base sm:text-lg leading-relaxed flex items-start gap-4">
+                    <div className="text-3xl sm:text-4xl transform -rotate-6 bg-white rounded-2xl p-2.5 sm:p-3 border-4 border-slate-900 shadow-[3px_3px_0px_#000] shrink-0 flex items-center justify-center select-none">
+                      🕵️
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-xs uppercase tracking-widest font-black text-indigo-600 block mb-1">
+                        Situation du dossier :
+                      </span>
+                      <p className="text-slate-800 leading-relaxed font-bold">
+                        {currentScenario.description}
+                      </p>
+                    </div>
                   </div>
                 </div>
 

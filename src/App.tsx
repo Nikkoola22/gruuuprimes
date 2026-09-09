@@ -1,6 +1,6 @@
-﻿import React, { useState, useRef, useEffect, lazy, Suspense } from "react"
+import React, { useState, useRef, useEffect, lazy, Suspense } from "react"
 import { ArrowLeft, Rss, Calculator, DollarSign, TrendingUp,
-  Users, Landmark, Eye, Laptop } from "lucide-react"
+  Users, Eye, Laptop, Phone, Mail, MapPin } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { searchFAQ } from "./data/FAQdata.ts"
@@ -1263,33 +1263,20 @@ ${indicesFactuels}
                 </h1>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse shadow-[0_0_8px_rgba(249,115,22,0.7)]"></span>
-                  <p className="text-xs sm:text-sm text-orange-600 dark:text-orange-400 font-bold tracking-[0.15em] sm:tracking-[0.2em] uppercase">
-                    Assistant syndical CFDT
+                  <p className="text-xs sm:text-sm text-orange-600 dark:text-orange-400 font-bold tracking-wider sm:tracking-[0.12em] uppercase">
+                    Assistant syndical CFDT de Gennevilliers
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Ville & Description (Centre) */}
-            <div className="hidden md:flex flex-col items-center justify-center flex-grow">
-              <div className="relative group/badge inline-flex items-center justify-center">
-                {/* Halo lumineux dégradé au survol */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-indigo-500 to-orange-500 rounded-full blur-md opacity-25 group-hover/badge:opacity-60 transition-opacity duration-500 animate-pulse"></div>
-
-                <div className="relative flex items-center gap-3 px-6 py-2 rounded-full bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-700/80 shadow-lg shadow-blue-500/5 transition-all duration-300 hover:scale-[1.02] hover:border-blue-400/50">
-                  <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-xs">
-                    <Landmark className="w-4 h-4" />
-                  </div>
-                  <h2 className="text-base font-black text-slate-800 dark:text-white uppercase tracking-[0.25em] bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-950 to-slate-800 dark:from-white dark:via-blue-100 dark:to-white">
-                    Mairie de Gennevilliers
-                  </h2>
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse" title="Portail en ligne"></span>
-                </div>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1.5 font-semibold tracking-wide flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
-                Portail d'assistance RH & Statutaire — Agents Municipaux
-              </p>
+            {/* Bannière Élections CFDT (Centre) */}
+            <div className="hidden md:flex items-center justify-center flex-grow mx-2 lg:mx-6 min-w-0">
+              <img
+                src={`${BASE_URL}images/footer_banner.png`}
+                alt="Votons CFDT ! S'engager pour chacun, agir pour tous - Élections professionnelles 10 décembre 2026 - Interco Gennevilliers"
+                className="h-14 sm:h-20 lg:h-24 w-auto max-w-full object-contain rounded-xl shadow-md border border-orange-500/30 hover:border-orange-500/60 transition-all duration-300 hover:scale-[1.02]"
+              />
             </div>
 
             {/* Actions / Toggles (Droite) */}
@@ -1653,13 +1640,73 @@ ${indicesFactuels}
         </div>
       </section>
 
-      <footer className="relative w-full overflow-hidden bg-slate-950/90 z-10 border-t border-orange-500/30">
-        <div className="w-full max-w-6xl mx-auto px-2 sm:px-4 py-2 sm:py-4 flex justify-center items-center">
-          <img
-            src={`${BASE_URL}images/footer_banner.png`}
-            alt="Votons CFDT ! S'engager pour chacun, agir pour tous - Élections professionnelles 10 décembre 2026 - Interco Gennevilliers"
-            className="w-full h-auto object-contain rounded-xl sm:rounded-2xl shadow-2xl border border-orange-500/30 hover:border-orange-500/60 transition-all duration-300"
-          />
+      <footer
+        className="relative text-slate-200 text-center py-6 mt-0 z-10 border-t border-orange-500/30 glass-banner footer-glass"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, 
+              rgba(15, 23, 42, 0.92), 
+              rgba(194, 65, 12, 0.85), 
+              rgba(15, 23, 42, 0.92)
+            ),
+            url('${BASE_URL}mairie.jpeg')
+          `,
+          backgroundPosition: 'center bottom',
+          backgroundSize: 'cover',
+          backgroundAttachment: 'fixed'
+        }}
+      >
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col justify-center items-center gap-2 mb-3">
+            <img
+              src={`${BASE_URL}images/votez_cfdt.png`}
+              alt="Votre Voix Notre Action - Votez CFDT"
+              className="h-20 sm:h-28 w-auto object-contain drop-shadow-lg"
+            />
+          </div>
+          <div className="flex justify-center items-center gap-2 mb-3">
+            <span className="text-orange-300 font-bold text-lg tracking-wide">CFDT Gennevilliers</span>
+          </div>
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-6 mb-3">
+            <a
+              href="tel:0140856464"
+              className="flex items-center gap-2 text-orange-200 hover:text-white transition-all duration-200 hover:scale-105 font-semibold text-base"
+            >
+              <Phone className="w-5 h-5 text-orange-300" />
+              <span>01 40 85 64 64</span>
+            </a>
+            <a
+              href="mailto:cfdt-interco@ville-gennevilliers.fr"
+              className="flex items-center gap-2 text-orange-200 hover:text-white transition-all duration-200 hover:scale-105 font-semibold text-base"
+            >
+              <Mail className="w-5 h-5 text-orange-300" />
+              <span>cfdt-interco@ville-gennevilliers.fr</span>
+            </a>
+            <div className="flex items-center gap-2 text-orange-200 font-semibold text-base">
+              <MapPin className="w-5 h-5 text-orange-300" />
+              <span>177 av. Gabriel-Péri</span>
+            </div>
+          </div>
+          <p className="text-sm text-slate-300 font-medium leading-tight">
+            92237 Gennevilliers Cedex
+          </p>
+
+          {/* Bouton Admin */}
+          <div className="mt-4 pt-4 border-t border-orange-500/20">
+            <button
+              onClick={() => {
+                const isAuth = localStorage.getItem('admin_authenticated') === 'true';
+                if (isAuth) {
+                  setShowAdminPanel(true);
+                } else {
+                  setShowAdminLogin(true);
+                }
+              }}
+              className="px-4 py-2 bg-orange-600/30 hover:bg-orange-600/50 border border-orange-500/40 text-slate-200 hover:text-white rounded-lg transition-all duration-200 font-semibold text-xs glass-pill"
+            >
+              Accès Administrateur
+            </button>
+          </div>
         </div>
       </footer>
 

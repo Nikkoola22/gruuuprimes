@@ -542,15 +542,15 @@ const ALL_QUESTIONS: Question[] = [
     explanation: "La durée du stage est généralement d'1 an pour un fonctionnaire stagiaire dans la fonction publique territoriale avant titularisation.",
   },
   {
-    question: "Combien de jours de congés spéciaux lors du décès d'un parent proche ?",
+    question: "Combien de jours d'ASA (autorisation spéciale d'absence) lors du décès des parents ?",
     options: [
       "1 jour",
       "2 jours",
       "3 jours",
       "5 jours",
     ],
-    correctIndex: 2,
-    explanation: "L'agent a droit à 3 jours de congés spéciaux lors du décès d'un parent proche (père, mère, conjoint, enfant).",
+    correctIndex: 3,
+    explanation: "L'agent a droit à 5 jours d'autorisation spéciale d'absence (ASA) lors du décès de ses parents (père ou mère).",
   },
   {
     question: "Qu'est-ce que le droit à la déconnexion ?",
