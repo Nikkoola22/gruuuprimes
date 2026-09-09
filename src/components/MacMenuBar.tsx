@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+﻿import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Apple, Wifi, Battery, Search, Sliders, Bell, 
@@ -779,3 +779,4 @@ export default function MacMenuBar({
     </>
   );
 }
+

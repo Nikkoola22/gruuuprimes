@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect, lazy, Suspense } from "react"
-import { ArrowLeft, Rss, Calculator, DollarSign, TrendingUp, Landmark, Eye, Laptop } from "lucide-react"
+﻿import React, { useState, useRef, useEffect, lazy, Suspense } from "react"
+import { ArrowLeft, Rss, Calculator, DollarSign, TrendingUp,
+  Users, Landmark, Eye, Laptop } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { searchFAQ } from "./data/FAQdata.ts"
@@ -13,6 +14,7 @@ import { useNewsFeeds, type RssItem } from "./hooks/useNewsFeeds.ts"
 const CalculateurCIAV2 = lazy(() => import("./components/CalculateurCIAV2.tsx"))
 const CalculateurPrimesV2 = lazy(() => import("./components/CalculateurPrimesV2.tsx"))
 const Calculateur13emeV2 = lazy(() => import("./components/Calculateur13emeV2.tsx"))
+const CalculateurSFTV2 = lazy(() => import("./components/CalculateurSFTV2.tsx"))
 const Metiers = lazy(() => import("./components/Metiers.tsx"))
 const FAQ = lazy(() => import("./components/FAQ.tsx"))
 const LandingPage = lazy(() => import("./components/LandingPage.tsx"))
@@ -1478,7 +1480,7 @@ ${indicesFactuels}
                 <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-4">Choisissez un calculateur</h3>
                 <p className="text-slate-500 dark:text-slate-400 font-medium dark:font-normal">Cliquez sur une icône pour accéder au calculateur</p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {/* Carte CIA */}
                 <button
                   onClick={() => openCalculator('cia')}
@@ -1545,6 +1547,11 @@ ${indicesFactuels}
           {activeCalculator === 'cia' && (
             <Suspense fallback={<ViewLoader />}>
               <div className="calc-tool-enter"><CalculateurCIAV2 onClose={() => setActiveCalculator(null)} /></div>
+            </Suspense>
+          )}
+          {activeCalculator === 'sft' && (
+            <Suspense fallback={<ViewLoader />}>
+              <div className="calc-tool-enter"><CalculateurSFTV2 onClose={() => setActiveCalculator(null)} /></div>
             </Suspense>
           )}
           {activeCalculator === '13eme' && (
@@ -1663,3 +1670,4 @@ ${indicesFactuels}
 
 
 export default App;
+
