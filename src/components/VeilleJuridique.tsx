@@ -1309,13 +1309,13 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
             {/* ========================================================= */}
             <div className="w-full flex flex-col md:flex-row gap-3 sm:gap-4 items-center bg-white/95 dark:bg-slate-900/95 p-3.5 sm:p-4 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs dark:shadow-xl backdrop-blur-xl transition-colors min-w-0">
               <div className="relative flex-grow w-full min-w-0">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-600 dark:text-purple-400 pointer-events-none" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-600 dark:text-purple-400 pointer-events-none font-bold" />
                 <input
                   type="text"
                   placeholder="Rechercher une décision (ex: harcèlement, congés, révocation, 2026)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-12 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700/80 rounded-2xl text-sm font-medium focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all outline-hidden text-slate-900 dark:text-white placeholder-slate-400 shadow-inner"
+                  className="w-full pl-12 pr-12 py-3 bg-purple-50/90 dark:bg-slate-950 border-2 border-purple-400 dark:border-purple-500/70 rounded-2xl text-sm font-semibold focus:ring-2 focus:ring-purple-500/30 focus:border-purple-600 transition-all outline-hidden text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 shadow-md shadow-purple-500/10"
                 />
                 {searchQuery && (
                   <button 
@@ -1772,9 +1772,9 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
 
                 {/* Main Command & Generation Bar */}
                 <div className="flex flex-col gap-2.5">
-                  <div className="flex flex-col sm:flex-row gap-2.5 bg-slate-50/80 dark:bg-slate-950/70 p-2 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner">
+                  <div className="flex flex-col sm:flex-row gap-2.5 bg-indigo-50/90 dark:bg-slate-950/90 p-2.5 rounded-2xl border-2 border-indigo-400 dark:border-indigo-500/70 shadow-md shadow-indigo-500/10 focus-within:border-indigo-600 focus-within:ring-2 focus-within:ring-indigo-500/20">
                     <div className="relative flex-1 flex items-center">
-                      <Search className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
+                      <Search className="w-4 h-4 text-indigo-600 dark:text-indigo-400 absolute left-3.5 pointer-events-none font-bold" />
                       <input
                         type="text"
                         value={statutInput}
@@ -1786,7 +1786,7 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
                           }
                         }}
                         placeholder="Ex: Contrat CDD L. 332-8 permanent, Arrêté nomination stagiaire, Remplacement L. 332-13, Arrêté IFSE..."
-                        className="w-full pl-10 pr-10 py-3 bg-transparent text-sm font-semibold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden"
+                        className="w-full pl-10 pr-10 py-3 bg-transparent text-sm font-semibold text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-hidden"
                       />
                       {statutInput && (
                         <button
@@ -1918,13 +1918,13 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
                     </div>
 
                     <div className="relative flex items-center min-w-[220px]">
-                      <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 pointer-events-none" />
+                      <Search className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 absolute left-2.5 pointer-events-none font-bold" />
                       <input
                         type="text"
                         value={templateSearchQuery}
                         onChange={(e) => setTemplateSearchQuery(e.target.value)}
                         placeholder="Rechercher parmi les modèles..."
-                        className="w-full pl-8 pr-7 py-1.5 text-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden focus:ring-1 focus:ring-indigo-500"
+                        className="w-full pl-8 pr-7 py-1.5 text-xs bg-indigo-50/80 dark:bg-slate-900 border-2 border-indigo-300 dark:border-indigo-500/70 rounded-xl text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 font-medium focus:outline-hidden focus:ring-2 focus:ring-indigo-500 shadow-xs"
                       />
                       {templateSearchQuery && (
                         <button
@@ -2250,7 +2250,7 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
                         }
                       }}
                       placeholder="Ex: proportionnalité sanction disciplinaire, droit de retrait…"
-                      className="w-full pl-10 pr-4 py-3 bg-slate-950/70 border border-slate-700 rounded-xl text-sm font-semibold text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-400"
+                      className="w-full pl-10 pr-4 py-3 bg-slate-900 border-2 border-indigo-500 rounded-xl text-sm font-semibold text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 shadow-md"
                     />
                   </div>
                   <button

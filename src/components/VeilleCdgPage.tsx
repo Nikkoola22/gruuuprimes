@@ -628,7 +628,7 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
 
           {/* Search Box with proper inner padding for icon and clear button */}
           <div className="relative w-full min-w-0">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <Search className="w-4 h-4 text-blue-600 dark:text-blue-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none font-bold" />
             <input
               type="text"
               value={searchQuery}
@@ -639,12 +639,12 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
                 });
               }}
               placeholder="Rechercher (ex: rupture, prime, congés, retraite, canicule, 92, 75, Versailles)..."
-              className="w-full bg-slate-50 dark:bg-slate-950/80 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 pl-10 pr-12 py-3 rounded-2xl border border-slate-200 dark:border-slate-700/80 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-hidden text-sm transition-all shadow-inner"
+              className="w-full bg-blue-50/90 dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 pl-10 pr-12 py-3 rounded-2xl border-2 border-blue-400 dark:border-blue-500/70 focus:ring-2 focus:ring-blue-500/30 focus:border-blue-600 focus:outline-hidden text-sm font-semibold transition-all shadow-md shadow-blue-500/10"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-white bg-slate-100 dark:bg-slate-800 rounded-full cursor-pointer"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1.5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white bg-slate-200/80 dark:bg-slate-800 rounded-full cursor-pointer"
                 title="Effacer la recherche"
               >
                 <X className="w-3.5 h-3.5" />

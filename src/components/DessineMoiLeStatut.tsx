@@ -311,13 +311,13 @@ const DessineMoiLeStatut: React.FC<DessineMoiLeStatutProps> = ({ onClose }) => {
         {/* ========================================================= */}
         <div className="w-full flex flex-col md:flex-row gap-3 sm:gap-4 items-center bg-white/95 dark:bg-slate-900/95 p-3.5 sm:p-4 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs dark:shadow-xl backdrop-blur-xl transition-colors min-w-0">
           <div className="relative flex-grow w-full min-w-0">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-orange-500 dark:text-orange-400 pointer-events-none" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-orange-600 dark:text-orange-400 pointer-events-none font-bold" />
             <input
               type="text"
               placeholder="Rechercher une infographie (ex: CMO, temps partiel, discipline, reclassement, retraite)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-12 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700/80 rounded-2xl text-sm font-medium focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-hidden text-slate-900 dark:text-white placeholder-slate-400 shadow-inner"
+              className="w-full pl-12 pr-12 py-3 bg-orange-50/90 dark:bg-slate-950 border-2 border-orange-400 dark:border-orange-500/70 rounded-2xl text-sm font-semibold focus:ring-2 focus:ring-orange-500/30 focus:border-orange-600 transition-all outline-hidden text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 shadow-md shadow-orange-500/10"
             />
             {searchQuery && (
               <button

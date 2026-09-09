@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Apple, Wifi, Battery, Search, Sliders, Bell, 
@@ -543,22 +543,34 @@ export default function MacMenuBar({
               className="w-full max-w-xl bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.3)] overflow-hidden relative z-10 h-fit"
             >
               {/* Search Bar Input */}
-              <div className="flex items-center px-4 py-3 border-b border-slate-200 dark:border-slate-800">
-                <Search className="w-5 h-5 text-slate-400 dark:text-slate-500 mr-3" />
-                <input 
-                  ref={spotlightInputRef}
-                  type="text" 
-                  value={searchQuery}
-                  onChange={(e) => handleSearch(e.target.value)}
-                  placeholder="Recherche Spotlight (ex: RIFSEEP, CIA, congés, syndicat...)"
-                  className="w-full bg-transparent border-0 outline-none text-slate-800 dark:text-slate-100 text-sm placeholder-slate-400"
-                />
-                <button 
-                  onClick={() => setShowSpotlight(false)}
-                  className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-400 border-0 bg-transparent"
-                >
-                  <X className="w-4 h-4" />
-                </button>
+              <div className="p-3 border-b border-slate-200 dark:border-slate-800">
+                <div className="flex items-center px-3.5 py-2.5 rounded-xl border-2 border-orange-400 dark:border-orange-500/70 bg-orange-50/90 dark:bg-slate-950 shadow-inner focus-within:border-orange-500 focus-within:ring-2 focus-within:ring-orange-500/20 transition-all">
+                  <Search className="w-5 h-5 text-orange-600 dark:text-orange-400 mr-3 shrink-0 font-bold" />
+                  <input 
+                    ref={spotlightInputRef}
+                    type="text" 
+                    value={searchQuery}
+                    onChange={(e) => handleSearch(e.target.value)}
+                    placeholder="Recherche Spotlight (ex: RIFSEEP, CIA, congés, syndicat...)"
+                    className="w-full bg-transparent border-0 outline-none text-slate-900 dark:text-white text-sm font-semibold placeholder-slate-500 dark:placeholder-slate-400"
+                  />
+                  {searchQuery && (
+                    <button 
+                      onClick={() => handleSearch("")}
+                      className="p-1 hover:bg-orange-200/60 dark:hover:bg-slate-800 rounded-lg text-slate-500 dark:text-slate-400 border-0 bg-transparent cursor-pointer mr-1 shrink-0"
+                      title="Effacer"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                  <button 
+                    onClick={() => setShowSpotlight(false)}
+                    className="p-1 hover:bg-orange-200/60 dark:hover:bg-slate-800 rounded-lg text-slate-500 dark:text-slate-400 border-0 bg-transparent cursor-pointer shrink-0"
+                    title="Fermer"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
 
               {/* Spotlight Content Area (Left search results, Right preview panel) */}

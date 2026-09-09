@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { faqData, FAQItem } from '../data/FAQdata';
-import { Search, ChevronDown, ChevronUp, Tag, ArrowLeft } from 'lucide-react';
+import { Search, ChevronDown, ChevronUp, Tag, ArrowLeft, X } from 'lucide-react';
 
 interface Props {
   onBack?: () => void;
@@ -200,16 +200,25 @@ const FAQ: React.FC<Props> = ({ onBack }) => {
         <div className="mb-4 sm:mb-8 space-y-4 animate-slide-up">
           {/* Search Bar */}
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000" />
-            <div className="relative bg-white rounded-2xl p-1 glass-card-light">
-              <div className="flex items-center bg-white px-4 py-3 rounded-xl shadow-lg">
-                <Search className="w-5 h-5 text-gray-400 mr-3" />
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000" />
+            <div className="relative bg-white dark:bg-slate-900 rounded-2xl p-1 shadow-lg">
+              <div className="flex items-center bg-blue-50/90 dark:bg-slate-950 px-4 py-3.5 rounded-xl border-2 border-blue-400 dark:border-blue-500/70 shadow-inner focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
+                <Search className="w-5 h-5 text-blue-600 dark:text-blue-400 mr-3 shrink-0 font-bold" />
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Rechercher une question ou un mot-clé..."
-                  className="w-full bg-transparent outline-none text-base text-gray-800 placeholder-gray-400 glass-pill"
+                  className="w-full bg-transparent outline-none text-base font-semibold text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400"
                 />
+                {query && (
+                  <button
+                    onClick={() => setQuery("")}
+                    className="p-1 rounded-full text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white bg-slate-200/80 dark:bg-slate-800 transition-colors cursor-pointer shrink-0 ml-2"
+                    title="Effacer la recherche"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </div>
           </div>

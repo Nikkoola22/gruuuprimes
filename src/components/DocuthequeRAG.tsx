@@ -521,12 +521,12 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
 
           {/* Formulaire de recherche */}
           <form onSubmit={handleQuerySubmit} className="max-w-3xl mx-auto relative z-10">
-            <div className={`flex items-center rounded-2xl border p-2 shadow-inner transition-all ${
+            <div className={`flex items-center rounded-2xl border-2 p-2 shadow-md transition-all ${
               isLight
-                ? 'bg-slate-50 border-slate-300 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/10'
-                : 'bg-[#060913] border-slate-700 focus-within:border-blue-400 focus-within:ring-4 focus-within:ring-blue-500/20'
+                ? 'bg-blue-50/95 border-blue-400 shadow-blue-500/10 focus-within:border-blue-600 focus-within:ring-4 focus-within:ring-blue-500/20'
+                : 'bg-slate-900/95 border-blue-500/70 shadow-[0_0_20px_rgba(59,130,246,0.18)] focus-within:border-blue-400 focus-within:ring-4 focus-within:ring-blue-500/30'
             }`}>
-              <Search className="w-5 h-5 ml-3 text-slate-400 shrink-0" />
+              <Search className="w-5 h-5 ml-3 text-blue-600 dark:text-blue-400 shrink-0 font-bold" />
               <input
                 type="text"
                 value={query}
@@ -535,7 +535,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                   handleSearch(e.target.value);
                 }}
                 placeholder="Ex : Je veux prendre un temps partiel ? Comment déclarer un accident de travail ?"
-                className="w-full bg-transparent px-4 py-3 text-sm sm:text-base focus:outline-none placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-white"
+                className="w-full bg-transparent px-4 py-3 text-sm sm:text-base font-semibold focus:outline-none placeholder-slate-500 dark:placeholder-slate-400 text-slate-900 dark:text-white"
               />
               <button
                 type="submit"

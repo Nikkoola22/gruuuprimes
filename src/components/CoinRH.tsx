@@ -338,11 +338,11 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
 
             {/* Input Bar & Actions */}
             <div className="flex flex-col gap-2.5">
-              <div className={`flex flex-col sm:flex-row gap-2.5 p-2 rounded-2xl border shadow-inner ${
-                isLight ? "bg-slate-50 border-slate-300 focus-within:border-indigo-500" : "bg-[#060913] border-slate-700 focus-within:border-indigo-400"
+              <div className={`flex flex-col sm:flex-row gap-2.5 p-2.5 rounded-2xl border-2 shadow-md transition-all ${
+                isLight ? "bg-indigo-50/90 border-indigo-400 focus-within:border-indigo-600 shadow-indigo-500/10 focus-within:ring-2 focus-within:ring-indigo-500/20" : "bg-slate-900/90 border-indigo-500/70 focus-within:border-indigo-400 shadow-indigo-500/20 focus-within:ring-2 focus-within:ring-indigo-500/20"
               }`}>
                 <div className="relative flex-1 flex items-center">
-                  <Search className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
+                  <Search className="w-4 h-4 text-indigo-600 dark:text-indigo-400 absolute left-3.5 pointer-events-none font-bold" />
                   <input
                     type="text"
                     value={statutInput}
@@ -354,7 +354,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                       }
                     }}
                     placeholder="Ex: Contrat CDD L. 332-8 permanent, Arrêté nomination stagiaire, Remplacement L. 332-13, Arrêté IFSE..."
-                    className="w-full pl-10 pr-10 py-3 bg-transparent text-sm font-semibold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden"
+                    className="w-full pl-10 pr-10 py-3 bg-transparent text-sm font-semibold text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-hidden"
                   />
                   {statutInput && (
                     <button
@@ -496,16 +496,16 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                 </div>
 
                 <div className="relative flex items-center min-w-[220px]">
-                  <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 pointer-events-none" />
+                  <Search className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 absolute left-2.5 pointer-events-none font-bold" />
                   <input
                     type="text"
                     value={templateSearchQuery}
                     onChange={(e) => setTemplateSearchQuery(e.target.value)}
                     placeholder="Rechercher parmi les modèles..."
-                    className={`w-full pl-8 pr-7 py-1.5 text-xs rounded-xl focus:outline-hidden focus:ring-1 focus:ring-indigo-500 border ${
+                    className={`w-full pl-8 pr-7 py-1.5 text-xs rounded-xl focus:outline-hidden focus:ring-2 focus:ring-indigo-500 border-2 font-medium shadow-xs ${
                       isLight 
-                        ? "bg-white border-slate-300 text-slate-900 placeholder-slate-400"
-                        : "bg-[#0E1526] border-slate-700 text-white placeholder-slate-400"
+                        ? "bg-indigo-50/80 border-indigo-300 text-slate-900 placeholder-slate-500"
+                        : "bg-slate-900 border-indigo-500/70 text-white placeholder-slate-400"
                     }`}
                   />
                   {templateSearchQuery && (

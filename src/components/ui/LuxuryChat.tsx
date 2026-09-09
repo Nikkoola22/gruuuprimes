@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Send, ArrowLeft, Bot, Sparkles, Scale, Check, Copy, MessageSquareText } from 'lucide-react';
+import { Send, ArrowLeft, Bot, Sparkles, Scale, Check, Copy, MessageSquareText, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export interface ChatMessage {
@@ -281,11 +281,12 @@ export const LuxuryChat: React.FC<LuxuryChatProps> = ({
 
         {/* Champ de prompt flottant */}
         <div className={`p-2.5 sm:p-4 border-t ${isLight ? 'bg-white border-slate-200' : 'bg-[#0B0E17] border-white/[0.08]'}`}>
-          <div className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl border transition-all duration-200 ${
+          <div className={`flex items-center gap-2 sm:gap-3 px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl border-2 transition-all duration-200 ${
             isLight
-              ? 'bg-slate-50 border-slate-200 focus-within:border-amber-500 focus-within:bg-white focus-within:ring-2 focus-within:ring-amber-500/20'
-              : 'bg-[#121624] border-white/[0.12] focus-within:border-amber-500 focus-within:ring-2 focus-within:ring-amber-500/20'
+              ? 'bg-gradient-to-r from-orange-50/95 via-amber-50/90 to-orange-50/95 border-orange-400/90 shadow-md shadow-orange-500/10 focus-within:border-orange-500 focus-within:ring-3 focus-within:ring-orange-500/20'
+              : 'bg-slate-900/95 border-orange-500/70 shadow-[0_0_20px_rgba(249,115,22,0.18)] focus-within:border-orange-400 focus-within:ring-3 focus-within:ring-orange-500/30'
           }`}>
+            <Search className="w-4 h-4 text-orange-600 dark:text-orange-400 shrink-0" />
             <input
               ref={inputRef}
               type="text"
@@ -299,7 +300,7 @@ export const LuxuryChat: React.FC<LuxuryChatProps> = ({
               }}
               placeholder="Ex: Jours pour un mariage ? RIFSEEP ? Télétravail ?"
               className={`flex-1 bg-transparent border-none outline-none text-xs sm:text-sm font-medium ${
-                isLight ? 'text-slate-900 placeholder-slate-400' : 'text-white placeholder-slate-400'
+                isLight ? 'text-slate-900 placeholder-slate-500' : 'text-white placeholder-slate-400'
               }`}
               disabled={isProcessing}
             />
