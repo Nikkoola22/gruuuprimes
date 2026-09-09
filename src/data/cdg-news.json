@@ -896,19 +896,44 @@
     "officialUrl": "http://www.cdg19.fr",
     "news": [
       {
-        "title": "Elus locaux : Création d’une « reconnaissance des attributions exercées par le maire au nom de l'Etat »",
-        "link": "https://www.cdg19.fr/actualites.php?num=455",
-        "source": "HTML (Spécifique)"
+        "title": "Marchés et appels à concurrence",
+        "link": "https://www.cdg19.fr/cdg_marches_publics.php",
+        "source": "HTML"
       },
       {
-        "title": "Elus locaux : Amélioration du statut",
-        "link": "https://www.cdg19.fr/actualites.php?num=451",
-        "source": "HTML (Spécifique)"
+        "title": "Avis et publications",
+        "link": "https://www.cdg19.fr/cdg_publications.php",
+        "source": "HTML"
       },
       {
-        "title": "En savoir plus",
-        "link": "https://www.cdg19.fr/actualites.php?num=481",
-        "source": "HTML (Spécifique)"
+        "title": "Listes d'aptitude Promotion Interne",
+        "link": "https://www.cdg19.fr/cdg_publications_aptitude_promo.php",
+        "source": "HTML"
+      },
+      {
+        "title": "Tableaux avancement de grade",
+        "link": "https://www.cdg19.fr/cdg_publications_avancement_grades.php",
+        "source": "HTML"
+      },
+      {
+        "title": "Autres actes du CDG",
+        "link": "https://www.cdg19.fr/cdg_publications_cdg.php",
+        "source": "HTML"
+      },
+      {
+        "title": "Publications et Avis concours",
+        "link": "https://www.cdg19.fr/concours_publications.php",
+        "source": "HTML"
+      },
+      {
+        "title": "Publication des déclarations de vacance d'emploi",
+        "link": "https://www.cdg19.fr/emploi_dve_publication.php",
+        "source": "HTML"
+      },
+      {
+        "title": "Les agents contractuels de droit public",
+        "link": "https://www.cdg19.fr/grh_agents_non_titulaires_droit_public.php",
+        "source": "HTML"
       }
     ]
   },
@@ -980,11 +1005,6 @@
         "source": "HTML"
       },
       {
-        "title": "Commande publique : les nouvelles obligations environnementales et sociales des acheteurs publics L’article 35 de la loi n°2021-1104 dite « loi climat et résilience » introduit de nouvelles obligations aux acheteurs publics lors de la passation et de l’exécution des contrats de la commande publique. A compter du 22 août 2026 , les acheteurs devront intégrer des considérations environnementales et sociales dans leurs contrats.",
-        "link": "https://www.cdg22.fr/jcms/prod_289099/fr/commande-publique-les-nouvelles-obligations-environnementales-et-sociales-des-acheteurs-publics",
-        "source": "HTML"
-      },
-      {
         "title": "Actualité Intranet",
         "link": "https://www.cdg22.fr/types/CDG22ActualiteIntranet/editCDG22ActualiteIntranet.jsp?portal=fla_178135&amp;catId=j_6&amp;redirect=%24PREVIEW_URL%24&amp;redirectOnClosePopup=true&amp;cids=asp_5209&amp;cids=ppintra_10636&amp;popupEdition=true&amp;ws=j_4",
         "source": "HTML"
@@ -992,6 +1012,11 @@
       {
         "title": "Accompagnement des collectivités 02/09/2026 Guide pratique - maitriser les risques de corruption dans l'achat public 2026 L’Agence française anticorruption (AFA) et la direction des achats de l’État (DAE) ont publié une nouvelle version du guide sur la prévention des atteintes à la probité dans l’achat public .",
         "link": "https://www.cdg22.fr/jcms/prod_291277/fr/guide-pratique-maitriser-les-risques-de-corruption-dans-l-achat-public-2026",
+        "source": "HTML"
+      },
+      {
+        "title": "Commande publique : les nouvelles obligations environnementales et sociales des acheteurs publics L’article 35 de la loi n°2021-1104 dite « loi climat et résilience » introduit de nouvelles obligations aux acheteurs publics lors de la passation et de l’exécution des contrats de la commande publique. A compter du 22 août 2026 , les acheteurs devront intégrer des considérations environnementales et sociales dans leurs contrats.",
+        "link": "https://www.cdg22.fr/jcms/prod_289099/fr/commande-publique-les-nouvelles-obligations-environnementales-et-sociales-des-acheteurs-publics",
         "source": "HTML"
       },
       {
@@ -1162,6 +1187,13 @@
     "officialUrl": "http://www.cdg26.fr",
     "news": [
       {
+        "title": "RECRUTEZ AUTREMENT : LE PONT ENTRE VOS BESOINS & LES TALENTS EN QUÊTE D’OPPORTUNITÉS",
+        "link": "https://www.cdg26.fr/recrutez-autrement-le-pont-entre-vos-besoins-les-talents-en-quete-dopportunites/",
+        "pubDate": "Tue, 08 Sep 2026 09:33:20 GMT",
+        "description": "Un recrutement ne consiste pas seulement à pourvoir un poste. C’est faire se rencontrer un projet de collectivité et une … The post RECRUTEZ AUTREMENT : LE PONT ENTRE VOS BESOINS & LES TALENTS EN QUÊTE D’OPPORTUNITÉS appeared first on CDG 26 . ]]>",
+        "source": "RSS"
+      },
+      {
         "title": "ADHESION ASSURANCE DES RISQUES STATUTAIRES 2027-2030",
         "link": "https://www.cdg26.fr/assurance-des-risques-statutaires/",
         "pubDate": "Tue, 25 Aug 2026 09:52:27 GMT",
@@ -1208,13 +1240,6 @@
         "link": "https://www.cdg26.fr/questionnaire-aux-sgm-de-la-drome-construisons-ensemble-le-reseau-de-demain/",
         "pubDate": "Tue, 23 Jun 2026 12:25:01 GMT",
         "description": "Dans un contexte d’évolution constante des missions et des attentes des collectivités, le CDG26 souhaite construire un nouveau réseau d’accompagnement … The post QUESTIONNAIRE AUX SGM DE LA DRÔME – CONSTRUISONS ENSEMBLE LE RÉSEAU DE DEMAIN appeared first on CDG 26 . ]]>",
-        "source": "RSS"
-      },
-      {
-        "title": "Forte chaleur ou canicule : 𝗽𝗿𝗲́𝗼𝗰𝗰𝘂𝗽𝗲𝘇 𝘃𝗼𝘂𝘀 𝗱𝗲𝘀 𝗰𝗼𝗻𝗱𝗶𝘁𝗶𝗼𝗻𝘀 𝗱𝗲 𝘁𝗿𝗮𝘃𝗮𝗶𝗹 𝗱𝗲𝘀 𝗮𝗴𝗲𝗻𝘁𝘀 FPT 𝗹𝗲𝘀 𝗽𝗹𝘂𝘀 𝗲𝘅𝗽𝗼𝘀𝗲́𝘀",
-        "link": "https://www.cdg26.fr/fortechaleur-ou-canicule-%f0%9d%97%bd%f0%9d%97%bf%f0%9d%97%b2%f0%9d%97%bc%f0%9d%97%b0%f0%9d%97%b0%f0%9d%98%82%f0%9d%97%bd%f0%9d%97%b2%f0%9d%98%87-%f0%9d%98%83%f0%9d%97%bc/",
-        "pubDate": "Mon, 22 Jun 2026 07:03:03 GMT",
-        "description": "La Drôme connaît actuellement un épisode de fortes chaleurs. Face à ces conditions, la prévention des Risques Professionnels doit être une priorité pour les collectivités drômoises. Il … The post Forte chaleur ou canicule : 𝗽𝗿𝗲́𝗼𝗰𝗰𝘂𝗽𝗲𝘇 𝘃𝗼𝘂𝘀 𝗱𝗲𝘀 𝗰𝗼𝗻𝗱𝗶𝘁𝗶𝗼𝗻𝘀 𝗱𝗲 𝘁𝗿𝗮𝘃𝗮𝗶",
         "source": "RSS"
       }
     ]
@@ -1343,14 +1368,35 @@
     "officialUrl": "http://www.cdg29.fr",
     "news": [
       {
-        "title": "Examen professionnel d’agent de maîtrise, concours d’adjoint d’animation principal de 2ème classe : Préparez votre inscription !",
+        "title": "Retraite : un tutoriel pour comprendre les différentes notions de durée",
+        "link": "https://www.cdg29.bzh/actualite/retraite-un-tutoriel-pour-comprendre-les-differentes-notions-de-duree/",
+        "pubDate": "Mon, 07 Sep 2026 08:47:36 GMT",
+        "description": "3 minutes pour comprendre les durées Le calcul d’une pension de retraite fait intervenir plusieurs notions de durée, qui peuvent parfois être difficiles à distinguer : durée d’assurance, durée en constitution du droit, durée liquidable, etc. Pour faciliter la compréhension de ces notions et de leur ",
+        "source": "RSS"
+      },
+      {
+        "title": "Examen professionnel d’agent de maîtrise, concours d’adjoint d’animation principal de 2ème classe : préparez votre inscription !",
         "link": "https://www.cdg29.bzh/actualite/examen-professionnel-dagent-de-maitrise-concours-dadjoint-danimation-principal-de-2eme-classe-preparez-votre-inscription/",
         "pubDate": "Mon, 07 Sep 2026 08:46:10 GMT",
         "description": "Vous souhaitez rejoindre ou évoluer dans la Fonction Publique Territoriale ? Découvrez dès maintenant les conditions d’accès et les modalités d’inscription de ces deux opérations. L’examen professionnel d’agent de maîtrise territorial Quelles sont ses missions ? L’agent de maîtrise territorial exerc",
         "source": "RSS"
       },
       {
-        "title": "Formation d’agent de service à la population : Réunion d’information collective",
+        "title": "Les archives prennent le large pour les Journées européennes du patrimoine",
+        "link": "https://www.cdg29.bzh/actualite/les-archives-prennent-le-large-pour-les-journees-europeennes-du-patrimoine/",
+        "pubDate": "Mon, 07 Sep 2026 08:42:20 GMT",
+        "description": "Les archives mises en avant permettent de porter un regard sur les liens entre les territoires et le monde maritime. À travers ces documents, c’est également tout un patrimoine local qui se dévoile : entre exploration et exploitation, entre dégradation et protection, les archivistes ont voulu conter",
+        "source": "RSS"
+      },
+      {
+        "title": "Ouverture du second recensement 2026 des postes pour les concours",
+        "link": "https://www.cdg29.bzh/actualite/ouverture-du-second-recensement-2026-des-postes-pour-les-concours/",
+        "pubDate": "Mon, 07 Sep 2026 08:38:50 GMT",
+        "description": "Le Centre de Gestion du Finistère réalise chaque année, par voie dématérialisée, deux recensements auprès des collectivités et établissements publics territoriaux du Finistère afin d’identifier leurs besoins prévisionnels. Ce 2ème recensement concerne les postes à déclarer pour les concours dont les",
+        "source": "RSS"
+      },
+      {
+        "title": "Formation d’agent de service à la population : réunion d’information collective",
         "link": "https://www.cdg29.bzh/actualite/formation-dagent-de-service-a-la-population-reunion-dinformation-collective/",
         "pubDate": "Fri, 04 Sep 2026 12:17:47 GMT",
         "description": "Une formation alliant apports théoriques et mise en pratique en collectivité Les 7 semaines de formation, en alternance, comportent des périodes de cours théoriques et un stage pratique au sein d’une mairie, proposé par le Centre de Gestion. Les journées de cours se dérouleront à Quimper et à Brest ",
@@ -1371,31 +1417,10 @@
         "source": "RSS"
       },
       {
-        "title": "La VAE dans la FPT : comment ça marche ?",
-        "link": "https://www.cdg29.bzh/actualite/la-vae-dans-la-fpt-comment-ca-marche-concretement/",
-        "pubDate": "Mon, 31 Aug 2026 12:48:37 GMT",
-        "description": "Vous avez des années d’expérience derrière vous. Avez-vous envisagé de les faire reconnaître par un diplôme ou une certification ? C’est précisément l’objet de la Validation des Acquis de l’Expérience (VAE) : une démarche qui permet d’obtenir une certification enregistrée au RNCP à partir de son par",
-        "source": "RSS"
-      },
-      {
-        "title": "Élections professionnelles 2026 : une seconde réunion dédiée aux collectivités organisant leur CST",
-        "link": "https://www.cdg29.bzh/actualite/elections-professionnelles-2026-une-seconde-reunion-dediee-aux-collectivites-organisant-leur-cst/",
-        "pubDate": "Thu, 27 Aug 2026 15:52:09 GMT",
-        "description": "📅 Mardi 29 septembre 2026🕑 De 14 h à 16 h💻 En visioconférence sur Teams Cette rencontre sera l’occasion de faire le point ensemble sur : Vous souhaitez participer ? Inscrivez-vous dès maintenant en complétant le formulaire dédié. Vous pourrez également y indiquer les points ou questions que vous ",
-        "source": "RSS"
-      },
-      {
-        "title": "Formation d’agent de service à la population : Ouverture des inscriptions !",
-        "link": "https://www.cdg29.bzh/actualite/formation-dagent-de-service-a-la-population-ouverture-des-inscriptions/",
-        "pubDate": "Thu, 27 Aug 2026 15:32:52 GMT",
-        "description": "Une formation alliant apports théoriques et mise en pratique en collectivité Les 7 semaines de formation, en alternance, comportent des périodes de cours théoriques et un stage pratique au sein d’une mairie, proposé par le Centre de Gestion. Les journées de cours se dérouleront à Quimper et à Brest ",
-        "source": "RSS"
-      },
-      {
-        "title": "Rencontre des conseillers de prévention : un réseau pour partager les bonnes pratiques",
-        "link": "https://www.cdg29.bzh/actualite/rencontre-des-conseillers-de-prevention-un-reseau-pour-partager-les-bonnes-pratiques/",
-        "pubDate": "Mon, 17 Aug 2026 12:43:04 GMT",
-        "description": "Ce réseau réunit les conseillers de prévention de 3 communautés d’agglomération — Morlaix Communauté, Quimperlé Communauté et Concarneau Cornouaille Agglomération — ainsi que de 16 communautés de communes du Finistère. Cette rencontre s’inscrit dans la continuité de celle organisée le 5 mai dernier ",
+        "title": "J’envisage une mobilité interne ou externe : comment je m’y prends ?",
+        "link": "https://www.cdg29.bzh/actualite/jenvisage-une-mobilite-interne-ou-externe-comment-je-my-prends/",
+        "pubDate": "Wed, 02 Sep 2026 07:42:32 GMT",
+        "description": "Réussir une mobilité ne s’improvise pas. De la définition de votre projet à l’envoi de vos candidatures, chaque étape compte pour construire une démarche efficace et cohérente. À l’occasion de la Semaine de l’évolution professionnelle, le CDG29 vous propose un webinaire pour mieux comprendre le marc",
         "source": "RSS"
       }
     ]
@@ -1694,59 +1719,59 @@
     "officialUrl": "http://www.cdg36.fr",
     "news": [
       {
-        "title": "Analisi approfondita dell’esperienza di gioco su Crocobet",
-        "link": "https://www.cdg36.fr/crocobet-it/",
-        "pubDate": "Mon, 07 Sep 2026 23:30:07 GMT",
-        "description": "Il mondo delle scommesse online continua ad evolversi rapidamente nel panorama digitale italiano attuale. Se cercate una piattaforma affidabile, il portale crocobet com rappresenta una scelta moderna e sicura per molti giocatori. La facilità di navigazione rende l’intero processo intuitivo fin dal p",
+        "title": "WinShark Casino – Komplett Håndbok til Spillerfaring og Transaksjonsmetoder",
+        "link": "https://www.cdg36.fr/winshark-casino-komplett-hndbok-til-spillerfaring-og/",
+        "pubDate": "Tue, 08 Sep 2026 20:17:22 GMT",
+        "description": "Innholdsfortegnelse Vårt Spillsamling og Utviklere Trygge Betalingsmetoder hos Casinoet Bonussystem og Betingelser Mobilbasert Spillplattform Kundeservice og Trygghet Vår Spillportefølje og Utviklere Ved klikk her har vi bygget en samling som favner over tre tusen fem hundre unike titler fra fremste",
         "source": "RSS"
       },
       {
-        "title": "Fedezze fel az Energy Casino nyújtotta izgalmakat",
-        "link": "https://www.cdg36.fr/energy-casino-hu/",
-        "pubDate": "Mon, 07 Sep 2026 23:19:45 GMT",
-        "description": "Az online szerencsejáték világa folyamatosan változik, és egyre több játékos keres megbízható platformot. Amennyiben szeretné aktiválni az energy casino promo code lehetőséget, érdemes alaposan átböngésznie az aktuális ajánlatokat. Ez a kaszinó kiváló választás lehet mindazoknak, akik minőségi szóra",
+        "title": "Tom Casino – Din Fullständiga Vägledning till Underhållande Spelupplevelser Online",
+        "link": "https://www.cdg36.fr/tom-casino-din-fullstandiga-vagledning-till-underhllande/",
+        "pubDate": "Tue, 08 Sep 2026 20:17:13 GMT",
+        "description": "Innehåll Omfattande Spelbibliotek för Samtliga Smaker Enkla Betalningsalternativ Spelmoment i Smartphonen Skydd och Tillstånd Support och Kundsupport Kampanjer och Kampanjer Stort Spelutvärdering för Samtliga Preferenser På Tom Casino har vi byggt upp ett spelutbud som innehåller över 5000 spel från",
         "source": "RSS"
       },
       {
-        "title": "Zahraniční casino: praktický průvodce pro začátečníky i pokročilé",
-        "link": "https://www.cdg36.fr/zahranicni-casino-prakticky-pruvodce-pro-zacatecniky-i-pokrocile/",
-        "pubDate": "Mon, 07 Sep 2026 23:17:18 GMT",
-        "description": "Řešte-li i vy otázky kolem zahraniční casino, jste na správném místě. Internet je plné protichůdných rad a často je obtížné rozeznat kvalitní informace od marketingového šumu. V následujících odstavcích proto najdete jasné zásady, praktické tipy i ověřené postupy, které lze využít bez ohledu na to, ",
+        "title": "SpinBoss – Din egen totale guide til nettbaserte casinospill og utbetalinger",
+        "link": "https://www.cdg36.fr/spinboss-din-egen-totale-guide-til-nettbaserte-casinospill/",
+        "pubDate": "Tue, 08 Sep 2026 20:17:04 GMT",
+        "description": "Innholdsfortegnelse Trygghet og autorisasjon hos vårt casino Vårt spillportefolio og produsenter Tilbud og kampanjer for lokale spillere Betalingsløsninger og prosesseringstid Kundeservice og støtte Beskyttelse og autorisasjon hos SpinBoss Vår casino driver under rigoristiske lovmessige rammer som s",
         "source": "RSS"
       },
       {
-        "title": "Přehledně o zahraniční casino bonus registraci: co funguje a čemu se vyhnout",
-        "link": "https://www.cdg36.fr/prehledne-o-zahranicni-casino-bonus-registraci-co-funguje-a-cemu-se-vyhnout/",
-        "pubDate": "Mon, 07 Sep 2026 23:17:07 GMT",
-        "description": "Řešte-li i vy otázky kolem zahraniční casino bonus registraci, jste na správném místě. Internet je plné protichůdných rad a často je obtížné rozeznat kvalitní informace od marketingového šumu. V následujících odstavcích proto najdete jasné zásady, praktické tipy i ověřené postupy, které lze využít b",
+        "title": "Säker Casinomiljö hos – Fackmansguide för Skyddat Spel",
+        "link": "https://www.cdg36.fr/saker-casinomiljo-hos-fackmansguide-for-skyddat-spel/",
+        "pubDate": "Tue, 08 Sep 2026 20:16:54 GMT",
+        "description": "Innehållslista Våra Säkerhetsåtgärder för Spelares Säkerhet Licensiering och Tillsyn Trygga Betalningslösningar Informationsskydd samt Sekretess Ansvarstagande Spel Våra omfattande Säkerhetsåtgärder till Spelars Säkerhet Via fokuserar på vi användarnas skydd genom att vi implementera avancerade säke",
         "source": "RSS"
       },
       {
-        "title": "A 22bet online fogadási élmény részletes elemzése",
-        "link": "https://www.cdg36.fr/22bet-hu/",
-        "pubDate": "Mon, 07 Sep 2026 23:09:59 GMT",
-        "description": "A modern sportfogadási világban sokan keresik a megbízható és izgalmas platformokat. A fogadók számára a legfontosabb forrás jelenleg a https://22bet-belepes.com/ weboldal, ahol minden lényeges információ megtalálható. Érdemes alaposan áttekinteni a szolgáltató kínálatát, mielőtt belevágnánk a játék",
+        "title": "NVCasino – Din Komplette Guide til Gaming-oplevelser og Præmier Online",
+        "link": "https://www.cdg36.fr/nvcasino-din-komplette-guide-til-gaming-oplevelser-og-prmier/",
+        "pubDate": "Tue, 08 Sep 2026 20:16:45 GMT",
+        "description": "Indholdsfortegnelse Velkommen til Spilleplatformen Betalingsmetoder og Transaktioner Spilleudvalg og Udbydere Sikkerhed og Licens Bonusser og Kampagner Kundesupport og Assistance Velkommen til til Gaming-platformen Vor platform præsenterer en up-to-date tilgang til online gambling, hvor vi kombinere",
         "source": "RSS"
       },
       {
-        "title": "The Evolution of Modern Slot Design at Gamelabs",
-        "link": "https://www.cdg36.fr/gamelabs-gb/",
-        "pubDate": "Mon, 07 Sep 2026 23:00:15 GMT",
-        "description": "Innovation defines the current landscape of digital entertainment. Many players now turn to acid gamelabs to experience high-quality mechanics and engaging visuals. This constant evolution ensures that the gaming industry remains vibrant and unpredictable for casual participants. Setting New Industr",
+        "title": "Kungariket Spelplats – Din Vägledning för att nå Ett spektakulärt Kungarike av Spelunderhållning",
+        "link": "https://www.cdg36.fr/kungariket-spelplats-din-vagledning-for-att-n-ett/",
+        "pubDate": "Tue, 08 Sep 2026 20:16:36 GMT",
+        "description": "Innehåll Licenser och Trygghet på Maximal Klass Vårt omfattande Omfattande Spelbibliotek Anpassningsbara Betalningslösningar Unika Bonusar och Kampanjer Vår professionella Dedikerade Support Spellicens och Säkerhet på Högsta Nivå På Riket Kasino prioriterar vi spelansvar och skydd på största allvar.",
         "source": "RSS"
       },
       {
-        "title": "Mastering the Betting Experience with Tipsport",
-        "link": "https://www.cdg36.fr/tipsport-gb/",
-        "pubDate": "Mon, 07 Sep 2026 22:50:38 GMT",
-        "description": "When exploring the landscape of European sports betting, seasoned punters often look for platforms that offer reliability and variety. One excellent resource for enthusiasts is m tipsport cz which serves as a gateway to understanding local market trends. By utilizing such tools, players can make inf",
+        "title": "Gambiva Kasino – Din fullständiga handbok för spel samt vinstchanser",
+        "link": "https://www.cdg36.fr/gambiva-kasino-din-fullstandiga-handbok-for-spel-samt/",
+        "pubDate": "Tue, 08 Sep 2026 20:16:26 GMT",
+        "description": "Översikt Välkommen hit till detta speluniversum Spelbibliotek och partners Betalningsmetoder & transaktioner Bonusar samt kampanjer Säkerhet samt tillstånd Välkommen på vårt spelvärlden På Här erbjuder vi en noggrant utformad spelstund vilken kombinerar nutida teknikbaserade verktyg med användarvänl",
         "source": "RSS"
       },
       {
-        "title": "A Comprehensive Guide to the Casibom Gaming Experience",
-        "link": "https://www.cdg36.fr/casibom-gb/",
-        "pubDate": "Mon, 07 Sep 2026 20:34:57 GMT",
-        "description": "Online gaming platforms have evolved rapidly to meet the demands of modern players. Many enthusiasts often look for the casibom resmi portal to access their favorite titles securely. With a wide range of options available, choosing the right venue is essential for a fun session. The platform stands ",
+        "title": "Casea Casino – Din Kompletta Vägledning till Spännande Casinospel och Generösa Bonusar",
+        "link": "https://www.cdg36.fr/casea-casino-din-kompletta-vagledning-till-spannande/",
+        "pubDate": "Tue, 08 Sep 2026 20:16:17 GMT",
+        "description": "Innehållsförteckning Varför Välja Vårt Casino Detta Omfattande Spelutbud Skyddade Betalningsalternativ Erbjudanden och Kampanjer Gaming i Mobilen Vårt Kundservice Av vilken anledning Satsa på Detta Casino Hos Casea tillhandahåller vi en casinoupplevelse som förenar trygghet, spänning och seriositet.",
         "source": "RSS"
       }
     ]
@@ -1949,6 +1974,13 @@
     "officialUrl": "http://www.cdg41.org",
     "news": [
       {
+        "title": "17 septembre 2026: Tirage au sort- Conseils de discipline",
+        "link": "https://www.cdg-41.org/2026/09/08/17-septembre-2026-tirage-au-sort-conseils-de-discipline/",
+        "pubDate": "Tue, 08 Sep 2026 13:46:20 GMT",
+        "description": "Cliquez ici L’article 17 septembre 2026: Tirage au sort- Conseils de discipline est apparu en premier sur CDG41 . ]]>",
+        "source": "RSS"
+      },
+      {
         "title": "ESSENTIEL DE L’ACTU AOUT 2026",
         "link": "https://www.cdg-41.org/2026/08/27/essentiel-de-lactu-aout-2026/",
         "pubDate": "Thu, 27 Aug 2026 14:03:57 GMT",
@@ -1995,13 +2027,6 @@
         "link": "https://www.cdg-41.org/2026/07/06/essentiel-de-lactu-juin-2026/",
         "pubDate": "Mon, 06 Jul 2026 13:29:18 GMT",
         "description": "VALEUR DU SMIC AU 1er juin 2026 CONGÉ SUPPLÉMENTAIRE DE NAISSANCE FICHE AGENTS CONTRACTUELS : LIMITATION DE LA DUREE DES ARRETS MALADIE L’article ESSENTIEL DE L’ACTU JUIN 2026 est apparu en premier sur CDG41 . ]]>",
-        "source": "RSS"
-      },
-      {
-        "title": "AVEZ-VOUS PENSÉ AU DÉBAT OBLIGATOIRE SUR LA PSC ?",
-        "link": "https://www.cdg-41.org/2026/07/06/avez-vous-pense-au-debat-obligatoire-sur-la-psc/",
-        "pubDate": "Mon, 06 Jul 2026 13:21:23 GMT",
-        "description": "À la suite du renouvellement récent des assemblées délibérantes, les collectivités territoriales et établissements publics doivent organiser, dans un délai de six mois, un débat portant sur les garanties accordées aux agents en matière de protection sociale complémentaire (PSC). Cette obligation est",
         "source": "RSS"
       }
     ]
@@ -2243,6 +2268,12 @@
     "officialUrl": "http://www.cdg46.fr",
     "news": [
       {
+        "title": "Ateliers site \"emploi territorial\"",
+        "link": "https://www.cdg46.fr/detail/ateliers-site-emploi-territorial",
+        "pubDate": "Tue, 08 Sep 2026 12:12:00 GMT",
+        "source": "RSS"
+      },
+      {
         "title": "Élections professionnelles 2026 : J-3 mois !",
         "link": "https://www.cdg46.fr/detail/elections-professionnelles-2026-j-3-mois",
         "pubDate": "Wed, 02 Sep 2026 12:30:51 GMT",
@@ -2282,12 +2313,6 @@
         "title": "Congés et autorisations d’absence",
         "link": "https://www.cdg46.fr/detail/conges-et-autorisations-dabsence",
         "pubDate": "Wed, 26 Aug 2026 08:09:43 GMT",
-        "source": "RSS"
-      },
-      {
-        "title": "Rupture conventionnelle : actualisation des documents en ligne",
-        "link": "https://www.cdg46.fr/detail/rupture-conventionnelle-actualisation-des-documents",
-        "pubDate": "Wed, 12 Aug 2026 12:33:14 GMT",
         "source": "RSS"
       }
     ]
@@ -2345,6 +2370,13 @@
     "officialUrl": "http://www.cdg48.fr",
     "news": [
       {
+        "title": "Offre d’emploi – Secrétaire Général de Mairie H/F – Cubières et Cubiérettes – Réf : 2026-38",
+        "link": "https://www.cdg48.fr/emploi/offre-demploi-secretaire-general-de-mairie-h-f-cubieres-et-cubierettes-ref-2026-38/",
+        "pubDate": "Tue, 08 Sep 2026 14:41:03 GMT",
+        "description": "Les mairies de Cubières et Cubiérettes recrutent dès que possible un secrétaire général de mairie H/F Temps non complet partagé 31h/semaine poste de catégorie B - cadre d'emplois des rédacteurs territoriaux par voie statutaire ou à défaut contractuelle. L’article Offre d’emploi – Secrétaire Général ",
+        "source": "RSS"
+      },
+      {
         "title": "Offre d’emploi – Secrétaire Général de Mairie H/F – Saint Privat du Fau et Julianges – Réf : 2026-37",
         "link": "https://www.cdg48.fr/emploi/offre-demploi-secretaire-general-de-mairie-h-f-saint-privat-du-fau-et-julianges-ref-2026-37/",
         "pubDate": "Mon, 07 Sep 2026 13:22:27 GMT",
@@ -2391,13 +2423,6 @@
         "link": "https://www.cdg48.fr/emploi/offre-demploi-agent-de-service-polyvalent-h-f-badaroux-ref-2026-33/",
         "pubDate": "Mon, 03 Aug 2026 12:54:43 GMT",
         "description": "La mairie de Badaroux recrute à compter du 1er octobre 2026 un Agent de service polyvalent (H/F) Temps complet annualisé (35 heures) Cadre d'emplois des adjoints techniques - par voie statutaire ou à défaut contractuelle. L’article Offre d’emploi – Agent de service polyvalent H/F – Badaroux – Réf : ",
-        "source": "RSS"
-      },
-      {
-        "title": "Offre d’emploi – Secrétaire général(e) de mairie H/F – Altier – Réf : 2026-32",
-        "link": "https://www.cdg48.fr/emploi/offre-demploi-secretaire-generale-de-mairie-h-f-altier-ref-2026-32/",
-        "pubDate": "Mon, 03 Aug 2026 10:00:06 GMT",
-        "description": "La mairie d'Altier recrute à compter du 1er octobre 2026 un secrétaire général de mairie H/F Temps complet 35h/semaine Poste de catégorie B par voie statutaire ou à défaut contractuelle L’article Offre d’emploi – Secrétaire général(e) de mairie H/F – Altier – Réf : 2026-32 est apparu en premier sur ",
         "source": "RSS"
       }
     ]
@@ -2633,8 +2658,23 @@
         "source": "HTML"
       },
       {
+        "title": "Rencontres de proximité 08 sept. 2026",
+        "link": "https://www.cdg53.fr/centre-de-gestion-mayenne/actualites/rencontres-de-proximite",
+        "source": "HTML"
+      },
+      {
+        "title": "Recensement concours dont la période d'inscription est au 1er semestre 2027 10 août 2026",
+        "link": "https://www.cdg53.fr/centre-de-gestion-mayenne/actualites/recensement-concours-dont-la-periode-d-inscription-est-au-1er-semestre-2027",
+        "source": "HTML"
+      },
+      {
         "title": "Contrat 2027-2030 - assurance statutaire 23 juil. 2026",
         "link": "https://www.cdg53.fr/centre-de-gestion-mayenne/actualites/contrat-2027-2030-assurance-statutaire",
+        "source": "HTML"
+      },
+      {
+        "title": "Gestion du quotidien",
+        "link": "https://www.cdg53.fr/centre-de-gestion-mayenne/actualites",
         "source": "HTML"
       },
       {
@@ -2645,21 +2685,6 @@
       {
         "title": "Réunions de territoire - Juin 2026 12 juin 2026",
         "link": "https://www.cdg53.fr/centre-de-gestion-mayenne/actualites/reunions-de-territoire-juin-2026",
-        "source": "HTML"
-      },
-      {
-        "title": "Gestion du quotidien",
-        "link": "https://www.cdg53.fr/centre-de-gestion-mayenne/actualites",
-        "source": "HTML"
-      },
-      {
-        "title": "Vous souhaitez intégrer la fonction publique sur un poste administratif ?",
-        "link": "https://www.cdg53.fr/centre-de-gestion-mayenne/actualites/vous-souhaitez-integrer-la-fonction-publique-sur-un-poste-administratif",
-        "source": "HTML"
-      },
-      {
-        "title": "ESPACE DOCUMENTAIRE",
-        "link": "https://www.cdg53.fr/espace-ressources-humaines/espace-documentaire",
         "source": "HTML"
       }
     ]
@@ -3274,6 +3299,12 @@
     "officialUrl": "http://www.cdg66.fr",
     "news": [
       {
+        "title": "ATELIERS D’AIDE À LA SAISIE D’UN DOSSIER RETRAITE – Ouverture des inscriptions pour les prochains ateliers",
+        "link": "https://cdg66.fr/ateliers-daide-a-la-saisie-dun-dossier-retraite-ouverture-des-inscriptions-pour-les-prochains-ateliers-4/",
+        "pubDate": "Tue, 08 Sep 2026 08:08:53 GMT",
+        "source": "RSS"
+      },
+      {
         "title": "13 métiers territoriaux à découvrir en Occitanie : Le CDG66 s’engage pour l’emploi public local !",
         "link": "https://cdg66.fr/13-metiers-territoriaux-a-decouvrir-en-occitanie-le-cdg66-sengage-pour-lemploi-public-local/",
         "pubDate": "Wed, 02 Sep 2026 06:02:04 GMT",
@@ -3313,12 +3344,6 @@
         "title": "Formation assistant de prévention par le biais de l’assurance statutaire « CNP »",
         "link": "https://cdg66.fr/formation-assistant-de-prevention-par-le-biais-de-lassurance-statutaire-cnp/",
         "pubDate": "Fri, 31 Jul 2026 06:27:02 GMT",
-        "source": "RSS"
-      },
-      {
-        "title": "Réforme des emplois fonctionnels.",
-        "link": "https://cdg66.fr/reforme-des-emplois-fonctionnels/",
-        "pubDate": "Mon, 20 Jul 2026 08:49:09 GMT",
         "source": "RSS"
       }
     ]
@@ -3614,23 +3639,8 @@
         "source": "HTML"
       },
       {
-        "title": "Nouvelles dispositions en matière de congés pour raison de santé et de temps partiel thérapeutique.",
-        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_nouvelles-dispositions-en-matiere-de-conges-pour-raison-de-sante-et-de-temps-partiel-therapeutique.phtml",
-        "source": "HTML"
-      },
-      {
-        "title": "Formez votre assistant de prévention : un acteur essentiel de la santé et de la sécurité au travail",
-        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_formez-votre-assistant-de-prevention-un-acteur-essentiel-de-la-sante-et-de-la-securite-au-travail.phtml",
-        "source": "HTML"
-      },
-      {
-        "title": "Nouveau rebondissement concernant le report et l'indemnisation des congés annuels",
-        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_nouveau-rebondissement-concernant-le-report-et-l-indemnisation-des-conges-annuels.phtml",
-        "source": "HTML"
-      },
-      {
-        "title": "Parution des décrets relatifs à la rupture conventionnelle",
-        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_parution-des-decrets-relatifs-a-la-rupture-conventionnelle.phtml",
+        "title": "Nouvelle prestation : l'enquête administrative",
+        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_nouvelle-prestation-l-enquete-administrative.phtml",
         "source": "HTML"
       },
       {
@@ -3639,8 +3649,23 @@
         "source": "HTML"
       },
       {
-        "title": "Nouvelle prestation : l'enquête administrative",
-        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_nouvelle-prestation-l-enquete-administrative.phtml",
+        "title": "Nouvelles dispositions en matière de congés pour raison de santé et de temps partiel thérapeutique.",
+        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_nouvelles-dispositions-en-matiere-de-conges-pour-raison-de-sante-et-de-temps-partiel-therapeutique.phtml",
+        "source": "HTML"
+      },
+      {
+        "title": "Parution des décrets relatifs à la rupture conventionnelle",
+        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_parution-des-decrets-relatifs-a-la-rupture-conventionnelle.phtml",
+        "source": "HTML"
+      },
+      {
+        "title": "Nouveau rebondissement concernant le report et l'indemnisation des congés annuels",
+        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_nouveau-rebondissement-concernant-le-report-et-l-indemnisation-des-conges-annuels.phtml",
+        "source": "HTML"
+      },
+      {
+        "title": "Formez votre assistant de prévention : un acteur essentiel de la santé et de la sécurité au travail",
+        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_formez-votre-assistant-de-prevention-un-acteur-essentiel-de-la-sante-et-de-la-securite-au-travail.phtml",
         "source": "HTML"
       }
     ]
@@ -4181,6 +4206,13 @@
     "officialUrl": "http://www.maisondescommunes85.fr",
     "news": [
       {
+        "title": "Fermeture exceptionnelle mardi 15 septembre",
+        "link": "https://www.maisondescommunes85.fr/actualites/fermeture-exceptionnelle-mardi-15-septembre",
+        "pubDate": "Sat, 05 Sep 2026 12:37:30 GMT",
+        "description": "<div class=\"paragraphs-items paragraphs-items-field-contenu paragraphs-items-field-contenu-full paragraphs-items-full\" class=\"paragraphs-items paragraphs-items-field-contenu paragraphs-items-field-contenu-full paragraphs-items-full\"> <div class=\"field field-name-field-contenu field-type-paragraphs f",
+        "source": "RSS"
+      },
+      {
         "title": "Réseau SGM 85 : rejoignez la communauté dédiée aux Secrétaires Généraux de Mairie de Vendée",
         "link": "https://www.maisondescommunes85.fr/actualites/reseau-sgm-85-rejoignez-communaute-dediee-aux-secretaires-generaux-mairie-vendee",
         "pubDate": "Sun, 30 Aug 2026 11:42:32 GMT",
@@ -4226,13 +4258,6 @@
         "title": "Trophées Emploi public & Handicap : votez pour le projet du CDG !",
         "link": "https://www.maisondescommunes85.fr/actualites/trophees-emploi-public-handicap-votez-pour-projet-cdg",
         "pubDate": "Fri, 19 Jun 2026 10:03:12 GMT",
-        "description": "<div class=\"paragraphs-items paragraphs-items-field-contenu paragraphs-items-field-contenu-full paragraphs-items-full\" class=\"paragraphs-items paragraphs-items-field-contenu paragraphs-items-field-contenu-full paragraphs-items-full\"> <div class=\"field field-name-field-contenu field-type-paragraphs f",
-        "source": "RSS"
-      },
-      {
-        "title": "Webinaire sur le recrutement et l'évolution de carrières des personnes en situation de handicap le 16 juin 2026",
-        "link": "https://www.maisondescommunes85.fr/actualites/webinaire-sur-recrutement-et-evolution-carrieres-personnes-situation-handicap-16-juin",
-        "pubDate": "Fri, 05 Jun 2026 10:09:14 GMT",
         "description": "<div class=\"paragraphs-items paragraphs-items-field-contenu paragraphs-items-field-contenu-full paragraphs-items-full\" class=\"paragraphs-items paragraphs-items-field-contenu paragraphs-items-field-contenu-full paragraphs-items-full\"> <div class=\"field field-name-field-contenu field-type-paragraphs f",
         "source": "RSS"
       }
