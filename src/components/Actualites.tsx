@@ -232,22 +232,22 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
               <div className="flex flex-col gap-6 flex-grow">
                 <SpotlightCard spotlightColor="rgba(249, 115, 22, 0.15)" className="bg-white border border-slate-200 rounded-2xl p-5 shadow-md flex flex-col">
                   <a
-                    href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/journal-gennevilliers-printemps-2026.pdf"
+                    href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/Journal-Gennevilliers-rentree-2026.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex flex-col h-full"
                   >
                     <div className="overflow-hidden rounded-xl shadow-xs mb-4 relative min-h-[11rem] max-h-[13rem] border border-slate-100 bg-slate-50 flex items-center justify-center">
                       <img
-                        src={`${baseUrl}journal-2026.png`}
-                        alt="Journal CFDT Printemps 2026"
+                        src={`${baseUrl}journal-rentree-2026.png`}
+                        alt="Journal CFDT Rentrée 2026"
                         className="w-full h-full object-contain transform hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                     <div className="flex flex-col shrink-0">
                       <h4 className="text-slate-900 text-base font-bold mb-1 flex items-center gap-2">
                         <FileText className="w-4 h-4 text-orange-500 shrink-0" />
-                        Journal - Printemps 2026
+                        Journal - Rentrée 2026
                       </h4>
                       <p className="text-slate-600 text-xs mb-4 leading-relaxed font-medium">
                         Écho et dossier d'actualité de la CFDT Gennevilliers.

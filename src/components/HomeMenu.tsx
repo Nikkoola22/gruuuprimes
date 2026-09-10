@@ -697,13 +697,13 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                 {/* Prominent Image Preview */}
                 <div className="relative w-full h-36 sm:h-40 rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700/80 flex items-center justify-center p-2 group-hover:scale-[1.02] transition-transform duration-300 shadow-inner">
                   <img
-                    src={`${BASE_URL}journal-2026.png`}
-                    alt="Journal CFDT Printemps 2026"
+                    src={`${BASE_URL}journal-rentree-2026.png`}
+                    alt="Journal CFDT Rentrée 2026"
                     className="w-full h-full object-contain filter drop-shadow-md"
                   />
                   <div className="absolute bottom-2 right-2">
                     <span className="text-[10px] font-black text-slate-700 dark:text-slate-200 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xs px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-700 shadow-xs">
-                      Printemps 2026
+                      Rentrée 2026
                     </span>
                   </div>
                 </div>
@@ -721,7 +721,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
 
               {/* Download Button */}
               <a
-                href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/journal-gennevilliers-printemps-2026.pdf"
+                href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/Journal-Gennevilliers-rentree-2026.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3.5 flex items-center justify-center gap-2 w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 px-3 rounded-xl shadow-md hover:shadow-lg transition-all text-xs cursor-pointer group-hover:scale-[1.02]"
