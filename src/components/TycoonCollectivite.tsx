@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   ArrowLeft, Building2, Users, Landmark, HeartHandshake,
   TrendingUp, TrendingDown, Play, AlertTriangle, Trophy,
-  FileText, XCircle, RotateCcw, Briefcase, Gavel, Newspaper, Megaphone, Clock, Droplets, Bug, Sparkles, ShieldAlert, type LucideIcon
+  FileText, XCircle, RotateCcw, Briefcase, Gavel, Newspaper, Megaphone, Clock, Droplets, Bug, Sparkles, ShieldAlert, Coins, type LucideIcon
 } from 'lucide-react';
 
 interface TycoonProps {
@@ -29,44 +29,44 @@ interface GameEvent {
 }const ALL_EVENTS: GameEvent[] = [
   {
     id: "police_municipale",
-    title: "Crise Sécuritaire",
-    description: "Le Maire exige le recrutement immédiat de 5 agents de Police Municipale suite à des incivilités, mais le budget n'était pas prévu.",
+    title: "Crise Sécuritaire aux Agnettes",
+    description: "Suite à des incivilités récurrentes aux abords du métro Les Agnettes et de l'avenue Gabriel-Péri, le Maire de Gennevilliers exige le recrutement immédiat de 5 agents de Police Municipale pour patrouiller le soir.",
     icon: ShieldAlert,
     image: "/images/tycoon/tycoon_police.png",
     actions: [
       { text: "Recruter des contractuels (Rapide)", impact: { budget: -150, agents: -5, elus: +15, service: +10 } },
       { text: "Ouvrir un concours (Lent)", impact: { budget: -80, agents: +5, elus: -10, service: +5 } },
-      { text: "Refuser (Pas de budget)", impact: { budget: 0, agents: 0, elus: -20, service: -15 } }
+      { text: "Refuser (Pas de budget communal)", impact: { budget: 0, agents: 0, elus: -20, service: -15 } }
     ]
   },
   {
     id: "greve_cantine",
-    title: "Préavis de Grève - Cantines",
-    description: "Les agents des cantines scolaires menacent de faire grève si le RIFSEEP n'est pas réévalué. Les parents d'élèves font pression sur les élus.",
+    title: "Préavis de Grève - Restauration Scolaire",
+    description: "Les agents des offices et cantines scolaires de Gennevilliers (écoles Joliot-Curie, Denis-Diderot, Gustave-Caillebotte...) menacent de débrayer si le RIFSEEP n'est pas réévalué. Les parents d'élèves font pression sur l'Hôtel de Ville.",
     icon: Users,
     image: "/images/tycoon/tycoon_strike.png",
     actions: [
-      { text: "Augmenter le RIFSEEP (+200k€)", impact: { budget: -200, agents: +20, elus: +5, service: +15 } },
-      { text: "Négocier une prime exceptionnelle", impact: { budget: -80, agents: +5, elus: 0, service: 0 } },
+      { text: "Revaloriser le RIFSEEP filière restauration (+200k€)", impact: { budget: -200, agents: +20, elus: +5, service: +15 } },
+      { text: "Négocier une prime exceptionnelle locale", impact: { budget: -80, agents: +5, elus: 0, service: 0 } },
       { text: "Tenir bon face à la grève", impact: { budget: 0, agents: -20, elus: -10, service: -25 } }
     ]
   },
   {
     id: "pic_maladie",
-    title: "Pic Hivernal d'Arrêts Maladie",
-    description: "L'épidémie de grippe décime le service de l'État Civil. La file d'attente s'allonge et la qualité du service public s'effondre.",
+    title: "Pic Hivernal d'Arrêts Maladie à l'Hôtel de Ville",
+    description: "Une vague virale décime le service de l'État Civil et des Démarches Administratives à l'Hôtel de Ville de Gennevilliers. La file d'attente s'étire rue Louis-Calmel et les usagers s'impatientent.",
     icon: HeartHandshake,
     image: "/images/tycoon/tycoon_health.png",
     actions: [
-      { text: "Prestations intérimaires", impact: { budget: -100, agents: -5, elus: +5, service: +20 } },
-      { text: "Heures supplémentaires pour les présents", impact: { budget: -60, agents: -15, elus: +5, service: +10 } },
-      { text: "Fermer temporairement les annexes", impact: { budget: 0, agents: +5, elus: -15, service: -20 } }
+      { text: "Recours à des renforts intérimaires", impact: { budget: -100, agents: -5, elus: +5, service: +20 } },
+      { text: "Heures supplémentaires pour les agents présents", impact: { budget: -60, agents: -15, elus: +5, service: +10 } },
+      { text: "Fermer temporairement les annexes de quartier", impact: { budget: 0, agents: +5, elus: -15, service: -20 } }
     ]
   },
   {
     id: "reforme_retraite",
-    title: "Vague de Départs à la Retraite",
-    description: "Un service entier d'urbanisme voit ses cadres partir à la retraite d'un coup. La perte d'expertise est critique.",
+    title: "Vague de Départs à la Retraite à l'Urbanisme",
+    description: "Plusieurs cadres chevronnés de la Direction de l'Aménagement et de l'Urbanisme (DAU) partent simultanément à la retraite, en plein suivi des projets du Village, des Chanteraines et des Agnettes. La perte d'expertise est critique.",
     icon: Landmark,
     image: "/images/tycoon/tycoon_retirement.png",
     actions: [
@@ -77,152 +77,152 @@ interface GameEvent {
   },
   {
     id: "informatique_hack",
-    title: "Cyberattaque sur le SIRH",
-    description: "Le logiciel de paie est paralysé par un ransomware. Les agents s'inquiètent pour leur salaire du mois.",
+    title: "Cyberattaque sur le Réseau Municipal",
+    description: "Le SIRH et les serveurs informatiques de la Mairie de Gennevilliers sont la cible d'un ransomware. Les agents communaux s'inquiètent pour le versement des salaires et des primes.",
     icon: AlertTriangle,
     image: "/images/tycoon/tycoon_hack.png",
     actions: [
-      { text: "Payer la rançon (Illégal !)", impact: { budget: -300, agents: +10, elus: -30, service: +5 } },
-      { text: "Cellule de crise RH avec heures supp'", impact: { budget: -120, agents: -10, elus: +10, service: 0 } },
-      { text: "Paie forfaitaire en urgence", impact: { budget: 0, agents: -20, elus: -5, service: -10 } }
+      { text: "Payer la rançon (Illégal et dangereux !)", impact: { budget: -300, agents: +10, elus: -30, service: +5 } },
+      { text: "Cellule de crise DSI/RH avec heures sup'", impact: { budget: -120, agents: -10, elus: +10, service: 0 } },
+      { text: "Acompte de paie forfaitaire en urgence", impact: { budget: 0, agents: -20, elus: -5, service: -10 } }
     ]
   },
   {
     id: "canicule",
-    title: "Alerte Canicule",
-    description: "Les températures explosent. Les syndicats demandent l'adaptation des horaires et l'installation de climatiseurs.",
+    title: "Alerte Canicule sur Gennevilliers",
+    description: "La canicule frappe l'Île-de-France. Les agents de voirie du CTM et des espaces verts (Parc des Sévines, Cheneviers, Chanteraines) subissent plus de 38°C en extérieur. Les syndicats demandent l'adaptation immédiate des plannings.",
     icon: Building2,
     image: "/images/tycoon/tycoon_weather.png",
     actions: [
-      { text: "Achat de clims & horaires d'été", impact: { budget: -150, agents: +25, elus: +5, service: +5 } },
+      { text: "Achat de clims, brumisateurs & horaires d'été", impact: { budget: -150, agents: +25, elus: +5, service: +5 } },
       { text: "Télétravail massif exceptionnel", impact: { budget: 0, agents: +15, elus: -10, service: -5 } },
-      { text: "Distribution de bouteilles d'eau", impact: { budget: -10, agents: -20, elus: 0, service: 0 } }
+      { text: "Simple distribution de bouteilles d'eau", impact: { budget: -10, agents: -20, elus: 0, service: 0 } }
     ]
   },
   {
     id: "elections",
-    title: "Approche des Élections",
-    description: "Les élections municipales ont lieu l'année prochaine. Le Maire exige que la satisfaction publique et la sienne soient au plus haut, coûte que coûte.",
+    title: "Préparation des Élections Municipales",
+    description: "Le renouvellement municipal approche. Entre réunions de quartier au Luth et aux Grésillons, le Maire exige que la satisfaction des Gennevillois et le climat social soient exemplaires.",
     icon: Megaphone,
     image: "/images/tycoon/tycoon_politics.png",
     actions: [
       { text: "Gel des impôts & Titularisations massives", impact: { budget: -400, agents: +25, elus: +30, service: +10 } },
-      { text: "Petites primes électoralistes", impact: { budget: -100, agents: +10, elus: +15, service: 0 } },
+      { text: "Petites primes électorales ciblées", impact: { budget: -100, agents: +10, elus: +15, service: 0 } },
       { text: "Ignorer la pression politique", impact: { budget: +50, agents: -5, elus: -35, service: 0 } }
     ]
   },
   {
     id: "audit",
     title: "Audit de la Chambre Régionale des Comptes",
-    description: "La Chambre Régionale pointe du doigt la masse salariale excessive de la commune. Vous devez trouver des économies.",
+    description: "La CRC Île-de-France examine la gestion de la Ville de Gennevilliers et pointe du doigt la masse salariale communale. Vous devez trouver des pistes d'économies sans bloquer la ville.",
     icon: Gavel,
     image: "/images/tycoon/tycoon_finance.png",
     actions: [
-      { text: "Non-renouvellement de 20 contractuels", impact: { budget: +300, agents: -25, elus: +10, service: -15 } },
-      { text: "Gel du point d'indice (localement)", impact: { budget: +150, agents: -30, elus: +5, service: 0 } },
-      { text: "Défendre le modèle social actuel", impact: { budget: 0, agents: +15, elus: -20, service: 0 } }
+      { text: "Non-renouvellement de contractuels", impact: { budget: +300, agents: -25, elus: +10, service: -15 } },
+      { text: "Gel des revalorisations locales", impact: { budget: +150, agents: -30, elus: +5, service: 0 } },
+      { text: "Défendre le modèle social gennevillois", impact: { budget: 0, agents: +15, elus: -20, service: 0 } }
     ]
   },
   {
     id: "demissions",
-    title: "Hémorragie des Talents",
-    description: "Les ingénieurs du service informatique démissionnent un par un pour le secteur privé, attirés par de meilleurs salaires.",
+    title: "Attractivité RH face au Port & à La Défense",
+    description: "Des ingénieurs et techniciens de la Ville quittent Gennevilliers, débauchés par les entreprises du Port de Gennevilliers et les sièges du quartier d'affaires de La Défense.",
     icon: Briefcase,
     image: "/images/tycoon/tycoon_hrcrisis.png",
     actions: [
-      { text: "Aligner les salaires (Contrats de projet)", impact: { budget: -200, agents: +5, elus: -10, service: +20 } },
-      { text: "Embaucher des profils juniors", impact: { budget: -50, agents: 0, elus: +5, service: -15 } },
-      { text: "Externaliser le service (Presta)", impact: { budget: -250, agents: -15, elus: +10, service: +5 } }
+      { text: "Revaloriser les salaires (Contrats de projet)", impact: { budget: -200, agents: +5, elus: -10, service: +20 } },
+      { text: "Embaucher des profils juniors à former", impact: { budget: -50, agents: 0, elus: +5, service: -15 } },
+      { text: "Externaliser vers des prestataires privés", impact: { budget: -250, agents: -15, elus: +10, service: +5 } }
     ]
   },
   {
     id: "nouveau_decret",
-    title: "Nouveau Décret Gouvernemental",
-    description: "L'État impose une nouvelle prime obligatoire (Ségur, etc.) pour une partie de vos agents. Ce n'était pas budgété.",
+    title: "Nouveau Décret d'État Non Compensé",
+    description: "Un décret gouvernemental impose une revalorisation obligatoire de primes sans compensation financière pour Gennevilliers. Le surcoût non budgété frappe la caisse communale.",
     icon: Newspaper,
     image: "/images/tycoon/tycoon_finance.png",
     actions: [
-      { text: "Appliquer immédiatement (Emprunt)", impact: { budget: -250, agents: +25, elus: -10, service: 0 } },
+      { text: "Appliquer immédiatement (Emprunt municipal)", impact: { budget: -250, agents: +25, elus: -10, service: 0 } },
       { text: "Lisser l'application sur 3 ans", impact: { budget: -80, agents: -10, elus: +5, service: 0 } },
-      { text: "Attendre les recours juridiques", impact: { budget: 0, agents: -25, elus: -15, service: -5 } }
+      { text: "Attendre les recours juridiques de l'AMF", impact: { budget: 0, agents: -25, elus: -15, service: -5 } }
     ]
   },
   {
     id: "heures_supp",
-    title: "Dépassement du Plafond d'Heures Supp",
-    description: "Les agents de la voirie ont explosé leur quota d'heures supplémentaires à cause des récentes intempéries. Ils exigent d'être payés.",
+    title: "Coup de Chauffe au CTM de Gennevilliers",
+    description: "Les équipes de voirie et propreté du CTM (Centre Technique Municipal) ont explosé leur quota d'heures supplémentaires lors d'urgences sur les quais de Seine. Elles exigent leur paiement.",
     icon: Clock,
     image: "/images/tycoon/tycoon_hrcrisis.png",
     actions: [
       { text: "Payer toutes les heures majorées", impact: { budget: -180, agents: +20, elus: -5, service: +5 } },
       { text: "Placer en récupération obligatoire", impact: { budget: 0, agents: -10, elus: +5, service: -20 } },
-      { text: "Refuser le paiement (Non autorisé)", impact: { budget: +50, agents: -35, elus: -10, service: -10 } }
+      { text: "Refuser le paiement non autorisé", impact: { budget: +50, agents: -35, elus: -10, service: -10 } }
     ]
   },
   {
     id: "visite_ministre",
-    title: "Visite Ministérielle Surprise",
-    description: "Un Ministre vient inaugurer la nouvelle crèche dans 48h. Le Maire veut que tout le personnel soit mobilisé pour que tout soit parfait.",
+    title: "Visite Ministérielle à l'Écoquartier",
+    description: "Un Ministre vient inaugurer des équipements écologiques à l'Écoquartier fluvial et visiter une crèche municipale. Le Maire veut mobiliser tous les services pour un accueil irréprochable.",
     icon: Trophy,
     image: "/images/tycoon/tycoon_politics.png",
     actions: [
-      { text: "Mobilisation générale avec primes", impact: { budget: -100, agents: +10, elus: +25, service: +15 } },
-      { text: "Réquisition sans contrepartie", impact: { budget: 0, agents: -25, elus: +20, service: +5 } },
+      { text: "Mobilisation générale avec primes d'accueil", impact: { budget: -100, agents: +10, elus: +25, service: +15 } },
+      { text: "Réquisition des agents sans prime", impact: { budget: 0, agents: -25, elus: +20, service: +5 } },
       { text: "Maintenir l'organisation normale", impact: { budget: 0, agents: +5, elus: -30, service: -5 } }
     ]
   },
   {
     id: "punaises_lit",
-    title: "Invasion de Punaises de Lit",
-    description: "Les bureaux de l'Action Sociale sont infestés. Les agents exercent leur droit de retrait et le public ne peut plus être reçu.",
+    title: "Alerte Sanitaire au Pôle Social",
+    description: "Les bureaux du CCAS et de l'Action Sociale municipale, avenue Gabriel-Péri, sont touchés par des punaises de lit. Les agents exercent leur droit de retrait et le public ne peut plus être reçu.",
     icon: Bug,
     image: "/images/tycoon/tycoon_pest.png",
     actions: [
       { text: "Fermeture & Traitement d'urgence", impact: { budget: -120, agents: +15, elus: -5, service: -15 } },
       { text: "Reloger le service (Location modulaire)", impact: { budget: -200, agents: +10, elus: +5, service: +10 } },
-      { text: "Ignorer (Demander aux agents de rester)", impact: { budget: 0, agents: -40, elus: -15, service: -30 } }
+      { text: "Ignorer et demander aux agents de rester", impact: { budget: 0, agents: -40, elus: -15, service: -30 } }
     ]
   },
   {
     id: "inondations",
-    title: "Inondations dans les Écoles",
-    description: "De violents orages ont inondé 3 écoles. Il faut nettoyer en urgence avant la rentrée scolaire de lundi !",
+    title: "Crue de la Seine & Écoles Inondées",
+    description: "Des pluies torrentielles et une montée de la Seine inondent les sous-sols de 3 écoles du Fossé de l'Aumône et des Grésillons. Il faut nettoyer en urgence avant la reprise des cours !",
     icon: Droplets,
     image: "/images/tycoon/tycoon_weather.png",
     actions: [
-      { text: "Appel à une société de nettoyage privée", impact: { budget: -250, agents: 0, elus: +15, service: +20 } },
-      { text: "Mobiliser les agents techniques en week-end", impact: { budget: -80, agents: -20, elus: +10, service: +15 } },
-      { text: "Repousser la rentrée scolaire", impact: { budget: 0, agents: +10, elus: -25, service: -30 } }
+      { text: "Entreprise de nettoyage privée en astreinte", impact: { budget: -250, agents: 0, elus: +15, service: +20 } },
+      { text: "Mobiliser les agents du CTM en week-end", impact: { budget: -80, agents: -20, elus: +10, service: +15 } },
+      { text: "Repousser la rentrée scolaire de 48h", impact: { budget: 0, agents: +10, elus: -25, service: -30 } }
     ]
   },
   {
     id: "greve_nationale",
-    title: "Mouvement Social National",
-    description: "Une grève nationale paralyse les transports. De nombreux agents ne peuvent pas venir travailler, perturbant fortement les services.",
+    title: "Mouvement Social : Ligne 13 & RER C Bloqués",
+    description: "Grève massive des transports franciliens. La ligne 13 et le RER C à Gennevilliers sont à l'arrêt. Les agents habitant hors commune peinent à rejoindre leurs postes en mairie et dans les écoles.",
     icon: AlertTriangle,
     image: "/images/tycoon/tycoon_strike.png",
     actions: [
-      { text: "Tolérance (Absence justifiée)", impact: { budget: 0, agents: +15, elus: -10, service: -20 } },
-      { text: "Exiger des jours de congés", impact: { budget: +50, agents: -20, elus: +10, service: -10 } },
-      { text: "Mettre en place des navettes privées", impact: { budget: -150, agents: +10, elus: +5, service: +15 } }
+      { text: "Tolérance générale (Absence justifiée)", impact: { budget: 0, agents: +15, elus: -10, service: -20 } },
+      { text: "Exiger la pose de jours de congés", impact: { budget: +50, agents: -20, elus: +10, service: -10 } },
+      { text: "Organiser des navettes communales d'urgence", impact: { budget: -150, agents: +10, elus: +5, service: +15 } }
     ]
   },
   {
     id: "refonte_rifseep",
-    title: "Refonte du RIFSEEP",
-    description: "Le Maire veut revoir le régime indemnitaire au mérite. Les syndicats sont vent debout contre l'introduction du CIA.",
+    title: "Négociations RIFSEEP à l'Hôtel de Ville",
+    description: "La direction municipale veut réformer le régime indemnitaire. La CFDT et les organisations syndicales de Gennevilliers montent au créneau contre toute individualisation arbitraire via le CIA.",
     icon: FileText,
     image: "/images/tycoon/tycoon_finance.png",
     actions: [
-      { text: "Passage en force (Vote au Conseil)", impact: { budget: -50, agents: -30, elus: +20, service: -10 } },
-      { text: "Concertation longue (Ateliers)", impact: { budget: -20, agents: +10, elus: -15, service: 0 } },
-      { text: "Reculer et maintenir l'ancien système", impact: { budget: 0, agents: +20, elus: -25, service: +5 } }
+      { text: "Passage en force au Conseil Municipal", impact: { budget: -50, agents: -30, elus: +20, service: -10 } },
+      { text: "Concertation avec ateliers syndicaux", impact: { budget: -20, agents: +10, elus: -15, service: 0 } },
+      { text: "Maintenir l'ancien régime indemnitaire", impact: { budget: 0, agents: +20, elus: -25, service: +5 } }
     ]
   },
   {
     id: "panne_chauffage",
-    title: "Panne de Chauffage Écoles & Crèches",
-    description: "En plein hiver, le système de chauffage central des écoles du Luth et des crèches s'effondre. Température : 12°C dans les classes !",
+    title: "Panne de Chauffage Écoles & Crèches au Luth",
+    description: "En plein hiver, le système de chauffage central des écoles du Luth (Denis-Diderot, Joliot-Curie) et des crèches s'effondre. Il fait 12°C dans les classes !",
     icon: AlertTriangle,
     image: "/images/tycoon/tycoon_weather.png",
     actions: [
@@ -233,8 +233,8 @@ interface GameEvent {
   },
   {
     id: "jo_passage",
-    title: "Grand Événement Métropolitain",
-    description: "Gennevilliers accueille une étape majeure du parcours sportif départemental. Sécurité, logistique et accueil du public nécessitent une mobilisation éclair.",
+    title: "Grand Événement Sportif aux Sévines",
+    description: "Gennevilliers accueille une grande compétition métropolitaine au Complexe sportif des Sévines et au stade Louis-Bourgoin. Sécurité, logistique et accueil du public nécessitent une mobilisation éclair.",
     icon: Trophy,
     image: "/images/tycoon/tycoon_politics.png",
     actions: [
@@ -245,20 +245,20 @@ interface GameEvent {
   },
   {
     id: "creche_petite_enfance",
-    title: "Pénurie d'Auxiliaires de Puériculture",
-    description: "Le secteur de la Petite Enfance peine à recruter. 3 sections de crèches risquent de fermer faute de personnel diplômé.",
+    title: "Pénurie d'Auxiliaires dans les Crèches",
+    description: "Le secteur de la Petite Enfance à Gennevilliers peine à recruter. 3 sections dans les crèches des Grésillons et du Fossé de l'Aumône risquent de fermer faute de personnel diplômé.",
     icon: HeartHandshake,
     image: "/images/tycoon/tycoon_hrcrisis.png",
     actions: [
       { text: "Revalorisation RIFSEEP filière Petite Enfance", impact: { budget: -160, agents: +25, elus: +15, service: +20 } },
       { text: "Recrutement d'intérimaires qualifiés", impact: { budget: -110, agents: -5, elus: +5, service: +10 } },
-      { text: "Réduire les capacités d'accueil", impact: { budget: 0, agents: -15, elus: -25, service: -30 } }
+      { text: "Réduire les capacités d'accueil des crèches", impact: { budget: 0, agents: -15, elus: -25, service: -30 } }
     ]
   },
   {
     id: "amiante_mediatheque",
-    title: "Diagnostic Amiante Positif",
-    description: "Des traces d'amiante sont détectées lors de travaux à la Médiathèque. Le personnel et le public doivent être évacués en urgence.",
+    title: "Diagnostic Amiante à la Médiathèque Robert-Doisneau",
+    description: "Des traces d'amiante sont détectées lors de travaux à la Médiathèque Robert-Doisneau. Le personnel communal et le public doivent être évacués en urgence.",
     icon: ShieldAlert,
     image: "/images/tycoon/tycoon_pest.png",
     actions: [
@@ -269,8 +269,8 @@ interface GameEvent {
   },
   {
     id: "budget_participatif",
-    title: "Engouement du Budget Participatif",
-    description: "Les habitants de Gennevilliers ont voté massivement pour des projets citoyens (jardins partagés, mobilier urbain). Mais la mise en œuvre surcharge les services techniques.",
+    title: "Engouement du Budget Participatif Gennevillois",
+    description: "Les habitants de Gennevilliers ont voté massivement pour des projets citoyens (jardins partagés aux Agnettes, mobilier urbain au Village). Mais la réalisation surcharge les services techniques.",
     icon: Sparkles,
     image: "/images/tycoon/tycoon_politics.png",
     actions: [
@@ -281,60 +281,60 @@ interface GameEvent {
   },
   {
     id: "flotte_electrique",
-    title: "Transition Écologique de la Flotte",
-    description: "La ZFE (Zone à Faibles Émissions) impose le renouvellement des véhicules municipaux thermiques par des véhicules électriques.",
+    title: "Transition Écologique & ZFE Métropolitaine",
+    description: "La ZFE (Zone à Faibles Émissions) le long de l'A86 et des boulevards urbains impose le renouvellement des véhicules municipaux thermiques par des véhicules électriques.",
     icon: Landmark,
     image: "/images/tycoon/tycoon_finance.png",
     actions: [
-      { text: "Achat groupé de véhicules électriques & Bornes", impact: { budget: -280, agents: +10, elus: +20, service: +10 } },
-      { text: "Passage au Car-sharing / Autopartage municipal", impact: { budget: -120, agents: -5, elus: +10, service: +5 } },
-      { text: "Demander une dérogation exceptionnelle (Report)", impact: { budget: 0, agents: 0, elus: -15, service: -10 } }
+      { text: "Achat groupé de véhicules électriques & Bornes CTM", impact: { budget: -280, agents: +10, elus: +20, service: +10 } },
+      { text: "Passage à l'autopartage municipal", impact: { budget: -120, agents: -5, elus: +10, service: +5 } },
+      { text: "Demander une dérogation exceptionnelle", impact: { budget: 0, agents: 0, elus: -15, service: -10 } }
     ]
   },
   {
     id: "manifestation_logement",
-    title: "Tensions autour du Logement Social",
-    description: "Des associations d'habitants occupent le parvis de la Mairie pour demander l'attribution accélérée de logements sociaux et la rénovation des résidences.",
+    title: "Mobilisation Logement Parvis de l'Hôtel de Ville",
+    description: "Des collectifs d'habitants et mal-logés se rassemblent sur le parvis de la Mairie de Gennevilliers pour demander la rénovation énergétique des résidences et l'attribution accélérée de logements sociaux.",
     icon: Users,
     image: "/images/tycoon/tycoon_strike.png",
     actions: [
       { text: "Table ronde & Plan Urgence Réhabilitation", impact: { budget: -190, agents: +10, elus: +20, service: +15 } },
-      { text: "Médiation sociale & Permanences renforcées", impact: { budget: -50, agents: -5, elus: +5, service: +5 } },
+      { text: "Médiation sociale & Permanences CCAS renforcées", impact: { budget: -50, agents: -5, elus: +5, service: +5 } },
       { text: "Fermeture des guichets d'accueil du public", impact: { budget: 0, agents: -20, elus: -30, service: -25 } }
     ]
   },
   {
     id: "festival_culturel",
-    title: "Festival des Cultures Urbaines",
-    description: "La Ville prépare son grand festival annuel. L'équipe culturelle souhaite inviter des artistes renommés, mais le budget prévisionnel est dépassé.",
+    title: "Festival Culturel & Partenariat T2G",
+    description: "La Ville prépare son grand festival annuel en lien avec le Théâtre de Gennevilliers (T2G). L'équipe culturelle souhaite inviter des artistes renommés, mais le budget prévisionnel est dépassé.",
     icon: Sparkles,
     image: "/images/tycoon/tycoon_politics.png",
     actions: [
-      { text: "Accorder la rallonge budgétaire", impact: { budget: -160, agents: +20, elus: +25, service: +15 } },
-      { text: "Rechercher des mécènes & Sponsors privés", impact: { budget: -50, agents: +5, elus: +10, service: +10 } },
+      { text: "Accorder la rallonge budgétaire municipale", impact: { budget: -160, agents: +20, elus: +25, service: +15 } },
+      { text: "Rechercher des mécènes du Port & Sponsors privés", impact: { budget: -50, agents: +5, elus: +10, service: +10 } },
       { text: "Réduire le programme à la scène locale", impact: { budget: +30, agents: -10, elus: -15, service: -10 } }
     ]
   },
   {
     id: "audit_egalite_pro",
-    title: "Index Égalité Professionnelle RH",
-    description: "Un diagnostic RH révèle des écarts de rémunération et de promotion entre femmes et hommes au sein de la collectivité.",
+    title: "Index Égalité Professionnelle à la Mairie",
+    description: "Le bilan social de Gennevilliers révèle des disparités de primes et d'avancements entre les filières techniques et administratives/petite enfance.",
     icon: FileText,
     image: "/images/tycoon/tycoon_hrcrisis.png",
     actions: [
       { text: "Plan d'action & Rattrapage salarial ciblé", impact: { budget: -150, agents: +30, elus: +15, service: +10 } },
-      { text: "Formation obligatoire des managers aux discriminations", impact: { budget: -40, agents: +10, elus: +5, service: +5 } },
+      { text: "Formation obligatoire des encadrants municipaux", impact: { budget: -40, agents: +10, elus: +5, service: +5 } },
       { text: "Simple déclaration d'intention sans budget", impact: { budget: 0, agents: -25, elus: -20, service: 0 } }
     ]
   },
   {
     id: "pietonnisation_ecoles",
-    title: "Sécurisation des Abords d'Écoles",
-    description: "Des parents d'élèves réclament des rues aux écoles piétonnes et la présence d'ASVP aux heures de pointe pour éviter les accidents.",
+    title: "Sécurisation & Rues aux Enfants aux Écoles Pasteur et Caillebotte",
+    description: "Des parents d'élèves des écoles Pasteur et Gustave-Caillebotte réclament la piétonnisation des abords et la présence renforcée d'ASVP aux heures de pointe.",
     icon: ShieldAlert,
     image: "/images/tycoon/tycoon_police.png",
     actions: [
-      { text: "Aménagements urbains définitifs & Agent dédié", impact: { budget: -170, agents: +10, elus: +20, service: +20 } },
+      { text: "Aménagements urbains définitifs & ASVP dédiés", impact: { budget: -170, agents: +10, elus: +20, service: +20 } },
       { text: "Recours aux volontaires du Service Civique", impact: { budget: -40, agents: +5, elus: +5, service: +10 } },
       { text: "Laisser la situation en l'état", impact: { budget: 0, agents: -15, elus: -25, service: -20 } }
     ]
@@ -356,6 +356,7 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
   const [eventPool, setEventPool] = useState<GameEvent[]>([]);
   const [, setLog] = useState<{ month: number, text: string, type: "good" | "bad" | "neutral" }[]>([]);
   const [failReason, setFailReason] = useState("");
+  const [showBudgetCutModal, setShowBudgetCutModal] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -371,6 +372,7 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
     setServicePub(70);
     setMonth(1);
     setLog([]);
+    setShowBudgetCutModal(false);
 
     let pool: GameEvent[] = [];
     while (pool.length < 24) {
@@ -438,7 +440,8 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
       setMonth(nextM);
       if (nextM === 13) {
         setBudget(b => b + 500);
-        setLog(prev => [{ month: 12, text: "🎁 Dotation Globale de Fonctionnement Annuelle : +500 k€ injectés dans le budget !", type: "good" }, ...prev]);
+        setShowBudgetCutModal(true);
+        setLog(prev => [{ month: 12, text: "📉 Coup de rabot de l'État : Dotation annuelle limitée à seulement +500 k€ à cause de la baisse des dotations aux collectivités !", type: "bad" }, ...prev]);
       }
       setCurrentEvent(eventPool[month]);
     }
@@ -504,6 +507,71 @@ const TycoonCollectivite: React.FC<TycoonProps> = ({ onClose }) => {
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-600/10 blur-[140px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-purple-600/10 blur-[160px]" />
       </div>
+
+      {/* Modal Baisse des dotations de l'État (Fin des 12 mois) */}
+      {showBudgetCutModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fade-in">
+          <div className="bg-slate-900 border-2 border-amber-500/70 rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-[0_0_60px_rgba(245,158,11,0.3)] relative overflow-hidden text-center">
+            {/* Decorative ambient glow */}
+            <div className="absolute -top-16 -left-16 w-36 h-36 bg-amber-500/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-16 -right-16 w-36 h-36 bg-rose-500/20 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-amber-500/20 border-2 border-amber-400/50 rounded-3xl flex items-center justify-center mx-auto mb-5 shadow-[0_0_30px_rgba(245,158,11,0.35)] transform -rotate-3">
+              <Coins className="w-8 h-8 sm:w-10 sm:h-10 text-amber-400" />
+            </div>
+
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-300 text-xs font-mono font-bold uppercase tracking-wider mb-3">
+              <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <span>Bilan des 12 Premiers Mois • Année 2</span>
+            </div>
+
+            <h3 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight mb-3">
+              Baisse des Dotations de l'État !
+            </h3>
+
+            <div className="bg-slate-950/85 border border-slate-800 rounded-2xl p-4 sm:p-5 mb-5 text-left">
+              <p className="text-slate-200 text-xs sm:text-sm leading-relaxed mb-3">
+                Félicitations, vous venez de boucler avec succès vos <strong>12 premiers mois</strong> de mandat à la tête de la collectivité de Gennevilliers !
+              </p>
+              <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs leading-relaxed font-medium mb-3">
+                📉 <strong>Notification Préfectorale :</strong> En raison du plan d'austérité national et de la baisse drastique des concours financiers de l'État aux collectivités, la Dotation Globale de Fonctionnement (DGF) allouée à Gennevilliers pour financer l'Année 2 est réduite à <span className="font-extrabold text-amber-300 underline underline-offset-2">seulement 500 k€</span> !
+              </div>
+              <p className="text-slate-300 text-xs leading-relaxed">
+                Avec cette dotation rabotée, les 12 prochains mois (Mois 13 à 24) exigeront des arbitrages serrés pour maintenir la qualité du service public gennevillois et préserver le climat social sans risquer la mise sous tutelle !
+              </p>
+            </div>
+
+            {/* Badges Recap */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6">
+              <div className="p-2.5 rounded-xl bg-slate-950 border border-emerald-500/40">
+                <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Nouveau Budget</span>
+                <span className="font-black text-base text-emerald-400 font-mono">{budget} k€</span>
+                <span className="text-[9px] text-emerald-300/80 font-bold block">(+500 k€ alloués)</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800">
+                <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Agents</span>
+                <span className="font-black text-base text-blue-400 font-mono">{agentsSat}%</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800">
+                <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Élus</span>
+                <span className="font-black text-base text-purple-400 font-mono">{elusSat}%</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800">
+                <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Service Public</span>
+                <span className="font-black text-base text-amber-400 font-mono">{servicePub}%</span>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setShowBudgetCutModal(false)}
+              className="w-full py-3.5 px-6 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black rounded-2xl text-sm sm:text-base shadow-[0_0_30px_rgba(245,158,11,0.4)] transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer"
+            >
+              <span>Relever le défi de l'Année 2 (Mois 13)</span>
+              <Sparkles className="w-4 h-4 text-slate-950 fill-current" />
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="max-w-6xl mx-auto relative z-10 w-full px-4 flex flex-col h-full">
 
