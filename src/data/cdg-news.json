@@ -305,6 +305,11 @@
         "source": "HTML"
       },
       {
+        "title": "[07.09.2026] ATTENTION : Nouvelles permanences pour les services à partir du lundi 07 septembre 2026",
+        "link": "https://cdg07.com/upload/medias/documents/ESPACE%20COLLECTIVITE/Guide_Vocal_2026.pdf",
+        "source": "HTML"
+      },
+      {
         "title": "Elections du Président et des Vice-Présidents du CDG07 &ndash; Réunion d’installation du 10/07/2026",
         "link": "https://cdg07.com/upload/medias/Actualites/Elections_President_VP_10_07_2026.pdf",
         "source": "HTML"
@@ -312,11 +317,6 @@
       {
         "title": "Composition du Conseil d’Administration du CDG07",
         "link": "https://cdg07.com/upload/medias/Actualites/Compo_CA_2026.pdf",
-        "source": "HTML"
-      },
-      {
-        "title": "[07.07.2026] ATTENTION : Nouvelles permanences pour les services à partir du lundi 06 juillet 2026",
-        "link": "https://cdg07.com/upload/medias/documents/ESPACE%20COLLECTIVITE/Guide_Vocal_2026_Roulement1.pdf",
         "source": "HTML"
       },
       {
@@ -335,8 +335,8 @@
         "source": "HTML"
       },
       {
-        "title": "ACTUALITÉS",
-        "link": "https://www.cdg07.com/agentterritorial/actualites,7.html",
+        "title": "[07.07.2026] ATTENTION : Nouvelles permanences pour les services à partir du lundi 06 juillet 2026",
+        "link": "https://cdg07.com/upload/medias/documents/ESPACE%20COLLECTIVITE/Guide_Vocal_2026_Roulement1.pdf",
         "source": "HTML"
       }
     ]
@@ -702,6 +702,11 @@
         "source": "HTML"
       },
       {
+        "title": "Pensions à compter du 1er septembre 2026",
+        "link": "https://www.cdg15.fr/2024/index.php/home/actualites-du-cdg/pensions-a-compter-du-1er-septembre-2026",
+        "source": "HTML"
+      },
+      {
         "title": "Pérennisation du dispositif de rupture conventionnelle",
         "link": "https://www.cdg15.fr/2024/index.php/home/actualites-du-cdg/perennisation-du-dispositif-de-rupture-conventionnelle",
         "source": "HTML"
@@ -724,11 +729,6 @@
       {
         "title": "Dossier individuel des agents publics",
         "link": "http://www.cdg15.fr/2024/index.php/gestion-des-ressources-humaines/carrieres/dossier-indiciduel-des-agents-publics",
-        "source": "HTML"
-      },
-      {
-        "title": "Forum de l’emploi public",
-        "link": "http://www.cdg15.fr/2024/index.php/parcours-professionnel/emploi-concours-formation/forum-de-lemploi-public",
         "source": "HTML"
       }
     ]
@@ -869,7 +869,7 @@
         "source": "HTML"
       },
       {
-        "title": "Flash info n° 526 du 30 juillet 2026",
+        "title": "Flash info n° 527 du 10 septembre 2026",
         "link": "https://www.cdg18.fr/le-cdg18/actualites.html",
         "source": "HTML"
       },
@@ -1131,6 +1131,12 @@
     "officialUrl": "http://www.cdg25.org",
     "news": [
       {
+        "title": "Inscrivez-vous aux concours et examens professionnels",
+        "link": "https://www.cdg25.org/concours-et-examens/concours-de-la-fonction-publique-territoriale/",
+        "pubDate": "Wed, 09 Sep 2026 12:00:00 GMT",
+        "source": "RSS"
+      },
+      {
         "title": "Réseau des secrétaires généraux de mairie : 1ère rencontre départementale",
         "link": "https://www.cdg25.org/evenement/reseau-des-secretaires-generaux-de-mairie-1ere-rencontre-departementale/",
         "pubDate": "Thu, 03 Sep 2026 15:14:09 GMT",
@@ -1171,12 +1177,6 @@
         "title": "Elections professionnelles 2026 : mise à jour des listes électorales",
         "link": "https://www.cdg25.org/vient-de-paraitre/elections-professionnelles-2026-mise-a-jour-des-listes-electorales/",
         "pubDate": "Thu, 20 Aug 2026 08:13:03 GMT",
-        "source": "RSS"
-      },
-      {
-        "title": "Maladie, TPT : ce qui change",
-        "link": "https://www.cdg25.org/vient-de-paraitre/maladie-tpt-ce-qui-change/",
-        "pubDate": "Mon, 10 Aug 2026 13:45:28 GMT",
         "source": "RSS"
       }
     ]
@@ -1453,6 +1453,13 @@
     "officialUrl": "http://www.cdg31.fr",
     "news": [
       {
+        "title": "Lignes directrices de gestion (LDG) : réunion d'information",
+        "link": "https://www.cdg31.fr/content/lignes-directrices-de-gestion-ldg-reunion-dinformation",
+        "pubDate": "Thu, 10 Sep 2026 14:57:02 GMT",
+        "description": "<div class=\"field field-name-field-news-image field-type-image field-label-hidden\"><div class=\"field-items\"><div class=\"field-item even\"><a href=\"/content/lignes-directrices-de-gestion-ldg-reunion-dinformation\"><img src=\"https://www.cdg31.fr/sites/default/files/styles/node_diaporama/public/event/ima",
+        "source": "RSS"
+      },
+      {
         "title": "Annulation de la séance du conseil médical en formation plénière du 24 septembre 2026",
         "link": "https://www.cdg31.fr/content/annulation-de-la-seance-du-conseil-medical-en-formation-pleniere-du-24-septembre-2026",
         "pubDate": "Thu, 03 Sep 2026 15:16:10 GMT",
@@ -1498,13 +1505,6 @@
         "title": "Lettre d'information du CDG31 - n°234 - Avril 2026",
         "link": "https://www.cdg31.fr/content/lettre-dinformation-du-cdg31-ndeg234-avril-2026",
         "pubDate": "Wed, 15 Apr 2026 10:15:50 GMT",
-        "description": "<div class=\"field field-name-field-couleur-de-fond field-type-text field-label-above\"><div class=\"field-label\">Couleur de fond:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">#e1ae13</div></div></div><div class=\"field field-name-field-logo field-type-image field-label-above\"><div c",
-        "source": "RSS"
-      },
-      {
-        "title": "Flash spécial du CDG31 - n°233 - Élections du Conseil d’Administration du CDG31 2026",
-        "link": "https://www.cdg31.fr/content/flash-special-du-cdg31-ndeg233-elections-du-conseil-dadministration-du-cdg31-2026",
-        "pubDate": "Thu, 09 Apr 2026 09:20:18 GMT",
         "description": "<div class=\"field field-name-field-couleur-de-fond field-type-text field-label-above\"><div class=\"field-label\">Couleur de fond:&nbsp;</div><div class=\"field-items\"><div class=\"field-item even\">#e1ae13</div></div></div><div class=\"field field-name-field-logo field-type-image field-label-above\"><div c",
         "source": "RSS"
       }
@@ -1719,59 +1719,59 @@
     "officialUrl": "http://www.cdg36.fr",
     "news": [
       {
-        "title": "WinShark Casino – Komplett Håndbok til Spillerfaring og Transaksjonsmetoder",
-        "link": "https://www.cdg36.fr/winshark-casino-komplett-hndbok-til-spillerfaring-og/",
-        "pubDate": "Tue, 08 Sep 2026 20:17:22 GMT",
-        "description": "Innholdsfortegnelse Vårt Spillsamling og Utviklere Trygge Betalingsmetoder hos Casinoet Bonussystem og Betingelser Mobilbasert Spillplattform Kundeservice og Trygghet Vår Spillportefølje og Utviklere Ved klikk her har vi bygget en samling som favner over tre tusen fem hundre unike titler fra fremste",
+        "title": "Nejlepší online casina od A do Z: co byste měli vědět, než začnete",
+        "link": "https://www.cdg36.fr/nejlepsi-online-casina-od-a-do-z-co-byste-meli-vedet-nez-zacnete/",
+        "pubDate": "Thu, 10 Sep 2026 22:40:06 GMT",
+        "description": "Řešte-li i vy otázky kolem nejlepší online casina, jste na správném místě. Internet je plné protichůdných rad a často je obtížné rozeznat kvalitní informace od marketingového šumu. V následujících odstavcích proto najdete jasné zásady, praktické tipy i ověřené postupy, které lze využít bez ohledu na",
         "source": "RSS"
       },
       {
-        "title": "Tom Casino – Din Fullständiga Vägledning till Underhållande Spelupplevelser Online",
-        "link": "https://www.cdg36.fr/tom-casino-din-fullstandiga-vagledning-till-underhllande/",
-        "pubDate": "Tue, 08 Sep 2026 20:17:13 GMT",
-        "description": "Innehåll Omfattande Spelbibliotek för Samtliga Smaker Enkla Betalningsalternativ Spelmoment i Smartphonen Skydd och Tillstånd Support och Kundsupport Kampanjer och Kampanjer Stort Spelutvärdering för Samtliga Preferenser På Tom Casino har vi byggt upp ett spelutbud som innehåller över 5000 spel från",
+        "title": "Jak na casino bez ověření bank — zkušenosti, tipy a nejčastější chyby",
+        "link": "https://www.cdg36.fr/jak-na-casino-bez-overeni-bank-zkusenosti-tipy-a-nejcastejsi-chyby/",
+        "pubDate": "Thu, 10 Sep 2026 22:40:02 GMT",
+        "description": "Casino bez ověření bank patří mezi témata, která na první pohled vypadají jednoduše, ale ve skutečnosti skrývají řadu souvislostí. Právě proto jsme pro vás připravili souhrn, který vychází z praxe a zkušeností, nikoli pouze z teorie. Dozvíte se, jak správně začít, na které zásady se vyplatí spoléhat",
         "source": "RSS"
       },
       {
-        "title": "SpinBoss – Din egen totale guide til nettbaserte casinospill og utbetalinger",
-        "link": "https://www.cdg36.fr/spinboss-din-egen-totale-guide-til-nettbaserte-casinospill/",
-        "pubDate": "Tue, 08 Sep 2026 20:17:04 GMT",
-        "description": "Innholdsfortegnelse Trygghet og autorisasjon hos vårt casino Vårt spillportefolio og produsenter Tilbud og kampanjer for lokale spillere Betalingsløsninger og prosesseringstid Kundeservice og støtte Beskyttelse og autorisasjon hos SpinBoss Vår casino driver under rigoristiske lovmessige rammer som s",
+        "title": "Přehledně o online casino zahranicni: co funguje a čemu se vyhnout",
+        "link": "https://www.cdg36.fr/prehledne-o-online-casino-zahranicni-co-funguje-a-cemu-se-vyhnout/",
+        "pubDate": "Thu, 10 Sep 2026 22:39:59 GMT",
+        "description": "Online casino zahranicni patří mezi témata, která na první pohled vypadají jednoduše, ale ve skutečnosti skrývají řadu souvislostí. Právě proto jsme pro vás připravili souhrn, který vychází z praxe a zkušeností, nikoli pouze z teorie. Dozvíte se, jak správně začít, na které zásady se vyplatí spoléha",
         "source": "RSS"
       },
       {
-        "title": "Säker Casinomiljö hos – Fackmansguide för Skyddat Spel",
-        "link": "https://www.cdg36.fr/saker-casinomiljo-hos-fackmansguide-for-skyddat-spel/",
-        "pubDate": "Tue, 08 Sep 2026 20:16:54 GMT",
-        "description": "Innehållslista Våra Säkerhetsåtgärder för Spelares Säkerhet Licensiering och Tillsyn Trygga Betalningslösningar Informationsskydd samt Sekretess Ansvarstagande Spel Våra omfattande Säkerhetsåtgärder till Spelars Säkerhet Via fokuserar på vi användarnas skydd genom att vi implementera avancerade säke",
+        "title": "Přehledně o online zahraniční casino: co funguje a čemu se vyhnout",
+        "link": "https://www.cdg36.fr/prehledne-o-online-zahranicni-casino-co-funguje-a-cemu-se-vyhnout/",
+        "pubDate": "Thu, 10 Sep 2026 22:39:55 GMT",
+        "description": "Řešte-li i vy otázky kolem online zahraniční casino, jste na správném místě. Internet je plné protichůdných rad a často je obtížné rozeznat kvalitní informace od marketingového šumu. V následujících odstavcích proto najdete jasné zásady, praktické tipy i ověřené postupy, které lze využít bez ohledu ",
         "source": "RSS"
       },
       {
-        "title": "NVCasino – Din Komplette Guide til Gaming-oplevelser og Præmier Online",
-        "link": "https://www.cdg36.fr/nvcasino-din-komplette-guide-til-gaming-oplevelser-og-prmier/",
-        "pubDate": "Tue, 08 Sep 2026 20:16:45 GMT",
-        "description": "Indholdsfortegnelse Velkommen til Spilleplatformen Betalingsmetoder og Transaktioner Spilleudvalg og Udbydere Sikkerhed og Licens Bonusser og Kampagner Kundesupport og Assistance Velkommen til til Gaming-platformen Vor platform præsenterer en up-to-date tilgang til online gambling, hvor vi kombinere",
+        "title": "Jak na online casino zahraniční — zkušenosti, tipy a nejčastější chyby",
+        "link": "https://www.cdg36.fr/jak-na-online-casino-zahranicni-zkusenosti-tipy-a-nejcastejsi-chyby/",
+        "pubDate": "Thu, 10 Sep 2026 22:39:52 GMT",
+        "description": "Řešte-li i vy otázky kolem online casino zahraniční, jste na správném místě. Internet je plné protichůdných rad a často je obtížné rozeznat kvalitní informace od marketingového šumu. V následujících odstavcích proto najdete jasné zásady, praktické tipy i ověřené postupy, které lze využít bez ohledu ",
         "source": "RSS"
       },
       {
-        "title": "Kungariket Spelplats – Din Vägledning för att nå Ett spektakulärt Kungarike av Spelunderhållning",
-        "link": "https://www.cdg36.fr/kungariket-spelplats-din-vagledning-for-att-n-ett/",
-        "pubDate": "Tue, 08 Sep 2026 20:16:36 GMT",
-        "description": "Innehåll Licenser och Trygghet på Maximal Klass Vårt omfattande Omfattande Spelbibliotek Anpassningsbara Betalningslösningar Unika Bonusar och Kampanjer Vår professionella Dedikerade Support Spellicens och Säkerhet på Högsta Nivå På Riket Kasino prioriterar vi spelansvar och skydd på största allvar.",
+        "title": "Jak na casino online zahraničí — zkušenosti, tipy a nejčastější chyby",
+        "link": "https://www.cdg36.fr/jak-na-casino-online-zahranici-zkusenosti-tipy-a-nejcastejsi-chyby/",
+        "pubDate": "Thu, 10 Sep 2026 22:39:47 GMT",
+        "description": "Řešte-li i vy otázky kolem casino online zahraničí, jste na správném místě. Internet je plné protichůdných rad a často je obtížné rozeznat kvalitní informace od marketingového šumu. V následujících odstavcích proto najdete jasné zásady, praktické tipy i ověřené postupy, které lze využít bez ohledu n",
         "source": "RSS"
       },
       {
-        "title": "Gambiva Kasino – Din fullständiga handbok för spel samt vinstchanser",
-        "link": "https://www.cdg36.fr/gambiva-kasino-din-fullstandiga-handbok-for-spel-samt/",
-        "pubDate": "Tue, 08 Sep 2026 20:16:26 GMT",
-        "description": "Översikt Välkommen hit till detta speluniversum Spelbibliotek och partners Betalningsmetoder & transaktioner Bonusar samt kampanjer Säkerhet samt tillstånd Välkommen på vårt spelvärlden På Här erbjuder vi en noggrant utformad spelstund vilken kombinerar nutida teknikbaserade verktyg med användarvänl",
+        "title": "Stake Casino: Deres Ultimate Guide til Krypto-Spill via Nett",
+        "link": "https://www.cdg36.fr/stake-casino-deres-ultimate-guide-til-krypto-spill-via-nett/",
+        "pubDate": "Thu, 10 Sep 2026 22:13:10 GMT",
+        "description": "Innholdsfortegnelse Hva som gir Stake unikt innen casinobransjen Spillportefølje pluss leverandører Transaksjonsmetoder pluss uttak VIP-system samt fordeler Sikkerhet og rettferdig spill Det som skaper Stake spesielt i casinobransjen Siden lanseringen har vi på Stake casino etablert oss selv til en ",
         "source": "RSS"
       },
       {
-        "title": "Casea Casino – Din Kompletta Vägledning till Spännande Casinospel och Generösa Bonusar",
-        "link": "https://www.cdg36.fr/casea-casino-din-kompletta-vagledning-till-spannande/",
-        "pubDate": "Tue, 08 Sep 2026 20:16:17 GMT",
-        "description": "Innehållsförteckning Varför Välja Vårt Casino Detta Omfattande Spelutbud Skyddade Betalningsalternativ Erbjudanden och Kampanjer Gaming i Mobilen Vårt Kundservice Av vilken anledning Satsa på Detta Casino Hos Casea tillhandahåller vi en casinoupplevelse som förenar trygghet, spänning och seriositet.",
+        "title": "Tout nouveau casino en ligne : Votre meilleure adresse favorite pour le loisir numérique",
+        "link": "https://www.cdg36.fr/tout-nouveau-casino-en-ligne-votre-meilleure-adresse-favorite-pour-le/",
+        "pubDate": "Thu, 10 Sep 2026 22:13:04 GMT",
+        "description": "Tableau des contenus Les avantages d’une interface moderne Solutions de sécurité et nouveauté Offres publicitaires et systèmes de fidélité Catalogue de titres diversifiée Moyens de transaction modernes Les atouts d’une solution moderne Le domaine du gaming en web change constamment, et les interface",
         "source": "RSS"
       }
     ]
@@ -2188,21 +2188,21 @@
         "source": "HTML"
       },
       {
-        "title": "Nos prochains rendez-vous Découvrez nos prochains événements : conférence retraite, atelier sur les outils du manager, séances RPS... 04 Sep 2026 voir l'actualité",
-        "link": "https://www.cdg44.fr/actualites/nos-prochains-rendez-vous",
-        "pubDate": "Fri, 04 Sep 2026 00:00:00 GMT",
-        "source": "HTML"
-      },
-      {
-        "title": "Élections professionnelles 2026 : derniers jours pour valider vos listes électorales 02 Sep 2026",
+        "title": "Élections professionnelles 2026 : derniers jours pour valider vos listes électorales Le vendredi 11 septembre 2026, l'ensemble des listes électorales de CAP, CCP et CST devront avoir été vérifiées, corrigées et validées pour les scrutins organisés par le Centre de gestion de Loire-Atlantique. Cette étape permettra l'affichage des listes... 09 Sep 2026 voir l'actualité",
         "link": "https://www.cdg44.fr/actualites/elections-professionnelles-2026-derniers-jours-pour-valider-vos-listes-electorales",
-        "pubDate": "Wed, 02 Sep 2026 00:00:00 GMT",
+        "pubDate": "Wed, 09 Sep 2026 00:00:00 GMT",
         "source": "HTML"
       },
       {
-        "title": "Le Centre de Gestion présent au Salon des Communes et des Intercommunalités 02 Sep 2026",
+        "title": "Le Centre de Gestion présent au Salon des Communes et des Intercommunalités 09 Sep 2026",
         "link": "https://www.cdg44.fr/actualites/le-centre-de-gestion-present-au-salon-des-communes-et-des-intercommunalites",
-        "pubDate": "Wed, 02 Sep 2026 00:00:00 GMT",
+        "pubDate": "Wed, 09 Sep 2026 00:00:00 GMT",
+        "source": "HTML"
+      },
+      {
+        "title": "Lignes Directrices de Gestion pour la Promotion Interne 2027-2032 09 Sep 2026",
+        "link": "https://www.cdg44.fr/actualites/lignes-directrices-de-gestion-pour-la-promotion-interne-2027-2032",
+        "pubDate": "Wed, 09 Sep 2026 00:00:00 GMT",
         "source": "HTML"
       }
     ]
@@ -2268,6 +2268,19 @@
     "officialUrl": "http://www.cdg46.fr",
     "news": [
       {
+        "title": "Salon régional emploi et mobilités publics en distanciel",
+        "link": "https://www.cdg46.fr/detail/salon-regional-emploi-et-mobilites-publics-en-distanciel-en-deux-dates-cles",
+        "pubDate": "Wed, 09 Sep 2026 13:09:21 GMT",
+        "description": "La PFRH Occitanie organise le salon régional emploi et mobilités publics en distanciel",
+        "source": "RSS"
+      },
+      {
+        "title": "Rupture conventionnelle : le simulateur de calcul de l’indemnité mis à jour",
+        "link": "https://www.cdg46.fr/detail/rupture-conventionnelle-le-simulateur-de-calcul-de-lindemnite-mis-a-jour",
+        "pubDate": "Wed, 09 Sep 2026 11:33:00 GMT",
+        "source": "RSS"
+      },
+      {
         "title": "Ateliers site \"emploi territorial\"",
         "link": "https://www.cdg46.fr/detail/ateliers-site-emploi-territorial",
         "pubDate": "Tue, 08 Sep 2026 12:12:00 GMT",
@@ -2301,18 +2314,6 @@
         "title": "Actualités juridiques Juillet-Août 2026",
         "link": "https://www.cdg46.fr/detail/actualites-juridiques-juillet-aout-2026",
         "pubDate": "Fri, 28 Aug 2026 16:00:00 GMT",
-        "source": "RSS"
-      },
-      {
-        "title": "Calcul de l'indemnité compensatrice de congés payés (ICCP)",
-        "link": "https://www.cdg46.fr/detail/calcul-de-lindemnite-compensatrice-de-conges-payes-iccp",
-        "pubDate": "Wed, 26 Aug 2026 09:35:59 GMT",
-        "source": "RSS"
-      },
-      {
-        "title": "Congés et autorisations d’absence",
-        "link": "https://www.cdg46.fr/detail/conges-et-autorisations-dabsence",
-        "pubDate": "Wed, 26 Aug 2026 08:09:43 GMT",
         "source": "RSS"
       }
     ]
@@ -2695,6 +2696,12 @@
     "officialUrl": "https://54.cdgplus.fr",
     "news": [
       {
+        "title": "Septembre Jaune, mois de la prévention du suicide",
+        "link": "https://54.cdgplus.fr/septembre-jaune-mois-de-la-prevention-du-suicide/",
+        "pubDate": "Thu, 10 Sep 2026 08:29:20 GMT",
+        "source": "RSS"
+      },
+      {
         "title": "Lettre d’Information n°41 | JUILLET – AOUT 2026",
         "link": "https://54.cdgplus.fr/lettre-dinformation-n41-juillet-aout-2026/",
         "pubDate": "Tue, 01 Sep 2026 07:11:28 GMT",
@@ -2734,12 +2741,6 @@
         "title": "Calendrier des Rencontres Régulières avec les Collectivités",
         "link": "https://54.cdgplus.fr/calendrier-des-rencontres-regulieres-avec-les-collectivites/",
         "pubDate": "Mon, 24 Aug 2026 07:10:30 GMT",
-        "source": "RSS"
-      },
-      {
-        "title": "Offre de formation",
-        "link": "https://54.cdgplus.fr/catalogue-de-formation-4-nouvelles-formations-sont-ouvertes/",
-        "pubDate": "Mon, 24 Aug 2026 07:06:02 GMT",
         "source": "RSS"
       }
     ]
@@ -3003,6 +3004,18 @@
     "officialUrl": "http://www.cdg60.com",
     "news": [
       {
+        "title": "CNRACL – CONTINUITE DE L’ACCOMPAGNEMENT DE VOS DEMARCHES RETRAITE",
+        "link": "https://www.cdg60.com/cnracl-continuite-de-laccompagnement-de-vos-demarches-retraite/",
+        "pubDate": "Wed, 09 Sep 2026 15:31:51 GMT",
+        "source": "RSS"
+      },
+      {
+        "title": "CONNEXIONS, LA LETTRE D’ACTUALITES DU CDG60, EST DISPONIBLE !",
+        "link": "https://www.cdg60.com/connexions-la-lettre-dactualites-du-cdg60-est-disponible-3/",
+        "pubDate": "Wed, 09 Sep 2026 07:18:08 GMT",
+        "source": "RSS"
+      },
+      {
         "title": "LETTRE D’ACTUALITÉ JURIDIQUE – SEPTEMBRE 2026",
         "link": "https://www.cdg60.com/lettre-dactualite-juridique-septembre-2026/",
         "pubDate": "Wed, 26 Aug 2026 13:12:58 GMT",
@@ -3036,18 +3049,6 @@
         "title": "SITE INTERNET — LE CDG60 LANCE SON CLUB RH",
         "link": "https://www.cdg60.com/site-internet-le-cdg60-lance-son-club-rh/",
         "pubDate": "Tue, 25 Aug 2026 12:37:40 GMT",
-        "source": "RSS"
-      },
-      {
-        "title": "DEPISTAGE DU CANCER DE LA PEAU : LE MEDICOBUS A LA RENCONTRE DES AGENTS TERRITORIAUX",
-        "link": "https://www.cdg60.com/depistage-du-cancer-de-la-peau-le-medicobus-a-la-rencontre-des-agents-territoriaux/",
-        "pubDate": "Tue, 25 Aug 2026 09:14:37 GMT",
-        "source": "RSS"
-      },
-      {
-        "title": "MODALITES DE REPORT ET D’INDEMNISATION DES CONGES ANNUELS NON PRIS.",
-        "link": "https://www.cdg60.com/modalites-de-report-et-dindemnisation-des-conges-annuels-non-pris/",
-        "pubDate": "Thu, 13 Aug 2026 13:21:34 GMT",
         "source": "RSS"
       }
     ]
@@ -3083,6 +3084,11 @@
         "source": "HTML"
       },
       {
+        "title": "Le 09/09/2026 Elections professionnelles 2026 : COMMUNIQUE N°1",
+        "link": "https://www.cdg61.fr/centre_de_gestion_actualites_elections-professionnelles-2026-communique-n1.phtml",
+        "source": "HTML"
+      },
+      {
         "title": "Le 07/09/2026 NOUVEAU CONTRAT D'ASSURANCE STATUTAIRE - Réunion d'information",
         "link": "https://www.cdg61.fr/centre_de_gestion_actualites_nouveau-contrat-d-assurance-statutaire-reunion-d-information.phtml",
         "source": "HTML"
@@ -3090,11 +3096,6 @@
       {
         "title": "Le 01/09/2026 Inscrivez vous aux « 60' RH animées » du lundi 28 septembre 2026 à 9h30",
         "link": "https://www.cdg61.fr/centre_de_gestion_actualites_inscrivez-vous-aux-60-rh-animees-du-lundi-28-septembre-2026-a-9h30.phtml",
-        "source": "HTML"
-      },
-      {
-        "title": "Le 31/08/2026 RECENSEMENT DES CONCOURS (1ER SEMESTRE 2027)",
-        "link": "https://www.cdg61.fr/centre_de_gestion_actualites_recensement-des-concours-1er-semestre-2027.phtml",
         "source": "HTML"
       }
     ]
@@ -3639,23 +3640,8 @@
         "source": "HTML"
       },
       {
-        "title": "Nouvelle prestation : l'enquête administrative",
-        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_nouvelle-prestation-l-enquete-administrative.phtml",
-        "source": "HTML"
-      },
-      {
-        "title": "Prévention des TMS travail de bureau : restent 4 places",
-        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_prevention-des-tms-travail-de-bureau-restent-4-places.phtml",
-        "source": "HTML"
-      },
-      {
-        "title": "Nouvelles dispositions en matière de congés pour raison de santé et de temps partiel thérapeutique.",
-        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_nouvelles-dispositions-en-matiere-de-conges-pour-raison-de-sante-et-de-temps-partiel-therapeutique.phtml",
-        "source": "HTML"
-      },
-      {
-        "title": "Parution des décrets relatifs à la rupture conventionnelle",
-        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_parution-des-decrets-relatifs-a-la-rupture-conventionnelle.phtml",
+        "title": "Prévention des TMS travail de bureau : 3 places disponibles",
+        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_prevention-des-tms-travail-de-bureau-3-places-disponibles.phtml",
         "source": "HTML"
       },
       {
@@ -3664,8 +3650,23 @@
         "source": "HTML"
       },
       {
-        "title": "Formez votre assistant de prévention : un acteur essentiel de la santé et de la sécurité au travail",
-        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_formez-votre-assistant-de-prevention-un-acteur-essentiel-de-la-sante-et-de-la-securite-au-travail.phtml",
+        "title": "Nouvelle prestation : l'enquête administrative",
+        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_nouvelle-prestation-l-enquete-administrative.phtml",
+        "source": "HTML"
+      },
+      {
+        "title": "Parution des décrets relatifs à la rupture conventionnelle",
+        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_parution-des-decrets-relatifs-a-la-rupture-conventionnelle.phtml",
+        "source": "HTML"
+      },
+      {
+        "title": "Nouvelles dispositions en matière de congés pour raison de santé et de temps partiel thérapeutique.",
+        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_nouvelles-dispositions-en-matiere-de-conges-pour-raison-de-sante-et-de-temps-partiel-therapeutique.phtml",
+        "source": "HTML"
+      },
+      {
+        "title": "Prévention des TMS travail de bureau : restent 4 places",
+        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_prevention-des-tms-travail-de-bureau-restent-4-places.phtml",
         "source": "HTML"
       }
     ]
@@ -3688,6 +3689,11 @@
     "dept": "74",
     "officialUrl": "http://www.cdg74.fr",
     "news": [
+      {
+        "title": "Revue de presse n°34 – septembre 2026",
+        "link": "https://www.cdg74.fr/revue-de-presse-n34-septembre-2026/",
+        "source": "RSS"
+      },
       {
         "title": "Faites rayonner vos initiatives en faveur de l’inclusion !",
         "link": "https://www.cdg74.fr/faites-rayonner-vos-initiatives-en-faveur-de-linclusion/",
@@ -3722,11 +3728,6 @@
         "title": "Renouvellement des Lignes Directrices de Gestion",
         "link": "https://www.cdg74.fr/renouvellement-des-lignes-directrices-de-gestion/",
         "source": "RSS"
-      },
-      {
-        "title": "Evolution concernant les congés pour raisons de santé et le temps partiel thérapeutique",
-        "link": "https://www.cdg74.fr/evolution-concernant-les-conges-pour-raisons-de-sante-et-le-temps-partiel-therapeutique/",
-        "source": "RSS"
       }
     ]
   },
@@ -3751,8 +3752,18 @@
         "source": "HTML"
       },
       {
+        "title": "Infos statutaires retrouvez le dernier numéro – Août – Septembre 2026",
+        "link": "https://www.cdg76.fr/actualites/infos-statutaires-retrouvez-le-dernier-numero-aout-septembre-2026/",
+        "source": "HTML"
+      },
+      {
         "title": "Lignes directrices de gestion : un accompagnement adapté à votre collectivité",
         "link": "https://www.cdg76.fr/actualites/lignes-directrices-de-gestion-un-accompagnement-adapte-a-votre-collectivite/",
+        "source": "HTML"
+      },
+      {
+        "title": "1 heure pour parler prévention : nouvelle séance",
+        "link": "https://www.cdg76.fr/actualites/1-heure-pour-parler-prevention-nouvelle-seance/",
         "source": "HTML"
       },
       {
@@ -3764,16 +3775,6 @@
         "title": "Assurances statutaires : renouvellement du contrat groupe",
         "link": "https://www.cdg76.fr/actualites/assurances-statutaires-renouvellement-du-contrat-groupe/",
         "source": "HTML"
-      },
-      {
-        "title": "1 heure pour parler prévention : nouvelle séance",
-        "link": "https://www.cdg76.fr/actualites/1-heure-pour-parler-prevention-nouvelle-seance/",
-        "source": "HTML"
-      },
-      {
-        "title": "Infos statutaires retrouvez le dernier numéro – Juillet 2026",
-        "link": "https://www.cdg76.fr/actualites/infos-statutaires-retrouvez-le-dernier-numero-juillet-2026/",
-        "source": "HTML"
       }
     ]
   },
@@ -3782,6 +3783,13 @@
     "dept": "77",
     "officialUrl": "http://www.cdg77.fr",
     "news": [
+      {
+        "title": "Matinée sur la sécurisation des recettes",
+        "link": "https://www.cdg77.fr/actualite/matinee-sur-la-securisation-des-recettes/",
+        "pubDate": "Thu, 10 Sep 2026 08:16:48 GMT",
+        "description": "Le Centre départemental de gestion de Seine-et-Marne, en partenariat avec la DDFIP, propose un cycle de rencontres pratiques pour accompagner les élus et agents dans les enjeux financiers et administratifs actuels. La prochaine rencontre aura lieu le 28 septembre au Centre départemental de gestion à",
+        "source": "RSS"
+      },
       {
         "title": "Convention de participation en prévoyance et santé : un webinaire pour tout comprendre",
         "link": "https://www.cdg77.fr/evenement/convention-de-participation-en-prevoyance-et-sante-un-webinaire-pour-tout-comprendre/",
@@ -3829,13 +3837,6 @@
         "link": "https://www.cdg77.fr/evenement/atelier-developpement-et-prospective-rh-mobiliser-la-gpeec-pour-prevenir-lusure-professionnelle/",
         "pubDate": "Mon, 31 Aug 2026 13:54:23 GMT",
         "description": "Découvrez comment les outils de la GPEEC (Gestion Prévisionnelle des Emplois et des Compétences) s’intègrent dans une démarche de QVCT (Qualité de Vie et des Conditions de Travail). Cette visioconférence vous proposera des clés pour identifier les signes d’usure professionnelle et agir en amont en a",
-        "source": "RSS"
-      },
-      {
-        "title": "Initiation à la GPEEC : comment construire une démarche adaptée aux petites et moyennes collectivités",
-        "link": "https://www.cdg77.fr/evenement/initiation-a-la-gpeec-comment-construire-une-demarche-adaptee-aux-petites-et-moyennes-collectivites-3/",
-        "pubDate": "Mon, 31 Aug 2026 13:49:31 GMT",
-        "description": "Cette initiation en visioconférence a pour objectif de vous présenter la GPEEC (Gestion Prévisionnelle des Emplois et des Compétences) ainsi que les clés méthodologiques pour déployer concrètement cette démarche au sein de votre organisation. L’article Initiation à la GPEEC : comment construire une ",
         "source": "RSS"
       }
     ]
@@ -4169,8 +4170,8 @@
         "source": "HTML"
       },
       {
-        "title": "Portes Ouvertes au CDG84 , derniers jours pour s’inscrire !",
-        "link": "https://www.cdg84.fr/actualites/le-cdg-84-vous-ouvre-ses-portes/",
+        "title": "Fermeture exceptionnelle les 15 et 16 septembre !",
+        "link": "https://www.cdg84.fr/actualites/fermeture-exceptionnelle-les-15-et-16-septembre/",
         "source": "HTML"
       },
       {
@@ -4196,6 +4197,11 @@
       {
         "title": "En 2025 le FIPHFP célèbre ses 20 ans et franchit une étape historique",
         "link": "https://www.cdg84.fr/actualites/en-2025-le-fiphfp-celebre-ses-20-ans-et-franchit-une-etape-historique/",
+        "source": "HTML"
+      },
+      {
+        "title": "Portes Ouvertes au CDG84 , derniers jours pour s’inscrire !",
+        "link": "https://www.cdg84.fr/actualites/le-cdg-84-vous-ouvre-ses-portes/",
         "source": "HTML"
       }
     ]
@@ -4433,11 +4439,6 @@
         "source": "HTML"
       },
       {
-        "title": "10 sept. CST/F3SCT DU 10/09/2026 DATE LIMITE DE RECEPTION DES DOSSIERS LE 14 AOUT 2026",
-        "link": "https://www.cdg89.fr/evenements/cst-f3sct-du-10-09-2026",
-        "source": "HTML"
-      },
-      {
         "title": "11 sept. Conseil médical formation restreinte Date limite de réception des dossiers : 21/08/2026",
         "link": "https://www.cdg89.fr/evenements/conseil-medical-formation-restreinte-5",
         "source": "HTML"
@@ -4448,13 +4449,18 @@
         "source": "HTML"
       },
       {
+        "title": "03 oct. Conseil médical formation restreinte Date limite de réception des dossiers : 11/09/2026",
+        "link": "https://www.cdg89.fr/evenements/conseil-medical-formation-restreinte-6",
+        "source": "HTML"
+      },
+      {
         "title": "Voir tout l'agenda",
         "link": "https://www.cdg89.fr/evenements/",
         "source": "HTML"
       },
       {
-        "title": "La fonction publique territoriale (FPT)",
-        "link": "http://www.cdg89.fr/la-fonction-publique-territoriale-fpt-p78.html",
+        "title": "10 sept. CST/F3SCT DU 10/09/2026 DATE LIMITE DE RECEPTION DES DOSSIERS LE 14 AOUT 2026",
+        "link": "https://www.cdg89.fr/evenements/cst-f3sct-du-10-09-2026",
         "source": "HTML"
       }
     ]
