@@ -296,9 +296,9 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
     return new Date();
   }, []);
 
-  // Données obsolètes si la dernière indexation remonte à plus de 48 h (échec du pipeline)
+  // Données obsolètes si la dernière indexation remonte à plus de 8 jours (échec du pipeline hebdomadaire)
   const isStale = useMemo(
-    () => Date.now() - currentLastUpdated.getTime() > 48 * 3600 * 1000,
+    () => Date.now() - currentLastUpdated.getTime() > 8 * 24 * 3600 * 1000,
     [currentLastUpdated]
   );
 
@@ -394,7 +394,7 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
                   Veille CDG & CIG
                 </h1>
 
-                {/* Badge Indexation quotidienne mis en valeur */}
+                {/* Badge Indexation hebdomadaire mis en valeur */}
                 <div
                   className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold shadow-xs ${
                     isStale
@@ -406,7 +406,7 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
                     <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isStale ? "bg-amber-400" : "bg-emerald-400"}`}></span>
                     <span className={`relative inline-flex rounded-full h-2 w-2 ${isStale ? "bg-amber-500" : "bg-emerald-500"}`}></span>
                   </span>
-                  <span>{isStale ? "Indexation en attente" : "Indexation quotidienne"}</span>
+                  <span>{isStale ? "Indexation en attente" : "Indexation hebdomadaire (lundi)"}</span>
                   <span className="text-slate-400 dark:text-slate-500 hidden sm:inline">•</span>
                   <span className="text-slate-600 dark:text-slate-300 text-[11px] font-semibold hidden sm:inline">Dernière MAJ : {formattedLastUpdated}</span>
                 </div>
@@ -608,7 +608,7 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
               </div>
             </div>
 
-            {/* Encadré mis en valeur Indexation quotidienne */}
+            {/* Encadré mis en valeur Indexation hebdomadaire */}
             <div
               className={`flex items-center gap-2 px-3.5 py-1.5 rounded-2xl text-xs font-bold shadow-xs shrink-0 ${
                 isStale
@@ -619,7 +619,7 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
               <Clock className={`w-4 h-4 animate-pulse shrink-0 ${isStale ? "text-amber-500" : "text-emerald-500"}`} />
               <div className="flex flex-col sm:flex-row sm:items-center sm:gap-1.5">
                 <span className={`font-extrabold ${isStale ? "text-amber-700 dark:text-amber-300" : "text-emerald-700 dark:text-emerald-300"}`}>
-                  {isStale ? "Indexation en retard" : "Indexation quotidienne active"}
+                  {isStale ? "Indexation en retard" : "Indexation hebdomadaire active (lundi)"}
                 </span>
                 <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400">• Mis à jour le {formattedLastUpdated}</span>
               </div>

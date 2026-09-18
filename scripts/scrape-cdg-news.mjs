@@ -1,5 +1,5 @@
 /**
- * Scraper de veille CDG & CIG — indexation quotidienne.
+ * Scraper de veille CDG & CIG — indexation hebdomadaire.
  *
  * Pour chaque Centre de Gestion :
  *   1. Découverte d'un flux RSS/Atom (balises <link rel="alternate"> + chemins candidats).

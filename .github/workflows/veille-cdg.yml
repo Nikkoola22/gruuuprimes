@@ -1,9 +1,9 @@
-name: Veille CDG & CIG — indexation quotidienne
+name: Veille CDG & CIG — indexation hebdomadaire (lundi)
 
 on:
   schedule:
-    # 05:43 UTC = 07:43 heure de Paris (été) — volontairement décalé de :00
-    - cron: '43 5 * * *'
+    # 05:43 UTC = 07:43 heure de Paris (été) — chaque lundi
+    - cron: '43 5 * * 1'
   workflow_dispatch:
 
 permissions:
@@ -37,6 +37,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Aucune évolution détectée — pas de commit."
           else
-            git commit -m "chore(veille-cdg): indexation quotidienne des sites CDG & CIG ($(date -u +%d/%m/%Y))"
+            git commit -m "chore(veille-cdg): indexation hebdomadaire des sites CDG & CIG ($(date -u +%d/%m/%Y))"
             git push
           fi
