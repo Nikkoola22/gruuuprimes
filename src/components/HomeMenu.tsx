@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react"
-import { Bot, ArrowRight, Rss, Radio, Calculator, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop, Palette, FileSignature } from "lucide-react"
+import { Bot, ArrowRight, Rss, Radio, Calculator, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop, Palette, FileSignature, Award, TrendingUp, CheckCircle2, Zap } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { BorderBeam } from "./ui/BorderBeam.tsx"
 import type { ChatbotState } from "../App.tsx"
@@ -787,6 +787,229 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
 
           </div>
 
+        </div>
+
+        {/* --- BLOC CARRIÈRE FULL-WIDTH : VOS COLLÈGUES DE LA CFDT DE GENNEVILLIERS VOUS AIDENT POUR VOTRE CARRIÈRE --- */}
+        <div className="relative w-full bg-gradient-to-br from-white via-orange-50/40 to-amber-50/30 dark:from-slate-900/95 dark:via-slate-900/90 dark:to-orange-950/20 rounded-3xl p-6 sm:p-8 border-2 border-orange-200/80 dark:border-orange-500/30 shadow-2xl shadow-orange-500/10 dark:shadow-orange-950/30 transition-all duration-300 hover:border-orange-400 dark:hover:border-orange-400/60 overflow-hidden group mb-12">
+          {/* Lueur d'ambiance en arrière-plan */}
+          <div className="absolute -top-24 -right-24 w-80 h-80 bg-gradient-to-br from-orange-400/20 to-amber-400/10 dark:from-orange-500/15 dark:to-transparent rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-gradient-to-tr from-amber-400/15 to-orange-500/10 dark:from-indigo-600/10 dark:to-transparent rounded-full blur-3xl pointer-events-none" />
+          
+          {/* Bordure lumineuse animée */}
+          <BorderBeam size={260} duration={14} delay={0} colorFrom="#f97316" colorTo="#fbbf24" />
+
+          <div className="relative z-10">
+            {/* En-tête du bloc */}
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-5 border-b border-orange-100/80 dark:border-slate-800">
+              <div className="flex items-start sm:items-center gap-4">
+                <div className="p-3.5 bg-gradient-to-br from-orange-500 to-amber-500 text-white rounded-2xl shadow-lg shadow-orange-500/25 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shrink-0">
+                  <Briefcase className="w-7 h-7" />
+                </div>
+                <div>
+                  <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">
+                      <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping" />
+                      Espace Carrière CFDT Gennevilliers
+                    </span>
+                    <span className="bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md shadow-xs">
+                      Simulateur Interactif 2027
+                    </span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+                    Vos collègues CFDT de Gennevilliers vous aident pour{' '}
+                    <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 bg-clip-text text-transparent">
+                      votre carrière
+                    </span>
+                  </h3>
+                </div>
+              </div>
+
+              {/* Bouton d'accès direct */}
+              <button
+                type="button"
+                onClick={() => {
+                  setChatState(prev => ({ ...prev, currentView: 'simul-agent' }))
+                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+                }}
+                className="cursor-pointer self-start lg:self-center inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white text-xs sm:text-sm font-extrabold shadow-md shadow-orange-500/20 hover:shadow-orange-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shrink-0"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>Lancer le simulateur</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base font-medium mb-6 leading-relaxed">
+              Vous vous posez des questions sur votre avancement, vos points de promotion ou l'impact d'un concours ? Choisissez une situation ci-dessous pour ouvrir le <strong className="text-orange-600 dark:text-orange-400 font-bold">Simulateur Statutaire & LDG Interactif</strong> :
+            </p>
+
+            {/* Grille des 4 questions clés - 2 colonnes spacieuses pour une lisibilité optimale */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4.5 mb-6">
+              {/* Question 1 : Échelon */}
+              <div
+                onClick={() => {
+                  setChatState(prev => ({ ...prev, currentView: 'simul-agent' }))
+                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+                }}
+                className="group/card cursor-pointer relative bg-white/95 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border-2 border-amber-200/70 hover:border-amber-400 dark:border-slate-700/80 dark:hover:border-amber-500/80 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center justify-center group-hover/card:bg-amber-500 group-hover/card:text-white transition-all duration-200 shrink-0 shadow-xs">
+                    <Clock className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-slate-900 dark:text-white font-extrabold text-base sm:text-lg leading-snug group-hover/card:text-amber-600 dark:group-hover/card:text-amber-400 transition-colors">
+                      Quand est mon prochain avancement d'échelon ?
+                    </h4>
+                    <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-1.5 leading-relaxed">
+                      Dates d'ancienneté exactes, cadences statutaires et projection de votre indice majoré.
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-amber-600 dark:text-amber-400">
+                  <span>Calculer ma date d'échelon</span>
+                  <span className="inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
+                    <span>Ouvrir</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+
+              {/* Question 2 : Grade */}
+              <div
+                onClick={() => {
+                  setChatState(prev => ({ ...prev, currentView: 'simul-agent' }))
+                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+                }}
+                className="group/card cursor-pointer relative bg-white/95 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border-2 border-emerald-200/70 hover:border-emerald-400 dark:border-slate-700/80 dark:hover:border-emerald-500/80 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center group-hover/card:bg-emerald-500 group-hover/card:text-white transition-all duration-200 shrink-0 shadow-xs">
+                    <TrendingUp className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-slate-900 dark:text-white font-extrabold text-base sm:text-lg leading-snug group-hover/card:text-emerald-600 dark:group-hover/card:text-emerald-400 transition-colors">
+                      Vais-je avoir un avancement de grade cette année ?
+                    </h4>
+                    <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-1.5 leading-relaxed">
+                      Conditions statutaires : ancienneté minimale, échelon requis et quotas de promotion.
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                  <span>Tester mon éligibilité au grade</span>
+                  <span className="inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
+                    <span>Ouvrir</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+
+              {/* Question 3 : Promotion Interne LDG */}
+              <div
+                onClick={() => {
+                  setChatState(prev => ({ ...prev, currentView: 'simul-agent' }))
+                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+                }}
+                className="group/card cursor-pointer relative bg-white/95 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border-2 border-blue-200/70 hover:border-blue-400 dark:border-slate-700/80 dark:hover:border-blue-500/80 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center justify-center group-hover/card:bg-blue-500 group-hover/card:text-white transition-all duration-200 shrink-0 shadow-xs">
+                    <Award className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-slate-900 dark:text-white font-extrabold text-base sm:text-lg leading-snug group-hover/card:text-blue-600 dark:group-hover/card:text-blue-400 transition-colors">
+                      Comment savoir mes points pour la promotion interne ?
+                    </h4>
+                    <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-1.5 leading-relaxed">
+                      Simulateur pas-à-pas des 6 LDG-PI de Gennevilliers avec liste des justificatifs DRH.
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-blue-600 dark:text-blue-400">
+                  <span>Simuler mon barème LDG-PI</span>
+                  <span className="inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
+                    <span>Ouvrir</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+
+              {/* Question 4 : Concours & Examens Pro */}
+              <div
+                onClick={() => {
+                  setChatState(prev => ({ ...prev, currentView: 'simul-agent' }))
+                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+                }}
+                className="group/card cursor-pointer relative bg-white/95 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border-2 border-purple-200/70 hover:border-purple-400 dark:border-slate-700/80 dark:hover:border-purple-500/80 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center group-hover/card:bg-purple-500 group-hover/card:text-white transition-all duration-200 shrink-0 shadow-xs">
+                    <GraduationCap className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-slate-900 dark:text-white font-extrabold text-base sm:text-lg leading-snug group-hover/card:text-purple-600 dark:group-hover/card:text-purple-400 transition-colors">
+                      Quel changement si je réussis mon examen pro ou concours ?
+                    </h4>
+                    <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-1.5 leading-relaxed">
+                      Reclassement à l'échelon égal ou supérieur, reprise d'ancienneté et nouvelle rémunération.
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-purple-600 dark:text-purple-400">
+                  <span>Calculer mon reclassement</span>
+                  <span className="inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
+                    <span>Ouvrir</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Bandeau d'actions et garanties */}
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-4 border-t border-orange-100/80 dark:border-slate-800">
+              <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs font-semibold text-slate-600 dark:text-slate-300">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-medium">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                  100% Anonyme & Gratuit
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-medium">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                  Conforme CGFP & CIG Petite Couronne
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-medium">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                  Frise chronologique, LDG-PI & Fiche DRH
+                </span>
+              </div>
+
+              <div className="flex items-center gap-3 w-full lg:w-auto">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setChatState(prev => ({ ...prev, currentView: 'simul-agent' }))
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+                  }}
+                  className="cursor-pointer w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white text-sm font-extrabold shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+                >
+                  <Zap className="w-4 h-4 fill-current" />
+                  <span>Accéder au Simulateur de Carrière</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+
+                <a
+                  href={`${BASE_URL}simul-agent/index.html`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Ouvrir dans un nouvel onglet"
+                  className="p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-orange-500 text-slate-600 dark:text-slate-300 hover:text-orange-500 transition-colors shadow-xs shrink-0"
+                >
+                  <ExternalLinkIcon className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+
+          </div>
         </div>
 
         {/* --- SECTION DES 3 FENÊTRES : À CONNAÎTRE, LIENS UTILES, À VOIR --- */}

@@ -28,6 +28,7 @@ const DocuthequeRAG = lazy(() => import("./components/DocuthequeRAG").then(m => 
 const CoinRH = lazy(() => import("./components/CoinRH.tsx"))
 const MemoireJuridiqueGenerator = lazy(() => import("./components/MemoireJuridiqueGenerator").then(m => ({ default: m.MemoireJuridiqueGenerator })))
 const HomeMenu = lazy(() => import("./components/HomeMenu.tsx"))
+const SimulateurCarriere = lazy(() => import("./components/SimulateurCarriere.tsx"))
 // Modules rarity chargés à la demande (admin, chat) pour alléger le bundle initial
 const LuxuryChat = lazy(() => import("./components/ui/LuxuryChat.tsx").then(m => ({ default: m.LuxuryChat })))
 const AdminPanel = lazy(() => import("./components/AdminPanel.tsx"))
@@ -172,7 +173,7 @@ interface InfoItem {
   content: string
 }
 export interface ChatbotState {
-  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "memoire-juridique" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh"
+  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "memoire-juridique" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh" | "simul-agent"
   selectedDomain: number | null
   messages: ChatMessage[]
   isProcessing: boolean
@@ -1432,6 +1433,19 @@ ${indicesFactuels}
       {chatState.currentView === 'podcasts' && (
         <Suspense fallback={<ViewLoader />}>
           <EspacePodcastsFigurines onClose={() => setChatState({ ...chatState, currentView: 'menu' })} theme={theme} />
+        </Suspense>
+      )}
+
+      {/* --- SECTION SIMULATEUR CARRIÈRE & LDG --- */}
+      {chatState.currentView === 'simul-agent' && (
+        <Suspense fallback={<ViewLoader />}>
+          <SimulateurCarriere
+            onClose={() => {
+              setChatState({ ...chatState, currentView: 'menu' });
+              window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+            }}
+            theme={theme}
+          />
         </Suspense>
       )}
 

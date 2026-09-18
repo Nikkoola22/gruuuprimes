@@ -12,7 +12,7 @@ interface Props {
   theme: 'light' | 'dark';
   toggleTheme: () => void;
   currentView?: string;
-  setView: (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh") => void;
+  setView: (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh" | "simul-agent") => void;
   openCalculator: (calc: 'primes' | 'cia' | '13eme') => void;
   onClose?: () => void;
 }
@@ -87,7 +87,7 @@ export default function MacMenuBar({
   }, []);
 
   // Helper to select view and close dropdowns
-  const selectView = (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh") => {
+  const selectView = (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh" | "simul-agent") => {
     setView(view);
     setActiveDropdown(null);
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -182,6 +182,10 @@ export default function MacMenuBar({
                   <button onClick={() => selectView('veille-cdg')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-sky-500 font-bold">Veille CDG & CIG 🏛️</button>
                   <button onClick={() => selectView('veille')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-indigo-500 font-bold">Veille Juridique ⚖️</button>
                   <button onClick={() => selectView('dessine-moi-le-statut')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-purple-500 font-bold">Dessine-moi le statut 🎨</button>
+                  <button onClick={() => selectView('simul-agent')} className="w-full text-left px-3 py-1.5 hover:bg-orange-600 hover:text-white rounded-md text-orange-500 font-bold flex items-center justify-between">
+                    <span>Simulateur Carrière & LDG 🚀</span>
+                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-300">CFDT</span>
+                  </button>
                   <button onClick={() => selectView('podcasts')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-amber-500 font-bold">Podcasts 🎧</button>
                 </motion.div>
               )}

@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulateur Promotion Interne (LDG-PI) | Ville de Gennevilliers & CIG Petite Couronne</title>
+  <meta name="description"
+    content="Outil pédagogique et simulateur interactif de points pour les 6 Lignes Directrices de Gestion de la Promotion Interne des agents de Gennevilliers (CIG Petite Couronne).">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Top Announcement Bar -->
+  <aside class="top-banner" aria-label="Informations cadre légal">
+    <div class="container top-banner-content">
+      <span class="badge-pill">Ville de Gennevilliers</span>
+      <span class="banner-text">Barème officiel <strong>CIG Petite Couronne (92 - 93 - 94)</strong> • Livret LDG-PI
+        <strong>2027</strong></span>
+      <span class="date-badge">Applicable au 1er janvier 2027</span>
+    </div>
+  </aside>
+
+  <!-- Sticky Live Total Header / Bar -->
+  <header class="sticky-score-header" id="stickyScoreHeader">
+    <div class="container sticky-score-container">
+      <div class="score-summary-left">
+        <div class="score-circle" id="scoreCircle">
+          <span class="score-number" id="headerScoreValue">0</span>
+          <span class="score-unit">/ <span id="headerScoreMax">175</span> pts</span>
+        </div>
+        <div class="score-details">
+          <div class="score-title-row">
+            <span class="score-label">Votre Total de Points Estimé</span>
+            <span class="score-category-pill" id="headerCategoryPill">Catégorie B visée</span>
+            <span class="score-max-badge" id="headerMaxBadge">Plafond théorique : 175 pts</span>
+          </div>
+          <div class="mini-breakdown" id="miniBreakdown">
+            <span title="LDG 1 : Valeur pro">L1: <strong id="miniL1">0</strong></span>
+            <span class="sep">•</span>
+            <span title="LDG 2 : Fonctions">L2: <strong id="miniL2">0</strong></span>
+            <span class="sep">•</span>
+            <span title="LDG 3 : Ancienneté">L3: <strong id="miniL3">0</strong></span>
+            <span class="sep">•</span>
+            <span title="LDG 4 : Concours/Examens">L4: <strong id="miniL4">0</strong></span>
+            <span class="sep">•</span>
+            <span title="LDG 5 : Formations">L5: <strong id="miniL5">0</strong></span>
+            <span class="sep">•</span>
+            <span title="LDG 6 : Diplôme">L6: <strong id="miniL6">0</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" class="btn-secondary" id="btnReset" title="Réinitialiser tous les choix">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+          </svg>
+          Réinitialiser
+        </button>
+        <button type="button" class="btn-primary" id="btnPrintModal" title="Ouvrir la fiche de synthèse pour les RH">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 6 2 18 2 18 9" />
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+            <rect x="6" y="14" width="12" height="8" />
+          </svg>
+          Ma Fiche Récapitulative
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="container main-content">
+    <section class="hero-card">
+      <div class="hero-badge">Guide Pédagogique & Simulateur Pas-à-Pas</div>
+      <h1>Comprendre & Calculer vos Points pour la Promotion Interne</h1>
+      <p class="hero-subtitle">
+        À Gennevilliers, les dossiers de promotion interne sont instruits selon le barème officiel du <strong>CIG Petite
+          Couronne</strong>.
+        Utilisez les <strong>cases et menus déroulants</strong> ci-dessous : chaque section vous explique simplement en
+        une phrase ce qui est valorisé, puis calcule automatiquement votre total de points en temps réel !
+      </p>
+
+      <!-- Essential Rules Callout -->
+      <div class="essential-boxes-grid">
+        <div class="essential-box info-fso">
+          <div class="essential-icon">⚠️</div>
+          <div>
+            <strong>Prérequis obligatoire (FSO) :</strong>
+            <span>Avant tout calcul de points, vous devez impérativement être à jour de vos <em>Formations Statutaires
+                Obligatoires</em> (intégration ou professionnalisation du CNFPT) sous peine d'irrecevabilité du
+              dossier.</span>
+          </div>
+        </div>
+        <div class="essential-box info-quota">
+          <div class="essential-icon">ℹ️</div>
+          <div>
+            <strong>Rôle du barème de points :</strong>
+            <span>La promotion interne est soumise à des quotas stricts (généralement 1 poste pour 2 recrutements). Les
+              points servent à <em>départager équitablement</em> les agents proposés par Gennevilliers au CIG.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Profile Selector Bar -->
+    <section class="profile-config-card" aria-labelledby="profileHeading">
+      <div class="config-header">
+        <h2 id="profileHeading">Étape préalable : Choisissez votre situation</h2>
+        <span class="config-help">Les barèmes s'adaptent immédiatement à votre sélection</span>
+      </div>
+
+      <div class="config-grid">
+        <div class="form-group">
+          <label for="selectCategoryTarget">
+            <strong>1. Catégorie visée par la promotion :</strong>
+          </label>
+          <select id="selectCategoryTarget" class="form-select select-featured">
+            <option value="B" selected>Accès à la Catégorie B (ex: Rédacteur, Technicien, Animateur...)</option>
+            <option value="A">Accès à la Catégorie A (ex: Attaché, Ingénieur, Conseiller APS...)</option>
+            <option value="C">Accès à la Catégorie C (Agent de maîtrise)</option>
+          </select>
+          <p class="field-hint" id="categoryHintText">Pour un agent C accédant en B (ou B accédant au grade supérieur).
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="selectAccessWay">
+            <strong>2. Voie d'accès envisagée :</strong>
+          </label>
+          <select id="selectAccessWay" class="form-select select-featured">
+            <option value="choix" selected>Au choix (Sur dossier & valeur professionnelle)</option>
+            <option value="examen">Après examen professionnel réglementaire</option>
+          </select>
+          <p class="field-hint" id="accessWayHintText">La majorité des promotions s'effectuent par la voie au choix.</p>
+        </div>
+      </div>
+
+      <!-- Information statutaire Agent de maîtrise au choix (sans quota) -->
+      <div class="alert-banner-warning" id="maitriseSansQuotaBanner" style="display: none; margin-top: 1.25rem;">
+        💡 <strong>Information statutaire essentielle (Décret n° 88-547) :</strong>
+        La promotion interne au grade d'<strong>Agent de maîtrise « au choix »</strong> s'effectue <strong>sans quota
+          réglementaire</strong>.
+        Par conséquent, <em>aucune des 6 lignes directrices de gestion (LDG) n'attribue de points</em> car il n'y a pas
+        de sélection par barème au CIG.
+        La nomination relève directement de la décision de la collectivité dès lors que vous justifiez de <strong>9 ans
+          de services effectifs</strong> dans un ou plusieurs cadres d'emplois techniques ou ATSEM.<br><br>
+        <em>Note : Si vous êtes titulaire de l'examen professionnel d'agent de maîtrise, sélectionnez la voie <strong>«
+            Après examen professionnel »</strong> ci-dessus pour simuler votre barème de points CIG (soumis au quota
+          1/2).</em>
+      </div>
+    </section>
+
+    <!-- THE 6 LDG BOXES -->
+    <section class="ldg-boxes-list" aria-label="Les 6 Lignes Directrices de Gestion">
+
+      <!-- ================= LDG 1 ================= -->
+      <article class="ldg-card" id="cardLdg1" data-ldg="1">
+        <div class="ldg-card-header">
+          <div class="ldg-header-left">
+            <span class="ldg-number-badge">Ligne 1</span>
+            <div>
+              <h3>Valeur Professionnelle</h3>
+              <p class="ldg-phrase-explain">
+                « <strong>Valeur Professionnelle : cela correspond aux croix de votre entretien professionnel
+                  transformées en points !</strong> Cette ligne valorise votre investissement, vos compétences et votre
+                manière de servir, appréciées fidèlement à partir de votre dernier compte rendu d'entretien
+                professionnel (CREP). »
+              </p>
+            </div>
+          </div>
+          <div class="ldg-subtotal-box">
+            <span class="subtotal-label">Sous-total</span>
+            <span class="subtotal-value"><strong id="subtotalLdg1">0</strong> <small id="ldg1MaxLabel">/ 45
+                pts</small></span>
+          </div>
+        </div>
+
+        <div class="ldg-card-body">
+          <div class="not-applicable-banner" id="ldg1NotApplicableNotice" style="display: none;">
+            ℹ️ Pour l'accès au grade d'Agent de maîtrise au choix (sans quota), la LDG 1 ne s'applique pas selon les
+            règles statutaires du CIG.
+          </div>
+          <div class="syndical-toggle-row">
+            <label class="checkbox-container">
+              <input type="checkbox" id="checkSyndicalLdg1">
+              <span class="checkmark"></span>
+              <span class="checkbox-text">Agent en décharge syndicale (>= 70% de temps) sans CREP depuis 2 ans (Forfait
+                légal de 30 pts)</span>
+            </label>
+            <div class="alert-banner-soft" style="margin-bottom: 1rem;">
+              ℹ️ <strong>Équivalence officielle CIG NET-PI :</strong> Vos croix du CREP de Gennevilliers correspondent
+              aux niveaux CIG :
+              <strong>Satisfaisant</strong> = <em>Excellent (9 pts)</em> •
+              <strong>À améliorer</strong> = <em>Bon (6 pts)</em> •
+              <strong>Insuffisant</strong> = <em>En cours d'acquisition (3 pts)</em> •
+              <strong>Très insuffisant</strong> = <em>Non évaluable (0 pt)</em>.
+            </div>
+
+            <div class="crep-criteria-grid" id="crepCriteriaContainer">
+              <!-- Critère 1 -->
+              <div class="criterion-item">
+                <div class="criterion-label-group">
+                  <span class="criterion-num">I</span>
+                  <div>
+                    <strong>RESULTATS PROFESSIONNELS & REALISATION DES OBJECTIFS</strong>
+                    <div class="criterion-desc text-xs mt-1 space-y-1">
+                      <ul class="list-disc pl-4 opacity-80">
+                        <li>Fiabilité et qualité du travail effectué, sens de l'organisation et de la méthode</li>
+                        <li>Ponctualité, respect des horaires, des consignes, des délais d'exécution des tâches confiées
+                        </li>
+                        <li>Capacité à concevoir, à conduire et/ou à réaliser un projet</li>
+                        <li>Autonomie, prise d'initiative, force de proposition</li>
+                        <li>Capacité à gérer les moyens mis à disposition</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="select-wrapper">
+                  <select class="form-select select-score" data-ldg="1" data-criterion="c1"
+                    aria-label="Résultats professionnels">
+                    <option value="0">Très insuffisant (0 pt)</option>
+                    <option value="3">Insuffisant (3 pts)</option>
+                    <option value="6">À améliorer (6 pts)</option>
+                    <option value="9" selected>Satisfaisant (9 pts)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Critère 2 -->
+              <div class="criterion-item">
+                <div class="criterion-label-group">
+                  <span class="criterion-num">II</span>
+                  <div>
+                    <strong>COMPETENCES PROFESSIONNELLES & TECHNIQUES</strong>
+                    <div class="criterion-desc text-xs mt-1 space-y-1">
+                      <ul class="list-disc pl-4 opacity-80">
+                        <li>Capacité à intégrer l'ensemble des missions de son poste de travail</li>
+                        <li>Qualité d'expression orale et/ou écrite</li>
+                        <li>Entretien et développement des compétences</li>
+                        <li>Sens du service public, rigueur et conscience professionnelle</li>
+                        <li>Capacité à anticiper, à faire évoluer</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="select-wrapper">
+                  <select class="form-select select-score" data-ldg="1" data-criterion="c2"
+                    aria-label="Compétences professionnelles">
+                    <option value="0">Très insuffisant (0 pt)</option>
+                    <option value="3">Insuffisant (3 pts)</option>
+                    <option value="6" selected>À améliorer (6 pts)</option>
+                    <option value="9">Satisfaisant (9 pts)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Critère 3 -->
+              <div class="criterion-item">
+                <div class="criterion-label-group">
+                  <span class="criterion-num">III</span>
+                  <div>
+                    <strong>QUALITES RELATIONNELLES</strong>
+                    <div class="criterion-desc text-xs mt-1 space-y-1">
+                      <ul class="list-disc pl-4 opacity-80">
+                        <li>Capacité à travailler en équipe</li>
+                        <li>Sens de l'écoute et discrétion professionnelle</li>
+                        <li>Esprit d'ouverture</li>
+                        <li>Relation avec le public (politesse, courtoisie)</li>
+                        <li>Capacité à partager et à diffuser l'information</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="select-wrapper">
+                  <select class="form-select select-score" data-ldg="1" data-criterion="c3"
+                    aria-label="Qualités relationnelles">
+                    <option value="0">Très insuffisant (0 pt)</option>
+                    <option value="3">Insuffisant (3 pts)</option>
+                    <option value="6">À améliorer (6 pts)</option>
+                    <option value="9" selected>Satisfaisant (9 pts)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Critère 4 -->
+              <div class="criterion-item">
+                <div class="criterion-label-group">
+                  <span class="criterion-num">IV</span>
+                  <div>
+                    <strong>CAPACITE D'ENCADREMENT / D'EXPERTISE / NIVEAU SUPERIEUR</strong>
+                    <div class="criterion-desc text-xs mt-1 space-y-1">
+                      <ul class="list-disc pl-4 opacity-80">
+                        <li>Sens des responsabilités</li>
+                        <li>Capacité à rendre compte, d'analyse et/ou de synthèse</li>
+                        <li>Capacité à anticiper, à innover et/ou à être autonome</li>
+                        <li>Capacité d'aide et/ou à la prise de décision</li>
+                        <li>Aptitude à transmettre, déléguer et à contrôler et/ou à animer une équipe</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="select-wrapper">
+                  <select class="form-select select-score" data-ldg="1" data-criterion="c4"
+                    aria-label="Capacité d'encadrement ou expertise">
+                    <option value="0">Très insuffisant (0 pt)</option>
+                    <option value="3">Insuffisant (3 pts)</option>
+                    <option value="6" selected>À améliorer (6 pts)</option>
+                    <option value="9">Satisfaisant (9 pts)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Critère 5 -->
+              <div class="criterion-item">
+                <div class="criterion-label-group">
+                  <span class="criterion-num">V</span>
+                  <div>
+                    <strong>Acquis de l'expérience professionnelle</strong>
+                    <div class="criterion-desc text-xs mt-1 space-y-1">
+                      <ul class="list-disc pl-4 opacity-80">
+                        <li>Connaissances acquises par la pratique individuelle et/ou collective dans le cadre de son
+                          travail</li>
+                        <li>(Nature des compétences acquises)</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="select-wrapper">
+                  <select class="form-select select-score" data-ldg="1" data-criterion="c5"
+                    aria-label="Acquis de l'expérience professionnelle">
+                    <option value="0">Très insuffisant (0 pt)</option>
+                    <option value="3">Insuffisant (3 pts)</option>
+                    <option value="6">À améliorer (6 pts)</option>
+                    <option value="9" selected>Satisfaisant (9 pts)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Documentation info -->
+            <div class="proof-card">
+              <span class="proof-badge">Pièces justificatives obligatoires pour Gennevilliers</span>
+              <ul>
+                <li>Compte rendu d’entretien professionnel (CREP) de l'année N-1 ou N-2, impérativement signé par
+                  l'agent
+                  et son évaluateur.</li>
+                <li>Grille d’évaluation LDG 1 visée par la direction RH de Gennevilliers.</li>
+              </ul>
+            </div>
+          </div>
+      </article>
+
+      <!-- ================= LDG 2 ================= -->
+      <article class="ldg-card" id="cardLdg2" data-ldg="2">
+        <div class="ldg-card-header">
+          <div class="ldg-header-left">
+            <span class="ldg-number-badge">Ligne 2</span>
+            <div>
+              <div class="ldg-title-with-info">
+                <h3>Fonctions Exercées</h3>
+
+                <!-- Bulle d'information avec un I -->
+                <div class="info-bubble-wrapper" id="ldg2InfoWrapper">
+                  <button type="button" class="info-bubble-btn" id="btnInfoLdg2" aria-expanded="false"
+                    aria-controls="popoverLdg2" title="Afficher la grille officielle CIG (survolez ou cliquez)">
+                    <span class="info-bubble-letter">i</span>
+                    <span class="info-bubble-pulse"></span>
+                  </button>
+
+                  <!-- Popover flottant avec le tableau officiel CIG -->
+                  <div class="info-bubble-popover" id="popoverLdg2" role="dialog" aria-modal="false"
+                    aria-label="Grille officielle CIG - Fonctions exercées">
+                    <div class="popover-inner">
+                      <div class="popover-header">
+                        <div class="popover-title-group">
+                          <span class="popover-badge-cig">Barème officiel CIG</span>
+                          <h4 class="popover-main-title">Grille de référence des Fonctions Exercées</h4>
+                        </div>
+                        <button type="button" class="popover-close-btn" id="btnCloseLdg2Popover"
+                          aria-label="Fermer le tableau">✕</button>
+                      </div>
+
+                      <!-- Sélecteur d'onglets Catégorie A / Catégorie B -->
+                      <div class="popover-tabs" role="tablist">
+                        <button type="button" class="popover-tab-btn" id="tabBtnCatA" role="tab" aria-selected="false"
+                          aria-controls="panelCatA">
+                          <span class="tab-dot"></span>
+                          Promotion vers <strong>Catégorie A</strong> <span class="tab-sub">(Candidats A ou B)</span>
+                        </button>
+                        <button type="button" class="popover-tab-btn active" id="tabBtnCatB" role="tab"
+                          aria-selected="true" aria-controls="panelCatB">
+                          <span class="tab-dot"></span>
+                          Promotion vers <strong>Catégorie B</strong> <span class="tab-sub">(Candidats C)</span>
+                        </button>
+                      </div>
+
+                      <div class="popover-notice" id="popoverActiveContextNotice">
+                        📌 Affichage adapté à votre sélection : <strong id="popoverCurrentCatLabel">Catégorie B</strong>
+                        (cliquez sur les onglets ci-dessus pour comparer).
+                      </div>
+
+                      <div class="popover-content-container">
+                        <!-- ================= TABLEAU 1 : CATEGORIE A (Image 1) ================= -->
+                        <div class="popover-panel" id="panelCatA" role="tabpanel" aria-labelledby="tabBtnCatA"
+                          style="display: none;">
+                          <div class="cig-table-wrap">
+                            <div class="cig-meta-header">
+                              <span class="cig-green-tag">Fonctions exercées</span>
+                              <p class="cig-netpi-hint">Informations à saisir à partir de l’onglet correspondant de
+                                l’outil NET-PI</p>
+                              <div class="cig-target-heading">
+                                Pour des fonctionnaires de catégorie <strong>A</strong> ou <strong>B</strong> proposés
+                                pour une promotion interne en <strong>catégorie A</strong>
+                              </div>
+                            </div>
+
+                            <table class="cig-ref-table">
+                              <thead>
+                                <tr class="cig-th-row">
+                                  <th class="col-level" style="width: 22%;">
+                                    1 - Niveaux hiérarchiques / Fonctions exercées
+                                    <span class="th-subnote">au 1<sup>er</sup> janvier de l'année de l'établissement de
+                                      la liste d'aptitude (date à préciser au dossier)</span>
+                                  </th>
+                                  <th class="col-desc" style="width: 60%;">Détail des fonctions & missions</th>
+                                  <th class="col-pts" style="width: 18%; text-align: center;">Attribution des points
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <!-- Niveau 1 -->
+                                <tr>
+                                  <td class="td-level">
+                                    <span class="level-name">Niveau 1</span>
+                                    <span class="level-sub">Stratégique</span>
+                                  </td>
+                                  <td class="td-desc">
+                                    <ul class="cig-list">
+                                      <li>Fonctions de pilotage stratégique de projets en lien direct avec les décideurs
+                                        de la collectivité (autorité territoriale, DGS, DGA)</li>
+                                      <li>Responsabilité d’une direction regroupant plusieurs services ou responsabilité
+                                        d’un établissement public autonome (exemple CCAS)</li>
+                                    </ul>
+                                    <div class="cig-syndical-block">
+                                      <strong>Ou fonctions syndicales exercées au niveau national ou régional ou
+                                        interdépartemental représentant la totalité du temps de service :</strong>
+                                      <ul class="cig-list">
+                                        <li>Secrétaire national ou secrétaire national adjoint</li>
+                                        <li>Secrétaire général ou secrétaire général adjoint</li>
+                                        <li>Trésorier</li>
+                                        <li>Au titre d’une mise à disposition totale ou d’un détachement pour exercer un
+                                          mandat syndical national</li>
+                                      </ul>
+                                    </div>
+                                  </td>
+                                  <td class="td-pts">
+                                    <span class="pts-pill pts-level-1">30 points</span>
+                                  </td>
+                                </tr>
+
+                                <!-- Niveau 2 -->
+                                <tr>
+                                  <td class="td-level">
+                                    <span class="level-name">Niveau 2</span>
+                                    <span class="level-sub">Intermédiaire</span>
+                                  </td>
+                                  <td class="td-desc">
+                                    <ul class="cig-list">
+                                      <li>Responsabilité de pôle</li>
+                                      <li>Responsabilité d’au moins un service</li>
+                                      <li>Responsabilité d’un équipement</li>
+                                    </ul>
+                                    <div class="cig-syndical-block">
+                                      <strong>Ou fonctions syndicales exercées au niveau départemental représentant la
+                                        totalité du temps de service :</strong>
+                                      <ul class="cig-list">
+                                        <li>Secrétaire général ou secrétaire général adjoint</li>
+                                        <li>Secrétaire ou secrétaire adjoint</li>
+                                        <li>Trésorier</li>
+                                      </ul>
+                                    </div>
+                                  </td>
+                                  <td class="td-pts">
+                                    <span class="pts-pill pts-level-2">25 points</span>
+                                  </td>
+                                </tr>
+
+                                <!-- Niveau 3 -->
+                                <tr>
+                                  <td class="td-level">
+                                    <span class="level-name">Niveau 3</span>
+                                    <span class="level-sub">Opérationnel</span>
+                                  </td>
+                                  <td class="td-desc">
+                                    <ul class="cig-list">
+                                      <li>Responsabilité d’une unité, d’un secteur, d’une section</li>
+                                      <li>Responsabilité d’une structure de proximité</li>
+                                      <li>Encadrement de proximité (exemple adjoint à un responsable...)</li>
+                                    </ul>
+                                    <div class="cig-syndical-block">
+                                      <strong>Ou fonctions syndicales exercées au niveau local représentant la totalité
+                                        du temps de service :</strong>
+                                      <ul class="cig-list">
+                                        <li>Secrétaire général ou secrétaire général adjoint</li>
+                                        <li>Secrétaire ou secrétaire adjoint</li>
+                                        <li>Trésorier</li>
+                                      </ul>
+                                    </div>
+                                  </td>
+                                  <td class="td-pts">
+                                    <span class="pts-pill pts-level-3">20 points</span>
+                                  </td>
+                                </tr>
+
+                                <!-- Niveau 4 -->
+                                <tr>
+                                  <td class="td-level">
+                                    <span class="level-name">Niveau 4</span>
+                                    <span class="level-sub">Sans encadrement direct</span>
+                                  </td>
+                                  <td class="td-desc">
+                                    <p class="cig-p">Points attribués au fonctionnaire sans encadrement direct au titre
+                                      de ses missions : soit requérant technicité / expertise, soit requérant de la
+                                      conduite de projet, soit requérant une pluridisciplinarité et une culture
+                                      territoriale.</p>
+                                    <div class="cig-syndical-block">
+                                      <strong>Ou fonctions syndicales exercées représentant la totalité du temps de
+                                        service et impliquant :</strong>
+                                      <ul class="cig-list">
+                                        <li>Une expertise au niveau au moins départemental (ex : juridique,
+                                          formation...) ou</li>
+                                        <li>Un mandat de représentant du personnel ou d’une organisation syndicale dans
+                                          une instance consultative paritaire (locale, interdépartementale, nationale)
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </td>
+                                  <td class="td-pts">
+                                    <span class="pts-pill pts-level-4">15 points</span>
+                                  </td>
+                                </tr>
+
+                                <!-- 2 - Ancienneté -->
+                                <tr class="cig-section-title-row">
+                                  <th colspan="2">2 - Ancienneté dans les fonctions exercées (niveau 1, 2, 3 ou 4)</th>
+                                  <th class="col-pts">Attribution des points</th>
+                                </tr>
+                                <tr>
+                                  <td colspan="2" class="td-desc">
+                                    <strong>Uniquement</strong> si le fonctionnaire proposé exerce ses <strong>fonctions
+                                      depuis 3 ans et plus</strong> à la date du 1<sup>er</sup> janvier de l’année de
+                                    l’établissement de la liste d’aptitude.
+                                  </td>
+                                  <td class="td-pts">
+                                    <span class="pts-pill pts-seniority">2 points</span>
+                                  </td>
+                                </tr>
+
+                                <!-- 3 - Majoration encadrement -->
+                                <tr class="cig-section-title-row">
+                                  <th colspan="2">
+                                    3 – Majoration encadrement <span class="th-subnote">(nombre d’agents encadrés à
+                                      préciser au dossier)</span>
+                                    <div class="section-condition-note">Encadrement direct d’une équipe dès lors que
+                                      l’encadrant évalue et procède seul à l’entretien professionnel des agents qu’il
+                                      encadre (uniquement pour les niveaux 1, 2 et 3)</div>
+                                  </th>
+                                  <th class="col-pts">Attribution des points</th>
+                                </tr>
+                                <tr>
+                                  <td colspan="2" class="td-desc">De plus de 20 agents</td>
+                                  <td class="td-pts"><span class="pts-pill pts-bonus">3 points</span></td>
+                                </tr>
+                                <tr>
+                                  <td colspan="2" class="td-desc">De 5 à 19 agents</td>
+                                  <td class="td-pts"><span class="pts-pill pts-bonus">2 points</span></td>
+                                </tr>
+                                <tr>
+                                  <td colspan="2" class="td-desc">De 1 à 4 agents</td>
+                                  <td class="td-pts"><span class="pts-pill pts-bonus">1 point</span></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
+                        <!-- ================= TABLEAU 2 : CATEGORIE B (Image 2) ================= -->
+                        <div class="popover-panel" id="panelCatB" role="tabpanel" aria-labelledby="tabBtnCatB">
+                          <div class="cig-table-wrap">
+                            <div class="cig-meta-header">
+                              <span class="cig-green-tag">LDG-PI / Fonctions exercées</span>
+                              <p class="cig-netpi-hint">Informations à saisir à partir de l’onglet correspondant de
+                                l’outil NET-PI</p>
+                              <div class="cig-target-heading">
+                                Pour des fonctionnaires de catégorie <strong>C</strong> proposés pour une promotion
+                                interne en <strong>catégorie B</strong>
+                              </div>
+                            </div>
+
+                            <table class="cig-ref-table">
+                              <thead>
+                                <tr class="cig-th-row">
+                                  <th class="col-level" style="width: 22%;">
+                                    1 - Niveaux hiérarchiques / Fonctions exercées
+                                    <span class="th-subnote">au 1<sup>er</sup> janvier de l'année de l'établissement de
+                                      la liste d'aptitude (date à préciser au dossier)</span>
+                                  </th>
+                                  <th class="col-desc" style="width: 60%;">Détail des fonctions & missions</th>
+                                  <th class="col-pts" style="width: 18%; text-align: center;">Attribution des points
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <!-- Niveau 2 (Cat B démarre au Niveau 2, pas de Niveau 1) -->
+                                <tr>
+                                  <td class="td-level">
+                                    <span class="level-name">Niveau 2</span>
+                                    <span class="level-sub">Intermédiaire</span>
+                                  </td>
+                                  <td class="td-desc">
+                                    <ul class="cig-list">
+                                      <li>Responsabilité de pôle</li>
+                                      <li>Responsabilité d’au moins un service</li>
+                                      <li>Responsabilité d’un équipement</li>
+                                    </ul>
+                                    <div class="cig-syndical-block">
+                                      <strong>Ou fonctions syndicales exercées au niveau national ou régional ou
+                                        interdépartemental représentant la totalité du temps de service :</strong>
+                                      <ul class="cig-list">
+                                        <li>Secrétaire national ou secrétaire national adjoint</li>
+                                        <li>Secrétaire général ou secrétaire général adjoint</li>
+                                        <li>Trésorier</li>
+                                        <li>Au titre d’une mise à disposition totale ou d’un détachement pour exercer un
+                                          mandat syndical national</li>
+                                      </ul>
+                                    </div>
+                                  </td>
+                                  <td class="td-pts">
+                                    <span class="pts-pill pts-level-2">25 points</span>
+                                  </td>
+                                </tr>
+
+                                <!-- Niveau 3 -->
+                                <tr>
+                                  <td class="td-level">
+                                    <span class="level-name">Niveau 3</span>
+                                    <span class="level-sub">Opérationnel</span>
+                                  </td>
+                                  <td class="td-desc">
+                                    <ul class="cig-list">
+                                      <li>Responsabilité d’une unité, d’un secteur, d’une section</li>
+                                      <li>Responsabilité d’une structure de proximité</li>
+                                      <li>Encadrement de proximité (exemple adjoint à un responsable...)</li>
+                                    </ul>
+                                    <div class="cig-syndical-block">
+                                      <strong>Ou fonctions syndicales exercées au niveau départemental ou local
+                                        représentant la totalité du temps de service :</strong>
+                                      <ul class="cig-list">
+                                        <li>Secrétaire général ou secrétaire général adjoint</li>
+                                        <li>Secrétaire ou secrétaire adjoint</li>
+                                        <li>Trésorier</li>
+                                      </ul>
+                                    </div>
+                                  </td>
+                                  <td class="td-pts">
+                                    <span class="pts-pill pts-level-3">20 points</span>
+                                  </td>
+                                </tr>
+
+                                <!-- Niveau 4 -->
+                                <tr>
+                                  <td class="td-level">
+                                    <span class="level-name">Niveau 4</span>
+                                    <span class="level-sub">Sans encadrement direct</span>
+                                  </td>
+                                  <td class="td-desc">
+                                    <p class="cig-p">Points attribués au fonctionnaire sans encadrement direct au titre
+                                      de ses missions : soit requérant technicité / expertise, soit requérant de la
+                                      conduite de projet, soit requérant une pluridisciplinarité et une culture
+                                      territoriale.</p>
+                                    <div class="cig-syndical-block">
+                                      <strong>Ou fonctions syndicales exercées représentant la totalité du temps de
+                                        service et impliquant :</strong>
+                                      <ul class="cig-list">
+                                        <li>Une expertise au niveau au moins départemental (ex : juridique,
+                                          formation...) ou</li>
+                                        <li>Un mandat de représentant du personnel ou d’une organisation syndicale dans
+                                          une instance consultative paritaire (locale, interdépartementale, nationale)
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </td>
+                                  <td class="td-pts">
+                                    <span class="pts-pill pts-level-4">15 points</span>
+                                  </td>
+                                </tr>
+
+                                <!-- 2 - Ancienneté -->
+                                <tr class="cig-section-title-row">
+                                  <th colspan="2">2 - Ancienneté dans les fonctions exercées (niveau 1, 2, 3 ou 4)</th>
+                                  <th class="col-pts">Attribution des points</th>
+                                </tr>
+                                <tr>
+                                  <td colspan="2" class="td-desc">
+                                    <strong>Uniquement</strong> si le fonctionnaire proposé exerce ses <strong>fonctions
+                                      depuis 3 ans et plus</strong> à la date du 1<sup>er</sup> janvier de l’année de
+                                    l’établissement de la liste d’aptitude.
+                                  </td>
+                                  <td class="td-pts">
+                                    <span class="pts-pill pts-seniority">2 points</span>
+                                  </td>
+                                </tr>
+
+                                <!-- 3 - Majoration encadrement -->
+                                <tr class="cig-section-title-row">
+                                  <th colspan="2">
+                                    3 – Majoration encadrement <span class="th-subnote">(nombre d’agents encadrés à
+                                      préciser au dossier)</span>
+                                    <div class="section-condition-note">Encadrement direct d’une équipe dès lors que
+                                      l’encadrant évalue et procède seul à l’entretien professionnel des agents qu’il
+                                      encadre (uniquement pour les niveaux 1, 2 et 3)</div>
+                                  </th>
+                                  <th class="col-pts">Attribution des points</th>
+                                </tr>
+                                <tr>
+                                  <td colspan="2" class="td-desc">De plus de 20 agents</td>
+                                  <td class="td-pts"><span class="pts-pill pts-bonus">3 points</span></td>
+                                </tr>
+                                <tr>
+                                  <td colspan="2" class="td-desc">De 5 à 19 agents</td>
+                                  <td class="td-pts"><span class="pts-pill pts-bonus">2 points</span></td>
+                                </tr>
+                                <tr>
+                                  <td colspan="2" class="td-desc">De 1 à 4 agents</td>
+                                  <td class="td-pts"><span class="pts-pill pts-bonus">1 point</span></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="popover-footer">
+                        <span class="popover-footer-src">Livret officiel CIG Petite Couronne (Arrêté au 01/03/2026 -
+                          Applicable 2027)</span>
+                        <button type="button" class="btn-popover-dismiss" id="btnFooterCloseLdg2">Fermer la
+                          grille</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p class="ldg-phrase-explain">
+                « Cette ligne reconnaît les responsabilités réelles de votre poste, votre niveau hiérarchique au sein
+                des services de Gennevilliers, ainsi que la dimension d’encadrement d’équipe. »
+              </p>
+            </div>
+          </div>
+          <div class="ldg-subtotal-box">
+            <span class="subtotal-label">Sous-total</span>
+            <span class="subtotal-value"><strong id="subtotalLdg2">0</strong> <small id="ldg2MaxLabel">/ 30
+                pts</small></span>
+          </div>
+        </div>
+
+        <div class="ldg-card-body">
+          <div class="not-applicable-banner" id="ldg2NotApplicableNotice" style="display: none;">
+            ℹ️ Cette ligne directrice ne s'applique pas pour cette voie d'accès ou ce grade spécifique selon les règles
+            statutaires du CIG.
+          </div>
+
+          <div class="criteria-row-stack" id="ldg2InputsGroup">
+            <!-- 1. Positionnement hiérarchique -->
+            <div class="criterion-item">
+              <div class="criterion-label-group">
+                <span class="criterion-num">1</span>
+                <div>
+                  <strong>Positionnement hiérarchique & missions exercées au 1er janvier</strong>
+                  <p class="criterion-desc">Niveau de responsabilité du poste actuel occupé à la Ville de Gennevilliers.
+                  </p>
+                </div>
+              </div>
+              <div class="select-wrapper">
+                <select id="selectLdg2Hierarchy" class="form-select select-score">
+                  <!-- dynamically updated based on Cat A/B -->
+                  <option value="25" selected>Niveau Intermédiaire : Responsabilité d'au moins un service, d'un pôle ou
+                    d'un équipement (25 pts)</option>
+                  <option value="20">Niveau Opérationnel : Responsabilité d'une unité, secteur, proximité (20 pts)
+                  </option>
+                  <option value="15">Niveau Sans encadrement direct : Missions de technicité, expertise ou conduite de
+                    projet (15 pts)</option>
+                  <option value="30">Niveau Stratégique : Pilotage direct avec DGS/DGA, direction plusieurs services (30
+                    pts - réservé Cat A)</option>
+                  <option value="0">Aucun niveau éligible (0 pt)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- 2. Ancienneté dans les fonctions -->
+            <div class="criterion-item">
+              <div class="criterion-label-group">
+                <span class="criterion-num">2</span>
+                <div>
+                  <strong>Ancienneté dans les fonctions exercées</strong>
+                  <p class="criterion-desc">Fonctions occupées depuis au moins 3 ans au 1er janvier de l'année
+                    considérée.</p>
+                </div>
+              </div>
+              <div class="select-wrapper">
+                <select id="selectLdg2Seniority" class="form-select select-score">
+                  <option value="2" selected>Occupe ces fonctions depuis 3 ans et plus (+2 pts)</option>
+                  <option value="0">Occupe ces fonctions depuis moins de 3 ans (0 pt)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- 3. Majoration encadrement direct -->
+            <div class="criterion-item">
+              <div class="criterion-label-group">
+                <span class="criterion-num">3</span>
+                <div>
+                  <strong>Majoration Encadrement Direct d'équipe</strong>
+                  <p class="criterion-desc">Applicable uniquement si l'agent évalue et procède <em>seul</em> à
+                    l'entretien professionnel (CREP) des agents encadrés.</p>
+                </div>
+              </div>
+              <div class="select-wrapper">
+                <select id="selectLdg2Team" class="form-select select-score">
+                  <option value="0" selected>Aucun encadrement direct OU sans réalisation des entretiens (0 pt)</option>
+                  <option value="1">Encadre et évalue 1 à 4 agents (+1 pt)</option>
+                  <option value="2">Encadre et évalue 5 à 19 agents (+2 pts)</option>
+                  <option value="3">Encadre et évalue plus de 20 agents (+3 pts)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Documentation info -->
+          <div class="proof-card">
+            <span class="proof-badge">Pièces justificatives obligatoires</span>
+            <ul>
+              <li>Fiche de poste détaillée à jour (positionnement hiérarchique, missions, effectif encadré et évalué).
+              </li>
+              <li>Arrêté ou décision d'affectation avec date de prise de fonction.</li>
+              <li>Organigramme officiel du service visé par la direction.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================= LDG 3 ================= -->
+      <article class="ldg-card" id="cardLdg3" data-ldg="3">
+        <div class="ldg-card-header">
+          <div class="ldg-header-left">
+            <span class="ldg-number-badge">Ligne 3</span>
+            <div>
+              <h3>Ancienneté dans la Catégorie</h3>
+              <p class="ldg-phrase-explain">
+                « Cette ligne valorise la fidélité au service public et l'expérience acquise en attribuant 1 point par
+                année de présence dans votre catégorie hiérarchique actuelle. »
+              </p>
+            </div>
+          </div>
+          <div class="ldg-subtotal-box">
+            <span class="subtotal-label">Sous-total</span>
+            <span class="subtotal-value"><strong id="subtotalLdg3">0</strong> <small id="ldg3MaxLabel">/ 45
+                pts</small></span>
+          </div>
+        </div>
+
+        <div class="ldg-card-body">
+          <div class="not-applicable-banner" id="ldg3NotApplicableNotice" style="display: none;">
+            ℹ️ Pour l'accès au grade d'Agent de maîtrise au choix (sans quota), la LDG 3 ne s'applique pas selon les
+            règles statutaires du CIG.
+          </div>
+          <div class="seniority-calc-grid" id="ldg3InputsGroup">
+            <div class="criterion-item">
+              <div class="criterion-label-group">
+                <span class="criterion-num">1</span>
+                <div>
+                  <strong>Années complètes d'ancienneté</strong>
+                  <p class="criterion-desc">Depuis votre nomination stagiaire (ou titulaire) dans la catégorie actuelle,
+                    calculée au <strong>1er janvier 2027</strong> (1 pt / an).</p>
+                </div>
+              </div>
+              <div class="select-wrapper">
+                <select id="selectLdg3Years" class="form-select select-score">
+                  <!-- Dynamically populated 0 to 45 -->
+                </select>
+              </div>
+            </div>
+
+            <div class="criterion-item">
+              <div class="criterion-label-group">
+                <span class="criterion-num">2</span>
+                <div>
+                  <strong>Mois supplémentaires (au prorata)</strong>
+                  <p class="criterion-desc">Le CIG calcule l'ancienneté au prorata exact de la date de nomination (ex: 5
+                    mois = 0,42 pt).</p>
+                </div>
+              </div>
+              <div class="select-wrapper">
+                <select id="selectLdg3Months" class="form-select select-score">
+                  <option value="0" selected>0 mois (+0 pt)</option>
+                  <option value="0.0833">1 mois (+0,08 pt)</option>
+                  <option value="0.1667">2 mois (+0,17 pt)</option>
+                  <option value="0.25">3 mois (+0,25 pt)</option>
+                  <option value="0.3333">4 mois (+0,33 pt)</option>
+                  <option value="0.4167">5 mois (+0,42 pt)</option>
+                  <option value="0.5">6 mois (+0,50 pt)</option>
+                  <option value="0.5833">7 mois (+0,58 pt)</option>
+                  <option value="0.6667">8 mois (+0,67 pt)</option>
+                  <option value="0.75">9 mois (+0,75 pt)</option>
+                  <option value="0.8333">10 mois (+0,83 pt)</option>
+                  <option value="0.9167">11 mois (+0,92 pt)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="helper-calc-box">
+            <div class="helper-title">💡 Exemple officiel CIG Petite Couronne (Session 2027, arrêté au 01/01/2027) :
+            </div>
+            <p>Pour un agent nommé Rédacteur le <strong>01/08/2016</strong> concourant pour une promotion 2027 : 10 ans
+              et 5 mois = <strong>10,42 points</strong> (Plafonné à 45 points).</p>
+          </div>
+
+          <!-- Documentation info -->
+          <div class="proof-card">
+            <span class="proof-badge">Pièce justificative obligatoire</span>
+            <ul>
+              <li>Copie de l’arrêté précisant la date de nomination en qualité de stagiaire ou à défaut de titulaire
+                dans la catégorie actuelle (avec reprise de services éventuelle).</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================= LDG 4 ================= -->
+      <article class="ldg-card" id="cardLdg4" data-ldg="4">
+        <div class="ldg-card-header">
+          <div class="ldg-header-left">
+            <span class="ldg-number-badge">Ligne 4</span>
+            <div>
+              <h3>Concours & Examens Professionnels</h3>
+              <p class="ldg-phrase-explain">
+                « Cette ligne valorise votre dynamisme et votre volonté d’évolution en récompensant la réussite aux
+                concours statutaires et aux examens professionnels. »
+              </p>
+            </div>
+          </div>
+          <div class="ldg-subtotal-box">
+            <span class="subtotal-label">Sous-total</span>
+            <span class="subtotal-value"><strong id="subtotalLdg4">0</strong> <small id="ldg4MaxLabel">/ 35
+                pts</small></span>
+          </div>
+        </div>
+
+        <div class="ldg-card-body">
+          <div class="not-applicable-banner" id="ldg4NotApplicableNotice" style="display: none;">
+            ℹ️ Pour l'accès au grade d'Agent de maîtrise au choix (sans quota), la LDG 4 ne s'applique pas selon les
+            règles statutaires du CIG.
+          </div>
+          <div class="criteria-row-stack" id="ldg4InputsGroup">
+            <!-- 1. Concours dans la catégorie -->
+            <div class="criterion-item">
+              <div class="criterion-label-group">
+                <span class="criterion-num">1</span>
+                <div>
+                  <strong>Recrutement suite à concours dans la catégorie actuelle</strong>
+                  <p class="criterion-desc">Prise en compte d'un seul concours d'entrée dans la catégorie actuelle.</p>
+                </div>
+              </div>
+              <div class="select-wrapper">
+                <select id="selectLdg4Concours" class="form-select select-score">
+                  <option value="15" selected>Oui : Recruté suite à concours dans la catégorie (+15 pts)</option>
+                  <option value="0">Non : Recrutement direct sans concours ou autre voie (0 pt)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- 2. Examens professionnels -->
+            <div class="criterion-item">
+              <div class="criterion-label-group">
+                <span class="criterion-num">2</span>
+                <div>
+                  <strong>Examen professionnel obtenu</strong>
+                  <p class="criterion-desc">Examen d'avancement dans la catégorie OU examen réglementaire exigé pour la
+                    promotion.</p>
+                </div>
+              </div>
+              <div class="select-wrapper">
+                <select id="selectLdg4Exam" class="form-select select-score">
+                  <option value="0">Aucun examen professionnel (0 pt)</option>
+                  <option value="10" selected>Examen pro d'avancement de grade dans la catégorie actuelle (+10 pts)
+                  </option>
+                  <option value="20_reg">Examen pro réglementaire visé : obtenu en 2024 ou avant (N-3 ou antérieur) (+20
+                    pts)</option>
+                  <option value="15_reg">Examen pro réglementaire visé : obtenu en 2025 (N-2) (+15 pts)</option>
+                  <option value="10_reg">Examen pro réglementaire visé : obtenu en 2026 (N-1) (+10 pts)</option>
+                  <option value="exception_20">Cas exceptionnel ancien examen Rédacteur 2005-2006 (+20 pts)</option>
+                  <option value="exception_15">Cas exceptionnel ancien examen Rédacteur 2007-2009 (+15 pts)</option>
+                  <option value="exception_10">Cas exceptionnel ancien examen Rédacteur 2010-2011 (+10 pts)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert-banner-soft">
+            ℹ️ <strong>Règle de cumul :</strong> Sauf exceptions réglementaires spécifiques (chef de police municipale,
+            ingénieur, rédacteur historique), on cumule au maximum 1 concours (15 pts) + 1 examen professionnel (10 à 20
+            pts).
+          </div>
+
+          <!-- Documentation info -->
+          <div class="proof-card">
+            <span class="proof-badge">Pièces justificatives obligatoires</span>
+            <ul>
+              <li>Pour le concours : Arrêté de nomination mentionnant le visa du concours + attestation de réussite /
+                liste d'aptitude.</li>
+              <li>Pour l'examen professionnel : Attestation de réussite délivrée par le centre de gestion organisateur.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================= LDG 5 ================= -->
+      <article class="ldg-card" id="cardLdg5" data-ldg="5">
+        <div class="ldg-card-header">
+          <div class="ldg-header-left">
+            <span class="ldg-number-badge">Ligne 5</span>
+            <div>
+              <h3>Formations Professionnelles</h3>
+              <p class="ldg-phrase-explain">
+                « Cette ligne valorise le développement continu de vos compétences par des formations volontaires
+                suivies auprès d'organismes extérieurs (CNFPT, CEGOS...), en dehors des formations obligatoires. »
+              </p>
+            </div>
+          </div>
+          <div class="ldg-subtotal-box">
+            <span class="subtotal-label">Sous-total</span>
+            <span class="subtotal-value"><strong id="subtotalLdg5">0</strong> <small id="ldg5MaxLabel">/ 17
+                pts</small></span>
+          </div>
+        </div>
+
+        <div class="ldg-card-body">
+          <div class="not-applicable-banner" id="ldg5NotApplicableNotice" style="display: none;">
+            ℹ️ Pour la voie « après examen professionnel », la LDG 5 ne s'applique pas (sauf exceptions Ingénieur et
+            Chef de police).
+          </div>
+
+          <div class="criteria-row-stack" id="ldg5InputsGroup">
+            <!-- 1. Formations hors FSO -->
+            <div class="criterion-item">
+              <div class="criterion-label-group">
+                <span class="criterion-num">1</span>
+                <div>
+                  <strong id="ldg5DaysLabel">Jours de formations suivies hors FSO</strong>
+                  <p class="criterion-desc" id="ldg5DaysPeriodDesc">
+                    Sur les 10 dernières années 2017-2026 (Cat B) ou 5 dernières années 2022-2026 (Cat A) : 1 pt par
+                    jour, 0,5 pt par
+                    demi-journée (Max 15 pts).
+                  </p>
+                </div>
+              </div>
+              <div class="select-wrapper">
+                <select id="selectLdg5Days" class="form-select select-score">
+                  <!-- Dynamically 0 to 15 -->
+                </select>
+              </div>
+            </div>
+
+            <!-- 2. Préparation concours/examen -->
+            <div class="criterion-item">
+              <div class="criterion-label-group">
+                <span class="criterion-num">2</span>
+                <div>
+                  <strong>Préparation active au concours ou examen pro du cadre visé</strong>
+                  <p class="criterion-desc">Dispensée par un organisme extérieur (ex: CNFPT) au cours des 5 dernières
+                    années (entre le 01/01/2022 et le 31/12/2026 - au moins 2 jours suivis).</p>
+                </div>
+              </div>
+              <div class="select-wrapper">
+                <select id="selectLdg5Prep" class="form-select select-score">
+                  <option value="2" selected>Oui : Au moins 2 jours de préparation effectués (+2 pts)</option>
+                  <option value="0">Non : Moins de 2 jours ou aucune préparation (0 pt)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert-banner-warning">
+            ⚠️ <strong>Attention :</strong> Les jours déjà utilisés pour valider votre Formation Statutaire Obligatoire
+            (FSO) ne peuvent <em>en aucun cas</em> être réutilisés ici !
+          </div>
+
+          <!-- Documentation info -->
+          <div class="proof-card">
+            <span class="proof-badge">Pièces justificatives obligatoires</span>
+            <ul>
+              <li><strong>Pensez à transmettre toutes vos attestations à la DCRH</strong></li>
+              <li>Attestations de présence officielles du CNFPT ou de l'organisme de formation externe indiquant
+                impérativement le nombre d'heures/jours.</li>
+              <li>Attestation de suivi pour la préparation aux concours/examens.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================= LDG 6 ================= -->
+      <article class="ldg-card" id="cardLdg6" data-ldg="6">
+        <div class="ldg-card-header">
+          <div class="ldg-header-left">
+            <span class="ldg-number-badge">Ligne 6</span>
+            <div>
+              <h3>Diplôme le Plus Élevé</h3>
+              <p class="ldg-phrase-explain">
+                « Cette ligne prend en compte votre niveau de formation initiale ou de reprise d'études certifié, en
+                retenant exclusivement le titre ou diplôme le plus élevé que vous possédez. »
+              </p>
+            </div>
+          </div>
+          <div class="ldg-subtotal-box">
+            <span class="subtotal-label">Sous-total</span>
+            <span class="subtotal-value"><strong id="subtotalLdg6">0</strong> <small id="ldg6MaxLabel">/ 3
+                pts</small></span>
+          </div>
+        </div>
+
+        <div class="ldg-card-body">
+          <div class="not-applicable-banner" id="ldg6NotApplicableNotice" style="display: none;">
+            ℹ️ Pour l'accès au grade d'Agent de maîtrise (Catégorie C), la LDG 6 ne s'applique pas selon les règles
+            statutaires du CIG.
+          </div>
+          <div id="ldg6InputsGroup">
+            <div class="criterion-item single-item">
+              <div class="criterion-label-group">
+                <span class="criterion-num">1</span>
+                <div>
+                  <strong>Sélectionnez votre diplôme le plus élevé certifié au RNCP :</strong>
+                  <p class="criterion-desc">Attention : aucun cumul possible, seul le plus haut niveau est pris en
+                    compte.
+                  </p>
+                </div>
+              </div>
+              <div class="select-wrapper">
+                <select id="selectLdg6Diploma" class="form-select select-score">
+                  <option value="0">Aucun diplôme certifié OU niveau inférieur au niveau 3 (0 pt)</option>
+                  <option value="1">Niveau 3 : CAP, BEP, Diplôme National du Brevet / ex-BEPC (1 pt)</option>
+                  <option value="1">Niveau 4 : Baccalauréat général/technologique/pro, BPJEPS, BTA (1 pt)</option>
+                  <option value="2" selected>Niveau 5 : Bac +2 (BTS, DUT, DEUG, DEUST) (2 pts)</option>
+                  <option value="3">Niveau 6 : Bac +3 / Bac +4 (Licence, Licence Pro, Master 1, Maîtrise) (3 pts)
+                  </option>
+                  <option value="3">Niveau 7 : Bac +5 (Master 2, DEA, DESS, Diplôme d'Ingénieur) (3 pts)</option>
+                  <option value="3">Niveau 8 : Bac +8 (Doctorat, Habilitation à Diriger des Recherches) (3 pts)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="helper-calc-box">
+            <div class="helper-title">ℹ️ Diplômes non pris en compte par le barème CIG :</div>
+            <p>Les diplômes non homologués à un niveau national (BAFA, BAFD, DEAM/DESAM, permis de conduire, certificat
+              de fin d'études obligatoire) ne rapportent pas de points au titre de cette ligne.</p>
+          </div>
+
+          <!-- Documentation info -->
+          <div class="proof-card">
+            <span class="proof-badge">Pièce justificative obligatoire</span>
+            <ul>
+              <li><strong>À transmettre à la GCR</strong></li>
+              <li>Copie du diplôme le plus élevé certifié ou attestation officielle de délivrance de l’établissement
+                d'enseignement.</li>
+              <li>Attestation de comparabilité ENIC-NARIC pour les diplômes obtenus à l'étranger.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- Bottom Action & Explanation section -->
+    <section class="bottom-action-card">
+      <div class="action-card-left">
+        <h3>Prêt(e) à préparer votre dossier avec vos représentants ou votre DRH ?</h3>
+        <p>
+          Vous pouvez générer une fiche récapitulative propre et détaillée, reprenant point par point votre simulation
+          et la liste des justificatifs à joindre.
+        </p>
+      </div>
+      <div class="action-card-right">
+        <button type="button" class="btn-primary btn-large" id="btnBottomModal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+            <polyline points="10 9 9 9 8 9" />
+          </svg>
+          Générer ma Synthèse de Points
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal Fiche Récapitulative -->
+  <div class="modal-backdrop" id="recapModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <h2>Fiche de Synthèse Promotion Interne (LDG-PI) • Session 2027</h2>
+          <p class="modal-sub">Simulation conforme au Livret LDG-PI 2027 du CIG Petite Couronne (Arrêté au 1er mars
+            2026, applicable au 1er janvier 2027) • Mairie de Gennevilliers
+          </p>
+        </div>
+        <button type="button" class="modal-close-btn" id="btnCloseModal" aria-label="Fermer la fenêtre">&times;</button>
+      </div>
+
+      <div class="modal-body" id="printableModalBody">
+        <div class="recap-hero-banner">
+          <div class="recap-profile-info">
+            <div><strong>Profil :</strong> <span id="recapCategory">Catégorie B</span></div>
+            <div><strong>Voie :</strong> <span id="recapAccessWay">Au choix</span></div>
+            <div><strong>Date de simulation :</strong> <span id="recapDate">14/09/2026</span></div>
+          </div>
+          <div class="recap-total-score">
+            <div class="total-big-val-wrapper">
+              <span class="total-big-val" id="recapScoreValue">0</span>
+              <span class="total-big-max">/ <span id="recapScoreMaxValue">175</span> pts</span>
+            </div>
+            <span class="total-big-label">Total obtenu sur le Maximum</span>
+            <div class="recap-progress-wrap">
+              <div class="recap-progress-bar" id="recapProgressBar" style="width: 0%;"></div>
+            </div>
+            <span class="recap-percent" id="recapPercent">0% du barème maximal</span>
+          </div>
+        </div>
+
+        <table class="recap-table">
+          <thead>
+            <tr>
+              <th>Ligne Directrice de Gestion (LDG)</th>
+              <th>Détail de votre sélection</th>
+              <th class="text-right">Points obtenus</th>
+              <th class="text-right">Maximum possible</th>
+            </tr>
+          </thead>
+          <tbody id="recapTableBody">
+            <!-- Populated by JS -->
+          </tbody>
+          <tfoot id="recapTableFoot">
+            <!-- Populated by JS with grand total & max -->
+          </tfoot>
+        </table>
+
+        <div class="recap-checklist-section">
+          <h3>📁 Liste des justificatifs indispensables à préparer :</h3>
+          <ul id="recapChecklist">
+            <!-- Populated by JS -->
+          </ul>
+        </div>
+
+        <div class="recap-signature-box">
+          <div class="sig-block">
+            <p><strong>Pour l'agent :</strong></p>
+            <p class="sig-note">Date et signature :</p>
+            <div class="sig-line"></div>
+          </div>
+          <div class="sig-block">
+            <p><strong>Avis hiérarchique / RH Gennevilliers :</strong></p>
+            <p class="sig-note">Date et visa :</p>
+            <div class="sig-line"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="btnCloseModalSecondary">Fermer</button>
+        <button type="button" class="btn-primary" id="btnPrintActual">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 6 2 18 2 18 9" />
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+            <rect x="6" y="14" width="12" height="8" />
+          </svg>
+          Imprimer / Enregistrer en PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>
+        Application pédagogique réalisée pour les agents de la <strong>Mairie de Gennevilliers</strong> • Basée sur
+        le <strong>Livret officiel LDG-PI 2027</strong> du CIG Petite Couronne (Arrêté au 1er mars 2026, applicable au
+        1er janvier 2027).
+      </p>
+      <p class="footer-sub">
+        Ce simulateur a une vocation informative et pédagogique pour vous aider à préparer votre dossier de promotion
+        interne. L'attribution définitive des points relève de la compétence du Président du CIG Petite Couronne après
+        instruction de votre dossier complet.
+      </p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

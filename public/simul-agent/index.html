@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CFDT " MA CARRIERE" | Frise Interactive de Carrière</title>
+    <meta name="description" content="Simulateur de carrière pour agents de la Fonction Publique : frise interactive, conditions statutaires, événements de vie (disponibilité, congé parental, temps partiel) et perspectives de grade." />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function() {
+        try {
+          var t = localStorage.getItem('theme');
+          var p = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (t === 'dark' || (!t && p)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <script type="module" crossorigin src="./assets/index-Db2lKPnp.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-Cf_0AW93.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
