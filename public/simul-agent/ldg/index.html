@@ -1199,6 +1199,98 @@
 
   </main>
 
+  <!-- Floating Action Button for MementoRH Tools -->
+  <button id="btnOpenMementoDrawer" class="memento-fab" aria-label="Ouvrir les outils MementoRH" title="Boîte à outils RH">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+      <line x1="9" y1="3" x2="9" y2="21"/>
+    </svg>
+    <span>Outils RH</span>
+  </button>
+
+  <!-- MementoRH Drawer Overlay -->
+  <div id="mementoDrawerOverlay" class="memento-drawer-overlay hidden" aria-hidden="true"></div>
+
+  <!-- MementoRH Drawer -->
+  <aside id="mementoDrawer" class="memento-drawer hidden" aria-hidden="true">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <span class="memento-brand">Memento<span class="memento-rh">RH</span></span>
+        <span class="memento-sub">Boîte à outils RH</span>
+      </div>
+      <button id="btnCloseMementoDrawer" class="drawer-close-btn" aria-label="Fermer le panneau">&times;</button>
+    </div>
+    
+    <div class="drawer-body">
+      <!-- Role Toggle -->
+      <div class="memento-role-toggle">
+        <button id="btnRoleGestionnaire" class="role-btn active" data-role="gestionnaire">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          Gestionnaire RH
+        </button>
+        <button id="btnRoleAgent" class="role-btn" data-role="agent">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Agent
+        </button>
+      </div>
+
+      <!-- Links Container -->
+      <nav class="memento-links-nav">
+        <!-- Gestion des postes (Gestionnaire only) -->
+        <div class="link-group" data-vue-only="gestionnaire">
+          <div class="link-group-title">Gestion des postes</div>
+          <a href="https://mementorh.fr/fiche-de-poste" target="_blank" rel="noopener">Kit création de poste</a>
+          <a href="https://mementorh.fr/fiche-de-poste/creer-fiche" target="_blank" rel="noopener">Fiche de poste</a>
+          <a href="https://mementorh.fr/fiche-de-poste/creer-entretien" target="_blank" rel="noopener">Fiche d'entretien professionnel</a>
+          <a href="https://mementorh.fr/deliberation-tableau-effectifs" target="_blank" rel="noopener">Tableau des effectifs</a>
+        </div>
+
+        <!-- Rémunération et budget -->
+        <div class="link-group">
+          <div class="link-group-title">Rémunération et budget</div>
+          <a href="https://mementorh.fr/remuneration/grille-indiciaire" target="_blank" rel="noopener">Grilles indiciaires</a>
+          <a href="https://mementorh.fr/remuneration/budget-personnel" target="_blank" rel="noopener" data-vue-only="gestionnaire">Simulateur de masse salariale</a>
+          <a href="https://mementorh.fr/remuneration/simulateur-sft" target="_blank" rel="noopener" data-vue-only="gestionnaire">Simulateur SFT</a>
+          <a href="https://mementorh.fr/remuneration/traitement-net" target="_blank" rel="noopener">Simulateur de net à payer</a>
+          <a href="https://mementorh.fr/remuneration/ihts" target="_blank" rel="noopener">Calculateur d'heures supplémentaires (IHTS)</a>
+          <a href="https://mementorh.fr/remuneration/psc" target="_blank" rel="noopener" data-vue-only="gestionnaire">Simulateur PSC</a>
+          <a href="https://mementorh.fr/carriere/rupture-conventionnelle" target="_blank" rel="noopener">Indemnité de rupture conventionnelle</a>
+          <a href="https://mementorh.fr/remuneration/frais-deplacement" target="_blank" rel="noopener">Frais de déplacement</a>
+        </div>
+
+        <!-- Carrière & temps de travail -->
+        <div class="link-group">
+          <div class="link-group-title">Carrière & temps de travail</div>
+          <a href="https://mementorh.fr/carriere/avancement-echelon" target="_blank" rel="noopener">Avancement d'échelon</a>
+          <a href="https://mementorh.fr/carriere/reprise-anciennete" target="_blank" rel="noopener" data-vue-only="gestionnaire">Reprise d'ancienneté</a>
+          <a href="https://mementorh.fr/carriere/seuils-syndicaux" target="_blank" rel="noopener" data-vue-only="gestionnaire">Seuils & obligations syndicales</a>
+          <a href="https://mementorh.fr/temps-de-travail/calculateur" target="_blank" rel="noopener">Calculateur RTT & temps de travail</a>
+          <a href="https://mementorh.fr/temps-de-travail/calculateur-etp" target="_blank" rel="noopener" data-vue-only="gestionnaire">Calculateur ETP</a>
+          <a href="https://mementorh.fr/remuneration/conges-maladie" target="_blank" rel="noopener">Droits à congés maladie</a>
+        </div>
+
+        <!-- Délibérations (Gestionnaire only) -->
+        <div class="link-group" data-vue-only="gestionnaire">
+          <div class="link-group-title">Délibérations</div>
+          <a href="https://mementorh.fr/fiche-de-poste/creer-deliberation" target="_blank" rel="noopener">Création de poste</a>
+          <a href="https://mementorh.fr/deliberation-suppression" target="_blank" rel="noopener">Suppression de poste</a>
+          <a href="https://mementorh.fr/deliberation-tableau-effectifs" target="_blank" rel="noopener">Tableau des effectifs</a>
+          <a href="https://mementorh.fr/temps-de-travail/deliberation-teletravail" target="_blank" rel="noopener">Télétravail</a>
+        </div>
+
+        <!-- Arrêtés RH (Gestionnaire only) -->
+        <div class="link-group" data-vue-only="gestionnaire">
+          <div class="link-group-title">Arrêtés RH</div>
+          <a href="https://mementorh.fr/arretes/nomination-stagiaire" target="_blank" rel="noopener">Nomination stagiaire</a>
+          <a href="https://mementorh.fr/arretes/titularisation" target="_blank" rel="noopener">Titularisation</a>
+          <a href="https://mementorh.fr/arretes/avancement-echelon" target="_blank" rel="noopener">Avancement d'échelon</a>
+          <a href="https://mementorh.fr/arretes/avancement-grade" target="_blank" rel="noopener">Avancement de grade</a>
+          <a href="https://mementorh.fr/arretes/promotion-interne" target="_blank" rel="noopener">Promotion interne</a>
+        </div>
+      </nav>
+    </div>
+  </aside>
+
   <!-- Modal Fiche Récapitulative -->
   <div class="modal-backdrop" id="recapModal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal-dialog">

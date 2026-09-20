@@ -52,7 +52,7 @@ export const AppRouter: React.FC<AppRouterProps> = ({ currentView, activeCalcula
           {activeCalculator === '13eme' && <Calculateur13emeV2 onClose={handleClose} />}
         </div>
       )}
-      {currentView === 'metiers' && <Metiers onClose={handleClose} />}
+      {currentView === 'metiers' && <Metiers onClose={handleClose} onOpenCalculator={() => {}} />}
       {currentView === 'faq' && <FAQ />}
       {currentView === 'jeux' && <EspaceJeux onClose={handleClose} />}
       {currentView === 'actualites' && <Actualites news={news} onClose={handleClose} baseUrl={baseUrl} />}

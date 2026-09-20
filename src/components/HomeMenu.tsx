@@ -214,7 +214,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                 <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-orange-500/25 transition-all duration-200">
                   <Calculator className="w-8 h-8 sm:w-11 sm:h-11" />
                 </div>
-                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Calculateurs<br />Primes</span>
+                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Boîte à<br />Outils</span>
               </button>
 
               {/* 4. Spotlight Metiers Button */}
@@ -238,7 +238,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                 <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-teal-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-emerald-500/25 transition-all duration-200">
                   <LayoutGrid className="w-8 h-8 sm:w-11 sm:h-11" />
                 </div>
-                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Grilles<br />Indiciaires</span>
+                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Aides aux<br />Gestionnaires</span>
               </button>
 
               {/* 5. Spotlight FAQ Button */}

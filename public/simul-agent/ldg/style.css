@@ -1803,3 +1803,214 @@ body {
     padding: 0 !important;
   }
 }
+
+/* =========================================================
+   MEMENTORH DRAWER UI
+   ========================================================= */
+
+.memento-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #1e293b;
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  z-index: 90;
+  transition: all var(--transition-fast);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.memento-fab:hover {
+  background: #0f172a;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.25);
+}
+
+.memento-drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 99;
+  opacity: 1;
+  transition: opacity var(--transition-normal);
+}
+
+.memento-drawer-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.memento-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 360px;
+  height: 100vh;
+  background: #1e293b;
+  color: #f8fafc;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -8px 0 24px rgba(0,0,0,0.2);
+  transform: translateX(0);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.memento-drawer.hidden {
+  transform: translateX(100%);
+}
+
+.drawer-header {
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.drawer-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.memento-brand {
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.memento-rh {
+  color: #818cf8;
+}
+
+.memento-sub {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+  font-weight: 500;
+}
+
+.drawer-close-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.5);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+  line-height: 1;
+  padding: 4px;
+}
+
+.drawer-close-btn:hover {
+  color: #ffffff;
+}
+
+.drawer-body {
+  padding: 20px 16px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.memento-role-toggle {
+  display: flex;
+  background: rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 24px;
+}
+
+.role-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: rgba(255,255,255,0.5);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.role-btn.active {
+  background: #4f46e5;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.memento-links-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.link-group-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #818cf8;
+  font-weight: 700;
+  margin-bottom: 8px;
+  padding-left: 8px;
+}
+
+.link-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.link-group a {
+  color: #e2e8f0;
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background var(--transition-fast);
+  display: block;
+}
+
+.link-group a:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+[data-vue-only="gestionnaire"].vue-hidden {
+  display: none !important;
+}
+
+/* Scrollbar styling for drawer */
+.drawer-body::-webkit-scrollbar {
+  width: 6px;
+}
+.drawer-body::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.02);
+}
+.drawer-body::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+}
+.drawer-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.2);
+}

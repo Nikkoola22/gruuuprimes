@@ -118,20 +118,20 @@ const playTick = () => {
   try {
     const ctx = getAudioContext();
     if (ctx.state === 'suspended') ctx.resume();
-    
+
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
-    
+
     osc.connect(gain);
     gain.connect(ctx.destination);
-    
+
     osc.type = 'square';
     osc.frequency.setValueAtTime(800, ctx.currentTime);
-    
+
     gain.gain.setValueAtTime(0.5, ctx.currentTime);
     // setTargetAtTime est beaucoup plus robuste entre les différents navigateurs
     gain.gain.setTargetAtTime(0, ctx.currentTime, 0.02);
-    
+
     osc.start(ctx.currentTime);
     osc.stop(ctx.currentTime + 0.1);
   } catch (e) {
@@ -143,23 +143,23 @@ const playTada = () => {
   try {
     const ctx = getAudioContext();
     if (ctx.state === 'suspended') ctx.resume();
-    
+
     const notes = [523.25, 659.25, 783.99, 1046.50]; // C Major
-    
+
     notes.forEach((freq, i) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      
+
       osc.connect(gain);
       gain.connect(ctx.destination);
-      
+
       osc.type = 'sine';
       osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.15);
-      
+
       gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.15);
       gain.gain.setTargetAtTime(0.5, ctx.currentTime + i * 0.15, 0.02);
       gain.gain.setTargetAtTime(0, ctx.currentTime + i * 0.15 + 0.1, 0.2);
-      
+
       osc.start(ctx.currentTime + i * 0.15);
       osc.stop(ctx.currentTime + i * 0.15 + 1.0);
     });
@@ -187,7 +187,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
       const a2 = -90 + (i + 1) * 45;
       const a1Rad = (a1 * Math.PI) / 180;
       const a2Rad = (a2 * Math.PI) / 180;
-      
+
       const x1 = center + radius * Math.cos(a1Rad);
       const y1 = center + radius * Math.sin(a1Rad);
       const x2 = center + radius * Math.cos(a2Rad);
@@ -214,9 +214,9 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
 
       return (
         <g key={i} className="select-none pointer-events-none">
-          <path 
-            d={pathData} 
-            fill={sector.color} 
+          <path
+            d={pathData}
+            fill={sector.color}
             stroke="none"
           />
           <line x1={center} y1={center} x2={lineX} y2={lineY} stroke="white" strokeWidth="3" />
@@ -267,7 +267,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
 
   const spinWheel = useCallback(() => {
     if (isSpinning) return;
-    
+
     // Initialise l'audio (nécessite une interaction utilisateur préalable)
     getAudioContext();
 
@@ -302,7 +302,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
     let isSimulating = true;
     let ticks = 0;
     const maxTicks = 40;
-    
+
     const loopTicks = () => {
       if (!isSimulating) return;
       playTick();
@@ -320,7 +320,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
       isSimulating = false;
       setIsSpinning(false);
       playTada();
-      
+
       const categoryIdeas = IDEAS[targetCategory];
       const randomIdea = categoryIdeas[Math.floor(Math.random() * categoryIdeas.length)];
       setSelectedIdea(randomIdea);
@@ -364,7 +364,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
       }} />
 
       <div className="max-w-4xl mx-auto relative z-10">
-        
+
         {/* Header */}
         <div className="w-full flex justify-between items-center mb-6 z-20">
           <button
@@ -376,7 +376,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
           </button>
 
           <div className="text-center">
-            <h1 className="text-2xl sm:text-4xl font-black tracking-widest uppercase bg-gradient-to-r from-pink-400 via-purple-300 to-cyan-400 bg-clip-text text-transparent drop-shadow-sm" style={{fontFamily: 'monospace'}}>
+            <h1 className="text-2xl sm:text-4xl font-black tracking-widest uppercase bg-gradient-to-r from-pink-400 via-purple-300 to-cyan-400 bg-clip-text text-transparent drop-shadow-sm" style={{ fontFamily: 'monospace' }}>
               ROULETTE QVT
             </h1>
           </div>
@@ -396,55 +396,50 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
           <button
             onClick={() => !isSpinning && setCurrentFilter("all")}
             disabled={isSpinning}
-            className={`px-4  text-xs sm:text-sm font-medium rounded-full border transition-all duration-200 ${
-              currentFilter === "all"
+            className={`px-4  text-xs sm:text-sm font-medium rounded-full border transition-all duration-200 ${currentFilter === "all"
                 ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700 shadow-sm"
                 : "bg-transparent text-slate-500 dark:text-slate-400 border-transparent hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50"
-            }`}
+              }`}
           >
             🎡 Aléatoire
           </button>
           <button
             onClick={() => !isSpinning && setCurrentFilter("qvt")}
             disabled={isSpinning}
-            className={`px-4  text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
-              currentFilter === "qvt"
+            className={`px-4  text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${currentFilter === "qvt"
                 ? "bg-blue-600 text-white border-blue-600 shadow"
                 : "bg-slate-900/60 text-blue-400 border-blue-500/30 hover:bg-blue-500/10 disabled:opacity-50"
-            }`}
+              }`}
           >
             🧘 Idée QVT
           </button>
           <button
             onClick={() => !isSpinning && setCurrentFilter("management")}
             disabled={isSpinning}
-            className={`px-4  text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
-              currentFilter === "management"
+            className={`px-4  text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${currentFilter === "management"
                 ? "bg-emerald-600 text-white border-emerald-600 shadow"
                 : "bg-slate-900/60 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/10 disabled:opacity-50"
-            }`}
+              }`}
           >
             🤝 Bon Geste Managérial
           </button>
           <button
             onClick={() => !isSpinning && setCurrentFilter("carriere")}
             disabled={isSpinning}
-            className={`px-4  text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
-              currentFilter === "carriere"
+            className={`px-4  text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${currentFilter === "carriere"
                 ? "bg-purple-600 text-white border-purple-600 shadow"
                 : "bg-slate-900/60 text-purple-400 border-purple-500/30 hover:bg-purple-500/10 disabled:opacity-50"
-            }`}
+              }`}
           >
             🚀 Astuce Carrière
           </button>
           <button
             onClick={() => !isSpinning && setCurrentFilter("detente")}
             disabled={isSpinning}
-            className={`px-4  text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
-              currentFilter === "detente"
+            className={`px-4  text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${currentFilter === "detente"
                 ? "bg-amber-600 text-white border-amber-600 shadow"
                 : "bg-slate-900/60 text-amber-400 border-amber-500/30 hover:bg-amber-500/10 disabled:opacity-50"
-            }`}
+              }`}
           >
             ☕ Minute Détente
           </button>
@@ -452,10 +447,10 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
 
         {/* Content Box */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-gradient-to-br from-slate-800/80 via-purple-900/40 to-slate-800/80 backdrop-blur border border-purple-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl">
-          
+
           {/* Wheel Container */}
           <div className="flex flex-col items-center justify-center relative pb-10 pt-4">
-            
+
             {/* Wooden Base Stand */}
             <div className="absolute -bottom-2 w-[220px] h-[30px] bg-gradient-to-r from-[#b47a46] via-[#e3aa74] to-[#b47a46] rounded-full shadow-[0_10px_20px_rgba(0,0,0,0.5)] border-b-4 border-[#8c5a2c] z-0" style={{ clipPath: 'polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%)' }} />
             <div className="absolute -bottom-4 flex justify-between w-[180px] z-0">
@@ -464,7 +459,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
             </div>
 
             <div className="relative w-[300px] h-[300px] sm:w-[380px] sm:h-[380px] md:w-[410px] md:h-[410px] mx-auto select-none z-10">
-              
+
               {/* Top pointer indicator - metal peg with red arrow */}
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-40 filter drop-shadow-[0_4px_6px_rgba(0,0,0,0.6)] animate-bounce-slow flex flex-col items-center">
                 <div className="w-6 h-6 rounded-full bg-gradient-to-br from-slate-100 to-slate-400 border-2 border-slate-500 shadow-inner flex items-center justify-center relative z-10">
@@ -472,7 +467,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
                 </div>
                 <div className="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[20px] border-t-red-600 -mt-2 relative z-0" />
               </div>
-              
+
               {/* SVG Wheel element */}
               <svg
                 ref={wheelRef}
@@ -512,11 +507,10 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-slate-400 shadow-inner" />
 
                 {/* Orange Dome */}
-                <div className={`w-12 h-12 rounded-full shadow-[0_5px_10px_rgba(0,0,0,0.4),inset_0_4px_6px_rgba(255,255,255,0.6)] flex items-center justify-center ${
-                  isSpinning ? 'bg-gradient-to-b from-orange-600 to-red-700' : 'bg-gradient-to-b from-orange-400 to-red-600 group-hover:from-orange-300 group-hover:to-red-500'
-                }`}>
-                   {/* Reflection on dome */}
-                   <div className="absolute top-2.5 w-6 h-3 bg-white/40 rounded-full blur-[1px]" style={{ clipPath: 'ellipse(50% 50% at 50% 20%)' }} />
+                <div className={`w-12 h-12 rounded-full shadow-[0_5px_10px_rgba(0,0,0,0.4),inset_0_4px_6px_rgba(255,255,255,0.6)] flex items-center justify-center ${isSpinning ? 'bg-gradient-to-b from-orange-600 to-red-700' : 'bg-gradient-to-b from-orange-400 to-red-600 group-hover:from-orange-300 group-hover:to-red-500'
+                  }`}>
+                  {/* Reflection on dome */}
+                  <div className="absolute top-2.5 w-6 h-3 bg-white/40 rounded-full blur-[1px]" style={{ clipPath: 'ellipse(50% 50% at 50% 20%)' }} />
                 </div>
               </button>
             </div>
@@ -552,7 +546,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
             {!isSpinning && selectedIdea && (
               <div className="animate-slide-in">
                 <div className="bg-gradient-to-br from-slate-900/80 to-purple-950/40 border border-purple-500/20 rounded-3xl p-6 shadow-xl relative overflow-hidden">
-                  
+
                   {/* Category badge */}
                   {(() => {
                     const badge = getCategoryLabel(selectedIdea.category);
@@ -562,7 +556,7 @@ const RouletteQVT: React.FC<RouletteQVTProps> = ({ onClose }) => {
                           {getCategoryIcon(selectedIdea.category)}
                           {badge.text}
                         </span>
-                        
+
                         <button
                           onClick={handleCopy}
                           className="p-2 text-slate-400 hover:text-purple-400 hover:bg-slate-800 rounded-lg transition-colors duration-150"

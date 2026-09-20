@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, lazy, Suspense } from "react"
 import { ArrowLeft, Rss, Calculator, DollarSign, TrendingUp,
-  Users, Eye, Laptop, Phone, Mail, MapPin } from "lucide-react"
+  Users, Eye, Laptop, Phone, Mail, MapPin,
+  Clock, Map as MapIcon, Briefcase, Calendar, Activity, Receipt, LayoutGrid } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { searchFAQ } from "./data/FAQdata.ts"
@@ -28,11 +29,31 @@ const DocuthequeRAG = lazy(() => import("./components/DocuthequeRAG").then(m => 
 const CoinRH = lazy(() => import("./components/CoinRH.tsx"))
 const MemoireJuridiqueGenerator = lazy(() => import("./components/MemoireJuridiqueGenerator").then(m => ({ default: m.MemoireJuridiqueGenerator })))
 const HomeMenu = lazy(() => import("./components/HomeMenu.tsx"))
-const SimulateurCarriere = lazy(() => import("./components/SimulateurCarriere.tsx"))
 // Modules rarity chargés à la demande (admin, chat) pour alléger le bundle initial
 const LuxuryChat = lazy(() => import("./components/ui/LuxuryChat.tsx").then(m => ({ default: m.LuxuryChat })))
 const AdminPanel = lazy(() => import("./components/AdminPanel.tsx"))
 const AdminLogin = lazy(() => import("./components/AdminLogin.tsx"))
+import MetiersPage from "./components/MetiersPage.tsx"
+import SimulateurCarriere from "./components/SimulateurCarriere.tsx"
+import ToolsPage from "./components/ToolsPage.tsx"
+import Header from "./components/Header.tsx"
+import { NetPaySimulator } from "./components/calculators/NetPaySimulator"
+import { IhtsCalculator } from "./components/calculators/IhtsCalculator"
+import { TravelExpensesCalculator } from "./components/calculators/TravelExpensesCalculator"
+import { IsrcSimulator } from "./components/calculators/IsrcSimulator"
+import { RttCalculator } from "./components/calculators/RttCalculator"
+import { CongesMaladie } from "./components/calculators/CongesMaladie"
+import { GrillesIndiciairesModule } from "./components/calculators/GrillesIndiciairesModule"
+import { ArrNomination } from "./components/actes/ArrNomination"
+import { ArrTitularisation } from "./components/actes/ArrTitularisation"
+import { ArrEchelon } from "./components/actes/ArrEchelon"
+import { ArrTeletravail } from "./components/actes/ArrTeletravail"
+import { ArrCongeParental } from "./components/actes/ArrCongeParental"
+import { ArrDetachement } from "./components/actes/ArrDetachement"
+import { ArrIntegrationDetachement } from "./components/actes/ArrIntegrationDetachement"
+import { ArrMutationExterne } from "./components/actes/ArrMutationExterne"
+import { ArrMutationInterne } from "./components/actes/ArrMutationInterne"
+import { DelibPoste } from "./components/actes/DelibPoste"
 import MacMenuBar from "./components/MacMenuBar.tsx"
 
 // --- CONFIGURATION BASE URL POUR GITHUB PAGES ---
@@ -173,10 +194,11 @@ interface InfoItem {
   content: string
 }
 export interface ChatbotState {
-  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "memoire-juridique" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh" | "simul-agent"
+  currentView: "menu" | "chat" | "metiers" | "calculators" | "veille" | "simul-agent" | "native-calculator"
   selectedDomain: number | null
   messages: ChatMessage[]
   isProcessing: boolean
+  simulTool?: string | null
 }
 
 function App() {
@@ -1333,7 +1355,7 @@ ${indicesFactuels}
       {/* --- SECTION GRILLES INDICIAIRES / MÉTIERS --- */}
       {chatState.currentView === 'metiers' && (
         <Suspense fallback={<ViewLoader />}>
-          <Metiers onClose={() => setChatState({ ...chatState, currentView: 'menu' })} />
+          <Metiers theme={theme} onClose={() => setChatState({ ...chatState, currentView: 'menu' })} onOpenCalculator={(toolId) => setChatState({ ...chatState, currentView: 'native-calculator', simulTool: toolId })} />
         </Suspense>
       )}
 
@@ -1436,15 +1458,60 @@ ${indicesFactuels}
         </Suspense>
       )}
 
+      {/* --- SECTION SIMULATEURS NATIFS --- */}
+      {chatState.currentView === 'native-calculator' && chatState.simulTool && (
+        <div className="fixed inset-0 z-[60] flex flex-col bg-slate-100 dark:bg-slate-950 overflow-y-auto">
+          <div className="max-w-7xl mx-auto w-full p-4 sm:p-6 pb-32 space-y-6 mt-4">
+            <button
+              onClick={() => {
+                const isActe = ['arr-nomination', 'arr-titularisation', 'arr-echelon', 'arr-teletravail', 'arr-conge-parental', 'arr-detachement', 'arr-integration', 'arr-mutation-externe', 'arr-mutation-interne', 'delib-poste'].includes(chatState.simulTool || '');
+                setChatState({ ...chatState, currentView: isActe ? 'metiers' : 'calculators', simulTool: null })
+              }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group cursor-pointer"
+            >
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              <span>
+                {['arr-nomination', 'arr-titularisation', 'arr-echelon', 'arr-teletravail', 'arr-conge-parental', 'arr-detachement', 'arr-integration', 'arr-mutation-externe', 'arr-mutation-interne', 'delib-poste'].includes(chatState.simulTool || '') 
+                  ? "Retour aux Aides aux Gestionnaires" 
+                  : "Retour aux calculateurs"}
+              </span>
+            </button>
+            
+            <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+              <Suspense fallback={<ViewLoader />}>
+                {chatState.simulTool === 'net-pay' && <NetPaySimulator />}
+                {chatState.simulTool === 'ihts' && <IhtsCalculator />}
+                {chatState.simulTool === 'travel' && <TravelExpensesCalculator />}
+                {chatState.simulTool === 'isrc' && <IsrcSimulator />}
+                {chatState.simulTool === 'rtt' && <RttCalculator />}
+                {chatState.simulTool === 'maladie' && <CongesMaladie />}
+                {chatState.simulTool === 'grilles' && <GrillesIndiciairesModule />}
+                {chatState.simulTool === 'arr-nomination' && <ArrNomination />}
+                {chatState.simulTool === 'arr-titularisation' && <ArrTitularisation />}
+                {chatState.simulTool === 'arr-echelon' && <ArrEchelon />}
+                {chatState.simulTool === 'arr-teletravail' && <ArrTeletravail />}
+                {chatState.simulTool === 'arr-conge-parental' && <ArrCongeParental />}
+                {chatState.simulTool === 'arr-detachement' && <ArrDetachement />}
+                {chatState.simulTool === 'arr-integration' && <ArrIntegrationDetachement />}
+                {chatState.simulTool === 'arr-mutation-externe' && <ArrMutationExterne />}
+                {chatState.simulTool === 'arr-mutation-interne' && <ArrMutationInterne />}
+                {chatState.simulTool === 'delib-poste' && <DelibPoste />}
+              </Suspense>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* --- SECTION SIMULATEUR CARRIÈRE & LDG --- */}
       {chatState.currentView === 'simul-agent' && (
         <Suspense fallback={<ViewLoader />}>
           <SimulateurCarriere
             onClose={() => {
-              setChatState({ ...chatState, currentView: 'menu' });
+              setChatState({ ...chatState, currentView: 'menu', simulTool: null });
               window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
             }}
             theme={theme}
+            tool={chatState.simulTool}
           />
         </Suspense>
       )}
@@ -1469,7 +1536,7 @@ ${indicesFactuels}
                   <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                   <span>{activeCalculator ? 'Retour aux calculateurs' : 'Retour au menu'}</span>
                 </button>
-                <h2 className="text-xl font-bold text-slate-800 dark:text-white">Calculateurs CFDT</h2>
+                <h2 className="text-xl font-bold text-slate-800 dark:text-white">Boîte à Outils CFDT</h2>
               </div>
             </div>
           </div>
@@ -1478,8 +1545,8 @@ ${indicesFactuels}
           {!activeCalculator && (
             <div className="max-w-6xl mx-auto px-4 py-12 calc-landing-enter">
               <div className="text-center mb-12">
-                <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-4">Choisissez un calculateur</h3>
-                <p className="text-slate-500 dark:text-slate-400 font-medium dark:font-normal">Cliquez sur une icône pour accéder au calculateur</p>
+                <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-4">Choisissez un outil</h3>
+                <p className="text-slate-500 dark:text-slate-400 font-medium dark:font-normal">Cliquez sur une icône pour y accéder</p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {/* Carte CIA */}
@@ -1549,6 +1616,159 @@ ${indicesFactuels}
                     <p className="text-center text-slate-500 dark:text-slate-400 font-medium dark:font-normal text-sm">Supplément Familial de Traitement - Simulez vos droits</p>
                     <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400 font-bold dark:font-semibold">
                       <span className="text-sm">Ouvrir le calculateur</span>
+                    </div>
+                  </div>
+                </button>
+
+                {/* Carte Grille Indiciaire */}
+                <button
+                  onClick={() => {
+                    setActiveCalculator(null);
+                    setChatState({ ...chatState, currentView: 'native-calculator', simulTool: 'grilles' });
+                  }}
+                  className="group relative bg-white dark:bg-slate-800/80 border border-emerald-200 dark:border-emerald-500/20 rounded-2xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-emerald-500/10 hover:border-emerald-300 dark:hover:border-emerald-500/40 hover:scale-105 hover:-translate-y-2 transition-transform duration-150"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/50 dark:from-emerald-500/5 via-transparent to-teal-50/50 dark:to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
+                  <div className="relative z-10 flex flex-col items-center gap-6">
+                    <div className="p-6 bg-gradient-to-br from-emerald-100 dark:from-slate-900/80 to-teal-100 dark:to-slate-800/80 rounded-2xl shadow-sm border border-emerald-200 dark:border-emerald-500/30">
+                      <LayoutGrid className="w-16 h-16 text-emerald-600 dark:text-emerald-400" />
+                    </div>
+                    <h4 className="text-2xl font-bold text-slate-800 dark:text-white text-center">Grilles Indiciaires</h4>
+                    <p className="text-center text-slate-500 dark:text-slate-400 font-medium dark:font-normal text-sm">Consultez les grilles par métier et catégorie</p>
+                    <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold dark:font-semibold">
+                      <span className="text-sm">Accéder au module</span>
+                    </div>
+                  </div>
+                </button>
+
+                {/* Carte Simulateur Net à Payer */}
+                <button
+                  onClick={() => {
+                    setActiveCalculator(null);
+                    setChatState({ ...chatState, currentView: 'native-calculator', simulTool: 'net-pay' });
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                  }}
+                  className="group relative bg-white dark:bg-slate-800/80 border border-blue-200 dark:border-blue-500/20 rounded-2xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-blue-500/10 hover:border-blue-300 dark:hover:border-blue-500/40 hover:scale-105 hover:-translate-y-2 transition-transform duration-150"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 dark:from-blue-500/5 via-transparent to-indigo-50/50 dark:to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
+                  <div className="relative z-10 flex flex-col items-center gap-6">
+                    <div className="p-6 bg-gradient-to-br from-blue-100 dark:from-slate-900/80 to-indigo-100 dark:to-slate-800/80 rounded-2xl shadow-sm border border-blue-200 dark:border-blue-500/30">
+                      <Receipt className="w-16 h-16 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <h4 className="text-2xl font-bold text-slate-800 dark:text-white">Net à Payer</h4>
+                    <p className="text-center text-slate-500 dark:text-slate-400 font-medium dark:font-normal text-sm">Estimation du net à partir de l'indice majoré</p>
+                    <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold dark:font-semibold">
+                      <span className="text-sm">Accéder au module</span>
+                    </div>
+                  </div>
+                </button>
+
+                {/* Carte Heures supplémentaires */}
+                <button
+                  onClick={() => {
+                    setActiveCalculator(null);
+                    setChatState({ ...chatState, currentView: 'native-calculator', simulTool: 'ihts' });
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                  }}
+                  className="group relative bg-white dark:bg-slate-800/80 border border-indigo-200 dark:border-indigo-500/20 rounded-2xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-indigo-500/10 hover:border-indigo-300 dark:hover:border-indigo-500/40 hover:scale-105 hover:-translate-y-2 transition-transform duration-150"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 dark:from-indigo-500/5 via-transparent to-violet-50/50 dark:to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
+                  <div className="relative z-10 flex flex-col items-center gap-6">
+                    <div className="p-6 bg-gradient-to-br from-indigo-100 dark:from-slate-900/80 to-violet-100 dark:to-slate-800/80 rounded-2xl shadow-sm border border-indigo-200 dark:border-indigo-500/30">
+                      <Clock className="w-16 h-16 text-indigo-600 dark:text-indigo-400" />
+                    </div>
+                    <h4 className="text-2xl font-bold text-slate-800 dark:text-white text-center">Heures Sup'</h4>
+                    <p className="text-center text-slate-500 dark:text-slate-400 font-medium dark:font-normal text-sm">Calcul des IHTS par tranche et nature</p>
+                    <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold dark:font-semibold">
+                      <span className="text-sm">Accéder au module</span>
+                    </div>
+                  </div>
+                </button>
+
+                {/* Carte Frais de déplacement */}
+                <button
+                  onClick={() => {
+                    setActiveCalculator(null);
+                    setChatState({ ...chatState, currentView: 'native-calculator', simulTool: 'travel' });
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                  }}
+                  className="group relative bg-white dark:bg-slate-800/80 border border-sky-200 dark:border-sky-500/20 rounded-2xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-sky-500/10 hover:border-sky-300 dark:hover:border-sky-500/40 hover:scale-105 hover:-translate-y-2 transition-transform duration-150"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-sky-50/50 dark:from-sky-500/5 via-transparent to-blue-50/50 dark:to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
+                  <div className="relative z-10 flex flex-col items-center gap-6">
+                    <div className="p-6 bg-gradient-to-br from-sky-100 dark:from-slate-900/80 to-blue-100 dark:to-slate-800/80 rounded-2xl shadow-sm border border-sky-200 dark:border-sky-500/30">
+                      <MapIcon className="w-16 h-16 text-sky-600 dark:text-sky-400" />
+                    </div>
+                    <h4 className="text-2xl font-bold text-slate-800 dark:text-white text-center">Déplacements</h4>
+                    <p className="text-center text-slate-500 dark:text-slate-400 font-medium dark:font-normal text-sm">Indemnités kilométriques, nuitées et repas</p>
+                    <div className="flex items-center gap-2 text-sky-600 dark:text-sky-400 font-bold dark:font-semibold">
+                      <span className="text-sm">Accéder au module</span>
+                    </div>
+                  </div>
+                </button>
+
+                {/* Carte Rupture conventionnelle */}
+                <button
+                  onClick={() => {
+                    setActiveCalculator(null);
+                    setChatState({ ...chatState, currentView: 'native-calculator', simulTool: 'isrc' });
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                  }}
+                  className="group relative bg-white dark:bg-slate-800/80 border border-rose-200 dark:border-rose-500/20 rounded-2xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-rose-500/10 hover:border-rose-300 dark:hover:border-rose-500/40 hover:scale-105 hover:-translate-y-2 transition-transform duration-150"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-rose-50/50 dark:from-rose-500/5 via-transparent to-pink-50/50 dark:to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
+                  <div className="relative z-10 flex flex-col items-center gap-6">
+                    <div className="p-6 bg-gradient-to-br from-rose-100 dark:from-slate-900/80 to-pink-100 dark:to-slate-800/80 rounded-2xl shadow-sm border border-rose-200 dark:border-rose-500/30">
+                      <Briefcase className="w-16 h-16 text-rose-600 dark:text-rose-400" />
+                    </div>
+                    <h4 className="text-2xl font-bold text-slate-800 dark:text-white text-center">Rupture Conv.</h4>
+                    <p className="text-center text-slate-500 dark:text-slate-400 font-medium dark:font-normal text-sm">Fourchette plancher et plafond d'indemnité</p>
+                    <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-bold dark:font-semibold">
+                      <span className="text-sm">Accéder au module</span>
+                    </div>
+                  </div>
+                </button>
+
+                {/* Carte RTT */}
+                <button
+                  onClick={() => {
+                    setActiveCalculator(null);
+                    setChatState({ ...chatState, currentView: 'native-calculator', simulTool: 'rtt' });
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                  }}
+                  className="group relative bg-white dark:bg-slate-800/80 border border-teal-200 dark:border-teal-500/20 rounded-2xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-teal-500/10 hover:border-teal-300 dark:hover:border-teal-500/40 hover:scale-105 hover:-translate-y-2 transition-transform duration-150"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-teal-50/50 dark:from-teal-500/5 via-transparent to-emerald-50/50 dark:to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
+                  <div className="relative z-10 flex flex-col items-center gap-6">
+                    <div className="p-6 bg-gradient-to-br from-teal-100 dark:from-slate-900/80 to-emerald-100 dark:to-slate-800/80 rounded-2xl shadow-sm border border-teal-200 dark:border-teal-500/30">
+                      <Calendar className="w-16 h-16 text-teal-600 dark:text-teal-400" />
+                    </div>
+                    <h4 className="text-2xl font-bold text-slate-800 dark:text-white">RTT & Congés</h4>
+                    <p className="text-center text-slate-500 dark:text-slate-400 font-medium dark:font-normal text-sm">Calcul du droit à congés et jours RTT</p>
+                    <div className="flex items-center gap-2 text-teal-600 dark:text-teal-400 font-bold dark:font-semibold">
+                      <span className="text-sm">Accéder au module</span>
+                    </div>
+                  </div>
+                </button>
+
+                {/* Carte Congés Maladie */}
+                <button
+                  onClick={() => {
+                    setActiveCalculator(null);
+                    setChatState({ ...chatState, currentView: 'native-calculator', simulTool: 'maladie' });
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                  }}
+                  className="group relative bg-white dark:bg-slate-800/80 border border-red-200 dark:border-red-500/20 rounded-2xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-red-500/10 hover:border-red-300 dark:hover:border-red-500/40 hover:scale-105 hover:-translate-y-2 transition-transform duration-150"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-red-50/50 dark:from-red-500/5 via-transparent to-rose-50/50 dark:to-rose-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
+                  <div className="relative z-10 flex flex-col items-center gap-6">
+                    <div className="p-6 bg-gradient-to-br from-red-100 dark:from-slate-900/80 to-rose-100 dark:to-slate-800/80 rounded-2xl shadow-sm border border-red-200 dark:border-red-500/30">
+                      <Activity className="w-16 h-16 text-red-600 dark:text-red-400" />
+                    </div>
+                    <h4 className="text-2xl font-bold text-slate-800 dark:text-white text-center">Congés Maladie</h4>
+                    <p className="text-center text-slate-500 dark:text-slate-400 font-medium dark:font-normal text-sm">CMO, CLM et CLD sur période glissante</p>
+                    <div className="flex items-center gap-2 text-red-600 dark:text-red-400 font-bold dark:font-semibold">
+                      <span className="text-sm">Accéder au module</span>
                     </div>
                   </div>
                 </button>

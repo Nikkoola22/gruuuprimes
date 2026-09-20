@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnReset = document.getElementById('btnReset');
   const categoryHintText = document.getElementById('categoryHintText');
   const accessWayHintText = document.getElementById('accessWayHintText');
+  const ldg4CurrentCatLabel = document.getElementById('ldg4CurrentCatLabel');
 
   // Mini-breakdown spans
   const miniL1 = document.getElementById('miniL1');
@@ -184,6 +185,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const way = selectAccessWay.value;
 
     headerCategoryPill.textContent = `Catégorie ${cat} (${way === 'choix' ? 'Au choix' : 'Exam. Pro'})`;
+
+    // Catégorie déclarée de l'agent (celle dont il est titulaire) : B s'il vise un cadre A, C s'il vise B ou C
+    if (ldg4CurrentCatLabel) ldg4CurrentCatLabel.textContent = `(Catégorie ${cat === 'A' ? 'B' : 'C'})`;
 
     if (cat === 'A') {
       categoryHintText.textContent = "Pour les agents B visant un cadre d'emplois A (Attaché, Ingénieur, Conseiller...).";

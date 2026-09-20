@@ -921,7 +921,62 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialisation de la bulle d'information Ligne 2
   initLdg2InfoBubble();
 
+  // =========================================================
+  // MEMENTORH DRAWER LOGIC
+  // =========================================================
+  const btnOpenMementoDrawer = document.getElementById('btnOpenMementoDrawer');
+  const btnCloseMementoDrawer = document.getElementById('btnCloseMementoDrawer');
+  const mementoDrawerOverlay = document.getElementById('mementoDrawerOverlay');
+  const mementoDrawer = document.getElementById('mementoDrawer');
+  
+  const btnRoleGestionnaire = document.getElementById('btnRoleGestionnaire');
+  const btnRoleAgent = document.getElementById('btnRoleAgent');
+  const gestionnaireOnlyElements = document.querySelectorAll('[data-vue-only="gestionnaire"]');
+
+  function openMementoDrawer() {
+    mementoDrawerOverlay.classList.remove('hidden');
+    mementoDrawer.classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; // Prevent scrolling
+  }
+
+  function closeMementoDrawer() {
+    mementoDrawerOverlay.classList.add('hidden');
+    mementoDrawer.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  if (btnOpenMementoDrawer) {
+    btnOpenMementoDrawer.addEventListener('click', openMementoDrawer);
+  }
+  
+  if (btnCloseMementoDrawer) {
+    btnCloseMementoDrawer.addEventListener('click', closeMementoDrawer);
+  }
+  
+  if (mementoDrawerOverlay) {
+    mementoDrawerOverlay.addEventListener('click', closeMementoDrawer);
+  }
+
+  function setMementoRole(role) {
+    if (role === 'gestionnaire') {
+      btnRoleGestionnaire.classList.add('active');
+      btnRoleAgent.classList.remove('active');
+      gestionnaireOnlyElements.forEach(el => el.classList.remove('vue-hidden'));
+    } else {
+      btnRoleAgent.classList.add('active');
+      btnRoleGestionnaire.classList.remove('active');
+      gestionnaireOnlyElements.forEach(el => el.classList.add('vue-hidden'));
+    }
+  }
+
+  if (btnRoleGestionnaire) {
+    btnRoleGestionnaire.addEventListener('click', () => setMementoRole('gestionnaire'));
+  }
+  
+  if (btnRoleAgent) {
+    btnRoleAgent.addEventListener('click', () => setMementoRole('agent'));
+  }
+
   // Initial calculation
   handleProfileChange();
 });
-

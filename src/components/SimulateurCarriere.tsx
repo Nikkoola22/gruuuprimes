@@ -9,12 +9,13 @@ import {
 interface SimulateurCarriereProps {
   onClose: () => void;
   theme?: "light" | "dark";
+  tool?: string | null;
 }
 
 const BASE_URL = import.meta.env.BASE_URL || "/";
 const SIMUL_URL = `${BASE_URL.endsWith("/") ? BASE_URL : `${BASE_URL}/`}simul-agent/index.html`;
 
-export const SimulateurCarriere: React.FC<SimulateurCarriereProps> = ({ onClose }) => {
+export const SimulateurCarriere: React.FC<SimulateurCarriereProps> = ({ onClose, tool }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export const SimulateurCarriere: React.FC<SimulateurCarriereProps> = ({ onClose 
     setIsLoading(true);
     const iframe = document.getElementById("simul-agent-iframe") as HTMLIFrameElement;
     if (iframe) {
-      iframe.src = SIMUL_URL;
+      iframe.src = tool ? `${SIMUL_URL}?tool=${tool}` : SIMUL_URL;
     }
   };
 
@@ -98,7 +99,7 @@ export const SimulateurCarriere: React.FC<SimulateurCarriereProps> = ({ onClose 
         {/* Embedded Application */}
         <iframe
           id="simul-agent-iframe"
-          src={SIMUL_URL}
+          src={tool ? `${SIMUL_URL}?tool=${tool}` : SIMUL_URL}
           title="Simulateur Carrière Agent CFDT"
           className="w-full h-full border-0 block"
           onLoad={() => setIsLoading(false)}

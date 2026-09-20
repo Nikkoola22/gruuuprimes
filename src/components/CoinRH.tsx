@@ -14,7 +14,10 @@ import {
   Download,
   Copy,
   Printer,
-  Gavel
+  Gavel,
+  ExternalLink,
+  Clock,
+  AlertTriangle
 } from "lucide-react";
 import { queryStatutoryEngine } from "../services/legifrance";
 import { extractTextFromFile, auditStatutoryDocument, FullLegalAuditResult } from "../services/statutoryAuditEngine";
@@ -22,6 +25,7 @@ import { OfficialDocumentPreview } from "./OfficialDocumentPreview";
 import { MemoireJuridiqueGenerator } from "./MemoireJuridiqueGenerator";
 import { ALL_THEMES_TEMPLATES } from "../data/allThemesTemplatesRegistry";
 import { exportStatutoryActToDocx } from "../utils/docxExport";
+import { queryJurisprudence, JurisprudenceDecision } from "../services/jurisprudence";
 import { toast } from "sonner";
 
 interface CoinRHProps {
@@ -41,6 +45,37 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
   const [selectedTypeFilter, setSelectedTypeFilter] = useState<string>("all");
   const [isMemoireOpen, setIsMemoireOpen] = useState<boolean>(false);
   const statutResultRef = useRef<HTMLDivElement>(null);
+
+  // Jurisprudence search state
+  const [jurisQuery, setJurisQuery] = useState<string>("");
+  const [jurisResults, setJurisResults] = useState<JurisprudenceDecision[] | null>(null);
+  const [jurisTotal, setJurisTotal] = useState<number>(0);
+  const [jurisError, setJurisError] = useState<string | null>(null);
+  const [isJurisLoading, setIsJurisLoading] = useState<boolean>(false);
+  const jurisResultRef = useRef<HTMLDivElement>(null);
+
+  const handleJurisSearch = async (queryToUse?: string) => {
+    const rawQuery = queryToUse !== undefined ? queryToUse : jurisQuery;
+    const effectiveQuery = rawQuery.trim() || "proportionnalité sanction disciplinaire";
+    setIsJurisLoading(true);
+    setJurisError(null);
+    try {
+      const res = await queryJurisprudence(effectiveQuery, 5);
+      if (res.success) {
+        setJurisResults(res.results);
+        setJurisTotal(res.totalCount || res.results.length);
+      } else {
+        setJurisResults(null);
+        setJurisError(res.message || "Recherche indisponible");
+      }
+    } catch (err) {
+      console.error("Erreur jurisprudence:", err);
+      setJurisError("Service jurisprudence injoignable");
+    } finally {
+      setIsJurisLoading(false);
+      setTimeout(() => { jurisResultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }); }, 150);
+    }
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
@@ -303,337 +338,149 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
           </div>
         </div>
 
-        {/* ─── MODULE 3 : SIMULATION D'ACTES ─── */}
-        <div className={`rounded-3xl p-6 sm:p-7 border-2 shadow-2xl relative overflow-hidden transition-all ${
+        {/* ─── MODULE 3 : RECHERCHE DE JURISPRUDENCE ─── */}
+        <div className={`rounded-3xl p-6 sm:p-7 border-2 shadow-xl relative overflow-hidden transition-all ${
           isLight
             ? "bg-white border-indigo-200 shadow-indigo-100/50"
             : "bg-[#0E1526] border-indigo-500/40 shadow-2xl shadow-black/80"
         }`}>
-          <div className="relative z-10 flex flex-col gap-5">
-            {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3.5 border-b border-indigo-500/20 pb-4">
-              <div className="flex items-start sm:items-center gap-3.5">
-                <div className="p-3 bg-[#171F38] text-indigo-400 rounded-2xl border border-indigo-500/40 shadow-inner shrink-0">
-                  <FileSignature className="w-7 h-7" />
+          {/* Header Box */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-5">
+            <div className="flex items-center gap-3.5">
+              <div className="p-3 bg-indigo-50 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 rounded-2xl border border-indigo-200 dark:border-indigo-500/30 shrink-0">
+                <Scale className="w-6 h-6" />
+              </div>
+              <div>
+                <h2 className={`text-base sm:text-xl font-black tracking-tight ${isLight ? "text-slate-900" : "text-white"}`}>Recherche de Jurisprudence</h2>
+                <p className={`text-xs font-medium mt-0.5 ${isLight ? "text-slate-500" : "text-slate-400"}`}>
+                  Fond JURI Légifrance (PISTE) • Cour de cassation, Cours administratives d'appel, Tribunaux administratifs, Conseil d'État
+                </p>
+              </div>
+            </div>
+            {jurisTotal > 0 && (
+              <div className="px-3.5 py-1.5 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300 rounded-2xl text-xs font-bold flex items-center gap-2 shrink-0">
+                <CheckCircle2 className="w-3.5 h-3.5" /> {jurisTotal.toLocaleString("fr-FR")} décisions indexées
+              </div>
+            )}
+          </div>
+
+          {/* Search Box */}
+          <div className="bg-gradient-to-br from-indigo-950/40 via-slate-900/90 to-slate-900/95 border-2 border-indigo-500/40 rounded-2xl p-5 sm:p-6 backdrop-blur-md relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
+            <div className="relative z-10 flex flex-col gap-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-indigo-500/20 text-indigo-400 rounded-xl border border-indigo-500/30 shrink-0">
+                  <Search className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h2 className="text-base sm:text-xl font-black text-slate-900 dark:text-white tracking-tight">
-                      Simulation d'Actes <span className="text-sm font-semibold text-amber-400/90">(non officiels)</span>
-                    </h2>
-                    <span className="text-[10.5px] uppercase font-black tracking-wider px-2.5 py-0.5 rounded-full bg-[#182348] text-indigo-300 border border-indigo-500/40">
-                      WORD (.DOCX) • VILLE DE GENNEVILLIERS
-                    </span>
-                  </div>
-                  <p className={`text-xs font-medium mt-1 max-w-3xl ${isLight ? "text-slate-500" : "text-slate-300"}`}>
-                    Rédigez immédiatement un arrêté du Maire, un contrat CDD de droit public, un ordre de service ou une décision municipale conforme.
-                  </p>
+                  <h3 className="text-sm sm:text-base font-black text-white">Interroger le fonds décisionnel national</h3>
+                  <p className="text-xs text-slate-300 font-medium mt-0.5">Recherchez par mots-clés juridiques : proportionnalité, droit de retrait, protection fonctionnelle, sanction déguisée…</p>
                 </div>
               </div>
-
-              <span className="text-[11px] font-bold text-indigo-300 bg-[#171F38] px-3 py-1.5 rounded-xl border border-indigo-500/40 flex items-center gap-1.5 shrink-0 self-start md:self-auto">
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 38 Modèles Thématiques
-              </span>
-            </div>
-
-            {/* Input Bar & Actions */}
-            <div className="flex flex-col gap-2.5">
-              <div className={`flex flex-col sm:flex-row gap-2.5 p-2.5 rounded-2xl border-2 shadow-md transition-all ${
-                isLight ? "bg-indigo-50/90 border-indigo-400 focus-within:border-indigo-600 shadow-indigo-500/10 focus-within:ring-2 focus-within:ring-indigo-500/20" : "bg-slate-900/90 border-indigo-500/70 focus-within:border-indigo-400 shadow-indigo-500/20 focus-within:ring-2 focus-within:ring-indigo-500/20"
-              }`}>
+              <div className="flex flex-col sm:flex-row gap-2.5">
                 <div className="relative flex-1 flex items-center">
-                  <Search className="w-4 h-4 text-indigo-600 dark:text-indigo-400 absolute left-3.5 pointer-events-none font-bold" />
+                  <Scale className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
                   <input
                     type="text"
-                    value={statutInput}
-                    onChange={(e) => setStatutInput(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        handleExecuteStatut();
-                      }
-                    }}
-                    placeholder="Ex: Contrat CDD L. 332-8 permanent, Arrêté nomination stagiaire, Remplacement L. 332-13, Arrêté IFSE..."
-                    className="w-full pl-10 pr-10 py-3 bg-transparent text-sm font-semibold text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-hidden"
+                    value={jurisQuery}
+                    onChange={(e) => setJurisQuery(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleJurisSearch(); } }}
+                    placeholder="Ex: proportionnalité sanction disciplinaire, droit de retrait…"
+                    className="w-full pl-10 pr-4 py-3 bg-slate-900 border-2 border-indigo-500 rounded-xl text-sm font-semibold text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 shadow-md"
                   />
-                  {statutInput && (
-                    <button
-                      type="button"
-                      onClick={() => setStatutInput("")}
-                      className="absolute right-3 p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
-                    >
-                      <span className="text-xs font-bold">✕</span>
-                    </button>
-                  )}
                 </div>
                 <button
-                  onClick={() => handleExecuteStatut()}
-                  disabled={isStatutLoading}
-                  className="px-6 py-3.5 bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-indigo-900/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shrink-0 transform active:scale-98"
+                  onClick={() => handleJurisSearch()}
+                  disabled={isJurisLoading}
+                  className="px-6 py-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-500 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-xs rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shrink-0"
                 >
-                  {isStatutLoading ? (
-                    <RefreshCw className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <Sparkles className="w-4 h-4" />
-                  )}
-                  <span>Générer la simulation</span>
-                  <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[9.5px] font-mono bg-white/20 rounded-md text-white">↵</kbd>
+                  {isJurisLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
+                  <span>Rechercher</span>
                 </button>
               </div>
-
-              {/* Fast Inspiration Chips */}
-              <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-                <span className="text-[10.5px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mr-1">
-                  Suggestions rapides :
-                </span>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span className="text-[10.5px] font-bold uppercase tracking-wider text-slate-400 mr-1">Suggested :</span>
                 {[
-                  { label: "CDD Emploi Permanent (L. 332-8)", query: "Contrat CDD sur Emploi Permanent (CGFP Art. L. 332-8 2°)", icon: "📑" },
-                  { label: "CDD Remplacement (L. 332-13)", query: "Contrat CDD : Remplacement Temporaire d'un Agent Indisponible (L. 332-13)", icon: "👥" },
-                  { label: "CDD Accroissement (L. 332-23)", query: "Contrat CDD : Engagement pour Accroissement Temporaire d'Activité (L. 332-23 1°)", icon: "⚡" },
-                  { label: "Médecin Vacataire", query: "Contrat Portant Engagement d'un Médecin Vacataire (Permanence des Soins)", icon: "🩺" },
-                  { label: "Arrêté IFSE Mensuelle", query: "Arrêté du Maire : Attribution de l'IFSE Mensuelle", icon: "💰" },
-                  { label: "Nomination Stagiaire", query: "Arrêté du Maire : Nomination en Qualité de Fonctionnaire Stagiaire", icon: "📜" },
-                  { label: "Sanction Blâme", query: "Arrêté du Maire : Sanction Disciplinaire du 1er Groupe (Blâme)", icon: "⚖️" }
+                  { label: "Proportionnalité sanction", query: "proportionnalité sanction disciplinaire" },
+                  { label: "Droit de retrait", query: "droit de retrait fonctionnaire" },
+                  { label: "Protection fonctionnelle", query: "protection fonctionnelle agent territorial" },
+                  { label: "Sanction déguisée", query: "mutation sanction déguisée fonctionnaire" },
+                  { label: "Temps partiel thérapeutique", query: "temps partiel thérapeutique congé maladie" },
                 ].map((chip) => (
                   <button
                     key={chip.label}
                     type="button"
-                    onClick={() => {
-                      setStatutInput(chip.query);
-                      handleExecuteStatut(chip.query);
-                    }}
-                    className={`px-2.5 py-1 text-[11px] font-semibold rounded-lg border transition-all cursor-pointer flex items-center gap-1.5 ${
-                      isLight
-                        ? "bg-white hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border-slate-200 hover:border-indigo-300 shadow-2xs"
-                        : "bg-[#151F38] hover:bg-[#1E2D52] text-slate-200 hover:text-indigo-300 border-slate-700 hover:border-indigo-500/50"
-                    }`}
+                    onClick={() => { setJurisQuery(chip.query); handleJurisSearch(chip.query); }}
+                    disabled={isJurisLoading}
+                    className="px-2.5 py-1 text-[11px] font-semibold rounded-lg bg-slate-800/80 hover:bg-indigo-600/30 text-slate-200 hover:text-indigo-200 border border-slate-700 hover:border-indigo-500/50 transition-all cursor-pointer disabled:opacity-50"
                   >
-                    <span>{chip.icon}</span>
-                    <span>{chip.label}</span>
+                    {chip.label}
                   </button>
                 ))}
               </div>
             </div>
+          </div>
 
-            {/* Catalog Browser with Dual Filtering */}
-            <div className="flex flex-col gap-3 pt-3 border-t border-slate-800">
-              {/* Category Pills */}
-              <div className="flex flex-wrap items-center gap-1.5">
-                <button
-                  type="button"
-                  onClick={() => setSelectedThemeFilter("all")}
-                  className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
-                    selectedThemeFilter === "all"
-                      ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
-                      : isLight 
-                        ? "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
-                        : "bg-[#151F38] hover:bg-[#1E2D52] text-slate-300 border border-slate-700"
-                  }`}
-                >
-                  <span>Tous les thèmes</span>
-                  <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
-                    selectedThemeFilter === "all" ? "bg-indigo-700 text-indigo-100" : isLight ? "bg-slate-100 text-slate-700" : "bg-slate-800 text-slate-300"
-                  }`}>
-                    {ALL_THEMES_TEMPLATES.reduce((acc, t) => acc + t.templates.length, 0)}
-                  </span>
-                </button>
-
-                {ALL_THEMES_TEMPLATES.map((thm) => {
-                  const isActive = selectedThemeFilter === thm.id;
-                  return (
-                    <button
-                      key={thm.id}
-                      type="button"
-                      onClick={() => setSelectedThemeFilter(thm.id)}
-                      className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
-                        isActive
-                          ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
-                          : isLight
-                            ? "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
-                            : "bg-[#151F38] hover:bg-[#1E2D52] text-slate-300 border border-slate-700"
-                      }`}
-                    >
-                      <span>{thm.icon || "📌"} {thm.title.split("&")[0].trim()}</span>
-                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
-                        isActive ? "bg-indigo-700 text-indigo-100" : isLight ? "bg-slate-100 text-slate-700" : "bg-slate-800 text-slate-300"
-                      }`}>
-                        {thm.templates.length}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Sub-Filters: Type Filter + Live Keyword Filter */}
-              <div className={`flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 p-2.5 rounded-2xl border ${
-                isLight ? "bg-slate-50 border-slate-200" : "bg-[#060913] border-slate-800"
-              }`}>
-                <div className="flex flex-wrap items-center gap-1">
-                  <span className={`text-[11px] font-bold mr-1.5 ${isLight ? "text-slate-600" : "text-slate-300"}`}>Typologie :</span>
-                  {[
-                    { id: "all", label: "Tous types" },
-                    { id: "arrete", label: "📜 Arrêtés" },
-                    { id: "contrat", label: "📑 Contrats" },
-                    { id: "decision", label: "🏛️ Décisions" },
-                    { id: "courrier", label: "✉️ Courriers" },
-                    { id: "circulaire", label: "📋 Notes & Circulaires" }
-                  ].map((t) => (
-                    <button
-                      key={t.id}
-                      type="button"
-                      onClick={() => setSelectedTypeFilter(t.id)}
-                      className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                        selectedTypeFilter === t.id
-                          ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-xs"
-                          : isLight 
-                            ? "text-slate-600 hover:bg-slate-200"
-                            : "text-slate-300 hover:bg-[#151F38]"
-                      }`}
-                    >
-                      {t.label}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="relative flex items-center min-w-[220px]">
-                  <Search className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 absolute left-2.5 pointer-events-none font-bold" />
-                  <input
-                    type="text"
-                    value={templateSearchQuery}
-                    onChange={(e) => setTemplateSearchQuery(e.target.value)}
-                    placeholder="Rechercher parmi les modèles..."
-                    className={`w-full pl-8 pr-7 py-1.5 text-xs rounded-xl focus:outline-hidden focus:ring-2 focus:ring-indigo-500 border-2 font-medium shadow-xs ${
-                      isLight 
-                        ? "bg-indigo-50/80 border-indigo-300 text-slate-900 placeholder-slate-500"
-                        : "bg-slate-900 border-indigo-500/70 text-white placeholder-slate-400"
-                    }`}
-                  />
-                  {templateSearchQuery && (
-                    <button
-                      type="button"
-                      onClick={() => setTemplateSearchQuery("")}
-                      className="absolute right-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs"
-                    >
-                      ✕
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* Grid of Templates */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-80 overflow-y-auto pr-1 py-1 custom-scrollbar">
-                {(() => {
-                  const allRaw = selectedThemeFilter === "all"
-                    ? ALL_THEMES_TEMPLATES.flatMap(t => t.templates.map(tpl => ({ ...tpl, themeTitle: t.title })))
-                    : (ALL_THEMES_TEMPLATES.find(t => t.id === selectedThemeFilter)?.templates || []).map(tpl => ({ ...tpl, themeTitle: ALL_THEMES_TEMPLATES.find(t => t.id === selectedThemeFilter)?.title }));
-
-                  const filtered = allRaw.filter(tpl => {
-                    const matchType = selectedTypeFilter === "all" || tpl.type === selectedTypeFilter;
-                    const matchSearch = !templateSearchQuery.trim() || 
-                      tpl.name.toLowerCase().includes(templateSearchQuery.toLowerCase()) ||
-                      tpl.cgfpRef.toLowerCase().includes(templateSearchQuery.toLowerCase()) ||
-                      tpl.summary.toLowerCase().includes(templateSearchQuery.toLowerCase());
-                    return matchType && matchSearch;
-                  });
-
-                  if (filtered.length === 0) {
-                    return (
-                      <div className="col-span-full py-8 text-center flex flex-col items-center justify-center gap-2">
-                        <p className="text-sm font-bold text-slate-400">Aucun modèle ne correspond à vos critères de recherche.</p>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setSelectedThemeFilter("all");
-                            setSelectedTypeFilter("all");
-                            setTemplateSearchQuery("");
-                          }}
-                          className={`px-3 py-1.5 text-xs font-bold rounded-xl border ${
-                            isLight
-                              ? "bg-indigo-50 text-indigo-600 border-indigo-200"
-                              : "bg-[#151F38] text-indigo-300 border-indigo-500/40"
-                          }`}
-                        >
-                          Réinitialiser tous les filtres
-                        </button>
-                      </div>
-                    );
-                  }
-
-                  return filtered.map((tpl) => {
-                    const typeStyles: Record<string, { badge: string; border: string }> = {
-                      arrete: {
-                        badge: "bg-[#11241D] text-emerald-300 border-emerald-500/40",
-                        border: "hover:border-emerald-400 dark:hover:border-emerald-500"
-                      },
-                      decision: {
-                        badge: "bg-[#2A151C] text-rose-300 border-rose-500/40",
-                        border: "hover:border-rose-400 dark:hover:border-rose-500"
-                      },
-                      contrat: {
-                        badge: "bg-[#171F38] text-indigo-300 border-indigo-500/40",
-                        border: "hover:border-indigo-400 dark:hover:border-indigo-500"
-                      },
-                      circulaire: {
-                        badge: "bg-[#102334] text-sky-300 border-sky-500/40",
-                        border: "hover:border-sky-400 dark:hover:border-sky-500"
-                      },
-                      courrier: {
-                        badge: "bg-[#2A2012] text-amber-300 border-amber-500/40",
-                        border: "hover:border-amber-400 dark:hover:border-amber-500"
-                      }
-                    };
-
-                    const currentStyle = typeStyles[tpl.type] || typeStyles.arrete;
-
-                    return (
-                      <div
-                        key={tpl.id}
-                        onClick={() => {
-                          setStatutInput(tpl.name);
-                          handleExecuteStatut(tpl.name);
-                        }}
-                        className={`group relative flex flex-col justify-between p-3.5 border ${currentStyle.border} rounded-2xl transition-all cursor-pointer shadow-md hover:shadow-xl hover:-translate-y-0.5 ${
-                          isLight
-                            ? "bg-white hover:bg-indigo-50/40 border-slate-200"
-                            : "bg-[#131C33] hover:bg-[#1A2645] border-slate-700"
-                        }`}
-                      >
-                        <div className="flex flex-col gap-1.5">
-                          <div className="flex items-center justify-between w-full gap-1">
-                            <span className={`text-[9.5px] font-black uppercase px-2 py-0.5 rounded-md border tracking-wider ${currentStyle.badge}`}>
-                              {tpl.type}
-                            </span>
-                            <span className="text-[10px] text-slate-400 font-mono truncate max-w-[130px]" title={tpl.cgfpRef}>
-                              {tpl.cgfpRef.split("&")[0].trim()}
-                            </span>
-                          </div>
-                          <h4 className="text-xs font-black text-slate-900 dark:text-slate-100 group-hover:text-indigo-400 line-clamp-1 transition-colors">
-                            {tpl.name}
-                          </h4>
-                          <p className={`text-[11px] line-clamp-2 leading-relaxed font-medium ${isLight ? "text-slate-600" : "text-slate-300"}`}>
-                            {tpl.summary}
-                          </p>
-                        </div>
-
-                        <div className="flex items-center justify-between pt-2.5 mt-2 border-t border-slate-700/60">
-                          <span className="text-[10px] font-bold text-slate-400 truncate max-w-[140px]">
-                            {tpl.themeTitle || "Gennevilliers"}
-                          </span>
-                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-indigo-400 group-hover:translate-x-0.5 transition-transform">
-                            <span>Générer</span>
-                            <ArrowRight className="w-3 h-3" />
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  });
-                })()}
+          {/* Error */}
+          {jurisError && (
+            <div className="mt-4 bg-white/95 dark:bg-slate-900/95 border-2 border-red-500/40 rounded-2xl p-4 flex items-center gap-3">
+              <AlertTriangle className="w-5 h-5 text-red-500 shrink-0" />
+              <div>
+                <p className="text-sm font-bold text-slate-900 dark:text-white">Recherche indisponible</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{jurisError}</p>
               </div>
             </div>
-          </div>
+          )}
+
+          {/* Loading */}
+          {isJurisLoading && !jurisResults && (
+            <div className="mt-4 grid grid-cols-1 gap-3">
+              {[1,2,3].map((n) => (
+                <div key={n} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 animate-pulse space-y-3">
+                  <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-3/4" />
+                  <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-full" />
+                  <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-5/6" />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Results */}
+          {jurisResults && !isJurisLoading && (
+            <div ref={jurisResultRef} className="mt-4 flex flex-col gap-3">
+              <p className="text-xs font-bold text-slate-500 dark:text-slate-400 px-1">
+                {jurisResults.length === 0
+                  ? "Aucune décision trouvée."
+                  : `${jurisResults.length} décision(s) sur ${jurisTotal.toLocaleString("fr-FR")} au total :`}
+              </p>
+              {jurisResults.map((decision, idx) => (
+                <a
+                  key={decision.id || idx}
+                  href={decision.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500 rounded-2xl p-5 shadow-xs hover:shadow-lg transition-all flex flex-col gap-3"
+                >
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="w-7 h-7 rounded-xl bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 font-bold text-xs flex items-center justify-center shrink-0">{idx + 1}</span>
+                      <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 shrink-0">{decision.juridiction}</span>
+                      {decision.date && <span className="text-[11px] font-semibold text-slate-400 shrink-0 flex items-center gap-1"><Clock className="w-3 h-3" /> {decision.date}</span>}
+                    </div>
+                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-indigo-500 group-hover:translate-x-0.5 transition-transform shrink-0">
+                      <span>Légifrance</span><ExternalLink className="w-3.5 h-3.5" />
+                    </span>
+                  </div>
+                  <h4 className="text-sm font-black text-slate-900 dark:text-white leading-snug group-hover:text-indigo-500 transition-colors">{decision.title}</h4>
+                  {decision.summary && <p className="text-xs leading-relaxed font-medium text-slate-600 dark:text-slate-300 line-clamp-3">{decision.summary}</p>}
+                  {!decision.summary && decision.excerpt && <p className="text-xs leading-relaxed font-medium text-slate-500 dark:text-slate-400 line-clamp-3 italic">{decision.excerpt}</p>}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* ─── RÉSULTAT ET PRÉVISUALISATION OFFICIELLE A4 ─── */}
+                {/* ─── RÉSULTAT ET PRÉVISUALISATION OFFICIELLE A4 ─── */}
         {statutResult && (
           <div 
             ref={statutResultRef} 

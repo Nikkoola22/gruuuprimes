@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Apple, Wifi, Battery, Search, Sliders, Bell, 
+import {
+  Apple, Wifi, Battery, Search, Sliders, Bell,
   Calculator, Gamepad2, Moon, Sun,
   HelpCircle, CheckCircle, X,
   ChevronRight, Volume2, Laptop, ShieldCheck, Share2
@@ -25,12 +25,12 @@ export default function MacMenuBar({
 }: Props) {
   // Navigation & Dropdown State
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  
+
   // Custom Controls State (macOS widgets)
   const [climatSocial, setClimatSocial] = useState<number>(88); // Battery-like indicator
   const [brightness, setBrightness] = useState<number>(100); // UI visual glow
   const [wifiConnected, setWifiConnected] = useState<boolean>(true);
-  
+
   // About / Preferences Modals State
   const [showAbout, setShowAbout] = useState(false);
   const [showPreferences, setShowPreferences] = useState(false);
@@ -63,8 +63,8 @@ export default function MacMenuBar({
       setSelectedResult(null);
       return;
     }
-    const results = faqData.filter(item => 
-      item.question.toLowerCase().includes(q.toLowerCase()) || 
+    const results = faqData.filter(item =>
+      item.question.toLowerCase().includes(q.toLowerCase()) ||
       item.answer.toLowerCase().includes(q.toLowerCase()) ||
       item.category.toLowerCase().includes(q.toLowerCase())
     );
@@ -105,19 +105,18 @@ export default function MacMenuBar({
   return (
     <>
       {/* ─── MAC MENU BAR ────────────────────────────────────────── */}
-      <div 
+      <div
         ref={menuBarRef}
-        className={`fixed top-0 left-0 right-0 h-7 z-[100] select-none text-[13px] font-medium tracking-tight backdrop-blur-2xl transition-colors duration-200 border-b flex items-center justify-between px-3 ${
-          theme === 'dark' 
-            ? 'bg-slate-950/80 text-slate-200 border-slate-800/80 shadow-sm' 
+        className={`fixed top-0 left-0 right-0 h-7 z-[100] select-none text-[13px] font-medium tracking-tight backdrop-blur-2xl transition-colors duration-200 border-b flex items-center justify-between px-3 ${theme === 'dark'
+            ? 'bg-slate-950/80 text-slate-200 border-slate-800/80 shadow-sm'
             : 'bg-white/80 text-slate-800 border-slate-200/80 shadow-sm'
-        }`}
+          }`}
       >
         {/* Left Side: Apple Logo & Navigation Menus */}
         <div className="flex items-center gap-1">
           {/* Apple Logo (System Menu) */}
           <div className="relative">
-            <button 
+            <button
               onClick={() => handleDropdownClick('apple')}
               className={`p-1 rounded transition-colors ${activeDropdown === 'apple' ? 'bg-blue-600 text-white' : 'hover:bg-slate-200/60 dark:hover:bg-slate-800/60'}`}
             >
@@ -125,7 +124,7 @@ export default function MacMenuBar({
             </button>
             <AnimatePresence>
               {activeDropdown === 'apple' && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
@@ -150,7 +149,7 @@ export default function MacMenuBar({
 
           {/* Menu: Navigation */}
           <div className="relative">
-            <button 
+            <button
               onClick={() => handleDropdownClick('nav')}
               className={`px-2 py-0.5 rounded transition-colors ${activeDropdown === 'nav' ? 'bg-blue-600 text-white' : 'hover:bg-slate-200/60 dark:hover:bg-slate-800/60'}`}
             >
@@ -158,7 +157,7 @@ export default function MacMenuBar({
             </button>
             <AnimatePresence>
               {activeDropdown === 'nav' && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
@@ -194,16 +193,16 @@ export default function MacMenuBar({
 
           {/* Menu: Calculateurs */}
           <div className="relative">
-            <button 
+            <button
               onClick={() => handleDropdownClick('calcs')}
               className={`px-2 py-0.5 rounded transition-colors flex items-center gap-1 ${activeDropdown === 'calcs' ? 'bg-blue-600 text-white' : 'hover:bg-slate-200/60 dark:hover:bg-slate-800/60'}`}
             >
               <Calculator className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">Calculateurs</span>
+              <span className="hidden md:inline">Boîte à outils</span>
             </button>
             <AnimatePresence>
               {activeDropdown === 'calcs' && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
@@ -229,7 +228,7 @@ export default function MacMenuBar({
 
           {/* Menu: Jeux */}
           <div className="relative">
-            <button 
+            <button
               onClick={() => handleDropdownClick('games')}
               className={`px-2 py-0.5 rounded transition-colors flex items-center gap-1 ${activeDropdown === 'games' ? 'bg-blue-600 text-white' : 'hover:bg-slate-200/60 dark:hover:bg-slate-800/60'}`}
             >
@@ -238,7 +237,7 @@ export default function MacMenuBar({
             </button>
             <AnimatePresence>
               {activeDropdown === 'games' && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
@@ -264,7 +263,7 @@ export default function MacMenuBar({
         {/* Right Side: Status Widgets (WiFi, Battery, Control Center, Clock, Search) */}
         <div className="flex items-center gap-3">
           {/* Spotlight Search Toggle */}
-          <button 
+          <button
             onClick={() => setShowSpotlight(true)}
             className="p-1 hover:bg-slate-200/60 dark:hover:bg-slate-800/60 rounded transition-colors"
             title="Recherche Spotlight (⌘Space)"
@@ -274,7 +273,7 @@ export default function MacMenuBar({
 
           {/* WiFi Widget */}
           <div className="relative">
-            <button 
+            <button
               onClick={() => handleDropdownClick('wifi')}
               className={`p-1 rounded transition-colors ${activeDropdown === 'wifi' ? 'bg-blue-600 text-white' : 'hover:bg-slate-200/60 dark:hover:bg-slate-800/60'}`}
             >
@@ -282,7 +281,7 @@ export default function MacMenuBar({
             </button>
             <AnimatePresence>
               {activeDropdown === 'wifi' && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
@@ -292,8 +291,8 @@ export default function MacMenuBar({
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-bold">Wi-Fi</span>
                     <label className="relative inline-flex items-center cursor-pointer">
-                      <input 
-                        type="checkbox" 
+                      <input
+                        type="checkbox"
                         checked={wifiConnected}
                         onChange={() => setWifiConnected(prev => !prev)}
                         className="sr-only peer"
@@ -315,7 +314,7 @@ export default function MacMenuBar({
 
           {/* Battery Status (represented as Social Climate / QVT Meter) */}
           <div className="relative">
-            <button 
+            <button
               onClick={() => handleDropdownClick('battery')}
               className={`p-1 rounded transition-colors flex items-center gap-1 ${activeDropdown === 'battery' ? 'bg-blue-600 text-white' : 'hover:bg-slate-200/60 dark:hover:bg-slate-800/60'}`}
             >
@@ -324,7 +323,7 @@ export default function MacMenuBar({
             </button>
             <AnimatePresence>
               {activeDropdown === 'battery' && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
@@ -335,7 +334,7 @@ export default function MacMenuBar({
                   <div className="text-[11px] text-slate-500 mb-2">Simulateur d'indicateur social</div>
                   <div className="flex items-center gap-2 mb-3">
                     <div className="w-full bg-slate-200 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
-                      <div 
+                      <div
                         className="bg-emerald-500 h-full rounded-full transition-all duration-300"
                         style={{ width: `${climatSocial}%` }}
                       />
@@ -353,17 +352,17 @@ export default function MacMenuBar({
 
           {/* Control Center Toggle */}
           <div className="relative">
-            <button 
+            <button
               onClick={() => handleDropdownClick('controlcenter')}
               className={`p-1 rounded transition-colors ${activeDropdown === 'controlcenter' ? 'bg-blue-600 text-white' : 'hover:bg-slate-200/60 dark:hover:bg-slate-800/60'}`}
               title="Centre de Contrôle"
             >
               <Sliders className="w-3.5 h-3.5" />
             </button>
-            
+
             <AnimatePresence>
               {activeDropdown === 'controlcenter' && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
@@ -372,7 +371,7 @@ export default function MacMenuBar({
                 >
                   {/* Left Column: Quick Toggles (Wi-Fi, AirDrop, DND) */}
                   <div className="bg-slate-100/50 dark:bg-slate-800/50 p-2.5 rounded-2xl col-span-2 flex justify-around gap-2 border border-slate-200/30 dark:border-slate-700/30">
-                    <button 
+                    <button
                       onClick={() => setWifiConnected(p => !p)}
                       className="flex flex-col items-center gap-1.5 text-center group cursor-pointer"
                     >
@@ -381,8 +380,8 @@ export default function MacMenuBar({
                       </div>
                       <span className="text-[10px] font-bold">Wi-Fi</span>
                     </button>
-                    
-                    <button 
+
+                    <button
                       className="flex flex-col items-center gap-1.5 text-center group cursor-pointer border-0 bg-transparent"
                       onClick={() => alert("Simulé: AirDrop de fiches syndicales CFDT activé !")}
                     >
@@ -392,7 +391,7 @@ export default function MacMenuBar({
                       <span className="text-[10px] font-bold">AirDrop</span>
                     </button>
 
-                    <button 
+                    <button
                       onClick={() => setFocusMode((p: boolean) => !p)}
                       className="flex flex-col items-center gap-1.5 text-center group cursor-pointer"
                     >
@@ -404,7 +403,7 @@ export default function MacMenuBar({
                   </div>
 
                   {/* Dark Mode Control Widget */}
-                  <div 
+                  <div
                     onClick={toggleTheme}
                     className="bg-slate-100/50 dark:bg-slate-800/50 p-3 rounded-2xl flex flex-col justify-between border border-slate-200/30 dark:border-slate-700/30 cursor-pointer hover:bg-slate-200/40 dark:hover:bg-slate-800/80 transition-colors"
                   >
@@ -438,10 +437,10 @@ export default function MacMenuBar({
                     </div>
                     <div className="flex items-center gap-2">
                       <Sun className="w-4 h-4 text-slate-400" />
-                      <input 
-                        type="range" 
-                        min="50" 
-                        max="100" 
+                      <input
+                        type="range"
+                        min="50"
+                        max="100"
                         value={brightness}
                         onChange={(e) => setBrightness(Number(e.target.value))}
                         className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-600"
@@ -457,17 +456,17 @@ export default function MacMenuBar({
                     </div>
                     <div className="flex items-center gap-2">
                       <Volume2 className="w-4 h-4 text-slate-400" />
-                      <input 
-                        type="range" 
-                        min="20" 
-                        max="100" 
+                      <input
+                        type="range"
+                        min="20"
+                        max="100"
                         value={climatSocial}
                         onChange={(e) => setClimatSocial(Number(e.target.value))}
                         className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
                       />
                     </div>
                   </div>
-                  
+
                   {/* Union status footer */}
                   <div className="col-span-2 text-center text-[10px] text-slate-400 font-semibold pt-1 border-t border-slate-200/40 dark:border-slate-800/40">
                     CFDT ATLAS v2.4.0 (Sequoia Style)
@@ -479,7 +478,7 @@ export default function MacMenuBar({
 
           {/* Clock & Notifications Drawer */}
           <div className="relative">
-            <button 
+            <button
               onClick={() => handleDropdownClick('clock')}
               className={`px-2 py-0.5 rounded font-semibold text-[11px] transition-colors flex items-center gap-1.5 ${activeDropdown === 'clock' ? 'bg-blue-600 text-white' : 'hover:bg-slate-200/60 dark:hover:bg-slate-800/60'}`}
             >
@@ -488,7 +487,7 @@ export default function MacMenuBar({
             </button>
             <AnimatePresence>
               {activeDropdown === 'clock' && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
@@ -499,7 +498,7 @@ export default function MacMenuBar({
                     <span>Notifications ATLAS</span>
                     <Bell className="w-3.5 h-3.5 text-orange-500 animate-bounce" />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <div className="p-2 bg-orange-50 dark:bg-orange-950/20 border border-orange-200/30 rounded-lg">
                       <div className="font-semibold text-xs text-orange-700 dark:text-orange-400 flex items-center justify-between">
@@ -508,7 +507,7 @@ export default function MacMenuBar({
                       </div>
                       <div className="text-[10px] text-slate-600 dark:text-slate-400 mt-0.5">Le barème CIA de la filière administrative a été mis en conformité avec les délibérations.</div>
                     </div>
-                    
+
                     <div className="p-2 bg-blue-50 dark:bg-blue-950/20 border border-blue-200/30 rounded-lg">
                       <div className="font-semibold text-xs text-blue-700 dark:text-blue-400 flex items-center justify-between">
                         <span>Actualités Syndicales</span>
@@ -517,9 +516,9 @@ export default function MacMenuBar({
                       <div className="text-[10px] text-slate-600 dark:text-slate-400 mt-0.5">Nouveau guide sur le droit de grève et le statut général de la Fonction Publique Territoriale.</div>
                     </div>
                   </div>
-                  
+
                   <div className="h-px bg-slate-200 dark:bg-slate-800 my-2.5" />
-                  <button 
+                  <button
                     onClick={() => selectView('actualites')}
                     className="w-full text-center py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded text-[11px] font-bold transition-colors"
                   >
@@ -538,8 +537,8 @@ export default function MacMenuBar({
           <div className="fixed inset-0 bg-slate-900/30 dark:bg-black/50 z-[200] flex justify-center pt-24 px-4">
             {/* Click backdrop to close */}
             <div className="absolute inset-0 z-0" onClick={() => setShowSpotlight(false)} />
-            
-            <motion.div 
+
+            <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
@@ -550,16 +549,16 @@ export default function MacMenuBar({
               <div className="p-3 border-b border-slate-200 dark:border-slate-800">
                 <div className="flex items-center px-3.5 py-2.5 rounded-xl border-2 border-orange-400 dark:border-orange-500/70 bg-orange-50/90 dark:bg-slate-950 shadow-inner focus-within:border-orange-500 focus-within:ring-2 focus-within:ring-orange-500/20 transition-all">
                   <Search className="w-5 h-5 text-orange-600 dark:text-orange-400 mr-3 shrink-0 font-bold" />
-                  <input 
+                  <input
                     ref={spotlightInputRef}
-                    type="text" 
+                    type="text"
                     value={searchQuery}
                     onChange={(e) => handleSearch(e.target.value)}
                     placeholder="Recherche Spotlight (ex: RIFSEEP, CIA, congés, syndicat...)"
                     className="w-full bg-transparent border-0 outline-none text-slate-900 dark:text-white text-sm font-semibold placeholder-slate-500 dark:placeholder-slate-400"
                   />
                   {searchQuery && (
-                    <button 
+                    <button
                       onClick={() => handleSearch("")}
                       className="p-1 hover:bg-orange-200/60 dark:hover:bg-slate-800 rounded-lg text-slate-500 dark:text-slate-400 border-0 bg-transparent cursor-pointer mr-1 shrink-0"
                       title="Effacer"
@@ -567,7 +566,7 @@ export default function MacMenuBar({
                       <X className="w-4 h-4" />
                     </button>
                   )}
-                  <button 
+                  <button
                     onClick={() => setShowSpotlight(false)}
                     className="p-1 hover:bg-orange-200/60 dark:hover:bg-slate-800 rounded-lg text-slate-500 dark:text-slate-400 border-0 bg-transparent cursor-pointer shrink-0"
                     title="Fermer"
@@ -587,8 +586,8 @@ export default function MacMenuBar({
                       <p>Saisissez des termes pour lancer la recherche Spotlight dans la FAQ CFDT.</p>
                       <div className="mt-3 flex justify-center gap-1.5 flex-wrap">
                         {['RIFSEEP', 'Congés', 'Temps de travail', 'CIA'].map(tag => (
-                          <button 
-                            key={tag} 
+                          <button
+                            key={tag}
                             onClick={() => handleSearch(tag)}
                             className="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-[10px] font-semibold text-slate-500 dark:text-slate-400 rounded transition-colors border-0"
                           >
@@ -604,7 +603,7 @@ export default function MacMenuBar({
                   ) : (
                     <div className="space-y-1">
                       {searchResults.map((item) => (
-                        <div 
+                        <div
                           key={item.id}
                           onClick={() => setSelectedResult(item)}
                           onMouseEnter={() => setSelectedResult(item)}
@@ -633,7 +632,7 @@ export default function MacMenuBar({
                       <div className="space-y-2 leading-relaxed whitespace-pre-line text-[11px] max-h-[300px] overflow-y-auto">
                         {selectedResult.answer}
                       </div>
-                      <button 
+                      <button
                         onClick={() => {
                           setShowSpotlight(false);
                           setView('faq');
@@ -669,7 +668,7 @@ export default function MacMenuBar({
         {showAbout && (
           <div className="fixed inset-0 bg-slate-950/40 z-[210] flex items-center justify-center p-4">
             <div className="absolute inset-0 z-0" onClick={() => setShowAbout(false)} />
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -691,7 +690,7 @@ export default function MacMenuBar({
 
               <p className="text-[10px] text-slate-400 mb-5">© 2026 CFDT Gennevilliers. Tous droits réservés.</p>
 
-              <button 
+              <button
                 onClick={() => setShowAbout(false)}
                 className="w-full py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold rounded-xl transition-colors text-xs cursor-pointer border-0"
               >
@@ -707,7 +706,7 @@ export default function MacMenuBar({
         {showPreferences && (
           <div className="fixed inset-0 bg-slate-950/40 z-[210] flex items-center justify-center p-4">
             <div className="absolute inset-0 z-0" onClick={() => setShowPreferences(false)} />
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -718,7 +717,7 @@ export default function MacMenuBar({
                   <Sliders className="w-5 h-5 text-orange-500" />
                   <span>Réglages Système ATLAS</span>
                 </h3>
-                <button 
+                <button
                   onClick={() => setShowPreferences(false)}
                   className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-400 border-0 bg-transparent"
                 >
@@ -731,7 +730,7 @@ export default function MacMenuBar({
                 <div className="grid grid-cols-3 gap-2 items-center bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
                   <span className="font-bold col-span-2">Mode Sombre Global</span>
                   <div className="text-right">
-                    <button 
+                    <button
                       onClick={toggleTheme}
                       className="px-3 py-1 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-750 rounded-lg font-bold transition-colors cursor-pointer border-0"
                     >
@@ -744,8 +743,8 @@ export default function MacMenuBar({
                   <span className="font-bold col-span-2">Filtre Écran Focus (Réduction Éclat)</span>
                   <div className="flex justify-end">
                     <label className="relative inline-flex items-center cursor-pointer">
-                      <input 
-                        type="checkbox" 
+                      <input
+                        type="checkbox"
                         checked={focusMode}
                         onChange={() => setFocusMode((p: boolean) => !p)}
                         className="sr-only peer"
@@ -760,10 +759,10 @@ export default function MacMenuBar({
                     <span>Ajustement Climat Social (Simulateur)</span>
                     <span className="text-emerald-500">{climatSocial}%</span>
                   </div>
-                  <input 
-                    type="range" 
-                    min="20" 
-                    max="100" 
+                  <input
+                    type="range"
+                    min="20"
+                    max="100"
                     value={climatSocial}
                     onChange={(e) => setClimatSocial(Number(e.target.value))}
                     className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
@@ -781,7 +780,7 @@ export default function MacMenuBar({
               </div>
 
               <div className="mt-5 text-right">
-                <button 
+                <button
                   onClick={() => setShowPreferences(false)}
                   className="px-4 py-2 bg-blue-650 hover:bg-blue-755 text-white font-bold rounded-xl text-xs transition-colors cursor-pointer border-0"
                 >
