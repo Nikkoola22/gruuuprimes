@@ -33,10 +33,7 @@ const HomeMenu = lazy(() => import("./components/HomeMenu.tsx"))
 const LuxuryChat = lazy(() => import("./components/ui/LuxuryChat.tsx").then(m => ({ default: m.LuxuryChat })))
 const AdminPanel = lazy(() => import("./components/AdminPanel.tsx"))
 const AdminLogin = lazy(() => import("./components/AdminLogin.tsx"))
-import MetiersPage from "./components/MetiersPage.tsx"
 import SimulateurCarriere from "./components/SimulateurCarriere.tsx"
-import ToolsPage from "./components/ToolsPage.tsx"
-import Header from "./components/Header.tsx"
 import { NetPaySimulator } from "./components/calculators/NetPaySimulator"
 import { IhtsCalculator } from "./components/calculators/IhtsCalculator"
 import { TravelExpensesCalculator } from "./components/calculators/TravelExpensesCalculator"

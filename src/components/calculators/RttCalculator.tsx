@@ -16,9 +16,9 @@ export const RttCalculator: React.FC = () => {
     if (joursParSemaine === 5) {
       if (heuresParSemaine === 35) rtt = 0;
       else if (heuresParSemaine === 36) rtt = 6;
-      else if (heuresParSemaine === 37) rtt = 11;
+      else if (heuresParSemaine === 37) rtt = 12;
       else if (heuresParSemaine === 37.5) rtt = 15;
-      else if (heuresParSemaine === 38) rtt = 17;
+      else if (heuresParSemaine === 38) rtt = 18;
       else if (heuresParSemaine === 39) rtt = 23;
       else {
         // Formule proportionnelle standard

@@ -55,13 +55,13 @@ export const IhtsCalculator: React.FC = () => {
     const hDimanche = Number(heuresDimanche) || 0;
     const hNuit = Number(heuresNuit) || 0;
 
-    let totalSpecial = hDimanche + hNuit;
+    const totalSpecial = hDimanche + hNuit;
     let normal1a14 = declared1a14;
     let normal15plus = declared15plus;
 
     // On déduit les heures spéciales des heures normales (en commençant par la tranche 15+)
     if (totalSpecial > normal15plus) {
-      let restantADeduire = totalSpecial - normal15plus;
+      const restantADeduire = totalSpecial - normal15plus;
       normal15plus = 0;
       normal1a14 = Math.max(0, normal1a14 - restantADeduire);
     } else {

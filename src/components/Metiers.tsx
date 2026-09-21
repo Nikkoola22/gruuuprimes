@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowLeft, FileSignature, FileText, FileBadge, CalendarClock, Baby, UserCheck, UserPlus, RefreshCw, Briefcase, PlusCircle, LayoutList } from "lucide-react";
+import { ArrowLeft, FileSignature, FileBadge, Baby, UserCheck, UserPlus, RefreshCw, Briefcase, PlusCircle, LayoutList } from "lucide-react";
 import { SimulationActeModule } from "./SimulationActeModule";
 
 interface ActeCardProps {

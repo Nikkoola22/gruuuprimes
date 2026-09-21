@@ -1,9 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
   ArrowLeft,
-  ArrowRight,
   Shield,
-  FileSignature,
   Sparkles,
   UploadCloud,
   FileText,
@@ -19,11 +17,9 @@ import {
   Clock,
   AlertTriangle
 } from "lucide-react";
-import { queryStatutoryEngine } from "../services/legifrance";
 import { extractTextFromFile, auditStatutoryDocument, FullLegalAuditResult } from "../services/statutoryAuditEngine";
 import { OfficialDocumentPreview } from "./OfficialDocumentPreview";
 import { MemoireJuridiqueGenerator } from "./MemoireJuridiqueGenerator";
-import { ALL_THEMES_TEMPLATES } from "../data/allThemesTemplatesRegistry";
 import { exportStatutoryActToDocx } from "../utils/docxExport";
 import { queryJurisprudence, JurisprudenceDecision } from "../services/jurisprudence";
 import { toast } from "sonner";
@@ -36,13 +32,9 @@ interface CoinRHProps {
 export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
   const isLight = theme === "light";
 
-  const [statutInput, setStatutInput] = useState<string>("");
   const [statutResult, setStatutResult] = useState<FullLegalAuditResult | null>(null);
   const [isStatutLoading, setIsStatutLoading] = useState<boolean>(false);
   const [uploadedFile, setUploadedFile] = useState<{ name: string; size: number; content: string } | null>(null);
-  const [selectedThemeFilter, setSelectedThemeFilter] = useState<string>("all");
-  const [templateSearchQuery, setTemplateSearchQuery] = useState<string>("");
-  const [selectedTypeFilter, setSelectedTypeFilter] = useState<string>("all");
   const [isMemoireOpen, setIsMemoireOpen] = useState<boolean>(false);
   const statutResultRef = useRef<HTMLDivElement>(null);
 
@@ -80,25 +72,6 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, []);
-
-  const handleExecuteStatut = async (queryToUse?: string) => {
-    const rawQuery = queryToUse !== undefined ? queryToUse : statutInput;
-    const effectiveQuery = rawQuery.trim() || "Contrat CDD sur Emploi Permanent (CGFP Art. L. 332-8 2°)";
-
-    setIsStatutLoading(true);
-    try {
-      const res = await queryStatutoryEngine("contrats", effectiveQuery);
-      setStatutResult(res);
-      setTimeout(() => {
-        statutResultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 150);
-    } catch (err) {
-      console.error("Erreur génération acte:", err);
-      toast.error("Erreur lors de la génération de l'acte statutaire.");
-    } finally {
-      setIsStatutLoading(false);
-    }
-  };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -259,18 +232,6 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                   onClick={() => {
                     if (uploadedFile) {
                       handleAnalyzeFile();
-                    } else if (statutInput.trim()) {
-                      setIsStatutLoading(true);
-                      try {
-                        const res = auditStatutoryDocument("Saisie Utilisateur", statutInput);
-                        setStatutResult(res);
-                        toast.success("Audit juridique et conformité CGFP terminés !");
-                        setTimeout(() => {
-                          statutResultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-                        }, 150);
-                      } finally {
-                        setIsStatutLoading(false);
-                      }
                     } else {
                       setIsStatutLoading(true);
                       try {

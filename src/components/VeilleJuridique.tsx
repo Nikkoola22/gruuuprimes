@@ -31,7 +31,6 @@ import {
   Coins
 } from "lucide-react";
 import { searchDocuthequeRAG, RAGSearchResult } from "../utils/docuthequeSearch";
-import { queryJurisprudence, JurisprudenceDecision } from "../services/jurisprudence";
 import { OfficialDocumentPreview } from "./OfficialDocumentPreview";
 import { ALL_THEMES_TEMPLATES } from "../data/allThemesTemplatesRegistry";
 
@@ -893,7 +892,7 @@ interface VeilleJuridiqueProps {
   theme?: "light" | "dark";
 }
 
-const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateToMemoire, initialViewMode = "quiz" }) => {
+const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewMode = "quiz" }) => {
   const [activeTab, setActiveTab] = useState<string>("Tous");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
@@ -910,40 +909,6 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateTo
   const [templateSearchQuery, setTemplateSearchQuery] = useState<string>("");
   const [selectedTypeFilter, setSelectedTypeFilter] = useState<string>("all");
   const statutResultRef = useRef<HTMLDivElement>(null);
-
-  // State for Jurisprudence Search (fond JURI Légifrance — Cassation, CAA, TA, CE)
-  const [jurisQuery, setJurisQuery] = useState<string>("");
-  const [jurisResults, setJurisResults] = useState<JurisprudenceDecision[] | null>(null);
-  const [jurisTotal, setJurisTotal] = useState<number>(0);
-  const [jurisError, setJurisError] = useState<string | null>(null);
-  const [isJurisLoading, setIsJurisLoading] = useState<boolean>(false);
-  const jurisResultRef = useRef<HTMLDivElement>(null);
-
-  const handleJurisSearch = async (queryToUse?: string) => {
-    const rawQuery = queryToUse !== undefined ? queryToUse : jurisQuery;
-    const effectiveQuery = rawQuery.trim() || "proportionnalité sanction disciplinaire";
-
-    setIsJurisLoading(true);
-    setJurisError(null);
-    try {
-      const res = await queryJurisprudence(effectiveQuery, 5);
-      if (res.success) {
-        setJurisResults(res.results);
-        setJurisTotal(res.totalCount || res.results.length);
-      } else {
-        setJurisResults(null);
-        setJurisError(res.message || "Recherche indisponible");
-      }
-    } catch (err) {
-      console.error("Erreur jurisprudence:", err);
-      setJurisError("Service jurisprudence injoignable");
-    } finally {
-      setIsJurisLoading(false);
-      setTimeout(() => {
-        jurisResultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 150);
-    }
-  };
 
   const handleExecuteStatut = async (toolIdToUse?: string, queryToUse?: string) => {
     const tool = toolIdToUse || selectedStatutTool;

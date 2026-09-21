@@ -18,7 +18,7 @@ export const CongesMaladie: React.FC = () => {
   const [historique, setHistorique] = useState<Arret[]>([]);
   const [showResult, setShowResult] = useState<boolean>(false);
 
-  const handleInputChange = (setter: any, value: any) => {
+  const handleInputChange = <T,>(setter: (val: T) => void, value: T) => {
     setter(value);
     setShowResult(false);
   };
@@ -134,7 +134,7 @@ export const CongesMaladie: React.FC = () => {
   const getDroitsSpecifiques = () => {
     if (statut === "titulaire") {
       switch (typeConge) {
-        case "cmo":
+        case "cmo": {
           const cmoTitulaire = calculateDroitsCmo(90, 270);
           return {
             title: "Congé de Maladie Ordinaire (CMO)",
@@ -145,6 +145,7 @@ export const CongesMaladie: React.FC = () => {
             total: `${cmoTitulaire.ptApplique + cmoTitulaire.dtApplique + cmoTitulaire.sansTraitementApplique} jours évalués`,
             cmoConsomme: cmoTitulaire.consomme
           };
+        }
         case "clm":
           return {
             title: "Congé de Longue Maladie (CLM)",
@@ -288,7 +289,7 @@ export const CongesMaladie: React.FC = () => {
               </label>
               <select
                 value={typeConge}
-                onChange={(e) => handleInputChange(setTypeConge, e.target.value as any)}
+                onChange={(e) => handleInputChange(setTypeConge, e.target.value as "cmo" | "clm" | "cld" | "cgm")}
                 className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500/50"
               >
                 <option value="cmo">Congé Maladie Ordinaire (CMO)</option>

@@ -1,33 +1,24 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
-  ArrowLeft,
   ArrowRight,
   Shield,
   FileSignature,
   Sparkles,
-  UploadCloud,
-  FileText,
   RefreshCw,
   CheckCircle2,
   Search,
   Scale,
   Download,
   Copy,
-  Printer,
-  Gavel
+  Printer
 } from "lucide-react";
 import { queryStatutoryEngine } from "../services/legifrance";
-import { extractTextFromFile, auditStatutoryDocument, FullLegalAuditResult } from "../services/statutoryAuditEngine";
+import { FullLegalAuditResult } from "../services/statutoryAuditEngine";
 import { OfficialDocumentPreview } from "./OfficialDocumentPreview";
 import { MemoireJuridiqueGenerator } from "./MemoireJuridiqueGenerator";
 import { ALL_THEMES_TEMPLATES } from "../data/allThemesTemplatesRegistry";
 import { exportStatutoryActToDocx } from "../utils/docxExport";
 import { toast } from "sonner";
-
-interface CoinRHProps {
-  onClose: () => void;
-  theme?: "light" | "dark";
-}
 
 export function SimulationActeModule({ theme = "dark" }: { theme?: "light" | "dark" }) {
   const isLight = theme === "light";
@@ -35,7 +26,6 @@ export function SimulationActeModule({ theme = "dark" }: { theme?: "light" | "da
   const [statutInput, setStatutInput] = useState<string>("");
   const [statutResult, setStatutResult] = useState<FullLegalAuditResult | null>(null);
   const [isStatutLoading, setIsStatutLoading] = useState<boolean>(false);
-  const [uploadedFile, setUploadedFile] = useState<{ name: string; size: number; content: string } | null>(null);
   const [selectedThemeFilter, setSelectedThemeFilter] = useState<string>("all");
   const [templateSearchQuery, setTemplateSearchQuery] = useState<string>("");
   const [selectedTypeFilter, setSelectedTypeFilter] = useState<string>("all");

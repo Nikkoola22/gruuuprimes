@@ -5,7 +5,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 // Fix for leaflet markers
-delete (L.Icon.Default.prototype as any)._getIconUrl;
+delete (L.Icon.Default.prototype as { _getIconUrl?: unknown })._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
   iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
@@ -80,7 +80,7 @@ export const TravelExpensesCalculator: React.FC = () => {
   // API Call debounce timer
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const searchAddress = async (query: string, setter: any) => {
+  const searchAddress = async (query: string, setter: (results: AddressFeature[]) => void) => {
     if (!query || query.trim().length < 3) {
       setter([]);
       return;
@@ -88,14 +88,14 @@ export const TravelExpensesCalculator: React.FC = () => {
     try {
       const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}&limit=5`);
       const data = await res.json();
-      const features = data.features.map((f: any) => ({
+      const features = (data.features || []).map((f: { properties: { label: string; city?: string }; geometry: { coordinates: [number, number] } }) => ({
         label: f.properties.label,
         lon: f.geometry.coordinates[0],
         lat: f.geometry.coordinates[1],
         city: f.properties.city
       }));
       setter(features);
-    } catch (e) {
+    } catch {
       setter([]);
     }
   };
@@ -146,7 +146,7 @@ export const TravelExpensesCalculator: React.FC = () => {
     setFraisAnnexes([...fraisAnnexes, { id: Math.random().toString(), motif: "", montant: 0 }]);
   };
 
-  const updateFrais = (id: string, field: "motif" | "montant", value: any) => {
+  const updateFrais = (id: string, field: "motif" | "montant", value: string | number) => {
     setFraisAnnexes(fraisAnnexes.map(f => f.id === id ? { ...f, [field]: value } : f));
   };
 
@@ -369,7 +369,7 @@ export const TravelExpensesCalculator: React.FC = () => {
                   <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Zone géographique</label>
                   <select
                     value={zoneNuitee}
-                    onChange={(e) => setZoneNuitee(e.target.value as any)}
+                    onChange={(e) => setZoneNuitee(e.target.value as "province" | "grandes-villes" | "paris")}
                     className="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white"
                   >
                     <option value="province">Commune hors liste majorée</option>

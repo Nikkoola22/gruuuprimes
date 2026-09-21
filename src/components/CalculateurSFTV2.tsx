@@ -103,22 +103,22 @@ export default function CalculateurSFTV2({ onClose }: CalculateurSFTProps) {
     } else if (eligibleChildren === 1) {
         sft = 2.29; 
     } else if (eligibleChildren === 2) {
-        let p_fixe = trunc(10.67 * ratioTemps);
-        let p_prop = trunc(TIB_partiel * 0.03);
+        const p_fixe = trunc(10.67 * ratioTemps);
+        const p_prop = trunc(TIB_partiel * 0.03);
         sft = p_fixe + p_prop;
         details = `Part fixe (proratisée) : ${p_fixe.toFixed(2)} € | Part proportionnelle (3%) : ${p_prop.toFixed(2)} €`;
     } else if (eligibleChildren === 3) {
-        let p_fixe = trunc(15.24 * ratioTemps);
-        let p_prop = trunc(TIB_partiel * 0.08);
+        const p_fixe = trunc(15.24 * ratioTemps);
+        const p_prop = trunc(TIB_partiel * 0.08);
         sft = p_fixe + p_prop;
         details = `Part fixe (proratisée) : ${p_fixe.toFixed(2)} € | Part proportionnelle (8%) : ${p_prop.toFixed(2)} €`;
     } else {
-        let p_fixe_3 = trunc(15.24 * ratioTemps);
-        let p_prop_3 = trunc(TIB_partiel * 0.08);
-        let extra_fixe = trunc(4.57 * ratioTemps);
-        let extra_prop = trunc(TIB_partiel * 0.06);
+        const p_fixe_3 = trunc(15.24 * ratioTemps);
+        const p_prop_3 = trunc(TIB_partiel * 0.08);
+        const extra_fixe = trunc(4.57 * ratioTemps);
+        const extra_prop = trunc(TIB_partiel * 0.06);
         
-        let extra_count = eligibleChildren - 3;
+        const extra_count = eligibleChildren - 3;
         sft = p_fixe_3 + p_prop_3 + (extra_count * (extra_fixe + extra_prop));
         
         details = `Base 3 enfants : ${(p_fixe_3 + p_prop_3).toFixed(2)} € | Par enfant supp. (${extra_count}) : ${(extra_fixe + extra_prop).toFixed(2)} € x ${extra_count}`;

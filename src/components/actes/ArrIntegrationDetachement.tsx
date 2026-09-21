@@ -89,7 +89,7 @@ export const ArrIntegrationDetachement: React.FC = () => {
     setShowResult(true);
   };
 
-  const handleInputChange = (setter: any, value: any) => {
+  const handleInputChange = <T,>(setter: (val: T) => void, value: T) => {
     setter(value);
     setShowResult(false);
   };

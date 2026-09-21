@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react"
-import { Bot, ArrowRight, Rss, Radio, Calculator, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop, Palette, FileSignature, Award, TrendingUp, CheckCircle2, Zap } from "lucide-react"
+import { Bot, ArrowRight, Rss, Radio, Calculator, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop, Palette, FileSignature, Award, TrendingUp, CheckCircle2, Zap, Download, Eye } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { BorderBeam } from "./ui/BorderBeam.tsx"
 import type { ChatbotState } from "../App.tsx"
@@ -471,320 +471,442 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
           </div>
         </div>
 
-        {/* --- SECTION SECONDAIRE : CARROUSELS DÉTACHÉS ET BLOCS LATÉRAUX (À LIRE & DESSINE-MOI LE STATUT) --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-12">
-
-          {/* COLONNE CARROUSELS (3/4 largeur) */}
-          <div className="lg:col-span-3 flex flex-col gap-8">
-
-            {/* CARROUSEL 1 DÉTACHÉ : En direct de la CFDT Interco */}
-            <div className="flex-1 w-full bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 flex flex-col justify-between">
+        {/* --- SECTION VEDETTE : KIOSQUE SYNDICAL (À LIRE) & DESSINE-MOI LE STATUT (MIS EN VALEUR) --- */}
+        <div className="mb-12">
+          {/* Header de section élégant */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 bg-gradient-to-br from-orange-500 via-amber-500 to-indigo-600 text-white rounded-2xl shadow-lg shadow-orange-500/20 flex items-center justify-center shrink-0">
+                <Sparkles className="w-6 h-6 animate-pulse" />
+              </div>
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                    <Rss className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-                    En direct de la <span className="text-blue-600 dark:text-blue-400">CFDT Interco</span>
-                  </h4>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">
+                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping" />
+                    À la Une · Kiosque & Infographies
+                  </span>
                 </div>
+                <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+                  Vos lectures & vos repères en{' '}
+                  <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-indigo-500 bg-clip-text text-transparent">
+                    schémas visuels
+                  </span>
+                </h3>
+              </div>
+            </div>
+          </div>
 
-                {intercoLoading ? (
-                  <div className="flex gap-4 overflow-hidden">
-                    {[...Array(3)].map((_, i) => (
-                      <div key={i} className="flex-none w-48 h-32 bg-slate-100 dark:bg-slate-800 rounded-xl animate-pulse border border-slate-200" />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="relative group/carousel">
-                    <button
-                      type="button"
-                      aria-label="Défiler vers la gauche"
-                      onClick={() => {
-                        if (intercoCarouselRef.current) {
-                          intercoCarouselRef.current.scrollBy({ left: -220, behavior: 'smooth' })
-                        }
-                      }}
-                      className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
-                    >
-                      <ChevronLeft className="w-4 h-4" />
-                    </button>
+          {/* Grille des 2 cartes Vedettes 50% / 50% */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 sm:gap-8">
 
-                    <button
-                      type="button"
-                      aria-label="Défiler vers la droite"
-                      onClick={() => {
-                        if (intercoCarouselRef.current) {
-                          intercoCarouselRef.current.scrollBy({ left: 220, behavior: 'smooth' })
-                        }
-                      }}
-                      className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
-                    >
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
+            {/* CARTE 1 : À LIRE - LE JOURNAL CFDT GENNEVILLIERS */}
+            <div className="relative bg-gradient-to-br from-white via-orange-50/40 to-amber-50/30 dark:from-slate-900/95 dark:via-slate-900/90 dark:to-orange-950/25 rounded-3xl p-6 sm:p-7 border-2 border-orange-200/90 dark:border-orange-500/30 shadow-2xl shadow-orange-500/10 dark:shadow-orange-950/30 transition-all duration-300 hover:border-orange-400 dark:hover:border-orange-400/60 overflow-hidden group flex flex-col justify-between">
+              <BorderBeam size={220} duration={12} delay={0} colorFrom="#f97316" colorTo="#fbbf24" />
+              
+              {/* Lueur d'ambiance */}
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-br from-orange-400/20 to-amber-400/10 dark:from-orange-500/15 dark:to-transparent rounded-full blur-3xl pointer-events-none" />
 
-                    <div
-                      ref={intercoCarouselRef}
-                      className="flex gap-3 overflow-x-auto pb-2 scroll-smooth interco-carousel-track cursor-grab active:cursor-grabbing select-none"
-                      style={{ scrollbarWidth: 'none' }}
-                    >
-                      {intercoNews.map((article, i) => {
-                        const date = article.pubDate ? new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : ''
-                        return (
-                          <a
-                            key={i}
-                            href={article.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group/card flex-none w-52 sm:w-56 flex flex-col bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl overflow-hidden hover:border-blue-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-xs"
-                          >
-                            <div className="relative w-full h-24 overflow-hidden bg-slate-50 dark:bg-slate-900 flex-shrink-0 border-b border-slate-100 dark:border-slate-800">
-                              <img
-                                src={article.imageUrl || `${BASE_URL}logo-cfdt.jpg`}
-                                alt={article.title}
-                                className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300"
-                                onError={(e) => {
-                                  const target = e.target as HTMLImageElement;
-                                  target.onerror = null;
-                                  target.src = `${BASE_URL}logo-cfdt.jpg`;
-                                }}
-                              />
-                              {article.category && (
-                                <span className="absolute top-1.5 left-1.5 inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 text-blue-700 dark:text-blue-300 border border-blue-200 shadow-xs">
-                                  {article.category}
-                                </span>
-                              )}
-                            </div>
-
-                            <div className="p-3.5 flex flex-col justify-between flex-grow bg-white dark:bg-slate-800">
-                              <p className="text-slate-900 dark:text-white font-bold text-sm leading-snug group-hover/card:text-blue-600 transition-colors duration-150 line-clamp-2">
-                                {article.title}
-                              </p>
-                              <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-700/60">
-                                <span className="text-xs text-slate-500 font-medium">{date}</span>
-                                <span className="text-xs text-blue-600 dark:text-blue-400 font-bold flex items-center gap-0.5 opacity-90 group-hover/card:opacity-100 transition-opacity duration-150">
-                                  Lire <ArrowRight className="w-3 h-3" />
-                                </span>
-                              </div>
-                            </div>
-                          </a>
-                        )
-                      })}
+              <div className="relative z-10">
+                {/* En-tête de carte */}
+                <div className="flex items-center justify-between gap-3 mb-5 pb-4 border-b border-orange-100/80 dark:border-slate-800">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="p-2.5 bg-gradient-to-br from-orange-500 to-amber-500 text-white rounded-xl shadow-md shadow-orange-500/20 flex items-center justify-center shrink-0">
+                      <BookOpen className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-wider text-orange-600 dark:text-orange-400">
+                        Kiosque Syndical
+                      </span>
+                      <h4 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+                        À lire · Journal CFDT
+                      </h4>
                     </div>
                   </div>
-                )}
+                  <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-orange-700 dark:text-orange-300 bg-orange-100/80 dark:bg-orange-950/60 px-3 py-1 rounded-full border border-orange-300/70 dark:border-orange-800/70 shrink-0">
+                    Rentrée 2026
+                  </span>
+                </div>
+
+                {/* Corps de carte : disposition responsive Image + Contenu */}
+                <div className="flex flex-col sm:flex-row gap-5 items-center sm:items-start mb-5">
+                  {/* Aperçu Couverture Magazine 3D */}
+                  <a
+                    href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/Journal-Gennevilliers-rentree-2026.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative shrink-0 w-44 sm:w-48 h-60 sm:h-64 rounded-2xl overflow-hidden bg-slate-900 border-2 border-orange-300/80 dark:border-orange-600/40 shadow-xl shadow-orange-950/20 group-hover:scale-[1.03] transition-all duration-300 cursor-pointer block group/cover"
+                  >
+                    <img
+                      src={`${BASE_URL}journal-rentree-2026.png`}
+                      alt="Journal CFDT Rentrée 2026"
+                      className="w-full h-full object-cover object-top group-hover/cover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.onerror = null;
+                        target.src = `${BASE_URL}journal-2026.png`;
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-2.5">
+                      <span className="text-[10px] font-black text-white bg-orange-600/90 backdrop-blur-xs px-2.5 py-0.5 rounded-md shadow-xs flex items-center gap-1">
+                        <Eye className="w-3 h-3" />
+                        Aperçu PDF
+                      </span>
+                    </div>
+                  </a>
+
+                  {/* Détails et dossiers */}
+                  <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch">
+                    <div>
+                      <h5 className="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+                        Écho de la CFDT Gennevilliers
+                      </h5>
+                      <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm mt-1.5 leading-relaxed">
+                        Le journal d'information et d'action de vos collègues territoriaux. Toutes les actualités locales, réformes statutaires et avancées concrètes.
+                      </p>
+
+                      {/* Dossiers phares */}
+                      <div className="mt-3 space-y-1.5">
+                        <div className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300">
+                          <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0" />
+                          <span className="font-semibold">Pouvoir d'achat :</span>
+                          <span className="text-slate-500 dark:text-slate-400 truncate">RIFSEEP, CIA et revalorisations</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300">
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+                          <span className="font-semibold">Temps de travail :</span>
+                          <span className="text-slate-500 dark:text-slate-400 truncate">Télétravail et forfaits RTT</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                          <span className="font-semibold">Carrières & LDG :</span>
+                          <span className="text-slate-500 dark:text-slate-400 truncate">Promotions et avancements 2026/2027</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 pt-3 border-t border-orange-100/80 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                      <FileText className="w-3.5 h-3.5 text-orange-500" />
+                      <span>Édition spéciale Ville de Gennevilliers · 32 pages</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bouton d'action principal */}
+              <a
+                href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/Journal-Gennevilliers-rentree-2026.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative z-10 flex items-center justify-center gap-2.5 w-full bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white font-black py-3 px-4 rounded-2xl shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all text-xs sm:text-sm cursor-pointer"
+              >
+                <Download className="w-4 h-4" />
+                <span>Télécharger le journal (PDF)</span>
+                <ArrowRight className="w-4 h-4 ml-1" />
+              </a>
+            </div>
+
+            {/* CARTE 2 : DESSINE-MOI LE STATUT */}
+            <div
+              onClick={() => {
+                setChatState({ ...chatState, currentView: 'dessine-moi-le-statut' });
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+              }}
+              className="relative bg-gradient-to-br from-white via-indigo-50/40 to-purple-50/30 dark:from-slate-900/95 dark:via-slate-900/90 dark:to-indigo-950/25 rounded-3xl p-6 sm:p-7 border-2 border-indigo-200/90 dark:border-indigo-500/30 shadow-2xl shadow-indigo-500/10 dark:shadow-indigo-950/30 transition-all duration-300 hover:border-indigo-400 dark:hover:border-indigo-400/60 overflow-hidden group cursor-pointer flex flex-col justify-between"
+            >
+              <BorderBeam size={220} duration={12} delay={6} colorFrom="#6366f1" colorTo="#a855f7" />
+
+              {/* Lueur d'ambiance */}
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-br from-indigo-400/20 to-purple-400/10 dark:from-indigo-500/15 dark:to-transparent rounded-full blur-3xl pointer-events-none" />
+
+              <div className="relative z-10">
+                {/* En-tête de carte */}
+                <div className="flex items-center justify-between gap-3 mb-5 pb-4 border-b border-indigo-100/80 dark:border-slate-800">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="p-2.5 bg-gradient-to-br from-indigo-600 to-purple-600 text-white rounded-xl shadow-md shadow-indigo-500/20 flex items-center justify-center shrink-0">
+                      <Palette className="w-5 h-5 animate-pulse" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                        Bibliothèque Visuelle RH
+                      </span>
+                      <h4 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight leading-tight flex items-center gap-1.5">
+                        <span>Dessine-moi le statut</span>
+                        <span className="text-base">🎨</span>
+                      </h4>
+                    </div>
+                  </div>
+                  <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-indigo-700 dark:text-indigo-300 bg-indigo-100/80 dark:bg-indigo-950/60 px-3 py-1 rounded-full border border-indigo-300/70 dark:border-indigo-800/70 shrink-0">
+                    +100 Schémas Clairs
+                  </span>
+                </div>
+
+                {/* Corps de carte : disposition responsive Image + Contenu */}
+                <div className="flex flex-col sm:flex-row gap-5 items-center sm:items-start mb-5">
+                  {/* Aperçu Illustration Dessine-moi */}
+                  <div className="relative shrink-0 w-44 sm:w-48 h-60 sm:h-64 rounded-2xl overflow-hidden bg-slate-900 border-2 border-indigo-300/80 dark:border-indigo-600/40 shadow-xl shadow-indigo-950/20 group-hover:scale-[1.03] transition-all duration-300 block group/cover">
+                    <img
+                      src="/images/dessine-moi-statut.jpg"
+                      alt="Dessine-moi le statut"
+                      className="w-full h-full object-cover object-top group-hover/cover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.onerror = null;
+                        target.src = "https://www.cig929394.fr/wp-content/uploads/2025/09/info_ppr_2024_06_vf-179x252.jpg";
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-2.5">
+                      <span className="text-[10px] font-black text-white bg-indigo-600/90 backdrop-blur-xs px-2.5 py-0.5 rounded-md shadow-xs flex items-center gap-1">
+                        <Sparkles className="w-3 h-3" />
+                        Logigrammes RH
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Détails et thématiques */}
+                  <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch">
+                    <div>
+                      <h5 className="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-snug group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                        Le Statut en Infographies & Parcours
+                      </h5>
+                      <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm mt-1.5 leading-relaxed">
+                        Le droit de la fonction publique territoriale décrypté en logigrammes pas-à-pas. Tout comprendre de vos droits sans jargon administratif.
+                      </p>
+
+                      {/* 4 Thématiques cliquables */}
+                      <div className="mt-3 grid grid-cols-2 gap-1.5">
+                        <div className="flex items-center gap-1.5 p-1.5 rounded-lg bg-white/70 dark:bg-slate-800/70 border border-indigo-100 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
+                          <span>🏥</span>
+                          <span className="font-semibold truncate">Congés & Santé</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 p-1.5 rounded-lg bg-white/70 dark:bg-slate-800/70 border border-indigo-100 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
+                          <span>📈</span>
+                          <span className="font-semibold truncate">Carrières & Grades</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 p-1.5 rounded-lg bg-white/70 dark:bg-slate-800/70 border border-indigo-100 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
+                          <span>⚖️</span>
+                          <span className="font-semibold truncate">Discipline & Droits</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 p-1.5 rounded-lg bg-white/70 dark:bg-slate-800/70 border border-indigo-100 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
+                          <span>💰</span>
+                          <span className="font-semibold truncate">Primes & RIFSEEP</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 pt-3 border-t border-indigo-100/80 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                      <Palette className="w-3.5 h-3.5 text-indigo-500" />
+                      <span>Fiches CIG & CDG officielles synthétisées · Accès libre</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bouton d'action principal */}
+              <div className="relative z-10 flex items-center justify-center gap-2.5 w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 hover:from-indigo-700 hover:to-purple-700 text-white font-black py-3 px-4 rounded-2xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all text-xs sm:text-sm">
+                <Palette className="w-4 h-4" />
+                <span>Explorer les 100+ infographies</span>
+                <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
 
-            {/* CARROUSEL 2 : Actualités de la Fonction Publique */}
-            <div className="flex-1 w-full bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/40 rounded-xl border border-emerald-200 dark:border-emerald-800 flex items-center justify-center">
-                    <Landmark className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
-                  </div>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-wide">
-                    Actualités de la <span className="text-emerald-600 dark:text-emerald-400">Fonction Publique</span>
-                  </h3>
+          </div>
+        </div>
+
+        {/* --- SECTION FLUX & ACTUALITÉS : LES 2 CARROUSELS EN PLEINE LARGEUR --- */}
+        <div className="flex flex-col gap-8 mb-12">
+
+          {/* CARROUSEL 1 DÉTACHÉ : En direct de la CFDT Interco */}
+          <div className="w-full bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                  <Rss className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                  En direct de la <span className="text-blue-600 dark:text-blue-400">CFDT Interco</span>
+                </h4>
+              </div>
+
+              {intercoLoading ? (
+                <div className="flex gap-4 overflow-hidden">
+                  {[...Array(4)].map((_, i) => (
+                    <div key={i} className="flex-none w-56 h-32 bg-slate-100 dark:bg-slate-800 rounded-xl animate-pulse border border-slate-200" />
+                  ))}
                 </div>
+              ) : (
+                <div className="relative group/carousel">
+                  <button
+                    type="button"
+                    aria-label="Défiler vers la gauche"
+                    onClick={() => {
+                      if (intercoCarouselRef.current) {
+                        intercoCarouselRef.current.scrollBy({ left: -280, behavior: 'smooth' })
+                      }
+                    }}
+                    className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
 
-                {fpLoading ? (
-                  <div className="flex gap-4 overflow-hidden">
-                    {[...Array(3)].map((_, i) => (
-                      <div key={i} className="flex-none w-48 h-32 bg-slate-100 dark:bg-slate-800 rounded-xl animate-pulse border border-slate-200" />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="relative group/carousel-fp">
-                    <button
-                      type="button"
-                      aria-label="Défiler vers la gauche"
-                      onClick={() => {
-                        if (fpCarouselRef.current) {
-                          fpCarouselRef.current.scrollBy({ left: -220, behavior: 'smooth' })
-                        }
-                      }}
-                      className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel-fp:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
-                    >
-                      <ChevronLeft className="w-4 h-4" />
-                    </button>
+                  <button
+                    type="button"
+                    aria-label="Défiler vers la droite"
+                    onClick={() => {
+                      if (intercoCarouselRef.current) {
+                        intercoCarouselRef.current.scrollBy({ left: 280, behavior: 'smooth' })
+                      }
+                    }}
+                    className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
 
-                    <button
-                      type="button"
-                      aria-label="Défiler vers la droite"
-                      onClick={() => {
-                        if (fpCarouselRef.current) {
-                          fpCarouselRef.current.scrollBy({ left: 220, behavior: 'smooth' })
-                        }
-                      }}
-                      className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel-fp:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
-                    >
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
-
-                    <div
-                      ref={fpCarouselRef}
-                      className="flex gap-3 overflow-x-auto pb-2 scroll-smooth interco-carousel-track cursor-grab active:cursor-grabbing select-none"
-                      style={{ scrollbarWidth: 'none' }}
-                    >
-                      {fpNews.map((article, i) => (
+                  <div
+                    ref={intercoCarouselRef}
+                    className="flex gap-3.5 overflow-x-auto pb-2 scroll-smooth interco-carousel-track cursor-grab active:cursor-grabbing select-none"
+                    style={{ scrollbarWidth: 'none' }}
+                  >
+                    {intercoNews.map((article, i) => {
+                      const date = article.pubDate ? new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : ''
+                      return (
                         <a
                           key={i}
                           href={article.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group/card flex-none w-52 sm:w-56 flex flex-col bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl overflow-hidden hover:border-emerald-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-xs"
+                          className="group/card flex-none w-56 sm:w-60 flex flex-col bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl overflow-hidden hover:border-blue-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-xs"
                         >
-                          <div className="relative w-full h-24 overflow-hidden bg-slate-50 dark:bg-slate-900 flex-shrink-0 border-b border-slate-100 dark:border-slate-800 p-2 flex items-center justify-center">
-                            {article.imageUrl ? (
-                              <img
-                                src={article.imageUrl}
-                                alt={article.title}
-                                className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300 absolute inset-0"
-                              />
-                            ) : (
-                              <div className="text-emerald-500 opacity-50">
-                                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
-                              </div>
+                          <div className="relative w-full h-24 overflow-hidden bg-slate-50 dark:bg-slate-900 flex-shrink-0 border-b border-slate-100 dark:border-slate-800">
+                            <img
+                              src={article.imageUrl || `${BASE_URL}logo-cfdt.jpg`}
+                              alt={article.title}
+                              className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.onerror = null;
+                                target.src = `${BASE_URL}logo-cfdt.jpg`;
+                              }}
+                            />
+                            {article.category && (
+                              <span className="absolute top-1.5 left-1.5 inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 text-blue-700 dark:text-blue-300 border border-blue-200 shadow-xs">
+                                {article.category}
+                              </span>
                             )}
-                            <span className="absolute top-1.5 left-1.5 inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 text-emerald-700 dark:text-emerald-300 border border-emerald-200 shadow-xs z-10 max-w-[90%] truncate">
-                              {article.category || 'Actualité'}
-                            </span>
                           </div>
 
                           <div className="p-3.5 flex flex-col justify-between flex-grow bg-white dark:bg-slate-800">
-                            <p className="text-slate-900 dark:text-white font-bold text-sm leading-snug group-hover/card:text-emerald-600 transition-colors duration-150 line-clamp-2">
+                            <p className="text-slate-900 dark:text-white font-bold text-sm leading-snug group-hover/card:text-blue-600 transition-colors duration-150 line-clamp-2">
                               {article.title}
                             </p>
                             <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-700/60">
-                              <span className="text-xs text-slate-500 font-medium truncate pr-2">
-                                {new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
-                              </span>
-                              <span className="text-xs text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-0.5">
+                              <span className="text-xs text-slate-500 font-medium">{date}</span>
+                              <span className="text-xs text-blue-600 dark:text-blue-400 font-bold flex items-center gap-0.5 opacity-90 group-hover/card:opacity-100 transition-opacity duration-150">
                                 Lire <ArrowRight className="w-3 h-3" />
                               </span>
                             </div>
                           </div>
                         </a>
-                      ))}
-                    </div>
+                      )
+                    })}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
-
           </div>
 
-          {/* COLONNE DROITE (1/4 largeur) : BLOC 1 (À LIRE) & BLOC 2 (DESSINE-MOI LE STATUT) */}
-          <div className="lg:col-span-1 flex flex-col gap-8 min-w-0">
-            
-            {/* BLOC 1 (Aligné en hauteur avec Carrousel 1) : LE JOURNAL CFDT (À LIRE) */}
-            <div className="flex-1 bg-white/95 dark:bg-slate-900/95 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 flex flex-col justify-between min-w-0 group hover:border-indigo-400 dark:hover:border-indigo-500/50 transition-all duration-300">
-              <div className="flex flex-col gap-3 min-w-0">
-                {/* Card Header */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="p-2 bg-indigo-50 dark:bg-indigo-900/40 rounded-xl border border-indigo-200 dark:border-indigo-800 flex items-center justify-center shrink-0">
-                      <BookOpen className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-                    </div>
-                    <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white tracking-wide truncate">
-                      À lire
-                    </h3>
-                  </div>
-                  <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-2.5 py-0.5 rounded-full border border-indigo-200/60 dark:border-indigo-800/60 shrink-0">
-                    Journal CFDT
-                  </span>
+          {/* CARROUSEL 2 : Actualités de la Fonction Publique */}
+          <div className="w-full bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/40 rounded-xl border border-emerald-200 dark:border-emerald-800 flex items-center justify-center">
+                  <Landmark className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                 </div>
-
-                {/* Prominent Image Preview */}
-                <div className="relative w-full h-36 sm:h-40 rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700/80 flex items-center justify-center p-2 group-hover:scale-[1.02] transition-transform duration-300 shadow-inner">
-                  <img
-                    src={`${BASE_URL}journal-rentree-2026.png`}
-                    alt="Journal CFDT Rentrée 2026"
-                    className="w-full h-full object-contain filter drop-shadow-md"
-                  />
-                  <div className="absolute bottom-2 right-2">
-                    <span className="text-[10px] font-black text-slate-700 dark:text-slate-200 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xs px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-700 shadow-xs">
-                      Rentrée 2026
-                    </span>
-                  </div>
-                </div>
-
-                {/* Text details */}
-                <div className="min-w-0">
-                  <h4 className="text-slate-900 dark:text-white text-sm font-bold leading-snug line-clamp-1">
-                    Écho de la CFDT Gennevilliers
-                  </h4>
-                  <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 line-clamp-2 leading-relaxed">
-                    La dernière édition du journal syndical avec toutes les actualités et revendications.
-                  </p>
-                </div>
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-wide">
+                  Actualités de la <span className="text-emerald-600 dark:text-emerald-400">Fonction Publique</span>
+                </h3>
               </div>
 
-              {/* Download Button */}
-              <a
-                href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/Journal-Gennevilliers-rentree-2026.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3.5 flex items-center justify-center gap-2 w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 px-3 rounded-xl shadow-md hover:shadow-lg transition-all text-xs cursor-pointer group-hover:scale-[1.02]"
-              >
-                <span>Télécharger (PDF)</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </a>
+              {fpLoading ? (
+                <div className="flex gap-4 overflow-hidden">
+                  {[...Array(4)].map((_, i) => (
+                    <div key={i} className="flex-none w-56 h-32 bg-slate-100 dark:bg-slate-800 rounded-xl animate-pulse border border-slate-200" />
+                  ))}
+                </div>
+              ) : (
+                <div className="relative group/carousel-fp">
+                  <button
+                    type="button"
+                    aria-label="Défiler vers la gauche"
+                    onClick={() => {
+                      if (fpCarouselRef.current) {
+                        fpCarouselRef.current.scrollBy({ left: -280, behavior: 'smooth' })
+                      }
+                    }}
+                    className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel-fp:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+
+                  <button
+                    type="button"
+                    aria-label="Défiler vers la droite"
+                    onClick={() => {
+                      if (fpCarouselRef.current) {
+                        fpCarouselRef.current.scrollBy({ left: 280, behavior: 'smooth' })
+                      }
+                    }}
+                    className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 border border-slate-200 flex items-center justify-center text-slate-700 shadow-lg opacity-80 sm:opacity-0 sm:group-hover/carousel-fp:opacity-100 hover:opacity-100 hover:bg-white hover:scale-110 active:scale-95 transition-all duration-150"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+
+                  <div
+                    ref={fpCarouselRef}
+                    className="flex gap-3.5 overflow-x-auto pb-2 scroll-smooth interco-carousel-track cursor-grab active:cursor-grabbing select-none"
+                    style={{ scrollbarWidth: 'none' }}
+                  >
+                    {fpNews.map((article, i) => (
+                      <a
+                        key={i}
+                        href={article.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/card flex-none w-56 sm:w-60 flex flex-col bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl overflow-hidden hover:border-emerald-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-xs"
+                      >
+                        <div className="relative w-full h-24 overflow-hidden bg-slate-50 dark:bg-slate-900 flex-shrink-0 border-b border-slate-100 dark:border-slate-800 p-2 flex items-center justify-center">
+                          {article.imageUrl ? (
+                            <img
+                              src={article.imageUrl}
+                              alt={article.title}
+                              className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300 absolute inset-0"
+                            />
+                          ) : (
+                            <div className="text-emerald-500 opacity-50">
+                              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
+                            </div>
+                          )}
+                          <span className="absolute top-1.5 left-1.5 inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 text-emerald-700 dark:text-emerald-300 border border-emerald-200 shadow-xs z-10 max-w-[90%] truncate">
+                            {article.category || 'Actualité'}
+                          </span>
+                        </div>
+
+                        <div className="p-3.5 flex flex-col justify-between flex-grow bg-white dark:bg-slate-800">
+                          <p className="text-slate-900 dark:text-white font-bold text-sm leading-snug group-hover/card:text-emerald-600 transition-colors duration-150 line-clamp-2">
+                            {article.title}
+                          </p>
+                          <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-700/60">
+                            <span className="text-xs text-slate-500 font-medium truncate pr-2">
+                              {new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
+                            </span>
+                            <span className="text-xs text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-0.5">
+                              Lire <ArrowRight className="w-3 h-3" />
+                            </span>
+                          </div>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-
-            {/* BLOC 2 (Aligné en hauteur avec Carrousel 2) : DESSINE-MOI LE STATUT */}
-            <div
-              onClick={() => setChatState({ ...chatState, currentView: 'dessine-moi-le-statut' })}
-              className="flex-1 bg-white/95 dark:bg-slate-900/95 rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 flex flex-col justify-between min-w-0 group hover:border-orange-400 dark:hover:border-orange-500/60 transition-all duration-300 cursor-pointer"
-            >
-              <div className="flex flex-col gap-3 min-w-0">
-                {/* Card Header */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="p-2 bg-amber-50 dark:bg-amber-950/50 rounded-xl border border-amber-200 dark:border-amber-800/80 flex items-center justify-center shadow-xs shrink-0">
-                      <Palette className="w-5 h-5 text-amber-600 dark:text-amber-400 animate-pulse" />
-                    </div>
-                    <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center gap-1.5 truncate">
-                      <span>Dessine-moi</span>
-                      <span className="text-base">🎨</span>
-                    </h3>
-                  </div>
-                  <span className="text-[10px] font-black uppercase tracking-wider text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/60 px-2.5 py-0.5 rounded-full border border-orange-200/60 dark:border-orange-800/60 shrink-0">
-                    100+ Schémas
-                  </span>
-                </div>
-
-                {/* Prominent Image Banner Preview */}
-                <div className="relative w-full h-36 sm:h-40 rounded-2xl overflow-hidden bg-slate-900 border border-amber-200/60 dark:border-amber-800/40 flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-300 shadow-inner">
-                  <img
-                    src="https://www.cig929394.fr/wp-content/uploads/2025/09/info_ppr_2024_06_vf-179x252.jpg"
-                    alt="Dessine-moi le statut"
-                    className="w-full h-full object-cover object-top opacity-95 group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-2.5">
-                    <span className="text-[10px] font-black text-white bg-orange-600/90 backdrop-blur-xs px-2.5 py-0.5 rounded-md shadow-xs">
-                      Synthèses Visuelles & Fiches RH
-                    </span>
-                  </div>
-                </div>
-
-                {/* Text details */}
-                <div className="min-w-0">
-                  <h4 className="text-slate-900 dark:text-white text-sm font-bold leading-snug line-clamp-1">
-                    Le Statut en Infographies & Parcours
-                  </h4>
-                  <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 line-clamp-2 leading-relaxed">
-                    Congés, discipline, primes, carrières expliqués en schémas clairs.
-                  </p>
-                </div>
-              </div>
-
-              {/* Action Button */}
-              <div className="mt-3.5 flex items-center justify-center gap-2 w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-2.5 px-3 rounded-xl shadow-md hover:shadow-lg transition-all text-xs group-hover:scale-[1.02]">
-                <span>Dessine-moi le statut</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </div>
-
           </div>
 
         </div>
