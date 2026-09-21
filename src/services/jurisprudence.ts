@@ -1,5 +1,5 @@
 /**
- * Client de recherche de jurisprudence judiciaire (fond JURI Légifrance — Cassation, CAA, TA, CE)
+ * Client de recherche de jurisprudence administrative (fond CETAT Légifrance — Conseil d'État, CAA, TA, Tribunal des conflits)
  * Canal PISTE côté serveur : /api/jurisprudence-search (Express dev : localhost:3001, Vercel : serverless)
  */
 

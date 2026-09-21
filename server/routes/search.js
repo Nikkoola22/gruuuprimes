@@ -19,7 +19,7 @@ router.post('/piste-search', async (req, res) => {
   }
 });
 
-// POST /api/jurisprudence-search : jurisprudence judiciaire (fond JURI — Cassation, CAA, TA, CE)
+// POST /api/jurisprudence-search : jurisprudence administrative (fond CETAT — Conseil d'État, CAA, TA)
 router.post('/jurisprudence-search', async (req, res) => {
   try {
     const { query } = req.body || {};

@@ -6,7 +6,7 @@
  *
  * Canaux :
  *  - fond CODE_DATE (lf-engine-app/search) : codes consolidés en vigueur
- *  - fond JURI (lf-engine-app/search)      : jurisprudence judiciaire (Cassation, CAA, TA, CE)
+ *  - fond CETAT (lf-engine-app/search)     : jurisprudence administrative (Conseil d'État, CAA, TA, Tribunal des conflits)
  * Auth : OAuth2 client_credentials sur oauth.piste.gouv.fr, token en cache mémoire.
  */
 
@@ -66,11 +66,13 @@ function extractJuridiction(title) {
   return (sep > 0 ? title.slice(0, sep) : title).trim();
 }
 
-/** Extraction de la date lisible depuis le titre ("Cour de cassation, civile, ..., 5 mai 2021, 20-12.814") */
+/** Extraction de la date lisible depuis le titre (ex: "Conseil d'État, ..., 26/02/2020, 436176" ou "5 mai 2021") */
 function extractDateFromTitle(title) {
   if (!title) return "";
-  const match = title.match(/(\d{1,2}(?:er)?\s+(?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)\s+\d{4})/i);
-  return match ? match[1] : "";
+  const matchSlash = title.match(/(\d{1,2}\/\d{1,2}\/\d{4})/);
+  if (matchSlash) return matchSlash[1];
+  const matchText = title.match(/(\d{1,2}(?:er)?\s+(?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)\s+\d{4})/i);
+  return matchText ? matchText[1] : "";
 }
 
 // Mots vides français : le moteur ne les gère pas, et ils polluent le classement
@@ -191,7 +193,7 @@ export async function searchCodes(query, pageSize = 5) {
   };
 }
 
-/** Recherche dans le fond JURI : jurisprudence judiciaire (Cassation, CAA, TA, CE) */
+/** Recherche dans le fond CETAT : jurisprudence administrative (Conseil d'État, CAA, TA, Tribunal des conflits) */
 export async function searchJurisprudence(query, pageSize = 5) {
   const sanitizedQuery = query.trim().slice(0, 300);
   const apiKey = process.env.LEGIFRANCE_API_KEY;
@@ -208,13 +210,13 @@ export async function searchJurisprudence(query, pageSize = 5) {
       "KeyId": apiKey,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(buildSearchBody("JURI", sanitizedQuery, pageSize)),
+    body: JSON.stringify(buildSearchBody("CETAT", sanitizedQuery, pageSize)),
     signal: AbortSignal.timeout(15000)
   });
 
   if (!response.ok) {
     const errText = await response.text();
-    console.warn(`⚠️ Erreur API PISTE Jurisprudence (${response.status}):`, errText);
+    console.warn(`⚠️ Erreur API PISTE Jurisprudence Administrative (${response.status}):`, errText);
     const error = new Error(`Statut PISTE: ${response.status}`);
     error.status = 502;
     throw error;
@@ -226,8 +228,15 @@ export async function searchJurisprudence(query, pageSize = 5) {
   return {
     totalCount: data.totalResultNumber || rawResults.length,
     results: rawResults.slice(0, pageSize).map((item) => {
-      const title = stripMarks(item.titles?.[0]?.title) || "Décision de justice";
+      const title = stripMarks(item.titles?.[0]?.title) || "Décision de justice administrative";
       const id = item.titles?.[0]?.id || item.id || "";
+
+      let link = "https://www.legifrance.gouv.fr";
+      if (id) {
+        link = id.startsWith("JURITEXT")
+          ? `https://www.legifrance.gouv.fr/juri/id/${id}`
+          : `https://www.legifrance.gouv.fr/ceta/id/${id}`;
+      }
 
       return {
         title,
@@ -238,7 +247,7 @@ export async function searchJurisprudence(query, pageSize = 5) {
         date: item.date || item.datePublication || item.dateSignature || extractDateFromTitle(title),
         summary: extractSummary(item),
         excerpt: stripMarks(item.text).slice(0, 400),
-        link: id ? `https://www.legifrance.gouv.fr/juri/id/${id}` : "https://www.legifrance.gouv.fr"
+        link
       };
     })
   };

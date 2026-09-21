@@ -1,8 +1,8 @@
 import { handleCors } from './_security.js';
 import { searchJurisprudence } from '../server/services/piste.js';
 
-// Endpoint Vercel serverless : recherche de jurisprudence judiciaire
-// (fond JURI Légifrance — Cassation, Cours d'appel, TA, Conseil d'État) via le canal PISTE.
+// Endpoint Vercel serverless : recherche de jurisprudence administrative
+// (fond CETAT Légifrance — Conseil d'État, Cours administratives d'appel, Tribunaux administratifs) via le canal PISTE.
 export default async function handler(req, res) {
   if (!handleCors(req, res, ['POST', 'OPTIONS'])) {
     return;

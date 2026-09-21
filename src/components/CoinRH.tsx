@@ -312,15 +312,15 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                 <Scale className="w-6 h-6" />
               </div>
               <div>
-                <h2 className={`text-base sm:text-xl font-black tracking-tight ${isLight ? "text-slate-900" : "text-white"}`}>Recherche de Jurisprudence</h2>
+                <h2 className={`text-base sm:text-xl font-black tracking-tight ${isLight ? "text-slate-900" : "text-white"}`}>Recherche de Jurisprudence Administrative</h2>
                 <p className={`text-xs font-medium mt-0.5 ${isLight ? "text-slate-500" : "text-slate-400"}`}>
-                  Fond JURI Légifrance (PISTE) • Cour de cassation, Cours administratives d'appel, Tribunaux administratifs, Conseil d'État
+                  Fond CETAT Légifrance (PISTE) • Conseil d'État, Cours Administratives d'Appel (CAA), Tribunaux Administratifs (TA)
                 </p>
               </div>
             </div>
             {jurisTotal > 0 && (
               <div className="px-3.5 py-1.5 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300 rounded-2xl text-xs font-bold flex items-center gap-2 shrink-0">
-                <CheckCircle2 className="w-3.5 h-3.5" /> {jurisTotal.toLocaleString("fr-FR")} décisions indexées
+                <CheckCircle2 className="w-3.5 h-3.5" /> {jurisTotal.toLocaleString("fr-FR")} arrêts & jugements administratifs indexés
               </div>
             )}
           </div>
@@ -334,8 +334,8 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                   <Search className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm sm:text-base font-black text-white">Interroger le fonds décisionnel national</h3>
-                  <p className="text-xs text-slate-300 font-medium mt-0.5">Recherchez par mots-clés juridiques : proportionnalité, droit de retrait, protection fonctionnelle, sanction déguisée…</p>
+                  <h3 className="text-sm sm:text-base font-black text-white">Interroger le contentieux administratif (Conseil d'État & CAA)</h3>
+                  <p className="text-xs text-slate-300 font-medium mt-0.5">Recherchez les arrêts et jugements applicables aux agents et collectivités : sanctions disciplinaires, protection fonctionnelle, primes & IFSE, mutation d'office, droit de retrait…</p>
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row gap-2.5">
@@ -346,7 +346,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                     value={jurisQuery}
                     onChange={(e) => setJurisQuery(e.target.value)}
                     onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleJurisSearch(); } }}
-                    placeholder="Ex: proportionnalité sanction disciplinaire, droit de retrait…"
+                    placeholder="Ex: proportionnalité sanction disciplinaire, droit de retrait, prime IFSE…"
                     className="w-full pl-10 pr-4 py-3 bg-slate-900 border-2 border-indigo-500 rounded-xl text-sm font-semibold text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 shadow-md"
                   />
                 </div>
@@ -363,10 +363,11 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                 <span className="text-[10.5px] font-bold uppercase tracking-wider text-slate-400 mr-1">Suggested :</span>
                 {[
                   { label: "Proportionnalité sanction", query: "proportionnalité sanction disciplinaire" },
-                  { label: "Droit de retrait", query: "droit de retrait fonctionnaire" },
-                  { label: "Protection fonctionnelle", query: "protection fonctionnelle agent territorial" },
-                  { label: "Sanction déguisée", query: "mutation sanction déguisée fonctionnaire" },
-                  { label: "Temps partiel thérapeutique", query: "temps partiel thérapeutique congé maladie" },
+                  { label: "Droit de retrait", query: "droit de retrait danger grave imminent fonctionnaire" },
+                  { label: "Protection fonctionnelle", query: "protection fonctionnelle agent territorial diffamation" },
+                  { label: "Sanction déguisée", query: "mutation changement affectation sanction déguisée" },
+                  { label: "Accident / CITIS", query: "imputabilité au service accident trajet CITIS" },
+                  { label: "Refus titularisation", query: "refus titularisation stagiaire insuffisance professionnelle" },
                 ].map((chip) => (
                   <button
                     key={chip.label}
@@ -411,7 +412,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
             <div ref={jurisResultRef} className="mt-4 flex flex-col gap-3">
               <p className="text-xs font-bold text-slate-500 dark:text-slate-400 px-1">
                 {jurisResults.length === 0
-                  ? "Aucune décision trouvée."
+                  ? "Aucune décision administrative trouvée."
                   : `${jurisResults.length} décision(s) sur ${jurisTotal.toLocaleString("fr-FR")} au total :`}
               </p>
               {jurisResults.map((decision, idx) => (
@@ -429,7 +430,7 @@ export default function CoinRH({ onClose, theme = "dark" }: CoinRHProps) {
                       {decision.date && <span className="text-[11px] font-semibold text-slate-400 shrink-0 flex items-center gap-1"><Clock className="w-3 h-3" /> {decision.date}</span>}
                     </div>
                     <span className="inline-flex items-center gap-1 text-[11px] font-bold text-indigo-500 group-hover:translate-x-0.5 transition-transform shrink-0">
-                      <span>Légifrance</span><ExternalLink className="w-3.5 h-3.5" />
+                      <span>Légifrance (CETAT)</span><ExternalLink className="w-3.5 h-3.5" />
                     </span>
                   </div>
                   <h4 className="text-sm font-black text-slate-900 dark:text-white leading-snug group-hover:text-indigo-500 transition-colors">{decision.title}</h4>
