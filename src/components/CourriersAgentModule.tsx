@@ -80,9 +80,17 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
   const [isCopied, setIsCopied] = useState(false);
   const [mobileTab, setMobileTab] = useState<'form' | 'preview'>('form');
 
-  // Référence pour le conteneur de prévisualisation (impression) et racine
+  // Référence pour le conteneur de prévisualisation (impression), racine et section variables
   const previewRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
+  const variablesSectionRef = useRef<HTMLDivElement>(null);
+
+  const handleSelectTemplate = (templateId: string) => {
+    setSelectedTemplateId(templateId);
+    setTimeout(() => {
+      variablesSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  };
 
   // Forcer l'affichage immédiat du haut de la page dès l'ouverture du module
   useEffect(() => {
@@ -430,7 +438,7 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
                 return (
                   <button
                     key={tpl.id}
-                    onClick={() => setSelectedTemplateId(tpl.id)}
+                    onClick={() => handleSelectTemplate(tpl.id)}
                     className={`w-full text-left p-3 rounded-xl transition-all flex items-start gap-3 cursor-pointer ${
                       isSelected
                         ? 'bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-300 dark:border-indigo-600 text-indigo-900 dark:text-indigo-200 shadow-sm'
@@ -481,7 +489,7 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
             </div>
 
             {/* Champs dynamiques du modèle */}
-            <div className="space-y-4">
+            <div ref={variablesSectionRef} className="space-y-4 scroll-mt-6">
               <div className="flex items-center justify-between pb-1 border-b border-indigo-100 dark:border-indigo-900/50">
                 <div className="flex items-center gap-2">
                   <span className="p-1.5 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300">
