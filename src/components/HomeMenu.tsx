@@ -233,11 +233,11 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
         <div className="lg:col-span-1">
 
           {/* Barre d'accès rapide style GAFAM / Frosted Glass Dock Ajustée avec précision */}
-          <div className="relative max-w-7xl mx-auto mt-3 sm:mt-5 mb-5 sm:mb-7 bg-white/85 dark:bg-[#0E121D]/90 backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-2.5 sm:p-4.5 border border-slate-200/80 dark:border-white/[0.1] shadow-xl shadow-slate-200/50 dark:shadow-black/60 flex flex-wrap lg:flex-nowrap items-center justify-between gap-3 sm:gap-4">
+          <div className="relative max-w-[1400px] mx-auto mt-2 sm:mt-4 mb-4 sm:mb-6 bg-white/85 dark:bg-[#0E121D]/90 backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-1.5 sm:p-2.5 border border-slate-200/80 dark:border-white/[0.1] shadow-xl shadow-slate-200/50 dark:shadow-black/60 flex items-center justify-between">
 
             {/* Indicateur de défilement mobile - Flèche gauche */}
             <div
-              className={`absolute left-0 top-0 bottom-0 z-20 md:hidden flex items-center pl-1.5 pr-4 bg-gradient-to-r from-white/95 via-white/80 dark:from-[#0E121D]/95 dark:via-[#0E121D]/80 to-transparent rounded-l-2xl transition-opacity duration-300 pointer-events-none ${
+              className={`absolute left-0 top-0 bottom-0 z-20 xl:hidden flex items-center pl-1 pr-3 bg-gradient-to-r from-white/95 via-white/80 dark:from-[#0E121D]/95 dark:via-[#0E121D]/80 to-transparent rounded-l-2xl transition-opacity duration-300 pointer-events-none ${
                 canScrollLeft ? 'opacity-100' : 'opacity-0'
               }`}
             >
@@ -245,15 +245,15 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                 type="button"
                 onClick={() => scrollQuickActions('left')}
                 aria-label="Faire défiler les actions vers la gauche"
-                className="pointer-events-auto w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-md flex items-center justify-center text-purple-600 dark:text-purple-400 active:scale-90 transition-transform"
+                className="pointer-events-auto w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-md flex items-center justify-center text-purple-600 dark:text-purple-400 active:scale-90 transition-transform"
               >
-                <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
+                <ChevronLeft className="w-3.5 h-3.5 stroke-[2.5]" />
               </button>
             </div>
 
             {/* Indicateur de défilement mobile - Flèche droite */}
             <div
-              className={`absolute right-0 top-0 bottom-0 z-20 md:hidden flex items-center pr-1.5 pl-4 bg-gradient-to-l from-white/95 via-white/80 dark:from-[#0E121D]/95 dark:via-[#0E121D]/80 to-transparent rounded-r-2xl transition-opacity duration-300 pointer-events-none ${
+              className={`absolute right-0 top-0 bottom-0 z-20 xl:hidden flex items-center pr-1 pl-3 bg-gradient-to-l from-white/95 via-white/80 dark:from-[#0E121D]/95 dark:via-[#0E121D]/80 to-transparent rounded-r-2xl transition-opacity duration-300 pointer-events-none ${
                 canScrollRight ? 'opacity-100' : 'opacity-0'
               }`}
             >
@@ -261,30 +261,30 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                 type="button"
                 onClick={() => scrollQuickActions('right')}
                 aria-label="Faire défiler les actions vers la droite"
-                className="pointer-events-auto w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-md flex items-center justify-center text-purple-600 dark:text-purple-400 active:scale-90 transition-transform animate-pulse"
+                className="pointer-events-auto w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-md flex items-center justify-center text-purple-600 dark:text-purple-400 active:scale-90 transition-transform animate-pulse"
               >
-                <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+                <ChevronRight className="w-3.5 h-3.5 stroke-[2.5]" />
               </button>
             </div>
 
-            {/* Links & Quick Actions avec ajustement précis */}
+            {/* Links & Quick Actions avec ajustement précis plein écran */}
             <div
               ref={quickActionsScrollRef}
               onScroll={checkQuickActionsScroll}
-              className="flex flex-1 justify-start sm:justify-around items-center gap-2 sm:gap-4 overflow-x-auto no-scrollbar py-1 px-1 sm:py-1.5 sm:px-2 relative snap-x snap-mandatory"
+              className="flex flex-1 justify-start xl:justify-between items-center gap-1.5 sm:gap-2 xl:gap-1.5 overflow-x-auto no-scrollbar py-1 px-1 sm:py-1 sm:px-1.5 relative snap-x snap-mandatory w-full"
             >
               
               {/* 1. Spotlight Search Button */}
               <button
                 onClick={() => handleDomainSelection(0)}
-                className="relative flex flex-col items-center justify-start gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(0)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
                 <AnimatePresence>
                   {hoveredQuickAccessIndex === 0 && (
                     <motion.span
-                      className="absolute inset-0 h-full w-full bg-purple-500/10 dark:bg-purple-500/15 block rounded-2xl z-0 border border-purple-500/25 shadow-sm pointer-events-none"
+                      className="absolute inset-0 h-full w-full bg-purple-500/10 dark:bg-purple-500/15 block rounded-xl xl:rounded-2xl z-0 border border-purple-500/25 shadow-sm pointer-events-none"
                       layoutId="quickAccessHover"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -292,23 +292,23 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                     />
                   )}
                 </AnimatePresence>
-                <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-purple-500/15 to-indigo-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-purple-500/25 transition-all duration-200">
-                  <Bot className="w-8 h-8 sm:w-11 sm:h-11" />
+                <div className="relative z-10 p-2 sm:p-3 rounded-xl xl:rounded-2xl bg-gradient-to-br from-purple-500/15 to-indigo-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-purple-500/25 transition-all duration-200">
+                  <Bot className="w-6 h-6 sm:w-8 sm:h-8" />
                 </div>
-                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">J'ai une<br />question IA</span>
+                <span className="relative z-10 text-[11px] sm:text-xs xl:text-sm font-extrabold text-center tracking-tight leading-tight min-h-[1.75rem] sm:min-h-[2.2rem] flex items-center justify-center">J'ai une<br />question IA</span>
               </button>
 
               {/* 2. Spotlight Espace Jeux Button */}
               <button
                 onClick={() => setChatState({ ...chatState, currentView: 'jeux' })}
-                className="relative flex flex-col items-center justify-start gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-pink-600 dark:hover:text-pink-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-pink-600 dark:hover:text-pink-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(1)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
                 <AnimatePresence>
                   {hoveredQuickAccessIndex === 1 && (
                     <motion.span
-                      className="absolute inset-0 h-full w-full bg-pink-500/10 dark:bg-pink-500/15 block rounded-2xl z-0 border border-pink-500/25 shadow-sm pointer-events-none"
+                      className="absolute inset-0 h-full w-full bg-pink-500/10 dark:bg-pink-500/15 block rounded-xl xl:rounded-2xl z-0 border border-pink-500/25 shadow-sm pointer-events-none"
                       layoutId="quickAccessHover"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -316,23 +316,23 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                     />
                   )}
                 </AnimatePresence>
-                <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-pink-500/15 to-rose-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-pink-500/25 transition-all duration-200">
-                  <Gamepad2 className="w-8 h-8 sm:w-11 sm:h-11" />
+                <div className="relative z-10 p-2 sm:p-3 rounded-xl xl:rounded-2xl bg-gradient-to-br from-pink-500/15 to-rose-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-pink-500/25 transition-all duration-200">
+                  <Gamepad2 className="w-6 h-6 sm:w-8 sm:h-8" />
                 </div>
-                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Espace<br />Jeux</span>
+                <span className="relative z-10 text-[11px] sm:text-xs xl:text-sm font-extrabold text-center tracking-tight leading-tight min-h-[1.75rem] sm:min-h-[2.2rem] flex items-center justify-center">Espace<br />Jeux</span>
               </button>
 
               {/* 3. Spotlight Calculators Button */}
               <button
                 onClick={openCalculatorsLanding}
-                className="relative flex flex-col items-center justify-start gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(2)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
                 <AnimatePresence>
                   {hoveredQuickAccessIndex === 2 && (
                     <motion.span
-                      className="absolute inset-0 h-full w-full bg-orange-500/10 dark:bg-orange-500/15 block rounded-2xl z-0 border border-orange-500/25 shadow-sm pointer-events-none"
+                      className="absolute inset-0 h-full w-full bg-orange-500/10 dark:bg-orange-500/15 block rounded-xl xl:rounded-2xl z-0 border border-orange-500/25 shadow-sm pointer-events-none"
                       layoutId="quickAccessHover"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -340,23 +340,23 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                     />
                   )}
                 </AnimatePresence>
-                <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-orange-500/25 transition-all duration-200">
-                  <Calculator className="w-8 h-8 sm:w-11 sm:h-11" />
+                <div className="relative z-10 p-2 sm:p-3 rounded-xl xl:rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-orange-500/25 transition-all duration-200">
+                  <Calculator className="w-6 h-6 sm:w-8 sm:h-8" />
                 </div>
-                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Boîte à<br />Outils</span>
+                <span className="relative z-10 text-[11px] sm:text-xs xl:text-sm font-extrabold text-center tracking-tight leading-tight min-h-[1.75rem] sm:min-h-[2.2rem] flex items-center justify-center">Boîte à<br />Outils</span>
               </button>
 
               {/* 4. Spotlight Metiers Button */}
               <button
                 onClick={openMetiersView}
-                className="relative flex flex-col items-center justify-start gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(3)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
                 <AnimatePresence>
                   {hoveredQuickAccessIndex === 3 && (
                     <motion.span
-                      className="absolute inset-0 h-full w-full bg-emerald-500/10 dark:bg-emerald-500/15 block rounded-2xl z-0 border border-emerald-500/25 shadow-sm pointer-events-none"
+                      className="absolute inset-0 h-full w-full bg-emerald-500/10 dark:bg-emerald-500/15 block rounded-xl xl:rounded-2xl z-0 border border-emerald-500/25 shadow-sm pointer-events-none"
                       layoutId="quickAccessHover"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -364,23 +364,23 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                     />
                   )}
                 </AnimatePresence>
-                <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-teal-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-emerald-500/25 transition-all duration-200">
-                  <LayoutGrid className="w-8 h-8 sm:w-11 sm:h-11" />
+                <div className="relative z-10 p-2 sm:p-3 rounded-xl xl:rounded-2xl bg-gradient-to-br from-emerald-500/15 to-teal-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-emerald-500/25 transition-all duration-200">
+                  <LayoutGrid className="w-6 h-6 sm:w-8 sm:h-8" />
                 </div>
-                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Aides aux<br />Gestionnaires</span>
+                <span className="relative z-10 text-[11px] sm:text-xs xl:text-sm font-extrabold text-center tracking-tight leading-tight min-h-[1.75rem] sm:min-h-[2.2rem] flex items-center justify-center">Aides aux<br />Gestionnaires</span>
               </button>
 
               {/* 5. Spotlight FAQ Button */}
               <button
                 onClick={() => setChatState({ ...chatState, currentView: 'faq' })}
-                className="relative flex flex-col items-center justify-start gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(4)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
                 <AnimatePresence>
                   {hoveredQuickAccessIndex === 4 && (
                     <motion.span
-                      className="absolute inset-0 h-full w-full bg-amber-500/10 dark:bg-amber-500/15 block rounded-2xl z-0 border border-amber-500/25 shadow-sm pointer-events-none"
+                      className="absolute inset-0 h-full w-full bg-amber-500/10 dark:bg-amber-500/15 block rounded-xl xl:rounded-2xl z-0 border border-amber-500/25 shadow-sm pointer-events-none"
                       layoutId="quickAccessHover"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -388,10 +388,10 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                     />
                   )}
                 </AnimatePresence>
-                <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-amber-500/15 to-yellow-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-amber-500/25 transition-all duration-200">
-                  <HelpCircle className="w-8 h-8 sm:w-11 sm:h-11" />
+                <div className="relative z-10 p-2 sm:p-3 rounded-xl xl:rounded-2xl bg-gradient-to-br from-amber-500/15 to-yellow-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-amber-500/25 transition-all duration-200">
+                  <HelpCircle className="w-6 h-6 sm:w-8 sm:h-8" />
                 </div>
-                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Questions<br />Fréquentes</span>
+                <span className="relative z-10 text-[11px] sm:text-xs xl:text-sm font-extrabold text-center tracking-tight leading-tight min-h-[1.75rem] sm:min-h-[2.2rem] flex items-center justify-center">Questions<br />Fréquentes</span>
               </button>
 
               {/* 6. Spotlight Coin RH Button (Légalité & Actes) */}
@@ -400,14 +400,14 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                   setChatState({ ...chatState, currentView: 'coin-rh' });
                   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
                 }}
-                className="relative flex flex-col items-center justify-start gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(66)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
                 <AnimatePresence>
                   {hoveredQuickAccessIndex === 66 && (
                     <motion.span
-                      className="absolute inset-0 h-full w-full bg-indigo-500/10 dark:bg-indigo-500/15 block rounded-2xl z-0 border border-indigo-500/25 shadow-md pointer-events-none"
+                      className="absolute inset-0 h-full w-full bg-indigo-500/10 dark:bg-indigo-500/15 block rounded-xl xl:rounded-2xl z-0 border border-indigo-500/25 shadow-md pointer-events-none"
                       layoutId="quickAccessHover"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -415,13 +415,13 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                     />
                   )}
                 </AnimatePresence>
-                <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-indigo-500/15 to-purple-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-indigo-500/25 transition-all duration-200">
-                  <FileSignature className="w-8 h-8 sm:w-11 sm:h-11" />
+                <div className="relative z-10 p-2 sm:p-3 rounded-xl xl:rounded-2xl bg-gradient-to-br from-indigo-500/15 to-purple-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-indigo-500/25 transition-all duration-200">
+                  <FileSignature className="w-6 h-6 sm:w-8 sm:h-8" />
                 </div>
-                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Coin du<br />Défenseur</span>
+                <span className="relative z-10 text-[11px] sm:text-xs xl:text-sm font-extrabold text-center tracking-tight leading-tight min-h-[1.75rem] sm:min-h-[2.2rem] flex items-center justify-center">Coin du<br />Défenseur</span>
               </button>
 
-              {/* Spotlight Courriers de l'Agent Button */}
+              {/* 7. Spotlight Courriers de l'Agent Button */}
               <button
                 onClick={() => {
                   if (openCourriersModule) {
@@ -431,14 +431,14 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                   }
                   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
                 }}
-                className="relative flex flex-col items-center justify-start gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(77)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
                 <AnimatePresence>
                   {hoveredQuickAccessIndex === 77 && (
                     <motion.span
-                      className="absolute inset-0 h-full w-full bg-violet-500/10 dark:bg-violet-500/15 block rounded-2xl z-0 border border-violet-500/25 shadow-md pointer-events-none"
+                      className="absolute inset-0 h-full w-full bg-violet-500/10 dark:bg-violet-500/15 block rounded-xl xl:rounded-2xl z-0 border border-violet-500/25 shadow-md pointer-events-none"
                       layoutId="quickAccessHover"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -446,23 +446,23 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                     />
                   )}
                 </AnimatePresence>
-                <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 text-violet-600 dark:text-violet-300 border border-violet-500/40 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-violet-500/25 transition-all duration-200 ring-1 ring-violet-500/20">
-                  <Mail className="w-8 h-8 sm:w-11 sm:h-11" />
+                <div className="relative z-10 p-2 sm:p-3 rounded-xl xl:rounded-2xl bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 text-violet-600 dark:text-violet-300 border border-violet-500/40 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-violet-500/25 transition-all duration-200 ring-1 ring-violet-500/20">
+                  <Mail className="w-6 h-6 sm:w-8 sm:h-8" />
                 </div>
-                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Courriers &<br />Requêtes</span>
+                <span className="relative z-10 text-[11px] sm:text-xs xl:text-sm font-extrabold text-center tracking-tight leading-tight min-h-[1.75rem] sm:min-h-[2.2rem] flex items-center justify-center">Courriers &<br />Requêtes</span>
               </button>
 
-              {/* 7. Spotlight Podcasts Button */}
+              {/* 8. Spotlight Podcasts Button */}
               <button
                 onClick={() => setChatState({ ...chatState, currentView: 'podcasts' })}
-                className="relative flex flex-col items-center justify-start gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(99)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
                 <AnimatePresence>
                   {hoveredQuickAccessIndex === 99 && (
                     <motion.span
-                      className="absolute inset-0 h-full w-full bg-indigo-500/10 dark:bg-indigo-500/15 block rounded-2xl z-0 border border-indigo-500/25 shadow-md pointer-events-none"
+                      className="absolute inset-0 h-full w-full bg-indigo-500/10 dark:bg-indigo-500/15 block rounded-xl xl:rounded-2xl z-0 border border-indigo-500/25 shadow-md pointer-events-none"
                       layoutId="quickAccessHover"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -470,25 +470,25 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                     />
                   )}
                 </AnimatePresence>
-                <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-indigo-500/15 to-purple-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-indigo-500/25 transition-all duration-200">
-                  <Radio className="w-8 h-8 sm:w-11 sm:h-11" />
+                <div className="relative z-10 p-2 sm:p-3 rounded-xl xl:rounded-2xl bg-gradient-to-br from-indigo-500/15 to-purple-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-indigo-500/25 transition-all duration-200">
+                  <Radio className="w-6 h-6 sm:w-8 sm:h-8" />
                 </div>
-                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Podcasts<br /><span className="opacity-0 select-none text-[0px] leading-none">&nbsp;</span></span>
+                <span className="relative z-10 text-[11px] sm:text-xs xl:text-sm font-extrabold text-center tracking-tight leading-tight min-h-[1.75rem] sm:min-h-[2.2rem] flex items-center justify-center">Podcasts<br /><span className="opacity-0 select-none text-[0px] leading-none">&nbsp;</span></span>
               </button>
 
-              {/* 7. Spotlight Bourse Emploi Anchor Link */}
+              {/* 9. Spotlight Bourse Emploi Anchor Link */}
               <a
                 href="https://www.emploi-territorial.fr/emploi-mobilite/?search-col=99599"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative flex flex-col items-center justify-start gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(5)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
                 <AnimatePresence>
                   {hoveredQuickAccessIndex === 5 && (
                     <motion.span
-                      className="absolute inset-0 h-full w-full bg-orange-500/10 dark:bg-orange-500/15 block rounded-2xl z-0 border border-orange-500/25 shadow-md pointer-events-none"
+                      className="absolute inset-0 h-full w-full bg-orange-500/10 dark:bg-orange-500/15 block rounded-xl xl:rounded-2xl z-0 border border-orange-500/25 shadow-md pointer-events-none"
                       layoutId="quickAccessHover"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -496,25 +496,25 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                     />
                   )}
                 </AnimatePresence>
-                <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-orange-500/25 transition-all duration-200">
-                  <Briefcase className="w-8 h-8 sm:w-11 sm:h-11" />
+                <div className="relative z-10 p-2 sm:p-3 rounded-xl xl:rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-orange-500/25 transition-all duration-200">
+                  <Briefcase className="w-6 h-6 sm:w-8 sm:h-8" />
                 </div>
-                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Bourse<br />Emploi</span>
+                <span className="relative z-10 text-[11px] sm:text-xs xl:text-sm font-extrabold text-center tracking-tight leading-tight min-h-[1.75rem] sm:min-h-[2.2rem] flex items-center justify-center">Bourse<br />Emploi</span>
               </a>
 
-              {/* 8. Spotlight Concours Anchor Link */}
+              {/* 10. Spotlight Concours Anchor Link */}
               <a
                 href="https://www.concours-territorial.fr/Index.aspx"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative flex flex-col items-center justify-start gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(6)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
                 <AnimatePresence>
                   {hoveredQuickAccessIndex === 6 && (
                     <motion.span
-                      className="absolute inset-0 h-full w-full bg-cyan-500/10 dark:bg-cyan-500/15 block rounded-2xl z-0 border border-cyan-500/25 shadow-md pointer-events-none"
+                      className="absolute inset-0 h-full w-full bg-cyan-500/10 dark:bg-cyan-500/15 block rounded-xl xl:rounded-2xl z-0 border border-cyan-500/25 shadow-md pointer-events-none"
                       layoutId="quickAccessHover"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -522,10 +522,10 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                     />
                   )}
                 </AnimatePresence>
-                <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-cyan-500/15 to-blue-500/15 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-cyan-500/25 transition-all duration-200">
-                  <GraduationCap className="w-8 h-8 sm:w-11 sm:h-11" />
+                <div className="relative z-10 p-2 sm:p-3 rounded-xl xl:rounded-2xl bg-gradient-to-br from-cyan-500/15 to-blue-500/15 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-cyan-500/25 transition-all duration-200">
+                  <GraduationCap className="w-6 h-6 sm:w-8 sm:h-8" />
                 </div>
-                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Concours<br />FPT</span>
+                <span className="relative z-10 text-[11px] sm:text-xs xl:text-sm font-extrabold text-center tracking-tight leading-tight min-h-[1.75rem] sm:min-h-[2.2rem] flex items-center justify-center">Concours<br />FPT</span>
               </a>
 
             </div>
