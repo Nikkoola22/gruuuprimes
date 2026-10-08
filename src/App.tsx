@@ -342,6 +342,7 @@ function App() {
       incrementWeeklyStat(keyByCalculator[calculator])
     }
     setActiveCalculator(calculator)
+    setChatState((prev) => (prev.currentView !== 'calculators' ? { ...prev, currentView: 'calculators' } : prev))
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
     if (calculatorsSectionRef.current) {
       calculatorsSectionRef.current.scrollTop = 0
@@ -1339,6 +1340,7 @@ ${indicesFactuels}
               handleDomainSelection={handleDomainSelection}
               openCalculatorsLanding={openCalculatorsLanding}
               openMetiersView={openMetiersView}
+              openCourriersModule={() => openCalculator('courriers')}
               hoveredQuickAccessIndex={hoveredQuickAccessIndex}
               setHoveredQuickAccessIndex={setHoveredQuickAccessIndex}
               intercoNews={intercoNews}

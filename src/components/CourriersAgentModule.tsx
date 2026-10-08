@@ -31,7 +31,7 @@ interface CourriersAgentModuleProps {
   onClose?: () => void;
 }
 
-const STORAGE_KEY_PROFILE = 'agent_profile_gennevilliers_v1';
+const STORAGE_KEY_PROFILE = 'agent_profile_gennevilliers_v2';
 
 export default function CourriersAgentModule({ onClose }: CourriersAgentModuleProps) {
   // Profil de l'agent persistant en LocalStorage
@@ -39,6 +39,15 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
     try {
       const saved = localStorage.getItem(STORAGE_KEY_PROFILE);
       if (saved) return JSON.parse(saved);
+      // Migration éventuelle si l'ancien profil stocké était l'exemple DUPONT par défaut
+      const oldSaved = localStorage.getItem('agent_profile_gennevilliers_v1');
+      if (oldSaved) {
+        const parsed = JSON.parse(oldSaved);
+        if (parsed.nom === 'DUPONT' && parsed.prenom === 'Marie') {
+          return DEFAULT_AGENT_PROFILE;
+        }
+        return parsed;
+      }
     } catch {
       // ignore
     }
@@ -473,9 +482,22 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
 
             {/* Champs dynamiques du modèle */}
             <div className="space-y-4">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                Variables du courrier
-              </h3>
+              <div className="flex items-center justify-between pb-1 border-b border-indigo-100 dark:border-indigo-900/50">
+                <div className="flex items-center gap-2">
+                  <span className="p-1.5 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300">
+                    <Edit3 className="w-3.5 h-3.5" />
+                  </span>
+                  <h3 className="text-xs sm:text-sm font-black uppercase tracking-wider text-indigo-900 dark:text-indigo-200">
+                    Variables du courrier
+                  </h3>
+                </div>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-900 dark:bg-amber-950/60 dark:text-amber-200 border border-amber-300 dark:border-amber-700">
+                  ✏️ Champs modifiables
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                Ajustez les paramètres ci-dessous : le texte de la lettre s'actualise automatiquement en direct.
+              </p>
 
               {currentTemplate.fields.map((field) => {
                 const val = formValues[field.id] || '';
@@ -492,7 +514,7 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
                         onChange={(e) =>
                           setFormValues({ ...formValues, [field.id]: e.target.value })
                         }
-                        className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-white text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm cursor-pointer"
                       >
                         {field.options?.map((opt) => (
                           <option key={opt.value} value={opt.value}>
@@ -510,7 +532,7 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
                           setFormValues({ ...formValues, [field.id]: e.target.value })
                         }
                         placeholder={field.placeholder}
-                        className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-white text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm leading-relaxed"
                       />
                     )}
 
@@ -521,7 +543,7 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
                         onChange={(e) =>
                           setFormValues({ ...formValues, [field.id]: e.target.value })
                         }
-                        className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-white text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
                       />
                     )}
 
@@ -533,7 +555,7 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
                           setFormValues({ ...formValues, [field.id]: e.target.value })
                         }
                         placeholder={field.placeholder}
-                        className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-white text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
                       />
                     )}
 
@@ -545,7 +567,7 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
                           setFormValues({ ...formValues, [field.id]: e.target.value })
                         }
                         placeholder={field.placeholder}
-                        className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-white text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
                       />
                     )}
 
@@ -561,13 +583,18 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
 
             {/* Mode d'envoi */}
             <div className="space-y-1.5 pt-3 border-t border-slate-100 dark:border-slate-700">
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                Mode d'acheminement recommandé
-              </label>
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                  Mode d'acheminement recommandé
+                </label>
+                <span className="text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold">
+                  Sélection modifiable
+                </span>
+              </div>
               <select
                 value={modeEnvoi}
                 onChange={(e) => setModeEnvoi(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-white text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm cursor-pointer"
               >
                 <option value="Lettre recommandée avec avis de réception (LRAR)">
                   Lettre recommandée avec avis de réception (LRAR)
@@ -583,20 +610,25 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
 
             {/* Pièces jointes */}
             <div className="space-y-2 pt-3 border-t border-slate-100 dark:border-slate-700">
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                Pièces jointes fournies ({customPj.length})
-              </label>
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                  Pièces jointes fournies ({customPj.length})
+                </label>
+                <span className="text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold">
+                  Modifiable / Ajout libre
+                </span>
+              </div>
               <div className="space-y-1.5">
                 {customPj.map((pj, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between text-xs bg-slate-50 dark:bg-slate-900/60 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700/60"
+                    className="flex items-center justify-between text-xs bg-slate-50 dark:bg-slate-900/60 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs"
                   >
-                    <span className="truncate pr-2">• {pj}</span>
+                    <span className="truncate pr-2 font-medium text-slate-800 dark:text-slate-200">• {pj}</span>
                     <button
                       onClick={() => handleRemovePj(idx)}
-                      className="text-red-500 hover:text-red-700 font-bold shrink-0 px-1 cursor-pointer"
-                      title="Retirer"
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/40 p-1 rounded-md font-bold shrink-0 cursor-pointer transition-colors"
+                      title="Supprimer cette pièce jointe"
                     >
                       ×
                     </button>
@@ -610,12 +642,12 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
                   onChange={(e) => setNewPjInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleAddPj()}
                   placeholder="Ajouter une pièce justificative..."
-                  className="flex-1 px-2.5 py-1.5 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="flex-1 px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
                 />
                 <button
                   type="button"
                   onClick={handleAddPj}
-                  className="px-3 py-1.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-lg text-xs font-medium cursor-pointer"
+                  className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-sm hover:shadow transition-all cursor-pointer shrink-0"
                 >
                   Ajouter
                 </button>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Bot, ArrowRight, Rss, Radio, Calculator, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop, Palette, FileSignature, Award, TrendingUp, CheckCircle2, Zap, Download, Eye } from "lucide-react"
+import { Bot, ArrowRight, Rss, Radio, Calculator, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop, Palette, FileSignature, Award, TrendingUp, CheckCircle2, Zap, Download, Eye, Mail } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { BorderBeam } from "./ui/BorderBeam.tsx"
 import type { ChatbotState } from "../App.tsx"
@@ -22,6 +22,7 @@ interface HomeMenuProps {
   handleDomainSelection: (domainId: number) => void
   openCalculatorsLanding: () => void
   openMetiersView: () => void
+  openCourriersModule?: () => void
   // Surbrillance de la barre d'accès rapide
   hoveredQuickAccessIndex: number | null
   setHoveredQuickAccessIndex: React.Dispatch<React.SetStateAction<number | null>>
@@ -44,6 +45,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
   handleDomainSelection,
   openCalculatorsLanding,
   openMetiersView,
+  openCourriersModule,
   hoveredQuickAccessIndex,
   setHoveredQuickAccessIndex,
   intercoNews,
@@ -417,6 +419,37 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                   <FileSignature className="w-8 h-8 sm:w-11 sm:h-11" />
                 </div>
                 <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Coin du<br />Défenseur</span>
+              </button>
+
+              {/* Spotlight Courriers de l'Agent Button */}
+              <button
+                onClick={() => {
+                  if (openCourriersModule) {
+                    openCourriersModule();
+                  } else {
+                    setChatState({ ...chatState, currentView: 'calculators' });
+                  }
+                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                }}
+                className="relative flex flex-col items-center justify-start gap-1.5 sm:gap-2 text-slate-700 dark:text-slate-200 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-200 group min-w-[105px] sm:min-w-[140px] p-2.5 sm:p-3.5 rounded-2xl hover:-translate-y-1 shrink-0 snap-center"
+                onMouseEnter={() => setHoveredQuickAccessIndex(77)}
+                onMouseLeave={() => setHoveredQuickAccessIndex(null)}
+              >
+                <AnimatePresence>
+                  {hoveredQuickAccessIndex === 77 && (
+                    <motion.span
+                      className="absolute inset-0 h-full w-full bg-violet-500/10 dark:bg-violet-500/15 block rounded-2xl z-0 border border-violet-500/25 shadow-md pointer-events-none"
+                      layoutId="quickAccessHover"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1, transition: { duration: 0.15 } }}
+                      exit={{ opacity: 0, transition: { duration: 0.15, delay: 0.1 } }}
+                    />
+                  )}
+                </AnimatePresence>
+                <div className="relative z-10 p-2.5 sm:p-4.5 rounded-2xl bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 text-violet-600 dark:text-violet-300 border border-violet-500/40 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-violet-500/25 transition-all duration-200 ring-1 ring-violet-500/20">
+                  <Mail className="w-8 h-8 sm:w-11 sm:h-11" />
+                </div>
+                <span className="relative z-10 text-xs sm:text-base font-extrabold text-center tracking-tight leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">Courriers &<br />Requêtes</span>
               </button>
 
               {/* 7. Spotlight Podcasts Button */}

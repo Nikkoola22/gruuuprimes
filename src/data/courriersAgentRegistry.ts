@@ -46,8 +46,8 @@ export interface CourrierTemplate {
 }
 
 export const DEFAULT_AGENT_PROFILE: AgentProfile = {
-  nom: "DUPONT",
-  prenom: "Marie",
+  nom: "GARNIER",
+  prenom: "Atlas",
   civilite: "Mme",
   grade: "Adjoint Administratif Territorial Principal de 2e classe",
   direction: "Direction de l'Enfance et de la Petite Enfance",
@@ -56,7 +56,7 @@ export const DEFAULT_AGENT_PROFILE: AgentProfile = {
   codePostal: "92230",
   ville: "Gennevilliers",
   telephone: "06 12 34 56 78",
-  email: "marie.dupont@email.fr",
+  email: "atlas.garnier@email.fr",
   destinataireTitre: "À l'attention de Monsieur Patrice LECLERC, Maire de la Ville de Gennevilliers",
   destinataireSousCouvert: "Sous couvert de Madame Soraya FONTAINE KESSAR, Directrice Générale des Services\nEt de Monsieur Pierric ANNOOT, Adjoint au Maire délégué aux Ressources Humaines",
   destinataireAdresse: "Hôtel de Ville — Direction des Ressources Humaines\n177, avenue Gabriel-Péri, 92230 Gennevilliers"
