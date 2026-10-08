@@ -413,10 +413,10 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
                 setTempProfile(profile);
                 setShowProfileModal(true);
               }}
-              className="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-700 hover:bg-indigo-50 dark:hover:bg-slate-600 text-indigo-700 dark:text-indigo-200 border border-indigo-200 dark:border-indigo-700 text-xs font-bold shadow-sm transition-all flex items-center gap-1.5 shrink-0 cursor-pointer"
+              className="relative px-3.5 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-extrabold text-xs shadow-md shadow-indigo-500/30 transition-all flex items-center gap-2 shrink-0 cursor-pointer animate-pulse hover:animate-none hover:scale-105 active:scale-95 ring-2 ring-indigo-400/50"
               title="Modifier vos nom, prénom, grade, direction, adresse..."
             >
-              <Edit3 className="w-3.5 h-3.5" />
+              <Edit3 className="w-3.5 h-3.5 animate-bounce" />
               <span>Modifier</span>
             </button>
           </div>
