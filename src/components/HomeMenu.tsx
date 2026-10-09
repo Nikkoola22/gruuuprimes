@@ -1044,9 +1044,6 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                             Retraites, congés de maladie et temps partiel thérapeutique : de nouvelles règles
                           </a>
                         </h4>
-                        <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium leading-relaxed break-words">
-                          Nouvelles règles d'août et septembre 2026 : encadrement du temps partiel thérapeutique (réponse sous 30j, refus motivé), plafonnement des arrêts maladie (31j initial / 62j prolongation) et bonification retraite (1 trimestre/enfant).
-                        </p>
                       </div>
                       <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
                         <button
@@ -1090,9 +1087,6 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                         <h4 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 dark:text-slate-100 group-hover/veille:text-purple-600 dark:group-hover/veille:text-purple-400 transition-colors leading-snug mb-2 break-words">
                           Veille Juridique & Statutaire (« Vu cette semaine »)
                         </h4>
-                        <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-400 leading-relaxed font-medium break-words">
-                          Découvrez notre veille juridique interactive. Explorez les dernières décisions des tribunaux administratifs et du Conseil d'État, ou testez vos connaissances dans notre Mode Défi Quiz !
-                        </p>
                       </div>
                       <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
                         <span className="font-semibold bg-purple-100/70 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 px-3 py-1 rounded-full text-xs shrink-0">
