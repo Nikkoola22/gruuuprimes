@@ -1748,7 +1748,9 @@ ${indicesFactuels}
                       <MapIcon className="w-16 h-16 text-sky-600 dark:text-sky-400" />
                     </div>
                     <h4 className="text-2xl font-bold text-slate-800 dark:text-white text-center">Déplacements</h4>
-                    <p className="text-center text-slate-500 dark:text-slate-400 font-medium dark:font-normal text-sm">Indemnités kilométriques, nuitées et repas</p>
+                    <p className="text-center text-slate-500 dark:text-slate-400 font-medium dark:font-normal text-sm">
+                      Indemnités kilométriques, nuitées et repas avec ordre de missions hors ile de france
+                    </p>
                     <div className="flex items-center gap-2 text-sky-600 dark:text-sky-400 font-bold dark:font-semibold">
                       <span className="text-sm">Accéder au module</span>
                     </div>
@@ -1769,7 +1771,12 @@ ${indicesFactuels}
                     <div className="p-6 bg-gradient-to-br from-rose-100 dark:from-slate-900/80 to-pink-100 dark:to-slate-800/80 rounded-2xl shadow-sm border border-rose-200 dark:border-rose-500/30">
                       <Briefcase className="w-16 h-16 text-rose-600 dark:text-rose-400" />
                     </div>
-                    <h4 className="text-2xl font-bold text-slate-800 dark:text-white text-center">Rupture Conv.</h4>
+                    <div className="flex flex-col items-center gap-1.5">
+                      <h4 className="text-2xl font-bold text-slate-800 dark:text-white text-center">Rupture Conv.</h4>
+                      <span className="px-2.5 py-0.5 text-[11px] font-black tracking-wide uppercase bg-rose-100 text-rose-700 dark:bg-rose-900/60 dark:text-rose-300 rounded-full border border-rose-300 dark:border-rose-700">
+                        NON AUTORISE A GENNEVILLIERS
+                      </span>
+                    </div>
                     <p className="text-center text-slate-500 dark:text-slate-400 font-medium dark:font-normal text-sm">Fourchette plancher et plafond d'indemnité</p>
                     <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-bold dark:font-semibold">
                       <span className="text-sm">Accéder au module</span>

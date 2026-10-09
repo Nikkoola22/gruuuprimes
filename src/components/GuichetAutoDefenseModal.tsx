@@ -661,7 +661,7 @@ export const GuichetAutoDefenseModal: React.FC<GuichetAutoDefenseModalProps> = (
                     >
                       <option value="teletravail">🏢 Refus d'autorisation de télétravail (Décret 2016-151)</option>
                       <option value="temps_partiel">⏱️ Refus de travail à temps partiel (L. 612-1 CGFP)</option>
-                      <option value="rupture_conventionnelle">🤝 Refus de rupture conventionnelle (Décret 2019-1593)</option>
+                      <option value="rupture_conventionnelle">🤝 Refus de rupture conventionnelle (NON AUTORISÉ À GENNEVILLIERS)</option>
                       <option value="disponibilite">✈️ Refus de mise en disponibilité (L. 514-1 CGFP)</option>
                       <option value="crep">📊 Contestation du Compte-Rendu d'Entretien (CREP Décret 2014-1526)</option>
                     </select>

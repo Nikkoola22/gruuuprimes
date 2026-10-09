@@ -941,12 +941,12 @@ Confiant(e) dans l'attention que vous portez à la sécurité des agents territo
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: "courrier_rupture_conventionnelle",
-    title: "Demande d'ouverture d'une rupture conventionnelle",
+    title: "Demande d'ouverture d'une rupture conventionnelle (NON AUTORISÉ À GENNEVILLIERS)",
     category: "departs_retraite",
     categoryLabel: "Fin de Carrière & Départs",
     icon: "🤝",
     cgfpRef: "CGFP Art. L. 552-1 & Décret n° 2019-1593",
-    summary: "Demande d'engagement de la procédure de rupture conventionnelle avec convocation à un entretien préalable.",
+    summary: "Demande d'engagement de la procédure de rupture conventionnelle avec convocation à un entretien préalable. (ATTENTION : NON AUTORISÉ À GENNEVILLIERS)",
     delaiRecommande: "Au moins 10 jours francs avant la date proposée pour l'entretien",
     modeEnvoiDefaut: "Lettre recommandée avec avis de réception (LRAR)",
     piecesJointesDefaut: [],

@@ -4,7 +4,7 @@ import { Clock, Info, Moon, Sun, AlertCircle } from "lucide-react";
 export const IhtsCalculator: React.FC = () => {
   const [im, setIm] = useState<number | "">("");
   const [nbi, setNbi] = useState<number | "">("");
-  const [zoneIr, setZoneIr] = useState<number>(3);
+  const zoneIr = 3; // Bloqué en Zone 1 (3% - Gennevilliers / Île-de-France)
   const [heures1a14, setHeures1a14] = useState<number>(0);
   const [heures15plus, setHeures15plus] = useState<number>(0);
   const [heuresDimanche, setHeuresDimanche] = useState<number>(0);
@@ -12,11 +12,25 @@ export const IhtsCalculator: React.FC = () => {
 
   const VALEUR_POINT = 4.92278;
 
+  const imVal = Number(im) || 0;
+  const nbiVal = Number(nbi) || 0;
+  const isImValid = imVal >= 366;
+
+  // Calcul pour 1 heure supplémentaire dès que IM (et NBI) sont renseignés
+  const brutMensuel1h = imVal * VALEUR_POINT;
+  const nbiMensuel1h = nbiVal * VALEUR_POINT;
+  const brutForIr1h = Math.max(imVal, 366) * VALEUR_POINT;
+  const irMensuel1h = (brutForIr1h + nbiMensuel1h) * 0.03;
+  const baseMensuelle1h = brutMensuel1h + nbiMensuel1h + irMensuel1h;
+  const brutAnnuel1h = baseMensuelle1h * 12;
+  const tauxBase1h = brutAnnuel1h / 1820;
+  const taux1hNormale = tauxBase1h * 1.25;
+  const taux1hMajoree15 = tauxBase1h * 1.27;
+  const taux1hDimanche = tauxBase1h * 1.66;
+  const taux1hNuit = tauxBase1h * 2.0;
+
   const calculateIhts = () => {
     if (!im || im < 366) return null;
-
-    const imVal = Number(im) || 0;
-    const nbiVal = Number(nbi) || 0;
     
     // Le traitement brut mensuel
     const brutMensuel = imVal * VALEUR_POINT;
@@ -25,10 +39,7 @@ export const IhtsCalculator: React.FC = () => {
     // IR avec plancher à l'IM 366
     const imForIr = Math.max(imVal, 366);
     const brutForIr = imForIr * VALEUR_POINT;
-    let irMensuel = 0;
-    if (zoneIr > 0) {
-      irMensuel = (brutForIr + nbiMensuel) * (zoneIr / 100);
-    }
+    const irMensuel = (brutForIr + nbiMensuel) * (zoneIr / 100);
     
     // Le traitement brut annuel de référence pour les IHTS (Traitement + NBI + IR)
     const baseMensuelle = brutMensuel + nbiMensuel + irMensuel;
@@ -146,20 +157,99 @@ export const IhtsCalculator: React.FC = () => {
 
             {/* Zone IR */}
             <div>
-              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                Zone d'indemnité (IR)
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
+                  Zone d'indemnité (IR)
+                </label>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950/70 px-2 py-0.5 rounded-full border border-emerald-300 dark:border-emerald-700">
+                  Bloqué Zone 1
+                </span>
+              </div>
               <select
-                value={zoneIr}
-                onChange={(e) => setZoneIr(Number(e.target.value))}
-                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                value={3}
+                disabled
+                className="w-full bg-slate-100 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-600 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 dark:text-white cursor-not-allowed opacity-90"
               >
-                <option value={0}>Zone 3 (0%)</option>
-                <option value={1}>Zone 2 (1%)</option>
-                <option value={3}>Zone 1 (3%)</option>
+                <option value={3}>Zone 1 (3% - Gennevilliers / IDF)</option>
               </select>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                Fixé en Zone 1 (taux obligatoire de 3% à Gennevilliers).
+              </p>
             </div>
           </div>
+
+          {/* RÉSULTAT IMMÉDIAT POUR 1 HEURE SUPPLÉMENTAIRE */}
+          {isImValid && (
+            <div className="p-5 bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-300 dark:border-emerald-700 rounded-2xl shadow-sm space-y-3 animate-fadeIn">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-emerald-200 dark:border-emerald-800/60 pb-3">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="p-1.5 bg-emerald-500 text-white rounded-lg">
+                      <Clock className="w-4 h-4" />
+                    </span>
+                    <h3 className="text-sm font-black uppercase tracking-wider text-emerald-900 dark:text-emerald-200">
+                      Rémunération pour 1 heure supplémentaire
+                    </h3>
+                  </div>
+                  <p className="text-xs text-emerald-700 dark:text-emerald-300 mt-1">
+                    Calcul instantané pour <strong>IM {imVal}</strong>{nbiVal > 0 ? <> + <strong>{nbiVal} pts NBI</strong></> : ""} (IR Zone 1 : 3%)
+                  </p>
+                </div>
+                <div className="flex items-baseline gap-2 bg-white dark:bg-slate-900 px-4 py-2 rounded-xl border border-emerald-300 dark:border-emerald-700 shadow-sm self-start sm:self-auto">
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">1h de jour :</span>
+                  <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400">
+                    {taux1hNormale.toFixed(2).replace('.', ',')} €
+                  </span>
+                  <span className="text-xs font-medium text-slate-500">brut</span>
+                </div>
+              </div>
+
+              {/* Détail par type d'heure pour 1h */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+                <div className="bg-white dark:bg-slate-900 p-3 rounded-xl border border-emerald-100 dark:border-emerald-800/40 text-center shadow-xs">
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">
+                    1h Normale (+25%)
+                  </div>
+                  <div className="text-base sm:text-lg font-black text-emerald-600 dark:text-emerald-400 mt-0.5">
+                    {taux1hNormale.toFixed(2).replace('.', ',')} €
+                  </div>
+                  <div className="text-[10px] text-slate-400 mt-0.5">14 premières h.</div>
+                </div>
+
+                <div className="bg-white dark:bg-slate-900 p-3 rounded-xl border border-emerald-100 dark:border-emerald-800/40 text-center shadow-xs">
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">
+                    1h Dès 15e (+27%)
+                  </div>
+                  <div className="text-base sm:text-lg font-black text-teal-600 dark:text-teal-400 mt-0.5">
+                    {taux1hMajoree15.toFixed(2).replace('.', ',')} €
+                  </div>
+                  <div className="text-[10px] text-slate-400 mt-0.5">À partir de la 15e</div>
+                </div>
+
+                <div className="bg-white dark:bg-slate-900 p-3 rounded-xl border border-emerald-100 dark:border-emerald-800/40 text-center shadow-xs">
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider flex items-center justify-center gap-1">
+                    <Sun className="w-3 h-3 text-amber-500" />
+                    Dimanche (+66%)
+                  </div>
+                  <div className="text-base sm:text-lg font-black text-amber-600 dark:text-amber-400 mt-0.5">
+                    {taux1hDimanche.toFixed(2).replace('.', ',')} €
+                  </div>
+                  <div className="text-[10px] text-slate-400 mt-0.5">Dimanche & férié</div>
+                </div>
+
+                <div className="bg-white dark:bg-slate-900 p-3 rounded-xl border border-emerald-100 dark:border-emerald-800/40 text-center shadow-xs">
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider flex items-center justify-center gap-1">
+                    <Moon className="w-3 h-3 text-indigo-500" />
+                    Nuit (+100%)
+                  </div>
+                  <div className="text-base sm:text-lg font-black text-indigo-600 dark:text-indigo-400 mt-0.5">
+                    {taux1hNuit.toFixed(2).replace('.', ',')} €
+                  </div>
+                  <div className="text-[10px] text-slate-400 mt-0.5">22h00 - 07h00</div>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
@@ -244,17 +334,40 @@ export const IhtsCalculator: React.FC = () => {
               </div>
             )}
           </div>
+
+          {/* Titre Estimation mensuelle */}
+          <div className="pt-6 border-t border-slate-200 dark:border-slate-700/80">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="p-1.5 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 rounded-lg">
+                <Clock className="w-4 h-4" />
+              </span>
+              <h3 className="text-base sm:text-lg font-black uppercase tracking-wider text-slate-900 dark:text-white">
+                Estimation mensuelle
+              </h3>
+            </div>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Totalisation et décompte prévisionnel calculés sur les heures supplémentaires déclarées pour le mois
+            </p>
+          </div>
         </div>
 
         {/* Résultat */}
-        <div className={`mt-8 transition-all duration-500 ${resultat ? 'opacity-100 transform-none' : 'opacity-0 translate-y-4 pointer-events-none hidden'}`}>
+        <div className={`mt-4 transition-all duration-500 ${resultat ? 'opacity-100 transform-none' : 'opacity-0 translate-y-4 pointer-events-none hidden'}`}>
           {resultat && (
             <div className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30 border-2 border-emerald-200 dark:border-emerald-800/50 rounded-2xl p-6">
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div className="bg-white dark:bg-slate-800 rounded-xl p-4 text-center shadow-sm border border-emerald-100 dark:border-emerald-700/30">
-                  <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wide">Taux horaire de référence</div>
-                  <div className="text-xl font-black text-slate-900 dark:text-white">{resultat.tauxDeBase.toFixed(2).replace('.', ',')} €</div>
+                <div className="bg-white dark:bg-slate-800 rounded-xl p-4 text-center shadow-sm border border-emerald-100 dark:border-emerald-700/30 flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-center gap-1.5 text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wide">
+                      <span>Taux horaire de référence (100%)</span>
+                      <Info className="w-3 h-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    </div>
+                    <div className="text-xl font-black text-slate-900 dark:text-white">{resultat.tauxDeBase.toFixed(2).replace('.', ',')} €</div>
+                  </div>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-2 leading-tight">
+                    Salaire horaire de base non majoré : (Traitement brut annuel + NBI + IR) ÷ 1&nbsp;820&nbsp;h. Sert d'assiette de calcul aux majorations (+25%, +27%, +66%, +100%).
+                  </p>
                 </div>
                 <div className="bg-white dark:bg-slate-800 rounded-xl p-4 text-center shadow-sm border border-emerald-100 dark:border-emerald-700/30">
                   <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wide">Heures de jour (x1.25 et x1.27)</div>
@@ -329,13 +442,16 @@ export const IhtsCalculator: React.FC = () => {
         </div>
 
         <div className="mt-6 flex items-start gap-2.5 p-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl text-xs text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800">
-          <Info className="w-4 h-4 shrink-0 mt-0.5 text-slate-400" />
+          <Info className="w-4 h-4 shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400" />
           <div className="space-y-2">
             <p>
-              <strong>Note :</strong> Les IHTS sont exonérées d'impôt sur le revenu dans la limite de 7 500 €/an (loi n°2022-1158). Aucune cotisation CNRACL ni retraite, uniquement CSG/CRDS.
+              <strong>💡 Qu'est-ce que le Taux horaire de référence ?</strong> C'est la valeur horaire brute statutaire de base de l'agent (article 2 du décret n° 2002-60). Il est obtenu en divisant la rémunération annuelle de base (Traitement brut indiciaire + NBI + Indemnité de résidence Zone 1) par <strong>1&nbsp;820 heures</strong> (35h/semaine × 52 semaines). C'est sur ce taux pivot (100 %) que s'appliquent toutes les majorations réglementaires : <strong>+25 %</strong> pour les 14 premières heures (× 1,25), <strong>+27 %</strong> à partir de la 15e heure (× 1,27), <strong>+66 %</strong> pour le dimanche/férié (× 1,66) et <strong>+100 %</strong> pour la nuit (× 2,00).
             </p>
             <p>
-              Les 14 premières heures supplémentaires du mois sont rémunérées avec une majoration de 25 %. Au-delà, les heures sont majorées à 27 %. Répartissez vos heures dans la bonne tranche selon votre décompte réel (feuille de temps).
+              <strong>Fiscalité & cotisations :</strong> Les IHTS sont exonérées d'impôt sur le revenu dans la limite de 7&nbsp;500 € par an (loi n°2022-1158). Aucune cotisation CNRACL ni retraite, uniquement CSG/CRDS à taux réduit.
+            </p>
+            <p>
+              <strong>Plafond mensuel :</strong> Le contingent réglementaire est fixé à 25 heures supplémentaires par mois maximum.
             </p>
           </div>
         </div>

@@ -60,13 +60,25 @@ export const IsrcSimulator: React.FC = () => {
     <div className="max-w-2xl mx-auto space-y-6 animate-fadeIn pb-12">
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 dark:border-slate-700">
         
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center gap-3 mb-6">
           <div className="p-3 bg-rose-100 dark:bg-rose-900/30 rounded-xl text-rose-600 dark:text-rose-400">
             <Handshake className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Rupture Conventionnelle (ISRC)</h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400">Fourchette de l'indemnité légale</p>
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white">Rupture Conventionnelle (ISRC)</h2>
+              <span className="px-2.5 py-0.5 text-xs font-black tracking-wide uppercase bg-rose-100 text-rose-700 dark:bg-rose-900/60 dark:text-rose-300 rounded-full border border-rose-300 dark:border-rose-700">
+                NON AUTORISE A GENNEVILLIERS
+              </span>
+            </div>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Fourchette de l'indemnité légale (Décret n° 2019-1593)</p>
+          </div>
+        </div>
+
+        <div className="mb-6 p-4 bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800/50 rounded-xl flex items-start gap-3">
+          <Info className="w-5 h-5 text-rose-500 mt-0.5 shrink-0" />
+          <div className="text-sm text-rose-800 dark:text-rose-300">
+            <strong>Information Ville de Gennevilliers :</strong> Le dispositif de rupture conventionnelle est <span className="font-black underline">NON AUTORISE A GENNEVILLIERS</span>. Ce simulateur est fourni à titre indicatif selon les règles statutaires générales de la FPT.
           </div>
         </div>
 

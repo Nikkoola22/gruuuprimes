@@ -199,8 +199,13 @@ export const TravelExpensesCalculator: React.FC = () => {
             <Plane className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Calculateur de frais de déplacement</h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400">Indemnités kilométriques, repas, nuitées et frais annexes</p>
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white">Calculateur de frais de déplacement</h2>
+              <span className="px-2.5 py-0.5 text-xs font-semibold bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-300 rounded-full border border-sky-300 dark:border-sky-700">
+                Avec ordre de mission hors Île-de-France
+              </span>
+            </div>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Indemnités kilométriques, repas, nuitées et frais annexes avec ordre de missions hors ile de france</p>
           </div>
         </div>
 
