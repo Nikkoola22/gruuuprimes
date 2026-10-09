@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Bot, ArrowRight, Rss, Radio, Calculator, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop, Palette, FileSignature, Award, TrendingUp, CheckCircle2, Zap, Download, Eye, Mail } from "lucide-react"
+import { Bot, ArrowRight, Rss, Radio, Calculator, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop, Palette, FileSignature, Award, TrendingUp, CheckCircle2, Zap, Download, Eye, Mail, Headphones } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { BorderBeam } from "./ui/BorderBeam.tsx"
 import type { ChatbotState } from "../App.tsx"
@@ -452,30 +452,6 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                 <span className="relative z-10 text-[11px] sm:text-xs xl:text-sm font-extrabold text-center tracking-tight leading-tight min-h-[1.75rem] sm:min-h-[2.2rem] flex items-center justify-center">Courriers &<br />Requêtes</span>
               </button>
 
-              {/* 8. Spotlight Podcasts Button */}
-              <button
-                onClick={() => setChatState({ ...chatState, currentView: 'podcasts' })}
-                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
-                onMouseEnter={() => setHoveredQuickAccessIndex(99)}
-                onMouseLeave={() => setHoveredQuickAccessIndex(null)}
-              >
-                <AnimatePresence>
-                  {hoveredQuickAccessIndex === 99 && (
-                    <motion.span
-                      className="absolute inset-0 h-full w-full bg-indigo-500/10 dark:bg-indigo-500/15 block rounded-xl xl:rounded-2xl z-0 border border-indigo-500/25 shadow-md pointer-events-none"
-                      layoutId="quickAccessHover"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1, transition: { duration: 0.15 } }}
-                      exit={{ opacity: 0, transition: { duration: 0.15, delay: 0.1 } }}
-                    />
-                  )}
-                </AnimatePresence>
-                <div className="relative z-10 p-2 sm:p-3 rounded-xl xl:rounded-2xl bg-gradient-to-br from-indigo-500/15 to-purple-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-indigo-500/25 transition-all duration-200">
-                  <Radio className="w-6 h-6 sm:w-8 sm:h-8" />
-                </div>
-                <span className="relative z-10 text-[11px] sm:text-xs xl:text-sm font-extrabold text-center tracking-tight leading-tight min-h-[1.75rem] sm:min-h-[2.2rem] flex items-center justify-center">Podcasts<br /><span className="opacity-0 select-none text-[0px] leading-none">&nbsp;</span></span>
-              </button>
-
               {/* 9. Spotlight Bourse Emploi Anchor Link */}
               <a
                 href="https://www.emploi-territorial.fr/emploi-mobilite/?search-col=99599"
@@ -533,8 +509,512 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
 
         </div>
 
-        {/* --- FENÊTRE UNIQUE COMBINÉE : ACTUALITÉS SYNDICALES & VEILLE JURIDIQUE CÔTE À CÔTE --- */}
+        {/* --- SECTION VEDETTE : KIOSQUE SYNDICAL, DESSINE-MOI LE STATUT & PODCASTS --- */}
         <div className="mt-8 mb-8">
+          {/* Header de section élégant */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 bg-gradient-to-br from-orange-500 via-amber-500 to-indigo-600 text-white rounded-2xl shadow-lg shadow-orange-500/20 flex items-center justify-center shrink-0">
+                <Sparkles className="w-6 h-6 animate-pulse" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">
+                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping" />
+                    À la Une · Kiosque & Infographies
+                  </span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+                  Vos lectures & vos repères en{' '}
+                  <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-indigo-500 bg-clip-text text-transparent">
+                    schémas visuels
+                  </span>
+                </h3>
+              </div>
+            </div>
+          </div>
+
+          {/* Grille des 3 cartes Vedettes (Kiosque, Schémas, Podcasts) */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-7">
+
+            {/* CARTE 1 : À LIRE - LE JOURNAL CFDT GENNEVILLIERS */}
+            <div className="relative bg-gradient-to-br from-white via-orange-50/40 to-amber-50/30 dark:from-slate-900/95 dark:via-slate-900/90 dark:to-orange-950/25 rounded-3xl p-5 sm:p-6 border-2 border-orange-200/90 dark:border-orange-500/30 shadow-xl shadow-orange-500/10 dark:shadow-orange-950/30 transition-all duration-300 hover:border-orange-400 dark:hover:border-orange-400/60 overflow-hidden group flex flex-col justify-between">
+              <BorderBeam size={200} duration={12} delay={0} colorFrom="#f97316" colorTo="#fbbf24" />
+              
+              {/* Lueur d'ambiance */}
+              <div className="absolute -top-20 -right-20 w-48 h-48 bg-gradient-to-br from-orange-400/20 to-amber-400/10 dark:from-orange-500/15 dark:to-transparent rounded-full blur-3xl pointer-events-none" />
+
+              <div className="relative z-10 flex flex-col flex-1">
+                {/* En-tête de carte */}
+                <div className="flex items-center justify-between gap-3 mb-3.5 pb-3 border-b border-orange-100/80 dark:border-slate-800">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="p-2 bg-gradient-to-br from-orange-500 to-amber-500 text-white rounded-xl shadow-md shadow-orange-500/20 flex items-center justify-center shrink-0">
+                      <BookOpen className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-wider text-orange-600 dark:text-orange-400">
+                        Kiosque Syndical
+                      </span>
+                      <h4 className="text-base sm:text-lg font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+                        À lire · Journal CFDT
+                      </h4>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-orange-700 dark:text-orange-300 bg-orange-100/80 dark:bg-orange-950/60 px-2.5 py-0.5 rounded-full border border-orange-300/70 dark:border-orange-800/70 shrink-0">
+                    Rentrée 2026
+                  </span>
+                </div>
+
+                {/* Corps de carte : disposition Image + Contenu compact */}
+                <div className="flex gap-4 items-center mb-3.5 flex-1">
+                  {/* Aperçu Couverture Magazine */}
+                  <a
+                    href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/Journal-Gennevilliers-rentree-2026.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative shrink-0 w-24 sm:w-28 h-32 sm:h-36 rounded-xl overflow-hidden bg-slate-900 border-2 border-orange-300/80 dark:border-orange-600/40 shadow-md group-hover:scale-[1.03] transition-all duration-300 cursor-pointer block group/cover"
+                  >
+                    <img
+                      src={`${BASE_URL}journal-rentree-2026.png`}
+                      alt="Journal CFDT Rentrée 2026"
+                      className="w-full h-full object-cover object-top group-hover/cover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.onerror = null;
+                        target.src = `${BASE_URL}journal-2026.png`;
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-1.5">
+                      <span className="text-[9px] font-black text-white bg-orange-600/90 backdrop-blur-xs px-1.5 py-0.5 rounded shadow-xs flex items-center gap-0.5">
+                        <Eye className="w-2.5 h-2.5" />
+                        PDF
+                      </span>
+                    </div>
+                  </a>
+
+                  {/* Titre et détails compacts */}
+                  <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch py-0.5">
+                    <div>
+                      <h5 className="text-sm sm:text-base font-black text-slate-900 dark:text-white leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+                        Écho de la CFDT Gennevilliers
+                      </h5>
+                    </div>
+
+                    <div className="pt-2 border-t border-orange-100/80 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                      <FileText className="w-3.5 h-3.5 text-orange-500 shrink-0" />
+                      <span className="truncate">Édition spéciale · 32 pages</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bouton d'action principal */}
+              <a
+                href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/Journal-Gennevilliers-rentree-2026.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative z-10 flex items-center justify-center gap-2 w-full bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white font-black py-2.5 px-3.5 rounded-xl shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all text-xs cursor-pointer mt-auto"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>Télécharger le journal (PDF)</span>
+                <ArrowRight className="w-3.5 h-3.5 ml-0.5" />
+              </a>
+            </div>
+
+            {/* CARTE 2 : DESSINE-MOI LE STATUT */}
+            <div
+              onClick={() => {
+                setChatState({ ...chatState, currentView: 'dessine-moi-le-statut' });
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+              }}
+              className="relative bg-gradient-to-br from-white via-indigo-50/40 to-purple-50/30 dark:from-slate-900/95 dark:via-slate-900/90 dark:to-indigo-950/25 rounded-3xl p-5 sm:p-6 border-2 border-indigo-200/90 dark:border-indigo-500/30 shadow-xl shadow-indigo-500/10 dark:shadow-indigo-950/30 transition-all duration-300 hover:border-indigo-400 dark:hover:border-indigo-400/60 overflow-hidden group cursor-pointer flex flex-col justify-between"
+            >
+              <BorderBeam size={200} duration={12} delay={6} colorFrom="#6366f1" colorTo="#a855f7" />
+
+              {/* Lueur d'ambiance */}
+              <div className="absolute -top-20 -right-20 w-48 h-48 bg-gradient-to-br from-indigo-400/20 to-purple-400/10 dark:from-indigo-500/15 dark:to-transparent rounded-full blur-3xl pointer-events-none" />
+
+              <div className="relative z-10 flex flex-col flex-1">
+                {/* En-tête de carte */}
+                <div className="flex items-center justify-between gap-3 mb-3.5 pb-3 border-b border-indigo-100/80 dark:border-slate-800">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="p-2 bg-gradient-to-br from-indigo-600 to-purple-600 text-white rounded-xl shadow-md shadow-indigo-500/20 flex items-center justify-center shrink-0">
+                      <Palette className="w-4 h-4 animate-pulse" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                        Bibliothèque Visuelle RH
+                      </span>
+                      <h4 className="text-base sm:text-lg font-black text-slate-900 dark:text-white tracking-tight leading-tight flex items-center gap-1.5">
+                        <span>Dessine-moi le statut</span>
+                        <span className="text-sm">🎨</span>
+                      </h4>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-indigo-700 dark:text-indigo-300 bg-indigo-100/80 dark:bg-indigo-950/60 px-2.5 py-0.5 rounded-full border border-indigo-300/70 dark:border-indigo-800/70 shrink-0">
+                    +100 Schémas
+                  </span>
+                </div>
+
+                {/* Corps de carte : disposition Image + Contenu compact */}
+                <div className="flex gap-4 items-center mb-3.5 flex-1">
+                  {/* Aperçu Illustration Dessine-moi */}
+                  <div className="relative shrink-0 w-24 sm:w-28 h-32 sm:h-36 rounded-xl overflow-hidden bg-slate-900 border-2 border-indigo-300/80 dark:border-indigo-600/40 shadow-md group-hover:scale-[1.03] transition-all duration-300 block group/cover">
+                    <img
+                      src="/images/dessine-moi-statut.jpg"
+                      alt="Dessine-moi le statut"
+                      className="w-full h-full object-cover object-top group-hover/cover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.onerror = null;
+                        target.src = "https://www.cig929394.fr/wp-content/uploads/2025/09/info_ppr_2024_06_vf-179x252.jpg";
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-1.5">
+                      <span className="text-[9px] font-black text-white bg-indigo-600/90 backdrop-blur-xs px-1.5 py-0.5 rounded shadow-xs flex items-center gap-0.5">
+                        <Sparkles className="w-2.5 h-2.5" />
+                        Schémas
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Titre et détails compacts */}
+                  <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch py-0.5">
+                    <div>
+                      <h5 className="text-sm sm:text-base font-black text-slate-900 dark:text-white leading-snug group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                        Le Statut en Infographies & Parcours
+                      </h5>
+                    </div>
+
+                    <div className="pt-2 border-t border-indigo-100/80 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                      <Palette className="w-3.5 h-3.5 text-indigo-500 shrink-0" />
+                      <span className="truncate">Fiches CIG & CDG officielles synthétisées</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bouton d'action principal */}
+              <div className="relative z-10 flex items-center justify-center gap-2 w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 hover:from-indigo-700 hover:to-purple-700 text-white font-black py-2.5 px-3.5 rounded-xl shadow-md shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all text-xs mt-auto">
+                <Palette className="w-3.5 h-3.5" />
+                <span>Explorer les 100+ infographies</span>
+                <ArrowRight className="w-3.5 h-3.5 ml-0.5 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+
+            {/* CARTE 3 : PODCASTS & ÉMISSIONS RH */}
+            <div
+              onClick={() => {
+                setChatState({ ...chatState, currentView: 'podcasts' });
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+              }}
+              className="relative bg-gradient-to-br from-white via-rose-50/40 to-purple-50/30 dark:from-slate-900/95 dark:via-slate-900/90 dark:to-rose-950/25 rounded-3xl p-5 sm:p-6 border-2 border-rose-200/90 dark:border-rose-500/30 shadow-xl shadow-rose-500/10 dark:shadow-rose-950/30 transition-all duration-300 hover:border-rose-400 dark:hover:border-rose-400/60 overflow-hidden group cursor-pointer flex flex-col justify-between"
+            >
+              <BorderBeam size={200} duration={12} delay={3} colorFrom="#f43f5e" colorTo="#a855f7" />
+
+              {/* Lueur d'ambiance */}
+              <div className="absolute -top-20 -right-20 w-48 h-48 bg-gradient-to-br from-rose-400/20 to-purple-400/10 dark:from-rose-500/15 dark:to-transparent rounded-full blur-3xl pointer-events-none" />
+
+              <div className="relative z-10 flex flex-col flex-1">
+                {/* En-tête de carte */}
+                <div className="flex items-center justify-between gap-3 mb-3.5 pb-3 border-b border-rose-100/80 dark:border-slate-800">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="p-2 bg-gradient-to-br from-rose-500 to-purple-600 text-white rounded-xl shadow-md shadow-rose-500/20 flex items-center justify-center shrink-0">
+                      <Headphones className="w-4 h-4 animate-pulse" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-black uppercase tracking-wider text-rose-600 dark:text-rose-400">
+                        Espace Audio & Écoute
+                      </span>
+                      <h4 className="text-base sm:text-lg font-black text-slate-900 dark:text-white tracking-tight leading-tight flex items-center gap-1.5">
+                        <span>Podcasts & Émissions</span>
+                        <span className="text-sm">🎧</span>
+                      </h4>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-rose-700 dark:text-rose-300 bg-rose-100/80 dark:bg-rose-950/60 px-2.5 py-0.5 rounded-full border border-rose-300/70 dark:border-rose-800/70 shrink-0">
+                    Audio & Débats
+                  </span>
+                </div>
+
+                {/* Corps de carte : disposition Image + Contenu compact */}
+                <div className="flex gap-4 items-center mb-3.5 flex-1">
+                  {/* Aperçu Pochette Podcast */}
+                  <div className="relative shrink-0 w-24 sm:w-28 h-32 sm:h-36 rounded-xl overflow-hidden bg-slate-900 border-2 border-rose-300/80 dark:border-rose-600/40 shadow-md group-hover:scale-[1.03] transition-all duration-300 block group/cover">
+                    <img
+                      src="https://image.ausha.co/h7BadjwIkVqrj7OapZYNAjHrpo0LXJIDcaXkdPek_1400x1400.jpeg?t=1786459653"
+                      alt="Podcasts RH Territoriaux"
+                      className="w-full h-full object-cover object-top group-hover/cover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.onerror = null;
+                        target.src = "https://image.ausha.co/bmX5Z3tvi17HDEvN4MfedgAelI7KkMf0cRnkdA2y_1400x1400.jpeg?t=1782040910";
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-1.5">
+                      <span className="text-[9px] font-black text-white bg-rose-600/90 backdrop-blur-xs px-1.5 py-0.5 rounded shadow-xs flex items-center gap-0.5">
+                        <Radio className="w-2.5 h-2.5" />
+                        Audio
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Titre et détails compacts */}
+                  <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch py-0.5">
+                    <div>
+                      <h5 className="text-sm sm:text-base font-black text-slate-900 dark:text-white leading-snug group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">
+                        L'Actualité Statutaire en Audio
+                      </h5>
+                    </div>
+
+                    <div className="pt-2 border-t border-rose-100/80 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                      <Radio className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+                      <span className="truncate">Épisodes Naudrh & Radio France</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bouton d'action principal */}
+              <div className="relative z-10 flex items-center justify-center gap-2 w-full bg-gradient-to-r from-rose-600 via-pink-600 to-purple-600 hover:from-rose-700 hover:to-pink-700 text-white font-black py-2.5 px-3.5 rounded-xl shadow-md shadow-rose-500/25 hover:shadow-rose-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all text-xs mt-auto">
+                <Headphones className="w-3.5 h-3.5" />
+                <span>Écouter les épisodes podcasts</span>
+                <ArrowRight className="w-3.5 h-3.5 ml-0.5 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* --- BLOC CARRIÈRE FULL-WIDTH : VOS COLLÈGUES DE LA CFDT DE GENNEVILLIERS VOUS AIDENT POUR VOTRE CARRIÈRE --- */}
+        <div className="relative w-full bg-gradient-to-br from-white via-orange-50/40 to-amber-50/30 dark:from-slate-900/95 dark:via-slate-900/90 dark:to-orange-950/20 rounded-3xl p-6 sm:p-8 border-2 border-orange-200/80 dark:border-orange-500/30 shadow-2xl shadow-orange-500/10 dark:shadow-orange-950/30 transition-all duration-300 hover:border-orange-400 dark:hover:border-orange-400/60 overflow-hidden group mb-10">
+          {/* Lueur d'ambiance en arrière-plan */}
+          <div className="absolute -top-24 -right-24 w-80 h-80 bg-gradient-to-br from-orange-400/20 to-amber-400/10 dark:from-orange-500/15 dark:to-transparent rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-gradient-to-tr from-amber-400/15 to-orange-500/10 dark:from-indigo-600/10 dark:to-transparent rounded-full blur-3xl pointer-events-none" />
+          
+          {/* Bordure lumineuse animée */}
+          <BorderBeam size={260} duration={14} delay={0} colorFrom="#f97316" colorTo="#fbbf24" />
+
+          <div className="relative z-10">
+            {/* En-tête du bloc */}
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-5 border-b border-orange-100/80 dark:border-slate-800">
+              <div className="flex items-start sm:items-center gap-4">
+                <div className="p-3.5 bg-gradient-to-br from-orange-500 to-amber-500 text-white rounded-2xl shadow-lg shadow-orange-500/25 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shrink-0">
+                  <Briefcase className="w-7 h-7" />
+                </div>
+                <div>
+                  <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">
+                      <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping" />
+                      Espace Carrière CFDT Gennevilliers
+                    </span>
+                    <span className="bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md shadow-xs">
+                      Simulateur Interactif 2027
+                    </span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+                    Vos collègues CFDT de Gennevilliers vous aident pour{' '}
+                    <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 bg-clip-text text-transparent">
+                      votre carrière
+                    </span>
+                  </h3>
+                </div>
+              </div>
+
+              {/* Bouton d'accès direct */}
+              <button
+                type="button"
+                onClick={() => {
+                  setChatState(prev => ({ ...prev, currentView: 'simul-agent' }))
+                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+                }}
+                className="cursor-pointer self-start lg:self-center inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white text-xs sm:text-sm font-extrabold shadow-md shadow-orange-500/20 hover:shadow-orange-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shrink-0"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>Lancer le simulateur</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Grille des 4 questions clés - 2 colonnes spacieuses pour une lisibilité optimale */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4.5 mb-6">
+              {/* Question 1 : Échelon */}
+              <div
+                onClick={() => {
+                  setChatState(prev => ({ ...prev, currentView: 'simul-agent', simulTool: 'frise' }))
+                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+                }}
+                className="group/card cursor-pointer relative bg-white/95 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border-2 border-amber-200/70 hover:border-amber-400 dark:border-slate-700/80 dark:hover:border-amber-500/80 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center justify-center group-hover/card:bg-amber-500 group-hover/card:text-white transition-all duration-200 shrink-0 shadow-xs">
+                    <Clock className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20">
+                        Cadence Statutaire
+                      </span>
+                    </div>
+                    <h4 className="text-slate-900 dark:text-white font-extrabold text-base sm:text-lg leading-snug group-hover/card:text-amber-600 dark:group-hover/card:text-amber-400 transition-colors">
+                      Quand est mon prochain avancement d'échelon ?
+                    </h4>
+                  </div>
+                </div>
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-amber-600 dark:text-amber-400">
+                  <span>Calculer ma date d'échelon</span>
+                  <span className="inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
+                    <span>Ouvrir la frise</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+
+              {/* Question 2 : Grade */}
+              <div
+                onClick={() => {
+                  setChatState(prev => ({ ...prev, currentView: 'simul-agent', simulTool: 'frise' }))
+                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+                }}
+                className="group/card cursor-pointer relative bg-white/95 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border-2 border-emerald-200/70 hover:border-emerald-400 dark:border-slate-700/80 dark:hover:border-emerald-500/80 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center group-hover/card:bg-emerald-500 group-hover/card:text-white transition-all duration-200 shrink-0 shadow-xs">
+                    <TrendingUp className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
+                        Quotas & Seuils
+                      </span>
+                    </div>
+                    <h4 className="text-slate-900 dark:text-white font-extrabold text-base sm:text-lg leading-snug group-hover/card:text-emerald-600 dark:group-hover/card:text-emerald-400 transition-colors">
+                      Vais-je avoir un avancement de grade cette année ?
+                    </h4>
+                  </div>
+                </div>
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                  <span>Tester mon éligibilité au grade</span>
+                  <span className="inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
+                    <span>Ouvrir la frise</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+
+              {/* Question 3 : Promotion Interne LDG */}
+              <div
+                onClick={() => {
+                  setChatState(prev => ({ ...prev, currentView: 'simul-agent', simulTool: 'ldg' }))
+                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+                }}
+                className="group/card cursor-pointer relative bg-white/95 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border-2 border-blue-200/70 hover:border-blue-400 dark:border-slate-700/80 dark:hover:border-blue-500/80 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center justify-center group-hover/card:bg-blue-500 group-hover/card:text-white transition-all duration-200 shrink-0 shadow-xs">
+                    <Award className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-500/20">
+                        Barème CIG 175 pts
+                      </span>
+                    </div>
+                    <h4 className="text-slate-900 dark:text-white font-extrabold text-base sm:text-lg leading-snug group-hover/card:text-blue-600 dark:group-hover/card:text-blue-400 transition-colors">
+                      Comment savoir mes points pour la promotion interne ?
+                    </h4>
+                  </div>
+                </div>
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-blue-600 dark:text-blue-400">
+                  <span>Calculer mon barème LDG-PI</span>
+                  <span className="inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
+                    <span>Ouvrir l'outil LDG</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+
+              {/* Question 4 : Concours & Examens Pro */}
+              <div
+                onClick={() => {
+                  setChatState(prev => ({ ...prev, currentView: 'simul-agent', simulTool: 'frise' }))
+                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+                }}
+                className="group/card cursor-pointer relative bg-white/95 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border-2 border-purple-200/70 hover:border-purple-400 dark:border-slate-700/80 dark:hover:border-purple-500/80 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center group-hover/card:bg-purple-500 group-hover/card:text-white transition-all duration-200 shrink-0 shadow-xs">
+                    <GraduationCap className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20">
+                        Reclassement Garanti
+                      </span>
+                    </div>
+                    <h4 className="text-slate-900 dark:text-white font-extrabold text-base sm:text-lg leading-snug group-hover/card:text-purple-600 dark:group-hover/card:text-purple-400 transition-colors">
+                      Quel changement si je réussis mon examen pro ou concours ?
+                    </h4>
+                  </div>
+                </div>
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-purple-600 dark:text-purple-400">
+                  <span>Calculer mon reclassement</span>
+                  <span className="inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
+                    <span>Ouvrir la frise</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Bandeau d'actions et garanties */}
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-4 border-t border-orange-100/80 dark:border-slate-800">
+              <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs font-semibold text-slate-600 dark:text-slate-300">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-medium">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                  100% Anonyme & Gratuit
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-medium">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                  Conforme CGFP & CIG Petite Couronne
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-medium">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                  Frise chronologique, LDG-PI & Fiche DRH
+                </span>
+              </div>
+
+              <div className="flex items-center gap-3 w-full lg:w-auto">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setChatState(prev => ({ ...prev, currentView: 'simul-agent' }))
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+                  }}
+                  className="cursor-pointer w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white text-sm font-extrabold shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+                >
+                  <Zap className="w-4 h-4 fill-current" />
+                  <span>Accéder au Simulateur de Carrière</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+
+                <a
+                  href={`${BASE_URL}simul-agent/index.html`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Ouvrir dans un nouvel onglet"
+                  className="p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-orange-500 text-slate-600 dark:text-slate-300 hover:text-orange-500 transition-colors shadow-xs shrink-0"
+                >
+                  <ExternalLinkIcon className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* --- FENÊTRE UNIQUE COMBINÉE : ACTUALITÉS SYNDICALES & VEILLE JURIDIQUE CÔTE À CÔTE --- */}
+        <div className="mt-8 mb-12">
           <div className="w-full bg-white/95 dark:bg-slate-900/95 rounded-3xl p-4 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 min-w-0">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 dark:divide-slate-800 min-w-0">
 
@@ -625,247 +1105,6 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
               </div>
 
             </div>
-          </div>
-        </div>
-
-        {/* --- SECTION VEDETTE : KIOSQUE SYNDICAL (À LIRE) & DESSINE-MOI LE STATUT (MIS EN VALEUR) --- */}
-        <div className="mb-12">
-          {/* Header de section élégant */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 bg-gradient-to-br from-orange-500 via-amber-500 to-indigo-600 text-white rounded-2xl shadow-lg shadow-orange-500/20 flex items-center justify-center shrink-0">
-                <Sparkles className="w-6 h-6 animate-pulse" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">
-                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping" />
-                    À la Une · Kiosque & Infographies
-                  </span>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-                  Vos lectures & vos repères en{' '}
-                  <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-indigo-500 bg-clip-text text-transparent">
-                    schémas visuels
-                  </span>
-                </h3>
-              </div>
-            </div>
-          </div>
-
-          {/* Grille des 2 cartes Vedettes 50% / 50% */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 sm:gap-8">
-
-            {/* CARTE 1 : À LIRE - LE JOURNAL CFDT GENNEVILLIERS */}
-            <div className="relative bg-gradient-to-br from-white via-orange-50/40 to-amber-50/30 dark:from-slate-900/95 dark:via-slate-900/90 dark:to-orange-950/25 rounded-3xl p-6 sm:p-7 border-2 border-orange-200/90 dark:border-orange-500/30 shadow-2xl shadow-orange-500/10 dark:shadow-orange-950/30 transition-all duration-300 hover:border-orange-400 dark:hover:border-orange-400/60 overflow-hidden group flex flex-col justify-between">
-              <BorderBeam size={220} duration={12} delay={0} colorFrom="#f97316" colorTo="#fbbf24" />
-              
-              {/* Lueur d'ambiance */}
-              <div className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-br from-orange-400/20 to-amber-400/10 dark:from-orange-500/15 dark:to-transparent rounded-full blur-3xl pointer-events-none" />
-
-              <div className="relative z-10">
-                {/* En-tête de carte */}
-                <div className="flex items-center justify-between gap-3 mb-5 pb-4 border-b border-orange-100/80 dark:border-slate-800">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="p-2.5 bg-gradient-to-br from-orange-500 to-amber-500 text-white rounded-xl shadow-md shadow-orange-500/20 flex items-center justify-center shrink-0">
-                      <BookOpen className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-black uppercase tracking-wider text-orange-600 dark:text-orange-400">
-                        Kiosque Syndical
-                      </span>
-                      <h4 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
-                        À lire · Journal CFDT
-                      </h4>
-                    </div>
-                  </div>
-                  <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-orange-700 dark:text-orange-300 bg-orange-100/80 dark:bg-orange-950/60 px-3 py-1 rounded-full border border-orange-300/70 dark:border-orange-800/70 shrink-0">
-                    Rentrée 2026
-                  </span>
-                </div>
-
-                {/* Corps de carte : disposition responsive Image + Contenu */}
-                <div className="flex flex-col sm:flex-row gap-5 items-center sm:items-start mb-5">
-                  {/* Aperçu Couverture Magazine 3D */}
-                  <a
-                    href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/Journal-Gennevilliers-rentree-2026.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative shrink-0 w-44 sm:w-48 h-60 sm:h-64 rounded-2xl overflow-hidden bg-slate-900 border-2 border-orange-300/80 dark:border-orange-600/40 shadow-xl shadow-orange-950/20 group-hover:scale-[1.03] transition-all duration-300 cursor-pointer block group/cover"
-                  >
-                    <img
-                      src={`${BASE_URL}journal-rentree-2026.png`}
-                      alt="Journal CFDT Rentrée 2026"
-                      className="w-full h-full object-cover object-top group-hover/cover:scale-105 transition-transform duration-500"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.onerror = null;
-                        target.src = `${BASE_URL}journal-2026.png`;
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-2.5">
-                      <span className="text-[10px] font-black text-white bg-orange-600/90 backdrop-blur-xs px-2.5 py-0.5 rounded-md shadow-xs flex items-center gap-1">
-                        <Eye className="w-3 h-3" />
-                        Aperçu PDF
-                      </span>
-                    </div>
-                  </a>
-
-                  {/* Détails et dossiers */}
-                  <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch">
-                    <div>
-                      <h5 className="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
-                        Écho de la CFDT Gennevilliers
-                      </h5>
-                      <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm mt-1.5 leading-relaxed">
-                        Le journal d'information et d'action de vos collègues territoriaux. Toutes les actualités locales, réformes statutaires et avancées concrètes.
-                      </p>
-
-                      {/* Dossiers phares */}
-                      <div className="mt-3 space-y-1.5">
-                        <div className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300">
-                          <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0" />
-                          <span className="font-semibold">Pouvoir d'achat :</span>
-                          <span className="text-slate-500 dark:text-slate-400 truncate">RIFSEEP, CIA et revalorisations</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
-                          <span className="font-semibold">Temps de travail :</span>
-                          <span className="text-slate-500 dark:text-slate-400 truncate">Télétravail et forfaits RTT</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
-                          <span className="font-semibold">Carrières & LDG :</span>
-                          <span className="text-slate-500 dark:text-slate-400 truncate">Promotions et avancements 2026/2027</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 pt-3 border-t border-orange-100/80 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                      <FileText className="w-3.5 h-3.5 text-orange-500" />
-                      <span>Édition spéciale Ville de Gennevilliers · 32 pages</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bouton d'action principal */}
-              <a
-                href="https://intranet.ville-gennevilliers.fr/Statics/media/syndicats/cfdt/journaux/Journal-Gennevilliers-rentree-2026.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative z-10 flex items-center justify-center gap-2.5 w-full bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white font-black py-3 px-4 rounded-2xl shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all text-xs sm:text-sm cursor-pointer"
-              >
-                <Download className="w-4 h-4" />
-                <span>Télécharger le journal (PDF)</span>
-                <ArrowRight className="w-4 h-4 ml-1" />
-              </a>
-            </div>
-
-            {/* CARTE 2 : DESSINE-MOI LE STATUT */}
-            <div
-              onClick={() => {
-                setChatState({ ...chatState, currentView: 'dessine-moi-le-statut' });
-                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-              }}
-              className="relative bg-gradient-to-br from-white via-indigo-50/40 to-purple-50/30 dark:from-slate-900/95 dark:via-slate-900/90 dark:to-indigo-950/25 rounded-3xl p-6 sm:p-7 border-2 border-indigo-200/90 dark:border-indigo-500/30 shadow-2xl shadow-indigo-500/10 dark:shadow-indigo-950/30 transition-all duration-300 hover:border-indigo-400 dark:hover:border-indigo-400/60 overflow-hidden group cursor-pointer flex flex-col justify-between"
-            >
-              <BorderBeam size={220} duration={12} delay={6} colorFrom="#6366f1" colorTo="#a855f7" />
-
-              {/* Lueur d'ambiance */}
-              <div className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-br from-indigo-400/20 to-purple-400/10 dark:from-indigo-500/15 dark:to-transparent rounded-full blur-3xl pointer-events-none" />
-
-              <div className="relative z-10">
-                {/* En-tête de carte */}
-                <div className="flex items-center justify-between gap-3 mb-5 pb-4 border-b border-indigo-100/80 dark:border-slate-800">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="p-2.5 bg-gradient-to-br from-indigo-600 to-purple-600 text-white rounded-xl shadow-md shadow-indigo-500/20 flex items-center justify-center shrink-0">
-                      <Palette className="w-5 h-5 animate-pulse" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
-                        Bibliothèque Visuelle RH
-                      </span>
-                      <h4 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight leading-tight flex items-center gap-1.5">
-                        <span>Dessine-moi le statut</span>
-                        <span className="text-base">🎨</span>
-                      </h4>
-                    </div>
-                  </div>
-                  <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-indigo-700 dark:text-indigo-300 bg-indigo-100/80 dark:bg-indigo-950/60 px-3 py-1 rounded-full border border-indigo-300/70 dark:border-indigo-800/70 shrink-0">
-                    +100 Schémas Clairs
-                  </span>
-                </div>
-
-                {/* Corps de carte : disposition responsive Image + Contenu */}
-                <div className="flex flex-col sm:flex-row gap-5 items-center sm:items-start mb-5">
-                  {/* Aperçu Illustration Dessine-moi */}
-                  <div className="relative shrink-0 w-44 sm:w-48 h-60 sm:h-64 rounded-2xl overflow-hidden bg-slate-900 border-2 border-indigo-300/80 dark:border-indigo-600/40 shadow-xl shadow-indigo-950/20 group-hover:scale-[1.03] transition-all duration-300 block group/cover">
-                    <img
-                      src="/images/dessine-moi-statut.jpg"
-                      alt="Dessine-moi le statut"
-                      className="w-full h-full object-cover object-top group-hover/cover:scale-105 transition-transform duration-500"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.onerror = null;
-                        target.src = "https://www.cig929394.fr/wp-content/uploads/2025/09/info_ppr_2024_06_vf-179x252.jpg";
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-2.5">
-                      <span className="text-[10px] font-black text-white bg-indigo-600/90 backdrop-blur-xs px-2.5 py-0.5 rounded-md shadow-xs flex items-center gap-1">
-                        <Sparkles className="w-3 h-3" />
-                        Logigrammes RH
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Détails et thématiques */}
-                  <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch">
-                    <div>
-                      <h5 className="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-snug group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                        Le Statut en Infographies & Parcours
-                      </h5>
-                      <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm mt-1.5 leading-relaxed">
-                        Le droit de la fonction publique territoriale décrypté en logigrammes pas-à-pas. Tout comprendre de vos droits sans jargon administratif.
-                      </p>
-
-                      {/* 4 Thématiques cliquables */}
-                      <div className="mt-3 grid grid-cols-2 gap-1.5">
-                        <div className="flex items-center gap-1.5 p-1.5 rounded-lg bg-white/70 dark:bg-slate-800/70 border border-indigo-100 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
-                          <span>🏥</span>
-                          <span className="font-semibold truncate">Congés & Santé</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 p-1.5 rounded-lg bg-white/70 dark:bg-slate-800/70 border border-indigo-100 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
-                          <span>📈</span>
-                          <span className="font-semibold truncate">Carrières & Grades</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 p-1.5 rounded-lg bg-white/70 dark:bg-slate-800/70 border border-indigo-100 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
-                          <span>⚖️</span>
-                          <span className="font-semibold truncate">Discipline & Droits</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 p-1.5 rounded-lg bg-white/70 dark:bg-slate-800/70 border border-indigo-100 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
-                          <span>💰</span>
-                          <span className="font-semibold truncate">Primes & RIFSEEP</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 pt-3 border-t border-indigo-100/80 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                      <Palette className="w-3.5 h-3.5 text-indigo-500" />
-                      <span>Fiches CIG & CDG officielles synthétisées · Accès libre</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bouton d'action principal */}
-              <div className="relative z-10 flex items-center justify-center gap-2.5 w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 hover:from-indigo-700 hover:to-purple-700 text-white font-black py-3 px-4 rounded-2xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all text-xs sm:text-sm">
-                <Palette className="w-4 h-4" />
-                <span>Explorer les 100+ infographies</span>
-                <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </div>
-
           </div>
         </div>
 
@@ -1082,248 +1321,6 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
 
         </div>
 
-        {/* --- BLOC CARRIÈRE FULL-WIDTH : VOS COLLÈGUES DE LA CFDT DE GENNEVILLIERS VOUS AIDENT POUR VOTRE CARRIÈRE --- */}
-        <div className="relative w-full bg-gradient-to-br from-white via-orange-50/40 to-amber-50/30 dark:from-slate-900/95 dark:via-slate-900/90 dark:to-orange-950/20 rounded-3xl p-6 sm:p-8 border-2 border-orange-200/80 dark:border-orange-500/30 shadow-2xl shadow-orange-500/10 dark:shadow-orange-950/30 transition-all duration-300 hover:border-orange-400 dark:hover:border-orange-400/60 overflow-hidden group mb-12">
-          {/* Lueur d'ambiance en arrière-plan */}
-          <div className="absolute -top-24 -right-24 w-80 h-80 bg-gradient-to-br from-orange-400/20 to-amber-400/10 dark:from-orange-500/15 dark:to-transparent rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-gradient-to-tr from-amber-400/15 to-orange-500/10 dark:from-indigo-600/10 dark:to-transparent rounded-full blur-3xl pointer-events-none" />
-          
-          {/* Bordure lumineuse animée */}
-          <BorderBeam size={260} duration={14} delay={0} colorFrom="#f97316" colorTo="#fbbf24" />
-
-          <div className="relative z-10">
-            {/* En-tête du bloc */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-5 border-b border-orange-100/80 dark:border-slate-800">
-              <div className="flex items-start sm:items-center gap-4">
-                <div className="p-3.5 bg-gradient-to-br from-orange-500 to-amber-500 text-white rounded-2xl shadow-lg shadow-orange-500/25 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shrink-0">
-                  <Briefcase className="w-7 h-7" />
-                </div>
-                <div>
-                  <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">
-                      <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping" />
-                      Espace Carrière CFDT Gennevilliers
-                    </span>
-                    <span className="bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md shadow-xs">
-                      Simulateur Interactif 2027
-                    </span>
-                  </div>
-                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
-                    Vos collègues CFDT de Gennevilliers vous aident pour{' '}
-                    <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 bg-clip-text text-transparent">
-                      votre carrière
-                    </span>
-                  </h3>
-                </div>
-              </div>
-
-              {/* Bouton d'accès direct */}
-              <button
-                type="button"
-                onClick={() => {
-                  setChatState(prev => ({ ...prev, currentView: 'simul-agent' }))
-                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
-                }}
-                className="cursor-pointer self-start lg:self-center inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white text-xs sm:text-sm font-extrabold shadow-md shadow-orange-500/20 hover:shadow-orange-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shrink-0"
-              >
-                <Sparkles className="w-4 h-4" />
-                <span>Lancer le simulateur</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base font-medium mb-6 leading-relaxed">
-              Vous vous posez des questions sur votre avancement, vos points de promotion ou l'impact d'un concours ? Choisissez une situation ci-dessous pour ouvrir le <strong className="text-orange-600 dark:text-orange-400 font-bold">Simulateur Statutaire & LDG Interactif</strong> :
-            </p>
-
-            {/* Grille des 4 questions clés - 2 colonnes spacieuses pour une lisibilité optimale */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4.5 mb-6">
-              {/* Question 1 : Échelon */}
-              <div
-                onClick={() => {
-                  setChatState(prev => ({ ...prev, currentView: 'simul-agent', simulTool: 'frise' }))
-                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
-                }}
-                className="group/card cursor-pointer relative bg-white/95 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border-2 border-amber-200/70 hover:border-amber-400 dark:border-slate-700/80 dark:hover:border-amber-500/80 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center justify-center group-hover/card:bg-amber-500 group-hover/card:text-white transition-all duration-200 shrink-0 shadow-xs">
-                    <Clock className="w-6 h-6" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20">
-                        Cadence Statutaire
-                      </span>
-                    </div>
-                    <h4 className="text-slate-900 dark:text-white font-extrabold text-base sm:text-lg leading-snug group-hover/card:text-amber-600 dark:group-hover/card:text-amber-400 transition-colors">
-                      Quand est mon prochain avancement d'échelon ?
-                    </h4>
-                    <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-1.5 leading-relaxed">
-                      Dates d'ancienneté exactes, cadences statutaires et projection de votre indice majoré.
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-amber-600 dark:text-amber-400">
-                  <span>Calculer ma date d'échelon</span>
-                  <span className="inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
-                    <span>Ouvrir la frise</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </div>
-
-              {/* Question 2 : Grade */}
-              <div
-                onClick={() => {
-                  setChatState(prev => ({ ...prev, currentView: 'simul-agent', simulTool: 'frise' }))
-                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
-                }}
-                className="group/card cursor-pointer relative bg-white/95 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border-2 border-emerald-200/70 hover:border-emerald-400 dark:border-slate-700/80 dark:hover:border-emerald-500/80 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center group-hover/card:bg-emerald-500 group-hover/card:text-white transition-all duration-200 shrink-0 shadow-xs">
-                    <TrendingUp className="w-6 h-6" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
-                        Quotas & Seuils
-                      </span>
-                    </div>
-                    <h4 className="text-slate-900 dark:text-white font-extrabold text-base sm:text-lg leading-snug group-hover/card:text-emerald-600 dark:group-hover/card:text-emerald-400 transition-colors">
-                      Vais-je avoir un avancement de grade cette année ?
-                    </h4>
-                    <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-1.5 leading-relaxed">
-                      Conditions statutaires : ancienneté minimale, échelon requis et quotas de promotion.
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                  <span>Tester mon éligibilité au grade</span>
-                  <span className="inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
-                    <span>Ouvrir la frise</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </div>
-
-              {/* Question 3 : Promotion Interne LDG */}
-              <div
-                onClick={() => {
-                  setChatState(prev => ({ ...prev, currentView: 'simul-agent', simulTool: 'ldg' }))
-                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
-                }}
-                className="group/card cursor-pointer relative bg-white/95 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border-2 border-blue-200/70 hover:border-blue-400 dark:border-slate-700/80 dark:hover:border-blue-500/80 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center justify-center group-hover/card:bg-blue-500 group-hover/card:text-white transition-all duration-200 shrink-0 shadow-xs">
-                    <Award className="w-6 h-6" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-500/20">
-                        Barème CIG 175 pts
-                      </span>
-                    </div>
-                    <h4 className="text-slate-900 dark:text-white font-extrabold text-base sm:text-lg leading-snug group-hover/card:text-blue-600 dark:group-hover/card:text-blue-400 transition-colors">
-                      Comment savoir mes points pour la promotion interne ?
-                    </h4>
-                    <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-1.5 leading-relaxed">
-                      Simulateur officiel des 6 LDG-PI de Gennevilliers avec calcul automatisé et fiche DRH.
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-blue-600 dark:text-blue-400">
-                  <span>Calculer mon barème LDG-PI</span>
-                  <span className="inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
-                    <span>Ouvrir l'outil LDG</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </div>
-
-              {/* Question 4 : Concours & Examens Pro */}
-              <div
-                onClick={() => {
-                  setChatState(prev => ({ ...prev, currentView: 'simul-agent', simulTool: 'frise' }))
-                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
-                }}
-                className="group/card cursor-pointer relative bg-white/95 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 border-2 border-purple-200/70 hover:border-purple-400 dark:border-slate-700/80 dark:hover:border-purple-500/80 rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center group-hover/card:bg-purple-500 group-hover/card:text-white transition-all duration-200 shrink-0 shadow-xs">
-                    <GraduationCap className="w-6 h-6" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20">
-                        Reclassement Garanti
-                      </span>
-                    </div>
-                    <h4 className="text-slate-900 dark:text-white font-extrabold text-base sm:text-lg leading-snug group-hover/card:text-purple-600 dark:group-hover/card:text-purple-400 transition-colors">
-                      Quel changement si je réussis mon examen pro ou concours ?
-                    </h4>
-                    <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-1.5 leading-relaxed">
-                      Reclassement à l'échelon égal ou supérieur, reprise d'ancienneté et nouvelle rémunération.
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-purple-600 dark:text-purple-400">
-                  <span>Calculer mon reclassement</span>
-                  <span className="inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
-                    <span>Ouvrir la frise</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Bandeau d'actions et garanties */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-4 border-t border-orange-100/80 dark:border-slate-800">
-              <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs font-semibold text-slate-600 dark:text-slate-300">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-medium">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                  100% Anonyme & Gratuit
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-medium">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                  Conforme CGFP & CIG Petite Couronne
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-medium">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                  Frise chronologique, LDG-PI & Fiche DRH
-                </span>
-              </div>
-
-              <div className="flex items-center gap-3 w-full lg:w-auto">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setChatState(prev => ({ ...prev, currentView: 'simul-agent' }))
-                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
-                  }}
-                  className="cursor-pointer w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white text-sm font-extrabold shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
-                >
-                  <Zap className="w-4 h-4 fill-current" />
-                  <span>Accéder au Simulateur de Carrière</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-
-                <a
-                  href={`${BASE_URL}simul-agent/index.html`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="Ouvrir dans un nouvel onglet"
-                  className="p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-orange-500 text-slate-600 dark:text-slate-300 hover:text-orange-500 transition-colors shadow-xs shrink-0"
-                >
-                  <ExternalLinkIcon className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-
-          </div>
-        </div>
 
         {/* --- SECTION DES 3 FENÊTRES : À CONNAÎTRE, LIENS UTILES, À VOIR --- */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full mb-12">
