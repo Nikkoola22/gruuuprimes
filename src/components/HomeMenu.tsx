@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Bot, ArrowRight, Rss, Radio, Calculator, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop, Palette, FileSignature, Award, TrendingUp, CheckCircle2, Zap, Download, Eye, Mail, Headphones } from "lucide-react"
+import { Bot, ArrowRight, Rss, Radio, Calculator, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop, Palette, FileSignature, Award, TrendingUp, Download, Eye, Mail, Headphones, FileSearch } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { BorderBeam } from "./ui/BorderBeam.tsx"
 import type { ChatbotState } from "../App.tsx"
@@ -229,11 +229,11 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
   }, [intercoNews, fpNews, intercoLoading, fpLoading])
   return (
     <>
-      <div className="grid grid-cols-1 gap-4">
-        <div className="lg:col-span-1">
+      <div className="w-full">
+        <div className="flex flex-col gap-10 sm:gap-14 lg:gap-16">
 
           {/* Barre d'accès rapide style GAFAM / Frosted Glass Dock Ajustée avec précision */}
-          <div className="relative max-w-[1400px] mx-auto mt-2 sm:mt-4 mb-4 sm:mb-6 bg-white/85 dark:bg-[#0E121D]/90 backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-1.5 sm:p-2.5 border border-slate-200/80 dark:border-white/[0.1] shadow-xl shadow-slate-200/50 dark:shadow-black/60 flex items-center justify-between">
+          <div className="relative max-w-[1400px] w-full mx-auto mt-1 sm:mt-2 bg-white/85 dark:bg-[#0E121D]/90 backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-1.5 sm:p-2.5 border border-slate-200/80 dark:border-white/[0.1] shadow-xl shadow-slate-200/50 dark:shadow-black/60 flex items-center justify-between">
 
             {/* Indicateur de défilement mobile - Flèche gauche */}
             <div
@@ -452,6 +452,34 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                 <span className="relative z-10 text-[11px] sm:text-xs xl:text-sm font-extrabold text-center tracking-tight leading-tight min-h-[1.75rem] sm:min-h-[2.2rem] flex items-center justify-center">Courriers &<br />Requêtes</span>
               </button>
 
+              {/* 8. Spotlight Docuthèque RH (RAG) Button */}
+              <button
+                onClick={() => {
+                  setChatState({ ...chatState, currentView: 'docutheque-rag' });
+                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                }}
+                title="Docuthèque RH RAG (Recherche documentaire & formulaires)"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
+                onMouseEnter={() => setHoveredQuickAccessIndex(88)}
+                onMouseLeave={() => setHoveredQuickAccessIndex(null)}
+              >
+                <AnimatePresence>
+                  {hoveredQuickAccessIndex === 88 && (
+                    <motion.span
+                      className="absolute inset-0 h-full w-full bg-blue-500/10 dark:bg-blue-500/15 block rounded-xl xl:rounded-2xl z-0 border border-blue-500/25 shadow-md pointer-events-none"
+                      layoutId="quickAccessHover"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1, transition: { duration: 0.15 } }}
+                      exit={{ opacity: 0, transition: { duration: 0.15, delay: 0.1 } }}
+                    />
+                  )}
+                </AnimatePresence>
+                <div className="relative z-10 p-2 sm:p-3 rounded-xl xl:rounded-2xl bg-gradient-to-br from-blue-500/15 to-cyan-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-blue-500/25 transition-all duration-200">
+                  <FileSearch className="w-6 h-6 sm:w-8 sm:h-8" />
+                </div>
+                <span className="relative z-10 text-[11px] sm:text-xs xl:text-sm font-extrabold text-center tracking-tight leading-tight min-h-[1.75rem] sm:min-h-[2.2rem] flex items-center justify-center">Recherche<br />Docs</span>
+              </button>
+
               {/* 9. Spotlight Bourse Emploi Anchor Link */}
               <a
                 href="https://www.emploi-territorial.fr/emploi-mobilite/?search-col=99599"
@@ -510,7 +538,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
         </div>
 
         {/* --- SECTION VEDETTE : KIOSQUE SYNDICAL, DESSINE-MOI LE STATUT & PODCASTS --- */}
-        <div className="mt-8 mb-8">
+        <div className="w-full mt-6 sm:mt-8">
           {/* Header de section élégant */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
             <div className="flex items-center gap-3">
@@ -525,9 +553,9 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                   </span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-                  Vos lectures & vos repères en{' '}
+                  Lectures &{' '}
                   <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-indigo-500 bg-clip-text text-transparent">
-                    schémas visuels
+                    repères visuels
                   </span>
                 </h3>
               </div>
@@ -787,7 +815,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
         </div>
 
         {/* --- BLOC CARRIÈRE FULL-WIDTH : VOS COLLÈGUES DE LA CFDT DE GENNEVILLIERS VOUS AIDENT POUR VOTRE CARRIÈRE --- */}
-        <div className="relative w-full bg-gradient-to-br from-white via-orange-50/40 to-amber-50/30 dark:from-slate-900/95 dark:via-slate-900/90 dark:to-orange-950/20 rounded-3xl p-6 sm:p-8 border-2 border-orange-200/80 dark:border-orange-500/30 shadow-2xl shadow-orange-500/10 dark:shadow-orange-950/30 transition-all duration-300 hover:border-orange-400 dark:hover:border-orange-400/60 overflow-hidden group mb-10">
+        <div className="relative w-full mt-6 sm:mt-8 bg-gradient-to-br from-white via-orange-50/40 to-amber-50/30 dark:from-slate-900/95 dark:via-slate-900/90 dark:to-orange-950/20 rounded-3xl p-6 sm:p-8 border-2 border-orange-200/80 dark:border-orange-500/30 shadow-2xl shadow-orange-500/10 dark:shadow-orange-950/30 transition-all duration-300 hover:border-orange-400 dark:hover:border-orange-400/60 overflow-hidden group">
           {/* Lueur d'ambiance en arrière-plan */}
           <div className="absolute -top-24 -right-24 w-80 h-80 bg-gradient-to-br from-orange-400/20 to-amber-400/10 dark:from-orange-500/15 dark:to-transparent rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-gradient-to-tr from-amber-400/15 to-orange-500/10 dark:from-indigo-600/10 dark:to-transparent rounded-full blur-3xl pointer-events-none" />
@@ -861,13 +889,6 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                     </h4>
                   </div>
                 </div>
-                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-amber-600 dark:text-amber-400">
-                  <span>Calculer ma date d'échelon</span>
-                  <span className="inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
-                    <span>Ouvrir la frise</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
               </div>
 
               {/* Question 2 : Grade */}
@@ -892,13 +913,6 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                       Vais-je avoir un avancement de grade cette année ?
                     </h4>
                   </div>
-                </div>
-                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                  <span>Tester mon éligibilité au grade</span>
-                  <span className="inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
-                    <span>Ouvrir la frise</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </span>
                 </div>
               </div>
 
@@ -925,13 +939,6 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                     </h4>
                   </div>
                 </div>
-                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-blue-600 dark:text-blue-400">
-                  <span>Calculer mon barème LDG-PI</span>
-                  <span className="inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
-                    <span>Ouvrir l'outil LDG</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
               </div>
 
               {/* Question 4 : Concours & Examens Pro */}
@@ -957,64 +964,13 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                     </h4>
                   </div>
                 </div>
-                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-purple-600 dark:text-purple-400">
-                  <span>Calculer mon reclassement</span>
-                  <span className="inline-flex items-center gap-1 group-hover/card:translate-x-1 transition-transform">
-                    <span>Ouvrir la frise</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
               </div>
             </div>
-
-            {/* Bandeau d'actions et garanties */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-4 border-t border-orange-100/80 dark:border-slate-800">
-              <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs font-semibold text-slate-600 dark:text-slate-300">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-medium">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                  100% Anonyme & Gratuit
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-medium">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                  Conforme CGFP & CIG Petite Couronne
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-medium">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                  Frise chronologique, LDG-PI & Fiche DRH
-                </span>
-              </div>
-
-              <div className="flex items-center gap-3 w-full lg:w-auto">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setChatState(prev => ({ ...prev, currentView: 'simul-agent' }))
-                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
-                  }}
-                  className="cursor-pointer w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white text-sm font-extrabold shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
-                >
-                  <Zap className="w-4 h-4 fill-current" />
-                  <span>Accéder au Simulateur de Carrière</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-
-                <a
-                  href={`${BASE_URL}simul-agent/index.html`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="Ouvrir dans un nouvel onglet"
-                  className="p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-orange-500 text-slate-600 dark:text-slate-300 hover:text-orange-500 transition-colors shadow-xs shrink-0"
-                >
-                  <ExternalLinkIcon className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-
           </div>
         </div>
 
         {/* --- FENÊTRE UNIQUE COMBINÉE : ACTUALITÉS SYNDICALES & VEILLE JURIDIQUE CÔTE À CÔTE --- */}
-        <div className="mt-8 mb-12">
+        <div className="w-full mt-6 sm:mt-8">
           <div className="w-full bg-white/95 dark:bg-slate-900/95 rounded-3xl p-4 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 min-w-0">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 dark:divide-slate-800 min-w-0">
 
@@ -1103,7 +1059,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
         </div>
 
         {/* --- SECTION FLUX & ACTUALITÉS : LES 2 CARROUSELS EN PLEINE LARGEUR --- */}
-        <div className="flex flex-col gap-8 mb-12">
+        <div className="w-full mt-6 sm:mt-8 flex flex-col gap-8 sm:gap-10">
 
           {/* CARROUSEL 1 DÉTACHÉ : En direct de la CFDT Interco */}
           <div className="w-full bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 flex flex-col justify-between">
@@ -1317,7 +1273,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
 
 
         {/* --- SECTION DES 3 FENÊTRES : À CONNAÎTRE, LIENS UTILES, À VOIR --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full mt-6 sm:mt-8 pb-8 sm:pb-12">
 
           {/* Colonne 1 : À connaître (Docs de référence) */}
           <div className="w-full bg-gradient-to-br from-white/95 via-rose-50/50 to-pink-50/30 dark:from-slate-900/95 dark:via-rose-950/20 dark:to-slate-900/95 rounded-3xl p-6 border-2 border-rose-200/80 dark:border-rose-800/40 shadow-2xl shadow-rose-500/10 transition-transform duration-300 hover:-translate-y-1.5 hover:shadow-rose-500/20 hover:border-rose-300 relative z-10 flex flex-col justify-between group">

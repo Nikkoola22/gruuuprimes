@@ -28,7 +28,7 @@ import {
   Calculator
 } from 'lucide-react';
 import { searchDocuthequeRAG, RAGSearchResult } from '../utils/docuthequeSearch';
-import { GENNEVILLIERS_DOCUTHEQUE, DOCUTHEQUE_CATEGORIES } from '../data/gennevilliersDocutheque';
+import { GENNEVILLIERS_DOCUTHEQUE } from '../data/gennevilliersDocutheque';
 import { exportTempsPartielFormDocx } from '../utils/docxExport';
 
 interface DocuthequeRAGProps {
@@ -343,7 +343,6 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
 }) => {
   const isLight = theme === 'light';
   const [query, setQuery] = useState(initialQuery);
-  const [selectedCategory, setSelectedCategory] = useState<string>("Toutes les rubriques");
   const [activeThemeTab, setActiveThemeTab] = useState<string>("Tous");
   const [ragResult, setRagResult] = useState<RAGSearchResult | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
@@ -411,20 +410,17 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
     }, 50);
   };
 
-  // Liste filtrée pour le mode explorateur par catégorie
+  // Liste des documents pour la grille explorateur (filtrée par recherche si saisie)
   const explorerDocuments = useMemo(() => {
-    return GENNEVILLIERS_DOCUTHEQUE.filter(doc => {
-      const matchCat = selectedCategory === "Toutes les rubriques" || doc.category === selectedCategory;
-      if (!matchCat) return false;
-      if (!query.trim()) return true;
-      const q = query.toLowerCase();
-      return (
-        doc.title.toLowerCase().includes(q) ||
-        doc.summary.toLowerCase().includes(q) ||
-        doc.keywords.some(k => k.toLowerCase().includes(q))
-      );
-    });
-  }, [selectedCategory, query]);
+    if (!query.trim()) return GENNEVILLIERS_DOCUTHEQUE;
+    const q = query.toLowerCase();
+    return GENNEVILLIERS_DOCUTHEQUE.filter(doc =>
+      doc.title.toLowerCase().includes(q) ||
+      doc.summary.toLowerCase().includes(q) ||
+      doc.keywords.some(k => k.toLowerCase().includes(q))
+    );
+  }, [query]);
+
 
   const getFormatBadge = (type: string) => {
     switch (type) {
@@ -486,10 +482,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-xl sm:text-2xl font-black tracking-tight bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-                  Docuthèque RH RAG
-                </span>
-                <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-500/15 text-blue-400 border border-blue-500/30">
-                  <Bot className="w-3.5 h-3.5 text-blue-400" /> Mode IA Génératif
+                  Docuthèque
                 </span>
               </div>
               <p className={`text-xs ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
@@ -513,17 +506,10 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
             ? 'bg-white border-slate-200 shadow-slate-200/50'
             : 'bg-[#0E1526] border-slate-800 shadow-2xl shadow-black/80'
         }`}>
-          <div className="relative z-10 max-w-3xl mx-auto text-center space-y-4 mb-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold bg-[#14203D] text-blue-300 border border-blue-500/40">
-              <Sparkles className="w-3.5 h-3.5 text-blue-400 animate-pulse" />
-              Recherche Statutaire & RAG Intelligent
-            </div>
+          <div className="relative z-10 max-w-3xl mx-auto text-center mb-6">
             <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              Posez votre question RH en langage naturel
+              Posez votre question
             </h1>
-            <p className={`text-sm sm:text-base ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>
-              L’IA identifie automatiquement votre besoin statutaire, vous explique les démarches et vous fournit directement le formulaire officiel à télécharger.
-            </p>
           </div>
 
           {/* Formulaire de recherche */}
@@ -918,57 +904,8 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
           </div>
         )}
 
-        {/* SECTION EXPLORATEUR : Naviguer dans les 111 documents par rubrique */}
-        <div className="pt-8 border-t border-slate-800/60 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <h2 className="text-xl font-bold flex items-center gap-2">
-                <Folder className="w-5 h-5 text-blue-400" />
-                Explorateur Complet de la Docuthèque RH
-              </h2>
-              <p className={`text-xs ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
-                Consultez l'ensemble des 111 documents municipaux classés par thématiques
-              </p>
-            </div>
-
-            <span className="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 font-medium self-start">
-              {explorerDocuments.length} document{explorerDocuments.length > 1 ? 's' : ''} affiché{explorerDocuments.length > 1 ? 's' : ''}
-            </span>
-          </div>
-
-          {/* Filtres par Catégorie */}
-          <div className="flex flex-wrap gap-2 pb-2">
-            {DOCUTHEQUE_CATEGORIES.map((cat) => {
-              const count = cat === "Toutes les rubriques"
-                ? GENNEVILLIERS_DOCUTHEQUE.length
-                : GENNEVILLIERS_DOCUTHEQUE.filter(d => d.category === cat).length;
-              const isSelected = selectedCategory === cat;
-
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`text-xs px-3.5 py-2 rounded-xl font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
-                    isSelected
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
-                      : isLight
-                        ? 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
-                        : 'bg-[#0F172A] hover:bg-[#1A2642] text-slate-200 border border-slate-700/80'
-                  }`}
-                >
-                  {getCategoryIcon(cat)}
-                  <span>{cat}</span>
-                  <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                    isSelected ? 'bg-white/20 text-white' : isLight ? 'bg-slate-100 text-slate-600' : 'bg-slate-800 text-slate-300'
-                  }`}>
-                    {count}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Liste Explorer */}
+        {/* Grille de cartes explorateur */}
+        <div className="pt-6 border-t border-slate-200 dark:border-slate-800/80">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {explorerDocuments.map((doc) => (
               <div
@@ -994,7 +931,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                   </p>
                 </div>
 
-                <div className="pt-3 mt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+                <div className="pt-3 mt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-[11px]">
                   <span className="text-slate-400 font-medium">{doc.date}</span>
                   <div className="flex items-center gap-1.5">
                     {doc.id.includes('temps-partiel') && (
@@ -1023,6 +960,7 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
             ))}
           </div>
         </div>
+
       </div>
     </div>
   );

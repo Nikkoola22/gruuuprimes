@@ -1559,12 +1559,24 @@ ${indicesFactuels}
             </div>
           )}
 
+          {/* Fond d'écran avec transparence maîtrisée pour la vue "Choisissez un outil" */}
+          {!activeCalculator && (
+            <>
+              <div
+                className="fixed inset-0 bg-cover bg-center bg-no-repeat pointer-events-none z-0 opacity-25 dark:opacity-15 transition-opacity duration-300"
+                style={{ backgroundImage: `url('${BASE_URL}unnamed.jpg')` }}
+              />
+              <div className="fixed inset-0 bg-gradient-to-b from-white/20 via-transparent to-slate-50/50 dark:from-slate-900/30 dark:via-transparent dark:to-slate-950/70 pointer-events-none z-0" />
+              <OrangeGeometricBackground />
+            </>
+          )}
+
           {/* Page d'accueil avec les 3 icônes */}
           {!activeCalculator && (
-            <div className="max-w-6xl mx-auto px-4 py-12 calc-landing-enter">
+            <div className="relative z-10 max-w-6xl mx-auto px-4 py-12 calc-landing-enter">
               <div className="text-center mb-12">
-                <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-4">Choisissez un outil</h3>
-                <p className="text-slate-500 dark:text-slate-400 font-medium dark:font-normal">Cliquez sur une icône pour y accéder</p>
+                <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-4 drop-shadow-xs">Choisissez un outil</h3>
+                <p className="text-slate-600 dark:text-slate-300 font-medium text-base">Cliquez sur une icône pour y accéder</p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {/* Carte Fiche de Paie (OpenFisca) - NOUVEAUTÉ */}

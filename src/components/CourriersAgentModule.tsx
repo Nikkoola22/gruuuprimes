@@ -387,23 +387,23 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
           } print:hidden`}
         >
           {/* Carte récapitulative Émetteur Actif */}
-          <div className="bg-gradient-to-br from-indigo-50/90 via-white to-blue-50/70 dark:from-slate-800 dark:via-slate-800/90 dark:to-indigo-950/40 rounded-2xl p-4 shadow-sm border-2 border-indigo-200/90 dark:border-indigo-700/60 flex items-center justify-between gap-3">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 rounded-xl bg-indigo-600 dark:bg-indigo-500 text-white flex items-center justify-center font-bold text-sm shadow shrink-0">
+          <div className="bg-gradient-to-br from-amber-500/15 via-orange-500/10 to-amber-500/20 dark:from-amber-950/60 dark:via-slate-800 dark:to-orange-950/50 rounded-2xl p-4 shadow-md shadow-orange-500/10 border-2 border-orange-500/80 dark:border-orange-400/80 flex items-center justify-between gap-3 relative overflow-hidden">
+            <div className="flex items-center gap-3.5 min-w-0">
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 text-white flex items-center justify-center font-bold text-sm shadow-md shadow-orange-500/25 shrink-0">
                 <UserCheck className="w-5 h-5" />
               </div>
               <div className="min-w-0">
-                <div className="text-[10px] font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-300 flex items-center gap-1.5">
+                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-orange-500/20 text-orange-800 dark:text-orange-200 border border-orange-500/30 text-[10px] font-extrabold uppercase tracking-wider mb-1">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
                   Émetteur actif / Signataire
                 </div>
-                <div className="text-sm font-bold text-slate-900 dark:text-white truncate">
+                <div className="text-base font-extrabold text-slate-900 dark:text-white truncate">
                   {profile.civilite} {profile.prenom} {profile.nom}
                 </div>
-                <div className="text-xs text-slate-600 dark:text-slate-300 truncate">
+                <div className="text-xs font-semibold text-slate-700 dark:text-slate-200 truncate">
                   {profile.grade}
                 </div>
-                <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate">
                   {profile.direction} {profile.matricule ? `• Matr. ${profile.matricule}` : ''}
                 </div>
               </div>
@@ -413,21 +413,21 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
                 setTempProfile(profile);
                 setShowProfileModal(true);
               }}
-              className="relative px-3.5 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-extrabold text-xs shadow-md shadow-indigo-500/30 transition-all flex items-center gap-2 shrink-0 cursor-pointer animate-pulse hover:animate-none hover:scale-105 active:scale-95 ring-2 ring-indigo-400/50"
+              className="relative px-4 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white font-extrabold text-xs shadow-md shadow-orange-500/30 transition-all flex items-center gap-2 shrink-0 cursor-pointer hover:scale-105 active:scale-95 ring-2 ring-orange-300 dark:ring-orange-500/50"
               title="Modifier vos nom, prénom, grade, direction, adresse..."
             >
-              <Edit3 className="w-3.5 h-3.5 animate-bounce" />
+              <Edit3 className="w-3.5 h-3.5" />
               <span>Modifier</span>
             </button>
           </div>
 
           {/* Liste déroulante / Cards de sélection rapide */}
-          <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-200 dark:border-slate-700">
-            <div className="flex items-center justify-between mb-3">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                Choisir le modèle ({filteredTemplates.length})
+          <div className="bg-gradient-to-br from-indigo-50/70 via-white to-blue-50/50 dark:from-slate-800/95 dark:via-slate-800 dark:to-indigo-950/40 rounded-2xl p-5 shadow-md border-2 border-indigo-200/90 dark:border-indigo-700/70">
+            <div className="flex items-center justify-between mb-3.5 pb-2 border-b border-indigo-100 dark:border-indigo-900/40">
+              <label className="text-xs font-black uppercase tracking-wider text-indigo-950 dark:text-indigo-200 flex items-center gap-1.5">
+                <span>Choisir le modèle ({filteredTemplates.length})</span>
               </label>
-              <span className="text-xs text-indigo-600 dark:text-indigo-400 font-medium">
+              <span className="text-xs text-indigo-700 dark:text-indigo-300 font-bold bg-indigo-100/80 dark:bg-indigo-900/60 px-2 py-0.5 rounded-full border border-indigo-200/80 dark:border-indigo-800">
                 {currentTemplate.categoryLabel}
               </span>
             </div>
@@ -441,20 +441,20 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
                     onClick={() => handleSelectTemplate(tpl.id)}
                     className={`w-full text-left p-3 rounded-xl transition-all flex items-start gap-3 cursor-pointer ${
                       isSelected
-                        ? 'bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-300 dark:border-indigo-600 text-indigo-900 dark:text-indigo-200 shadow-sm'
-                        : 'hover:bg-slate-50 dark:hover:bg-slate-700/50 border border-transparent text-slate-700 dark:text-slate-300'
+                        ? 'bg-gradient-to-r from-indigo-500/15 via-blue-500/10 to-indigo-500/20 dark:from-indigo-950 dark:to-slate-800 border-2 border-indigo-500 dark:border-indigo-400 text-indigo-950 dark:text-white shadow-sm'
+                        : 'bg-white/80 dark:bg-slate-800/80 hover:bg-indigo-50/50 dark:hover:bg-slate-700/60 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300'
                     }`}
                   >
                     <span className="text-xl shrink-0 mt-0.5">{tpl.icon}</span>
                     <div className="flex-1 min-w-0">
-                      <div className="text-sm font-semibold truncate leading-tight">
+                      <div className="text-sm font-bold truncate leading-tight">
                         {tpl.title}
                       </div>
                       <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
                         {tpl.cgfpRef}
                       </div>
                       {tpl.delaiRecommande && (
-                        <div className="inline-flex items-center gap-1 text-[10px] text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 px-1.5 py-0.5 rounded mt-1">
+                        <div className="inline-flex items-center gap-1 text-[10px] text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 px-1.5 py-0.5 rounded mt-1 font-medium">
                           <Clock className="w-2.5 h-2.5" />
                           <span>{tpl.delaiRecommande}</span>
                         </div>
@@ -470,20 +470,22 @@ export default function CourriersAgentModule({ onClose }: CourriersAgentModulePr
           </div>
 
           {/* Formulaire des paramètres du modèle actif */}
-          <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 space-y-5">
-            <div className="border-b border-slate-100 dark:border-slate-700 pb-4">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">{currentTemplate.icon}</span>
+          <div className="bg-gradient-to-br from-blue-50/60 via-white to-indigo-50/50 dark:from-slate-800/95 dark:via-slate-800 dark:to-blue-950/30 rounded-2xl p-6 shadow-md border-2 border-blue-200/90 dark:border-blue-700/70 space-y-5">
+            <div className="p-4 rounded-xl bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-violet-500/10 dark:from-indigo-950/60 dark:via-slate-900/80 dark:to-blue-950/40 border border-blue-200/80 dark:border-indigo-800/70">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center text-xl shadow-sm shrink-0">
+                  {currentTemplate.icon}
+                </div>
                 <div>
-                  <h2 className="text-lg font-bold text-slate-800 dark:text-white leading-tight">
+                  <h2 className="text-lg font-extrabold text-slate-900 dark:text-white leading-tight">
                     {currentTemplate.title}
                   </h2>
-                  <p className="text-xs text-indigo-600 dark:text-indigo-400 font-mono mt-0.5">
+                  <p className="text-xs text-indigo-700 dark:text-indigo-300 font-mono mt-0.5 font-bold">
                     {currentTemplate.cgfpRef}
                   </p>
                 </div>
               </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 bg-slate-50 dark:bg-slate-900/50 p-2.5 rounded-lg border border-slate-200/60 dark:border-slate-800">
+              <p className="text-xs text-slate-700 dark:text-slate-300 mt-3 bg-white/90 dark:bg-slate-800/90 p-2.5 rounded-lg border border-indigo-100 dark:border-slate-700 leading-relaxed">
                 {currentTemplate.summary}
               </p>
             </div>
