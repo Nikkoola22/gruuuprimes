@@ -222,7 +222,7 @@ export default function CalculateurCIAV2({ onClose }: CalculateurCIAProps) {
   const StepIcon = currentStepData.icon
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col text-slate-900 dark:text-slate-100">
+    <div className="min-h-screen bg-slate-50/85 dark:bg-slate-900/85 backdrop-blur-xs flex flex-col text-slate-900 dark:text-slate-100">
       {/* Header */}
       <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md py-4 border-b border-slate-200 dark:border-slate-800 shadow-sm sticky top-0 z-30">
         <div className="px-4 sm:px-6 flex items-center justify-between gap-4 max-w-4xl mx-auto">

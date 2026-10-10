@@ -960,7 +960,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col font-sans text-slate-800 dark:text-slate-100">
+    <div className="min-h-screen bg-slate-50/85 dark:bg-slate-950/85 backdrop-blur-xs flex flex-col font-sans text-slate-800 dark:text-slate-100">
       
       {/* Top Banner Header */}
       <div className="bg-white/80 dark:bg-slate-900/90 backdrop-blur-2xl py-6 border-b border-slate-200 dark:border-slate-800 shadow-md sticky top-0 z-30">

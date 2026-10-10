@@ -364,7 +364,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col font-sans text-slate-100 selection:bg-cyan-500 selection:text-slate-950">
+    <div className="min-h-screen bg-slate-950/85 backdrop-blur-xs flex flex-col font-sans text-slate-100 selection:bg-cyan-500 selection:text-slate-950">
       
       {/* Background Glow Overlay */}
       <div 

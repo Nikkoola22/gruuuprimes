@@ -1462,8 +1462,16 @@ ${indicesFactuels}
 
       {/* --- SECTION SIMULATEURS NATIFS --- */}
       {chatState.currentView === 'native-calculator' && chatState.simulTool && (
-        <div className="fixed inset-0 z-[60] flex flex-col bg-slate-100 dark:bg-slate-950 overflow-y-auto">
-          <div className="max-w-7xl mx-auto w-full p-4 sm:p-6 pb-32 space-y-6 mt-4">
+        <div className="fixed inset-0 z-[60] flex flex-col bg-slate-100/90 dark:bg-slate-950/90 overflow-y-auto relative">
+          {/* Fond d'écran discret pour les simulateurs ouverts */}
+          <div
+            className="fixed inset-0 bg-cover bg-center bg-no-repeat pointer-events-none z-0 opacity-12 dark:opacity-[0.06] transition-opacity duration-300"
+            style={{ backgroundImage: `url('${BASE_URL}unnamed.jpg')` }}
+          />
+          <div className="fixed inset-0 bg-gradient-to-b from-white/60 via-slate-50/40 to-white/70 dark:from-slate-950/80 dark:via-slate-900/60 dark:to-slate-950/85 pointer-events-none z-0 backdrop-blur-[1px]" />
+          <OrangeGeometricBackground />
+
+          <div className="relative z-10 max-w-7xl mx-auto w-full p-4 sm:p-6 pb-32 space-y-6 mt-4">
             <button
               onClick={() => {
                 const isActe = [
@@ -1559,17 +1567,21 @@ ${indicesFactuels}
             </div>
           )}
 
-          {/* Fond d'écran avec transparence maîtrisée pour la vue "Choisissez un outil" */}
-          {!activeCalculator && (
-            <>
-              <div
-                className="fixed inset-0 bg-cover bg-center bg-no-repeat pointer-events-none z-0 opacity-25 dark:opacity-15 transition-opacity duration-300"
-                style={{ backgroundImage: `url('${BASE_URL}unnamed.jpg')` }}
-              />
-              <div className="fixed inset-0 bg-gradient-to-b from-white/20 via-transparent to-slate-50/50 dark:from-slate-900/30 dark:via-transparent dark:to-slate-950/70 pointer-events-none z-0" />
-              <OrangeGeometricBackground />
-            </>
-          )}
+          {/* Fond d'écran boîte à outils : dynamique et discret pour l'accueil et les cartes ouvertes */}
+          <div
+            className={`fixed inset-0 bg-cover bg-center bg-no-repeat pointer-events-none z-0 transition-opacity duration-300 ${
+              !activeCalculator ? 'opacity-25 dark:opacity-15' : 'opacity-12 dark:opacity-[0.06]'
+            }`}
+            style={{ backgroundImage: `url('${BASE_URL}unnamed.jpg')` }}
+          />
+          <div
+            className={`fixed inset-0 pointer-events-none z-0 transition-colors duration-300 ${
+              !activeCalculator
+                ? 'bg-gradient-to-b from-white/20 via-transparent to-slate-50/50 dark:from-slate-900/30 dark:via-transparent dark:to-slate-950/70'
+                : 'bg-gradient-to-b from-white/60 via-slate-50/40 to-white/70 dark:from-slate-950/80 dark:via-slate-900/60 dark:to-slate-950/85 backdrop-blur-[1px]'
+            }`}
+          />
+          <OrangeGeometricBackground />
 
           {/* Page d'accueil avec les 3 icônes */}
           {!activeCalculator && (
@@ -1887,7 +1899,7 @@ ${indicesFactuels}
           {/* Contenu du calculateur sélectionné */}
           {activeCalculator === 'primes' && (
             <Suspense fallback={<ViewLoader />}>
-              <div className="calc-tool-enter py-6 px-4">
+              <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <CalculateurPrimesV2
                   onClose={() => {
                     setActiveCalculator(null)
@@ -1901,7 +1913,7 @@ ${indicesFactuels}
           )}
           {activeCalculator === 'cia' && (
             <Suspense fallback={<ViewLoader />}>
-              <div className="calc-tool-enter py-6 px-4">
+              <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <CalculateurCIAV2
                   onClose={() => {
                     setActiveCalculator(null)
@@ -1915,7 +1927,7 @@ ${indicesFactuels}
           )}
           {activeCalculator === 'sft' && (
             <Suspense fallback={<ViewLoader />}>
-              <div className="calc-tool-enter py-6 px-4">
+              <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <CalculateurSFTV2
                   onClose={() => {
                     setActiveCalculator(null)
@@ -1929,7 +1941,7 @@ ${indicesFactuels}
           )}
           {activeCalculator === 'navigo' && (
             <Suspense fallback={<ViewLoader />}>
-              <div className="calc-tool-enter py-6 px-4">
+              <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <CalculateurNavigo
                   onClose={() => {
                     setActiveCalculator(null)
@@ -1943,7 +1955,7 @@ ${indicesFactuels}
           )}
           {activeCalculator === '13eme' && (
             <Suspense fallback={<ViewLoader />}>
-              <div className="calc-tool-enter py-6 px-4">
+              <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <Calculateur13emeV2
                   onClose={() => {
                     setActiveCalculator(null)
@@ -1957,7 +1969,7 @@ ${indicesFactuels}
           )}
           {activeCalculator === 'courriers' && (
             <Suspense fallback={<ViewLoader />}>
-              <div className="calc-tool-enter py-6 px-4">
+              <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <CourriersAgentModule
                   onClose={() => {
                     setActiveCalculator(null)
@@ -1971,7 +1983,7 @@ ${indicesFactuels}
           )}
           {activeCalculator === 'fiche-paie' && (
             <Suspense fallback={<ViewLoader />}>
-              <div className="calc-tool-enter py-6 px-4">
+              <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <FichePaieExplainer
                   onClose={() => {
                     setActiveCalculator(null)
