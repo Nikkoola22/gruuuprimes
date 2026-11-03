@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { 
   Clock, Info, Calendar, Award, HeartPulse, ChevronDown, ChevronUp, Check, 
-  Building2, Sparkles, Plus, Trash2, RotateCcw, AlertCircle, ArrowRight 
+  Building2, Sparkles, Plus, Trash2, RotateCcw, AlertCircle 
 } from "lucide-react";
 
 // Grille officielle des A.R.T.T de la Ville de Gennevilliers
@@ -14,6 +14,7 @@ const GENNEVILLIERS_RTT_GRID: Record<string, Record<number, number>> = {
   "60":  { 35: 0, 37: 7.5, 37.5: 9, 38: 11, 39: 14 },
   "50":  { 35: 0, 37: 6, 37.5: 7.5, 38: 9, 39: 11.5 },
   "50_demi": { 35: 0, 37: 6, 37.5: 7.5, 38: 9, 39: 11.5 },
+  "maladie": { 35: 0, 37: 0, 37.5: 0, 38: 0, 39: 0 },
 };
 
 // Congés annuels (CA) à Gennevilliers : 5 x les obligations hebdomadaires
@@ -25,6 +26,7 @@ const GENNEVILLIERS_CA_GRID: Record<string, { ca: number; label: string; joursHe
   "60":  { ca: 15, label: "Temps partiel 60 %", joursHebdo: 3 },
   "50":  { ca: 12.5, label: "Temps partiel 50 % (2,5 j/sem)", joursHebdo: 2.5 },
   "50_demi": { ca: 25, label: "50 % temps partiel (5 demi-journées / sem)", joursHebdo: 5, subtitle: "5 demi-journées travaillées / semaine" },
+  "maladie": { ca: 25, label: "Maladie (Arrêt maladie — Réduit les RTT)", joursHebdo: 5, subtitle: "Maintien des CA • Réduction proportionnelle des RTT" },
 };
 
 export interface PeriodeQuotite {
@@ -40,14 +42,19 @@ const arrondirDemiJourneeSup = (val: number): number => {
   return Math.ceil(val * 2) / 2;
 };
 
+const parseDateUTC = (dateStr: string): number | null => {
+  if (!dateStr) return null;
+  const parts = dateStr.split("-").map(Number);
+  if (parts.length !== 3 || parts.some(isNaN)) return null;
+  return Date.UTC(parts[0], parts[1] - 1, parts[2]);
+};
+
 // Calcul du nombre de jours calendaires entre deux dates (incluses)
 const getDaysBetween = (startStr: string, endStr: string): number => {
-  if (!startStr || !endStr) return 0;
-  const d1 = new Date(startStr);
-  const d2 = new Date(endStr);
-  if (isNaN(d1.getTime()) || isNaN(d2.getTime()) || d2 < d1) return 0;
-  const diffTime = d2.getTime() - d1.getTime();
-  return Math.round(diffTime / (1000 * 60 * 60 * 24)) + 1;
+  const t1 = parseDateUTC(startStr);
+  const t2 = parseDateUTC(endStr);
+  if (t1 === null || t2 === null || t2 < t1) return 0;
+  return Math.round((t2 - t1) / (1000 * 60 * 60 * 24)) + 1;
 };
 
 export const RttCalculator: React.FC = () => {
@@ -104,7 +111,7 @@ export const RttCalculator: React.FC = () => {
   // 2. ÉTATS DU CALCULATEUR SUR L'ANNÉE (MULTI-PÉRIODES & QUOTITÉS VARIABLES)
   // ─────────────────────────────────────────────────────────────────────────────
   const currentYear = new Date().getFullYear();
-  const [selectedYear, setSelectedYear] = useState<number>(currentYear);
+  const [selectedYear] = useState<number>(currentYear);
 
   // Périodes configurées (initialisées avec l'exemple type : 100% Jan-Août, 50% Sept-Nov, 100% Déc)
   const [periodes, setPeriodes] = useState<PeriodeQuotite[]>([
@@ -118,7 +125,7 @@ export const RttCalculator: React.FC = () => {
       id: "p2",
       dateDebut: `${currentYear}-09-01`,
       dateFin: `${currentYear}-11-30`,
-      quotite: "50" // Possibilité de basculer en "50_demi"
+      quotite: "50" // Possibilité de basculer en "50_demi" ou "maladie"
     },
     {
       id: "p3",
@@ -131,41 +138,144 @@ export const RttCalculator: React.FC = () => {
   const isLeapYear = (selectedYear % 4 === 0 && selectedYear % 100 !== 0) || (selectedYear % 400 === 0);
   const totalDaysInYear = isLeapYear ? 366 : 365;
 
-  // Calcul du prorata période par période
+  // Calcul du prorata période par période (avec prise en compte de la réduction RTT en cas de maladie)
   const periodesCalculees = useMemo(() => {
-    return periodes.map((p) => {
+    const DAY_MS = 1000 * 60 * 60 * 24;
+
+    // Pré-indexation des jours couverts par des périodes actives (hors maladie)
+    // afin de gérer à la fois le découpage chronologique et la superposition d'un arrêt maladie
+    const activeDayMap = new Map<number, string>();
+    periodes.forEach((p) => {
+      if (p.quotite === "maladie") return;
+      const t1 = parseDateUTC(p.dateDebut);
+      const t2 = parseDateUTC(p.dateFin);
+      if (t1 !== null && t2 !== null && t2 >= t1) {
+        for (let t = t1; t <= t2; t += DAY_MS) {
+          activeDayMap.set(t, p.quotite);
+        }
+      }
+    });
+
+    return periodes.map((p, idx) => {
       const jours = getDaysBetween(p.dateDebut, p.dateFin);
       const ratio = totalDaysInYear > 0 ? jours / totalDaysInYear : 0;
-      
-      const caBase = GENNEVILLIERS_CA_GRID[p.quotite]?.ca ?? 25;
-      const rttBase = GENNEVILLIERS_RTT_GRID[p.quotite]?.[heuresParSemaine] ?? 0;
 
-      const caProrata = caBase * ratio;
-      const rttProrata = rttBase * ratio;
+      if (p.quotite !== "maladie") {
+        const caBase = GENNEVILLIERS_CA_GRID[p.quotite]?.ca ?? 25;
+        const rttBase = GENNEVILLIERS_RTT_GRID[p.quotite]?.[heuresParSemaine] ?? 0;
+
+        const caProrata = caBase * ratio;
+        const rttProrata = rttBase * ratio;
+
+        return {
+          ...p,
+          jours,
+          ratio,
+          caBase,
+          rttBase,
+          rttRefMaladie: 0,
+          caProrata,
+          rttProrata,
+          rttPerduMaladie: 0,
+          isOverlappingMaladie: false,
+          refQuotiteMaladie: p.quotite
+        };
+      }
+
+      // Période de maladie : détermination de la quotité de référence de l'agent
+      let refQuotite = "100";
+      for (let i = idx - 1; i >= 0; i--) {
+        if (periodes[i].quotite !== "maladie") {
+          refQuotite = periodes[i].quotite;
+          break;
+        }
+      }
+      if (refQuotite === "100" && !periodes.slice(0, idx).some(pr => pr.quotite !== "maladie")) {
+        for (let i = idx + 1; i < periodes.length; i++) {
+          if (periodes[i].quotite !== "maladie") {
+            refQuotite = periodes[i].quotite;
+            break;
+          }
+        }
+      }
+
+      const caBaseRef = GENNEVILLIERS_CA_GRID[refQuotite]?.ca ?? 25;
+      const rttBaseRef = GENNEVILLIERS_RTT_GRID[refQuotite]?.[heuresParSemaine] ?? 0;
+
+      let caProrata = 0;
+      let rttProrata = 0;
+      let rttPerduMaladie = 0;
+      let overlappingDays = 0;
+
+      const t1 = parseDateUTC(p.dateDebut);
+      const t2 = parseDateUTC(p.dateFin);
+      if (t1 !== null && t2 !== null && t2 >= t1 && totalDaysInYear > 0) {
+        for (let t = t1; t <= t2; t += DAY_MS) {
+          const underlyingQuotite = activeDayMap.get(t);
+          if (underlyingQuotite) {
+            // Si la période maladie chevauche une période active déjà déclarée :
+            // les CA sont déjà comptés sur la période active et on déduit directement les RTT de la période active
+            overlappingDays++;
+            const rttUnderlying = GENNEVILLIERS_RTT_GRID[underlyingQuotite]?.[heuresParSemaine] ?? rttBaseRef;
+            rttProrata -= rttUnderlying / totalDaysInYear;
+            rttPerduMaladie += rttUnderlying / totalDaysInYear;
+          } else {
+            // Si la période maladie est découpée chronologiquement :
+            // maintien des droits à CA sur la période, mais 0 RTT généré (réduction de rttBaseRef * prorata)
+            caProrata += caBaseRef / totalDaysInYear;
+            rttPerduMaladie += rttBaseRef / totalDaysInYear;
+          }
+        }
+      }
 
       return {
         ...p,
         jours,
         ratio,
-        caBase,
-        rttBase,
+        caBase: caBaseRef,
+        rttBase: 0,
+        rttRefMaladie: rttBaseRef,
         caProrata,
-        rttProrata
+        rttProrata,
+        rttPerduMaladie,
+        isOverlappingMaladie: overlappingDays > 0,
+        refQuotiteMaladie: refQuotite
       };
     });
   }, [periodes, totalDaysInYear, heuresParSemaine]);
 
-  // Totaux annuels
+  // Totaux annuels (jours uniques couverts sur l'année)
   const totalJoursCouverts = useMemo(() => {
-    return periodesCalculees.reduce((acc, p) => acc + p.jours, 0);
+    const DAY_MS = 1000 * 60 * 60 * 24;
+    const uniqueDays = new Set<number>();
+    periodes.forEach((p) => {
+      const t1 = parseDateUTC(p.dateDebut);
+      const t2 = parseDateUTC(p.dateFin);
+      if (t1 !== null && t2 !== null && t2 >= t1) {
+        for (let t = t1; t <= t2; t += DAY_MS) {
+          uniqueDays.add(t);
+        }
+      }
+    });
+    return uniqueDays.size;
+  }, [periodes]);
+
+  const totalJoursMaladieAnnuel = useMemo(() => {
+    return periodesCalculees
+      .filter(p => p.quotite === "maladie")
+      .reduce((acc, p) => acc + p.jours, 0);
+  }, [periodesCalculees]);
+
+  const totalRttPerduMaladie = useMemo(() => {
+    return periodesCalculees.reduce((acc, p) => acc + p.rttPerduMaladie, 0);
   }, [periodesCalculees]);
 
   const totalCaAnnuelBrut = useMemo(() => {
-    return periodesCalculees.reduce((acc, p) => acc + p.caProrata, 0);
+    return Math.max(0, periodesCalculees.reduce((acc, p) => acc + p.caProrata, 0));
   }, [periodesCalculees]);
 
   const totalRttAnnuelBrut = useMemo(() => {
-    return periodesCalculees.reduce((acc, p) => acc + p.rttProrata, 0);
+    return Math.max(0, periodesCalculees.reduce((acc, p) => acc + p.rttProrata, 0));
   }, [periodesCalculees]);
 
   const totalCaAnnuelArrondi = arrondirDemiJourneeSup(totalCaAnnuelBrut);
@@ -206,6 +316,14 @@ export const RttCalculator: React.FC = () => {
       { id: `p1_${Date.now()}`, dateDebut: `${selectedYear}-01-01`, dateFin: `${selectedYear}-08-31`, quotite: "100" },
       { id: `p2_${Date.now()}`, dateDebut: `${selectedYear}-09-01`, dateFin: `${selectedYear}-11-30`, quotite: "50" },
       { id: `p3_${Date.now()}`, dateDebut: `${selectedYear}-12-01`, dateFin: `${selectedYear}-12-31`, quotite: "100" },
+    ]);
+  };
+
+  const handleLoadExempleMaladie = () => {
+    setPeriodes([
+      { id: `p1_mal_${Date.now()}`, dateDebut: `${selectedYear}-01-01`, dateFin: `${selectedYear}-08-31`, quotite: "100" },
+      { id: `p2_mal_${Date.now()}`, dateDebut: `${selectedYear}-09-01`, dateFin: `${selectedYear}-10-31`, quotite: "maladie" },
+      { id: `p3_mal_${Date.now()}`, dateDebut: `${selectedYear}-11-01`, dateFin: `${selectedYear}-12-31`, quotite: "100" },
     ]);
   };
 
@@ -676,7 +794,7 @@ export const RttCalculator: React.FC = () => {
                       </span>
                     </div>
                     <p className="text-xs text-emerald-100 mt-0.5">
-                      Idéal pour les passages à temps partiel, changements de cycle ou reprises à temps plein sur les {totalDaysInYear} jours de l'année {selectedYear}.
+                      Idéal pour les passages à temps partiel, arrêts maladie (réduction des RTT), changements de cycle ou reprises à temps plein sur les {totalDaysInYear} jours de l'année {selectedYear}.
                     </p>
                   </div>
                 </div>
@@ -722,7 +840,15 @@ export const RttCalculator: React.FC = () => {
                   className="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-100 hover:bg-emerald-200 dark:bg-emerald-950/70 dark:hover:bg-emerald-900 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 transition-colors cursor-pointer flex items-center gap-1.5 shadow-xs"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                  Exemple type (100% Jan-Août → 50% Sept-Nov → 100% Déc)
+                  Exemple temps partiel (100% → 50% → 100%)
+                </button>
+                <button
+                  type="button"
+                  onClick={handleLoadExempleMaladie}
+                  className="px-3 py-1.5 rounded-lg text-xs font-bold bg-rose-100 hover:bg-rose-200 dark:bg-rose-950/70 dark:hover:bg-rose-900 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-700 transition-colors cursor-pointer flex items-center gap-1.5 shadow-xs"
+                >
+                  <HeartPulse className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
+                  Exemple avec Maladie (100% → Maladie → 100%)
                 </button>
                 <button
                   type="button"
@@ -743,7 +869,7 @@ export const RttCalculator: React.FC = () => {
                     Découpage des périodes de l'année
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Indiquez pour chaque période la date de début, de fin et la quotité correspondante
+                    Indiquez pour chaque période la date de début, de fin et la quotité (ou congé maladie)
                   </p>
                 </div>
                 <button
@@ -759,14 +885,23 @@ export const RttCalculator: React.FC = () => {
               {/* Cartes des périodes */}
               <div className="space-y-3">
                 {periodesCalculees.map((p, index) => {
+                  const isMaladie = p.quotite === "maladie";
                   return (
                     <div 
                       key={p.id}
-                      className="p-4 sm:p-5 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-2xl border-2 border-emerald-200/80 dark:border-emerald-700/70 shadow-sm hover:border-emerald-400 dark:hover:border-emerald-500 hover:shadow-md transition-all space-y-4"
+                      className={`p-4 sm:p-5 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-2xl border-2 shadow-sm transition-all space-y-4 ${
+                        isMaladie
+                          ? "border-rose-300 dark:border-rose-700/80 hover:border-rose-400 dark:hover:border-rose-500"
+                          : "border-emerald-200/80 dark:border-emerald-700/70 hover:border-emerald-400 dark:hover:border-emerald-500"
+                      } hover:shadow-md`}
                     >
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-700/60 pb-3">
-                        <div className="flex items-center gap-2.5">
-                          <span className="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-black text-xs flex items-center justify-center border border-emerald-300 dark:border-emerald-800">
+                        <div className="flex items-center gap-2.5 flex-wrap">
+                          <span className={`w-6 h-6 rounded-full font-black text-xs flex items-center justify-center border ${
+                            isMaladie
+                              ? "bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 border-rose-300 dark:border-rose-800"
+                              : "bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800"
+                          }`}>
                             {index + 1}
                           </span>
                           <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
@@ -775,6 +910,12 @@ export const RttCalculator: React.FC = () => {
                           <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
                             {p.jours} jour{p.jours > 1 ? "s" : ""} ({(p.ratio * 100).toFixed(1)} % de l'année)
                           </span>
+                          {isMaladie && (
+                            <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-900/50 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800">
+                              <HeartPulse className="w-3 h-3" />
+                              Arrêt maladie (-{p.rttPerduMaladie.toFixed(2).replace(".", ",")} j RTT)
+                            </span>
+                          )}
                         </div>
 
                         {periodes.length > 1 && (
@@ -824,7 +965,11 @@ export const RttCalculator: React.FC = () => {
                           <select
                             value={p.quotite}
                             onChange={(e) => handleUpdatePeriode(p.id, { quotite: e.target.value })}
-                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl px-3 py-2 text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer"
+                            className={`w-full border rounded-xl px-3 py-2 text-xs font-bold focus:outline-none focus:ring-2 cursor-pointer ${
+                              isMaladie
+                                ? "bg-rose-50 dark:bg-rose-950/40 border-rose-300 dark:border-rose-700 text-rose-900 dark:text-rose-200 focus:ring-rose-500/50"
+                                : "bg-slate-50 dark:bg-slate-900 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white focus:ring-emerald-500/50"
+                            }`}
                           >
                             <option value="100">100 % (Temps complet)</option>
                             <option value="90">90 % (Temps partiel)</option>
@@ -833,22 +978,43 @@ export const RttCalculator: React.FC = () => {
                             <option value="60">60 % (Temps partiel)</option>
                             <option value="50">50 % — en 2,5 journées entières / sem (12,5 CA)</option>
                             <option value="50_demi">50 % — en 5 demi-journées / sem (25 CA demi-j)</option>
+                            <option value="maladie">🏥 Maladie (Arrêt maladie — Réduit les RTT)</option>
                           </select>
                         </div>
                       </div>
 
                       {/* Sous-total de la période */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 text-xs bg-emerald-50/70 dark:bg-emerald-950/40 p-3 rounded-xl border border-emerald-200/60 dark:border-emerald-800/50">
-                        <div className="text-slate-500 dark:text-slate-400">
-                          Base annuelle : <strong>{p.caBase} j CA</strong> &amp; <strong>{p.rttBase} j RTT</strong>
+                      <div className={`flex flex-wrap items-center justify-between gap-3 pt-2 text-xs p-3 rounded-xl border ${
+                        isMaladie
+                          ? "bg-rose-50/70 dark:bg-rose-950/40 border-rose-200/80 dark:border-rose-800/60"
+                          : "bg-emerald-50/70 dark:bg-emerald-950/40 border-emerald-200/60 dark:border-emerald-800/50"
+                      }`}>
+                        <div className="text-slate-600 dark:text-slate-300">
+                          {isMaladie ? (
+                            <span>
+                              Maintien CA (base <strong>{p.caBase} j</strong>) • <strong>0 j RTT généré</strong> (abattement sur base {p.rttRefMaladie} j RTT)
+                            </span>
+                          ) : (
+                            <span>
+                              Base annuelle : <strong>{p.caBase} j CA</strong> &amp; <strong>{p.rttBase} j RTT</strong>
+                            </span>
+                          )}
                         </div>
                         <div className="flex items-center gap-4 font-bold">
                           <span className="text-emerald-700 dark:text-emerald-400">
-                            Prorata CA : {p.caProrata.toFixed(2).replace(".", ",")} j
+                            {isMaladie && p.isOverlappingMaladie
+                              ? "CA maintenus sur période active"
+                              : `Prorata CA : ${p.caProrata.toFixed(2).replace(".", ",")} j`}
                           </span>
-                          <span className="text-amber-600 dark:text-amber-400">
-                            Prorata RTT : {p.rttProrata.toFixed(2).replace(".", ",")} j
-                          </span>
+                          {isMaladie ? (
+                            <span className="text-rose-600 dark:text-rose-400">
+                              Réduction RTT : -{p.rttPerduMaladie.toFixed(2).replace(".", ",")} j (0 RTT acquis)
+                            </span>
+                          ) : (
+                            <span className="text-amber-600 dark:text-amber-400">
+                              Prorata RTT : {p.rttProrata.toFixed(2).replace(".", ",")} j
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -878,7 +1044,7 @@ export const RttCalculator: React.FC = () => {
                     <span>
                       {totalJoursCouverts < totalDaysInYear 
                         ? `Attention, il reste ${totalDaysInYear - totalJoursCouverts} jours non couverts sur l'année.` 
-                        : `Attention, les périodes dépassent l'année de ${totalJoursCouverts - totalDaysInYear} jours (chevauchement possible).`}
+                        : `Attention, certaines dates débordent de l'année civile ${selectedYear}.`}
                     </span>
                   </p>
                 )}
@@ -950,6 +1116,11 @@ export const RttCalculator: React.FC = () => {
                   <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                     Exact proratisé : {totalRttAnnuelBrut.toFixed(2).replace(".", ",")} j
                   </div>
+                  {totalRttPerduMaladie > 0 && (
+                    <div className="text-[11px] font-bold text-rose-600 dark:text-rose-400 mt-1">
+                      Dont -{totalRttPerduMaladie.toFixed(2).replace(".", ",")} j réduits (maladie : {totalJoursMaladieAnnuel} j)
+                    </div>
+                  )}
                   <div className="mt-2 text-[10px] font-bold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 rounded-full inline-block">
                     Arrondi demi-j sup
                   </div>
@@ -998,37 +1169,59 @@ export const RttCalculator: React.FC = () => {
                       <tr>
                         <th className="px-3 py-2.5">Période</th>
                         <th className="px-3 py-2.5 text-center">Durée</th>
-                        <th className="px-3 py-2.5">Quotité</th>
+                        <th className="px-3 py-2.5">Quotité / Situation</th>
                         <th className="px-3 py-2.5 text-right">Quote-part CA</th>
                         <th className="px-3 py-2.5 text-right">Quote-part RTT</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100 dark:divide-slate-700/60 font-medium">
-                      {periodesCalculees.map((p, idx) => (
-                        <tr key={p.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-700/30">
-                          <td className="px-3 py-2.5 font-bold text-slate-800 dark:text-slate-200">
-                            Du {new Date(p.dateDebut).toLocaleDateString('fr-FR')} au {new Date(p.dateFin).toLocaleDateString('fr-FR')}
-                          </td>
-                          <td className="px-3 py-2.5 text-center">
-                            {p.jours} j ({(p.ratio * 100).toFixed(1)} %)
-                          </td>
-                          <td className="px-3 py-2.5">
-                            <span className="font-bold text-emerald-700 dark:text-emerald-400">
-                              {GENNEVILLIERS_CA_GRID[p.quotite]?.label || `${p.quotite} %`}
-                            </span>
-                          </td>
-                          <td className="px-3 py-2.5 text-right font-bold text-emerald-700 dark:text-emerald-400">
-                            {p.caProrata.toFixed(2).replace(".", ",")} j
-                          </td>
-                          <td className="px-3 py-2.5 text-right font-bold text-amber-600 dark:text-amber-400">
-                            {p.rttProrata.toFixed(2).replace(".", ",")} j
-                          </td>
-                        </tr>
-                      ))}
+                      {periodesCalculees.map((p) => {
+                        const isMaladie = p.quotite === "maladie";
+                        return (
+                          <tr
+                            key={p.id}
+                            className={
+                              isMaladie
+                                ? "bg-rose-50/50 dark:bg-rose-950/25 hover:bg-rose-50 dark:hover:bg-rose-950/40"
+                                : "hover:bg-slate-50/50 dark:hover:bg-slate-700/30"
+                            }
+                          >
+                            <td className="px-3 py-2.5 font-bold text-slate-800 dark:text-slate-200">
+                              Du {new Date(p.dateDebut).toLocaleDateString('fr-FR')} au {new Date(p.dateFin).toLocaleDateString('fr-FR')}
+                            </td>
+                            <td className="px-3 py-2.5 text-center">
+                              {p.jours} j ({(p.ratio * 100).toFixed(1)} %)
+                            </td>
+                            <td className="px-3 py-2.5">
+                              <span className={`font-bold ${isMaladie ? "text-rose-600 dark:text-rose-400" : "text-emerald-700 dark:text-emerald-400"}`}>
+                                {GENNEVILLIERS_CA_GRID[p.quotite]?.label || `${p.quotite} %`}
+                              </span>
+                            </td>
+                            <td className="px-3 py-2.5 text-right font-bold text-emerald-700 dark:text-emerald-400">
+                              {isMaladie && p.isOverlappingMaladie
+                                ? "Maintenu"
+                                : `${p.caProrata.toFixed(2).replace(".", ",")} j`}
+                            </td>
+                            <td className={`px-3 py-2.5 text-right font-bold ${isMaladie ? "text-rose-600 dark:text-rose-400" : "text-amber-600 dark:text-amber-400"}`}>
+                              {isMaladie
+                                ? p.isOverlappingMaladie
+                                  ? `-${p.rttPerduMaladie.toFixed(2).replace(".", ",")} j (déduit)`
+                                  : `0,00 j (-${p.rttPerduMaladie.toFixed(2).replace(".", ",")} j)`
+                                : `${p.rttProrata.toFixed(2).replace(".", ",")} j`}
+                            </td>
+                          </tr>
+                        );
+                      })}
                       <tr className="bg-emerald-50/50 dark:bg-emerald-950/30 font-black text-slate-900 dark:text-white border-t-2 border-emerald-300 dark:border-emerald-700">
                         <td className="px-3 py-2.5">TOTAL BRUT ANNUEL</td>
                         <td className="px-3 py-2.5 text-center">{totalJoursCouverts} j</td>
-                        <td className="px-3 py-2.5">—</td>
+                        <td className="px-3 py-2.5">
+                          {totalRttPerduMaladie > 0 ? (
+                            <span className="text-rose-600 dark:text-rose-400 text-[11px]">
+                              Abattement maladie : -{totalRttPerduMaladie.toFixed(2).replace(".", ",")} j RTT
+                            </span>
+                          ) : "—"}
+                        </td>
                         <td className="px-3 py-2.5 text-right text-emerald-700 dark:text-emerald-400">
                           {totalCaAnnuelBrut.toFixed(2).replace(".", ",")} j
                         </td>
@@ -1058,7 +1251,7 @@ export const RttCalculator: React.FC = () => {
               <Info className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
               <div className="space-y-1.5">
                 <p>
-                  <strong>Règle du prorata temporis à la Ville de Gennevilliers :</strong> Lorsqu'un agent change de quotité de travail en cours d'année (par exemple passage à temps partiel ou reprise à temps plein), ses droits à congés annuels et à A.R.T.T sont calculés au prorata du temps passé sous chaque quotité (rapporté aux {totalDaysInYear} jours calendaires de l'année civile).
+                  <strong>Règle du prorata temporis et de la maladie à la Ville de Gennevilliers :</strong> Lorsqu'un agent change de quotité de travail en cours d'année, ses droits à congés annuels et à A.R.T.T sont calculés au prorata du temps passé sous chaque quotité (rapporté aux {totalDaysInYear} jours calendaires de l'année civile). En période de <strong>maladie</strong>, l'agent conserve l'acquisition de ses congés annuels mais n'acquiert aucun A.R.T.T sur la période d'arrêt, ce qui réduit proportionnellement ses droits annuels à RTT.
                 </p>
                 <p>
                   <strong>Arrondi réglementaire :</strong> Le total annuel de congés annuels et d'A.R.T.T est arrondi à la <strong>demi-journée supérieure (0,5 jour)</strong> pour garantir l'équité et simplifier la pose des jours dans le logiciel de gestion des temps.
