@@ -40,6 +40,91 @@ export const resolveIntercoImageUrl = (imageUrl: string | undefined, title = '',
   return getFallbackIntercoImage(title, category, cleanBase);
 };
 
+export const getFallbackFpImage = (title = '', category = '', baseUrl = ''): string => {
+  const t = (title + ' ' + category).toLowerCase();
+  const cleanBase = baseUrl.endsWith('/') ? baseUrl : (baseUrl ? baseUrl + '/' : '');
+
+  // 1. Rénovation énergétique, Climat, Transition écologique, Biodiversité, Chaleur
+  if (t.includes('rénovation') || t.includes('renovation') || t.includes('énergie') || t.includes('energie') || 
+      t.includes('écolog') || t.includes('ecolog') || t.includes('climat') || t.includes('biodiversité') || 
+      t.includes('biodiversite') || t.includes('chaleur') || t.includes('environnement') || t.includes('vivant')) {
+    return `${cleanBase}images/chanteraines.png`;
+  }
+
+  // 2. Commerce, Artisanat, Proximité, Économie locale
+  if (t.includes('commerce') || t.includes('artisanat') || t.includes('proximité') || t.includes('proximite') || 
+      t.includes('boutique') || t.includes('marché') || t.includes('marche')) {
+    return `${cleanBase}images/marche_village.png`;
+  }
+
+  // 3. Sécurité, Police municipale, Gendarmerie, Gend'élus
+  if (t.includes('gend') || t.includes('police') || t.includes('sécurité') || t.includes('securite') || 
+      t.includes('gendarme') || t.includes('tranquillité') || t.includes('tranquillite')) {
+    return `${cleanBase}interco/actu-cfdt-police.svg`;
+  }
+
+  // 4. Élus, Maires, Congrès des maires, Intercommunalité, Statut de l'élu
+  if (t.includes('élu') || t.includes('elu') || t.includes('maire') || t.includes('intercommunalité') || 
+      t.includes('intercommunalite') || t.includes('congres') || t.includes('congrès') || t.includes('commune') || 
+      t.includes('amf') || t.includes('agglo')) {
+    return `${cleanBase}interco/actu-soutien-collectivites.svg`;
+  }
+
+  // 5. Salaires, Rémunération, Primes, Pouvoir d'achat, Budget, Masse salariale, Grilles
+  if (t.includes('salaire') || t.includes('remuneration') || t.includes('rémunération') || t.includes('prime') || 
+      t.includes('budget') || t.includes('smic') || t.includes('masse salariale') || t.includes('financ')) {
+    return `${cleanBase}images/primes_lien.png`;
+  }
+
+  // 6. Santé au travail, Absentéisme, Usure professionnelle, Santé mentale, Prévention
+  if (t.includes('santé') || t.includes('sante') || t.includes('absentéisme') || t.includes('absenteisme') || 
+      t.includes('usure') || t.includes('bipolaire') || t.includes('psych') || t.includes('handicap') || t.includes('inapt')) {
+    return `${cleanBase}interco/actu-sante-social.svg`;
+  }
+
+  // 7. Statut, Loi, Décret, Juridique, Reclassement, Carrière
+  if (t.includes('statut') || t.includes('carrière') || t.includes('carriere') || t.includes('reclassement') || 
+      t.includes('contrat') || t.includes('décret') || t.includes('decret') || t.includes('jurid')) {
+    return `${cleanBase}images/legal_news_illustration.png`;
+  }
+
+  // 8. Formation, CNFPT, Concours, Écoles
+  if (t.includes('formation') || t.includes('cnfpt') || t.includes('concours') || t.includes('école') || t.includes('ecole')) {
+    return `${cleanBase}images/formation_lien.png`;
+  }
+
+  // 9. Par défaut : Mairie de Gennevilliers
+  return `${cleanBase}images/mairie.png`;
+};
+
+export const resolveFpImageUrl = (imageUrl: string | undefined, title = '', category = '', baseUrl = ''): string => {
+  const cleanBase = baseUrl.endsWith('/') ? baseUrl : (baseUrl ? baseUrl + '/' : '');
+
+  if (imageUrl && typeof imageUrl === 'string') {
+    const trimmed = imageUrl.trim();
+    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+      return trimmed;
+    }
+    if (trimmed.startsWith('//')) {
+      return `https:${trimmed}`;
+    }
+    if (trimmed.startsWith('thumbmails/')) {
+      return `https://medias.amf.asso.fr/${trimmed}`;
+    }
+    if (trimmed.startsWith('A201800_')) {
+      return `https://medias.amf.asso.fr/thumbmails/${trimmed}`;
+    }
+    if (trimmed.startsWith('/')) {
+      return `https://www.amf.asso.fr${trimmed}`;
+    }
+    if (cleanBase && trimmed.startsWith(cleanBase)) {
+      return trimmed;
+    }
+  }
+
+  return getFallbackFpImage(title, category, cleanBase);
+};
+
 export const getFallbackIntercoImage = (title = '', category = '', baseUrl = ''): string => {
   const t = (title + ' ' + category).toLowerCase();
   const cleanBase = baseUrl.endsWith('/') ? baseUrl : (baseUrl ? baseUrl + '/' : '');

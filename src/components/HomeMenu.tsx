@@ -5,7 +5,7 @@ import { BorderBeam } from "./ui/BorderBeam.tsx"
 import { ForeverMagneticButton } from "./ui/ForeverMagneticButton.tsx"
 import { ForeverTiltCard } from "./ui/ForeverTiltCard.tsx"
 import type { ChatbotState } from "../App.tsx"
-import { type IntercoNewsItem, getFallbackIntercoImage, resolveIntercoImageUrl } from "../hooks/useNewsFeeds.ts"
+import { type IntercoNewsItem, getFallbackIntercoImage, resolveIntercoImageUrl, getFallbackFpImage, resolveFpImageUrl } from "../hooks/useNewsFeeds.ts"
 import { CFDT_JOURNAUX, type CFDTJournal, CFDT_JOURNAUX_BASE_URL } from "../data/cfdtJournaux.ts"
 import { KiosqueJournauxModal } from "./KiosqueJournauxModal.tsx"
 
@@ -1502,18 +1502,17 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                         rel="noopener noreferrer"
                         className="group/card flex-none w-56 sm:w-60 flex flex-col bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-xl overflow-hidden hover:border-emerald-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 shadow-xs"
                       >
-                        <div className="relative w-full h-28 sm:h-32 overflow-hidden bg-slate-900 dark:bg-slate-900 flex-shrink-0 border-b border-slate-100 dark:border-slate-800 p-2 flex items-center justify-center">
-                          {article.imageUrl ? (
-                            <img
-                              src={article.imageUrl}
-                              alt=""
-                              className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300 absolute inset-0"
-                            />
-                          ) : (
-                            <div className="text-emerald-500 opacity-50">
-                              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
-                            </div>
-                          )}
+                        <div className="relative w-full h-28 sm:h-32 overflow-hidden bg-slate-900 dark:bg-slate-900 flex-shrink-0 border-b border-slate-100 dark:border-slate-800 flex items-center justify-center">
+                          <img
+                            src={resolveFpImageUrl(article.imageUrl, article.title, article.category, BASE_URL)}
+                            alt=""
+                            className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300 absolute inset-0"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.onerror = null;
+                              target.src = getFallbackFpImage(article.title, article.category, BASE_URL);
+                            }}
+                          />
                           <span className="absolute top-1.5 left-1.5 inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/90 text-emerald-700 dark:text-emerald-300 border border-emerald-200 shadow-xs z-10 max-w-[90%] truncate">
                             {article.category || 'Actualité'}
                           </span>

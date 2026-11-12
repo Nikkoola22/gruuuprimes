@@ -191,10 +191,25 @@ router.get('/fp-rss', async (req, res) => {
             link = 'https://www.amf.asso.fr' + link;
           }
 
-          const imgMatch = part.match(/<img[^>]+src=["']([^"']+)["']/i);
-          let imageUrl = imgMatch ? imgMatch[1] : null;
-          if (imageUrl && imageUrl.startsWith('/')) {
-            imageUrl = 'https://www.amf.asso.fr' + imageUrl;
+          const imgMatch = part.match(/<img[^>]+(?:src|data-src|data-lazy-src|data-original)=["']([^"']+)["']/i);
+          let imageUrl = imgMatch ? imgMatch[1].trim() : null;
+          if (!imageUrl) {
+            const bgMatch = part.match(/background(?:-image)?:\s*url\(['"]?([^'"\)\s]+)['"]?\)/i);
+            if (bgMatch) imageUrl = bgMatch[1].trim();
+          }
+
+          if (imageUrl) {
+            if (imageUrl.startsWith('//')) {
+              imageUrl = 'https:' + imageUrl;
+            } else if (imageUrl.startsWith('thumbmails/')) {
+              imageUrl = 'https://medias.amf.asso.fr/' + imageUrl;
+            } else if (imageUrl.startsWith('A201800_')) {
+              imageUrl = 'https://medias.amf.asso.fr/thumbmails/' + imageUrl;
+            } else if (imageUrl.startsWith('/')) {
+              imageUrl = 'https://www.amf.asso.fr' + imageUrl;
+            } else if (!imageUrl.startsWith('http://') && !imageUrl.startsWith('https://')) {
+              imageUrl = 'https://medias.amf.asso.fr/thumbmails/' + imageUrl;
+            }
           }
 
           const titleMatch = part.match(/<h3><a[^>]*>([\s\S]*?)<\/a><\/h3>/i);
