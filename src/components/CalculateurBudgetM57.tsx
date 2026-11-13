@@ -33,6 +33,7 @@ import { toast } from 'sonner';
 import {
   analyserBudgetM57,
   genererNoteDecision,
+  genererNoteArbitrageBP2027,
   genererRapportAuditM57,
   PRESETS_COLLECTIVITES,
   DELIBERATIONS_GENNEVILLIERS_2026,
@@ -101,6 +102,8 @@ export const CalculateurBudgetM57: React.FC<CalculateurBudgetM57Props> = ({ onCl
   // Note de décision personnalisée
   const [noteSignataire, setNoteSignataire] = useState<string>('Direction Générale des Services / Direction des Affaires Financières');
   const [noteObjet, setNoteObjet] = useState<string>('Arbitrage budgétaire M57, exécution du BS 2026 (Délib. n°2026/S6/004) et trajectoire financière 2026');
+  const [noteMode, setNoteMode] = useState<'bp2027' | 'bs2026'>('bp2027');
+  const [noteObjet2027, setNoteObjet2027] = useState<string>('Orientations et arbitrages pour la préparation du Budget Primitif 2027 (cadrage budgétaire M57, trajectoire financière 2027 et lettre de cadrage aux directions)');
 
   // Calcul du diagnostic M57
   const resultat: BudgetM57Result = useMemo(() => {
@@ -146,6 +149,13 @@ export const CalculateurBudgetM57: React.FC<CalculateurBudgetM57Props> = ({ onCl
   const noteMarkdown = useMemo(() => {
     return genererNoteDecision(resultat, { objet: noteObjet, signataire: noteSignataire });
   }, [resultat, noteObjet, noteSignataire]);
+
+  // Markdown de la note d'arbitrage — préparation du BP 2027
+  const noteBP2027Markdown = useMemo(() => {
+    return genererNoteArbitrageBP2027({ objet: noteObjet2027, signataire: noteSignataire });
+  }, [noteObjet2027, noteSignataire]);
+
+  const noteAffichee = noteMode === 'bp2027' ? noteBP2027Markdown : noteMarkdown;
 
   // Markdown du rapport d'audit CRC enrichi
   const rapportAuditMarkdown = useMemo(() => {
@@ -1677,14 +1687,32 @@ export const CalculateurBudgetM57: React.FC<CalculateurBudgetM57Props> = ({ onCl
                   Projet de Note d'Arbitrage à l'Autorité Territoriale
                 </h2>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                  Note d'aide à la décision pour M. le Maire et la DGS intégrant la Délibération n°2026/S6/004 du 23/09/2026 (BS 2026)
+                  {noteMode === 'bp2027'
+                    ? "Note d'aide à la décision pour M. le Maire et la DGS — préparation du Budget Primitif 2027 (hypothèses de cadrage à valider par la DAF / DRH)"
+                    : "Note d'aide à la décision pour M. le Maire et la DGS intégrant la Délibération n°2026/S6/004 du 23/09/2026 (BS 2026)"}
                 </p>
+                <div className="inline-flex mt-2 rounded-lg border border-slate-300 dark:border-slate-700 overflow-hidden text-[11px] font-bold">
+                  <button
+                    type="button"
+                    onClick={() => setNoteMode('bp2027')}
+                    className={`px-3 py-1.5 cursor-pointer transition-colors ${noteMode === 'bp2027' ? 'bg-indigo-600 text-white' : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100'}`}
+                  >
+                    Budget 2027 (préparation BP)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setNoteMode('bs2026')}
+                    className={`px-3 py-1.5 cursor-pointer transition-colors ${noteMode === 'bs2026' ? 'bg-indigo-600 text-white' : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100'}`}
+                  >
+                    BS 2026 / Exécution
+                  </button>
+                </div>
               </div>
 
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => {
-                    navigator.clipboard.writeText(noteMarkdown);
+                    navigator.clipboard.writeText(noteAffichee);
                     toast.success('Note de décision copiée !');
                   }}
                   className="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 text-xs font-semibold flex items-center gap-1.5 cursor-pointer"
@@ -1693,7 +1721,7 @@ export const CalculateurBudgetM57: React.FC<CalculateurBudgetM57Props> = ({ onCl
                   <span>Copier Markdown</span>
                 </button>
                 <button
-                  onClick={() => telechargerFichier(noteMarkdown, `note-arbitrage-${resultat.collectiviteNom.toLowerCase().replace(/\s+/g, '-')}.md`)}
+                  onClick={() => telechargerFichier(noteAffichee, noteMode === 'bp2027' ? 'note-arbitrage-bp-2027-gennevilliers.md' : `note-arbitrage-${resultat.collectiviteNom.toLowerCase().replace(/\s+/g, '-')}.md`)}
                   className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm cursor-pointer"
                 >
                   <Download className="w-3.5 h-3.5" />
@@ -1720,14 +1748,46 @@ export const CalculateurBudgetM57: React.FC<CalculateurBudgetM57Props> = ({ onCl
                 </label>
                 <input
                   type="text"
-                  value={noteObjet}
-                  onChange={(e) => setNoteObjet(e.target.value)}
+                  value={noteMode === 'bp2027' ? noteObjet2027 : noteObjet}
+                  onChange={(e) => (noteMode === 'bp2027' ? setNoteObjet2027(e.target.value) : setNoteObjet(e.target.value))}
                   className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-bold text-slate-900 dark:text-white"
                 />
               </div>
             </div>
 
-            {/* Synthèse visuelle des équilibres consolidés BP + BS 2026 */}
+            {noteMode === 'bp2027' ? (
+              (() => {
+                const b = PRESETS_COLLECTIVITES.gennevilliers_principal_delib_2026;
+                const rrfRetraite = b.recettesReellesFonctionnement - 1_000_000;
+                const ebRetraite = rrfRetraite - b.depensesReellesFonctionnement;
+                const drfCible = Math.round(b.depensesReellesFonctionnement * 1.015);
+                const f = (n: number) => `${Math.round(n).toLocaleString('fr-FR')} €`;
+                return (
+                  <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700">
+                      <span className="text-[10px] font-bold uppercase text-slate-400">Base de départ : Budget Consolidé 2026</span>
+                      <div className="text-sm font-black text-slate-900 dark:text-white mt-0.5">277 957 913,22 €</div>
+                      <span className="text-[10px] text-indigo-600 dark:text-indigo-400">BP (250,67 M€) + BS (27,29 M€)</span>
+                    </div>
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700">
+                      <span className="text-[10px] font-bold uppercase text-slate-400">Épargne brute 2026 retraitée</span>
+                      <div className="text-sm font-black text-emerald-600 dark:text-emerald-400 mt-0.5">{f(ebRetraite)}</div>
+                      <span className="text-[10px] text-slate-500">Hors report R002 (1 M€)</span>
+                    </div>
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700">
+                      <span className="text-[10px] font-bold uppercase text-slate-400">Cible DRF 2027 (scénario B, +1,5 %)</span>
+                      <div className="text-sm font-black text-indigo-600 dark:text-indigo-400 mt-0.5">{f(drfCible)}</div>
+                      <span className="text-[10px] text-slate-500">Hypothèse de cadrage à valider</span>
+                    </div>
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700">
+                      <span className="text-[10px] font-bold uppercase text-slate-400">Plafond Fongibilité M57 (7,5%)</span>
+                      <div className="text-sm font-black text-indigo-600 dark:text-indigo-400 mt-0.5">{f(b.depensesReellesFonctionnement * 0.075)}</div>
+                      <span className="text-[10px] text-slate-500">Hors Chap. 012 & subventions asso.</span>
+                    </div>
+                  </div>
+                );
+              })()
+            ) : (
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
               <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700">
                 <span className="text-[10px] font-bold uppercase text-slate-400">Budget Consolidé 2026</span>
@@ -1752,9 +1812,10 @@ export const CalculateurBudgetM57: React.FC<CalculateurBudgetM57Props> = ({ onCl
                 <span className="text-[10px] text-slate-500">Hors Chap. 012 & subventions asso.</span>
               </div>
             </div>
+            )}
 
             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 font-mono text-xs text-slate-700 dark:text-slate-300 whitespace-pre-wrap max-h-[650px] overflow-y-auto border border-slate-300 dark:border-slate-800 leading-relaxed">
-              {noteMarkdown}
+              {noteAffichee}
             </div>
           </div>
         )}

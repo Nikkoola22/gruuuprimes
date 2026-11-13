@@ -1027,6 +1027,250 @@ ${result.diagnosticGlobal.pointsVigilance.length > 0
 }
 
 /**
+ * Générateur de la Note d'Arbitrage à l'Autorité Territoriale — PRÉPARATION DU BUDGET PRIMITIF 2027
+ * Base de départ : budget consolidé 2026 (BP 2026 + BS n°2026/S6/004) — les projections 2027 sont des HYPOTHÈSES DE CADRAGE
+ * explicitement signalées comme telles et à valider par la DAF / DRH (aucune donnée 2027 n'est présentée comme un fait établi).
+ */
+export function genererNoteArbitrageBP2027(options: { objet?: string; signataire?: string }): string {
+  const base = PRESETS_COLLECTIVITES.gennevilliers_principal_delib_2026;
+  const dateStr = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+  const objet = options.objet || "Orientations et arbitrages pour la préparation du Budget Primitif 2027 (cadrage budgétaire M57, trajectoire financière 2027 et lettre de cadrage aux directions)";
+  const signataire = options.signataire || 'Direction Générale des Services / Direction des Affaires Financières';
+
+  const fmt = (n: number) => `${Math.round(n).toLocaleString('fr-FR')} €`;
+  const fmtM = (n: number) => `${(n / 1_000_000).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} M€`;
+  const fmtPct = (n: number) => `${n.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} %`;
+
+  // ── Base de référence 2026 (consolidée BP + BS) ───────────────────────────
+  const R002 = 1_000_000; // report de fonctionnement non reconductible (BS 2026)
+  const rrf26 = base.recettesReellesFonctionnement;
+  const drf26 = base.depensesReellesFonctionnement;
+  const rrf26Retraite = rrf26 - R002;
+  const chap012 = base.depensesPersonnel012 || 96_063_865;
+  const chap011 = 42_122_142.9;
+  const chap66 = 1_950_000;
+  const capital = base.remboursementCapitalDette;
+  const dette = base.encoursDetteFinExercice;
+  const eb26 = rrf26 - drf26;
+  const eb26Retraite = rrf26Retraite - drf26;
+  const taux26 = (eb26 / rrf26) * 100;
+  const taux26Retraite = (eb26Retraite / rrf26Retraite) * 100;
+
+  // ── Hypothèses mécaniques 2027 (à valider) ────────────────────────────────
+  const hypGVT = Math.round(chap012 * 0.012); // GVT / glissement (hyp. +1,2 % du chap. 012)
+  const assietteCnracl = 50_000_000; // hyp. centrale (fourchette 40–60 M€)
+  const hypCnracl = Math.round(assietteCnracl * 0.03); // +3 points de cotisation patronale CNRACL
+  const hypCnraclBas = Math.round(40_000_000 * 0.03);
+  const hypCnraclHaut = Math.round(60_000_000 * 0.03);
+  const hyp011 = Math.round(chap011 * 0.015); // inflation / énergie sur le chap. 011 (hyp. +1,5 %)
+  const mecaniqueTotal = hypGVT + hypCnracl + hyp011;
+  const rrfGrowth = 0.01; // hyp. prudente +1,0 % sur les recettes réelles retraitées
+
+  type Scenario = { code: string; nom: string; drf: number; rrf: number; eb: number; taux: number; en: number; capacite: number; effort: number };
+  const rrf27 = rrf26Retraite * (1 + rrfGrowth);
+  const drfS1 = drf26 + mecaniqueTotal;
+  const drfS2 = drf26 * 1.015;
+  const drfS3 = drf26 * 1.008;
+  const mk = (code: string, nom: string, drf: number): Scenario => {
+    const eb = rrf27 - drf;
+    return {
+      code,
+      nom,
+      drf,
+      rrf: rrf27,
+      eb,
+      taux: (eb / rrf27) * 100,
+      en: eb - capital,
+      capacite: eb > 0 ? dette / eb : Infinity,
+      effort: Math.max(0, drfS1 - drf),
+    };
+  };
+  const sc1 = mk('A', 'Tendanciel (au fil de l’eau)', drfS1);
+  const sc2 = mk('B', 'Cadrage maîtrisé (recommandé)', drfS2);
+  const sc3 = mk('C', 'Maîtrise renforcée', drfS3);
+  const planchetEB = rrf27 * 0.08; // taux d'épargne brute plancher de vigilance DGCL 8 %
+  const ecartPlancherB = Math.max(0, planchetEB - sc2.eb);
+  const capStr = (c: number) => (Number.isFinite(c) ? `${c.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} ans` : 'incalculable');
+  const capaciteSelonEmprunt = (ebRef: number, ajoutM: number) => (dette + ajoutM * 1_000_000) / ebRef;
+  const statutCap = (c: number) => (c < 8 ? 'Zone de confort (< 8 ans)' : c < 10 ? 'Vigilance (8–10 ans)' : c < 12 ? 'Alerte CRC (10–12 ans)' : 'Critique (> 12 ans)');
+  const effort012B = Math.max(0, sc2.effort - hyp011); // part de l'effort B à absorber sur le chap. 012 après gel du chap. 011
+  const enveloppe012B = chap012 + hypGVT + hypCnracl - effort012B;
+  const plafondFongibilite = Math.round(drf26 * 0.075);
+  const unPctChap012 = Math.round(chap012 * 0.01);
+  const unPctChap011 = Math.round(chap011 * 0.01);
+  const unPctRrf = Math.round(rrf26Retraite * 0.01);
+
+  return `# Projet de note d'arbitrage à l'autorité territoriale — Préparation du Budget Primitif 2027
+
+**Destinataire :** Monsieur Patrice LECLERC, Maire de Gennevilliers / Autorité territoriale
+**Émetteur :** ${signataire}
+**Date :** ${dateStr}
+**Objet :** ${objet}
+**Entité, compétence et période :** Ville de Gennevilliers — Commune (51 200 hab.) — Budget principal M57 — Exercice **2027** (Budget Primitif) — Base de départ : budget consolidé 2026 (BP + BS)
+**Pièces de référence :**
+- Délibération n°2026/S1/001 du 4 février 2026 (Budget Primitif 2026 : ${fmt(250_668_105.3)})
+- Délibération n°2026/S6/004 du 23 septembre 2026 (Budget Supplémentaire 2026 : ${fmt(27_289_807.92)} ; Budget consolidé 2026 : ${fmt(277_957_913.22)})
+- Compte Financier Unique (CFU) 2025 et affectation du résultat 2025
+**Statut :** *Projet préparatoire à relire par la DGS et l'exécutif, sans signature ni transmission externe — Ne constitue pas un acte exécutoire. Les chiffres 2027 sont des hypothèses de cadrage (signalées « hyp. ») à valider par la DAF et la DRH ; seuls les chiffres 2025-2026 sont issus des délibérations.*
+
+---
+
+## 1. Synthèse et décisions attendues de l'autorité territoriale
+
+La préparation du BP 2027 s'ouvre dans un contexte d'**effet de ciseau** : des charges de personnel largement mécaniques (GVT, hausse de la cotisation patronale CNRACL) face à des recettes dont la dynamique reste incertaine (loi de finances 2027, revalorisation forfaitaire des bases). L'épargne brute consolidée 2026 s'établit à **${fmt(eb26)}** (${fmtPct(taux26)} des RRF), soit **${fmt(eb26Retraite)}** (${fmtPct(taux26Retraite)}) une fois retraité le report R002 de ${fmt(R002)} qui ne se reproduira pas en 2027.
+
+**Décisions demandées à M. le Maire :**
+1. **Valider le scénario de cadrage 2027** (recommandation : scénario B « Cadrage maîtrisé », évolution des dépenses réelles de fonctionnement plafonnée à **+1,5 %**, soit **${fmt(sc2.drf)}**).
+2. **Fixer l'enveloppe du chapitre 012** et le périmètre des mesures RH nouvelles (CIA / IFSE, créations de postes, avancements) — chaque tranche de +1 % représente **${fmt(unPctChap012)}**.
+3. **Arrêter la doctrine d'investissement et d'endettement** (plafond du PPI 2027, emprunt d'équilibre maximal, seuil de capacité de désendettement à ne pas dépasser).
+4. **Autoriser l'envoi de la lettre de cadrage** aux directions (semaine du 16 novembre 2026) et le calendrier de préparation budgétaire (§ 8.2).
+5. **Autoriser l'ouverture anticipée des crédits d'investissement** (art. L. 1612-1 CGCT) si le BP 2027 est voté après le 1er janvier 2027, comme en 2026.
+
+---
+
+## 2. Point de départ : situation financière de référence (budget consolidé 2026)
+
+| Agrégat M57 | Budget consolidé 2026 (BP + BS) | Observation |
+|---|---|---|
+| **Recettes réelles de fonctionnement (RRF)** | **${fmt(rrf26)}** | dont ${fmt(R002)} de report R002 (non reconductible) → **${fmt(rrf26Retraite)}** retraitées |
+| **Dépenses réelles de fonctionnement (DRF)** | **${fmt(drf26)}** | dont chap. 011 : ${fmt(chap011)} • chap. 012 : ${fmt(chap012)} • chap. 66 : ${fmt(chap66)} |
+| **Épargne brute** | **${fmt(eb26)}** (${fmtPct(taux26)}) | **${fmt(eb26Retraite)}** (${fmtPct(taux26Retraite)}) retraitée du R002 — en limite basse / en deçà de la zone de vigilance DGCL (8–10 %) |
+| **Remboursement du capital de la dette** | **${fmt(capital)}** | Couverture obligatoire par l'épargne brute (art. L. 1612-4 CGCT) |
+| **Épargne nette** | **${fmt(eb26 - capital)}** | **${fmt(eb26Retraite - capital)}** retraitée du R002 |
+| **Encours de dette au 31/12** | **${fmt(dette)}** | Capacité de désendettement : **${capStr(dette / eb26)}** (${capStr(dette / eb26Retraite)} retraitée) |
+| **Poids du chap. 012 dans les DRF** | **${fmtPct((chap012 / drf26) * 100)}** | Rigidité structurelle : toute économie significative passe par la maîtrise du 012 |
+| **Restes à réaliser 2025 repris (invest.)** | **${fmt(15_075_223.8)}** (dép.) / **${fmt(12_103_104.02)}** (rec.) | Dont ${fmt(8_000_000)} d'emprunts reportés — à liquider avant le CFU 2026 |
+
+**Lecture :** la solvabilité n'est pas en cause (capacité de désendettement inférieure à 8 ans), mais la **marge d'autofinancement est étroite** : l'épargne nette retraitée (${fmt(eb26Retraite - capital)}) finance une part limitée du PPI. Le sujet du BP 2027 est donc le **taux d'épargne brute**, plus que le niveau d'endettement.
+
+---
+
+## 3. Contraintes et hypothèses structurantes pour 2027
+
+| Facteur | Effet estimé sur 2027 | Nature | Statut / à valider |
+|---|---|---|---|
+| **Glissement-vieillesse-technicité (GVT)** | +${fmt(hypGVT)} (hyp. +1,2 % du chap. 012) | Dépense obligatoire | DRH : simulation avancements d'échelon / grade et promotions |
+| **Cotisation patronale CNRACL** : trajectoire de +3 points par an (2025-2028), taux porté à **40,65 %** au 1er janvier 2027 | +${fmt(hypCnracl)} (hyp. assiette ${fmtM(assietteCnracl)} ; fourchette ${fmtM(hypCnraclBas)} à ${fmtM(hypCnraclHaut)} pour une assiette de 40 à 60 M€) | Dépense obligatoire | DRH : assiette CNRACL réelle 2026 |
+| **Inflation / énergie (chap. 011)** | +${fmt(hyp011)} (hyp. +1,5 % du chap. 011) | Dépense semi-contrainte | Directions : marchés révisables, contrats énergie |
+| **Protection sociale complémentaire (PSC)** | Montée en charge en année pleine (participation santé obligatoire depuis 2026, prévoyance depuis 2025) | Dépense obligatoire | DRH : taux d'adhésion constaté |
+| **Recettes fiscales** : revalorisation forfaitaire des bases (indexée sur l'inflation constatée) | +${fmt(unPctRrf)} par point de RRF (hyp. prudente +1,0 % retenue) | Recette | Notification des bases (printemps 2027) — ajustable au BS |
+| **Dotations / péréquation (DGF, DSU, FPIC) et dispositifs éventuels de contribution des collectivités à l'effort de redressement** | Non chiffré — **risque principal** | Recette | **À intégrer dès l'adoption définitive de la loi de finances 2027** |
+| **Charges financières (chap. 66)** : ${fmt(chap66)} en 2026 | Sensibilité : +100 pb sur 10 M€ d'encours à taux variable = +100 000 € | Dépense | DAF : tableau d'amortissement, part variable de l'encours |
+| **Élections professionnelles du 10 décembre 2026** | Installation des nouvelles instances en 2027 — conditionne le calendrier du dialogue social sur les mesures RH | Calendrier | DRH / DGS |
+
+**Cumul des effets mécaniques identifiés (GVT + CNRACL + inflation 011) : +${fmt(mecaniqueTotal)}** avant toute mesure nouvelle, soit **+${fmtPct((mecaniqueTotal / drf26) * 100)}** de DRF.
+
+---
+
+## 4. Scénarios de cadrage soumis à l'arbitrage (hypothèses 2027)
+
+Hypothèses communes : RRF 2027 = base 2026 retraitée du R002 + 1,0 % = **${fmt(rrf27)}** ; chap. 65 et 66 supposés stables dans le scénario tendanciel ; capital de la dette stabilisé à ${fmt(capital)} ; encours stable (emprunt nouveau = capital remboursé).
+
+| | **A — Tendanciel** | **B — Cadrage maîtrisé (recommandé)** | **C — Maîtrise renforcée** |
+|---|---|---|---|
+| **Hypothèse sur les DRF** | Effets mécaniques seuls (+${fmtPct((mecaniqueTotal / drf26) * 100)}) | **+1,5 %** | +0,8 % |
+| **DRF 2027** | ${fmt(sc1.drf)} | **${fmt(sc2.drf)}** | ${fmt(sc3.drf)} |
+| **Effort d'économies à documenter** | ${fmt(sc1.effort)} | **${fmt(sc2.effort)}** | ${fmt(sc3.effort)} |
+| **Épargne brute 2027** | ${fmt(sc1.eb)} | **${fmt(sc2.eb)}** | ${fmt(sc3.eb)} |
+| **Taux d'épargne brute** | ${fmtPct(sc1.taux)} | **${fmtPct(sc2.taux)}** | ${fmtPct(sc3.taux)} |
+| **Épargne nette** | ${fmt(sc1.en)} | **${fmt(sc2.en)}** | ${fmt(sc3.en)} |
+| **Capacité de désendettement** | ${capStr(sc1.capacite)} | **${capStr(sc2.capacite)}** | ${capStr(sc3.capacite)} |
+| **Intérêt / risque** | Aucun effort de gestion, mais érosion de l'épargne et de la capacité d'investissement | Absorbe les hausses obligatoires en contenant les autres postes ; **épargne nette positive** | Rétablit un taux d'épargne proche du plancher de vigilance ; exige des arbitrages difficiles sur le service rendu |
+| **Validation requise** | — | Arbitrage Maire / DGS | Arbitrage Maire / DGS + dialogue de gestion renforcé |
+
+**Sensibilités :** ±1 point de RRF = ±${fmt(unPctRrf)} d'épargne brute • ±1 % du chap. 012 = ±${fmt(unPctChap012)} • ±1 % du chap. 011 = ±${fmt(unPctChap011)}.
+
+**Analyse :** le scénario **A** réduit l'épargne brute à ${fmt(sc1.eb)} (${fmtPct(sc1.taux)}) : l'épargne nette tombe à ${fmt(sc1.en)}. Le scénario **B** est le point d'équilibre recommandé : il couvre intégralement l'annuité en capital (épargne nette ${fmt(sc2.en)}) mais laisse le taux d'épargne à ${fmtPct(sc2.taux)}, **en dessous du plancher de vigilance de 8 %** (épargne brute plancher : ${fmt(planchetEB)}, soit un écart de ${fmt(ecartPlancherB)}). Il est donc proposé d'assortir B d'une **clause de revoyure** : si, à la notification des bases fiscales et des dotations (printemps 2027), le taux d'épargne projeté demeure inférieur à 8 %, un **plan complémentaire de ${fmt(ecartPlancherB)}** (recettes tarifaires, optimisation des subventions, report de dépenses d'équipement non engagées) serait activé au Budget Supplémentaire 2027.
+
+---
+
+## 5. Cadrage du fonctionnement par chapitre (proposition de lettre de cadrage)
+
+| Chapitre | Base 2026 consolidée | Proposition de cadrage 2027 (scénario B) | Levier / condition |
+|---|---|---|---|
+| **011 — Charges à caractère général** | ${fmt(chap011)} | **Reconduction en valeur (0 %)** : l'inflation (+${fmt(hyp011)} en tendanciel) est absorbée par des économies de gestion ; **gel de précaution de 2 %** sur les crédits non engagés | Marchés pluriannuels, mutualisation des achats, revue des contrats |
+| **012 — Charges de personnel** | ${fmt(chap012)} | Enveloppe fermée de **${fmt(enveloppe012B)}** = base 2026 + **GVT + CNRACL** (+${fmt(hypGVT + hypCnracl)} hyp.) − **${fmt(effort012B)}** d'effort de gestion des effectifs (vacances de postes, décalage de recrutements) ; **aucune création nette de poste** sans redéploiement ou recette dédiée ; mesures nouvelles (CIA / IFSE) soumises à arbitrage spécifique (§ 6) | Gestion prévisionnelle des effectifs, vacances de postes, remplacements |
+| **65 — Autres charges de gestion courante** | Voir BP/BS 2026 | Subventions aux associations et participations : **reconduction en valeur**, revue ciblée par convention | **Hors fongibilité M57** : toute évolution relève du Conseil municipal |
+| **66 — Charges financières** | ${fmt(chap66)} | Inscription prudente au regard des taux ; **ajustement possible par fongibilité** (hors 012 et subventions) dans la limite de 7,5 % des DRF, soit ${fmt(plafondFongibilite)} | DAF : renégociation / arbitrage taux fixe-variable |
+| **Recettes (70, 73, 74, 75)** | ${fmt(rrf26Retraite)} (hors R002) | **+1,0 %** inscrit de façon prudente ; **revue des tarifs municipaux** et des participations familiales | Délibération tarifaire (Conseil municipal) |
+
+---
+
+## 6. Arbitrages politiques et RH à trancher (check-list de décision)
+
+| Sujet | Enjeu financier documentable | Décision attendue |
+|---|---|---|
+| **Régime indemnitaire (IFSE / CIA)** | +1 % de la masse salariale = **${fmt(unPctChap012)}** ; intégrer le calendrier des élections professionnelles du 10 décembre 2026 | ☐ Maintien à enveloppe constante  ☐ Revalorisation ciblée (périmètre à définir)  ☐ Report après installation des instances |
+| **Créations / transformations de postes** | À chiffrer par la DRH (coût en année pleine, charges patronales CNRACL à 40,65 %) | ☐ Aucune création nette  ☐ Créations compensées par redéploiement  ☐ Créations financées par recette dédiée |
+| **Avancements et promotions** | Inclus dans le GVT (+${fmt(hypGVT)} hyp.) | ☐ Respect des ratios promus-promouvables en vigueur  ☐ Révision de la politique d'avancement |
+| **Protection sociale complémentaire** | Effet année pleine à confirmer (adhésions) | ☐ Maintien du cadre actuel  ☐ Évolution du niveau de participation |
+| **Subventions aux associations** | Hors fongibilité ; relève du Conseil municipal | ☐ Reconduction en valeur  ☐ Revue ciblée par convention |
+| **Tarification des services municipaux** | +1 point de recettes tarifaires = à chiffrer par la DAF | ☐ Statu quo  ☐ Indexation  ☐ Révision ciblée |
+
+---
+
+## 7. Investissement, dette et cadrage du PPI
+
+**Constats (budget consolidé 2026) :** crédits d'équipement consolidés de **66,96 M€** (chap. 20, 204, 21, 23) ; **restes à réaliser en dépenses de ${fmt(15_075_223.8)}** (dont ${fmt(13_109_325.03)} de travaux, chap. 21 + 23) ; **${fmt(4_103_104.02)}** de subventions notifiées non encore encaissées (chap. 13) ; **${fmt(8_000_000)}** d'emprunts reportés ; virement de la section de fonctionnement de ${fmt(2_736_514.24)}.
+
+**Doctrine proposée pour le PPI 2027 :**
+1. **Prioriser l'achèvement des opérations engagées** (RAR 2025 et opérations en cours) avant tout lancement nouveau ; maximiser le taux de réalisation 2026 pour fiabiliser le FCTVA 2027.
+2. **Ne financer les opérations nouvelles qu'à hauteur de l'autofinancement disponible**, des subventions notifiées et du FCTVA, l'emprunt d'équilibre étant plafonné au capital remboursé (encours stable) sauf décision contraire.
+3. **Programmer en AP/CP** les opérations pluriannuelles pour lisser l'impact sur l'épargne.
+
+**Sensibilité de la capacité de désendettement à l'emprunt nouveau net** (épargne brute scénario B : ${fmt(sc2.eb)}) :
+
+| Emprunt nouveau net additionnel | Encours projeté | Capacité de désendettement | Zone |
+|---|---|---|---|
+${[0, 5, 10, 15]
+    .map((m) => `| +${m} M€ | ${fmtM(dette + m * 1_000_000)} | ${capStr(capaciteSelonEmprunt(sc2.eb, m))} | ${statutCap(capaciteSelonEmprunt(sc2.eb, m))} |`)
+    .join('\n')}
+
+**Recommandation :** fixer comme **garde-fou** une capacité de désendettement ≤ **8 ans** à l'issue du BP 2027 ; au-delà, tout nouvel emprunt doit faire l'objet d'un arbitrage spécifique.
+
+---
+
+## 8. Cadre juridique et calendrier de préparation
+
+### 8.1. Cadre applicable
+- **Article L. 2312-1 et D. 2312-3 CGCT :** débat d'orientations budgétaires (DOB) sur la base d'un rapport d'orientations budgétaires, dans les **dix semaines précédant l'examen du budget**, en délibération distincte ; pour une commune de plus de 10 000 habitants, le rapport comprend la structure et l'évolution des dépenses de personnel et des effectifs (temps de travail, rémunérations) et la structure et la gestion de la dette.
+- **Article L. 2311-1-1 CGCT :** présentation des objectifs d'évolution des dépenses réelles de fonctionnement et du besoin de financement annuel.
+- **Article L. 1612-1 CGCT :** en l'absence de vote du budget avant le 1er janvier, l'exécutif peut, sur autorisation du Conseil, engager et mandater des dépenses d'investissement dans la limite de **25 %** des crédits ouverts l'exercice précédent (hors remboursement de la dette).
+- **Article L. 1612-2 CGCT :** date limite de vote du budget : **15 avril 2027**.
+- **Article L. 1612-4 CGCT :** équilibre réel (sincérité des évaluations, couverture du capital de la dette par des ressources propres).
+- **Instruction M57 et règlement budgétaire et financier :** vote par chapitre ; fongibilité asymétrique de 7,5 % des dépenses réelles de chaque section, **hors chap. 012 et subventions** (art. 2 de la délibération n°2026/S1/001 à reconduire pour 2027).
+- **CFU 2026 :** à voter avant le **30 juin 2027** ; affectation du résultat et BS 2027 ensuite.
+
+### 8.2. Rétroplanning proposé
+
+| Échéance | Étape | Responsable |
+|---|---|---|
+| **Semaine du 16 novembre 2026** | Arbitrage de la présente note ; validation du scénario de cadrage | Maire / DGS |
+| **20 novembre 2026** | Lettre de cadrage aux directions ; arrêté anticipé des engagements de fonctionnement 2026 | DGS / DAF |
+| **23 novembre – 4 décembre 2026** | Remontée des demandes de crédits (fonctionnement) et fiches projet PPI | Directions |
+| **7 – 11 décembre 2026** | Conférences budgétaires par direction | DGS / DAF / DRH |
+| **10 décembre 2026** | Élections professionnelles (point de vigilance dialogue social) | DRH |
+| **Décembre 2026** | Délibération d'autorisation d'engager 25 % des crédits d'investissement (L. 1612-1) | Conseil municipal |
+| **Janvier 2027** | Arbitrages finaux ; rapport d'orientations budgétaires ; **DOB** | Maire / DGS / Conseil municipal |
+| **Début février 2027** (réf. 2026 : 4 février) | **Vote du BP 2027** ; transmission au contrôle de légalité ; publication | Conseil municipal |
+| **Avant le 15 avril 2027** | Date limite légale de vote du budget | — |
+| **Avant le 30 juin 2027** | Vote du CFU 2026 ; affectation du résultat ; **BS 2027** (revoyure) | Conseil municipal |
+
+---
+
+## 9. Points ouverts et pièces complémentaires à consolider
+
+- [ ] **Simulation DRH 2027 du chapitre 012** : GVT, assiette CNRACL réelle, effet PSC en année pleine, effectifs et vacances (remplace les hypothèses du § 3).
+- [ ] **Tableau d'amortissement 2027** et répartition taux fixe / taux variable de l'encours (DAF) : capital et intérêts 2027 définitifs.
+- [ ] **Loi de finances 2027** : DGF, DSU, FPIC, mécanismes éventuels de contribution des collectivités, revalorisation forfaitaire des bases — à intégrer dès adoption définitive.
+- [ ] **État des RAR 2026 par opération** et projection du taux de réalisation d'investissement au 31/12/2026.
+- [ ] **Évaluation du PPI 2027** (AP/CP, plan de financement, subventions notifiées) par la direction des bâtiments et travaux.
+- [ ] **Rapport d'orientations budgétaires 2027** (structure des effectifs, dépenses de personnel, dette) pour le DOB.
+- [ ] **Vérification par la DGS et le service juridique** de l'ensemble des références réglementaires avant diffusion.
+`;
+}
+
+/**
  * Générateur du Rapport de Revue Publique Locale & Audit Interne M57 (Conforme au skill collectivites-territoriales & au BS 2026 n°2026/S6/004)
  */
 export function genererRapportAuditM57(
