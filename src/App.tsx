@@ -1,18 +1,20 @@
 import React, { useState, useRef, useEffect, lazy, Suspense } from "react"
 import { ArrowLeft, Rss, Calculator, DollarSign, TrendingUp,
   Users, Eye, Laptop, Phone, Mail, MapPin, TrainFront,
-  Clock, Map as MapIcon, Briefcase, Calendar, Activity, Receipt, LayoutGrid, FileSpreadsheet, Landmark } from "lucide-react"
+  Clock, Map as MapIcon, Briefcase, Calendar, Activity, Receipt, LayoutGrid, FileSpreadsheet, Star, ArrowUp } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { searchFAQ } from "./data/FAQdata.ts"
 import { infoItems } from "./data/info-data.ts"
 import { incrementWeeklyStat } from "./lib/adminStats.ts"
-import { Toaster } from "sonner"
+import { Toaster, toast } from "sonner"
 import { OrangeGeometricBackground } from "./components/ui/OrangeGeometricBackground.tsx"
+import { FaitAGennevilliersBadge } from "./components/ui/FaitAGennevilliersBadge.tsx"
 import { useNewsFeeds, type RssItem } from "./hooks/useNewsFeeds.ts"
 
 
 // Wrapper autour de React.lazy pour gérer automatiquement les erreurs 404 de chunks après un redéploiement Vercel
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function lazyWithRetry<T extends React.ComponentType<any>>(
   factory: () => Promise<{ default: T }>
 ): React.LazyExoticComponent<T> {
@@ -312,6 +314,7 @@ function App() {
 
   const [activeCalculator, setActiveCalculator] = useState<'primes' | 'cia' | '13eme' | 'sft' | 'courriers' | 'fiche-paie' | 'navigo' | 'simulateur-ir' | 'budget-m57' | null>(null)
   const [logoLoadError, setLogoLoadError] = useState(false)
+  const [showBookmarkHint, setShowBookmarkHint] = useState(false)
   const [showExpandSearch, setShowExpandSearch] = useState(false)
   const [lastQuestion, setLastQuestion] = useState<string>("")
   const [showMacMenuBar, setShowMacMenuBar] = useState<boolean>(() => {
@@ -342,17 +345,105 @@ function App() {
     }
   }, [rssItems.length, rssLoading])
 
+  // --- HISTORIQUE DE NAVIGATION INTER-PAGES & BOUTON RETOUR NAVIGATEUR ---
+  type NavSnapshot = {
+    view: ChatState['currentView'];
+    simulTool: string | null;
+    activeCalculator: typeof activeCalculator;
+  };
+  const navHistoryRef = useRef<NavSnapshot[]>([]);
+  const prevNavRef = useRef<NavSnapshot>({
+    view: chatState.currentView,
+    simulTool: chatState.simulTool ?? null,
+    activeCalculator,
+  });
+  const isPoppingRef = useRef(false);
+
+  useEffect(() => {
+    window.history.replaceState(prevNavRef.current, "");
+    const handlePopState = (e: PopStateEvent) => {
+      const state = e.state as NavSnapshot | null;
+      const target = state || navHistoryRef.current.pop() || { view: "menu" as const, simulTool: null, activeCalculator: null };
+      if (state && navHistoryRef.current.length > 0) {
+        navHistoryRef.current.pop();
+      }
+      isPoppingRef.current = true;
+      setActiveCalculator(target.activeCalculator ?? null);
+      setChatState((prev) => ({
+        ...prev,
+        currentView: target.view,
+        simulTool: target.simulTool ?? null,
+      }));
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  useEffect(() => {
+    const prev = prevNavRef.current;
+    const curr: NavSnapshot = {
+      view: chatState.currentView,
+      simulTool: chatState.simulTool ?? null,
+      activeCalculator,
+    };
+    if (
+      prev.view === curr.view &&
+      prev.simulTool === curr.simulTool &&
+      prev.activeCalculator === curr.activeCalculator
+    ) {
+      return;
+    }
+    prevNavRef.current = curr;
+    if (isPoppingRef.current) {
+      isPoppingRef.current = false;
+    } else {
+      navHistoryRef.current.push(prev);
+      if (navHistoryRef.current.length > 25) {
+        navHistoryRef.current.shift();
+      }
+      window.history.pushState(curr, "");
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [chatState.currentView, chatState.simulTool, activeCalculator]);
+
+  const goBack = (
+    fallbackView: ChatState["currentView"] = "menu",
+    fallbackCalculator: typeof activeCalculator = null
+  ) => {
+    const prev = navHistoryRef.current.pop();
+    isPoppingRef.current = true;
+    if (prev) {
+      setActiveCalculator(prev.activeCalculator);
+      setChatState((s) => ({
+        ...s,
+        currentView: prev.view,
+        simulTool: prev.simulTool,
+      }));
+    } else {
+      setActiveCalculator(fallbackCalculator);
+      setChatState((s) => ({
+        ...s,
+        currentView: fallbackView,
+        simulTool: null,
+      }));
+    }
+    if (calculatorsSectionRef.current) {
+      calculatorsSectionRef.current.scrollTop = 0;
+    }
+  };
+
   // --- FONCTIONS DE GESTION ---
   const handleInfoClick = (info: InfoItem) => setSelectedInfo(info)
 
   const openCalculatorsLanding = () => {
     incrementWeeklyStat('home_calculators')
-    setChatState({ ...chatState, currentView: 'calculators' })
+    setActiveCalculator(null)
+    setChatState((prev) => ({ ...prev, currentView: 'calculators', simulTool: null }))
   }
 
   const openMetiersView = () => {
     incrementWeeklyStat('home_metiers')
-    setChatState({ ...chatState, currentView: 'metiers' })
+    setChatState((prev) => ({ ...prev, currentView: 'metiers', simulTool: null }))
   }
 
   const openCalculator = (calculator: 'primes' | 'cia' | '13eme' | 'sft' | 'courriers' | 'fiche-paie' | 'navigo' | 'simulateur-ir' | 'budget-m57') => {
@@ -403,16 +494,18 @@ function App() {
   }
 
   const returnToMenu = () => {
+    navHistoryRef.current = []
+    setActiveCalculator(null)
     setChatState({ currentView: "menu", selectedDomain: null, messages: [], isProcessing: false })
     setInputValue("")
     setSelectedInfo(null)
   }
 
   const usefulLinks = [
-    { label: "Jurisprudences", href: "https://www.conseil-etat.fr/actualites", imageSrc: "/images/jurisprudence.png" },
-    { label: "Legifrance", href: "https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000006070633/", imageSrc: "/images/legifrance.png" },
-    { label: "Catalogue CNFPT", href: "https://www.cnfpt.fr/catalogue/catalogues/region84/#page/1", imageSrc: "/images/formation_lien.png" },
-    { label: "Primes", href: "https://www.cdg31.fr/sites/default/files/guide_des_primes_2025.pdf", imageSrc: "/images/primes_lien.png" },
+    { label: "Jurisprudences", href: "https://www.conseil-etat.fr/actualites", imageSrc: `${BASE_URL}images/jurisprudence.png` },
+    { label: "Legifrance", href: "https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000006070633/", imageSrc: `${BASE_URL}images/legifrance.png` },
+    { label: "Catalogue CNFPT", href: "https://www.cnfpt.fr/catalogue/catalogues/region84/#page/1", imageSrc: `${BASE_URL}images/formation_lien.png` },
+    { label: "Primes", href: "https://www.cdg31.fr/sites/default/files/guide_des_primes_2025.pdf", imageSrc: `${BASE_URL}images/primes_lien.png` },
   ]
 
   // --- LOGIQUE DU CALCULATEUR DE PRIMES ---
@@ -1286,7 +1379,7 @@ ${indicesFactuels}
   // --- RENDU DU COMPOSANT ---
   return (
     <div
-      className="min-h-screen relative overflow-x-clip dark:bg-slate-950"
+      className={`min-h-screen relative overflow-x-clip dark:bg-slate-950 ${showMacMenuBar ? 'mac-menubar-active' : ''}`}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
@@ -1295,6 +1388,7 @@ ${indicesFactuels}
       }}
     >
       <Toaster richColors position="bottom-right" closeButton theme={theme} />
+      <FaitAGennevilliersBadge />
       {/* Dark mode background gradient */}
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-blue-950 to-slate-950 opacity-0 dark:opacity-100 pointer-events-none z-0 transition-opacity duration-300"></div>
 
@@ -1318,58 +1412,145 @@ ${indicesFactuels}
           theme={theme}
           toggleTheme={toggleTheme}
           currentView={chatState.currentView}
-          setView={(v) => setChatState(s => ({ ...s, currentView: v }))}
-          openCalculator={(calc) => setActiveCalculator(calc)}
+          setView={(v) => {
+            if (v === 'menu') {
+              navHistoryRef.current = [];
+              setActiveCalculator(null);
+              setChatState(s => ({ ...s, currentView: 'menu', simulTool: null }));
+            } else if (v === 'chat') {
+              if (chatState.messages.length === 0) {
+                handleDomainSelection(0);
+              } else {
+                setChatState(s => ({ ...s, currentView: 'chat' }));
+              }
+            } else if (v === 'calculators') {
+              openCalculatorsLanding();
+            } else {
+              setChatState(s => ({ ...s, currentView: v, simulTool: null }));
+            }
+          }}
+          openCalculator={openCalculator}
           onClose={() => setShowMacMenuBar(false)}
         />
       )}
 
-      {/* HEADER PROFESSIONNEL MODERNE & DYNAMIQUE */}
+      {/* HEADER PROFESSIONNEL MODERNE & DYNAMIQUE — ADAPTATIF SMARTPHONE, FENÊTRE RÉDUITE & PLEIN ÉCRAN */}
       <header className={`relative bg-white/75 dark:bg-slate-950/75 border-b border-slate-200/30 dark:border-slate-800/30 shadow-sm dark:shadow-blue-950/10 z-30 transition-all duration-300 ${showMacMenuBar ? 'mt-7' : ''}`}>
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-3 relative z-10">
-          <div className="flex items-center justify-between gap-3 sm:gap-6">
-            {/* Logo et titre (Gauche) */}
-            <div className="flex items-center gap-2.5 sm:gap-3.5 group cursor-pointer" onClick={() => setChatState(s => ({ ...s, currentView: 'menu' }))}>
-              <div className="relative">
-                {/* Glow effect on hover (supprimé) */}
+        <div className="max-w-7xl mx-auto px-2.5 sm:px-5 lg:px-8 py-2 sm:py-2.5 relative z-10">
+          <div className="flex flex-wrap xl:flex-nowrap items-center justify-between gap-y-2 gap-x-2 sm:gap-x-4 lg:gap-x-5">
+            {/* 1. Logo et titre (Gauche) */}
+            <div
+              className="order-1 flex items-center gap-2 sm:gap-3 group cursor-pointer min-w-0 flex-1 sm:flex-initial"
+              onClick={() => {
+                navHistoryRef.current = [];
+                setActiveCalculator(null);
+                setChatState(s => ({ ...s, currentView: 'menu', simulTool: null }));
+              }}
+            >
+              <div className="relative shrink-0">
                 {logoLoadError ? (
-                  <div className="w-10 h-10 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-500 to-orange-650 border border-white/20 shadow-md flex items-center justify-center relative transition-all duration-300 group-hover:scale-105 group-hover:rotate-3">
-                    <span className="text-white font-black tracking-wider text-xs sm:text-lg">CFDT</span>
+                  <div className="w-14 h-14 sm:w-20 sm:h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28 rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-500 to-orange-650 border border-white/20 shadow-md flex items-center justify-center relative transition-all duration-300 group-hover:scale-105 group-hover:rotate-3">
+                    <span className="text-white font-black tracking-wider text-xs sm:text-base lg:text-lg">CFDT</span>
                   </div>
                 ) : (
                   <img
                     src={`${BASE_URL}images/cfdt_logo_texte.png`}
                     alt="Logo CFDT S'engager pour chacun, Agir pour tous"
-                    className="h-14 sm:h-28 w-auto object-contain relative"
+                    className="h-14 sm:h-20 md:h-24 lg:h-28 xl:h-32 w-auto object-contain relative transition-transform duration-200 group-hover:scale-105"
                     onError={() => setLogoLoadError(true)}
                   />
                 )}
               </div>
 
-              <div className="flex flex-col justify-center">
-                <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 dark:from-white dark:via-blue-100 dark:to-white transition-colors duration-300">
+              <div className="flex flex-col justify-center min-w-0">
+                <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 dark:from-white dark:via-blue-100 dark:to-white transition-colors duration-300 leading-none">
                   ATLAS
                 </h1>
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse shadow-[0_0_8px_rgba(249,115,22,0.7)]"></span>
-                  <p className="text-xs sm:text-sm text-orange-600 dark:text-orange-400 font-bold tracking-wider sm:tracking-[0.12em] uppercase">
+                <div className="flex items-center gap-1.5 mt-0.5 min-w-0">
+                  <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-orange-500 animate-pulse shadow-[0_0_8px_rgba(249,115,22,0.7)] shrink-0"></span>
+                  <p className="text-[10px] sm:text-xs xl:text-sm text-orange-600 dark:text-orange-400 font-bold tracking-wide xl:tracking-[0.1em] uppercase leading-tight truncate sm:whitespace-normal">
                     Assistant syndical CFDT de Gennevilliers
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Bannière Élections CFDT (Centre) */}
-            <div className="hidden md:flex items-center justify-center flex-grow mx-2 lg:mx-6 min-w-0">
+            {/* 2. Bouton "Pense à me mettre en favoris" pointant vers la barre des favoris du navigateur */}
+            <div className="order-3 sm:order-2 w-full sm:w-auto relative flex flex-col items-center justify-center sm:self-center xl:self-start -mt-0.5 sm:mx-1 xl:mx-2 z-40">
+              {/* Flèche animée pointant vers le haut (barre des favoris) */}
+              <div className="flex flex-col items-center pointer-events-none mb-0.5 motion-safe:animate-bounce">
+                <ArrowUp className="w-3.5 h-3.5 sm:w-4.5 sm:h-4.5 text-orange-600 dark:text-orange-400 stroke-[3] drop-shadow-sm" />
+              </div>
+
+              <a
+                href="https://gruuuu.vercel.app/"
+                title="ATLAS CFDT"
+                draggable={true}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const isMac = typeof navigator !== "undefined" && /Mac|iPod|iPhone|iPad/.test(navigator.platform);
+                  const shortcut = isMac ? "⌘ + D" : "Ctrl + D";
+                  setShowBookmarkHint(prev => !prev);
+                  toast.info(`Astuce Favoris : Glissez ce bouton vers votre barre de favoris (ATLAS CFDT → gruuuu.vercel.app) ou appuyez sur ${shortcut} !`, {
+                    duration: 5000,
+                  });
+                }}
+                className="group relative inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-2xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:via-amber-500 hover:to-orange-700 text-white shadow-[0_3px_0_rgb(194,65,12),0_5px_12px_rgba(249,115,22,0.35)] hover:shadow-[0_2px_0_rgb(194,65,12),0_4px_10px_rgba(249,115,22,0.45)] active:shadow-none hover:translate-y-[1px] active:translate-y-[3px] border border-white/30 transition-all duration-150 cursor-pointer select-none max-w-full"
+              >
+                {/* Texte réel du lien utilisé par le navigateur comme nom du favori ("ATLAS CFDT") lors du glisser-déposer */}
+                <span className="sr-only">ATLAS CFDT</span>
+                {/* Pointe triangulaire sur le haut du bouton dirigée vers la barre des favoris */}
+                <span
+                  aria-hidden="true"
+                  className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rotate-45 bg-amber-500 border-l border-t border-white/40 pointer-events-none"
+                />
+                <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-yellow-200 text-yellow-100 shrink-0 group-hover:rotate-12 transition-transform pointer-events-none" />
+                <span
+                  aria-hidden="true"
+                  className="relative z-10 flex flex-col items-center leading-tight pointer-events-none text-center"
+                >
+                  <span
+                    data-label="Pense à me mettre en favoris"
+                    className="font-bold text-[10.5px] sm:text-xs tracking-wide drop-shadow-sm before:content-[attr(data-label)]"
+                  />
+                  <span
+                    data-sublabel="Glisse ce bouton dans la barre des favoris"
+                    className="font-medium text-[8.5px] sm:text-[9.5px] text-amber-100/95 tracking-normal mt-0.5 before:content-[attr(data-sublabel)]"
+                  />
+                </span>
+                <ArrowUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/95 stroke-[2.5] shrink-0 group-hover:-translate-y-0.5 transition-transform pointer-events-none" />
+              </a>
+
+              {/* Info-bulle d'aide au clic */}
+              {showBookmarkHint && (
+                <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-[min(18rem,calc(100vw-1.5rem))] p-3 rounded-xl bg-slate-900/95 dark:bg-slate-800/95 text-white text-xs shadow-xl border border-orange-500/40 backdrop-blur-md z-50 text-center animate-in fade-in zoom-in-95 duration-150">
+                  <p className="font-semibold text-amber-300 mb-1 flex items-center justify-center gap-1">
+                    <Star className="w-3.5 h-3.5 fill-amber-300" /> Ajouter à la barre des favoris
+                  </p>
+                  <p className="text-slate-200 leading-relaxed">
+                    Appuyez sur <kbd className="px-1.5 py-0.5 rounded bg-white/20 font-mono font-bold text-white">Ctrl + D</kbd> (ou <kbd className="px-1.5 py-0.5 rounded bg-white/20 font-mono font-bold text-white">⌘ + D</kbd> sur Mac) ou <strong>glissez ce bouton</strong> directement dans votre barre de favoris ⬆️
+                  </p>
+                  <button
+                    onClick={() => setShowBookmarkHint(false)}
+                    className="mt-2 text-[11px] text-orange-300 hover:text-orange-200 underline font-medium"
+                  >
+                    Compris !
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* 3. Bannière Élections CFDT (Centre sur grand écran, ligne dédiée sur fenêtre réduite md/lg) */}
+            <div className="order-4 xl:order-3 hidden md:flex w-full xl:w-auto items-center justify-center xl:flex-grow xl:mx-3 min-w-0 pt-1 xl:pt-0">
               <img
                 src={`${BASE_URL}images/footer_banner.png`}
                 alt="Votons CFDT ! S'engager pour chacun, agir pour tous - Élections professionnelles 10 décembre 2026 - Interco Gennevilliers"
-                className="h-14 sm:h-20 lg:h-24 w-auto max-w-full object-contain rounded-xl shadow-md border border-orange-500/30 hover:border-orange-500/60 transition-all duration-300 hover:scale-[1.02]"
+                className="h-14 sm:h-20 md:h-24 lg:h-28 xl:h-32 w-auto max-w-full object-contain rounded-xl shadow-md border border-orange-500/30 hover:border-orange-500/60 transition-all duration-300 hover:scale-[1.03]"
               />
             </div>
 
-            {/* Actions / Toggles (Droite) */}
-            <div className="flex items-center gap-2 sm:gap-2.5">
+            {/* 4. Actions / Toggles (Droite) */}
+            <div className="order-2 sm:order-3 xl:order-4 flex items-center gap-1.5 sm:gap-2.5 shrink-0">
               <button
                 onClick={() => setShowMacMenuBar(prev => !prev)}
                 className={`p-2 sm:p-2.5 rounded-xl border shadow-sm transition-all duration-300 hover:scale-105 active:scale-95 ${showMacMenuBar
@@ -1424,7 +1605,7 @@ ${indicesFactuels}
         <Suspense fallback={<ViewLoader />}>
           <Metiers
             theme={theme}
-            onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
+            onClose={() => goBack('menu')}
             onOpenCalculator={(toolId) => {
               if (toolId === 'budget-m57') {
                 setChatState({ ...chatState, currentView: 'budget-m57' });
@@ -1433,6 +1614,8 @@ ${indicesFactuels}
               }
             }}
             onOpenM57={() => setChatState({ ...chatState, currentView: 'budget-m57' })}
+            onOpenCoinRH={() => setChatState({ ...chatState, currentView: 'coin-rh' })}
+            onOpenCalculators={openCalculatorsLanding}
           />
         </Suspense>
       )}
@@ -1440,14 +1623,19 @@ ${indicesFactuels}
       {/* --- SECTION FAQ --- */}
       {chatState.currentView === 'faq' && (
         <Suspense fallback={<ViewLoader />}>
-          <FAQ onBack={() => setChatState({ ...chatState, currentView: 'menu' })} />
+          <FAQ
+            onBack={() => goBack('menu')}
+            onAskAI={() => handleDomainSelection(0)}
+            onOpenDocutheque={() => setChatState({ ...chatState, currentView: 'docutheque-rag' })}
+            onOpenCalculators={openCalculatorsLanding}
+          />
         </Suspense>
       )}
 
       {/* --- SECTION JEUX / PORTAIL ESPACE JEUX --- */}
       {chatState.currentView === 'jeux' && (
         <Suspense fallback={<ViewLoader />}>
-          <EspaceJeux onClose={() => setChatState({ ...chatState, currentView: 'menu' })} theme={theme} />
+          <EspaceJeux onClose={() => goBack('menu')} theme={theme} />
         </Suspense>
       )}
 
@@ -1456,9 +1644,11 @@ ${indicesFactuels}
         <Suspense fallback={<ViewLoader />}>
           <Actualites
             news={intercoNews}
-            onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
+            onClose={() => goBack('menu')}
             baseUrl={BASE_URL}
             onNavigateToVeille={() => setChatState({ ...chatState, currentView: 'veille-cdg' })}
+            onNavigateToJuridique={() => setChatState({ ...chatState, currentView: 'veille' })}
+            onNavigateToNosCom={() => setChatState({ ...chatState, currentView: 'nos-com' })}
           />
         </Suspense>
       )}
@@ -1467,7 +1657,7 @@ ${indicesFactuels}
       {chatState.currentView === 'veille-cdg' && (
         <Suspense fallback={<ViewLoader />}>
           <VeilleCdgPage
-            onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
+            onClose={() => goBack('menu')}
             onNavigateToJuridique={() => setChatState({ ...chatState, currentView: 'veille' })}
             theme={theme}
           />
@@ -1478,7 +1668,7 @@ ${indicesFactuels}
       {chatState.currentView === 'veille' && (
         <Suspense fallback={<ViewLoader />}>
           <VeilleJuridique
-            onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
+            onClose={() => goBack('menu')}
             onNavigateToCdg={() => setChatState({ ...chatState, currentView: 'veille-cdg' })}
             onNavigateToMemoire={() => setChatState({ ...chatState, currentView: 'memoire-juridique' })}
             theme={theme}
@@ -1490,7 +1680,7 @@ ${indicesFactuels}
       {chatState.currentView === 'memoire-juridique' && (
         <Suspense fallback={<ViewLoader />}>
           <MemoireJuridiqueGenerator
-            onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
+            onClose={() => goBack('veille')}
           />
         </Suspense>
       )}
@@ -1499,7 +1689,7 @@ ${indicesFactuels}
       {chatState.currentView === 'dessine-moi-le-statut' && (
         <Suspense fallback={<ViewLoader />}>
           <DessineMoiLeStatut
-            onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
+            onClose={() => goBack('menu')}
             theme={theme}
           />
         </Suspense>
@@ -1509,11 +1699,9 @@ ${indicesFactuels}
       {chatState.currentView === 'docutheque-rag' && (
         <Suspense fallback={<ViewLoader />}>
           <DocuthequeRAG
-            onBack={() => setChatState({ ...chatState, currentView: 'menu' })}
+            onBack={() => goBack('menu')}
             onOpenCalculator={(calc) => {
-              setActiveCalculator(calc);
-              setChatState({ ...chatState, currentView: 'calculators' });
-              window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+              openCalculator(calc);
             }}
             theme={theme}
           />
@@ -1524,7 +1712,7 @@ ${indicesFactuels}
       {chatState.currentView === 'coin-rh' && (
         <Suspense fallback={<ViewLoader />}>
           <CoinRH
-            onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
+            onClose={() => goBack('menu')}
             theme={theme}
           />
         </Suspense>
@@ -1533,20 +1721,20 @@ ${indicesFactuels}
       {/* --- SECTION BREEZY WEATHER v6.2.2 --- */}
       {chatState.currentView === 'weather' && (
         <Suspense fallback={<ViewLoader />}>
-          <BreezyWeatherApp onClose={() => setChatState({ ...chatState, currentView: 'menu' })} theme={theme} />
+          <BreezyWeatherApp onClose={() => goBack('menu')} theme={theme} />
         </Suspense>
       )}
 
       {chatState.currentView === 'podcasts' && (
         <Suspense fallback={<ViewLoader />}>
-          <EspacePodcastsFigurines onClose={() => setChatState({ ...chatState, currentView: 'menu' })} theme={theme} />
+          <EspacePodcastsFigurines onClose={() => goBack('menu')} theme={theme} />
         </Suspense>
       )}
 
       {/* --- SECTION NOS COM (TRACTS SYNDICAUX) --- */}
       {chatState.currentView === 'nos-com' && (
         <Suspense fallback={<ViewLoader />}>
-          <NosComTracts onClose={() => setChatState({ ...chatState, currentView: 'menu' })} theme={theme} />
+          <NosComTracts onClose={() => goBack('menu')} theme={theme} />
         </Suspense>
       )}
 
@@ -1554,7 +1742,7 @@ ${indicesFactuels}
       {chatState.currentView === 'simulateur-ir' && (
         <Suspense fallback={<ViewLoader />}>
           <SimulateurImpotRevenu
-            onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
+            onClose={() => goBack('menu')}
           />
         </Suspense>
       )}
@@ -1563,7 +1751,7 @@ ${indicesFactuels}
       {chatState.currentView === 'budget-m57' && (
         <Suspense fallback={<ViewLoader />}>
           <CalculateurBudgetM57
-            onClose={() => setChatState({ ...chatState, currentView: 'menu' })}
+            onClose={() => goBack('menu')}
           />
         </Suspense>
       )}
@@ -1589,7 +1777,7 @@ ${indicesFactuels}
                     'arr-detachement', 'arr-integration', 'arr-reintegration',
                     'arr-mutation-externe', 'arr-mutation-interne', 'delib-poste', 'delib-rifseep'
                   ].includes(chatState.simulTool || '');
-                  setChatState({ ...chatState, currentView: isActe ? 'metiers' : 'calculators', simulTool: null })
+                  goBack(isActe ? 'metiers' : 'calculators', null);
                 }}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group cursor-pointer"
               >
@@ -1642,8 +1830,7 @@ ${indicesFactuels}
         <Suspense fallback={<ViewLoader />}>
           <SimulateurCarriere
             onClose={() => {
-              setChatState({ ...chatState, currentView: 'menu', simulTool: null });
-              window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+              goBack('menu', null);
             }}
             theme={theme}
             tool={chatState.simulTool}
@@ -1664,12 +1851,12 @@ ${indicesFactuels}
                 <div className="flex items-center justify-between">
                   <button
                     onClick={() => {
-                      setChatState({ ...chatState, currentView: 'menu' })
+                      goBack('menu', null)
                     }}
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0 cursor-pointer"
                   >
                     <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                    <span>Retour au menu</span>
+                    <span>Retour</span>
                   </button>
                   <h2 className="text-xl font-bold text-slate-800 dark:text-white">Boîte à Outils CFDT</h2>
                 </div>
@@ -2031,12 +2218,7 @@ ${indicesFactuels}
             <Suspense fallback={<ViewLoader />}>
               <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <CalculateurPrimesV2
-                  onClose={() => {
-                    setActiveCalculator(null)
-                    if (calculatorsSectionRef.current) {
-                      calculatorsSectionRef.current.scrollTop = 0
-                    }
-                  }}
+                  onClose={() => goBack('calculators', null)}
                 />
               </div>
             </Suspense>
@@ -2045,12 +2227,7 @@ ${indicesFactuels}
             <Suspense fallback={<ViewLoader />}>
               <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <CalculateurCIAV2
-                  onClose={() => {
-                    setActiveCalculator(null)
-                    if (calculatorsSectionRef.current) {
-                      calculatorsSectionRef.current.scrollTop = 0
-                    }
-                  }}
+                  onClose={() => goBack('calculators', null)}
                 />
               </div>
             </Suspense>
@@ -2059,12 +2236,7 @@ ${indicesFactuels}
             <Suspense fallback={<ViewLoader />}>
               <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <CalculateurSFTV2
-                  onClose={() => {
-                    setActiveCalculator(null)
-                    if (calculatorsSectionRef.current) {
-                      calculatorsSectionRef.current.scrollTop = 0
-                    }
-                  }}
+                  onClose={() => goBack('calculators', null)}
                 />
               </div>
             </Suspense>
@@ -2073,12 +2245,7 @@ ${indicesFactuels}
             <Suspense fallback={<ViewLoader />}>
               <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <CalculateurNavigo
-                  onClose={() => {
-                    setActiveCalculator(null)
-                    if (calculatorsSectionRef.current) {
-                      calculatorsSectionRef.current.scrollTop = 0
-                    }
-                  }}
+                  onClose={() => goBack('calculators', null)}
                 />
               </div>
             </Suspense>
@@ -2087,12 +2254,7 @@ ${indicesFactuels}
             <Suspense fallback={<ViewLoader />}>
               <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <Calculateur13emeV2
-                  onClose={() => {
-                    setActiveCalculator(null)
-                    if (calculatorsSectionRef.current) {
-                      calculatorsSectionRef.current.scrollTop = 0
-                    }
-                  }}
+                  onClose={() => goBack('calculators', null)}
                 />
               </div>
             </Suspense>
@@ -2101,12 +2263,7 @@ ${indicesFactuels}
             <Suspense fallback={<ViewLoader />}>
               <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <CourriersAgentModule
-                  onClose={() => {
-                    setActiveCalculator(null)
-                    if (calculatorsSectionRef.current) {
-                      calculatorsSectionRef.current.scrollTop = 0
-                    }
-                  }}
+                  onClose={() => goBack('calculators', null)}
                 />
               </div>
             </Suspense>
@@ -2115,12 +2272,7 @@ ${indicesFactuels}
             <Suspense fallback={<ViewLoader />}>
               <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <FichePaieExplainer
-                  onClose={() => {
-                    setActiveCalculator(null)
-                    if (calculatorsSectionRef.current) {
-                      calculatorsSectionRef.current.scrollTop = 0
-                    }
-                  }}
+                  onClose={() => goBack('calculators', null)}
                 />
               </div>
             </Suspense>
@@ -2129,12 +2281,7 @@ ${indicesFactuels}
             <Suspense fallback={<ViewLoader />}>
               <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <SimulateurImpotRevenu
-                  onClose={() => {
-                    setActiveCalculator(null)
-                    if (calculatorsSectionRef.current) {
-                      calculatorsSectionRef.current.scrollTop = 0
-                    }
-                  }}
+                  onClose={() => goBack('calculators', null)}
                 />
               </div>
             </Suspense>
@@ -2143,12 +2290,7 @@ ${indicesFactuels}
             <Suspense fallback={<ViewLoader />}>
               <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <CalculateurBudgetM57
-                  onClose={() => {
-                    setActiveCalculator(null)
-                    if (calculatorsSectionRef.current) {
-                      calculatorsSectionRef.current.scrollTop = 0
-                    }
-                  }}
+                  onClose={() => goBack('calculators', null)}
                 />
               </div>
             </Suspense>
@@ -2242,7 +2384,6 @@ ${indicesFactuels}
           `,
           backgroundPosition: 'center bottom',
           backgroundSize: 'cover',
-          backgroundAttachment: 'fixed'
         }}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

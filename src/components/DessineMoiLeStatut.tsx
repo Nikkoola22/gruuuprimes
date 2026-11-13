@@ -180,7 +180,7 @@ const DessineMoiLeStatut: React.FC<DessineMoiLeStatutProps> = ({ onClose }) => {
 
             <div className="relative shrink-0 flex items-center">
               <img
-                src="/images/cfdt_logo_texte.png"
+                src={`${import.meta.env.BASE_URL}images/cfdt_logo_texte.png`}
                 alt="Logo CFDT"
                 className="h-14 sm:h-20 w-auto object-contain hover:scale-105 transition-transform"
                 onError={(e) => {
@@ -203,6 +203,31 @@ const DessineMoiLeStatut: React.FC<DessineMoiLeStatutProps> = ({ onClose }) => {
                 Le statut de la fonction publique territoriale expliqué en schémas clairs, parcours et infographies officielles.
               </p>
             </div>
+          </div>
+
+          {/* Liens directs vers portails d'infographies CDG / CIG */}
+          <div className="flex flex-wrap items-center gap-2 shrink-0 self-end md:self-auto">
+            <a
+              href="https://www.cig929394.fr/je-souhaite-acceder-aux-publications-et-ressources-du-cig/?f=1&categorie=infographies"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white text-xs font-bold shadow-md shadow-orange-500/20 hover:shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              title="Consulter les infographies officielles du CIG Petite Couronne (92-93-94)"
+            >
+              <ExternalLink className="w-3.5 h-3.5 shrink-0" />
+              <span>Infographies CIG 92-93-94</span>
+            </a>
+
+            <a
+              href="https://www.cdg63.fr/connaitre-le-cdg-63/publications-du-cdg/?_sf_s=infographie"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 text-xs font-bold shadow-xs hover:shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              title="Consulter le portail officiel des infographies du CDG 63"
+            >
+              <ExternalLink className="w-3.5 h-3.5 shrink-0" />
+              <span>CDG 63</span>
+            </a>
           </div>
         </div>
       </header>
@@ -241,9 +266,31 @@ const DessineMoiLeStatut: React.FC<DessineMoiLeStatutProps> = ({ onClose }) => {
                 </div>
               </div>
 
-              {/* Reset Filter Button */}
-              {activeCategory !== "Tous" && (
-                <div className="flex items-center gap-2 self-start md:self-auto shrink-0">
+              {/* Boutons Portails & Reset Filter */}
+              <div className="flex flex-wrap items-center gap-2 self-start md:self-auto shrink-0">
+                <a
+                  href="https://www.cig929394.fr/je-souhaite-acceder-aux-publications-et-ressources-du-cig/?f=1&categorie=infographies"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-orange-100 hover:bg-orange-200 dark:bg-orange-950/80 dark:hover:bg-orange-900 text-orange-800 dark:text-orange-200 border border-orange-300/80 dark:border-orange-800/80 text-xs font-bold transition-all hover:scale-105 shadow-2xs"
+                  title="Consulter le catalogue des infographies du CIG Petite Couronne (92-93-94)"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
+                  <span>Portail CIG 92-93-94</span>
+                </a>
+
+                <a
+                  href="https://www.cdg63.fr/connaitre-le-cdg-63/publications-du-cdg/?_sf_s=infographie"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300/80 dark:border-slate-700 text-xs font-bold transition-all hover:scale-105 shadow-2xs"
+                  title="Consulter le catalogue des infographies du CDG 63"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+                  <span>Portail CDG 63</span>
+                </a>
+
+                {activeCategory !== "Tous" && (
                   <button
                     onClick={() => setActiveCategory("Tous")}
                     className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs shadow-md shadow-orange-500/20 transition-all hover:scale-105 active:scale-95 cursor-pointer"
@@ -251,8 +298,8 @@ const DessineMoiLeStatut: React.FC<DessineMoiLeStatutProps> = ({ onClose }) => {
                     <X className="w-3.5 h-3.5" />
                     <span>Réinitialiser ({activeCategory})</span>
                   </button>
-                </div>
-              )}
+                )}
+              </div>
             </div>
 
             {/* Grid des Catégories */}
