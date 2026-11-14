@@ -82,7 +82,7 @@ interface PopFeedback {
   color: string;
 }
 
-const MAX_HEARTS = 4;
+const MAX_HEARTS = 5;
 const HOLE_COUNT = 6; // 2 rows of 3 holes matching the cartoon design
 
 const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
@@ -106,10 +106,11 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
   const [stars, setStars] = useState<StarParticle[]>([]);
   const [feedbacks, setFeedbacks] = useState<PopFeedback[]>([]);
 
-  // Mallet Position & Swing
-  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
-  const [isSwinging, setIsSwinging] = useState(false);
+  // Mallet Hardware-Accelerated Refs (0ms Input Latency, zero re-renders)
+  const malletRef = useRef<HTMLDivElement | null>(null);
+  const isSwingingRef = useRef(false);
   const boardRef = useRef<HTMLDivElement | null>(null);
+  const lastHurtTimeRef = useRef(0);
 
   // Sync refs
   const gameActiveRef = useRef(false);
@@ -268,8 +269,12 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
     setGameState("gameover");
   }, [playSound]);
 
-  // Lose a heart
+  // Lose a heart (with 650ms grace period to avoid instant wipeout)
   const loseHeart = useCallback((reason: string) => {
+    const now = performance.now();
+    if (now - lastHurtTimeRef.current < 650) return; // Grace period against chain hits
+    lastHurtTimeRef.current = now;
+
     setHearts(h => {
       const next = h - 1;
       if (next <= 0) {
@@ -282,7 +287,7 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
     addFeedback(reason, "text-rose-400", window.innerWidth / 2, window.innerHeight / 2 - 40);
   }, [handleGameOver, playSound, addFeedback]);
 
-  // Spawn Mole Logic
+  // Spawn Mole Logic (balanced reaction time)
   const spawnMole = useCallback(() => {
     if (!gameActiveRef.current) return;
 
@@ -310,13 +315,13 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
     const pool = RH_ITEMS.filter(item => item.type === pickedType);
     const item = pool[Math.floor(Math.random() * pool.length)];
 
-    // Dynamic duration based on score
-    const curLevel = Math.min(10, Math.floor(scoreRef.current / 600) + 1);
+    // Dynamic duration based on score (calibrated for fair reaction)
+    const curLevel = Math.min(8, Math.floor(scoreRef.current / 700) + 1);
     setLevel(curLevel);
 
-    // Speed up as level increases: from 2200ms down to 850ms
-    const baseDuration = pickedType === "gold" ? 1400 : 2200;
-    const duration = Math.max(800, baseDuration * Math.pow(0.89, curLevel - 1));
+    // Generous base duration: 3200ms down to min 1400ms (was 2200ms -> 800ms)
+    const baseDuration = pickedType === "gold" ? 2200 : 3400;
+    const duration = Math.max(1400, baseDuration * Math.pow(0.92, curLevel - 1));
 
     const newSlot: ActiveSlot = {
       id: slotIdCounter.current++,
@@ -364,14 +369,14 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
         setHoles(currentHoles);
       }
 
-      // 2. Trigger new spawns
-      const curLevel = Math.min(10, Math.floor(scoreRef.current / 600) + 1);
-      const spawnInterval = Math.max(550, 1600 * Math.pow(0.88, curLevel - 1));
+      // 2. Trigger new spawns (comfortable tempo)
+      const curLevel = Math.min(8, Math.floor(scoreRef.current / 700) + 1);
+      const spawnInterval = Math.max(950, 2200 * Math.pow(0.90, curLevel - 1));
 
       if (timestamp - lastSpawn > spawnInterval) {
         spawnMole();
-        // Occasional double mole at level 3+
-        if (curLevel >= 3 && Math.random() < 0.28) {
+        // Occasional double mole only at higher levels (level 5+)
+        if (curLevel >= 5 && Math.random() < 0.22) {
           spawnMole();
         }
         lastSpawn = timestamp;
@@ -384,8 +389,16 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
     return () => cancelAnimationFrame(animId);
   }, [gameState, loseHeart, spawnMole]);
 
-  // Click on Hole
-  const handleHoleHit = (index: number, e: React.MouseEvent | React.TouchEvent) => {
+  // Fast hardware-accelerated Mallet Positioning
+  const updateMalletPos = (x: number, y: number, swing: boolean = false) => {
+    if (!malletRef.current) return;
+    malletRef.current.style.opacity = "1";
+    const rot = swing ? "rotate(-45deg) scale(1.18)" : "rotate(15deg) scale(1)";
+    malletRef.current.style.transform = `translate3d(${x - 42}px, ${y - 70}px, 0) ${rot}`;
+  };
+
+  // Instant Pointer Down on Hole (0ms latency, works for Mouse & Touch)
+  const handleHoleHit = (index: number, e: React.PointerEvent) => {
     if (gameState !== "playing") return;
 
     // Position of strike for particles
@@ -393,9 +406,20 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
     const hitX = rect.left + rect.width / 2;
     const hitY = rect.top + rect.height * 0.45;
 
-    // Trigger visual swing
-    setIsSwinging(true);
-    setTimeout(() => setIsSwinging(false), 140);
+    // Trigger immediate visual mallet swing at exact strike point
+    isSwingingRef.current = true;
+    if (boardRef.current) {
+      const boardRect = boardRef.current.getBoundingClientRect();
+      const clickX = e.clientX - boardRect.left;
+      const clickY = e.clientY - boardRect.top;
+      updateMalletPos(clickX, clickY, true);
+      setTimeout(() => {
+        isSwingingRef.current = false;
+        if (malletRef.current) {
+          updateMalletPos(clickX, clickY, false);
+        }
+      }, 120);
+    }
 
     const currentHoles = [...holesRef.current];
     const slot = currentHoles[index];
@@ -449,18 +473,17 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
     setHoles(currentHoles);
   };
 
-  // Mallet Cursor Tracking
+  // 0ms Latency Mallet Cursor Tracking (Direct DOM transform, ZERO React re-renders)
   const handleBoardMouseMove = (e: React.MouseEvent) => {
     if (!boardRef.current) return;
     const rect = boardRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    });
+    updateMalletPos(e.clientX - rect.left, e.clientY - rect.top, isSwingingRef.current);
   };
 
   const handleBoardMouseLeave = () => {
-    setMousePos(null);
+    if (malletRef.current) {
+      malletRef.current.style.opacity = "0";
+    }
   };
 
   const startGame = () => {
@@ -567,7 +590,7 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
               ref={boardRef}
               onMouseMove={handleBoardMouseMove}
               onMouseLeave={handleBoardMouseLeave}
-              className="relative w-full aspect-[4/3] max-h-[500px] rounded-3xl overflow-hidden shadow-2xl border-4 border-amber-900/30 select-none cursor-none bg-gradient-to-b from-sky-300 via-sky-200 to-emerald-400"
+              className="relative w-full aspect-[4/3] max-h-[500px] rounded-3xl overflow-hidden shadow-2xl border-4 border-amber-900/30 select-none cursor-crosshair bg-gradient-to-b from-sky-300 via-sky-200 to-emerald-400"
             >
               
               {/* Floating Cartoon Lily Pad / Clouds in Sky */}
@@ -591,8 +614,7 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
                 {holes.map((slot, idx) => (
                   <div
                     key={idx}
-                    onClick={(e) => handleHoleHit(idx, e)}
-                    onTouchStart={(e) => handleHoleHit(idx, e)}
+                    onPointerDown={(e) => handleHoleHit(idx, e)}
                     className="relative w-full h-full flex flex-col items-center justify-end group active:scale-95 transition-transform"
                   >
                     
@@ -828,39 +850,36 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
                 </div>
               ))}
 
-              {/* INTERACTIVE CARTOON MALLET (Tracks cursor inside board) */}
-              {mousePos && (
-                <div
-                  className={`absolute pointer-events-none z-50 transition-transform duration-75 origin-[75%_25%] ${
-                    isSwinging ? "rotate-[-45deg] scale-110" : "rotate-[15deg]"
-                  }`}
-                  style={{
-                    left: mousePos.x - 45,
-                    top: mousePos.y - 75
-                  }}
-                >
-                  {/* Cartoon Mallet SVG */}
-                  <svg width="90" height="90" viewBox="0 0 100 100" fill="none" className="drop-shadow-[0_10px_15px_rgba(0,0,0,0.5)]">
-                    {/* Wooden Handle */}
-                    <rect x="44" y="28" width="12" height="65" rx="6" fill="#d97706" stroke="#92400e" strokeWidth="3" transform="rotate(-32 44 28)" />
-                    <rect x="47" y="32" width="4" height="55" rx="2" fill="#fbbf24" opacity="0.6" transform="rotate(-32 47 32)" />
+              {/* ZERO-LATENCY CARTOON MALLET (Direct GPU transform via Ref) */}
+              <div
+                ref={malletRef}
+                className="absolute pointer-events-none z-50 origin-[75%_25%] opacity-0 will-change-transform"
+                style={{
+                  left: 0,
+                  top: 0
+                }}
+              >
+                {/* Cartoon Mallet SVG */}
+                <svg width="90" height="90" viewBox="0 0 100 100" fill="none" className="drop-shadow-[0_10px_15px_rgba(0,0,0,0.5)]">
+                  {/* Wooden Handle */}
+                  <rect x="44" y="28" width="12" height="65" rx="6" fill="#d97706" stroke="#92400e" strokeWidth="3" transform="rotate(-32 44 28)" />
+                  <rect x="47" y="32" width="4" height="55" rx="2" fill="#fbbf24" opacity="0.6" transform="rotate(-32 47 32)" />
 
-                    {/* Red Hammer Barrel */}
-                    <g transform="translate(10, 10) rotate(-15)">
-                      <rect x="8" y="10" width="54" height="34" rx="10" fill="#ef4444" stroke="#b91c1c" strokeWidth="3.5" />
-                      
-                      {/* Left Yellow Striated Ring */}
-                      <rect x="4" y="8" width="10" height="38" rx="5" fill="#facc15" stroke="#ca8a04" strokeWidth="2.5" />
-                      
-                      {/* Right Yellow Striated Ring */}
-                      <rect x="56" y="8" width="10" height="38" rx="5" fill="#facc15" stroke="#ca8a04" strokeWidth="2.5" />
-                      
-                      {/* Glossy highlight */}
-                      <rect x="18" y="14" width="34" height="6" rx="3" fill="#ffffff" opacity="0.5" />
-                    </g>
-                  </svg>
-                </div>
-              )}
+                  {/* Red Hammer Barrel */}
+                  <g transform="translate(10, 10) rotate(-15)">
+                    <rect x="8" y="10" width="54" height="34" rx="10" fill="#ef4444" stroke="#b91c1c" strokeWidth="3.5" />
+                    
+                    {/* Left Yellow Striated Ring */}
+                    <rect x="4" y="8" width="10" height="38" rx="5" fill="#facc15" stroke="#ca8a04" strokeWidth="2.5" />
+                    
+                    {/* Right Yellow Striated Ring */}
+                    <rect x="56" y="8" width="10" height="38" rx="5" fill="#facc15" stroke="#ca8a04" strokeWidth="2.5" />
+                    
+                    {/* Glossy highlight */}
+                    <rect x="18" y="14" width="34" height="6" rx="3" fill="#ffffff" opacity="0.5" />
+                  </g>
+                </svg>
+              </div>
 
               {/* OVERLAY: START SCREEN */}
               {gameState === "ready" && (
