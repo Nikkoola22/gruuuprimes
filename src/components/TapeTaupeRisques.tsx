@@ -33,25 +33,25 @@ const RH_ITEMS: RHItemDef[] = [
   { id: "rps", type: "danger", label: "Burnout & RPS", category: "Santé au Travail", points: 100, desc: "Risque psycho-social prévenu !" },
   { id: "heures", type: "danger", label: "Dépassement 1607h", category: "Temps de Travail", points: 100, desc: "Régularisation du temps de travail !" },
   { id: "chute", type: "danger", label: "Accident de Service", category: "Sécurité", points: 100, desc: "Mesure de prévention appliquée !" },
-  { id: "harcelement", type: "danger", label: "Conflit / Harcèlement", category: "Climat Social", points: 100, desc: "Médiation RH enclenchée !" },
+  { id: "harcelement", type: "danger", label: "Harcèlement / Conflit", category: "Climat Social", points: 100, desc: "Médiation RH enclenchée !" },
   { id: "amiante", type: "danger", label: "Amiante & Toxiques", category: "Locaux", points: 100, desc: "Mise en sécurité immédiate !" },
-  { id: "dossier", type: "danger", label: "Dossier en Souffrance", category: "Gestion Carrière", points: 100, desc: "Dossier agent traité !" },
-  { id: "agression", type: "danger", label: "Agression d'Usager", category: "Accueil Public", points: 100, desc: "Protection fonctionnelle accordée !" },
+  { id: "dossier", type: "danger", label: "Dossier en Retard", category: "Gestion Carrière", points: 100, desc: "Dossier agent traité !" },
+  { id: "agression", type: "danger", label: "Agression Usager", category: "Accueil Public", points: 100, desc: "Protection fonctionnelle accordée !" },
   { id: "fraude", type: "danger", label: "Cumul Non Autorisé", category: "Déontologie", points: 100, desc: "Contrôle déontologique effectué !" },
 
   // 2. BONUS DORÉS (Taupe dorée couronnée - JACKPOT !)
-  { id: "prime_cia", type: "gold", label: "Prime Exceptionnelle CIA", category: "Rémunération", points: 300, desc: "Enveloppe indemnitaire débloquée !" },
+  { id: "prime_cia", type: "gold", label: "Prime CIA Débloquée", category: "Rémunération", points: 300, desc: "Enveloppe indemnitaire débloquée !" },
   { id: "audit_crc", type: "gold", label: "Audit CRC Exemplaire", category: "Conformité", points: 300, desc: "Félicitations de la Chambre Régionale !" },
   { id: "budget_valide", type: "gold", label: "Budget RH Validé", category: "Finances", points: 300, desc: "Crédits de recrutement ouverts !" },
-  { id: "accord_social", type: "gold", label: "Accord Majoritaire Signé", category: "Dialogue Social", points: 300, desc: "Protocole d'accord unanime !" },
+  { id: "accord_social", type: "gold", label: "Accord Social Signé", category: "Dialogue Social", points: 300, desc: "Protocole d'accord unanime !" },
 
   // 3. PROTÉGÉS / BONNES PRATIQUES (Tortue en bonnet de nuit 💤 - NE PAS FRAPPER !)
-  { id: "deconnexion", type: "peace", label: "Droit à la Déconnexion", category: "Repos Garanti", points: -150, desc: "Aïe ! Il fallait laisser l'agent se reposer !" },
+  { id: "deconnexion", type: "peace", label: "Droit Déconnexion", category: "Repos Garanti", points: -150, desc: "Aïe ! Il fallait laisser l'agent se reposer !" },
   { id: "delegue", type: "peace", label: "Délégué Syndical", category: "Dialogue Social", points: -150, desc: "Erreur ! Le dialogue social est protégé !" },
-  { id: "rtt", type: "peace", label: "Agent en Congé RTT", category: "Temps Libre", points: -150, desc: "Erreur ! Respectez les congés acquis !" },
-  { id: "visite_med", type: "peace", label: "Visite Médicale Médecine Travail", category: "Santé", points: -150, desc: "Erreur ! La visite médicale est essentielle !" },
+  { id: "rtt", type: "peace", label: "Agent en RTT", category: "Temps Libre", points: -150, desc: "Erreur ! Respectez les congés acquis !" },
+  { id: "visite_med", type: "peace", label: "Visite Médicale", category: "Santé", points: -150, desc: "Erreur ! La visite médicale est essentielle !" },
   { id: "formation", type: "peace", label: "Formation Sécurité", category: "Compétences", points: -150, desc: "Erreur ! La formation ne doit pas être interrompue !" },
-  { id: "epi", type: "peace", label: "Équipement Conforme (EPI)", category: "Protection", points: -150, desc: "Erreur ! L'agent portait son casque et son gilet !" }
+  { id: "epi", type: "peace", label: "Équipement EPI", category: "Protection", points: -150, desc: "Erreur ! L'agent portait son casque et son gilet !" }
 ];
 
 interface ActiveSlot {
@@ -586,7 +586,7 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
               </div>
 
               {/* 6 HOLES GRID (2 Rows of 3 Holes) */}
-              <div className="relative z-10 w-full h-full pt-[24%] px-4 sm:px-8 grid grid-cols-3 grid-rows-2 gap-x-4 sm:gap-x-8 gap-y-4 sm:gap-y-6">
+              <div className="relative z-10 w-full h-full pt-[22%] px-4 sm:px-8 grid grid-cols-3 grid-rows-2 gap-x-4 sm:gap-x-8 gap-y-6 sm:gap-y-9 pb-6">
                 
                 {holes.map((slot, idx) => (
                   <div
@@ -656,11 +656,11 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
                                   </div>
                                 </div>
 
-                              </div>
+                                {/* Chest Danger Emblem */}
+                                <div className="mt-1 px-1.5 py-0.2 rounded-full bg-rose-600/90 text-white text-[8px] font-black tracking-tight border border-rose-300 shadow-sm z-10">
+                                  RISQUE RH
+                                </div>
 
-                              {/* RH Danger Badge */}
-                              <div className="absolute -bottom-2 z-20 bg-rose-600 text-white text-[9px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-full border border-white/60 shadow-md whitespace-nowrap">
-                                ⚠️ {slot.item.label}
                               </div>
 
                             </div>
@@ -712,11 +712,11 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
                                   </div>
                                 </div>
 
-                              </div>
+                                {/* Chest Golden Star */}
+                                <div className="mt-1 text-[10px] text-amber-950 font-black z-10">
+                                  ★ +300 ★
+                                </div>
 
-                              {/* Gold Badge */}
-                              <div className="absolute -bottom-2 z-20 bg-gradient-to-r from-amber-400 to-yellow-300 text-slate-950 text-[9px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-full border-2 border-white shadow-lg whitespace-nowrap">
-                                👑 +300 : {slot.item.label}
                               </div>
 
                             </div>
@@ -753,11 +753,11 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
                                   <div className="w-1.5 h-1 bg-emerald-700 rounded-full" />
                                 </div>
 
-                              </div>
+                                {/* Chest Peaceful Icon */}
+                                <div className="mt-1 text-[9px] text-emerald-950 font-black z-10">
+                                  🛡️ PROTÉGÉ
+                                </div>
 
-                              {/* Protected Badge */}
-                              <div className="absolute -bottom-2 z-20 bg-emerald-700 text-emerald-100 text-[8px] sm:text-[9px] font-black uppercase px-2 py-0.5 rounded-full border border-emerald-400 shadow-md whitespace-nowrap">
-                                🛡️ NE PAS TAPER : {slot.item.label}
                               </div>
 
                             </div>
@@ -767,6 +767,28 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
                       )}
 
                     </div>
+
+                    {/* 100% VISIBLE LABEL BADGE (Directly Under the Hole & Character) */}
+                    {slot && (
+                      <div className="absolute -bottom-3.5 sm:-bottom-4 z-30 pointer-events-none transition-all animate-pop-in flex justify-center w-full px-0.5">
+                        <div 
+                          className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wide shadow-[0_6px_14px_rgba(0,0,0,0.8)] border-2 flex items-center justify-center gap-1.5 max-w-full ${
+                            slot.item.type === "danger"
+                              ? "bg-rose-600 text-white border-rose-300 ring-2 ring-rose-950"
+                              : slot.item.type === "gold"
+                              ? "bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 text-slate-950 border-white ring-2 ring-amber-700 shadow-[0_0_15px_rgba(250,204,21,0.7)]"
+                              : "bg-emerald-600 text-white border-emerald-200 ring-2 ring-emerald-950"
+                          }`}
+                        >
+                          <span className="text-xs sm:text-sm flex-shrink-0">
+                            {slot.item.type === "danger" ? "⚠️" : slot.item.type === "gold" ? "👑" : "🛡️"}
+                          </span>
+                          <span className="truncate">
+                            {slot.item.type === "gold" ? `+300 : ${slot.item.label}` : slot.item.type === "peace" ? `PROTÉGÉ : ${slot.item.label}` : slot.item.label}
+                          </span>
+                        </div>
+                      </div>
+                    )}
 
                   </div>
                 ))}
@@ -980,6 +1002,14 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
         }
         .animate-pop-up {
           animation: popUp 0.75s ease-out forwards;
+        }
+
+        @keyframes popIn {
+          0% { transform: scale(0.7) translateY(6px); opacity: 0; }
+          100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        .animate-pop-in {
+          animation: popIn 0.16s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
       `}</style>
 
