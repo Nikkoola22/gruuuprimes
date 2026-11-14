@@ -1,449 +1,988 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { ArrowLeft, Play, AlertTriangle } from "lucide-react";
+import { 
+  ArrowLeft, 
+  Play, 
+  RotateCcw, 
+  Trophy, 
+  Volume2, 
+  VolumeX, 
+  Sparkles, 
+  ShieldAlert, 
+  Zap, 
+  Flame
+} from "lucide-react";
 
 interface TapeTaupeRisquesProps {
   onClose: () => void;
 }
 
-// --- Constants & Types ---
-type MoleType = "RPS" | "CHUTE" | "HEURES" | "DEPASSEMENT" | "HARCELEMENT" | "INCENDIE" | "TMS" | "DELEGUE" | "EPI" | "CHSCT" | "FORMATION" | "ERGO" | "AMIANTE" | "AGRESSION" | "BRUIT" | "DUERP" | "VISITE" | "DROIT_ALERTE";
+// --- RH GAME DEFINITIONS ---
+type CharacterType = "danger" | "gold" | "peace";
 
-interface MoleDefinition {
-  type: MoleType;
+interface RHItemDef {
+  id: string;
+  type: CharacterType;
   label: string;
-  emoji: string;
-  isDanger: boolean;
+  category: string;
+  points: number;
+  desc: string;
+}
+
+const RH_ITEMS: RHItemDef[] = [
+  // 1. RISQUES RH (Taupes brunes ordinaires - À FRAPPER !)
+  { id: "rps", type: "danger", label: "Burnout & RPS", category: "Santé au Travail", points: 100, desc: "Risque psycho-social prévenu !" },
+  { id: "heures", type: "danger", label: "Dépassement 1607h", category: "Temps de Travail", points: 100, desc: "Régularisation du temps de travail !" },
+  { id: "chute", type: "danger", label: "Accident de Service", category: "Sécurité", points: 100, desc: "Mesure de prévention appliquée !" },
+  { id: "harcelement", type: "danger", label: "Conflit / Harcèlement", category: "Climat Social", points: 100, desc: "Médiation RH enclenchée !" },
+  { id: "amiante", type: "danger", label: "Amiante & Toxiques", category: "Locaux", points: 100, desc: "Mise en sécurité immédiate !" },
+  { id: "dossier", type: "danger", label: "Dossier en Souffrance", category: "Gestion Carrière", points: 100, desc: "Dossier agent traité !" },
+  { id: "agression", type: "danger", label: "Agression d'Usager", category: "Accueil Public", points: 100, desc: "Protection fonctionnelle accordée !" },
+  { id: "fraude", type: "danger", label: "Cumul Non Autorisé", category: "Déontologie", points: 100, desc: "Contrôle déontologique effectué !" },
+
+  // 2. BONUS DORÉS (Taupe dorée couronnée - JACKPOT !)
+  { id: "prime_cia", type: "gold", label: "Prime Exceptionnelle CIA", category: "Rémunération", points: 300, desc: "Enveloppe indemnitaire débloquée !" },
+  { id: "audit_crc", type: "gold", label: "Audit CRC Exemplaire", category: "Conformité", points: 300, desc: "Félicitations de la Chambre Régionale !" },
+  { id: "budget_valide", type: "gold", label: "Budget RH Validé", category: "Finances", points: 300, desc: "Crédits de recrutement ouverts !" },
+  { id: "accord_social", type: "gold", label: "Accord Majoritaire Signé", category: "Dialogue Social", points: 300, desc: "Protocole d'accord unanime !" },
+
+  // 3. PROTÉGÉS / BONNES PRATIQUES (Tortue en bonnet de nuit 💤 - NE PAS FRAPPER !)
+  { id: "deconnexion", type: "peace", label: "Droit à la Déconnexion", category: "Repos Garanti", points: -150, desc: "Aïe ! Il fallait laisser l'agent se reposer !" },
+  { id: "delegue", type: "peace", label: "Délégué Syndical", category: "Dialogue Social", points: -150, desc: "Erreur ! Le dialogue social est protégé !" },
+  { id: "rtt", type: "peace", label: "Agent en Congé RTT", category: "Temps Libre", points: -150, desc: "Erreur ! Respectez les congés acquis !" },
+  { id: "visite_med", type: "peace", label: "Visite Médicale Médecine Travail", category: "Santé", points: -150, desc: "Erreur ! La visite médicale est essentielle !" },
+  { id: "formation", type: "peace", label: "Formation Sécurité", category: "Compétences", points: -150, desc: "Erreur ! La formation ne doit pas être interrompue !" },
+  { id: "epi", type: "peace", label: "Équipement Conforme (EPI)", category: "Protection", points: -150, desc: "Erreur ! L'agent portait son casque et son gilet !" }
+];
+
+interface ActiveSlot {
+  id: number;
+  item: RHItemDef;
+  spawnTime: number;
+  duration: number;
+  isHit: boolean;
+  hitType?: CharacterType;
+}
+
+interface StarParticle {
+  id: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  color: string;
+  rotation: number;
+}
+
+interface PopFeedback {
+  id: number;
+  x: number;
+  y: number;
+  text: string;
   color: string;
 }
 
-const MOLES: MoleDefinition[] = [
-  { type: "RPS", label: "RPS (Burnout)", emoji: "🤯", isDanger: true, color: "from-pink-500 to-rose-600" },
-  { type: "CHUTE", label: "Chute / Glissade", emoji: "💥", isDanger: true, color: "from-orange-500 to-red-500" },
-  { type: "HEURES", label: "Non-respect 1607h", emoji: "⏱️", isDanger: true, color: "from-red-500 to-rose-700" },
-  { type: "DEPASSEMENT", label: "Dépassement horaire", emoji: "🌙", isDanger: true, color: "from-purple-500 to-fuchsia-600" },
-  { type: "HARCELEMENT", label: "Harcèlement", emoji: "👿", isDanger: true, color: "from-red-600 to-red-900" },
-  { type: "INCENDIE", label: "Risque Incendie", emoji: "🔥", isDanger: true, color: "from-orange-600 to-yellow-500" },
-  { type: "TMS", label: "Troubles Musculaires", emoji: "🦴", isDanger: true, color: "from-amber-600 to-orange-700" },
-  { type: "AMIANTE", label: "Amiante / Toxiques", emoji: "☣️", isDanger: true, color: "from-amber-700 to-yellow-900" },
-  { type: "AGRESSION", label: "Agression Usager", emoji: "😡", isDanger: true, color: "from-red-700 to-red-950" },
-  { type: "BRUIT", label: "Bruit Assourdissant", emoji: "📢", isDanger: true, color: "from-rose-700 to-pink-900" },
-  
-  // Pièges (Bonnes pratiques) - Couleurs trompeuses (similaires aux dangers)
-  { type: "DELEGUE", label: "Délégué Syndical", emoji: "🛡️", isDanger: false, color: "from-purple-500 to-fuchsia-600" },
-  { type: "EPI", label: "Équipement Conforme", emoji: "🦺", isDanger: false, color: "from-orange-500 to-red-500" },
-  { type: "CHSCT", label: "Réunion CHSCT", emoji: "👥", isDanger: false, color: "from-red-500 to-rose-700" },
-  { type: "FORMATION", label: "Formation Sécurité", emoji: "🎓", isDanger: false, color: "from-amber-600 to-orange-700" },
-  { type: "ERGO", label: "Ergonomie Poste", emoji: "💺", isDanger: false, color: "from-pink-500 to-rose-600" },
-  { type: "DUERP", label: "Document Unique", emoji: "📋", isDanger: false, color: "from-emerald-500 to-green-700" },
-  { type: "VISITE", label: "Visite Médicale", emoji: "🩺", isDanger: false, color: "from-teal-500 to-cyan-600" },
-  { type: "DROIT_ALERTE", label: "Droit d'alerte", emoji: "🚨", isDanger: false, color: "from-red-500 to-rose-600" },
-];
-
-interface ActiveMole {
-  id: number;
-  def: MoleDefinition;
-  spawnTime: number;
-  duration: number;
-  hit: boolean;
-}
-
-const MAX_ERRORS = 5;
+const MAX_HEARTS = 4;
+const HOLE_COUNT = 6; // 2 rows of 3 holes matching the cartoon design
 
 const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
   const [gameState, setGameState] = useState<"ready" | "playing" | "gameover">("ready");
   const [score, setScore] = useState(0);
-  const [errors, setErrors] = useState(0);
-  const [, setLevel] = useState(1);
-  const [difficulty, setDifficulty] = useState<"easy" | "hard">("easy");
-  
-  // Grille de 9 emplacements (0 à 8)
-  const [holes, setHoles] = useState<(ActiveMole | null)[]>(Array(9).fill(null));
-  
-  const holesRef = useRef<(ActiveMole | null)[]>(Array(9).fill(null));
-  const gameActiveRef = useRef(false);
-  const scoreRef = useRef(0);
-  const errorsRef = useRef(0);
-  const moleIdCounter = useRef(0);
+  const [combo, setCombo] = useState(0);
+  const [maxCombo, setMaxCombo] = useState(0);
+  const [hearts, setHearts] = useState(MAX_HEARTS);
+  const [level, setLevel] = useState(1);
+  const [isMuted, setIsMuted] = useState(false);
+  const [stats, setStats] = useState({ dangersHit: 0, goldHit: 0, peaceMistakes: 0 });
 
-  // Sync state and refs
+  // 6 Holes board
+  const [holes, setHoles] = useState<(ActiveSlot | null)[]>(Array(HOLE_COUNT).fill(null));
+  const holesRef = useRef<(ActiveSlot | null)[]>(Array(HOLE_COUNT).fill(null));
+
+  // Audio Context Ref
+  const audioCtxRef = useRef<AudioContext | null>(null);
+
+  // Particles & Popups
+  const [stars, setStars] = useState<StarParticle[]>([]);
+  const [feedbacks, setFeedbacks] = useState<PopFeedback[]>([]);
+
+  // Mallet Position & Swing
+  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
+  const [isSwinging, setIsSwinging] = useState(false);
+  const boardRef = useRef<HTMLDivElement | null>(null);
+
+  // Sync refs
+  const gameActiveRef = useRef(false);
+  const slotIdCounter = useRef(0);
+  const starIdCounter = useRef(0);
+  const feedbackIdCounter = useRef(0);
+  const scoreRef = useRef(0);
+  const heartsRef = useRef(MAX_HEARTS);
+
   useEffect(() => { holesRef.current = holes; }, [holes]);
   useEffect(() => { scoreRef.current = score; }, [score]);
-  useEffect(() => { errorsRef.current = errors; }, [errors]);
+  useEffect(() => { heartsRef.current = hearts; }, [hearts]);
 
-  // Sons & Feedback (visuel)
-  const [feedback, setFeedback] = useState<{ id: number, text: string, color: string, x: number, y: number }[]>([]);
+  // Procedural Sound Generator (Web Audio API)
+  const playSound = useCallback((type: "whack" | "gold" | "hurt" | "whoosh" | "gameover" | "start") => {
+    if (isMuted) return;
+    try {
+      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      if (!AudioCtx) return;
+      if (!audioCtxRef.current || audioCtxRef.current.state === "suspended") {
+        audioCtxRef.current = new AudioCtx();
+      }
+      const ctx = audioCtxRef.current;
+      const now = ctx.currentTime;
 
-  const addFeedback = (text: string, color: string, e: React.MouseEvent | React.TouchEvent) => {
-    let clientX = 0;
-    let clientY = 0;
-    
-    if ('touches' in e) {
-      clientX = e.touches[0].clientX;
-      clientY = e.touches[0].clientY;
-    } else {
-      clientX = (e as React.MouseEvent).clientX;
-      clientY = (e as React.MouseEvent).clientY;
+      if (type === "whack") {
+        // Crisp cartoon hammer thud + boing
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(420, now);
+        osc.frequency.exponentialRampToValueAtTime(90, now + 0.12);
+        gain.gain.setValueAtTime(0.35, now);
+        gain.gain.linearRampToValueAtTime(0.01, now + 0.12);
+        osc.start(now);
+        osc.stop(now + 0.12);
+      } else if (type === "gold") {
+        // High sparkling bell arpeggio
+        [587.33, 739.99, 880, 1174.66].forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(freq, now + idx * 0.05);
+          gain.gain.setValueAtTime(0.2, now + idx * 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.005, now + idx * 0.05 + 0.25);
+          osc.start(now + idx * 0.05);
+          osc.stop(now + idx * 0.05 + 0.25);
+        });
+      } else if (type === "hurt") {
+        // Low discordant error buzz
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(140, now);
+        osc.frequency.linearRampToValueAtTime(90, now + 0.25);
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+        osc.start(now);
+        osc.stop(now + 0.25);
+      } else if (type === "whoosh") {
+        // Fast air whoosh
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(260, now);
+        osc.frequency.exponentialRampToValueAtTime(80, now + 0.08);
+        gain.gain.setValueAtTime(0.1, now);
+        gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+        osc.start(now);
+        osc.stop(now + 0.08);
+      } else if (type === "start") {
+        // Happy arcade chime
+        [392, 523.25, 659.25, 783.99].forEach((f, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(f, now + i * 0.08);
+          gain.gain.setValueAtTime(0.25, now + i * 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.08 + 0.2);
+          osc.start(now + i * 0.08);
+          osc.stop(now + i * 0.08 + 0.2);
+        });
+      }
+    } catch {
+      // Audio policy safe
     }
-    
-    const id = Date.now() + Math.random();
-    setFeedback(prev => [...prev, { id, text, color, x: clientX, y: clientY }]);
-    setTimeout(() => {
-      setFeedback(prev => prev.filter(f => f.id !== id));
-    }, 800);
-  };
+  }, [isMuted]);
 
-  const handleGameOver = useCallback(() => {
-    gameActiveRef.current = false;
-    setGameState("gameover");
+  // Star Explosion generator
+  const triggerStars = useCallback((cx: number, cy: number, isGolden: boolean) => {
+    const starCount = isGolden ? 12 : 7;
+    const colors = isGolden 
+      ? ["#facc15", "#fef08a", "#ffffff", "#fbbf24"] 
+      : ["#fbbf24", "#f43f5e", "#ffffff", "#38bdf8"];
+
+    const newStars: StarParticle[] = [];
+    for (let i = 0; i < starCount; i++) {
+      const angle = (Math.PI * 2 * i) / starCount + (Math.random() - 0.5) * 0.5;
+      const speed = 3.5 + Math.random() * 5.5;
+      newStars.push({
+        id: starIdCounter.current++,
+        x: cx,
+        y: cy,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 2.5,
+        size: 14 + Math.random() * 12,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        rotation: Math.random() * 360
+      });
+    }
+    setStars(prev => [...prev, ...newStars]);
   }, []);
 
-  const incrementError = useCallback(() => {
-    setErrors(e => {
-      const next = e + 1;
-      if (next >= MAX_ERRORS) {
+  const addFeedback = useCallback((text: string, color: string, cx: number, cy: number) => {
+    const id = feedbackIdCounter.current++;
+    setFeedbacks(prev => [...prev, { id, text, color, x: cx, y: cy }]);
+    setTimeout(() => {
+      setFeedbacks(prev => prev.filter(f => f.id !== id));
+    }, 750);
+  }, []);
+
+  // Animate stars physics
+  useEffect(() => {
+    if (stars.length === 0) return;
+    const interval = requestAnimationFrame(() => {
+      setStars(prev => 
+        prev
+          .map(s => ({
+            ...s,
+            x: s.x + s.vx,
+            y: s.y + s.vy,
+            vy: s.vy + 0.35, // Gravity
+            rotation: s.rotation + 8,
+            size: Math.max(0, s.size - 0.5)
+          }))
+          .filter(s => s.size > 2)
+      );
+    });
+    return () => cancelAnimationFrame(interval);
+  }, [stars]);
+
+  // Game Over trigger
+  const handleGameOver = useCallback(() => {
+    gameActiveRef.current = false;
+    playSound("hurt");
+    setGameState("gameover");
+  }, [playSound]);
+
+  // Lose a heart
+  const loseHeart = useCallback((reason: string) => {
+    setHearts(h => {
+      const next = h - 1;
+      if (next <= 0) {
         handleGameOver();
       }
-      return next;
+      return Math.max(0, next);
     });
-  }, [handleGameOver]);
+    setCombo(0);
+    playSound("hurt");
+    addFeedback(reason, "text-rose-400", window.innerWidth / 2, window.innerHeight / 2 - 40);
+  }, [handleGameOver, playSound, addFeedback]);
 
+  // Spawn Mole Logic
   const spawnMole = useCallback(() => {
     if (!gameActiveRef.current) return;
 
     const currentHoles = [...holesRef.current];
-    const emptyIndices = currentHoles.map((h, i) => h === null ? i : -1).filter(i => i !== -1);
-    
-    if (emptyIndices.length === 0) return; // Grille pleine
+    const emptyHoleIdxs = currentHoles
+      .map((slot, idx) => (slot === null ? idx : -1))
+      .filter(idx => idx !== -1);
 
-    const randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-    
-    // Chances: 80% Danger, 20% Piège (Bonne pratique)
-    const isTrap = Math.random() < 0.2;
-    const candidates = MOLES.filter(m => m.isDanger === !isTrap);
-    const selectedDef = candidates[Math.floor(Math.random() * candidates.length)];
+    if (emptyHoleIdxs.length === 0) return;
 
-    // Durée de vie d'une taupe: dépend du niveau
-    const currentLevel = Math.floor(scoreRef.current / 5) + 1;
-    setLevel(currentLevel);
-    
-    // Base 2.5s, réduit très vite (exponentiel)
-    const duration = Math.max(500, 2500 * Math.pow(0.85, currentLevel - 1));
+    const chosenIdx = emptyHoleIdxs[Math.floor(Math.random() * emptyHoleIdxs.length)];
 
-    const newMole: ActiveMole = {
-      id: moleIdCounter.current++,
-      def: selectedDef,
+    // Type distribution:
+    // 68% Normal Risk Mole (Brown)
+    // 16% King Golden Mole (Gold)
+    // 16% Sleeping Turtle (Protected Good Practice)
+    const roll = Math.random();
+    let pickedType: CharacterType = "danger";
+    if (roll < 0.16) {
+      pickedType = "gold";
+    } else if (roll < 0.32) {
+      pickedType = "peace";
+    }
+
+    const pool = RH_ITEMS.filter(item => item.type === pickedType);
+    const item = pool[Math.floor(Math.random() * pool.length)];
+
+    // Dynamic duration based on score
+    const curLevel = Math.min(10, Math.floor(scoreRef.current / 600) + 1);
+    setLevel(curLevel);
+
+    // Speed up as level increases: from 2200ms down to 850ms
+    const baseDuration = pickedType === "gold" ? 1400 : 2200;
+    const duration = Math.max(800, baseDuration * Math.pow(0.89, curLevel - 1));
+
+    const newSlot: ActiveSlot = {
+      id: slotIdCounter.current++,
+      item,
       spawnTime: performance.now(),
-      duration: duration,
-      hit: false,
+      duration,
+      isHit: false
     };
 
-    currentHoles[randomIndex] = newMole;
+    currentHoles[chosenIdx] = newSlot;
     setHoles(currentHoles);
-
   }, []);
 
-  // Boucle principale: nettoie les taupes expirées et spawn les nouvelles
+  // Main Loop: manage mole lifetimes and spawn triggers
   useEffect(() => {
-    let animationId: number;
+    if (gameState !== "playing") return;
+
+    let animId: number;
     let lastSpawn = performance.now();
 
     const loop = (timestamp: number) => {
       if (!gameActiveRef.current) return;
 
-      // 1. Check expirations
-      let holesChanged = false;
       const currentHoles = [...holesRef.current];
+      let hasChanges = false;
 
+      // 1. Check expired moles
       for (let i = 0; i < currentHoles.length; i++) {
-        const mole = currentHoles[i];
-        if (mole) {
-          const age = timestamp - mole.spawnTime;
-          if (age > mole.duration && !mole.hit) {
-            // Expirée !
-            if (mole.def.isDanger) {
-              // Un risque a été ignoré !
-              incrementError();
+        const slot = currentHoles[i];
+        if (slot) {
+          const age = timestamp - slot.spawnTime;
+          if (age > slot.duration) {
+            // Expired without being hit
+            if (!slot.isHit && slot.item.type === "danger") {
+              // A danger was ignored!
+              loseHeart(`Risque ignoré : ${slot.item.label}`);
             }
             currentHoles[i] = null;
-            holesChanged = true;
+            hasChanges = true;
           }
         }
       }
 
-      if (holesChanged) {
+      if (hasChanges) {
         setHoles(currentHoles);
       }
 
-      // 2. Spawn de nouvelles taupes
-      const currentLevel = Math.floor(scoreRef.current / 5) + 1;
-      const spawnInterval = Math.max(300, 1500 * Math.pow(0.85, currentLevel - 1)); // De plus en plus vite
-      
+      // 2. Trigger new spawns
+      const curLevel = Math.min(10, Math.floor(scoreRef.current / 600) + 1);
+      const spawnInterval = Math.max(550, 1600 * Math.pow(0.88, curLevel - 1));
+
       if (timestamp - lastSpawn > spawnInterval) {
-        // Aléatoirement spawn 1 ou 2 taupes à haut niveau
         spawnMole();
-        if (currentLevel > 4 && Math.random() < 0.3) {
+        // Occasional double mole at level 3+
+        if (curLevel >= 3 && Math.random() < 0.28) {
           spawnMole();
         }
         lastSpawn = timestamp;
       }
 
-      animationId = requestAnimationFrame(loop);
+      animId = requestAnimationFrame(loop);
     };
 
-    if (gameState === "playing") {
-      animationId = requestAnimationFrame(loop);
-    }
+    animId = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(animId);
+  }, [gameState, loseHeart, spawnMole]);
 
-    return () => cancelAnimationFrame(animationId);
-  }, [gameState, incrementError, spawnMole]);
-
-
-  const handleHoleClick = (index: number, e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault();
+  // Click on Hole
+  const handleHoleHit = (index: number, e: React.MouseEvent | React.TouchEvent) => {
     if (gameState !== "playing") return;
 
-    const currentHoles = [...holes];
-    const mole = currentHoles[index];
+    // Position of strike for particles
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const hitX = rect.left + rect.width / 2;
+    const hitY = rect.top + rect.height * 0.45;
 
-    if (!mole || mole.hit) return;
+    // Trigger visual swing
+    setIsSwinging(true);
+    setTimeout(() => setIsSwinging(false), 140);
 
-    mole.hit = true;
-    
-    if (mole.def.isDanger) {
-      // Succès ! On a tapé un risque
-      setScore(s => s + 1);
-      addFeedback("+1", "text-green-400", e);
-    } else {
-      // Erreur ! On a tapé une bonne pratique / délégué
-      incrementError();
-      addFeedback("NON !", "text-red-500", e);
+    const currentHoles = [...holesRef.current];
+    const slot = currentHoles[index];
+
+    if (!slot || slot.isHit) {
+      playSound("whoosh");
+      return;
     }
 
-    // Retrait immédiat (avec petite animation visuelle possible)
-    currentHoles[index] = null;
+    slot.isHit = true;
+    slot.hitType = slot.item.type;
+
+    if (slot.item.type === "danger") {
+      // Whack normal risk mole
+      const newCombo = combo + 1;
+      setCombo(newCombo);
+      setMaxCombo(prev => Math.max(prev, newCombo));
+      const comboBonus = Math.min(150, (newCombo - 1) * 20);
+      const gained = slot.item.points + comboBonus;
+
+      setScore(s => s + gained);
+      setStats(st => ({ ...st, dangersHit: st.dangersHit + 1 }));
+      playSound("whack");
+      triggerStars(hitX, hitY, false);
+      addFeedback(`+${gained}`, "text-amber-300", hitX, hitY - 20);
+    } else if (slot.item.type === "gold") {
+      // Golden King Mole Jackpot!
+      const gained = slot.item.points + 100;
+      setScore(s => s + gained);
+      setStats(st => ({ ...st, goldHit: st.goldHit + 1 }));
+      playSound("gold");
+      triggerStars(hitX, hitY, true);
+      addFeedback(`★ ROYAL +${gained} !`, "text-yellow-300", hitX, hitY - 25);
+    } else if (slot.item.type === "peace") {
+      // Hit a protected sleeping turtle!
+      setStats(st => ({ ...st, peaceMistakes: st.peaceMistakes + 1 }));
+      loseHeart("Non ! Agent protégé en repos !");
+      playSound("hurt");
+      addFeedback("NON !", "text-rose-500", hitX, hitY - 20);
+    }
+
+    // Retract mole after hit effect
+    setTimeout(() => {
+      const refreshed = [...holesRef.current];
+      if (refreshed[index]?.id === slot.id) {
+        refreshed[index] = null;
+        setHoles(refreshed);
+      }
+    }, 280);
+
     setHoles(currentHoles);
+  };
+
+  // Mallet Cursor Tracking
+  const handleBoardMouseMove = (e: React.MouseEvent) => {
+    if (!boardRef.current) return;
+    const rect = boardRef.current.getBoundingClientRect();
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    });
+  };
+
+  const handleBoardMouseLeave = () => {
+    setMousePos(null);
   };
 
   const startGame = () => {
     setScore(0);
-    setErrors(0);
+    setCombo(0);
+    setMaxCombo(0);
+    setHearts(MAX_HEARTS);
     setLevel(1);
-    setHoles(Array(9).fill(null));
+    setStats({ dangersHit: 0, goldHit: 0, peaceMistakes: 0 });
+    setHoles(Array(HOLE_COUNT).fill(null));
     gameActiveRef.current = true;
-    moleIdCounter.current = 0;
+    slotIdCounter.current = 0;
+    playSound("start");
     setGameState("playing");
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col pt-4 overflow-x-hidden bg-sky-200 text-slate-800 select-none font-sans">
+    <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-amber-400 selection:text-slate-950 select-none pb-8">
       
-      {/* Sky Clouds (Background) */}
-      <div className="absolute top-10 left-10 w-32 h-12 bg-white rounded-full opacity-80 pointer-events-none" style={{ boxShadow: '40px -10px 0 10px white, 80px 0 0 0 white' }}></div>
-      <div className="absolute top-24 right-20 w-24 h-8 bg-white rounded-full opacity-70 pointer-events-none" style={{ boxShadow: '30px -15px 0 5px white, 60px 0 0 -5px white' }}></div>
-      
-      <div className="max-w-2xl mx-auto relative z-10 flex flex-col items-center h-full w-full px-2">
-        
-        {/* Retour button */}
-        <div className="absolute top-0 left-2 sm:top-2 sm:left-4 z-50">
+      {/* Top Header */}
+      <header className="sticky top-0 z-30 bg-slate-900/95 backdrop-blur-xl border-b border-slate-800/80 px-4 sm:px-6 py-3 shadow-lg">
+        <div className="max-w-5xl mx-auto flex items-center justify-between gap-3">
+          
           <button
-            type="button"
             onClick={onClose}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:scale-105 active:scale-95 transition-all"
+            className="p-2 sm:px-3 sm:py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 transition-all flex items-center gap-2 text-xs sm:text-sm font-semibold active:scale-95"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Retour</span>
+            <span className="hidden sm:inline">Espace Jeux</span>
           </button>
-        </div>
 
-        {/* Header - Cartoon Style UI */}
-        <div className="text-center mb-4 w-full mt-10">
+          <div className="text-center">
+            <h1 className="text-base sm:text-lg font-black tracking-wide uppercase font-mono text-white flex items-center justify-center gap-2">
+              <span className="text-amber-400">🔨</span> TAPE-TAUPE DES RISQUES RH
+            </h1>
+            <p className="text-[11px] text-slate-400">Éliminez les risques professionnels, préservez les agents protégés !</p>
+          </div>
+
+          <button
+            onClick={() => setIsMuted(!isMuted)}
+            className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 transition-all text-xs"
+            title={isMuted ? "Activer le son" : "Couper le son"}
+          >
+            {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
+          </button>
+
+        </div>
+      </header>
+
+      {/* Main Arcade Frame */}
+      <main className="max-w-4xl mx-auto px-3 sm:px-6 py-4 flex-1 w-full flex flex-col items-center">
+        
+        {/* CARTOON ARCADE CONSOLE (Like Reference Image) */}
+        <div className="relative w-full max-w-[680px] flex flex-col items-center">
           
-          <div className="flex justify-center gap-4 text-xs sm:text-sm font-bold mt-2">
+          {/* Top Yellow Handle on Console */}
+          <div className="w-44 h-9 bg-gradient-to-t from-amber-400 to-amber-300 rounded-t-2xl border-4 border-b-0 border-amber-500 shadow-md flex items-center justify-center -mb-2 z-10">
+            <div className="w-24 h-3 bg-slate-900/40 rounded-full border border-amber-600/40" />
+          </div>
+
+          {/* Console Outer Bezel (Cyan / Turquoise Arcade Box) */}
+          <div className="w-full bg-gradient-to-b from-sky-400 via-sky-500 to-sky-600 rounded-[2.5rem] p-3 sm:p-5 shadow-[0_20px_50px_rgba(2,132,199,0.35)] border-4 border-sky-300/80 relative overflow-hidden">
             
-            {/* Vies / Alerte (Red Cross style in image) */}
-            <div className="bg-[#4e2d1d] border-4 border-[#8c5a35] rounded-full px-4 py-1.5 flex items-center justify-center min-w-[120px] text-white shadow-lg relative">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-8 bg-red-500 rounded-full border-2 border-white flex items-center justify-center shadow-md">
-                <div className="w-4 h-4 bg-white" style={{ clipPath: 'polygon(33% 0, 66% 0, 66% 33%, 100% 33%, 100% 66%, 66% 66%, 66% 100%, 33% 100%, 33% 66%, 0 66%, 0 33%, 33% 33%)' }}></div>
-              </div>
-              <div className="flex gap-1.5 mt-2">
-                {[...Array(MAX_ERRORS)].map((_, i) => (
-                  <div 
-                    key={i} 
-                    className={`w-3.5 h-3.5 rounded-full transition-all duration-300 ${i < errors ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,1)] scale-110' : 'bg-slate-700 border border-slate-900'}`}
-                  />
+            {/* Glossy top reflection on arcade casing */}
+            <div className="absolute top-0 left-0 right-0 h-10 bg-white/20 rounded-t-[2.2rem] pointer-events-none" />
+
+            {/* Inner Dashboard Bar */}
+            <div className="bg-slate-950/80 backdrop-blur-md rounded-2xl p-2.5 sm:px-4 mb-3 border border-sky-200/40 flex items-center justify-between gap-2 shadow-inner text-xs sm:text-sm font-mono font-bold">
+              
+              {/* Hearts / Vies */}
+              <div className="flex items-center gap-1.5 bg-slate-900/90 px-3 py-1.5 rounded-xl border border-slate-800">
+                <span className="text-[10px] uppercase text-rose-400 font-black mr-1 hidden sm:inline">Vies :</span>
+                {[...Array(MAX_HEARTS)].map((_, i) => (
+                  <span 
+                    key={i}
+                    className={`text-base sm:text-lg transition-transform ${
+                      i < hearts ? "text-rose-500 scale-100 animate-pulse" : "text-slate-700 opacity-40 scale-75"
+                    }`}
+                  >
+                    ❤️
+                  </span>
                 ))}
               </div>
+
+              {/* Combo Multiplier */}
+              {combo > 1 && (
+                <div className="flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-amber-500 to-rose-500 text-slate-950 rounded-xl font-black text-xs uppercase animate-bounce shadow-lg">
+                  <Flame className="w-3.5 h-3.5 fill-current text-white" />
+                  <span>Combo x{combo}</span>
+                </div>
+              )}
+
+              {/* Score Badge */}
+              <div className="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 px-4 py-1.5 rounded-xl font-black shadow-md">
+                <Sparkles className="w-4 h-4 text-slate-950" />
+                <span className="text-xs uppercase">Score :</span>
+                <span className="text-base sm:text-lg font-mono font-black">{score}</span>
+              </div>
+
             </div>
 
-            {/* Score */}
-            <div className="bg-[#4e2d1d] border-4 border-[#8c5a35] rounded-full px-6 py-2 flex items-center text-white shadow-lg">
-              <span className="text-amber-400 mr-2 text-lg">★</span>
-              <span className="text-[10px] mr-2 opacity-80 uppercase">Score</span>
-              <span className="text-2xl font-black">{score * 100}</span>
-            </div>
-            
-          </div>
-        </div>
+            {/* GAME FIELD (Landscape with sky & lawn matching reference) */}
+            <div 
+              ref={boardRef}
+              onMouseMove={handleBoardMouseMove}
+              onMouseLeave={handleBoardMouseLeave}
+              className="relative w-full aspect-[4/3] max-h-[500px] rounded-3xl overflow-hidden shadow-2xl border-4 border-amber-900/30 select-none cursor-none bg-gradient-to-b from-sky-300 via-sky-200 to-emerald-400"
+            >
+              
+              {/* Floating Cartoon Lily Pad / Clouds in Sky */}
+              <div className="absolute top-4 left-8 w-14 h-8 bg-emerald-400/80 rounded-full border-2 border-emerald-500 shadow-sm transform -rotate-12 pointer-events-none" />
+              <div className="absolute top-6 right-10 w-12 h-7 bg-emerald-400/80 rounded-full border-2 border-emerald-500 shadow-sm transform rotate-6 pointer-events-none" />
 
-        {/* Game Field Container */}
-        <div className="relative w-full max-w-[500px] flex-1 mt-4 rounded-t-3xl border-4 border-amber-600/50 shadow-2xl overflow-hidden bg-[#593d2b] flex flex-col items-center">
-          
-          {/* Trees Background (Dark Green Zigzags) */}
-          <div className="absolute top-0 left-0 w-full h-12 bg-[#2d4b24]" 
-               style={{ clipPath: 'polygon(0% 100%, 5% 0%, 10% 100%, 15% 0%, 20% 100%, 25% 0%, 30% 100%, 35% 0%, 40% 100%, 45% 0%, 50% 100%, 55% 0%, 60% 100%, 65% 0%, 70% 100%, 75% 0%, 80% 100%, 85% 0%, 90% 100%, 95% 0%, 100% 100%, 0% 100%)' }} />
-          
-          {/* Grass Strip */}
-          <div className="absolute top-10 left-0 w-full h-8 bg-[#65a30d] border-b-4 border-[#4d7c0f] z-10" />
+              {/* Distant Hills separator (Pastel Yellow / Light Green curve) */}
+              <div className="absolute top-[22%] left-0 right-0 h-8 bg-[#fef08a] rounded-t-[100%] border-t-2 border-[#facc15] pointer-events-none opacity-90" />
 
-          {/* Dirt Area (with scattered rocks) */}
-          <div className="relative w-full h-full mt-20 p-2 sm:p-4 grid grid-cols-3 grid-rows-3 gap-x-2 gap-y-6 sm:gap-y-8 z-10 pb-8 touch-none">
-            
-            {/* Random rocks */}
-            <div className="absolute top-32 left-8 w-6 h-3 bg-[#78716c] rounded-[100%] opacity-80 pointer-events-none" />
-            <div className="absolute top-48 right-12 w-4 h-2 bg-[#78716c] rounded-[100%] opacity-80 pointer-events-none" />
-            <div className="absolute bottom-20 left-1/3 w-7 h-4 bg-[#57534e] rounded-[100%] opacity-80 pointer-events-none" />
-            <div className="absolute bottom-8 right-1/4 w-5 h-2 bg-[#a8a29e] rounded-[100%] opacity-80 pointer-events-none" />
-
-            {holes.map((mole, i) => (
-              <div 
-                key={i} 
-                className="relative w-full aspect-[5/4] flex items-end justify-center cursor-pointer group"
-                onPointerDown={(e) => handleHoleClick(i, e)}
-              >
-                {/* The Hole (Dark Ellipse on ground) */}
-                <div className="absolute bottom-0 w-[85%] h-[40%] bg-[#2a1b12] rounded-[100%] shadow-[inset_0_5px_8px_rgba(0,0,0,0.8)] border border-[#3e271a]" />
+              {/* Vibrant Green Grass Ground */}
+              <div className="absolute top-[26%] inset-x-0 bottom-0 bg-gradient-to-b from-[#86efac] via-[#4ade80] to-[#22c55e]">
                 
-                {/* Hole number (for styling debug/look) */}
-                <div className="absolute -bottom-5 text-[#8b6145] text-xs font-bold">{i}</div>
+                {/* Lawn pattern highlights */}
+                <div className="absolute inset-0 bg-[radial-gradient(#bbf7d0_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none" />
+                
+              </div>
 
-                {/* The Mole (Masked to look like it's coming out of the hole) */}
-                <div className="absolute bottom-[20%] w-full h-[150%] overflow-hidden pointer-events-none flex flex-col items-center justify-end pb-4">
-                  {mole && !mole.hit && (
-                    <div className="relative flex flex-col items-center animate-slide-up origin-bottom">
+              {/* 6 HOLES GRID (2 Rows of 3 Holes) */}
+              <div className="relative z-10 w-full h-full pt-[24%] px-4 sm:px-8 grid grid-cols-3 grid-rows-2 gap-x-4 sm:gap-x-8 gap-y-4 sm:gap-y-6">
+                
+                {holes.map((slot, idx) => (
+                  <div
+                    key={idx}
+                    onClick={(e) => handleHoleHit(idx, e)}
+                    onTouchStart={(e) => handleHoleHit(idx, e)}
+                    className="relative w-full h-full flex flex-col items-center justify-end group active:scale-95 transition-transform"
+                  >
+                    
+                    {/* The Dirt Hole (3D Oval Rim with dark pit) */}
+                    <div className="w-[90%] sm:w-[85%] h-12 sm:h-14 rounded-[100%] bg-gradient-to-b from-[#78350f] via-[#92400e] to-[#451a03] p-1.5 shadow-[0_8px_16px_rgba(0,0,0,0.5)] border-2 border-[#b45309]/80 relative flex items-center justify-center">
+                      {/* Deep Pit Darkness */}
+                      <div className="w-full h-full rounded-[100%] bg-gradient-to-b from-[#180d05] to-[#271406] shadow-[inset_0_8px_14px_rgba(0,0,0,0.9)]" />
+                    </div>
+
+                    {/* CHARACTER EMERGENCE CONTAINER (Masked by hole rim) */}
+                    <div className="absolute bottom-5 sm:bottom-6 w-full h-[155%] overflow-hidden flex flex-col items-center justify-end pointer-events-none">
                       
-                      {/* Aura/Glow */}
-                      <div className="absolute inset-0 bg-orange-400 rounded-full opacity-30 blur-md" />
+                      {slot && (
+                        <div 
+                          className={`relative flex flex-col items-center transition-all duration-150 origin-bottom ${
+                            slot.isHit 
+                              ? "scale-90 translate-y-3" 
+                              : "animate-mole-rise"
+                          }`}
+                        >
+                          
+                          {/* ==================================================== */}
+                          {/* 1. TAUPES RISQUES RH (Taupe Brune avec grandes dents) */}
+                          {/* ==================================================== */}
+                          {slot.item.type === "danger" && (
+                            <div className="relative flex flex-col items-center">
+                              
+                              {/* Mole Body */}
+                              <div className="w-16 h-22 sm:w-20 sm:h-26 bg-gradient-to-b from-[#8d5b4c] via-[#784435] to-[#5c3125] rounded-t-[2.5rem] rounded-b-2xl border-3 border-[#5c3125] shadow-xl flex flex-col items-center relative overflow-hidden">
+                                
+                                {/* Belly highlight */}
+                                <div className="absolute bottom-0 w-12 sm:w-14 h-10 bg-[#fde047]/30 rounded-t-full pointer-events-none" />
+
+                                {/* Eyes */}
+                                <div className="mt-3.5 sm:mt-4 flex items-center gap-2.5 sm:gap-3 z-10">
+                                  {slot.isHit ? (
+                                    <>
+                                      <span className="text-black font-black text-xs sm:text-sm">✕</span>
+                                      <span className="text-black font-black text-xs sm:text-sm">✕</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <div className="w-2.5 h-3.5 sm:w-3 sm:h-4 bg-slate-950 rounded-full flex items-start justify-end p-0.5">
+                                        <div className="w-1 h-1 bg-white rounded-full" />
+                                      </div>
+                                      <div className="w-2.5 h-3.5 sm:w-3 sm:h-4 bg-slate-950 rounded-full flex items-start justify-end p-0.5">
+                                        <div className="w-1 h-1 bg-white rounded-full" />
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
+
+                                {/* Muzzle & Teeth */}
+                                <div className="mt-1 w-9 sm:w-11 h-6 bg-[#fde68a] rounded-full border border-amber-300 flex flex-col items-center justify-between p-0.5 shadow-sm z-10">
+                                  {/* Pink Nose */}
+                                  <div className="w-3.5 h-2 bg-rose-500 rounded-full" />
+                                  {/* Buck teeth */}
+                                  <div className="flex gap-0.5">
+                                    <div className="w-1.5 h-2 bg-white rounded-b-sm border-t-0 border border-slate-300 shadow-xs" />
+                                    <div className="w-1.5 h-2 bg-white rounded-b-sm border-t-0 border border-slate-300 shadow-xs" />
+                                  </div>
+                                </div>
+
+                              </div>
+
+                              {/* RH Danger Badge */}
+                              <div className="absolute -bottom-2 z-20 bg-rose-600 text-white text-[9px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-full border border-white/60 shadow-md whitespace-nowrap">
+                                ⚠️ {slot.item.label}
+                              </div>
+
+                            </div>
+                          )}
+
+                          {/* ==================================================== */}
+                          {/* 2. TAUPE DORÉE ROYALE (King Gold Mole with Crown)    */}
+                          {/* ==================================================== */}
+                          {slot.item.type === "gold" && (
+                            <div className="relative flex flex-col items-center">
+                              
+                              {/* Shiny Crown on Top */}
+                              <div className="relative z-20 -mb-2 flex flex-col items-center">
+                                <div className="w-8 sm:w-10 h-5 bg-gradient-to-t from-amber-500 via-amber-400 to-yellow-300 border-2 border-amber-600 rounded-t-sm [clip-path:polygon(0%_100%,0%_20%,25%_60%,50%_0%,75%_60%,100%_20%,100%_100%)] shadow-md" />
+                                <div className="w-9 sm:w-11 h-1.5 bg-amber-600 rounded-full -mt-0.5" />
+                              </div>
+
+                              {/* Golden Body */}
+                              <div className="w-16 h-22 sm:w-20 sm:h-26 bg-gradient-to-b from-yellow-300 via-amber-400 to-amber-500 rounded-t-[2.5rem] rounded-b-2xl border-3 border-amber-600 shadow-[0_0_20px_rgba(250,204,21,0.6)] flex flex-col items-center relative overflow-hidden">
+                                
+                                {/* Shimmer overlay */}
+                                <div className="absolute top-0 right-0 w-8 h-full bg-white/30 transform rotate-12 pointer-events-none" />
+
+                                {/* Eyes */}
+                                <div className="mt-3.5 sm:mt-4 flex items-center gap-2.5 sm:gap-3 z-10">
+                                  {slot.isHit ? (
+                                    <>
+                                      <span className="text-black font-black text-xs sm:text-sm">★</span>
+                                      <span className="text-black font-black text-xs sm:text-sm">★</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <div className="w-2.5 h-3.5 sm:w-3 sm:h-4 bg-slate-950 rounded-full flex items-start justify-end p-0.5">
+                                        <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                                      </div>
+                                      <div className="w-2.5 h-3.5 sm:w-3 sm:h-4 bg-slate-950 rounded-full flex items-start justify-end p-0.5">
+                                        <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
+
+                                {/* Muzzle */}
+                                <div className="mt-1 w-9 sm:w-11 h-6 bg-amber-100 rounded-full border border-amber-400 flex flex-col items-center justify-between p-0.5 shadow-sm z-10">
+                                  <div className="w-3.5 h-2 bg-amber-600 rounded-full" />
+                                  <div className="flex gap-0.5">
+                                    <div className="w-1.5 h-2 bg-white rounded-b-sm border-t-0 border border-slate-300 shadow-xs" />
+                                    <div className="w-1.5 h-2 bg-white rounded-b-sm border-t-0 border border-slate-300 shadow-xs" />
+                                  </div>
+                                </div>
+
+                              </div>
+
+                              {/* Gold Badge */}
+                              <div className="absolute -bottom-2 z-20 bg-gradient-to-r from-amber-400 to-yellow-300 text-slate-950 text-[9px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-full border-2 border-white shadow-lg whitespace-nowrap">
+                                👑 +300 : {slot.item.label}
+                              </div>
+
+                            </div>
+                          )}
+
+                          {/* ==================================================== */}
+                          {/* 3. TORTUE / BONNES PRATIQUES (Sleeping Turtle 💤)    */}
+                          {/* ==================================================== */}
+                          {slot.item.type === "peace" && (
+                            <div className="relative flex flex-col items-center">
+                              
+                              {/* Blue Sleeping Nightcap with white pompom */}
+                              <div className="relative z-20 -mb-2 flex items-center">
+                                <div className="w-10 sm:w-12 h-6 bg-gradient-to-r from-sky-500 to-indigo-600 rounded-t-full border-2 border-sky-300 transform -rotate-12 shadow-sm relative flex items-center justify-end">
+                                  <div className="w-3 h-3 bg-white rounded-full border border-sky-200 absolute -top-1 -right-1 shadow-sm" />
+                                  <span className="text-[10px] text-white font-mono font-bold mr-2">zZz</span>
+                                </div>
+                              </div>
+
+                              {/* Green Turtle Shell & Head */}
+                              <div className="w-16 h-22 sm:w-20 sm:h-26 bg-gradient-to-b from-emerald-400 via-emerald-500 to-teal-600 rounded-t-[2.5rem] rounded-b-2xl border-3 border-emerald-700 shadow-md flex flex-col items-center relative overflow-hidden">
+                                
+                                {/* Turtle shell hex segments */}
+                                <div className="absolute inset-x-2 bottom-1 h-10 border-2 border-emerald-700/50 rounded-t-xl bg-emerald-600/30 grid grid-cols-2 gap-1 p-0.5" />
+
+                                {/* Sleeping closed eyes */}
+                                <div className="mt-3.5 sm:mt-4 flex items-center gap-2.5 sm:gap-3 z-10">
+                                  <div className="w-3 h-1 bg-slate-900 rounded-full" />
+                                  <div className="w-3 h-1 bg-slate-900 rounded-full" />
+                                </div>
+
+                                {/* Gentle Muzzle */}
+                                <div className="mt-1.5 w-8 sm:w-10 h-5 bg-emerald-200 rounded-full border border-emerald-400 flex items-center justify-center shadow-inner z-10">
+                                  <div className="w-1.5 h-1 bg-emerald-700 rounded-full" />
+                                </div>
+
+                              </div>
+
+                              {/* Protected Badge */}
+                              <div className="absolute -bottom-2 z-20 bg-emerald-700 text-emerald-100 text-[8px] sm:text-[9px] font-black uppercase px-2 py-0.5 rounded-full border border-emerald-400 shadow-md whitespace-nowrap">
+                                🛡️ NE PAS TAPER : {slot.item.label}
+                              </div>
+
+                            </div>
+                          )}
+
+                        </div>
+                      )}
+
+                    </div>
+
+                  </div>
+                ))}
+
+              </div>
+
+              {/* FLOATING STARS BURST PARTICLES */}
+              {stars.map(s => (
+                <div
+                  key={s.id}
+                  className="absolute pointer-events-none font-black text-center"
+                  style={{
+                    left: s.x - (boardRef.current?.getBoundingClientRect().left || 0),
+                    top: s.y - (boardRef.current?.getBoundingClientRect().top || 0),
+                    fontSize: `${s.size}px`,
+                    color: s.color,
+                    transform: `translate(-50%, -50%) rotate(${s.rotation}deg)`,
+                    textShadow: "0 0 6px rgba(0,0,0,0.6)"
+                  }}
+                >
+                  ✦
+                </div>
+              ))}
+
+              {/* POPUP SCORE FEEDBACK */}
+              {feedbacks.map(f => (
+                <div
+                  key={f.id}
+                  className={`absolute pointer-events-none font-black text-xl sm:text-2xl font-mono animate-pop-up z-40 ${f.color}`}
+                  style={{
+                    left: f.x - (boardRef.current?.getBoundingClientRect().left || 0),
+                    top: f.y - (boardRef.current?.getBoundingClientRect().top || 0),
+                    textShadow: "2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000"
+                  }}
+                >
+                  {f.text}
+                </div>
+              ))}
+
+              {/* INTERACTIVE CARTOON MALLET (Tracks cursor inside board) */}
+              {mousePos && (
+                <div
+                  className={`absolute pointer-events-none z-50 transition-transform duration-75 origin-[75%_25%] ${
+                    isSwinging ? "rotate-[-45deg] scale-110" : "rotate-[15deg]"
+                  }`}
+                  style={{
+                    left: mousePos.x - 45,
+                    top: mousePos.y - 75
+                  }}
+                >
+                  {/* Cartoon Mallet SVG */}
+                  <svg width="90" height="90" viewBox="0 0 100 100" fill="none" className="drop-shadow-[0_10px_15px_rgba(0,0,0,0.5)]">
+                    {/* Wooden Handle */}
+                    <rect x="44" y="28" width="12" height="65" rx="6" fill="#d97706" stroke="#92400e" strokeWidth="3" transform="rotate(-32 44 28)" />
+                    <rect x="47" y="32" width="4" height="55" rx="2" fill="#fbbf24" opacity="0.6" transform="rotate(-32 47 32)" />
+
+                    {/* Red Hammer Barrel */}
+                    <g transform="translate(10, 10) rotate(-15)">
+                      <rect x="8" y="10" width="54" height="34" rx="10" fill="#ef4444" stroke="#b91c1c" strokeWidth="3.5" />
                       
-                      {/* Mole Body (Flame shape/Character) */}
-                      <div className={`relative flex flex-col items-center justify-center p-1.5 sm:p-2 rounded-t-full rounded-b-[2rem] shadow-lg w-16 h-20 sm:w-20 sm:h-24 ${difficulty === 'hard' || mole.def.isDanger ? 'bg-gradient-to-t from-red-600 to-orange-400 border-2 border-orange-300' : 'bg-gradient-to-t from-blue-500 to-cyan-400 border-2 border-cyan-200'}`}>
-                        
-                        {/* Eyes */}
-                        <div className="absolute top-6 sm:top-8 flex gap-2.5 sm:gap-3 w-full justify-center">
-                          <div className="w-2 h-3 sm:w-2.5 sm:h-3.5 bg-black rounded-full" />
-                          <div className="w-2 h-3 sm:w-2.5 sm:h-3.5 bg-black rounded-full" />
-                        </div>
-                        
-                        {/* Emoji inside */}
-                        <div className="text-2xl sm:text-3xl mt-1 drop-shadow-md z-10">{mole.def.emoji}</div>
-                        
-                        {/* Label Badge */}
-                        <div className="absolute -bottom-3 z-20 bg-black/85 text-white text-[8px] sm:text-[9px] font-black uppercase px-1.5 sm:px-2 py-0.5 rounded-full whitespace-nowrap border border-white/30 shadow-md">
-                          {mole.def.label}
-                        </div>
+                      {/* Left Yellow Striated Ring */}
+                      <rect x="4" y="8" width="10" height="38" rx="5" fill="#facc15" stroke="#ca8a04" strokeWidth="2.5" />
+                      
+                      {/* Right Yellow Striated Ring */}
+                      <rect x="56" y="8" width="10" height="38" rx="5" fill="#facc15" stroke="#ca8a04" strokeWidth="2.5" />
+                      
+                      {/* Glossy highlight */}
+                      <rect x="18" y="14" width="34" height="6" rx="3" fill="#ffffff" opacity="0.5" />
+                    </g>
+                  </svg>
+                </div>
+              )}
+
+              {/* OVERLAY: START SCREEN */}
+              {gameState === "ready" && (
+                <div className="absolute inset-0 bg-slate-950/85 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-50 animate-fade-in">
+                  
+                  {/* Big Animated Icon */}
+                  <div className="w-20 h-20 bg-gradient-to-tr from-amber-400 via-rose-500 to-sky-400 rounded-3xl p-1 shadow-2xl flex items-center justify-center mb-3 animate-bounce">
+                    <div className="w-full h-full bg-slate-900 rounded-[1.3rem] flex items-center justify-center text-4xl">
+                      🔨
+                    </div>
+                  </div>
+
+                  <h2 className="text-2xl sm:text-3xl font-black font-mono text-white mb-1 uppercase tracking-wider">
+                    TAPE-TAUPE DES RISQUES RH
+                  </h2>
+                  <p className="text-xs text-slate-300 max-w-md mb-4 font-medium leading-relaxed">
+                    Les risques professionnels envahissent la collectivité ! Utilisez votre marteau RH pour taper sur les dangers et débloquer les primes exceptionnelles.
+                  </p>
+
+                  {/* Rules Legend */}
+                  <div className="grid grid-cols-3 gap-2 w-full max-w-md mb-5 text-[11px] font-mono">
+                    <div className="bg-slate-900/90 p-2.5 rounded-2xl border border-rose-500/40 text-rose-300 flex flex-col items-center gap-1">
+                      <span className="text-xl">⚠️</span>
+                      <strong className="text-white">Taupes Brunes</strong>
+                      <span>+100 pts : Risques à taper vite</span>
+                    </div>
+
+                    <div className="bg-slate-900/90 p-2.5 rounded-2xl border border-amber-400/50 text-amber-300 flex flex-col items-center gap-1">
+                      <span className="text-xl">👑</span>
+                      <strong className="text-white">Taupe Dorée</strong>
+                      <span>+300 pts : Bonus Royal RH</span>
+                    </div>
+
+                    <div className="bg-slate-900/90 p-2.5 rounded-2xl border border-emerald-500/40 text-emerald-300 flex flex-col items-center gap-1">
+                      <span className="text-xl">💤</span>
+                      <strong className="text-white">Tortue en Repos</strong>
+                      <span className="text-rose-400 font-bold">NE PAS TAPER (-1 vie)</span>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={startGame}
+                    className="px-8 py-3.5 bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-300 hover:to-emerald-400 text-slate-950 font-black rounded-full text-sm sm:text-base uppercase tracking-wider transition-all flex items-center gap-2 shadow-[0_0_30px_rgba(52,211,153,0.5)] active:scale-95 cursor-pointer"
+                  >
+                    <Play className="w-5 h-5 fill-current" /> Lancer la Partie RH
+                  </button>
+                </div>
+              )}
+
+              {/* OVERLAY: GAME OVER SCREEN */}
+              {gameState === "gameover" && (
+                <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-50 animate-fade-in">
+                  
+                  <div className="w-16 h-16 bg-rose-500/20 text-rose-400 rounded-3xl border border-rose-500/40 flex items-center justify-center mb-2 shadow-xl">
+                    <ShieldAlert className="w-8 h-8" />
+                  </div>
+
+                  <h2 className="text-2xl sm:text-3xl font-black font-mono text-rose-400 mb-1 uppercase tracking-wider">
+                    BILAN RH TERMINÉ !
+                  </h2>
+                  <p className="text-xs text-slate-400 max-w-sm mb-4">
+                    Toutes vos vies ont été consommées. Voici les résultats de votre intervention :
+                  </p>
+
+                  {/* Final Score Card */}
+                  <div className="bg-slate-900 p-4 rounded-3xl border border-slate-800 shadow-xl w-full max-w-xs mb-5">
+                    <div className="text-[11px] uppercase font-mono text-slate-400 font-bold">Score Final</div>
+                    <div className="text-4xl font-black font-mono text-amber-400 my-1">{score}</div>
+
+                    <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-slate-800 text-[10px] font-mono">
+                      <div>
+                        <span className="text-slate-500 block">DANGERS</span>
+                        <strong className="text-white text-xs">{stats.dangersHit}</strong>
+                      </div>
+                      <div>
+                        <span className="text-slate-500 block">ROYAL</span>
+                        <strong className="text-amber-300 text-xs">{stats.goldHit}</strong>
+                      </div>
+                      <div>
+                        <span className="text-slate-500 block">COMBO MAX</span>
+                        <strong className="text-sky-400 text-xs">x{maxCombo}</strong>
                       </div>
                     </div>
-                  )}
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button
+                      onClick={startGame}
+                      className="px-6 py-3 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black rounded-2xl text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-[0_0_25px_rgba(245,158,11,0.4)] active:scale-95 cursor-pointer"
+                    >
+                      <RotateCcw className="w-4 h-4" /> Rejouer
+                    </button>
+                    
+                    <button
+                      onClick={onClose}
+                      className="px-5 py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl text-xs transition-all active:scale-95 cursor-pointer"
+                    >
+                      Quitter
+                    </button>
+                  </div>
+
                 </div>
-              </div>
-            ))}
+              )}
+
+            </div>
+
           </div>
 
-          {/* Overlays */}
-          {gameState === "ready" && (
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-20">
-              <div className="w-24 h-24 bg-gradient-to-br from-amber-400 to-orange-500 rounded-3xl border-4 border-white flex items-center justify-center mb-4 shadow-xl transform rotate-3">
-                <AlertTriangle className="w-12 h-12 text-white" />
-              </div>
-              <h2 className="text-3xl font-black text-white mb-2 uppercase drop-shadow-md">TAPE-TAUPE DES RISQUES</h2>
-              
-              <div className="flex gap-4 mb-6">
-                <button 
-                  onClick={() => setDifficulty("easy")}
-                  className={`px-4 py-2 rounded-xl font-bold border-2 transition-all ${difficulty === "easy" ? "bg-cyan-500 border-cyan-300 text-white shadow-[0_0_15px_rgba(6,182,212,0.6)]" : "bg-slate-800 border-slate-600 text-slate-400 hover:bg-slate-700"}`}
-                >
-                  Mode Facile
-                </button>
-                <button 
-                  onClick={() => setDifficulty("hard")}
-                  className={`px-4 py-2 rounded-xl font-bold border-2 transition-all ${difficulty === "hard" ? "bg-red-500 border-red-300 text-white shadow-[0_0_15px_rgba(239,68,68,0.6)]" : "bg-slate-800 border-slate-600 text-slate-400 hover:bg-slate-700"}`}
-                >
-                  Mode Difficile
-                </button>
-              </div>
-
-              <p className="text-white max-w-sm font-medium text-sm mb-6 bg-black/50 p-4 rounded-xl border border-white/20">
-                Tapez sur les situations dangereuses (<span className="text-orange-400 font-bold">flammes oranges</span>) avant qu'il ne soit trop tard ! <br/><br/>
-                {difficulty === "easy" 
-                  ? <span>Ne tapez pas sur les bonnes pratiques (<span className="text-cyan-400 font-bold">flammes bleues</span>).</span>
-                  : <span className="text-red-400 font-bold">En mode difficile, toutes les flammes sont identiques. Lisez bien les étiquettes !</span>
-                }
-              </p>
-              <button
-                onClick={startGame}
-                className="flex items-center gap-3 px-8 py-4 bg-gradient-to-b from-green-400 to-green-600 hover:from-green-300 hover:to-green-500 text-white font-black rounded-full text-xl shadow-[0_6px_0_#166534] hover:translate-y-[2px] hover:shadow-[0_4px_0_#166534] active:translate-y-[6px] active:shadow-none transition-all uppercase"
-              >
-                <Play className="w-6 h-6 fill-current" />
-                JOUER !
-              </button>
-            </div>
-          )}
-
-          {gameState === "gameover" && (
-            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-20">
-              <h2 className="text-5xl font-black text-red-500 mb-2 uppercase drop-shadow-[0_2px_4px_#000]">
-                TERMINÉ !
-              </h2>
-              
-              <div className="bg-[#4e2d1d] border-4 border-[#8c5a35] p-5 rounded-2xl mb-8 flex flex-col items-center min-w-[200px] shadow-xl mt-4">
-                <p className="text-amber-200 text-xs font-bold mb-1">SCORE FINAL</p>
-                <p className="text-5xl font-black text-white">{score * 100}</p>
-              </div>
-              
-              <button
-                onClick={startGame}
-                className="flex items-center gap-3 px-6 py-4 bg-gradient-to-b from-blue-400 to-blue-600 hover:from-blue-300 hover:to-blue-500 text-white font-black rounded-full text-lg shadow-[0_6px_0_#1e3a8a] hover:translate-y-[2px] hover:shadow-[0_4px_0_#1e3a8a] active:translate-y-[6px] active:shadow-none transition-all uppercase"
-              >
-                <ArrowLeft className="w-5 h-5" />
-                REJOUER
-              </button>
-            </div>
-          )}
+          {/* Bottom Controls / Help info */}
+          <div className="mt-4 flex items-center justify-between w-full text-xs text-slate-400 font-mono bg-slate-900/60 p-3 rounded-2xl border border-slate-800/80">
+            <span className="flex items-center gap-1.5">
+              <Zap className="w-4 h-4 text-amber-400" />
+              <span>Clic / Toucher pour frapper avec le marteau</span>
+            </span>
+            <span className="text-[11px] text-slate-500 hidden sm:inline">
+              Moteur Web: React + SVG + Web Audio
+            </span>
+          </div>
 
         </div>
-        
-        {/* Feedbacks clics */}
-        {feedback.map(f => (
-          <div 
-            key={f.id}
-            className={`fixed font-black text-3xl pointer-events-none animate-float-up z-50 ${f.color}`}
-            style={{ 
-              left: f.x - 20, 
-              top: f.y - 20,
-              textShadow: '2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000'
-            }}
-          >
-            {f.text}
-          </div>
-        ))}
 
-      </div>
+      </main>
 
+      {/* Animation Styles */}
       <style>{`
-        @keyframes slideUp {
-          from { transform: translateY(100%); }
-          to { transform: translateY(0%); }
+        @keyframes moleRise {
+          0% { transform: translateY(110%); }
+          70% { transform: translateY(-5%); }
+          100% { transform: translateY(0%); }
         }
-        .animate-slide-up {
-          animation: slideUp 0.15s ease-out forwards;
+        .animate-mole-rise {
+          animation: moleRise 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
-        @keyframes floatUp {
-          0% { transform: translateY(0) scale(1); opacity: 1; }
-          100% { transform: translateY(-50px) scale(1.5); opacity: 0; }
+
+        @keyframes popUp {
+          0% { transform: translateY(0) scale(0.8); opacity: 1; }
+          50% { transform: translateY(-25px) scale(1.2); opacity: 1; }
+          100% { transform: translateY(-45px) scale(1); opacity: 0; }
         }
-        .animate-float-up {
-          animation: floatUp 0.6s ease-out forwards;
+        .animate-pop-up {
+          animation: popUp 0.75s ease-out forwards;
         }
       `}</style>
+
     </div>
   );
 };
