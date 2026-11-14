@@ -486,6 +486,374 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
     }
   };
 
+  // Distinct Visual Character Rendering for each RH case
+  const renderCharacter = (slot: ActiveSlot) => {
+    const isHit = slot.isHit;
+    const id = slot.item.id;
+
+    // 1. DANGERS (Risques RH)
+    if (slot.item.type === "danger") {
+      const isHarcelement = id === "harcelement";
+      const bodyBg = isHarcelement 
+        ? "from-[#7f1d1d] via-[#991b1b] to-[#450a0a] border-[#450a0a]" 
+        : id === "rps" 
+        ? "from-[#7e4f44] via-[#6d3e34] to-[#4a261e] border-[#4a261e]"
+        : "from-[#8d5b4c] via-[#784435] to-[#5c3125] border-[#5c3125]";
+
+      return (
+        <div className="relative flex flex-col items-center">
+          {/* Specific Headwear / Accessory */}
+          {id === "rps" && (
+            // Ice pack on head
+            <div className="relative z-20 -mb-2 flex flex-col items-center">
+              <div className="w-9 h-5 bg-gradient-to-t from-sky-400 to-sky-200 rounded-t-full border border-sky-500 shadow-sm flex items-center justify-center">
+                <span className="text-[9px]">🧊</span>
+              </div>
+              <div className="w-3 h-1.5 bg-sky-600 rounded-full -mt-0.5" />
+            </div>
+          )}
+
+          {id === "heures" && (
+            // Alarm clock on head
+            <div className="relative z-20 -mb-2 flex flex-col items-center animate-bounce">
+              <div className="w-8 h-8 rounded-full bg-rose-600 border-2 border-white shadow-md flex items-center justify-center text-[10px] font-mono font-black text-white">
+                23:59
+              </div>
+            </div>
+          )}
+
+          {id === "chute" && (
+            // Bandage on head
+            <div className="relative z-20 -mb-1 flex items-center">
+              <div className="px-2 py-0.5 bg-amber-100 rounded-md border border-amber-300 text-rose-600 text-[10px] font-black shadow-sm transform -rotate-6">
+                ✚ PANSEMENT
+              </div>
+            </div>
+          )}
+
+          {id === "harcelement" && (
+            // Steam clouds puffing from ears
+            <div className="relative z-20 -mb-1 flex items-center justify-between w-16 px-0.5">
+              <span className="text-xs animate-pulse">💨</span>
+              <span className="text-xs animate-pulse">💨</span>
+            </div>
+          )}
+
+          {id === "amiante" && (
+            // Toxics sign
+            <div className="relative z-20 -mb-1.5 flex items-center">
+              <div className="px-1.5 py-0.5 bg-yellow-400 rounded-md border border-yellow-600 text-slate-950 text-[9px] font-black shadow-sm">
+                ☣️ TOXIQUE
+              </div>
+            </div>
+          )}
+
+          {id === "dossier" && (
+            // Stack of folders on head
+            <div className="relative z-20 -mb-2 flex flex-col items-center">
+              <div className="w-12 h-3 bg-amber-400 rounded-sm border border-amber-600 shadow-xs" />
+              <div className="w-10 h-3 bg-rose-500 rounded-sm border border-rose-700 shadow-xs -mt-1 transform rotate-3" />
+              <div className="w-9 h-2.5 bg-sky-500 rounded-sm border border-sky-700 shadow-xs -mt-1 text-[7px] text-white font-mono flex items-center justify-center font-bold">
+                URGENT
+              </div>
+            </div>
+          )}
+
+          {id === "agression" && (
+            // Boxing gloves
+            <div className="relative z-20 -mb-1 flex items-center gap-1">
+              <span className="text-xs">🥊</span>
+              <span className="text-xs">🥊</span>
+            </div>
+          )}
+
+          {id === "fraude" && (
+            // Secret agent sunglasses
+            <div className="relative z-20 -mb-1 flex items-center">
+              <div className="px-2 py-0.5 bg-slate-900 rounded-full border border-slate-700 text-[8px] font-mono text-amber-400 font-bold">
+                🕶️ CUMUL
+              </div>
+            </div>
+          )}
+
+          {/* Mole Body */}
+          <div className={`w-16 h-22 sm:w-20 sm:h-26 bg-gradient-to-b ${bodyBg} rounded-t-[2.5rem] rounded-b-2xl border-3 shadow-xl flex flex-col items-center relative overflow-hidden`}>
+            
+            {/* Belly highlight */}
+            <div className="absolute bottom-0 w-12 sm:w-14 h-9 bg-[#fde047]/30 rounded-t-full pointer-events-none" />
+
+            {/* Eyes */}
+            <div className="mt-3.5 sm:mt-4 flex items-center gap-2.5 sm:gap-3 z-10">
+              {isHit ? (
+                <>
+                  <span className="text-black font-black text-xs sm:text-sm">✕</span>
+                  <span className="text-black font-black text-xs sm:text-sm">✕</span>
+                </>
+              ) : id === "rps" ? (
+                // Dizzy / Spiral Eyes
+                <>
+                  <div className="w-3 h-3 bg-white rounded-full border border-black flex items-center justify-center text-[8px] font-black">@</div>
+                  <div className="w-3 h-3 bg-white rounded-full border border-black flex items-center justify-center text-[8px] font-black">@</div>
+                </>
+              ) : id === "heures" ? (
+                // Tired Eyes with dark bags
+                <>
+                  <div className="relative">
+                    <div className="w-2.5 h-3 bg-slate-950 rounded-full" />
+                    <div className="w-3.5 h-1.5 bg-purple-900/60 rounded-full -mt-0.5" />
+                  </div>
+                  <div className="relative">
+                    <div className="w-2.5 h-3 bg-slate-950 rounded-full" />
+                    <div className="w-3.5 h-1.5 bg-purple-900/60 rounded-full -mt-0.5" />
+                  </div>
+                </>
+              ) : id === "harcelement" ? (
+                // Angry Eyes with slanted brows
+                <>
+                  <div className="relative">
+                    <div className="w-3 h-1 bg-black rounded-full transform -rotate-12 mb-0.5" />
+                    <div className="w-2.5 h-3 bg-black rounded-full" />
+                  </div>
+                  <div className="relative">
+                    <div className="w-3 h-1 bg-black rounded-full transform rotate-12 mb-0.5" />
+                    <div className="w-2.5 h-3 bg-black rounded-full" />
+                  </div>
+                </>
+              ) : id === "fraude" ? (
+                // Sunglasses
+                <div className="flex items-center gap-0.5 bg-slate-950 px-2 py-1 rounded-sm border border-slate-700 shadow-sm">
+                  <div className="w-2 h-1.5 bg-slate-800" />
+                  <div className="w-1 h-0.5 bg-slate-600" />
+                  <div className="w-2 h-1.5 bg-slate-800" />
+                </div>
+              ) : (
+                // Normal Cute Eyes
+                <>
+                  <div className="w-2.5 h-3.5 sm:w-3 sm:h-4 bg-slate-950 rounded-full flex items-start justify-end p-0.5">
+                    <div className="w-1 h-1 bg-white rounded-full" />
+                  </div>
+                  <div className="w-2.5 h-3.5 sm:w-3 sm:h-4 bg-slate-950 rounded-full flex items-start justify-end p-0.5">
+                    <div className="w-1 h-1 bg-white rounded-full" />
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Muzzle & Teeth */}
+            {id === "amiante" ? (
+              // Gas mask over muzzle
+              <div className="mt-1 w-11 h-7 bg-amber-400 rounded-md border-2 border-amber-600 flex items-center justify-between px-1 shadow-sm z-10">
+                <div className="w-2 h-2.5 rounded-full bg-slate-950 border border-amber-200" />
+                <div className="w-3 h-3 rounded-full bg-slate-800 border border-amber-500" />
+                <div className="w-2 h-2.5 rounded-full bg-slate-950 border border-amber-200" />
+              </div>
+            ) : (
+              <div className="mt-1 w-9 sm:w-11 h-6 bg-[#fde68a] rounded-full border border-amber-300 flex flex-col items-center justify-between p-0.5 shadow-sm z-10">
+                <div className="w-3.5 h-2 bg-rose-500 rounded-full" />
+                <div className="flex gap-0.5">
+                  <div className="w-1.5 h-2 bg-white rounded-b-sm border-t-0 border border-slate-300 shadow-xs" />
+                  <div className="w-1.5 h-2 bg-white rounded-b-sm border-t-0 border border-slate-300 shadow-xs" />
+                </div>
+              </div>
+            )}
+
+            {/* Specific Chest Badge */}
+            <div className="mt-1 px-1.5 py-0.2 rounded-full bg-rose-600/90 text-white text-[8px] font-black tracking-tight border border-rose-300 shadow-sm z-10">
+              {id === "rps" ? "BURNOUT" : id === "heures" ? "1607H" : id === "chute" ? "CHUTE" : id === "harcelement" ? "CONFLIT" : id === "amiante" ? "AMIANTE" : id === "dossier" ? "RETARD" : id === "agression" ? "AGRESSION" : "CUMUL"}
+            </div>
+
+          </div>
+        </div>
+      );
+    }
+
+    // 2. GOLDS (Bonus Royaux RH)
+    if (slot.item.type === "gold") {
+      return (
+        <div className="relative flex flex-col items-center">
+          {/* Headwear variation */}
+          {id === "prime_cia" && (
+            // Royal Crown
+            <div className="relative z-20 -mb-2 flex flex-col items-center">
+              <div className="w-8 sm:w-10 h-5 bg-gradient-to-t from-amber-500 via-amber-400 to-yellow-300 border-2 border-amber-600 rounded-t-sm [clip-path:polygon(0%_100%,0%_20%,25%_60%,50%_0%,75%_60%,100%_20%,100%_100%)] shadow-md" />
+              <div className="w-9 sm:w-11 h-1.5 bg-amber-600 rounded-full -mt-0.5" />
+            </div>
+          )}
+
+          {id === "audit_crc" && (
+            // Judge Wig
+            <div className="relative z-20 -mb-2 flex flex-col items-center">
+              <div className="w-12 h-6 bg-slate-100 rounded-t-2xl border-2 border-slate-300 shadow-md flex items-center justify-center">
+                <span className="text-[10px]">⚖️</span>
+              </div>
+            </div>
+          )}
+
+          {id === "budget_valide" && (
+            // Tycoon Top Hat
+            <div className="relative z-20 -mb-2 flex flex-col items-center">
+              <div className="w-7 h-6 bg-slate-900 rounded-t-md border-2 border-slate-700 flex items-center justify-center">
+                <div className="w-full h-1 bg-emerald-400 mt-2" />
+              </div>
+              <div className="w-11 h-1.5 bg-slate-900 rounded-full -mt-0.5 border border-slate-700" />
+            </div>
+          )}
+
+          {id === "accord_social" && (
+            // Laurel Wreath
+            <div className="relative z-20 -mb-1.5 flex items-center gap-1">
+              <span className="text-xs">🌿</span>
+              <span className="text-xs">📜</span>
+              <span className="text-xs">🌿</span>
+            </div>
+          )}
+
+          {/* Golden Body */}
+          <div className="w-16 h-22 sm:w-20 sm:h-26 bg-gradient-to-b from-yellow-300 via-amber-400 to-amber-500 rounded-t-[2.5rem] rounded-b-2xl border-3 border-amber-600 shadow-[0_0_20px_rgba(250,204,21,0.6)] flex flex-col items-center relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-8 h-full bg-white/30 transform rotate-12 pointer-events-none" />
+
+            {/* Eyes */}
+            <div className="mt-3.5 sm:mt-4 flex items-center gap-2.5 sm:gap-3 z-10">
+              {isHit ? (
+                <>
+                  <span className="text-black font-black text-xs sm:text-sm">★</span>
+                  <span className="text-black font-black text-xs sm:text-sm">★</span>
+                </>
+              ) : (
+                <>
+                  <div className="w-2.5 h-3.5 sm:w-3 sm:h-4 bg-slate-950 rounded-full flex items-start justify-end p-0.5">
+                    <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                  </div>
+                  <div className="w-2.5 h-3.5 sm:w-3 sm:h-4 bg-slate-950 rounded-full flex items-start justify-end p-0.5">
+                    <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Muzzle */}
+            <div className="mt-1 w-9 sm:w-11 h-6 bg-amber-100 rounded-full border border-amber-400 flex flex-col items-center justify-between p-0.5 shadow-sm z-10">
+              <div className="w-3.5 h-2 bg-amber-600 rounded-full" />
+              <div className="flex gap-0.5">
+                <div className="w-1.5 h-2 bg-white rounded-b-sm border-t-0 border border-slate-300 shadow-xs" />
+                <div className="w-1.5 h-2 bg-white rounded-b-sm border-t-0 border border-slate-300 shadow-xs" />
+              </div>
+            </div>
+
+            {/* Chest Badge */}
+            <div className="mt-1 px-1.5 py-0.2 rounded-full bg-amber-950/80 text-amber-300 text-[8px] font-black z-10 border border-amber-400">
+              ★ +300 ★
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // 3. PEACES (Protégés / Bonnes Pratiques)
+    return (
+      <div className="relative flex flex-col items-center">
+        {/* Unique Headwear per Peace Character */}
+        {id === "deconnexion" && (
+          // Sleeping Nightcap
+          <div className="relative z-20 -mb-2 flex items-center">
+            <div className="w-10 sm:w-12 h-6 bg-gradient-to-r from-sky-500 to-indigo-600 rounded-t-full border-2 border-sky-300 transform -rotate-12 shadow-sm relative flex items-center justify-end">
+              <div className="w-3 h-3 bg-white rounded-full border border-sky-200 absolute -top-1 -right-1 shadow-sm" />
+              <span className="text-[10px] text-white font-mono font-bold mr-2">zZz</span>
+            </div>
+          </div>
+        )}
+
+        {id === "delegue" && (
+          // Union Banner / Megaphone
+          <div className="relative z-20 -mb-1 flex items-center gap-1">
+            <div className="px-2 py-0.5 bg-rose-600 rounded-md border border-rose-300 text-[8px] font-black text-white shadow-sm">
+              📢 DÉLÉGUÉ
+            </div>
+          </div>
+        )}
+
+        {id === "rtt" && (
+          // Straw Beach Hat
+          <div className="relative z-20 -mb-2 flex flex-col items-center">
+            <div className="w-7 h-4 bg-yellow-300 rounded-t-full border border-amber-500" />
+            <div className="w-14 h-1.5 bg-yellow-400 rounded-full border border-amber-600 -mt-0.5" />
+          </div>
+        )}
+
+        {id === "visite_med" && (
+          // Medical Doctor Cap
+          <div className="relative z-20 -mb-2 flex flex-col items-center">
+            <div className="w-8 h-4 bg-white rounded-t-md border-2 border-slate-300 flex items-center justify-center text-rose-600 font-bold text-[9px]">
+              ✚
+            </div>
+          </div>
+        )}
+
+        {id === "formation" && (
+          // Graduation Mortarboard
+          <div className="relative z-20 -mb-2 flex flex-col items-center">
+            <div className="w-12 h-2.5 bg-slate-900 border border-slate-700 transform rotate-2 flex items-center justify-end px-1">
+              <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+            </div>
+            <div className="w-6 h-3 bg-slate-900 rounded-b-md border border-slate-700 -mt-0.5" />
+          </div>
+        )}
+
+        {id === "epi" && (
+          // Yellow Construction Hardhat
+          <div className="relative z-20 -mb-2 flex flex-col items-center">
+            <div className="w-12 h-6 bg-yellow-400 rounded-t-full border-2 border-amber-600 shadow-md flex items-center justify-center">
+              <div className="w-3 h-1.5 bg-white rounded-full opacity-80" />
+            </div>
+            <div className="w-14 h-1.5 bg-yellow-500 rounded-full -mt-0.5 border border-amber-700" />
+          </div>
+        )}
+
+        {/* Turtle Body */}
+        <div className="w-16 h-22 sm:w-20 sm:h-26 bg-gradient-to-b from-emerald-400 via-emerald-500 to-teal-600 rounded-t-[2.5rem] rounded-b-2xl border-3 border-emerald-700 shadow-md flex flex-col items-center relative overflow-hidden">
+          
+          {/* Turtle shell or Safety Vest */}
+          {id === "epi" ? (
+            // Neon Safety Vest
+            <div className="absolute inset-x-1 bottom-1 h-10 bg-orange-500 rounded-t-xl border-2 border-orange-700 p-0.5 flex flex-col justify-around">
+              <div className="w-full h-1 bg-white opacity-80" />
+              <div className="w-full h-1 bg-white opacity-80" />
+            </div>
+          ) : (
+            <div className="absolute inset-x-2 bottom-1 h-10 border-2 border-emerald-700/50 rounded-t-xl bg-emerald-600/30 grid grid-cols-2 gap-1 p-0.5" />
+          )}
+
+          {/* Eyes */}
+          <div className="mt-3.5 sm:mt-4 flex items-center gap-2.5 sm:gap-3 z-10">
+            {id === "rtt" ? (
+              // Cool Sunglasses
+              <div className="flex gap-1">
+                <div className="w-3 h-2.5 bg-slate-950 rounded-full border border-amber-300" />
+                <div className="w-3 h-2.5 bg-slate-950 rounded-full border border-amber-300" />
+              </div>
+            ) : (
+              // Gentle Sleeping / Smiling Closed Eyes
+              <>
+                <div className="w-3 h-1 bg-slate-900 rounded-full" />
+                <div className="w-3 h-1 bg-slate-900 rounded-full" />
+              </>
+            )}
+          </div>
+
+          {/* Gentle Muzzle */}
+          <div className="mt-1.5 w-8 sm:w-10 h-5 bg-emerald-200 rounded-full border border-emerald-400 flex items-center justify-center shadow-inner z-10">
+            <div className="w-1.5 h-1 bg-emerald-700 rounded-full" />
+          </div>
+
+          {/* Chest Icon */}
+          <div className="mt-1 px-1.5 py-0.2 rounded-full bg-emerald-950/80 text-emerald-200 text-[8px] font-black tracking-tight border border-emerald-400 shadow-sm z-10">
+            {id === "deconnexion" ? "REPOS" : id === "delegue" ? "SYNDICAT" : id === "rtt" ? "CONGÉS" : id === "visite_med" ? "MÉDECIN" : id === "formation" ? "STAGE" : "EPI"}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const startGame = () => {
     setScore(0);
     setCombo(0);
@@ -609,7 +977,7 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
               </div>
 
               {/* 6 HOLES GRID (2 Rows of 3 Holes) */}
-              <div className="relative z-10 w-full h-full pt-[22%] px-4 sm:px-8 grid grid-cols-3 grid-rows-2 gap-x-4 sm:gap-x-8 gap-y-6 sm:gap-y-9 pb-6">
+              <div className="relative z-10 w-full h-full pt-[20%] px-3 sm:px-6 grid grid-cols-3 grid-rows-2 gap-x-3 sm:gap-x-6 gap-y-7 sm:gap-y-10 pb-8 sm:pb-12">
                 
                 {holes.map((slot, idx) => (
                   <div
@@ -635,166 +1003,18 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
                               : "animate-mole-rise"
                           }`}
                         >
-                          
-                          {/* ==================================================== */}
-                          {/* 1. TAUPES RISQUES RH (Taupe Brune avec grandes dents) */}
-                          {/* ==================================================== */}
-                          {slot.item.type === "danger" && (
-                            <div className="relative flex flex-col items-center">
-                              
-                              {/* Mole Body */}
-                              <div className="w-16 h-22 sm:w-20 sm:h-26 bg-gradient-to-b from-[#8d5b4c] via-[#784435] to-[#5c3125] rounded-t-[2.5rem] rounded-b-2xl border-3 border-[#5c3125] shadow-xl flex flex-col items-center relative overflow-hidden">
-                                
-                                {/* Belly highlight */}
-                                <div className="absolute bottom-0 w-12 sm:w-14 h-10 bg-[#fde047]/30 rounded-t-full pointer-events-none" />
-
-                                {/* Eyes */}
-                                <div className="mt-3.5 sm:mt-4 flex items-center gap-2.5 sm:gap-3 z-10">
-                                  {slot.isHit ? (
-                                    <>
-                                      <span className="text-black font-black text-xs sm:text-sm">✕</span>
-                                      <span className="text-black font-black text-xs sm:text-sm">✕</span>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <div className="w-2.5 h-3.5 sm:w-3 sm:h-4 bg-slate-950 rounded-full flex items-start justify-end p-0.5">
-                                        <div className="w-1 h-1 bg-white rounded-full" />
-                                      </div>
-                                      <div className="w-2.5 h-3.5 sm:w-3 sm:h-4 bg-slate-950 rounded-full flex items-start justify-end p-0.5">
-                                        <div className="w-1 h-1 bg-white rounded-full" />
-                                      </div>
-                                    </>
-                                  )}
-                                </div>
-
-                                {/* Muzzle & Teeth */}
-                                <div className="mt-1 w-9 sm:w-11 h-6 bg-[#fde68a] rounded-full border border-amber-300 flex flex-col items-center justify-between p-0.5 shadow-sm z-10">
-                                  {/* Pink Nose */}
-                                  <div className="w-3.5 h-2 bg-rose-500 rounded-full" />
-                                  {/* Buck teeth */}
-                                  <div className="flex gap-0.5">
-                                    <div className="w-1.5 h-2 bg-white rounded-b-sm border-t-0 border border-slate-300 shadow-xs" />
-                                    <div className="w-1.5 h-2 bg-white rounded-b-sm border-t-0 border border-slate-300 shadow-xs" />
-                                  </div>
-                                </div>
-
-                                {/* Chest Danger Emblem */}
-                                <div className="mt-1 px-1.5 py-0.2 rounded-full bg-rose-600/90 text-white text-[8px] font-black tracking-tight border border-rose-300 shadow-sm z-10">
-                                  RISQUE RH
-                                </div>
-
-                              </div>
-
-                            </div>
-                          )}
-
-                          {/* ==================================================== */}
-                          {/* 2. TAUPE DORÉE ROYALE (King Gold Mole with Crown)    */}
-                          {/* ==================================================== */}
-                          {slot.item.type === "gold" && (
-                            <div className="relative flex flex-col items-center">
-                              
-                              {/* Shiny Crown on Top */}
-                              <div className="relative z-20 -mb-2 flex flex-col items-center">
-                                <div className="w-8 sm:w-10 h-5 bg-gradient-to-t from-amber-500 via-amber-400 to-yellow-300 border-2 border-amber-600 rounded-t-sm [clip-path:polygon(0%_100%,0%_20%,25%_60%,50%_0%,75%_60%,100%_20%,100%_100%)] shadow-md" />
-                                <div className="w-9 sm:w-11 h-1.5 bg-amber-600 rounded-full -mt-0.5" />
-                              </div>
-
-                              {/* Golden Body */}
-                              <div className="w-16 h-22 sm:w-20 sm:h-26 bg-gradient-to-b from-yellow-300 via-amber-400 to-amber-500 rounded-t-[2.5rem] rounded-b-2xl border-3 border-amber-600 shadow-[0_0_20px_rgba(250,204,21,0.6)] flex flex-col items-center relative overflow-hidden">
-                                
-                                {/* Shimmer overlay */}
-                                <div className="absolute top-0 right-0 w-8 h-full bg-white/30 transform rotate-12 pointer-events-none" />
-
-                                {/* Eyes */}
-                                <div className="mt-3.5 sm:mt-4 flex items-center gap-2.5 sm:gap-3 z-10">
-                                  {slot.isHit ? (
-                                    <>
-                                      <span className="text-black font-black text-xs sm:text-sm">★</span>
-                                      <span className="text-black font-black text-xs sm:text-sm">★</span>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <div className="w-2.5 h-3.5 sm:w-3 sm:h-4 bg-slate-950 rounded-full flex items-start justify-end p-0.5">
-                                        <div className="w-1.5 h-1.5 bg-white rounded-full" />
-                                      </div>
-                                      <div className="w-2.5 h-3.5 sm:w-3 sm:h-4 bg-slate-950 rounded-full flex items-start justify-end p-0.5">
-                                        <div className="w-1.5 h-1.5 bg-white rounded-full" />
-                                      </div>
-                                    </>
-                                  )}
-                                </div>
-
-                                {/* Muzzle */}
-                                <div className="mt-1 w-9 sm:w-11 h-6 bg-amber-100 rounded-full border border-amber-400 flex flex-col items-center justify-between p-0.5 shadow-sm z-10">
-                                  <div className="w-3.5 h-2 bg-amber-600 rounded-full" />
-                                  <div className="flex gap-0.5">
-                                    <div className="w-1.5 h-2 bg-white rounded-b-sm border-t-0 border border-slate-300 shadow-xs" />
-                                    <div className="w-1.5 h-2 bg-white rounded-b-sm border-t-0 border border-slate-300 shadow-xs" />
-                                  </div>
-                                </div>
-
-                                {/* Chest Golden Star */}
-                                <div className="mt-1 text-[10px] text-amber-950 font-black z-10">
-                                  ★ +300 ★
-                                </div>
-
-                              </div>
-
-                            </div>
-                          )}
-
-                          {/* ==================================================== */}
-                          {/* 3. TORTUE / BONNES PRATIQUES (Sleeping Turtle 💤)    */}
-                          {/* ==================================================== */}
-                          {slot.item.type === "peace" && (
-                            <div className="relative flex flex-col items-center">
-                              
-                              {/* Blue Sleeping Nightcap with white pompom */}
-                              <div className="relative z-20 -mb-2 flex items-center">
-                                <div className="w-10 sm:w-12 h-6 bg-gradient-to-r from-sky-500 to-indigo-600 rounded-t-full border-2 border-sky-300 transform -rotate-12 shadow-sm relative flex items-center justify-end">
-                                  <div className="w-3 h-3 bg-white rounded-full border border-sky-200 absolute -top-1 -right-1 shadow-sm" />
-                                  <span className="text-[10px] text-white font-mono font-bold mr-2">zZz</span>
-                                </div>
-                              </div>
-
-                              {/* Green Turtle Shell & Head */}
-                              <div className="w-16 h-22 sm:w-20 sm:h-26 bg-gradient-to-b from-emerald-400 via-emerald-500 to-teal-600 rounded-t-[2.5rem] rounded-b-2xl border-3 border-emerald-700 shadow-md flex flex-col items-center relative overflow-hidden">
-                                
-                                {/* Turtle shell hex segments */}
-                                <div className="absolute inset-x-2 bottom-1 h-10 border-2 border-emerald-700/50 rounded-t-xl bg-emerald-600/30 grid grid-cols-2 gap-1 p-0.5" />
-
-                                {/* Sleeping closed eyes */}
-                                <div className="mt-3.5 sm:mt-4 flex items-center gap-2.5 sm:gap-3 z-10">
-                                  <div className="w-3 h-1 bg-slate-900 rounded-full" />
-                                  <div className="w-3 h-1 bg-slate-900 rounded-full" />
-                                </div>
-
-                                {/* Gentle Muzzle */}
-                                <div className="mt-1.5 w-8 sm:w-10 h-5 bg-emerald-200 rounded-full border border-emerald-400 flex items-center justify-center shadow-inner z-10">
-                                  <div className="w-1.5 h-1 bg-emerald-700 rounded-full" />
-                                </div>
-
-                                {/* Chest Peaceful Icon */}
-                                <div className="mt-1 text-[9px] text-emerald-950 font-black z-10">
-                                  🛡️ PROTÉGÉ
-                                </div>
-
-                              </div>
-
-                            </div>
-                          )}
-
+                          {/* Distinct Custom Character according to the RH Case */}
+                          {renderCharacter(slot)}
                         </div>
                       )}
 
                     </div>
 
-                    {/* 100% VISIBLE LABEL BADGE (Directly Under the Hole & Character) */}
+                    {/* 100% VISIBLE & UNTRUNCATED LABEL BADGE (Directly Under the Hole & Character) */}
                     {slot && (
-                      <div className="absolute -bottom-3.5 sm:-bottom-4 z-30 pointer-events-none transition-all animate-pop-in flex justify-center w-full px-0.5">
+                      <div className="absolute -bottom-5 sm:-bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-none transition-all animate-pop-in flex justify-center w-max max-w-[130px] sm:max-w-[160px]">
                         <div 
-                          className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wide shadow-[0_6px_14px_rgba(0,0,0,0.8)] border-2 flex items-center justify-center gap-1.5 max-w-full ${
+                          className={`px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-tight shadow-[0_5px_12px_rgba(0,0,0,0.85)] border-2 flex items-center justify-center gap-1 leading-tight text-center whitespace-normal ${
                             slot.item.type === "danger"
                               ? "bg-rose-600 text-white border-rose-300 ring-2 ring-rose-950"
                               : slot.item.type === "gold"
@@ -805,7 +1025,7 @@ const TapeTaupeRisques: React.FC<TapeTaupeRisquesProps> = ({ onClose }) => {
                           <span className="text-xs sm:text-sm flex-shrink-0">
                             {slot.item.type === "danger" ? "⚠️" : slot.item.type === "gold" ? "👑" : "🛡️"}
                           </span>
-                          <span className="truncate">
+                          <span className="leading-tight">
                             {slot.item.type === "gold" ? `+300 : ${slot.item.label}` : slot.item.type === "peace" ? `PROTÉGÉ : ${slot.item.label}` : slot.item.label}
                           </span>
                         </div>
