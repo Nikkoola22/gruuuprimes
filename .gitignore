@@ -34,6 +34,8 @@ scripts/tmp_*.mjs
 bfg.jar
 .vercel
 local-npm-cache/
+godot_tower_defense/
+public/games/
 
 
 # Outillage Python autonome (CLI jurisprudence)
