@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { CloudSun, Bot, ArrowRight, Rss, Radio, Calculator, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop, Palette, FileSignature, Award, TrendingUp, Download, Eye, Mail, Headphones, FileSearch, Layers, Megaphone } from "lucide-react"
+import { CloudSun, Bot, ArrowRight, Rss, Calculator, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper, Link2, BookOpen, Scale, Landmark, GraduationCap, Gamepad2, FileText, Clock, Briefcase, ExternalLink as ExternalLinkIcon, PlayCircle, Sparkles, Laptop, Palette, FileSignature, Award, TrendingUp, Mail, Headphones, FileSearch, Layers, Megaphone } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { BorderBeam } from "./ui/BorderBeam.tsx"
 import { ForeverMagneticButton } from "./ui/ForeverMagneticButton.tsx"
@@ -243,9 +243,9 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
           {/* Barre d'accès rapide style GAFAM / Frosted Glass Dock Ajustée avec précision */}
           <div className="relative max-w-[1400px] w-full mx-auto mt-1 sm:mt-2 bg-white/85 dark:bg-[#0E121D]/90 backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-1.5 sm:p-2.5 border border-slate-200/80 dark:border-white/[0.1] shadow-xl shadow-slate-200/50 dark:shadow-black/60 flex items-center justify-between">
 
-            {/* Indicateur de défilement mobile - Flèche gauche */}
+            {/* Indicateur de défilement mobile & fenêtre réduite - Flèche gauche */}
             <div
-              className={`absolute left-0 top-0 bottom-0 z-20 xl:hidden flex items-center pl-1 pr-3 bg-gradient-to-r from-white/95 via-white/80 dark:from-[#0E121D]/95 dark:via-[#0E121D]/80 to-transparent rounded-l-2xl transition-opacity duration-300 pointer-events-none ${
+              className={`absolute left-0 top-0 bottom-0 z-20 flex items-center pl-1 pr-3 bg-gradient-to-r from-white/95 via-white/80 dark:from-[#0E121D]/95 dark:via-[#0E121D]/80 to-transparent rounded-l-2xl transition-opacity duration-300 pointer-events-none ${
                 canScrollLeft ? 'opacity-100' : 'opacity-0'
               }`}
             >
@@ -259,9 +259,9 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
               </button>
             </div>
 
-            {/* Indicateur de défilement mobile - Flèche droite */}
+            {/* Indicateur de défilement mobile & fenêtre réduite - Flèche droite */}
             <div
-              className={`absolute right-0 top-0 bottom-0 z-20 xl:hidden flex items-center pr-1 pl-3 bg-gradient-to-l from-white/95 via-white/80 dark:from-[#0E121D]/95 dark:via-[#0E121D]/80 to-transparent rounded-r-2xl transition-opacity duration-300 pointer-events-none ${
+              className={`absolute right-0 top-0 bottom-0 z-20 flex items-center pr-1 pl-3 bg-gradient-to-l from-white/95 via-white/80 dark:from-[#0E121D]/95 dark:via-[#0E121D]/80 to-transparent rounded-r-2xl transition-opacity duration-300 pointer-events-none ${
                 canScrollRight ? 'opacity-100' : 'opacity-0'
               }`}
             >
@@ -285,7 +285,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
               {/* 1. Spotlight Search Button */}
               <button
                 onClick={() => handleDomainSelection(0)}
-                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 transition-all duration-200 group min-w-[82px] sm:min-w-[96px] xl:min-w-[80px] 2xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-1.5 2xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(0)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
@@ -309,7 +309,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
               {/* 2. Spotlight Espace Jeux Button */}
               <button
                 onClick={() => setChatState({ ...chatState, currentView: 'jeux' })}
-                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-pink-600 dark:hover:text-pink-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-pink-600 dark:hover:text-pink-400 transition-all duration-200 group min-w-[82px] sm:min-w-[96px] xl:min-w-[80px] 2xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-1.5 2xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(1)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
@@ -333,7 +333,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
               {/* 3. Spotlight Calculators Button */}
               <button
                 onClick={openCalculatorsLanding}
-                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[82px] sm:min-w-[96px] xl:min-w-[80px] 2xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-1.5 2xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(2)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
@@ -357,7 +357,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
               {/* 4. Spotlight Metiers Button */}
               <button
                 onClick={openMetiersView}
-                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-200 group min-w-[82px] sm:min-w-[96px] xl:min-w-[80px] 2xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-1.5 2xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(3)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
@@ -385,7 +385,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
                 }}
                 title="Finances Locales & Ratios M57 — Budget Ville, Ratios DGCL & Contrôles CRC"
-                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200 group min-w-[82px] sm:min-w-[96px] xl:min-w-[80px] 2xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-1.5 2xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(57)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
@@ -411,7 +411,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
               {/* 5. Spotlight FAQ Button */}
               <button
                 onClick={() => setChatState({ ...chatState, currentView: 'faq' })}
-                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-200 group min-w-[82px] sm:min-w-[96px] xl:min-w-[80px] 2xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-1.5 2xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(4)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
@@ -438,7 +438,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                   setChatState({ ...chatState, currentView: 'coin-rh' });
                   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
                 }}
-                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 group min-w-[82px] sm:min-w-[96px] xl:min-w-[80px] 2xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-1.5 2xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(66)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
@@ -469,7 +469,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                   }
                   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
                 }}
-                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-violet-600 dark:hover:text-violet-400 transition-all duration-200 group min-w-[82px] sm:min-w-[96px] xl:min-w-[80px] 2xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-1.5 2xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(77)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
@@ -497,7 +497,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
                 }}
                 title="Docuthèque RH RAG (Recherche documentaire & formulaires)"
-                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 group min-w-[82px] sm:min-w-[96px] xl:min-w-[80px] 2xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-1.5 2xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(88)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
@@ -521,11 +521,11 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
               {/* Spotlight Breezy Weather Button v6.2.2 */}
               <button
                 onClick={() => {
-                  setChatState({ ...chatState, currentView: "weather" as any });
+                  setChatState({ ...chatState, currentView: "weather" });
                   window.scrollTo({ top: 0, left: 0, behavior: "instant" });
                 }}
                 title="Breezy Weather v6.2.2 (Météo haute précision & probabilités de pluie)"
-                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-sky-600 dark:hover:text-sky-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-sky-600 dark:hover:text-sky-400 transition-all duration-200 group min-w-[82px] sm:min-w-[96px] xl:min-w-[80px] 2xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-1.5 2xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(99)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
@@ -551,7 +551,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                 href="https://www.emploi-territorial.fr/emploi-mobilite/?search-col=99599"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 transition-all duration-200 group min-w-[82px] sm:min-w-[96px] xl:min-w-[80px] 2xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-1.5 2xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(5)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
@@ -577,7 +577,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                 href="https://www.concours-territorial.fr/Index.aspx"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200 group min-w-[92px] sm:min-w-[105px] xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
+                className="relative flex flex-col items-center justify-start gap-1 sm:gap-1.5 text-slate-700 dark:text-slate-200 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200 group min-w-[82px] sm:min-w-[96px] xl:min-w-[80px] 2xl:min-w-[96px] xl:flex-1 p-1.5 sm:p-2 xl:p-1.5 2xl:p-2 rounded-xl xl:rounded-2xl hover:-translate-y-0.5 shrink-0 snap-center"
                 onMouseEnter={() => setHoveredQuickAccessIndex(6)}
                 onMouseLeave={() => setHoveredQuickAccessIndex(null)}
               >
@@ -780,7 +780,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                 <div className="flex gap-3 items-center my-auto py-1">
                   <div className="relative shrink-0 w-16 sm:w-20 h-22 sm:h-24 rounded-lg overflow-hidden bg-slate-900 border border-indigo-300/80 dark:border-indigo-600/40 shadow-sm block">
                     <img
-                      src="/images/dessine-moi-statut.jpg"
+                      src={`${BASE_URL}images/dessine-moi-statut.jpg`}
                       alt="Dessine-moi le statut"
                       className="w-full h-full object-cover object-top"
                       onError={(e) => {
@@ -1280,7 +1280,7 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                     <div className="relative w-full sm:w-44 md:w-48 h-36 sm:h-auto overflow-hidden rounded-2xl shrink-0 border border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-900/50">
                       <img
                         loading="lazy"
-                        src="/images/legal_news_illustration.png"
+                        src={`${BASE_URL}images/legal_news_illustration.png`}
                         alt="Veille Juridique"
                         className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300"
                       />
@@ -1335,11 +1335,22 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
           {/* CARROUSEL 1 DÉTACHÉ : En direct de la CFDT Interco */}
           <div className="w-full bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative z-10 flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
                 <h4 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
                   <Rss className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                   En direct de la <span className="text-blue-600 dark:text-blue-400">CFDT Interco</span>
                 </h4>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setChatState({ ...chatState, currentView: 'actualites' });
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-600 dark:hover:bg-blue-600 text-blue-600 dark:text-blue-400 hover:text-white dark:hover:text-white font-bold text-xs sm:text-sm border border-blue-200/80 dark:border-blue-800/80 transition-all duration-200 shadow-2xs hover:scale-105 active:scale-95 group/actu cursor-pointer"
+                >
+                  <span>Toutes les actualités</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover/actu:translate-x-0.5 transition-transform" />
+                </button>
               </div>
 
               {intercoLoading ? (
@@ -1505,10 +1516,11 @@ const HomeMenu: React.FC<HomeMenuProps> = ({
                         <div className="relative w-full h-28 sm:h-32 overflow-hidden bg-slate-900 dark:bg-slate-900 flex-shrink-0 border-b border-slate-100 dark:border-slate-800 flex items-center justify-center">
                           <img
                             src={resolveFpImageUrl(article.imageUrl, article.title, article.category, BASE_URL)}
-                            alt=""
+                            alt={article.title}
+                            loading="lazy"
                             className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300 absolute inset-0"
                             onError={(e) => {
-                              const target = e.target as HTMLImageElement;
+                              const target = e.currentTarget as HTMLImageElement;
                               target.onerror = null;
                               target.src = getFallbackFpImage(article.title, article.category, BASE_URL);
                             }}

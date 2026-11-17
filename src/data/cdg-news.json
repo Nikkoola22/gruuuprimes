@@ -974,44 +974,60 @@
     "officialUrl": "http://www.cdg21.fr",
     "news": [
       {
-        "title": "Publicités des actes",
-        "link": "https://www.cdg21.fr/index.php/cdg21/publicites-des-actes-du-cdg-21",
-        "source": "HTML"
-      },
-      {
-        "title": "Pour les opérations effectuées par le CDG21",
-        "link": "https://www.cdg21.fr/index.php/info-concours/publicite-des-arretes/pour-les-operations-effectuees-par-le-cdg21",
-        "source": "HTML"
-      },
-      {
-        "title": "Pour les opérations effectuées par d'autres CDG",
-        "link": "https://www.cdg21.fr/index.php/info-concours/publicite-des-arretes/pour-les-operations-effectuees-par-d-autres-cdg",
-        "source": "HTML"
-      },
-      {
-        "title": "Conseiller en évolution professionnelle (CEP)",
-        "link": "https://www.cdg21.fr/index.php/emploi/mobilite-inter-fonction-publique",
-        "source": "HTML"
-      },
-      {
         "title": "ELECTIONS PROFESSIONNELLES : listes présentées par les syndicats",
         "link": "https://www.cdg21.fr/index.php/10-actualites/717-elections-professionnelles-listes-presentees-par-les-syndicats",
-        "source": "HTML"
+        "pubDate": "Wed, 04 Nov 2026 15:55:45 GMT",
+        "description": "]]>",
+        "source": "RSS"
       },
       {
         "title": "ELECTIONS PROFESSIONNELLES 2026",
         "link": "https://www.cdg21.fr/index.php/10-actualites/716-elections-professionnelles-2026",
-        "source": "HTML"
+        "pubDate": "Thu, 08 Oct 2026 14:32:40 GMT",
+        "description": "]]>",
+        "source": "RSS"
       },
       {
         "title": "LE DISPOSITIF DE LA RUPTURE CONVENTIONNELLE EST PERENNISE",
         "link": "https://www.cdg21.fr/index.php/10-actualites/715-le-dispositif-de-la-rupture-conventionnelle-est-perennise",
-        "source": "HTML"
+        "pubDate": "Mon, 17 Aug 2026 10:46:31 GMT",
+        "description": "]]>",
+        "source": "RSS"
       },
       {
         "title": "CONGES POUR RAISONS DE SANTE DES AGENTS PUBLICS",
         "link": "https://www.cdg21.fr/index.php/10-actualites/714-conges-pour-raisons-de-sante-des-agents-publics",
-        "source": "HTML"
+        "pubDate": "Mon, 10 Aug 2026 13:52:27 GMT",
+        "description": "]]>",
+        "source": "RSS"
+      },
+      {
+        "title": "REFORME DE LA HAUTE FONCTION PUBLIQUE POUR LES EMPLOIS ADMINISTRATIFS DE DIRECTION DES COLLECTIVITES TERRITORIALES ET DES ETABLISSEMENTS PUBLICS LOCAUX ASSIMILES DE MOINS DE 40 000 HABITANTS",
+        "link": "https://www.cdg21.fr/index.php/10-actualites/713-reforme-de-la-haute-fonction-publique-pour-les-emplois-administratifs-de-direction-des-collectivites-territoriales-de-moins-de-40-000-habitants",
+        "pubDate": "Thu, 16 Jul 2026 14:05:18 GMT",
+        "description": "]]>",
+        "source": "RSS"
+      },
+      {
+        "title": "CONSEIL D'ADMINISTRATION D'INSTALLATION DU CDG 21",
+        "link": "https://www.cdg21.fr/index.php/10-actualites/712-conseil-d-administration-d-installation-du-conseil-d-administration-du-cdg-21",
+        "pubDate": "Wed, 15 Jul 2026 10:07:29 GMT",
+        "description": "]]>",
+        "source": "RSS"
+      },
+      {
+        "title": "LE CONGE SUPPLEMENTAIRE DE NAISSANCE",
+        "link": "https://www.cdg21.fr/index.php/10-actualites/711-le-conge-supplementaire-de-naissance",
+        "pubDate": "Fri, 19 Jun 2026 12:56:47 GMT",
+        "description": "]]>",
+        "source": "RSS"
+      },
+      {
+        "title": "MAJORATION TEMPORAIRE DES INDEMNITES KILOMETRIQUES",
+        "link": "https://www.cdg21.fr/index.php/10-actualites/710-majoration-temporaires-des-indemnites-kilometriques",
+        "pubDate": "Tue, 16 Jun 2026 14:07:36 GMT",
+        "description": "]]>",
+        "source": "RSS"
       }
     ]
   },
@@ -3655,23 +3671,23 @@
         "source": "HTML"
       },
       {
-        "title": "Assurance statutaire : nouveau marché au 1er janvier 2027",
-        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_assurance-statutaire-nouveau-marche-au-1er-janvier-2027.phtml",
-        "source": "HTML"
-      },
-      {
-        "title": "Cumul d'activités : assistant familial",
-        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_cumul-d-activites-assistant-familial.phtml",
-        "source": "HTML"
-      },
-      {
         "title": "Entretien de formation",
         "link": "https://www.cdg72.fr/centre_de_gestion_actualites_entretien-de-formation.phtml",
         "source": "HTML"
       },
       {
+        "title": "Assurance statutaire : nouveau marché au 1er janvier 2027",
+        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_assurance-statutaire-nouveau-marche-au-1er-janvier-2027.phtml",
+        "source": "HTML"
+      },
+      {
         "title": "Conduites addictives au travail : prévenir, repérer, agir",
         "link": "https://www.cdg72.fr/centre_de_gestion_actualites_conduites-addictives-au-travail-prevenir-reperer-agir.phtml",
+        "source": "HTML"
+      },
+      {
+        "title": "Cumul d'activités : assistant familial",
+        "link": "https://www.cdg72.fr/centre_de_gestion_actualites_cumul-d-activites-assistant-familial.phtml",
         "source": "HTML"
       },
       {

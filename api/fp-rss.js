@@ -205,6 +205,9 @@ export default async function handler(req, res) {
               imageUrl = 'https://medias.amf.asso.fr/thumbmails/' + imageUrl;
             }
           }
+          if (!imageUrl || imageUrl.includes('632d07975d58b7f5e93d98577155bfa6')) {
+            imageUrl = 'https://medias.amf.asso.fr/thumbmails/A201800_a9cf9553a2c7b7854febe18c29f31cac.jpg';
+          }
 
           const titleMatch = part.match(/<h3><a[^>]*>([\s\S]*?)<\/a><\/h3>/i);
           let title = titleMatch ? titleMatch[1] : 'Sans titre';

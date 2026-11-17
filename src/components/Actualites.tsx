@@ -20,39 +20,76 @@ interface ActualitesProps {
   onClose: () => void;
   baseUrl: string;
   onNavigateToVeille?: () => void;
+  onNavigateToJuridique?: () => void;
+  onNavigateToNosCom?: () => void;
 }
 
-const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavigateToVeille }) => {
+const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavigateToVeille, onNavigateToJuridique, onNavigateToNosCom }) => {
   const [showJournauxModal, setShowJournauxModal] = useState(false);
   const [selectedJournal, setSelectedJournal] = useState<CFDTJournal>(CFDT_JOURNAUX[0]);
 
   return (
     <div className="fixed inset-0 z-[60] overflow-y-auto overflow-x-hidden overscroll-contain bg-[#F8F9FA] dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-700">
       {/* Top Header Banner */}
-      <section className="relative z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-3xl py-3 text-center border-b border-slate-200/60 dark:border-white/5 shadow-sm transition-colors duration-700">
+      <section className="sticky top-0 z-40 bg-white/85 dark:bg-slate-900/90 backdrop-blur-3xl py-3 text-center border-b border-slate-200/60 dark:border-white/10 shadow-sm transition-colors duration-300">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="flex items-center gap-3.5 mb-2">
-            <button
-              type="button"
-              onClick={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                onClose();
-              }}
-              className="relative z-50 pointer-events-auto inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0 cursor-pointer"
-            >
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              <span>Retour</span>
-            </button>
-            <h2 className="text-xl sm:text-3xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-              <div className="p-1.5 sm:p-2 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 rounded-xl">
-                <Newspaper className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 dark:text-blue-400 animate-pulse" />
-              </div>
-              Actualités <span className="text-blue-600 dark:text-blue-400">CFDT & Statut RH</span>
-            </h2>
+          <div className="flex flex-wrap items-center justify-between gap-3.5 mb-2">
+            <div className="flex items-center gap-3.5">
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  onClose();
+                }}
+                className="relative z-50 pointer-events-auto inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0 cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                <span>Retour</span>
+              </button>
+              <h2 className="text-xl sm:text-3xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                <div className="p-1.5 sm:p-2 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 rounded-xl">
+                  <Newspaper className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 dark:text-blue-400 animate-pulse" />
+                </div>
+                Actualités <span className="text-blue-600 dark:text-blue-400">CFDT & Statut RH</span>
+              </h2>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              {onNavigateToVeille && (
+                <button
+                  type="button"
+                  onClick={onNavigateToVeille}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow-sm transition-all cursor-pointer"
+                >
+                  <span>Veille CDG & CIG</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              )}
+              {onNavigateToJuridique && (
+                <button
+                  type="button"
+                  onClick={onNavigateToJuridique}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs shadow-sm transition-all cursor-pointer"
+                >
+                  <span>Veille Juridique</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              )}
+              {onNavigateToNosCom && (
+                <button
+                  type="button"
+                  onClick={onNavigateToNosCom}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-sm transition-all cursor-pointer"
+                >
+                  <span>Tracts & Guides CFDT</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
           </div>
-          <p className="text-slate-600 text-base sm:text-lg leading-relaxed text-left font-medium max-w-3xl">
-            Restez informés en temps réel avec les toutes dernières publications syndicales, décisions d'actualité et droits des agents.
+          <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed text-left font-medium max-w-3xl">
+            Restez informés en temps réel avec les toutes dernières publications syndicales, décisions d&apos;actualité et droits des agents.
           </p>
         </div>
       </section>
@@ -125,10 +162,10 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
 
               {/* --- ACTUALITÉS CFDT INTERCO --- */}
               <div className="flex items-center gap-2 mt-4 mb-2">
-                <div className="p-2 bg-blue-50 rounded-xl border border-blue-200">
-                  <Rss className="w-5 h-5 text-blue-600" />
+                <div className="p-2 bg-blue-50 dark:bg-blue-500/10 rounded-xl border border-blue-200 dark:border-blue-500/20">
+                  <Rss className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                 </div>
-                <h4 className="text-xl font-bold text-slate-900 tracking-wide">
+                <h4 className="text-xl font-bold text-slate-900 dark:text-white tracking-wide">
                   En direct de la CFDT Interco
                 </h4>
               </div>
@@ -136,16 +173,16 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
               {news.length === 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-pulse">
                   {[1, 2, 3, 4].map((n) => (
-                    <div key={n} className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex flex-col justify-between h-64">
-                      <div className="w-full h-32 bg-slate-200 rounded-xl mb-3" />
+                    <div key={n} className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col justify-between h-64">
+                      <div className="w-full h-32 bg-slate-200 dark:bg-slate-800 rounded-xl mb-3" />
                       <div className="space-y-2">
-                        <div className="h-4 bg-slate-200 rounded w-5/6" />
-                        <div className="h-3 bg-slate-200 rounded w-full" />
-                        <div className="h-3 bg-slate-200 rounded w-4/6" />
+                        <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-5/6" />
+                        <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-full" />
+                        <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-4/6" />
                       </div>
-                      <div className="pt-2 border-t border-slate-100 flex justify-between mt-2">
-                        <div className="h-3 bg-slate-200 rounded w-20" />
-                        <div className="h-3 bg-slate-200 rounded w-24" />
+                      <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex justify-between mt-2">
+                        <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-20" />
+                        <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-24" />
                       </div>
                     </div>
                   ))}
@@ -165,7 +202,7 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
                       <SpotlightCard
                         key={i}
                         spotlightColor="rgba(37, 99, 235, 0.12)"
-                        className="w-full flex flex-col justify-between bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-white/5 hover:border-blue-500 dark:hover:border-blue-400 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg p-0 group/card transition-all duration-500 hover:-translate-y-1"
+                        className="w-full flex flex-col justify-between bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-white/10 hover:border-blue-500 dark:hover:border-blue-400 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg p-0 group/card transition-all duration-500 hover:-translate-y-1"
                       >
                         <a
                           href={article.link}
@@ -174,7 +211,7 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
                           className="flex flex-col h-full p-5"
                         >
                           {/* Image de l'article */}
-                          <div className="relative w-full h-44 overflow-hidden rounded-xl bg-slate-900 mb-4 border border-slate-100">
+                          <div className="relative w-full h-44 overflow-hidden rounded-xl bg-slate-900 mb-4 border border-slate-100 dark:border-slate-800">
                             <img
                               src={resolveIntercoImageUrl(article.imageUrl, article.title, article.category, baseUrl)}
                               alt=""
@@ -186,7 +223,7 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
                               }}
                             />
                             {article.category && (
-                              <span className="absolute top-3 left-3 inline-block text-[11px] font-bold px-2.5 py-1 rounded-full bg-white/95 backdrop-blur text-blue-700 border border-blue-200 shadow-sm">
+                              <span className="absolute top-3 left-3 inline-block text-[11px] font-bold px-2.5 py-1 rounded-full bg-white/95 dark:bg-slate-900/95 backdrop-blur text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 shadow-sm">
                                 {article.category}
                               </span>
                             )}
@@ -195,19 +232,19 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
                           {/* Contenu textuel haute visibilité */}
                           <div className="flex flex-col justify-between flex-grow">
                             <div>
-                              <h4 className="text-slate-900 font-bold text-base leading-snug group-hover/card:text-blue-600 transition-colors duration-150 mb-2 line-clamp-2">
+                              <h4 className="text-slate-900 dark:text-white font-bold text-base leading-snug group-hover/card:text-blue-600 dark:group-hover/card:text-blue-400 transition-colors duration-150 mb-2 line-clamp-2">
                                 {article.title}
                               </h4>
                               {article.description && (
-                                <p className="text-slate-600 text-xs font-medium line-clamp-3 mb-4 leading-relaxed">
+                                <p className="text-slate-600 dark:text-slate-300 text-xs font-medium line-clamp-3 mb-4 leading-relaxed">
                                   {article.description}
                                 </p>
                               )}
                             </div>
-                            <div className="flex items-center justify-between mt-auto pt-3 border-t border-slate-100">
-                              <span className="text-xs text-slate-500 font-medium">{date}</span>
-                              <span className="text-xs font-bold text-blue-600 flex items-center gap-1 opacity-90 group-hover/card:opacity-100 transition-opacity">
-                                Lire l'article <ArrowRight className="w-3.5 h-3.5" />
+                            <div className="flex items-center justify-between mt-auto pt-3 border-t border-slate-100 dark:border-slate-800">
+                              <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">{date}</span>
+                              <span className="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1 opacity-90 group-hover/card:opacity-100 transition-opacity">
+                                Lire l&apos;article <ArrowRight className="w-3.5 h-3.5" />
                               </span>
                             </div>
                           </div>
@@ -225,14 +262,14 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
             <div className="double-bezel-inner p-6 flex flex-col h-full">
               <div className="flex items-center justify-between gap-3 mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="p-2.5 bg-indigo-50 rounded-xl border border-indigo-200">
-                    <BookOpen className="w-6 h-6 text-indigo-600" />
+                  <div className="p-2.5 bg-indigo-50 dark:bg-indigo-500/10 rounded-xl border border-indigo-200 dark:border-indigo-500/20">
+                    <BookOpen className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-slate-900 tracking-wide">
+                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white tracking-wide">
                       À Télécharger
                     </h3>
-                    <p className="text-xs text-slate-500 font-medium">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                       Kiosque municipal CFDT
                     </p>
                   </div>
@@ -241,7 +278,7 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
                 <button
                   type="button"
                   onClick={() => setShowJournauxModal(true)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-100 hover:bg-orange-200 text-orange-700 font-bold text-xs border border-orange-200 transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-100 dark:bg-orange-950/60 hover:bg-orange-200 dark:hover:bg-orange-900/60 text-orange-700 dark:text-orange-300 font-bold text-xs border border-orange-200 dark:border-orange-800 transition-colors cursor-pointer"
                   title="Voir toutes les éditions"
                 >
                   <Layers className="w-3.5 h-3.5 text-orange-500" />
@@ -250,7 +287,7 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
               </div>
 
               {/* Sélecteur rapide des éditions */}
-              <div className="grid grid-cols-2 gap-1.5 mb-4 p-1.5 bg-slate-100 rounded-xl border border-slate-200">
+              <div className="grid grid-cols-2 gap-1.5 mb-4 p-1.5 bg-slate-100 dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700">
                 {CFDT_JOURNAUX.map((journal) => {
                   const isActive = selectedJournal.id === journal.id;
                   return (
@@ -261,7 +298,7 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
                       className={`text-xs font-bold py-1.5 px-2 rounded-lg transition-all text-center truncate cursor-pointer ${
                         isActive
                           ? 'bg-orange-500 text-white shadow-xs font-extrabold'
-                          : 'text-slate-600 hover:bg-white hover:text-orange-600'
+                          : 'text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 hover:text-orange-600'
                       }`}
                     >
                       {journal.tabLabel || journal.badge}
@@ -271,11 +308,11 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
               </div>
 
               <div className="flex flex-col gap-6 flex-grow">
-                <SpotlightCard spotlightColor="rgba(249, 115, 22, 0.15)" className="bg-white border border-slate-200 rounded-2xl p-5 shadow-md flex flex-col">
+                <SpotlightCard spotlightColor="rgba(249, 115, 22, 0.15)" className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-md flex flex-col">
                   <div className="flex flex-col h-full">
                     <div
                       onClick={() => setShowJournauxModal(true)}
-                      className="overflow-hidden rounded-xl shadow-xs mb-4 relative min-h-[11rem] max-h-[13rem] border border-slate-100 bg-slate-50 flex items-center justify-center cursor-pointer group"
+                      className="overflow-hidden rounded-xl shadow-xs mb-4 relative min-h-[11rem] max-h-[13rem] border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 flex items-center justify-center cursor-pointer group"
                       title="Cliquez pour ouvrir le kiosque des journaux"
                     >
                       <img
@@ -293,7 +330,7 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
                         {selectedJournal.badge}
                       </div>
                       <div className="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span className="bg-white/95 text-slate-900 font-bold text-xs px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1.5">
+                        <span className="bg-white/95 dark:bg-slate-900/95 text-slate-900 dark:text-white font-bold text-xs px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1.5">
                           <Eye className="w-3.5 h-3.5 text-orange-500" />
                           Consulter les éditions
                         </span>
@@ -302,16 +339,16 @@ const Actualites: React.FC<ActualitesProps> = ({ news, onClose, baseUrl, onNavig
 
                     <div className="flex flex-col shrink-0">
                       <div className="flex items-center justify-between gap-2 mb-1">
-                        <h4 className="text-slate-900 text-base font-bold flex items-center gap-2">
+                        <h4 className="text-slate-900 dark:text-white text-base font-bold flex items-center gap-2">
                           <FileText className="w-4 h-4 text-orange-500 shrink-0" />
                           Journal · {selectedJournal.tabLabel || selectedJournal.badge}
                         </h4>
-                        <span className="text-[11px] font-semibold text-slate-500">
+                        <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
                           {selectedJournal.fileSize}
                         </span>
                       </div>
 
-                      <p className="text-slate-600 text-xs mb-4 leading-relaxed font-medium">
+                      <p className="text-slate-600 dark:text-slate-300 text-xs mb-4 leading-relaxed font-medium">
                         {selectedJournal.subtitle}
                       </p>
 

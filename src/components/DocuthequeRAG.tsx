@@ -34,7 +34,7 @@ import { exportTempsPartielFormDocx } from '../utils/docxExport';
 interface DocuthequeRAGProps {
   onBack: () => void;
   initialQuery?: string;
-  onOpenCalculator?: (calc: 'primes' | 'cia' | '13eme') => void;
+  onOpenCalculator?: (calc: 'primes' | 'cia' | '13eme' | 'sft' | 'courriers' | 'fiche-paie' | 'navigo') => void;
   theme?: 'light' | 'dark';
 }
 
@@ -469,30 +469,50 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
           ? 'bg-white border-slate-200 shadow-sm'
           : 'bg-[#0A0F1D] border-slate-800 shadow-lg shadow-black/50'
       }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3.5">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-4 flex flex-wrap items-center justify-between gap-2.5 sm:gap-4">
+          <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
             <button
               onClick={onBack}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-sm hover:shadow-md hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0 cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-sm hover:shadow-md hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0 cursor-pointer"
               title="Retour au menu principal"
             >
               <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:-translate-x-1 transition-transform" />
               <span>Retour</span>
             </button>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <span className="text-xl sm:text-2xl font-black tracking-tight bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                <span className="text-lg sm:text-2xl font-black tracking-tight bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
                   Docuthèque
                 </span>
               </div>
-              <p className={`text-xs ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+              <p className={`text-[11px] sm:text-xs line-clamp-1 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
                 111 documents et formulaires officiels • Ville de Gennevilliers
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-xs px-3 py-1.5 rounded-xl bg-[#131C33] text-indigo-300 border border-indigo-500/30 font-medium">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            {onOpenCalculator && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => onOpenCalculator('courriers')}
+                  className="inline-flex items-center gap-1.5 text-xs px-2.5 sm:px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold shadow-xs transition-all cursor-pointer"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>Courriers</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onOpenCalculator('fiche-paie')}
+                  className="inline-flex items-center gap-1.5 text-xs px-2.5 sm:px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold shadow-xs transition-all cursor-pointer"
+                >
+                  <Calculator className="w-3.5 h-3.5" />
+                  <span>Fiche de Paie</span>
+                </button>
+              </>
+            )}
+            <span className="hidden md:inline-flex text-xs px-3 py-1.5 rounded-xl bg-[#131C33] text-indigo-300 border border-indigo-500/30 font-medium">
               Intranet Connecté 🟢
             </span>
           </div>
@@ -713,8 +733,12 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                     <Sparkles className="w-3.5 h-3.5 text-amber-400" /> Actions & Rebondissements :
                   </span>
                   {ragResult.suggestedFollowUps.map((action, i) => {
-                    const isCalcPrimes = action.toLowerCase().includes("calculateur") && action.toLowerCase().includes("rifseep");
-                    const isCalcCia = action.toLowerCase().includes("calculateur") && action.toLowerCase().includes("cia");
+                    const lowerAction = action.toLowerCase();
+                    const isCalcPrimes = lowerAction.includes("calculateur") && lowerAction.includes("rifseep");
+                    const isCalcCia = lowerAction.includes("calculateur") && lowerAction.includes("cia");
+                    const isCalcSft = lowerAction.includes("calculateur") && lowerAction.includes("sft");
+                    const isCalcNavigo = lowerAction.includes("calculateur") && lowerAction.includes("navigo");
+                    const isCalcButton = isCalcPrimes || isCalcCia || isCalcSft || isCalcNavigo;
                     return (
                       <button
                         key={i}
@@ -724,19 +748,23 @@ export const DocuthequeRAG: React.FC<DocuthequeRAGProps> = ({
                             onOpenCalculator('primes');
                           } else if (isCalcCia && onOpenCalculator) {
                             onOpenCalculator('cia');
+                          } else if (isCalcSft && onOpenCalculator) {
+                            onOpenCalculator('sft');
+                          } else if (isCalcNavigo && onOpenCalculator) {
+                            onOpenCalculator('navigo');
                           } else {
                             handleSelectSuggestion(action);
                           }
                         }}
                         className={`text-xs font-semibold px-3 py-1.5 rounded-xl border transition-all cursor-pointer flex items-center gap-1.5 ${
-                          isCalcPrimes || isCalcCia
+                          isCalcButton
                             ? 'bg-[#291708] text-orange-400 border-orange-500/50 hover:bg-[#38200B] shadow-xs'
                             : isLight
                             ? 'bg-white hover:bg-blue-50 text-slate-700 border-slate-300 shadow-2xs'
                             : 'bg-[#151F38] hover:bg-[#1E2D52] text-slate-200 border-slate-700'
                         }`}
                       >
-                        {isCalcPrimes || isCalcCia ? <Calculator className="w-3.5 h-3.5 text-orange-400" /> : <ArrowRight className="w-3 h-3 text-blue-400" />}
+                        {isCalcButton ? <Calculator className="w-3.5 h-3.5 text-orange-400" /> : <ArrowRight className="w-3 h-3 text-blue-400" />}
                         <span>{action}</span>
                       </button>
                     );

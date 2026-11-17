@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { 
   ArrowLeft, FileSignature, FileBadge, Baby, UserCheck, UserPlus, 
-  RefreshCw, Briefcase, LayoutList, Award, Clock, 
-  Search, Landmark, TrendingUp, Sparkles, Laptop, CalendarOff,
-  ArrowRightLeft, ExternalLink, RotateCcw
+  Briefcase, LayoutList, Award, Clock, 
+  Search, Landmark, TrendingUp, Laptop, CalendarOff,
+  ArrowRightLeft, ExternalLink, RotateCcw, Scale, Calculator
 } from "lucide-react";
 import { SimulationActeModule } from "./SimulationActeModule";
 
@@ -55,7 +55,7 @@ const ActeCard: React.FC<ActeCardProps> = ({
       <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2 leading-snug">{title}</h3>
       <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed mb-6 flex-grow">{description}</p>
       <button className={`inline-flex items-center gap-2 text-xs sm:text-sm font-semibold ${accentColor} transition-all mt-auto group-hover:translate-x-1`}>
-        <span>Générer l'arrêté</span>
+        <span>{toolId.startsWith("delib-") ? "Générer la délibération" : "Générer l'arrêté"}</span>
         <ArrowLeft className="w-4 h-4 rotate-180" />
       </button>
     </div>
@@ -66,7 +66,7 @@ interface ActeItem {
   id: string;
   title: string;
   description: string;
-  category: "carriere" | "temps" | "mobilite";
+  category: "carriere" | "temps" | "mobilite" | "deliberation";
   categoryLabel: string;
   icon: React.ReactNode;
   badge?: string;
@@ -256,9 +256,48 @@ const ACTES_CATALOG: ActeItem[] = [
     hoverBorder: "hover:border-amber-400 dark:hover:border-amber-500",
     badgeStyle: "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 border-amber-200",
   },
+
+  // 4. DÉLIBÉRATIONS COLLECTIVES (CONSEIL MUNICIPAL / CST)
+  {
+    id: "delib-poste",
+    title: "Délibération — Tableau des emplois",
+    description: "Création, modification ou suppression d'emploi permanent au tableau des effectifs (art. L. 313-1 CGFP)",
+    category: "deliberation",
+    categoryLabel: "Délibérations Collectives",
+    icon: <Landmark className="w-6 h-6" />,
+    badge: "Conseil Municipal",
+    gradient: "from-indigo-600 to-blue-700",
+    shadow: "shadow-indigo-500/25",
+    accentColor: "text-indigo-600 dark:text-indigo-400",
+    hoverBorder: "hover:border-indigo-400 dark:hover:border-indigo-500",
+    badgeStyle: "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300 border-indigo-200",
+  },
+  {
+    id: "delib-rifseep",
+    title: "Délibération — Régime RIFSEEP",
+    description: "Instauration ou actualisation des groupes de fonctions IFSE et plafonds CIA après avis du CST",
+    category: "deliberation",
+    categoryLabel: "Délibérations Collectives",
+    icon: <Scale className="w-6 h-6" />,
+    badge: "CST & Primes",
+    gradient: "from-rose-600 to-orange-600",
+    shadow: "shadow-rose-500/25",
+    accentColor: "text-rose-600 dark:text-rose-400",
+    hoverBorder: "hover:border-rose-400 dark:hover:border-rose-500",
+    badgeStyle: "bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-300 border-rose-200",
+  },
 ];
 
-const Metiers: React.FC<{ onClose: () => void; onOpenCalculator: (id: string) => void; onOpenM57?: () => void; theme?: 'light' | 'dark' }> = ({ onClose, onOpenCalculator, onOpenM57, theme = 'dark' }) => {
+interface MetiersProps {
+  onClose: () => void;
+  onOpenCalculator: (id: string) => void;
+  onOpenM57?: () => void;
+  onOpenCoinRH?: () => void;
+  onOpenCalculators?: () => void;
+  theme?: 'light' | 'dark';
+}
+
+const Metiers: React.FC<MetiersProps> = ({ onClose, onOpenCalculator, onOpenM57, onOpenCoinRH, onOpenCalculators, theme = 'dark' }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -275,9 +314,9 @@ const Metiers: React.FC<{ onClose: () => void; onOpenCalculator: (id: string) =>
     <div className="fixed inset-0 z-[60] overflow-y-auto overflow-x-hidden overscroll-contain bg-slate-50 dark:bg-slate-900">
       
       {/* HEADER GLOBAL OUTILS RH */}
-      <div className="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-6 py-4 shadow-sm">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3.5">
+      <div className="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-3 sm:px-6 py-3 sm:py-4 shadow-sm">
+        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
             <button
               type="button"
               onClick={(event) => {
@@ -285,18 +324,52 @@ const Metiers: React.FC<{ onClose: () => void; onOpenCalculator: (id: string) =>
                 event.stopPropagation();
                 onClose();
               }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0 cursor-pointer"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 border border-red-500/30 transition-all duration-200 group shrink-0 cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               <span>Retour</span>
             </button>
-            <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg text-indigo-600 dark:text-indigo-400">
+            <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg text-indigo-600 dark:text-indigo-400 shrink-0 hidden xs:flex sm:flex">
               <FileSignature className="w-5 h-5" />
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-slate-900 dark:text-white leading-none">Aides aux Gestionnaires</h1>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Arrêtés administratifs pré-remplis & simulateurs RH</p>
+            <div className="min-w-0">
+              <h1 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white leading-tight truncate">Aides aux Gestionnaires</h1>
+              <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">Arrêtés administratifs pré-remplis, délibérations & simulateurs RH</p>
             </div>
+          </div>
+
+          {/* Raccourcis de liaison inter-pages */}
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            {onOpenM57 && (
+              <button
+                type="button"
+                onClick={onOpenM57}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-sm hover:shadow-md transition-all cursor-pointer"
+              >
+                <Landmark className="w-3.5 h-3.5" />
+                <span>Budget M57</span>
+              </button>
+            )}
+            {onOpenCoinRH && (
+              <button
+                type="button"
+                onClick={onOpenCoinRH}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-sm hover:shadow-md transition-all cursor-pointer"
+              >
+                <Scale className="w-3.5 h-3.5" />
+                <span>Coin du Défenseur</span>
+              </button>
+            )}
+            {onOpenCalculators && (
+              <button
+                type="button"
+                onClick={onOpenCalculators}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm hover:shadow-md transition-all cursor-pointer"
+              >
+                <Calculator className="w-3.5 h-3.5" />
+                <span>Boîte à Outils</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -375,6 +448,16 @@ const Metiers: React.FC<{ onClose: () => void; onOpenCalculator: (id: string) =>
               }`}
             >
               Mobilités & Affectations (5)
+            </button>
+            <button
+              onClick={() => setSelectedCategory("deliberation")}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                selectedCategory === "deliberation"
+                  ? "bg-purple-600 text-white shadow-sm"
+                  : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-purple-100/60 dark:hover:bg-slate-700 border border-purple-200 dark:border-slate-700"
+              }`}
+            >
+              Délibérations Collectives (2)
             </button>
           </div>
 

@@ -172,6 +172,7 @@ interface VeilleCdgPageProps {
 
 export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
   onClose,
+  onNavigateToJuridique,
   initialMode = "table"
 }) => {
   const [data, setData] = useState<CDGEntry[]>(initialNewsData as unknown as CDGEntry[]);
@@ -388,7 +389,7 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
             {/* Logo CFDT agrandi à la place de l'icône */}
             <div className="relative shrink-0 flex items-center">
               <img
-                src="/images/cfdt_logo_texte.png"
+                src={`${import.meta.env.BASE_URL}images/cfdt_logo_texte.png`}
                 alt="Logo CFDT"
                 className="h-14 sm:h-20 w-auto object-contain hover:scale-105 transition-transform"
                 onError={(e) => {
@@ -428,6 +429,17 @@ export const VeilleCdgPage: React.FC<VeilleCdgPageProps> = ({
 
           {/* Action Header Tools with flexible wrap */}
           <div className="flex flex-wrap items-center justify-start lg:justify-end gap-2 sm:gap-3 w-full lg:w-auto pt-1 lg:pt-0">
+            {onNavigateToJuridique && (
+              <button
+                type="button"
+                onClick={onNavigateToJuridique}
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-600 text-purple-700 dark:text-purple-300 hover:text-white rounded-full text-xs font-bold border border-purple-200 dark:border-purple-800 transition-all shadow-2xs cursor-pointer shrink-0"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Veille Juridique</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
+            )}
             {/* View Switcher Toggle */}
             <div className="bg-slate-100 dark:bg-slate-900 p-1 rounded-full border border-slate-200 dark:border-slate-800 flex items-center shadow-inner shrink-0 overflow-x-auto max-w-full">
               <button

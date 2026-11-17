@@ -12,8 +12,8 @@ interface Props {
   theme: 'light' | 'dark';
   toggleTheme: () => void;
   currentView?: string;
-  setView: (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh" | "simul-agent" | "weather" | "budget-m57") => void;
-  openCalculator: (calc: 'primes' | 'cia' | '13eme' | 'sft' | 'courriers' | 'fiche-paie') => void;
+  setView: (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "memoire-juridique" | "podcasts" | "nos-com" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh" | "simul-agent" | "weather" | "budget-m57") => void;
+  openCalculator: (calc: 'primes' | 'cia' | '13eme' | 'sft' | 'courriers' | 'fiche-paie' | 'navigo' | 'simulateur-ir' | 'budget-m57') => void;
   onClose?: () => void;
 }
 
@@ -87,13 +87,13 @@ export default function MacMenuBar({
   }, []);
 
   // Helper to select view and close dropdowns
-  const selectView = (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "podcasts" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh" | "simul-agent" | "weather" | "budget-m57") => {
+  const selectView = (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "memoire-juridique" | "podcasts" | "nos-com" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh" | "simul-agent" | "weather" | "budget-m57") => {
     setView(view);
     setActiveDropdown(null);
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   };
 
-  const selectCalculator = (calc: 'primes' | 'cia' | '13eme' | 'sft' | 'courriers' | 'fiche-paie') => {
+  const selectCalculator = (calc: 'primes' | 'cia' | '13eme' | 'sft' | 'courriers' | 'fiche-paie' | 'navigo' | 'simulateur-ir' | 'budget-m57') => {
     openCalculator(calc);
     setActiveDropdown(null);
   };
@@ -184,6 +184,8 @@ export default function MacMenuBar({
                   </button>
                   <button onClick={() => selectView('veille-cdg')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-sky-500 font-bold">Veille CDG & CIG 🏛️</button>
                   <button onClick={() => selectView('veille')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-indigo-500 font-bold">Veille Juridique ⚖️</button>
+                  <button onClick={() => selectView('memoire-juridique')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-violet-500 font-bold">Mémoire & Défense 🛡️</button>
+                  <button onClick={() => selectView('nos-com')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-orange-500 font-bold">Nos Com & Guides 📢</button>
                   <button onClick={() => selectView('dessine-moi-le-statut')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md text-purple-500 font-bold">Dessine-moi le statut 🎨</button>
                   <button onClick={() => selectView('simul-agent')} className="w-full text-left px-3 py-1.5 hover:bg-orange-600 hover:text-white rounded-md text-orange-500 font-bold flex items-center justify-between">
                     <span>Simulateur Carrière & LDG 🚀</span>
@@ -217,6 +219,10 @@ export default function MacMenuBar({
                   transition={{ duration: 0.1 }}
                   className="absolute left-0 mt-1 w-64 bg-white/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800/80 rounded-lg shadow-2xl p-1 z-[110]"
                 >
+                  <button onClick={() => selectView('calculators')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md font-bold text-blue-600 dark:text-blue-400 flex justify-between items-center">
+                    <span>Tous les outils & simulateurs 🧰</span>
+                  </button>
+                  <div className="h-px bg-slate-200 dark:bg-slate-800 my-1" />
                   <button onClick={() => selectCalculator('fiche-paie')} className="w-full text-left px-3 py-1.5 hover:bg-emerald-600 hover:text-white rounded-md flex justify-between items-center text-emerald-600 dark:text-emerald-400 font-bold">
                     <span>Fiche de Paie (OpenFisca) 📑</span>
                     <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300">NOUVEAU</span>
@@ -237,8 +243,17 @@ export default function MacMenuBar({
                   <button onClick={() => selectCalculator('sft')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex justify-between items-center">
                     <span>Calculateur SFT</span>
                   </button>
+                  <button onClick={() => selectCalculator('navigo')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex justify-between items-center">
+                    <span>Pass Navigo (75 %)</span>
+                  </button>
+                  <button onClick={() => selectCalculator('simulateur-ir')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex justify-between items-center">
+                    <span>Impôt & PAS 2026</span>
+                  </button>
                   <button onClick={() => selectCalculator('courriers')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex justify-between items-center">
                     <span>Courriers de l'Agent</span>
+                  </button>
+                  <button onClick={() => selectCalculator('budget-m57')} className="w-full text-left px-3 py-1.5 hover:bg-amber-600 hover:text-white rounded-md flex justify-between items-center text-amber-600 dark:text-amber-400 font-semibold">
+                    <span>Budget M57 Collectivité</span>
                   </button>
                 </motion.div>
               )}
@@ -316,7 +331,7 @@ export default function MacMenuBar({
                         onChange={() => setWifiConnected(prev => !prev)}
                         className="sr-only peer"
                       />
-                      <div className="w-7 h-4 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:border-slate-600 peer-checked:bg-blue-650"></div>
+                      <div className="w-7 h-4 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:border-slate-600 peer-checked:bg-blue-600"></div>
                     </label>
                   </div>
                   <div className="h-px bg-slate-200 dark:bg-slate-800 my-2" />

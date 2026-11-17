@@ -269,10 +269,21 @@ export default function FichePaieExplainer({ onClose }: FichePaieExplainerProps)
   };
 
   const toggleLineExpand = (lineId: string) => {
-    setExpandedLignes(prev => ({
-      ...prev,
-      [lineId]: !prev[lineId]
-    }));
+    setExpandedLignes(prev => {
+      const willExpand = !prev[lineId];
+      if (willExpand && typeof window !== 'undefined' && window.innerWidth < 1024) {
+        setTimeout(() => {
+          const el = document.getElementById(`ligne-complexe-${lineId}`);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        }, 100);
+      }
+      return {
+        ...prev,
+        [lineId]: willExpand
+      };
+    });
   };
 
   // Filtrage des lignes
@@ -977,7 +988,8 @@ export default function FichePaieExplainer({ onClose }: FichePaieExplainerProps)
               return (
                 <div
                   key={ligne.id}
-                  className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm transition-all"
+                  id={`ligne-complexe-${ligne.id}`}
+                  className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm transition-all scroll-mt-20"
                 >
                   {/* En-tête de la ligne */}
                   <div

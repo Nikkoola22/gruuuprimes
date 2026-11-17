@@ -892,7 +892,7 @@ interface VeilleJuridiqueProps {
   theme?: "light" | "dark";
 }
 
-const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewMode = "quiz" }) => {
+const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, onNavigateToCdg, onNavigateToMemoire, initialViewMode = "quiz" }) => {
   const [activeTab, setActiveTab] = useState<string>("Tous");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
@@ -1088,7 +1088,7 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewM
             {/* Logo CFDT agrandi à la place de l'icône */}
             <div className="relative shrink-0 flex items-center">
               <img
-                src="/images/cfdt_logo_texte.png"
+                src={`${import.meta.env.BASE_URL}images/cfdt_logo_texte.png`}
                 alt="Logo CFDT"
                 className="h-14 sm:h-20 w-auto object-contain hover:scale-105 transition-transform"
                 onError={(e) => {
@@ -1112,8 +1112,27 @@ const VeilleJuridique: React.FC<VeilleJuridiqueProps> = ({ onClose, initialViewM
             </div>
           </div>
           
-          {/* Controls: Mode Switcher & Close button with flexible wrap */}
-          <div className="flex flex-wrap items-center justify-start sm:justify-end gap-2 sm:gap-3 w-full md:w-auto pt-1 md:pt-0">
+          {/* Controls: Mode Switcher & Cross-navigation buttons */}
+          <div className="flex flex-wrap items-center justify-start sm:justify-end gap-2 sm:gap-2.5 w-full md:w-auto pt-1 md:pt-0">
+            {onNavigateToCdg && (
+              <button
+                type="button"
+                onClick={onNavigateToCdg}
+                className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-600 text-blue-700 dark:text-blue-300 hover:text-white border border-blue-200 dark:border-blue-800 transition-all flex items-center gap-1.5 shrink-0 cursor-pointer shadow-2xs"
+              >
+                <span>Veille CDG & CIG</span>
+              </button>
+            )}
+            {onNavigateToMemoire && (
+              <button
+                type="button"
+                onClick={onNavigateToMemoire}
+                className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-600 text-indigo-700 dark:text-indigo-300 hover:text-white border border-indigo-200 dark:border-indigo-800 transition-all flex items-center gap-1.5 shrink-0 cursor-pointer shadow-2xs"
+              >
+                <Scale className="w-3.5 h-3.5" />
+                <span>Mémoire & Défense</span>
+              </button>
+            )}
             {/* View Mode Toggle */}
             <div className="bg-slate-100 dark:bg-slate-900 p-1 rounded-full border border-slate-200 dark:border-slate-800 flex items-center shadow-inner shrink-0 overflow-x-auto max-w-full">
               <button
