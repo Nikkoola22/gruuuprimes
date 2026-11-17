@@ -44,7 +44,6 @@ import {
   type DeliberationBudgetInfo,
   type ChapitreMouvement
 } from '../services/budgetM57Engine';
-import { ForeverTiltCard } from './ui/ForeverTiltCard';
 import { ForeverMagneticButton } from './ui/ForeverMagneticButton';
 import { ForeverGooeyToggle } from './ui/ForeverGooeyToggle';
 
@@ -572,11 +571,7 @@ export const BudgetM57Graphiques: React.FC<BudgetM57GraphiquesProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
           {/* ──── CAMEMBERT 1 : RESSOURCES (RECETTES) ──── */}
-          <ForeverTiltCard
-            maxTilt={5}
-            shineOpacity={0.16}
-            className="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-300 dark:border-slate-800 shadow-sm flex flex-col justify-between"
-          >
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-300 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between relative">
             <div>
               <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
                 <div className="flex items-center gap-2">
@@ -609,39 +604,44 @@ export const BudgetM57Graphiques: React.FC<BudgetM57GraphiquesProps> = ({
                           d={d}
                           fill={slice.color.fill}
                           stroke="#ffffff"
-                          strokeWidth="2"
-                          className="transition-all duration-200 cursor-pointer hover:opacity-95 dark:stroke-slate-900"
+                          strokeWidth={isHovered ? '2.5' : '1.5'}
+                          className="transition-all duration-150 cursor-pointer hover:opacity-95 dark:stroke-slate-900 focus:outline-none"
                           style={{
-                            transform: isHovered ? 'scale(1.03)' : 'scale(1)',
-                            transformOrigin: '0 0',
-                            filter: isHovered ? 'drop-shadow(0 6px 12px rgba(16, 185, 129, 0.35))' : 'none'
+                            filter: isHovered ? 'drop-shadow(0 4px 8px rgba(16, 185, 129, 0.45))' : 'none',
+                            pointerEvents: 'auto'
                           }}
                           onMouseEnter={() => setHoveredRessource(slice)}
                           onMouseLeave={() => setHoveredRessource(null)}
+                          onPointerEnter={() => setHoveredRessource(slice)}
+                          onPointerLeave={() => setHoveredRessource(null)}
+                          onClick={() => setHoveredRessource(hoveredRessource?.id === slice.id ? null : slice)}
+                          role="button"
+                          tabIndex={0}
+                          aria-label={`Chapitre ${slice.chapitre} : ${slice.libelle}, ${formatMontant(slice.montant)} (${slice.pourcentage}%)`}
                         />
                       );
                     })}
 
                     {/* Centre du Donut avec informations dynamiques */}
-                    <circle r="60" className="fill-white dark:fill-slate-900 transition-colors" />
+                    <circle r="60" className="fill-white dark:fill-slate-900 transition-colors pointer-events-none" />
                     <text
                       textAnchor="middle"
                       dy="-10"
-                      className="text-[11px] font-bold fill-slate-500 dark:fill-slate-400 uppercase tracking-widest"
+                      className="text-[11px] font-bold fill-slate-500 dark:fill-slate-400 uppercase tracking-widest pointer-events-none select-none"
                     >
                       {hoveredRessource ? `Chap. ${hoveredRessource.chapitre}` : 'Ressources'}
                     </text>
                     <text
                       textAnchor="middle"
                       dy="14"
-                      className="text-base sm:text-lg font-black fill-slate-900 dark:fill-white"
+                      className="text-base sm:text-lg font-black fill-slate-900 dark:fill-white pointer-events-none select-none"
                     >
                       {hoveredRessource ? `${hoveredRessource.pourcentage} %` : formatMontant(slicesRessources.total, 'millions')}
                     </text>
                     <text
                       textAnchor="middle"
                       dy="32"
-                      className="text-[10px] font-medium fill-slate-600 dark:fill-slate-300"
+                      className="text-[10px] font-medium fill-slate-600 dark:fill-slate-300 pointer-events-none select-none"
                     >
                       {hoveredRessource ? formatMontant(hoveredRessource.montant) : `${slicesRessources.items.length} chapitres`}
                     </text>
@@ -663,7 +663,7 @@ export const BudgetM57Graphiques: React.FC<BudgetM57GraphiquesProps> = ({
                     </motion.div>
                   ) : (
                     <span className="text-xs text-slate-600 dark:text-slate-400 italic">
-                      Passez votre curseur sur une part du camembert pour zoomer
+                      Passez votre curseur ou cliquez sur une part pour inspecter
                     </span>
                   )}
                 </div>
@@ -678,6 +678,9 @@ export const BudgetM57Graphiques: React.FC<BudgetM57GraphiquesProps> = ({
                       key={slice.id}
                       onMouseEnter={() => setHoveredRessource(slice)}
                       onMouseLeave={() => setHoveredRessource(null)}
+                      onPointerEnter={() => setHoveredRessource(slice)}
+                      onPointerLeave={() => setHoveredRessource(null)}
+                      onClick={() => setHoveredRessource(hoveredRessource?.id === slice.id ? null : slice)}
                       className={`flex items-center justify-between p-2 rounded-xl text-xs transition-all cursor-pointer border ${
                         isHovered
                           ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-700 shadow-xs'
@@ -718,14 +721,10 @@ export const BudgetM57Graphiques: React.FC<BudgetM57GraphiquesProps> = ({
                 La fiscalité directe et indirecte (chapitres 73 & 731) représente le socle prépondérant des recettes avec plus de 123,6 M€, conférant une forte autonomie fiscale territoriale à Gennevilliers.
               </div>
             </div>
-          </ForeverTiltCard>
+          </div>
 
           {/* ──── CAMEMBERT 2 : DÉPENSES (EMPLOIS) ──── */}
-          <ForeverTiltCard
-            maxTilt={5}
-            shineOpacity={0.16}
-            className="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-300 dark:border-slate-800 shadow-sm flex flex-col justify-between"
-          >
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 border border-slate-300 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between relative">
             <div>
               <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
                 <div className="flex items-center gap-2">
@@ -758,39 +757,44 @@ export const BudgetM57Graphiques: React.FC<BudgetM57GraphiquesProps> = ({
                           d={d}
                           fill={slice.color.fill}
                           stroke="#ffffff"
-                          strokeWidth="2"
-                          className="transition-all duration-200 cursor-pointer hover:opacity-95 dark:stroke-slate-900"
+                          strokeWidth={isHovered ? '2.5' : '1.5'}
+                          className="transition-all duration-150 cursor-pointer hover:opacity-95 dark:stroke-slate-900 focus:outline-none"
                           style={{
-                            transform: isHovered ? 'scale(1.03)' : 'scale(1)',
-                            transformOrigin: '0 0',
-                            filter: isHovered ? 'drop-shadow(0 6px 12px rgba(244, 63, 94, 0.35))' : 'none'
+                            filter: isHovered ? 'drop-shadow(0 4px 8px rgba(244, 63, 94, 0.45))' : 'none',
+                            pointerEvents: 'auto'
                           }}
                           onMouseEnter={() => setHoveredDepense(slice)}
                           onMouseLeave={() => setHoveredDepense(null)}
+                          onPointerEnter={() => setHoveredDepense(slice)}
+                          onPointerLeave={() => setHoveredDepense(null)}
+                          onClick={() => setHoveredDepense(hoveredDepense?.id === slice.id ? null : slice)}
+                          role="button"
+                          tabIndex={0}
+                          aria-label={`Chapitre ${slice.chapitre} : ${slice.libelle}, ${formatMontant(slice.montant)} (${slice.pourcentage}%)`}
                         />
                       );
                     })}
 
                     {/* Centre du Donut avec informations dynamiques */}
-                    <circle r="60" className="fill-white dark:fill-slate-900 transition-colors" />
+                    <circle r="60" className="fill-white dark:fill-slate-900 transition-colors pointer-events-none" />
                     <text
                       textAnchor="middle"
                       dy="-10"
-                      className="text-[11px] font-bold fill-slate-500 dark:fill-slate-400 uppercase tracking-widest"
+                      className="text-[11px] font-bold fill-slate-500 dark:fill-slate-400 uppercase tracking-widest pointer-events-none select-none"
                     >
                       {hoveredDepense ? `Chap. ${hoveredDepense.chapitre}` : 'Dépenses'}
                     </text>
                     <text
                       textAnchor="middle"
                       dy="14"
-                      className="text-base sm:text-lg font-black fill-slate-900 dark:fill-white"
+                      className="text-base sm:text-lg font-black fill-slate-900 dark:fill-white pointer-events-none select-none"
                     >
                       {hoveredDepense ? `${hoveredDepense.pourcentage} %` : formatMontant(slicesDepenses.total, 'millions')}
                     </text>
                     <text
                       textAnchor="middle"
                       dy="32"
-                      className="text-[10px] font-medium fill-slate-600 dark:fill-slate-300"
+                      className="text-[10px] font-medium fill-slate-600 dark:fill-slate-300 pointer-events-none select-none"
                     >
                       {hoveredDepense ? formatMontant(hoveredDepense.montant) : `${slicesDepenses.items.length} chapitres`}
                     </text>
@@ -812,7 +816,7 @@ export const BudgetM57Graphiques: React.FC<BudgetM57GraphiquesProps> = ({
                     </motion.div>
                   ) : (
                     <span className="text-xs text-slate-600 dark:text-slate-400 italic">
-                      Passez votre curseur sur une part du camembert pour zoomer
+                      Passez votre curseur ou cliquez sur une part pour inspecter
                     </span>
                   )}
                 </div>
@@ -827,6 +831,9 @@ export const BudgetM57Graphiques: React.FC<BudgetM57GraphiquesProps> = ({
                       key={slice.id}
                       onMouseEnter={() => setHoveredDepense(slice)}
                       onMouseLeave={() => setHoveredDepense(null)}
+                      onPointerEnter={() => setHoveredDepense(slice)}
+                      onPointerLeave={() => setHoveredDepense(null)}
+                      onClick={() => setHoveredDepense(hoveredDepense?.id === slice.id ? null : slice)}
                       className={`flex items-center justify-between p-2 rounded-xl text-xs transition-all cursor-pointer border ${
                         isHovered
                           ? 'bg-rose-50 dark:bg-rose-950/40 border-rose-300 dark:border-rose-700 shadow-xs'
@@ -867,7 +874,7 @@ export const BudgetM57Graphiques: React.FC<BudgetM57GraphiquesProps> = ({
                 Avec 96,06 M€ (62,05% des dépenses réelles de fonctionnement), elle illustre l'effort territorial constant dédié aux services municipaux, aux crèches, aux écoles et à la solidarité locale.
               </div>
             </div>
-          </ForeverTiltCard>
+          </div>
         </div>
       </div>
 
