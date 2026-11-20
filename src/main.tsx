@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { Analytics } from '@vercel/analytics/react';
 import App from './App.tsx';
 import "@fontsource/plus-jakarta-sans/300.css";
 import "@fontsource/plus-jakarta-sans/400.css";
@@ -23,5 +24,6 @@ window.addEventListener('vite:preloadError', (event) => {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
+    <Analytics />
   </StrictMode>
 );
