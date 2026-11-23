@@ -994,16 +994,19 @@ const CADRES_EMPLOIS_RAW: CadreEmploiDefinition[] = [
         categorie: "C",
         descriptionGrade: "Grade d encadrement de proximité des agents d exécution technique et de conduite de chantiers.",
         echelons: [
-          { numero: 1, dureeAnnees: 1, indiceBrut: 372, indiceMajore: 370 },
-          { numero: 2, dureeAnnees: 1, indiceBrut: 379, indiceMajore: 371 },
-          { numero: 3, dureeAnnees: 2, indiceBrut: 388, indiceMajore: 373 },
-          { numero: 4, dureeAnnees: 2, indiceBrut: 397, indiceMajore: 375, description: "Accès examen pro Agent de maîtrise principal" },
-          { numero: 5, dureeAnnees: 2, indiceBrut: 415, indiceMajore: 377, description: "Accès au choix Agent de maîtrise principal" },
-          { numero: 6, dureeAnnees: 2, indiceBrut: 431, indiceMajore: 386 },
-          { numero: 7, dureeAnnees: 2, indiceBrut: 452, indiceMajore: 401 },
-          { numero: 8, dureeAnnees: 3, indiceBrut: 478, indiceMajore: 420 },
-          { numero: 9, dureeAnnees: 3, indiceBrut: 500, indiceMajore: 436 },
-          { numero: 10, dureeAnnees: 0, indiceBrut: 541, indiceMajore: 464, description: "Sommet Agent de maîtrise (IM 464)" }
+          { numero: 1, dureeAnnees: 1, indiceBrut: 372, indiceMajore: 369 },
+          { numero: 2, dureeAnnees: 1, indiceBrut: 375, indiceMajore: 370 },
+          { numero: 3, dureeAnnees: 1, indiceBrut: 380, indiceMajore: 371 },
+          { numero: 4, dureeAnnees: 2, indiceBrut: 388, indiceMajore: 373, description: "Accès avancement Agent de maîtrise principal après 1 an" },
+          { numero: 5, dureeAnnees: 2, indiceBrut: 397, indiceMajore: 375 },
+          { numero: 6, dureeAnnees: 2, indiceBrut: 415, indiceMajore: 377 },
+          { numero: 7, dureeAnnees: 2, indiceBrut: 437, indiceMajore: 390 },
+          { numero: 8, dureeAnnees: 2, indiceBrut: 449, indiceMajore: 399 },
+          { numero: 9, dureeAnnees: 2, indiceBrut: 465, indiceMajore: 412 },
+          { numero: 10, dureeAnnees: 3, indiceBrut: 479, indiceMajore: 421 },
+          { numero: 11, dureeAnnees: 3, indiceBrut: 499, indiceMajore: 435 },
+          { numero: 12, dureeAnnees: 3, indiceBrut: 525, indiceMajore: 455 },
+          { numero: 13, dureeAnnees: 0, indiceBrut: 562, indiceMajore: 481, description: "Sommet Agent de maîtrise (IM 481)" }
         ],
         perspectives: [
           {
@@ -1076,14 +1079,14 @@ const CADRES_EMPLOIS_RAW: CadreEmploiDefinition[] = [
         descriptionGrade: "Grade sommital des agents de maîtrise. Encadrement général d ateliers, de régies ou de chantiers complexes.",
         echelons: [
           { numero: 1, dureeAnnees: 1, indiceBrut: 390, indiceMajore: 373 },
-          { numero: 2, dureeAnnees: 1.5, indiceBrut: 405, indiceMajore: 376 },
-          { numero: 3, dureeAnnees: 2, indiceBrut: 420, indiceMajore: 379 },
-          { numero: 4, dureeAnnees: 2, indiceBrut: 440, indiceMajore: 392 },
-          { numero: 5, dureeAnnees: 2, indiceBrut: 460, indiceMajore: 408 },
-          { numero: 6, dureeAnnees: 2.5, indiceBrut: 485, indiceMajore: 425 },
-          { numero: 7, dureeAnnees: 3, indiceBrut: 513, indiceMajore: 446 },
-          { numero: 8, dureeAnnees: 3, indiceBrut: 538, indiceMajore: 462 },
-          { numero: 9, dureeAnnees: 3, indiceBrut: 563, indiceMajore: 482 },
+          { numero: 2, dureeAnnees: 1, indiceBrut: 400, indiceMajore: 376 },
+          { numero: 3, dureeAnnees: 2, indiceBrut: 420, indiceMajore: 378 },
+          { numero: 4, dureeAnnees: 2, indiceBrut: 446, indiceMajore: 397 },
+          { numero: 5, dureeAnnees: 2, indiceBrut: 468, indiceMajore: 414 },
+          { numero: 6, dureeAnnees: 2, indiceBrut: 492, indiceMajore: 430 },
+          { numero: 7, dureeAnnees: 3, indiceBrut: 505, indiceMajore: 440 },
+          { numero: 8, dureeAnnees: 3, indiceBrut: 526, indiceMajore: 456 },
+          { numero: 9, dureeAnnees: 4, indiceBrut: 563, indiceMajore: 482 },
           { numero: 10, dureeAnnees: 0, indiceBrut: 597, indiceMajore: 508, description: "Sommet Agent de maîtrise principal (IM 508)" }
         ],
         perspectives: [
@@ -1496,8 +1499,8 @@ const CADRES_EMPLOIS_RAW: CadreEmploiDefinition[] = [
         echelons: [
           { numero: 1, dureeAnnees: 2, indiceBrut: 850, indiceMajore: 700 },
           { numero: 2, dureeAnnees: 2, indiceBrut: 896, indiceMajore: 735 },
-          { numero: 3, dureeAnnees: 2, indiceBrut: 946, indiceMajore: 773 },
-          { numero: 4, dureeAnnees: 2.5, indiceBrut: 995, indiceMajore: 811 },
+          { numero: 3, dureeAnnees: 2.5, indiceBrut: 946, indiceMajore: 773 },
+          { numero: 4, dureeAnnees: 3, indiceBrut: 995, indiceMajore: 811 },
           { numero: 5, dureeAnnees: 0, indiceBrut: 1027, indiceMajore: 835, description: "Sommet Ingénieur Hors Classe (IM 835)" }
         ],
         perspectives: []
@@ -1842,18 +1845,17 @@ const CADRES_EMPLOIS_RAW: CadreEmploiDefinition[] = [
         categorie: "B",
         descriptionGrade: "Grade d entrée en catégorie B médico-sociale. Accueil, soins quotidiens, développement et éveil des enfants en crèches et structures d accueil.",
         echelons: [
-          { numero: 1, dureeAnnees: 1, indiceBrut: 389, indiceMajore: 373, description: "Stage probatoire" },
-          { numero: 2, dureeAnnees: 1, indiceBrut: 395, indiceMajore: 374 },
-          { numero: 3, dureeAnnees: 1.5, indiceBrut: 401, indiceMajore: 376 },
-          { numero: 4, dureeAnnees: 1.5, indiceBrut: 415, indiceMajore: 377 },
-          { numero: 5, dureeAnnees: 2, indiceBrut: 431, indiceMajore: 386 },
-          { numero: 6, dureeAnnees: 2, indiceBrut: 452, indiceMajore: 401, description: "Accès classe supérieure après 1 an" },
-          { numero: 7, dureeAnnees: 3, indiceBrut: 478, indiceMajore: 420 },
-          { numero: 8, dureeAnnees: 2.5, indiceBrut: 500, indiceMajore: 436 },
-          { numero: 9, dureeAnnees: 3, indiceBrut: 528, indiceMajore: 457 },
-          { numero: 10, dureeAnnees: 3, indiceBrut: 563, indiceMajore: 482 },
-          { numero: 11, dureeAnnees: 4, indiceBrut: 599, indiceMajore: 509 },
-          { numero: 12, dureeAnnees: 0, indiceBrut: 638, indiceMajore: 539, description: "Sommet Classe normale (IM 539)" }
+          { numero: 1, dureeAnnees: 1.5, indiceBrut: 389, indiceMajore: 373, description: "Stage probatoire" },
+          { numero: 2, dureeAnnees: 1.5, indiceBrut: 397, indiceMajore: 375 },
+          { numero: 3, dureeAnnees: 2, indiceBrut: 416, indiceMajore: 377 },
+          { numero: 4, dureeAnnees: 2, indiceBrut: 434, indiceMajore: 388 },
+          { numero: 5, dureeAnnees: 2.5, indiceBrut: 452, indiceMajore: 401 },
+          { numero: 6, dureeAnnees: 3, indiceBrut: 468, indiceMajore: 414, description: "Accès classe supérieure après 1 an" },
+          { numero: 7, dureeAnnees: 3, indiceBrut: 491, indiceMajore: 429 },
+          { numero: 8, dureeAnnees: 3, indiceBrut: 510, indiceMajore: 444 },
+          { numero: 9, dureeAnnees: 3, indiceBrut: 535, indiceMajore: 461 },
+          { numero: 10, dureeAnnees: 4, indiceBrut: 567, indiceMajore: 485 },
+          { numero: 11, dureeAnnees: 0, indiceBrut: 610, indiceMajore: 517, description: "Sommet Classe normale (IM 517)" }
         ],
         perspectives: [
           {
@@ -1886,17 +1888,17 @@ const CADRES_EMPLOIS_RAW: CadreEmploiDefinition[] = [
         categorie: "B",
         descriptionGrade: "Grade supérieur des auxiliaires de puériculture. Encadrement de sections en crèche, tutorat et protocoles de soins.",
         echelons: [
-          { numero: 1, dureeAnnees: 1, indiceBrut: 446, indiceMajore: 397 },
-          { numero: 2, dureeAnnees: 2, indiceBrut: 461, indiceMajore: 409 },
-          { numero: 3, dureeAnnees: 2, indiceBrut: 484, indiceMajore: 424 },
-          { numero: 4, dureeAnnees: 2, indiceBrut: 513, indiceMajore: 446 },
-          { numero: 5, dureeAnnees: 2, indiceBrut: 547, indiceMajore: 470 },
-          { numero: 6, dureeAnnees: 3, indiceBrut: 573, indiceMajore: 489 },
-          { numero: 7, dureeAnnees: 3, indiceBrut: 604, indiceMajore: 513 },
-          { numero: 8, dureeAnnees: 3, indiceBrut: 638, indiceMajore: 539 },
-          { numero: 9, dureeAnnees: 3, indiceBrut: 660, indiceMajore: 556 },
-          { numero: 10, dureeAnnees: 3, indiceBrut: 684, indiceMajore: 574 },
-          { numero: 11, dureeAnnees: 0, indiceBrut: 707, indiceMajore: 592, description: "Sommet Classe supérieure (IM 592)" }
+          { numero: 1, dureeAnnees: 1.5, indiceBrut: 433, indiceMajore: 387 },
+          { numero: 2, dureeAnnees: 2, indiceBrut: 449, indiceMajore: 399 },
+          { numero: 3, dureeAnnees: 2, indiceBrut: 464, indiceMajore: 411 },
+          { numero: 4, dureeAnnees: 2, indiceBrut: 484, indiceMajore: 424 },
+          { numero: 5, dureeAnnees: 2, indiceBrut: 508, indiceMajore: 442 },
+          { numero: 6, dureeAnnees: 2.5, indiceBrut: 532, indiceMajore: 460 },
+          { numero: 7, dureeAnnees: 3, indiceBrut: 568, indiceMajore: 486 },
+          { numero: 8, dureeAnnees: 3, indiceBrut: 585, indiceMajore: 499 },
+          { numero: 9, dureeAnnees: 3, indiceBrut: 612, indiceMajore: 519 },
+          { numero: 10, dureeAnnees: 4, indiceBrut: 638, indiceMajore: 539 },
+          { numero: 11, dureeAnnees: 0, indiceBrut: 665, indiceMajore: 560, description: "Sommet Classe supérieure (IM 560)" }
         ],
         perspectives: []
       }
@@ -1916,20 +1918,20 @@ const CADRES_EMPLOIS_RAW: CadreEmploiDefinition[] = [
         categorie: "A",
         descriptionGrade: "Grade d entrée en catégorie A socio-éducative. Conception et conduite du projet éducatif en établissement d accueil du jeune enfant (EAJE), coordination d équipes.",
         echelons: [
-          { numero: 1, dureeAnnees: 1, indiceBrut: 444, indiceMajore: 395, description: "Stage probatoire" },
-          { numero: 2, dureeAnnees: 1, indiceBrut: 469, indiceMajore: 415 },
-          { numero: 3, dureeAnnees: 1.5, indiceBrut: 499, indiceMajore: 435 },
-          { numero: 4, dureeAnnees: 1.5, indiceBrut: 525, indiceMajore: 455 },
-          { numero: 5, dureeAnnees: 2, indiceBrut: 567, indiceMajore: 485 },
-          { numero: 6, dureeAnnees: 2, indiceBrut: 611, indiceMajore: 518, description: "Accès Classe exceptionnelle après 1 an" },
-          { numero: 7, dureeAnnees: 2, indiceBrut: 653, indiceMajore: 550 },
-          { numero: 8, dureeAnnees: 2.5, indiceBrut: 693, indiceMajore: 580 },
-          { numero: 9, dureeAnnees: 2.5, indiceBrut: 732, indiceMajore: 610 },
-          { numero: 10, dureeAnnees: 3, indiceBrut: 758, indiceMajore: 630 },
-          { numero: 11, dureeAnnees: 3, indiceBrut: 778, indiceMajore: 645 },
-          { numero: 12, dureeAnnees: 3, indiceBrut: 798, indiceMajore: 660 },
-          { numero: 13, dureeAnnees: 3, indiceBrut: 810, indiceMajore: 670 },
-          { numero: 14, dureeAnnees: 0, indiceBrut: 821, indiceMajore: 678, description: "Sommet EJE (IM 678)" }
+          { numero: 1, dureeAnnees: 2, indiceBrut: 444, indiceMajore: 395, description: "Stage probatoire" },
+          { numero: 2, dureeAnnees: 2, indiceBrut: 461, indiceMajore: 409 },
+          { numero: 3, dureeAnnees: 2, indiceBrut: 478, indiceMajore: 420 },
+          { numero: 4, dureeAnnees: 2, indiceBrut: 494, indiceMajore: 431 },
+          { numero: 5, dureeAnnees: 2, indiceBrut: 512, indiceMajore: 445 },
+          { numero: 6, dureeAnnees: 2, indiceBrut: 528, indiceMajore: 457, description: "Accès Classe exceptionnelle après 1 an" },
+          { numero: 7, dureeAnnees: 2, indiceBrut: 547, indiceMajore: 470 },
+          { numero: 8, dureeAnnees: 2, indiceBrut: 570, indiceMajore: 487 },
+          { numero: 9, dureeAnnees: 2, indiceBrut: 596, indiceMajore: 507 },
+          { numero: 10, dureeAnnees: 2.5, indiceBrut: 623, indiceMajore: 528 },
+          { numero: 11, dureeAnnees: 2.5, indiceBrut: 655, indiceMajore: 551 },
+          { numero: 12, dureeAnnees: 3, indiceBrut: 680, indiceMajore: 571 },
+          { numero: 13, dureeAnnees: 3, indiceBrut: 694, indiceMajore: 581 },
+          { numero: 14, dureeAnnees: 0, indiceBrut: 714, indiceMajore: 597, description: "Sommet EJE (IM 597)" }
         ],
         perspectives: [
           {
@@ -1962,17 +1964,17 @@ const CADRES_EMPLOIS_RAW: CadreEmploiDefinition[] = [
         categorie: "A",
         descriptionGrade: "Grade supérieur des EJE. Direction d établissements d accueil du jeune enfant (crèches de plus de 40 places) et coordination municipale petite enfance.",
         echelons: [
-          { numero: 1, dureeAnnees: 2, indiceBrut: 593, indiceMajore: 505 },
-          { numero: 2, dureeAnnees: 2, indiceBrut: 639, indiceMajore: 540 },
-          { numero: 3, dureeAnnees: 2, indiceBrut: 693, indiceMajore: 580 },
-          { numero: 4, dureeAnnees: 2, indiceBrut: 732, indiceMajore: 610 },
-          { numero: 5, dureeAnnees: 2, indiceBrut: 791, indiceMajore: 655 },
-          { numero: 6, dureeAnnees: 2.5, indiceBrut: 843, indiceMajore: 695 },
-          { numero: 7, dureeAnnees: 2.5, indiceBrut: 896, indiceMajore: 735 },
-          { numero: 8, dureeAnnees: 3, indiceBrut: 946, indiceMajore: 773 },
-          { numero: 9, dureeAnnees: 3, indiceBrut: 995, indiceMajore: 811 },
-          { numero: 10, dureeAnnees: 3, indiceBrut: 1005, indiceMajore: 818 },
-          { numero: 11, dureeAnnees: 0, indiceBrut: 1015, indiceMajore: 826, description: "Sommet EJE Classe exceptionnelle (IM 826)" }
+          { numero: 1, dureeAnnees: 1, indiceBrut: 502, indiceMajore: 438 },
+          { numero: 2, dureeAnnees: 2, indiceBrut: 523, indiceMajore: 453 },
+          { numero: 3, dureeAnnees: 2, indiceBrut: 543, indiceMajore: 467 },
+          { numero: 4, dureeAnnees: 2, indiceBrut: 565, indiceMajore: 483 },
+          { numero: 5, dureeAnnees: 2, indiceBrut: 589, indiceMajore: 502 },
+          { numero: 6, dureeAnnees: 2, indiceBrut: 622, indiceMajore: 527 },
+          { numero: 7, dureeAnnees: 2.5, indiceBrut: 653, indiceMajore: 550 },
+          { numero: 8, dureeAnnees: 3, indiceBrut: 680, indiceMajore: 571 },
+          { numero: 9, dureeAnnees: 3, indiceBrut: 705, indiceMajore: 590 },
+          { numero: 10, dureeAnnees: 3, indiceBrut: 732, indiceMajore: 610 },
+          { numero: 11, dureeAnnees: 0, indiceBrut: 761, indiceMajore: 632, description: "Sommet EJE Classe exceptionnelle (IM 632)" }
         ],
         perspectives: []
       }
@@ -1992,20 +1994,20 @@ const CADRES_EMPLOIS_RAW: CadreEmploiDefinition[] = [
         categorie: "A",
         descriptionGrade: "Grade d entrée en catégorie A (Assistants de service social, CESF, Éducateurs spécialisés). Aide personnalisée, insertion, médiation sociale et protection de l enfance.",
         echelons: [
-          { numero: 1, dureeAnnees: 1, indiceBrut: 444, indiceMajore: 395, description: "Stage probatoire" },
-          { numero: 2, dureeAnnees: 1, indiceBrut: 469, indiceMajore: 415 },
-          { numero: 3, dureeAnnees: 1.5, indiceBrut: 499, indiceMajore: 435 },
-          { numero: 4, dureeAnnees: 1.5, indiceBrut: 525, indiceMajore: 455 },
-          { numero: 5, dureeAnnees: 2, indiceBrut: 567, indiceMajore: 485 },
-          { numero: 6, dureeAnnees: 2, indiceBrut: 611, indiceMajore: 518, description: "Accès Classe exceptionnelle après 1 an" },
-          { numero: 7, dureeAnnees: 2, indiceBrut: 653, indiceMajore: 550 },
-          { numero: 8, dureeAnnees: 2.5, indiceBrut: 693, indiceMajore: 580 },
-          { numero: 9, dureeAnnees: 2.5, indiceBrut: 732, indiceMajore: 610 },
-          { numero: 10, dureeAnnees: 3, indiceBrut: 758, indiceMajore: 630 },
-          { numero: 11, dureeAnnees: 3, indiceBrut: 778, indiceMajore: 645 },
-          { numero: 12, dureeAnnees: 3, indiceBrut: 798, indiceMajore: 660 },
-          { numero: 13, dureeAnnees: 3, indiceBrut: 810, indiceMajore: 670 },
-          { numero: 14, dureeAnnees: 0, indiceBrut: 821, indiceMajore: 678, description: "Sommet ASE (IM 678)" }
+          { numero: 1, dureeAnnees: 2, indiceBrut: 444, indiceMajore: 395, description: "Stage probatoire" },
+          { numero: 2, dureeAnnees: 2, indiceBrut: 461, indiceMajore: 409 },
+          { numero: 3, dureeAnnees: 2, indiceBrut: 478, indiceMajore: 420 },
+          { numero: 4, dureeAnnees: 2, indiceBrut: 494, indiceMajore: 431 },
+          { numero: 5, dureeAnnees: 2, indiceBrut: 512, indiceMajore: 445 },
+          { numero: 6, dureeAnnees: 2, indiceBrut: 528, indiceMajore: 457, description: "Accès Classe exceptionnelle après 1 an" },
+          { numero: 7, dureeAnnees: 2, indiceBrut: 547, indiceMajore: 470 },
+          { numero: 8, dureeAnnees: 2, indiceBrut: 570, indiceMajore: 487 },
+          { numero: 9, dureeAnnees: 2, indiceBrut: 596, indiceMajore: 507 },
+          { numero: 10, dureeAnnees: 2.5, indiceBrut: 623, indiceMajore: 528 },
+          { numero: 11, dureeAnnees: 2.5, indiceBrut: 655, indiceMajore: 551 },
+          { numero: 12, dureeAnnees: 3, indiceBrut: 680, indiceMajore: 571 },
+          { numero: 13, dureeAnnees: 3, indiceBrut: 694, indiceMajore: 581 },
+          { numero: 14, dureeAnnees: 0, indiceBrut: 714, indiceMajore: 597, description: "Sommet ASE (IM 597)" }
         ],
         perspectives: [
           {
@@ -2038,17 +2040,17 @@ const CADRES_EMPLOIS_RAW: CadreEmploiDefinition[] = [
         categorie: "A",
         descriptionGrade: "Grade supérieur des assistants socio-éducatifs. Coordination de pôle social, gestion de dispositifs d action sociale complexes et tutorat.",
         echelons: [
-          { numero: 1, dureeAnnees: 2, indiceBrut: 593, indiceMajore: 505 },
-          { numero: 2, dureeAnnees: 2, indiceBrut: 639, indiceMajore: 540 },
-          { numero: 3, dureeAnnees: 2, indiceBrut: 693, indiceMajore: 580 },
-          { numero: 4, dureeAnnees: 2, indiceBrut: 732, indiceMajore: 610 },
-          { numero: 5, dureeAnnees: 2, indiceBrut: 791, indiceMajore: 655 },
-          { numero: 6, dureeAnnees: 2.5, indiceBrut: 843, indiceMajore: 695 },
-          { numero: 7, dureeAnnees: 2.5, indiceBrut: 896, indiceMajore: 735 },
-          { numero: 8, dureeAnnees: 3, indiceBrut: 946, indiceMajore: 773 },
-          { numero: 9, dureeAnnees: 3, indiceBrut: 995, indiceMajore: 811 },
-          { numero: 10, dureeAnnees: 3, indiceBrut: 1005, indiceMajore: 818 },
-          { numero: 11, dureeAnnees: 0, indiceBrut: 1015, indiceMajore: 826, description: "Sommet ASE Classe exceptionnelle (IM 826)" }
+          { numero: 1, dureeAnnees: 1, indiceBrut: 502, indiceMajore: 438 },
+          { numero: 2, dureeAnnees: 2, indiceBrut: 523, indiceMajore: 453 },
+          { numero: 3, dureeAnnees: 2, indiceBrut: 543, indiceMajore: 467 },
+          { numero: 4, dureeAnnees: 2, indiceBrut: 565, indiceMajore: 483 },
+          { numero: 5, dureeAnnees: 2, indiceBrut: 589, indiceMajore: 502 },
+          { numero: 6, dureeAnnees: 2, indiceBrut: 622, indiceMajore: 527 },
+          { numero: 7, dureeAnnees: 2.5, indiceBrut: 653, indiceMajore: 550 },
+          { numero: 8, dureeAnnees: 3, indiceBrut: 680, indiceMajore: 571 },
+          { numero: 9, dureeAnnees: 3, indiceBrut: 705, indiceMajore: 590 },
+          { numero: 10, dureeAnnees: 3, indiceBrut: 732, indiceMajore: 610 },
+          { numero: 11, dureeAnnees: 0, indiceBrut: 761, indiceMajore: 632, description: "Sommet ASE Classe exceptionnelle (IM 632)" }
         ],
         perspectives: []
       }
@@ -2069,13 +2071,13 @@ const CADRES_EMPLOIS_RAW: CadreEmploiDefinition[] = [
         descriptionGrade: "Grade d entrée en catégorie A de santé. Soins infirmiers, prévention, santé scolaire, médecine préventive et PMI.",
         echelons: [
           { numero: 1, dureeAnnees: 1, indiceBrut: 444, indiceMajore: 395, description: "Stage probatoire" },
-          { numero: 2, dureeAnnees: 1.5, indiceBrut: 469, indiceMajore: 415 },
-          { numero: 3, dureeAnnees: 2, indiceBrut: 499, indiceMajore: 435 },
-          { numero: 4, dureeAnnees: 2, indiceBrut: 525, indiceMajore: 455 },
-          { numero: 5, dureeAnnees: 2.5, indiceBrut: 567, indiceMajore: 485, description: "Accès Classe supérieure" },
+          { numero: 2, dureeAnnees: 1.5, indiceBrut: 484, indiceMajore: 424 },
+          { numero: 3, dureeAnnees: 2, indiceBrut: 514, indiceMajore: 447 },
+          { numero: 4, dureeAnnees: 2, indiceBrut: 544, indiceMajore: 468 },
+          { numero: 5, dureeAnnees: 2.5, indiceBrut: 576, indiceMajore: 491, description: "Accès Hors classe" },
           { numero: 6, dureeAnnees: 3, indiceBrut: 611, indiceMajore: 518 },
           { numero: 7, dureeAnnees: 3, indiceBrut: 653, indiceMajore: 550 },
-          { numero: 8, dureeAnnees: 3.5, indiceBrut: 693, indiceMajore: 580 },
+          { numero: 8, dureeAnnees: 3, indiceBrut: 693, indiceMajore: 580 },
           { numero: 9, dureeAnnees: 4, indiceBrut: 732, indiceMajore: 610 },
           { numero: 10, dureeAnnees: 4, indiceBrut: 778, indiceMajore: 645 },
           { numero: 11, dureeAnnees: 0, indiceBrut: 821, indiceMajore: 678, description: "Sommet Classe normale (IM 678)" }
@@ -2083,7 +2085,7 @@ const CADRES_EMPLOIS_RAW: CadreEmploiDefinition[] = [
         perspectives: [
           {
             gradeCibleId: "infirmier_classe_sup",
-            nomGradeCible: "Infirmier en soins généraux (Classe supérieure)",
+            nomGradeCible: "Infirmier en soins généraux (Hors classe)",
             categorieCible: "A",
             typePerspective: "avancement_grade",
             ratioPromusPromouvablesExplication: "Taux voté par la collectivité.",
@@ -2106,22 +2108,22 @@ const CADRES_EMPLOIS_RAW: CadreEmploiDefinition[] = [
       },
       {
         id: "infirmier_classe_sup",
-        nom: "Infirmier en soins généraux (Classe supérieure)",
+        nom: "Infirmier en soins généraux (Hors classe)",
         filiere: "Médico-sociale",
         categorie: "A",
         descriptionGrade: "Grade supérieur des infirmiers en soins généraux. Coordination de centres de santé, encadrement de protocoles de soins et missions d expertise santé publique.",
         echelons: [
-          { numero: 1, dureeAnnees: 2, indiceBrut: 593, indiceMajore: 505 },
-          { numero: 2, dureeAnnees: 2, indiceBrut: 639, indiceMajore: 540 },
-          { numero: 3, dureeAnnees: 2, indiceBrut: 693, indiceMajore: 580 },
-          { numero: 4, dureeAnnees: 2, indiceBrut: 732, indiceMajore: 610 },
-          { numero: 5, dureeAnnees: 2, indiceBrut: 791, indiceMajore: 655 },
-          { numero: 6, dureeAnnees: 2.5, indiceBrut: 843, indiceMajore: 695 },
-          { numero: 7, dureeAnnees: 2.5, indiceBrut: 896, indiceMajore: 735 },
-          { numero: 8, dureeAnnees: 3, indiceBrut: 946, indiceMajore: 773 },
-          { numero: 9, dureeAnnees: 3, indiceBrut: 995, indiceMajore: 811 },
-          { numero: 10, dureeAnnees: 3, indiceBrut: 1005, indiceMajore: 818 },
-          { numero: 11, dureeAnnees: 0, indiceBrut: 1015, indiceMajore: 826, description: "Sommet Infirmier Classe supérieure (IM 826)" }
+          { numero: 1, dureeAnnees: 1.5, indiceBrut: 489, indiceMajore: 427 },
+          { numero: 2, dureeAnnees: 2, indiceBrut: 518, indiceMajore: 450 },
+          { numero: 3, dureeAnnees: 2, indiceBrut: 558, indiceMajore: 478 },
+          { numero: 4, dureeAnnees: 2, indiceBrut: 595, indiceMajore: 506 },
+          { numero: 5, dureeAnnees: 2, indiceBrut: 631, indiceMajore: 534 },
+          { numero: 6, dureeAnnees: 2.5, indiceBrut: 669, indiceMajore: 563 },
+          { numero: 7, dureeAnnees: 3, indiceBrut: 709, indiceMajore: 593 },
+          { numero: 8, dureeAnnees: 3, indiceBrut: 750, indiceMajore: 624 },
+          { numero: 9, dureeAnnees: 4, indiceBrut: 792, indiceMajore: 656 },
+          { numero: 10, dureeAnnees: 4, indiceBrut: 836, indiceMajore: 690 },
+          { numero: 11, dureeAnnees: 0, indiceBrut: 886, indiceMajore: 727, description: "Sommet Infirmier Hors classe (IM 727)" }
         ],
         perspectives: []
       }
