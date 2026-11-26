@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, lazy, Suspense } from "react"
 import { ArrowLeft, Rss, Calculator, DollarSign, TrendingUp,
   Users, Eye, Laptop, Phone, Mail, MapPin, TrainFront,
-  Clock, Map as MapIcon, Briefcase, Calendar, Activity, Receipt, LayoutGrid, FileSpreadsheet, Star, ArrowUp } from "lucide-react"
+  Clock, Map as MapIcon, Briefcase, Calendar, Activity, Receipt, LayoutGrid, FileSpreadsheet, Star, ArrowUp, Landmark } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { searchFAQ } from "./data/FAQdata.ts"
@@ -44,6 +44,7 @@ const CalculateurNavigo = lazyWithRetry(() => import("./components/CalculateurNa
 const CourriersAgentModule = lazyWithRetry(() => import("./components/CourriersAgentModule.tsx"))
 const FichePaieExplainer = lazyWithRetry(() => import("./components/FichePaieExplainer.tsx"))
 const SimulateurImpotRevenu = lazyWithRetry(() => import("./components/SimulateurImpotRevenu.tsx"))
+const SimulateurRetraite = lazyWithRetry(() => import("./components/SimulateurRetraite.tsx"))
 const CalculateurBudgetM57 = lazyWithRetry(() => import("./components/CalculateurBudgetM57.tsx"))
 const Metiers = lazyWithRetry(() => import("./components/Metiers.tsx"))
 const FAQ = lazyWithRetry(() => import("./components/FAQ.tsx"))
@@ -312,7 +313,7 @@ function App() {
   // --- FLUX D'ACTUALITÉS (Hook optimisé) ---
   const { rssItems, rssLoading, intercoNews, intercoLoading, fpNews, fpLoading } = useNewsFeeds()
 
-  const [activeCalculator, setActiveCalculator] = useState<'primes' | 'cia' | '13eme' | 'sft' | 'courriers' | 'fiche-paie' | 'navigo' | 'simulateur-ir' | 'budget-m57' | null>(null)
+  const [activeCalculator, setActiveCalculator] = useState<'primes' | 'cia' | '13eme' | 'sft' | 'courriers' | 'fiche-paie' | 'navigo' | 'simulateur-ir' | 'retraite' | 'budget-m57' | null>(null)
   const [logoLoadError, setLogoLoadError] = useState(false)
   const [showBookmarkHint, setShowBookmarkHint] = useState(false)
   const [showExpandSearch, setShowExpandSearch] = useState(false)
@@ -446,7 +447,7 @@ function App() {
     setChatState((prev) => ({ ...prev, currentView: 'metiers', simulTool: null }))
   }
 
-  const openCalculator = (calculator: 'primes' | 'cia' | '13eme' | 'sft' | 'courriers' | 'fiche-paie' | 'navigo' | 'simulateur-ir' | 'budget-m57') => {
+  const openCalculator = (calculator: 'primes' | 'cia' | '13eme' | 'sft' | 'courriers' | 'fiche-paie' | 'navigo' | 'simulateur-ir' | 'retraite' | 'budget-m57') => {
     if (calculator === 'budget-m57') {
       setChatState(prev => ({ ...prev, currentView: 'budget-m57' }));
       return;
@@ -2207,6 +2208,31 @@ ${indicesFactuels}
                   </div>
                 </button>
 
+                {/* Carte Simulateur Pension de Retraite (Fonctionnaires CNRACL + Contractuels Ircantec) */}
+                <button
+                  onClick={() => openCalculator('retraite')}
+                  className="group relative bg-white dark:bg-slate-800/80 border border-amber-200 dark:border-amber-500/25 rounded-2xl p-8 shadow-sm hover:shadow-lg dark:hover:shadow-amber-500/10 hover:border-amber-300 dark:hover:border-amber-500/50 hover:scale-105 hover:-translate-y-2 transition-transform duration-150"
+                >
+                  <div className="absolute top-3 right-3">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wide bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300 border border-amber-300/60 dark:border-amber-500/30">
+                      Nouveau • 2026
+                    </span>
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-50/50 dark:from-amber-500/5 via-transparent to-blue-50/50 dark:to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
+                  <div className="relative z-10 flex flex-col items-center gap-6">
+                    <div className="p-6 bg-gradient-to-br from-amber-100 dark:from-slate-900/80 to-blue-100 dark:to-slate-800/80 rounded-2xl shadow-sm border border-amber-200 dark:border-amber-500/30">
+                      <Landmark className="w-16 h-16 text-amber-600 dark:text-amber-400" />
+                    </div>
+                    <h4 className="text-2xl font-bold text-slate-800 dark:text-white text-center">Retraite</h4>
+                    <p className="text-center text-slate-500 dark:text-slate-400 font-medium dark:font-normal text-sm">
+                      Pension Fonctionnaire (CNRACL + RAFP) & Contractuel (CNAV + Ircantec)
+                    </p>
+                    <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 font-bold dark:font-semibold">
+                      <span className="text-sm">Simuler ma pension</span>
+                    </div>
+                  </div>
+                </button>
+
 
 
               </div>
@@ -2281,6 +2307,15 @@ ${indicesFactuels}
             <Suspense fallback={<ViewLoader />}>
               <div className="calc-tool-enter relative z-10 py-6 px-4">
                 <SimulateurImpotRevenu
+                  onClose={() => goBack('calculators', null)}
+                />
+              </div>
+            </Suspense>
+          )}
+          {activeCalculator === 'retraite' && (
+            <Suspense fallback={<ViewLoader />}>
+              <div className="calc-tool-enter relative z-10 py-6 px-4">
+                <SimulateurRetraite
                   onClose={() => goBack('calculators', null)}
                 />
               </div>

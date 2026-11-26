@@ -13,7 +13,7 @@ interface Props {
   toggleTheme: () => void;
   currentView?: string;
   setView: (view: "menu" | "chat" | "calculators" | "metiers" | "faq" | "jeux" | "actualites" | "veille" | "veille-cdg" | "memoire-juridique" | "podcasts" | "nos-com" | "dessine-moi-le-statut" | "docutheque-rag" | "coin-rh" | "simul-agent" | "weather" | "budget-m57") => void;
-  openCalculator: (calc: 'primes' | 'cia' | '13eme' | 'sft' | 'courriers' | 'fiche-paie' | 'navigo' | 'simulateur-ir' | 'budget-m57') => void;
+  openCalculator: (calc: 'primes' | 'cia' | '13eme' | 'sft' | 'courriers' | 'fiche-paie' | 'navigo' | 'simulateur-ir' | 'retraite' | 'budget-m57') => void;
   onClose?: () => void;
 }
 
@@ -93,7 +93,7 @@ export default function MacMenuBar({
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   };
 
-  const selectCalculator = (calc: 'primes' | 'cia' | '13eme' | 'sft' | 'courriers' | 'fiche-paie' | 'navigo' | 'simulateur-ir' | 'budget-m57') => {
+  const selectCalculator = (calc: 'primes' | 'cia' | '13eme' | 'sft' | 'courriers' | 'fiche-paie' | 'navigo' | 'simulateur-ir' | 'retraite' | 'budget-m57') => {
     openCalculator(calc);
     setActiveDropdown(null);
   };
@@ -248,6 +248,10 @@ export default function MacMenuBar({
                   </button>
                   <button onClick={() => selectCalculator('simulateur-ir')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex justify-between items-center">
                     <span>Impôt & PAS 2026</span>
+                  </button>
+                  <button onClick={() => selectCalculator('retraite')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex justify-between items-center font-semibold text-blue-600 dark:text-blue-400">
+                    <span>Pension de Retraite 🏛️</span>
+                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300">2026</span>
                   </button>
                   <button onClick={() => selectCalculator('courriers')} className="w-full text-left px-3 py-1.5 hover:bg-blue-600 hover:text-white rounded-md flex justify-between items-center">
                     <span>Courriers de l'Agent</span>

@@ -448,6 +448,87 @@ Dans l'attente de la notification de votre arrêté, je vous prie d'agréer, Mon
   },
 
   {
+    id: "courrier_conge_supplementaire_naissance",
+    title: "Demande de congé supplémentaire de naissance (nouveau congé 2026)",
+    category: "famille_conges",
+    categoryLabel: "Famille, Congés & Absences",
+    icon: "🍼",
+    cgfpRef: "CGFP Art. L. 631-1, L. 631-8 & L. 631-9 • Décrets n° 2026-427 et n° 2026-428 du 30 mai 2026",
+    summary: "Nouveau congé parental rémunéré (congé supplémentaire de naissance) de 1 ou 2 mois, fractionnable en deux périodes d'1 mois, indemnisé à 70 % le 1er mois et 60 % le 2e mois (SFT et IR maintenus à 100 %).",
+    delaiRecommande: "Au moins 1 mois avant la date de début souhaitée (15 jours en cas de prise immédiate après un congé de paternité ou d'adoption)",
+    modeEnvoiDefaut: "Voie hiérarchique avec accusé de réception",
+    piecesJointesDefaut: [
+      "Copie intégrale de l'acte de naissance de l'enfant (ou justificatif d'arrivée au foyer en cas d'adoption)",
+      "Justificatif d'épuisement du congé de maternité, de paternité et d'accueil de l'enfant ou d'adoption"
+    ],
+    fields: [
+      {
+        id: "enfantInfos",
+        label: "Nom, prénom et date de naissance (ou d'adoption) de l'enfant",
+        type: "text",
+        defaultValue: "Léo MARTIN, né le 15 mai 2026",
+        placeholder: "Ex: Léo MARTIN, né le ..."
+      },
+      {
+        id: "congeInitial",
+        label: "Congé préalable arrivé à expiration",
+        type: "select",
+        defaultValue: "congé de maternité",
+        options: [
+          { value: "congé de maternité", label: "Congé de maternité" },
+          { value: "congé de paternité et d'accueil de l'enfant", label: "Congé de paternité et d'accueil de l'enfant" },
+          { value: "congé d'adoption", label: "Congé d'adoption" }
+        ]
+      },
+      {
+        id: "formuleDuree",
+        label: "Durée et modalité de prise souhaitées",
+        type: "select",
+        defaultValue: "2 mois consécutifs",
+        options: [
+          { value: "1 mois", label: "1 mois (maintien à 70 %)" },
+          { value: "2 mois consécutifs", label: "2 mois consécutifs (70 % le 1er mois, 60 % le 2e mois)" },
+          { value: "2 mois fractionnés en deux périodes d'un mois", label: "2 mois fractionnés en deux périodes d'1 mois" }
+        ]
+      },
+      {
+        id: "dateDebut",
+        label: "Date de début souhaitée (ou 1re période)",
+        type: "date",
+        defaultValue: "2026-10-01",
+        helperText: "Doit débuter dans les 9 mois suivant la naissance/adoption (ou d'ici le 31/03/2027 pour les enfants nés entre janvier et juin 2026)."
+      },
+      {
+        id: "dateDebutPeriode2",
+        label: "Date de début de la 2e période (si fractionnement)",
+        type: "date",
+        defaultValue: "",
+        helperText: "Laisser vide si vous prenez 1 mois ou 2 mois consécutifs."
+      }
+    ],
+    generateBody: (agent, v) => {
+      const dateDebutFmt = v.dateDebut ? new Date(v.dateDebut).toLocaleDateString('fr-FR') : "[Date de début]";
+      const isFractionne = (v.formuleDuree || "").includes("fractionnés");
+      const datePeriode2Fmt = v.dateDebutPeriode2 ? new Date(v.dateDebutPeriode2).toLocaleDateString('fr-FR') : "";
+      const clausePeriode = isFractionne
+        ? `pour une durée totale de 2 mois fractionnés en deux périodes d'un mois chacune : une première période débutant le ${dateDebutFmt}${datePeriode2Fmt ? `, suivie d'une seconde période débutant le ${datePeriode2Fmt}` : " (la date de la seconde période vous sera confirmée dans le respect du délai réglementaire d'un mois)"}`
+        : `à compter du ${dateDebutFmt}, pour une durée de ${v.formuleDuree || "2 mois consécutifs"}`;
+
+      return `Monsieur le Maire,
+
+Exerçant en qualité de ${agent.grade} au sein de la ${agent.direction}, j'ai l'honneur de solliciter le bénéfice du nouveau congé supplémentaire de naissance, conformément aux dispositions des articles L. 631-1, L. 631-3, L. 631-8 et L. 631-9 du Code Général de la Fonction Publique, ainsi qu'aux décrets n° 2026-427 et n° 2026-428 du 30 mai 2026.
+
+Ce congé de droit est demandé au titre de mon enfant, ${v.enfantInfos || "[Nom, prénom et date de naissance de l'enfant]"}, à l'issue de l'épuisement de mes droits à ${v.congeInitial || "congé de maternité"}. Vous trouverez ci-joint les pièces justificatives correspondantes.
+
+Je souhaite bénéficier de ce congé supplémentaire de naissance ${clausePeriode}, dans le respect du délai maximal de neuf mois prévu par la réglementation.
+
+Conformément au décret n° 2026-428 du 30 mai 2026, je prends bonne note que durant cette période d'activité, mon traitement indiciaire, ma NBI le cas échéant et mon régime indemnitaire seront maintenus à hauteur de 70 % pour le premier mois (et 60 % pour le second mois), tandis que le supplément familial de traitement (SFT), l'indemnité de résidence ainsi que mes droits à l'avancement et à la retraite demeureront intégralement préservés.
+
+Dans l'attente de la notification de votre arrêté portant octroi de ce congé, je vous prie d'agréer, Monsieur le Maire, l'expression de mes respectueuses salutations.`;
+    }
+  },
+
+  {
     id: "courrier_sft_attribution",
     title: "Demande d'attribution / révision du SFT",
     category: "famille_conges",
